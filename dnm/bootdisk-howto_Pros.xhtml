@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Profesyoneller nasıl yapıyor</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_misctopics.xhtml" title="Çeşitli konular"/>
+    <link rel="next" href="bootdisk-howto_CD-ROMs.xhtml" title="Önyükleme yapabilen CD-ROMların hazırlanması"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_misctopics.xhtml')">Önceki</button>
+          <div class="dropdown-content">Çeşitli konular</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_CD-ROMs.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Önyükleme yapabilen CD-ROMların hazırlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_Pros">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Profesyoneller nasıl yapıyor</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+   Slackware, RedHat veya Debian gibi ana dağıtımlar tarafından kullanılan açılış disketlerinin, bu kılavuzda anlatılandan daha karmaşık yapılarda olduğunu görmüş olabilirsiniz. Profesyonel dağıtımların kurtarma/açılış disketleri burada anlatılan ana hatlar üzerine kurulmuştur ama çeşitli ilave hünerleri daha vardır. Çünkü bu açılış disketleri ilave gereksinimlere ihtiyaç duyarlar. Birinci olarak, oldukça geniş çaplı donanım üzerinde çaılşmalıdır, bu nedenle kullanıcı ile etkileşimli olmalı ve değişik aygıt sürücülerini yükleyebilmelidir. İkinci olarak, bu disketler değişik yükleme seçeneklerini, çeşitli otomatik seviyelerde desteklemelidir. Son olarakta, dağıtım açılış disketleri yükleme ve kurtarma kabiliyetinin birleşimine sahip olmalıdır.
+  </p>
+      <p>
+   <a id="idm1111" class="indexterm"/>
+   Bazı açılış disketleri <span class="command"><strong>initrd</strong></span> (birincil ramdiski/initial ramdisk) diye bilinen bir özellik kullanırlar. Bu özellik çekirdeğin 2.0.x sürümü aşamasında devreye girmiş ve çekirdeğe iki aşamalı olarak yüklenme esnekliğini sağlamıştır. Bu birincil ramdisk, gerçek kök dosya sistemi yüklenmeden önce çalışan bir yazılım içeren bir kök dosya sistemidir. Bu yazılım, genellikle, ortamı denetler ve/veya kullanıcıdan çeşitli açılış seçeneklerinde birisini seçmesini ister (örneğin gerçek kök dosya sisteminin yükleneceği aygıtı).  Ayrıca, çekirdek içine gömülmemiş ilave modülleri de yükler. Bu birincil yazılımın işi bitince, çekirdek gerçek kök biteşlemini yükler ve açılma işlemi normal olarak devam eder. <span class="command"><strong>initrd</strong></span> hakkında daha ayrıntılı bilgi elde edebilmek için sisteminizdeki <a class="link" href="file:/usr/src/linux/Documentation/initrd.txt" target="_top">file:/usr/src/linux/Documentation/initrd.txt</a> dosyasına ve <a class="link" href="ftp://elserv.ffm.fgan.de/pub/linux/loadlin-1.6/initrd-example.tgz" target="_top">ftp://elserv.ffm.fgan.de/pub/linux/loadlin-1.6/initrd-example.tgz</a> adresine bakabilirsiniz.
+  </p>
+      <p>
+   Aşağıda dağıtımların yükleme disketlerinin nasıl çalıştığının özetlerini bulacaksınız. Bu açıklamalar, kaynak kodlarına ve dosya sistemlerinde yapılan incelemelere göre çıkarılmıştır. Bu bilgilerin tam ve doğru olduğunun garantisi yoktur. Kılavuzumuzun bu sürümü yazıldığından beri bu bilgilerin değişmiş olması ihtimalini göz önünde bulundurmanız yararlı olur.
+  </p>
+      <p>
+   Slackware (v.3.1),<a class="xref" href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_TransferringWithLILO" title="Çekirdeğin LILO ile kullanımı"> “Çekirdeğin LILO ile kullanımı”</a> bölümünde tarif edildiği gibi basit LILO açılışını kullanmaktadır. Slackware açılış disketi LILO'nun <code class="literal">message</code> parametresini kullanarak bir açılış iletisi basar (“<code class="literal">Welcome to the Slackware Linux bootkernel disk!</code>/Slackware Linux çekirdek açılış disketine hoş geldiniz!”). Bu açıklamanın ardından kullanıcıdan, gerekli ise, açılış parametreleri girmesini ister. Açılıştan sonra, kök dosya sistemi ikinci bir disketten yüklenir. Kullanıcı, yüklemeyi başlatan <span class="command"><strong>setup</strong></span> betiğini çalıştırır. Slack, çeşitli çekirdek seçenekleri sunarak, modüler bir çekirdek kullanmak yerine, kullanıcının kendi ihtiyacına göre bir çekirdek seçmesine olanak verir.
+  </p>
+      <p>
+   Red Hat (v.4.0) de LILO açılışını kullanır. Birinci diskete sıkıştırılmış bir ramdisk yükler ve buradan özel bir <span class="command"><strong>init</strong></span>  yazılımı çalıştırılır. Bu yazılım sürücüleri tarar ve şayet gerekli ise başka bir diskten ek dosyaları yükler.
+  </p>
+      <p>
+   Debian (v.1.3), muhtemelen en karışık başlangıç diski setine sahiptir.  Değişik yükleme seçeneklerini düzenlemek için SYSLINUX yükleyicisi kullanır ve daha sonra yükleme işleminde kullanıcıya yol göstermek için bir <code class="literal">initrd</code> biteşlemi kullanır. Özelleştirilmiş bir kabuk ve <span class="command"><strong>init</strong></span> kullanmışlar gibi görünüyor.
+  </p>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_misctopics.xhtml')">Önceki</button>
+          <div class="dropup-content">Çeşitli konular</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_CD-ROMs.xhtml')">Sonraki</button>
+          <div class="dropup-content">Önyükleme yapabilen CD-ROMların hazırlanması</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

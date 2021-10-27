@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Linux Açılış Disketi NASIL</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <meta name="description" content="Bu kılavuz, Linux için açılış/kurtarma disketlerinin nasıl oluşturulacağını anlatmaktadır. Bu disketler kurtarma disketi olarak veya yeni sistem elemanlarını sınamak için kullanılabilir. Bu kılavuzda anlatılan açılış disketini oluşturmaya kalkmadan önce, sistem yönetim görevleri hakkında bilgi sahibi olmanız gerekmektedir. Şayet acil durumlar için bir kurtarma disketine ihtiyacınız var ise doğrudan bölümüne bakınız.Ç.N: Bu kılavuz açılış/kurtarma disketlerini (CD/SSD'lerini) anlatmakla birlikte, bir Linux sisteminde açılış sürecinin ve çekirdek yüklenmesinin nasıl gerçekleştiği, gerekli olan temel bileşenlerin neler olduğunu anlamaya yönelik iyi bir başlangıç kılavuzu olarak kabul edilebilir. Kılavuz içerisinde bu konular-başlangıç seviyesi için ayrıntılı bir şekilde ele alınmış ve sistemin genel hatları göz önüne serilmiştir. Bu NASIL'ı, GNU/Linux sistemlerinin temel yapısını anlamaya yönelik sağlam bir adım olarak değerlendirmek gerektiği inancındayım. Bir yerden başlamak gerek, öyle değil mi?"/>
+    <link rel="next" href="bootdisk-howto_preface.xhtml" title="Başlarken"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('#')">  </button>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_preface.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Başlarken</div>
+        </div>
+      </div>
+    </header>
+    <section xml:lang="tr" class="article" id="bootdisk-howto">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title">Linux Açılış Disketi NASIL</h1>
+          </div>
+          <div>
+            <div class="authorgroup">
+              <div class="author"><i style="color:#999999;">Yazan: </i><span class="firstname">Tom</span> <span class="surname">Fawcett</span></div>
+              <div>
+                <dl>
+                  <div class="affiliation">
+                    <dd>
+      <span class="email">&lt;Bootdisk-HOWTO (at) linuxdoc.org&gt;</span>
+     </dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="author"><i style="color:#999999;">Çeviren: </i><span class="firstname">Yalçın</span> <span class="surname">Kolukısa</span></div>
+              <div>
+                <dl>
+                  <div class="affiliation">
+                    <dd>
+      <span class="email">&lt;yalcin (at) belgeler.org&gt;</span>
+     </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="copyright">Telif Hakkı © 1995-2002 Tom Fawcett - İngilizce orjinalinin yazarı</p>
+          </div>
+          <div>
+            <p class="copyright">Telif Hakkı © 2004 Yalçın Kolukısa - Türkçe çevirmeni</p>
+          </div>
+          <div>
+            <div class="legalnotice" id="idm25">
+              <div class="legalnotice-title">
+                <strong>Yasal Uyarı</strong>
+              </div>
+              <p>
+    Telif Hakkı © 1995-2002 Tom Fawcett ve Graham Chapman.
+    Türkçe çeviri: Telif Hakkı © 2004 Yalçın Kolukısa.
+    Bu belge <a class="link" href="http://en.tldp.org/copyright.html" target="_top">Linux
+    Belgelendirme Projesi Kopyalama Lisansı</a>nın kurallarına uymak
+    şartıyla dağıtılabilir. Lisansı bulamadıysanız lütfen belge yazarlarına
+    başvurunuz.
+   </p>
+            </div>
+          </div>
+          <div>
+            <div class="legalnotice" id="idm29">
+              <div class="legalnotice-title">
+                <strong>Legal Notice</strong>
+              </div>
+              <p>
+    Copyright © 1995-2002 by Tom Fawcett and Graham Chapman.
+    Turkish translation: Copyright © 2004 by Yalçın Kolukısa.
+    This document may be distributed under the terms set forth in the <a class="link" href="http://en.tldp.org/copyright.html" target="_top">Linux Documentation Project
+    Copying License</a>. Please contact the authors if you are unable to
+    get the license.
+   </p>
+            </div>
+          </div>
+          <div>
+            <p class="pubdate">v4.5, Ocak 2002</p>
+          </div>
+          <div>
+            <p class="pubdate">Çeviri: v1.0, Ocak 2004</p>
+          </div>
+          <div>
+            <div class="abstract">
+              <div class="abstract-title">Özet</div>
+              <p>
+    Bu kılavuz, Linux için açılış/kurtarma disketlerinin nasıl oluşturulacağını anlatmaktadır. Bu disketler kurtarma disketi olarak veya yeni sistem elemanlarını sınamak için kullanılabilir.
+   </p>
+              <p>
+    Bu kılavuzda anlatılan açılış disketini oluşturmaya kalkmadan önce, sistem yönetim görevleri hakkında bilgi sahibi olmanız gerekmektedir. Şayet acil durumlar için bir kurtarma disketine ihtiyacınız var ise doğrudan <a class="xref" href="bootdisk-howto_PreMade.xhtml" title="Hazır açılış disketleri"> “Hazır açılış disketleri”</a> bölümüne bakınız.<a href="#ftn.idm39" class="footnote"><sup class="footnote" id="idm39">[1]</sup></a>
+   </p>
+            </div>
+          </div>
+        </div>
+        <hr/>
+      </div>
+      <div class="toc">
+        <div class="toc-title">İçindekiler</div>
+        <dl class="toc">
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_preface.xhtml">Başlarken</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_preface.xhtml#idm47">Sürüm notları</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_preface.xhtml#idm52">Yapılacak işler listesi</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_preface.xhtml#idm69">Geri besleme ve destekleyenler</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_preface.xhtml#idm77">Dağıtım politikası</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_intro.xhtml">Giriş</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_bootproc.xhtml">Açılış disketleri ve önyükleme süreci</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_bootproc.xhtml#idm105">Önyükleme süreci</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_bootproc.xhtml#idm170">Disk çeşitleri</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_buildroot.xhtml">Bir kök dosya sisteminin oluşturulması</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#idm205">Genel bakış</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#bootdisk-howto_creatingrootfs">Dosya sisteminin oluşturulması</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#bootdisk-howto_fsfill">Dosya sisteminin doldurulması</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#bootdisk-howto_PAMandNSS">PAM ve NSS'in sağlanması</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#idm643">Modüller</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#idm663">Son olarak bazı ayrıntılar</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_buildroot.xhtml#bootdisk-howto_wrappingitup">Paketleme</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_choosingkernel.xhtml">Çekirdek Seçimi</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_makingdisket.xhtml">Herşeyi biraraya getirelim</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_TransferringWithLILO">Çekirdeğin LILO ile kullanımı</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_TransferringWithoutLILO">Çekirdeğin LILO'suz kullanımı</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_SettingRamdiskWord"><code class="literal">ramdisk</code> sözcüğünün yapılandırılması</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_makingdisket.xhtml#idm853">Kök dosya sistemini aktarılması</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_troubleshooting.xhtml">Sorun çözmek ya da Yenilginin Acısı</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_slimfast.xhtml">Kök dosya sistemi boyutunun küçültülmesi</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_slimfast.xhtml#idm986">Disket kapasitesini arttırın</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_slimfast.xhtml#idm999">Ortak araçları BusyBox ile değiştirin</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_slimfast.xhtml#idm1006">Başka bir kabuk kullanın</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_slimfast.xhtml#idm1018">Kütüphaneleri ve çalıştırılabilirleri soyun</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_slimfast.xhtml#idm1039">Dosyaları uygulamalar disketine koyun</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_misctopics.xhtml">Çeşitli konular</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_misctopics.xhtml#bootdisk-howto_NonRamdiskRoot">Ramdisksiz kök dosya sistemleri</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_misctopics.xhtml#bootdisk-howto_UtilityDisk">Uygulamalar disketinin oluşturulması</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_Pros.xhtml">Profesyoneller nasıl yapıyor</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_CD-ROMs.xhtml">Önyükleme yapabilen CD-ROMların hazırlanması</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_CD-ROMs.xhtml#idm1135">El Torito nedir?</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_CD-ROMs.xhtml#idm1140">El Torito nasıl çalışır?</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_CD-ROMs.xhtml#idm1146">Nasıl çalışır hale getireceğiz?</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="bootdisk-howto_CD-ROMs.xhtml#idm1169">Win9x Önyüklenebilir CD-ROMlarının yapımı</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="bootdisk-howto_faq.xhtml">Sıkça Sorulan Sorular(SSS) listesi</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="appendix">
+              <a href="bootdisk-howto_appa.xhtml">A. Özkaynaklar ve Göstericiler</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect1">
+                  <a href="bootdisk-howto_PreMade.xhtml">Hazır açılış disketleri</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect1">
+                  <a href="bootdisk-howto_rescue.xhtml">Kurtarma paketleri</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect1">
+                  <a href="bootdisk-howto_lilo.xhtml">LILO -- Linux yükleyicisi</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect1">
+                  <a href="bootdisk-howto_rdusage.xhtml">Ramdisk kullanımı</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect1">
+                  <a href="bootdisk-howto_bootprocess.xhtml">Linux önyükleme süreci</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="appendix">
+              <a href="bootdisk-howto_appb.xhtml">B. LILO önyükleme hata kodları</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="appendix">
+              <a href="bootdisk-howto_Listings.xhtml">C. Kök dosya sistemi listesi örneği</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="appendix">
+              <a href="bootdisk-howto_utilitylist.xhtml">D. Uygulamalar disketi dizin listesi örneği</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="index">
+              <a href="bootdisk-howto_cp.xhtml">Kavramlar Dizini</a>
+            </span>
+          </dt>
+        </dl>
+      </div>
+      <div class="footnotes">
+        <br/>
+        <hr class="footnote-hr"/>
+        <div id="ftn.idm39" class="footnote">
+          <p><a href="#idm39" class="para"><sup class="para">[1] </sup></a>Ç.N: Bu kılavuz açılış/kurtarma disketlerini (CD/SSD'lerini) anlatmakla birlikte, bir Linux sisteminde açılış sürecinin ve çekirdek yüklenmesinin nasıl gerçekleştiği, gerekli olan temel bileşenlerin neler olduğunu anlamaya yönelik iyi bir başlangıç kılavuzu olarak kabul edilebilir. Kılavuz içerisinde bu konular-başlangıç seviyesi için ayrıntılı bir şekilde ele alınmış ve sistemin genel hatları göz önüne serilmiştir. Bu NASIL'ı, GNU/Linux sistemlerinin temel yapısını anlamaya yönelik sağlam bir adım olarak değerlendirmek gerektiği inancındayım. Bir yerden başlamak gerek, öyle değil mi?</p>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('#')">  </button>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_preface.xhtml')">Sonraki</button>
+          <div class="dropup-content">Başlarken</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

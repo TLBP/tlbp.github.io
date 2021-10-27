@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Herşeyi biraraya getirelim</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_choosingkernel.xhtml" title="Çekirdek Seçimi"/>
+    <link rel="next" href="bootdisk-howto_troubleshooting.xhtml" title="Sorun çözmek ya da Yenilginin Acısı"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_choosingkernel.xhtml')">Önceki</button>
+          <div class="dropdown-content">Çekirdek Seçimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_troubleshooting.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Sorun çözmek ya da Yenilginin Acısı</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_makingdisket">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Herşeyi biraraya getirelim</h2>
+          </div>
+          <div>
+            <h3 class="subtitle">Disket(ler)in yapımı</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+   Şu anda elimizde bir çekirdek ve sıkıştırılmış bir dosya sistemi mevcut.  Eğer önyükleme ve kök disketi yapacaksanız, bunların boyutunun tek bir diskete sığacağından emin olun. Şayet iki disketlik önyükleme + kök disketlerini yapacaksanız, kök dosya sisteminin tek bir diskete sığacak kadar küçülmüş olduğunda emin olun.
+  </p>
+      <p>
+   Önyükleme disketindeki çekirdeği yüklemek için LILO kullanıp kullanmayacağınıza karar vermek durumundasınız. Ayrıca isterseniz; çekirdeği doğrudan diskete kopyalayabilir ve LILO olmaksızın açılış yapabilirsiniz. LILO kullanmanın faydası, açılış esnasında bazı donanımları ilklendirecek özel parametreleri çekirdeğe verebilmektir (sisteminizdeki <code class="filename">/etc/lilo.conf</code> dosyasını kontrol edin. Şayet içerisinde  ``<code class="literal">append=...</code>'' gibi bir satır varsa, muhtemelen bu özeliğe ihtiyacımız olacak demektir). LILO kullanmanın bir götürüsü de daha karmaşık bir açılış disketi yapmak ve bunun biraz daha fazla bayta mal olmasıdır. <em class="wordasword">Çekirdek dosya sistemi</em> olarak adlandırabileceğimiz küçük bir dosya sistemi oluşturup buraya LILO'nun ihtiyaç duyacağı çekirdeği ve birkaç dosyayı koyacağız.
+  </p>
+      <p>
+   <a id="idm716" class="indexterm"/>
+   <a id="idm718" class="indexterm"/>
+   <a id="idm721" class="indexterm"/>
+   Şayet LILO kullanacaksanız, okumaya devem edin. Çekirdeği doğrudan diskete aktarcaksanız  <a class="xref" href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_TransferringWithoutLILO" title="Çekirdeğin LILO'suz kullanımı"> “Çekirdeğin LILO'suz kullanımı”</a> bölümüne atlayın.
+  </p>
+      <section class="sect2" id="bootdisk-howto_TransferringWithLILO">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Çekirdeğin LILO ile kullanımı</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    İlk olarak, LILO'nun en son sürümüne sahip olduğunuzdan emin olun.
+   </p>
+        <p>
+    LILO için küçük bir yapılandırma dosyası oluşturmanız gerekiyor:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="programlisting">boot      =/dev/fd0
+install   =/boot/boot.b
+map       =/boot/map
+read-write
+backup    =/dev/null
+compact
+image     = KERNEL
+label     = Bootdisk
+root      =/dev/fd0
+</pre>
+          </div>
+        </div>
+        <p>
+    Buradaki parametrelerin açıklamaları için LILO kullanıcı belgelerine bakınız. Ayrıca <code class="literal">append=...</code> şeklinde bir satır da eklemek isteyebilirsiniz (sabit diskinizdeki <code class="filename">/etc/lilo.conf</code> dosyasındaki satırı).
+   </p>
+        <p>
+    Bu dosyayı <code class="filename">bdlilo.conf</code> ismiyle kaydedin.
+   </p>
+        <p>
+    Şimdi, kök dosya sisteminden ayırt edebilmek için <em class="wordasword">çekirdek dosya sistemi</em> olarak adlandıracağımız küçük bir dosya sistemi oluşturacağız.
+   </p>
+        <p>
+    İlk olarak, bu dosya sisteminin boyutuna karar verin.  ``<span class="command"><strong>ls -s KERNEL</strong></span>'' komutu ile çekirdeğin boyutunu blok cinsinden öğrenin ve buna 50 ekleyin. Bu 50 blok, diğer dosyalar ve düğümler tarafından kullanılacak blok sayısıdır. Bu sayıyı tam olarak hesaplamak mümkündür ama biz  burada 50'yi  kullanacağız. Şayet iki disketlik bir set yapacaksanız, bu sayıyı abartmanızda bir mahsur yoktur. Nasıl olsa birinci disket sadece çekirdek tarafından kullanılacaktır. Bu sayıya <em class="replaceable"><code>çekirdek_blokları</code></em> adını verelim.
+   </p>
+        <p>
+    Sürücüye bir disket koyun (buna <code class="filename">/dev/fd0</code> diyeceğiz) ve bir ext2 çekirdek dosya sistemi oluşturun:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># mke2fs -N 24 -m 0 /dev/fd0 <em class="replaceable"><code>çekirdek_blokları</code></em></pre>
+          </div>
+        </div>
+        <p>
+    <a id="idm745" class="indexterm"/>
+    ``<code class="literal">-N 24</code>'', bu dosya sistemi için ihtiyaç duyacağımız 24 tane dosya düğümünü belirtir. Daha sonra dosya sistemini bağlayın ve <code class="filename">lost+found</code> dizinini silin. Bunu ardından, LILO için <code class="filename">dev</code> ve <code class="filename">boot</code> dizinlerini oluşturun:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># mount -o dev /dev/fd0 /mnt
+# rm -rf /mnt/lost+found
+# mkdir /mnt/{boot,dev}
+</pre>
+          </div>
+        </div>
+        <p>
+    Daha sonra, <code class="filename">/dev/null</code> ve <code class="filename">/dev/fd0</code> dosyalarını oluşurun. Aygıt numaralarını aramak yerine, sabit diskinizden bunları kopyalayabilirsiniz (<code class="literal">-R</code> seçeneği ile):
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># cp -R /dev/{null,fd0} /mnt/dev</pre>
+          </div>
+        </div>
+        <p>
+    LILO, kendi önyükleyicisinin bir kopyasına ihtiyaç duyar:  <code class="filename">boot.b</code>. Bunu da sabit diskinizden kopyalayabilirsiniz. Bu dosya genellikle <code class="filename">/boot</code> dizini içindedir.
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># cp /boot/boot.b /mnt/boot</pre>
+          </div>
+        </div>
+        <p>
+    Son olarak, geçen bölümde oluşturduğunuz LILO yapılandırma dosyasını ve çekirdeği kopyalayın. Her ikisi de kök dizine konabilir:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># cp bdlilo.conf KERNEL /mnt</pre>
+          </div>
+        </div>
+        <p>
+    LILO'nun ihtiyaç duyduğu herşey, artık çekirdek dosya sisteminde. Artık onu çalıştırmaya hazırız. LILO'nun <code class="literal">-r</code> seçeneği, onu başka kök sistemlere yüklemek için kullanılır:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># lilo -v -C bdlilo.conf -r /mnt</pre>
+          </div>
+        </div>
+        <p>
+    LILO hatasız olarak çalışmalı ve daha sonra çekirdek dosya sistemi şuna benzemeli:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen">total 361
+  1 -rw-r--r--   1 root     root          176 Jan 10 07:22 bdlilo.conf
+  1 drwxr-xr-x   2 root     root         1024 Jan 10 07:23 boot/
+  1 drwxr-xr-x   2 root     root         1024 Jan 10 07:22 dev/
+358 -rw-r--r--   1 root     root       362707 Jan 10 07:23 vmlinuz
+boot:
+total 8
+  4 -rw-r--r--   1 root     root         3708 Jan 10 07:22 boot.b
+  4 -rw-------   1 root     root         3584 Jan 10 07:23 map
+dev:
+total 0
+  0 brw-r-----   1 root     root       2,   0 Jan 10 07:22 fd0
+  0 crw-r--r--   1 root     root       1,   3 Jan 10 07:22 null
+</pre>
+          </div>
+        </div>
+        <p>
+    <a id="idm770" class="indexterm"/>
+    Dosya boyutları biraz farklı ise, bunu dert etmeyin.
+   </p>
+        <p>
+    Şimdi, disketi sürücüde bırakın ve <a class="xref" href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_SettingRamdiskWord" title="ramdisk sözcüğünün yapılandırılması"> “<code class="literal">ramdisk</code> sözcüğünün yapılandırılması”</a> bölümüne geçin.
+   </p>
+      </section>
+      <section class="sect2" id="bootdisk-howto_TransferringWithoutLILO">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Çekirdeğin LILO'suz kullanımı</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Şayet LILO <em class="emphasis">kullanmayacaksanız</em>, çekirdeği önyükleme disketine  <span class="command"><strong>dd</strong></span> kullanarak gönderin:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"><code class="prompt"># </code><span class="command"><strong>dd if=KERNEL of=/dev/fd0 bs=1k</strong></span>
+353+1 records in
+353+1 records out
+</pre>
+          </div>
+        </div>
+        <p>
+    Bu örnekte <span class="command"><strong>dd</strong></span>,  353 tam kayıt + 1 kısmi kayıt yazdı. Bu nedenle, çekirdek disketin ilk 354 bloğu üzerine kurulmuş oldu. Bu sayıyı <em class="replaceable"><code>çekirdek_blokları</code></em> diye adlandıracağız.
+   </p>
+        <p>
+    Son olarak, kök aygıtı disket olarak ayarlayın ve burayı okunur/yazılır kipte yüklenecek şekilde düzenleyin:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># rdev /dev/fd0 /dev/fd0
+# rdev -R /dev/fd0 0
+</pre>
+          </div>
+        </div>
+        <p>
+    <a id="idm789" class="indexterm"/>
+    İkinci <span class="command"><strong>rdev</strong></span> komutunda <code class="literal">-R</code> seçeneğini kullanırken dikkatli olun. Büyük harf ile yazdığınızdan emin olun.
+   </p>
+      </section>
+      <section class="sect2" id="bootdisk-howto_SettingRamdiskWord">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title"><code class="literal">ramdisk</code> sözcüğünün yapılandırılması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Çekirdek biteşlemi içindeki <em class="wordasword">ramdisk</em> kelimesi<a href="#ftn.idm799" class="footnote"><sup class="footnote" id="idm799">[3]</sup></a> diğer seçeneklerin yanısıra kök dosya sisteminin nerede bulunacağını belirtir. Bu kelime <span class="command"><strong>rdev</strong></span> komutu ile ayarlanabilir. İçeriği aşağıda açıklandığı gibidir:
+   </p>
+        <div class="informaltable">
+          <table style="border: none;">
+            <colgroup>
+              <col style="width: .1; text-align: left; " class="Bit"/>
+              <col style="width: .9; text-align: left; " class="Descrip"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">Bit alanı</th>
+                <th style="text-align: left; border-bottom: 1px solid ; ">Açıklama</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">0-10</td>
+                <td style="text-align: left; border-bottom: 1px solid ; ">1024 baytlık bloklar halindeki ramdisk'in başlangıç konumu</td>
+              </tr>
+              <tr>
+                <td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">11-13</td>
+                <td style="text-align: left; border-bottom: 1px solid ; ">kullanılmadı</td>
+              </tr>
+              <tr>
+                <td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">14</td>
+                <td style="text-align: left; border-bottom: 1px solid ; ">ramdiskin yükleneceğini gösteren bayrak</td>
+              </tr>
+              <tr>
+                <td style="text-align: right; border-right: 1px solid ; ">15</td>
+                <td style="text-align: left; ">rootfs yüklenmeden önce bir istem geleceğini gösteren bayrak</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+    Şayet 15 numaralı bit ayarlanmış ise, açılışta sürücüye yeni bir disket koymanızı söyleyen bir ekran çıkar. Bu iki disketlik setlerde gereklidir.
+   </p>
+        <p>
+    Tek veya çift disketlik bir set oluşturmanıza bağlı olarak iki ayrı durum söz konusudur:
+   </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+      Şayet tek bir disket oluşturmuşsanız, sıkıştırılmış dosya sistemi çekirdeğin ardı sıra yüklenir. Bu nedenle başlangıcı ilk boş blokta olacaktır (<em class="replaceable"><code>çekirdek_blokları</code></em> ile aynı olmalıdır). 14. bit 1, 15. bit ise 0 olacaktır.
+     </p>
+              <p>
+      Örneğin; diyelim ki tek disketlik bir sistem yaptınız ve kök dosya sistemi 253. bloktan (onluk olarak) başlıyor. Ramdiskin kelime değeri 14. bit 1, 15. bit 0 olmak üzere 253 olmalıdır. Değeri hesaplamak için ondalık değerleri toplamak yeterlidir:  253 + (2^14) = 253 + 16384 = 16637. Şayet bu sayının nereden geldiğini anlmadıysanız, bilimsel bir hesap makinasına bunu yazın ve ikilik düzene çevirin.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Şayet iki disketlik bir set yaptıysanız, kök dosya sistemi 0. bloktan başlar, bu nedenle başlangıç konumu sıfır olacaktır. 14. ve 15. bit 1 olacaktır. Bu durumda ondalık değer ise 2^14 + 2^15 = 49152 olur.
+     </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+    <a id="idm834" class="indexterm"/>
+    <a id="idm836" class="indexterm"/>
+    Bu ramdisk sözcüğünün değerini dikkatlice hesapladıktan sonra,  <span class="command"><strong>rdev -r</strong></span> ile bunu çekirdek biteşlemine yazın.  Ondalık değerleri kullandığınızdan emin olun. Şayet LILO kullandıysanız, <span class="command"><strong>rdev</strong></span>'e  verilecek argüman bağlanana çekirdeğin dosya yolu olmalıdır. Örneğin; <code class="filename">/mnt/vmlinuz</code>; şayet çekirdeği <span class="command"><strong>dd</strong></span> bunun yerine disket aygıtının ismi (örn, <code class="filename">/dev/fd0</code>) gelecektir.
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># rdev -r<em class="emphasis">çekirdek_yolu_veya_disket_aygıtı değer</em></pre>
+          </div>
+        </div>
+        <p>
+    Şayet LILO kullandıysanız, şimdi disketi ayırın.
+   </p>
+        <div class="important">
+          <h3 class="title">Önemli</h3>
+          <p>
+     <span class="command"><strong>rdev</strong></span> veya <span class="command"><strong>ramsize</strong></span> man sayfasının ramdisk boyutu hakkında söylediklerine inanmayın.  Bu kılavuz sayfası oldukça eski. Çekirdek 2.0 veya o civardakilerde, ramdisk kelimesi ramdisk boyutunu belirtmez, <a class="xref" href="bootdisk-howto_makingdisket.xhtml#bootdisk-howto_SettingRamdiskWord" title="ramdisk sözcüğünün yapılandırılması"> “<code class="literal">ramdisk</code> sözcüğünün yapılandırılması”</a> bölümünün başlangıcındaki tabloyu ifade eder. Ayrıntılı bilgi için, ramdisk.txt  dosyasına veya <a class="link" href="http://www.linuxhq.com/kernel/v2.4/doc/ramdisk.txt.html" target="_top">http://www.linuxhq.com/kernel/v2.4/doc/ramdisk.txt.html</a> adresine bakınız.
+    </p>
+        </div>
+      </section>
+      <section class="sect2" id="idm853">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Kök dosya sistemini aktarılması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Son adımımız kök dosya sistemini aktarmaktır.
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Şayet kök dosya sistemi çekirdek ile aynı diskete konacaksa, <span class="command"><strong>dd</strong></span> komutunu <code class="option">seek</code> seçeneği ile kullanarak aktarın. <code class="option">seek</code> seçeneği kaç tane bloğun atlanacağını belirtir:
+     </p>
+              <div class="para">
+                <div align="right">
+                  <pre class="screen"># dd if=rootfs.gz of=/dev/fd0 bs=1k seek=<em class="replaceable"><code>çekirdek_blokları</code></em></pre>
+                </div>
+              </div>
+            </li>
+            <li class="listitem">
+              <p>
+      Şayet kök dosya sistemi ikinci bir diskete konacaksa; birinci disketi çıkarın, ikinci disketi sürücüye takın ve daha sonra kök dosya sistemini aktarın:
+     </p>
+              <div class="para">
+                <div align="right">
+                  <pre class="screen"># dd if=rootfs.gz of=/dev/fd0 bs=1k</pre>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Tebrikler, başardınız!
+   </p>
+        <div class="important">
+          <h3 class="title">Önemli</h3>
+          <p>
+     Yapmış olduğunu açılış  disketlerini, acil durumlar için kenara koymadan önce mutlaka sınayın. Şayet disket ile sistemi açamazsanız, okumaya devam edin.
+    </p>
+        </div>
+      </section>
+      <div class="footnotes">
+        <br/>
+        <hr class="footnote-hr"/>
+        <div id="ftn.idm799" class="footnote">
+          <p><a href="#idm799" class="para"><sup class="para">[3] </sup></a>Ç.N: Burada kelime ya da sözcük ile ifade edilen 16 bitlik bir alandır (<code class="literal">8 bit = bayt, 16 bit = kelime [word]</code>).</p>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_choosingkernel.xhtml')">Önceki</button>
+          <div class="dropup-content">Çekirdek Seçimi</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_troubleshooting.xhtml')">Sonraki</button>
+          <div class="dropup-content">Sorun çözmek ya da Yenilginin Acısı</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

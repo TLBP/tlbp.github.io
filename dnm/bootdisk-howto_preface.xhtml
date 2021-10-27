@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Başlarken</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto.xhtml" title="Linux Açılış Disketi NASIL"/>
+    <link rel="next" href="bootdisk-howto_intro.xhtml" title="Giriş"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto.xhtml')">Önceki</button>
+          <div class="dropdown-content">Linux Açılış Disketi NASIL</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_intro.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_preface">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Başlarken</h2>
+          </div>
+        </div>
+      </div>
+      <div class="important">
+        <h3 class="title">Önemli</h3>
+        <p>
+    Elinizdeki sürüm, bu kılavuzun en güncel sürümü olmayabilir. Şayet elinizdeki sürümün tarihi, altı aydan daha eski ise, <a class="link" href="http://www.linuxlots.com/~fawcett/Bootdisk-HOWTO/index.html" target="_top">BootDisk-HOWTO Ana Sayfasına</a> göz atınız.
+   </p>
+      </div>
+      <p>
+   Bu kılavuz, metin biçimli olarak da okunması kolay ve anlaşılır olmakla birlikte; pdf, postscript veya HTML biçimli olarak daha kolay okunabilir. Ne de olsa bu biçimlerde zengin görsel öğeler kullanılmaktadır.
+  </p>
+      <section class="sect2" id="idm47">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Sürüm notları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    İlk Açılış Disketi NASIL'ı Graham Chapman yazmış ve sürüm 3.1'e kadar güncellemeleri yapmıştır. Çekirdeğin v2. sürümünün çıktığı ilk zamanlarda, Tom Fawcett yardımcı yazar olarak belgeye destek vermeye başlamıştır. Bugün için ise Tom Fawcett,  bu belgenin bakım sorumlusudur. Chapman'dan uzun süredir haber alınamamakta ve nerede olduğu bilinmemektedir.
+   </p>
+        <p>
+    Bu kılavuzdaki bilgiler <em class="emphasis">Intel</em> tabanlı Linuxlar için hazırlanmıştır. Buradaki bilgilerin pek çoğu diğer işlemciler için de geçerlidir, fakat bunların geçerliliği birinci elden kontrol edilmemiştir. Şayet diğer platformlar üzerinde açılış disketi oluşturmak hakkında deneyiminiz varsa, lütfen bunları bana bildirin.
+   </p>
+      </section>
+      <section class="sect2" id="idm52">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Yapılacak işler listesi</h3>
+            </div>
+          </div>
+        </div>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+      <a class="link" href="http://user-mode-linux.sourceforge.net/" target="_top">http://user-mode-linux.sourceforge.net/</a> adresindeki Kullanıcı Kipi Linux projesi, açılış disketlerini sınamak için sistemi tekrar başlatma zorunluluğunu ortadan kaldırması açısından oldukça yararlı görünüyor. Bu konu üzerinde şu ana kadar çalışma yapma şansım olmadı. Şayet birileri bunun için, ev yapımı açılış disketlerini kullanıyor ise lütfen bana da bilgi versin.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Dağıtımların açılış disketleri tekrar gözden geçirilecek ve  <a class="xref" href="bootdisk-howto_Pros.xhtml" title="Profesyoneller nasıl yapıyor"> “Profesyoneller nasıl yapıyor”</a> bölümü güncellenecek.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Init-getty-login işlemlerinin daha ne kadar basitleştirilebileceği araştırılacak. Bir kaç kişi; init'in doğrudan /bin/sh'a bağlanabileceğini söyledi. Şayet bu doğru ise ve fazladan sınırlamalar getirmeyecekse, başlangıç bölümü, bunu yapacak şekilde değiştirilecek. Böylece getty, login, gettydefs ve belki de bütün PAM ve NSS araçlarına olan bağımlılık ortadan kalkacak.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Çekirdeğin 2.4 sürümünün kaynak kodları incelenecek ve açılış süreci ve ramdisk yüklenmesi süreçleri hakkında ayrıntılı bir açıklama yazılacak (tabii ki öncelikle benim bu olayı daha ayrıntılı ve iyi bir şekilde öğrenmem gerekecek). Açılış aygıtlarının sınırları ve initrd hakkında henüz anlayamadığım bazı noktalar var.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Dağıtım açılış disketlerinin nasıl güncelleneceğini anlatan bölüm kılavuzdan çıkarılacak. Yarardan çok zararı var.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+      rdev komutları LILO anahtar kelimeleri ile değiştirilecek.
+     </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="sect2" id="idm69">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Geri besleme ve destekleyenler</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu kılavuzun içeriği hakkındaki her türlü, iyi veya kötü, eleştirileri bana gönderebilirsiniz. Buradaki açıklama ve bilgileri, elimden gelenin en iyisini yapmaya çalışarak, anlaşılır ve doğru bir şekilde vermeye çalıştım fakat unutmayın ki ben de herşeyi bilmiyorum ve çekirdek gelişimi üzerine çalışmıyorum. Şayet herhangi bir hata veya eksiklik bulursanız lütfen beni düzeltin. Bana yazarken, elinizdeki kılavuzun sürüm numarasını belirtmeyi lütfen unutmayın.
+   </p>
+        <p>
+    Düzeltmeler ve öneriler gönderen bütün herkese teşekkürlerimi sunarım. Onların sayesinde bu kılavuz, bizim tek başımıza yapabileceğimizden çok daha iyi olmuştur.
+   </p>
+        <p>
+    Yorum ve düzeltmelerinizi yukarıda belirtilen, yazarın e-posta adresine gönderiniz. Çeviride bulduğunuz imla, yazım, sözdizimi, anlam hatalarını çeviren kısmındaki e-posta adresine gönderiniz. Sorularınızı sormadan önce <em class="emphasis">lütfen  <a class="xref" href="bootdisk-howto_troubleshooting.xhtml" title="Sorun çözmek ya da Yenilginin Acısı"> “Sorun çözmek ya da Yenilginin Acısı”</a> bölümünü okuyunuz</em>. Hazırladığınız disket imajlarını bana <em class="emphasis">göndermeyiniz</em>.
+   </p>
+      </section>
+      <section class="sect2" id="idm77">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Dağıtım politikası</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu belgenin orjinal ingilizce sürümünün telif hakları © 1995-2002  Tom Fawcett ve Graham Chapman'a, türkçe tercümesinin telif hakları © 2004 Yalçın Kolukısa'ya aittir. Bu kılavuz  <a class="link" href="http://en.tldp.org/copyright.html" target="_top">Linux Belgelendirme Projesi Lisansı</a> altında kullanılabilir.  Şayet bu lisansa ulaşamıyorsanız lütfen yazarlar ile iletişim kurunuz.
+   </p>
+        <p>
+    BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </p>
+        <p>
+    İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+   </p>
+      </section>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto.xhtml')">Önceki</button>
+          <div class="dropup-content">Linux Açılış Disketi NASIL</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_intro.xhtml')">Sonraki</button>
+          <div class="dropup-content">Giriş</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

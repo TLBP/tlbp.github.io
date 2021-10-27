@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Açılış disketleri ve önyükleme süreci</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_intro.xhtml" title="Giriş"/>
+    <link rel="next" href="bootdisk-howto_buildroot.xhtml" title="Bir kök dosya sisteminin oluşturulması"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_intro.xhtml')">Önceki</button>
+          <div class="dropdown-content">Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_buildroot.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Bir kök dosya sisteminin oluşturulması</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_bootproc">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Açılış disketleri ve önyükleme süreci</h2>
+          </div>
+        </div>
+      </div>
+      <a id="idm102" class="indexterm"/>
+      <p>
+   Bir açılış disketi basitçe: bir disket içerisinde bulunan minik bir Linux sistemi diye tanımlanabilir.  Büyük boyutlu Linux sistemlerinin gerçekleştirdiği işlevlerin pek çoğunu gerçekleştirmelidir. Bir açılış disketi yapmaya geçmeden önce, Linux açılış sürecini tam olarak anlamalısınız. Biz bu kısımda temel bilgileri anlatacağız, böylece kılavuzun geri kalanını anlamanıza yetecek bilgiye sahip olacaksınız. Pek çok ayrıntı ve olası seçenekler, bu kılavuz içinde açıklanmamaktadır.
+  </p>
+      <section class="sect2" id="idm105">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Önyükleme süreci</h3>
+            </div>
+          </div>
+        </div>
+        <a id="idm107" class="indexterm"/>
+        <a id="idm109" class="indexterm"/>
+        <a id="idm111" class="indexterm"/>
+        <p>
+    Bütün PC sistemleri önyükleme sürecini ROM (BIOS) içindeki kodu çalıştırıp, önyükleme aygıtının 0.silindirinin 0. sektöründen yükleyerek başlatır. Bu önyükleme aygıtı genellikle birincil disket sürücüdür (DOS için <code class="filename">A:</code> ve Linux için <code class="filename">/dev/fd0</code> ile ifade edilir). Daha sonra BIOS bu sektördeki kodu çalıştırmayı dener. Pek çok önyükleme yapılabilen diskte, 0.silindirin 0. sektörü şunlardan birini ihtiva eder:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+     LILO gibi bir önyükleyicinin kodu (bu kod çekirdeği yükler ve düzgün olarak çalışmasını sağlar)
+    </li>
+            <li class="member">
+     Linux gibi bir işletim sistemi çekirdeğinin başlangıcını.
+    </li>
+          </ul>
+        </div>
+        <p>
+    Şayet Linux çekirdeği bir diskete ham biçimde kopyalanmışsa, disketin ilk sektörü, Linux çekirdeğinin ilk sektörü olacaktır. Bu ilk sektör, önyükleme aygıtında bulunan çekirdeğin kalan kısımlarını yükleyerek önyükleme sürecinin devamını sağlar.
+   </p>
+        <a id="idm120" class="indexterm"/>
+        <a id="idm122" class="indexterm"/>
+        <a id="idm124" class="indexterm"/>
+        <p>
+    Çekirdek tamamen diskete/diske yüklenmişse, ilk sektör aygıt sürücülerini ve dahili veri yapısını ilklendirir. Bu işlem bir kere tamamlanınca, <em class="wordasword">ramdisk</em> diye adlandırılan özel bir yere yerleştirilen bir biteşleme sıra gelir. Buradan, kök dosya sistemini nerede ve nasıl bulunacağı bilgisi alınır.  <em class="wordasword">Kök dosya sistemi</em> ``<code class="filename">/</code>'' şeklinde bağlanan bir dosya sistemidir. Çekirdeğe bu dosya sistemini nerede bulabileceği bilgisini verilmelidir.  Şayet orada yüklenebilir bir biteşlem bulamazsa, sistem kapatılır.
+   </p>
+        <p>
+    Bazı önyüklemelerde — genellikle disketten yapılan önyüklemelerde —  kök dosya sistemi bir ramdisk'e yüklenir.  Bir ramdisk, disket muamelesine tabi tutulan bir RAM alanıdır. RAM, bir disketten çok daha hızlı olduğu için, ramdisk üzerinden yapılan sistem açılışları çok daha hızlı olmaktadır. Ayrıca, çekirdek sıkıştırılmış bir dosya sistemini ramdisk'e yükleyebilir ve orada açabilir. Bu sayede tek bir diskete çok daha fazla dosya sığdırılmış olur.
+   </p>
+        <p>
+    Kök dosya sistemi yüklenip, bağlandıktan sonra şuna benzer bir ileti göreceksiniz:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen">VFS: Mounted root (ext2 filesystem) readonly.</pre>
+          </div>
+        </div>
+        <p>
+    <a id="idm134" class="indexterm"/>
+    <a id="idm137" class="indexterm"/>
+    <a id="idm140" class="indexterm"/>
+    Sistem, kök dosya sistemini başarılı bir şekilde yüklendikten sonra, <span class="command"><strong>init</strong></span> çalıştırılır (<code class="filename">/bin</code> veya <code class="filename">/sbin</code> içinden). <span class="command"><strong>init</strong></span>,  <code class="filename">/etc/inittab</code> dosyasından ayarlarını okur, <span class="command"><strong>sysinit</strong></span>'i işaret eden bir satır arar ve daha sonra ismi geçen betiği çalıştırır. <span class="command"><strong>sysinit</strong></span> betiği genellikle, <code class="filename">/etc/rc</code> veya <code class="filename">/etc/init.d/boot</code> gibi birşeydir. Bu betik, temel sistem servislerini düzenleyen, - örneğin sabit disk üzerinde <span class="command"><strong>fsck</strong></span>'nın çalışmasını sağlayan - gerekli çekirdek modüllerini yükleyen, ağı ve takas alanını ilklendiren ve <code class="filename">/etc/fstab</code> içinde bahsi geçen dosya sistemlerini bağlayan  kabuk komutları topluluğudur.
+   </p>
+        <p>
+    <a id="idm155" class="indexterm"/>
+    Bu betik genellikle, modüler başlangıçları sağlamak için, başka betikleri de çalıştırır. Örneğin; genel SysVinit yapısı içinde, <code class="filename">/etc/rc.d/</code> dizini,  sistem servislerinin açılış ve kapanış durumlarını düzenleyen bilgileri içeren dosyaların  bulunduğu pek çok alt dizin ihtiva eder. Bu dizin oldukça karışık bir yapıya sahiptir. Bununla birlikte, bir açılış disketindeki <span class="command"><strong>sysinit</strong></span> betiği oldukça basit bir yapıdadır.
+   </p>
+        <p>
+    <span class="command"><strong>sysinit</strong></span> betiğinin çalışması bitince, denetim tekrar <span class="command"><strong>init</strong></span>'e geçer. <code class="filename">inittab</code> içinde tanımlanmış olan <code class="literal">initdefault</code> anahtar sözcüğü ie belirtilen <em class="wordasword">öntanımlı çalışma seviyesi</em>ne girilir. Çalışma seviyesi satırı, genellikle <span class="command"><strong>getty</strong></span> gibi biruygulamayı işaret eder. Bu uygulama konsollar ve tty'ler arası iletişimi kontrol etmekten ve düzenlemekten sorumludur. Sisteme girişiniz esnasında gördüğünüz  ``<code class="prompt">login:</code>'' isteminden <span class="command"><strong>getty</strong></span> sorumludur. Kullanıcının adını ve parolasını girmesinden sonra, bu bilgilerin geçerlilik ve tutarlılığını kontrol etmek için, <span class="command"><strong>login</strong></span> uygulaması çalıştırılır.
+   </p>
+      </section>
+      <section class="sect2" id="idm170">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Disk çeşitleri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Temel açılış sürecine göz attıktan sonra, bahsi geçen disklerin çeşitlerini tanımlayabiliriz. Biz burada diskleri dörde ayıracağız. Aksi belirtilmediği sürece "disk" kelimesi disketleri tanımlamaktadır.  Bunun yanında, burada belirtilen pek çok şey sabit diskler içinde geçerlidir.
+   </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">önyükleme [İng: boot]</span>
+            </dt>
+            <dd>
+              <p>
+       Açılış yapabilen bir çekirdek ihtiva eden bir disk. Bu disk önce çekrideği yüklemek ve ardından başka bir diskten kök dosya sistemini yüklemek için kullanılabilir. Bir önyükleme disketindeki çekirdeğe, kök dosya sisteminin yolu bildirilmelidir.
+     </p>
+              <p>
+       Sıklıkla, önyükleme diskleri, kök dosya sistemlerini başka bir disketten yüklerler. Başka bir disketten yüklemek yerine, kök dosya sistemini sabit diskten yükleyecek şekilde ayar yapmak da mümkündür. Bu genellikle yeni bir çekirdek sürümünü denerken kullanılır (aslında ``<span class="command"><strong>make zdisk</strong></span>'' komutu, çekirdek kaynak kodlarını kullanarak bu tür bir açılış disketi yapmanızı sağlar).
+     </p>
+            </dd>
+            <dt>
+              <span class="term">kök [İng: root]</span>
+            </dt>
+            <dd>
+              <p>
+       Bir Linux sisteminin çalışması için gereken dosyaları içeren bir dosya sisteminin bulunduğu disk. Bu tür diskler çekirdek veya önyükleyici içermek zorunda değildir.
+ <a id="idm184" class="indexterm"/>
+     </p>
+              <p>
+       Çekirdek bir kere yüklendikten sonra, kök disklerini diğer disklere bağımlı olmadan kullanabilirsiniz. Genelde, kök diski ramdisk'e özdevinimli olarak kopyalanır. Bu sayede kök diske erişim çok daha hızlı olur ve disket sürücüyü uygulama disketlerini kullanabilmek için serbest bırakmış oluruz.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">önyükleme ve kök [İng: boot/root]<a id="idm189" class="indexterm"/></span>
+            </dt>
+            <dd>
+              <p>
+       Hem çekirdek hem de kök dosya sistemi içeren diskler. Başka bir deyişle: sabit disk olmadan bir Linux sistemini yükleyecek ve çalışmasını sağlayacak her şeyi içeren bir disket. Bu tür bir diskin yararı küçük boyutlu olmasıdır; gereken her şey tek bir disk üzerindedir. Bununla birlikte, bu yararı aynı zamanda zorluklarını da yanında getirir: tek bir diskete her şeyi sığdırmak, sıkıştırılmış olsa bile, oldukça zordur.
+      </p>
+            </dd>
+            <dt>
+              <span class="term">uygulamalar</span>
+            </dt>
+            <dd>
+              <p>
+       Bir dosya sistemi içeren ama kök dosya sistemi olarak bağlanması tasarlanmamış olan diskler. İlave verilerin bulunduğu disk. Bu tür diskleri, kök diske sığdırmayı beceremediğimiz uygulama ve verileri taşımak için kullanacağız.
+ <a id="idm197" class="indexterm"/>
+      </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+    Genel olarak, "bir açılış disketi yapmak"tan bahsederken, hem önyükleme, hem de kök bölümleri yapmaktan  bahsediyor olacağız.  Bu iki bölüm tek bir diskette olabileceği gibi, iki ayrı diskette (önyükleme + kök diskleri) şeklinde de olabilir. Kurtarma diskleri için en esnek yapı, sanırım ayrı ayrı disklerin kullanılması olsa gerek. Gerekli uygulama ve veriler için de ek bir uygulama disketleri kullanabilirsiniz.
+   </p>
+      </section>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_intro.xhtml')">Önceki</button>
+          <div class="dropup-content">Giriş</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_buildroot.xhtml')">Sonraki</button>
+          <div class="dropup-content">Bir kök dosya sisteminin oluşturulması</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

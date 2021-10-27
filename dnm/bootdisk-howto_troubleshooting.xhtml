@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Sorun çözmek ya da Yenilginin Acısı</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_makingdisket.xhtml" title="Herşeyi biraraya getirelim"/>
+    <link rel="next" href="bootdisk-howto_slimfast.xhtml" title="Kök dosya sistemi boyutunun küçültülmesi"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_makingdisket.xhtml')">Önceki</button>
+          <div class="dropdown-content">Herşeyi biraraya getirelim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_slimfast.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Kök dosya sistemi boyutunun küçültülmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_troubleshooting">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Sorun çözmek ya da Yenilginin Acısı</h2>
+          </div>
+        </div>
+      </div>
+      <a id="idm872" class="indexterm"/>
+      <p>
+   Açılış disketleri yapmak için giriştiğiniz ilk bir kaç sefer başarısızlıkla sonuçlanabilir. Bir kök disket yapmak için genel yaklaşım; sisteminizdeki hazır parçaları bir araya toplamak, bunları disket tabanlı bir hale sokmak ve konsoldan açılış yapmaktır. Bir kere, sizinle iletişime geçtimi, savaşın yarısını kazanmışsınız demektir. Sistem çalıştığı sürece, bağımsız sorunları çözmek mümkün olabilir. Şayet herhangi bir uyarı vermeden, sistem askıda kalırsa, bu problemi halletmek biraz zor olabilir. Sistemin sizinle iletişimi kestiği noktada meydana gelen problemleri bulmak için önerilen süreç şudur:
+  </p>
+      <div class="itemizedlist">
+        <ul class="itemizedlist" style="list-style-type: disc; ">
+          <li class="listitem">
+            <p>
+     Şuna benzer bir ileti alabilirsiniz:
+   </p>
+            <div class="para">
+              <div align="right">
+                <pre class="screen">Kernel panic: VFS: Unable to mount root fs on XX:YY</pre>
+              </div>
+            </div>
+            <p>
+     Bu genel bir sorundur ve birkaç sebebi vardır. İlk olarak,   <code class="varname">XX:YY</code> aygıtının kodlarını <code class="filename">/usr/src/linux/Documentation/devices.txt</code> dosyasındaki aygıt kodları listesi ile karşılaştırın. Şayet yanlış ise, muhtemelen <span class="command"><strong>rdev -R</strong></span> yapmamışsınız demektir veya yanlış biteşlem üzerinde işlem yapmışsınız demektir. Eğer aygıt kodu doğru ise, çekirdek içinde gömülü aygıt sürücülerini kontrol edin; bir disket sürücü, ramdisk ve ext2 dosya sistemi desteğine sahip olduğundan emin olun.
+   </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Şayet şuna benzer pek çok hata alırsanız:
+   </p>
+            <div class="para">
+              <div align="right">
+                <pre class="screen">end_request: I/O error, dev 01:00 (ramdisk), sector NNN</pre>
+              </div>
+            </div>
+            <p>
+     Bu ramdisk sürücüsünden gelen bir G/Ç hatasıdır. Genellikle çekirdeğin aygıt dışına yazmaya kalkıştığı durumlarda olur. Ramdisk, kök dosya sistemini taşımak için çok küçük gelmiştir. Açılış disketi çekirdek ilklendirme iletilerinde şuna benzer bir satır olup olmadığını kontrol edin:
+   </p>
+            <div class="para">
+              <div align="right">
+                <pre class="screen">Ramdisk driver initialized : 16 ramdisks of 4096K size</pre>
+              </div>
+            </div>
+            <p>
+     Bu boyutu <em class="emphasis">sıkıştırılmamış</em> kök dosya sistemi boyutu ile karşılaştırın. Şayet ramdisk yeterince büyük değilse, daha büyüğünü yapın.
+   </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Kök diskette, olması gereken dizinlerin olup olmadığını kontrol edin. Yanlış bir yere kopyalamış olabilirsiniz. <code class="filename">/bin</code> yerine elinizde <code class="filename">/bootdisk/bin</code> diye bir dizin olabilir (Tıpkı benim yaptığım gibi <code class="literal">:-)</code> -yazarın değil, çevirmenin yaptığı gibi).
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Sabit diskinizdeki <code class="filename">/lib</code> dizini içinde görünen  bağ ile aynı adlı bir <code class="filename">/lib/libc.so</code> olduğundan emin olun.
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Sabit diskinizdeki <code class="filename">/dev</code> dizini altında bulunan sembolik bağların, kök dosya sisteminizde de olduğundan emin olun. Bu bağlar, sizin kök dosya sisteminize yerleştirdiğiniz aygıtlara atanmış sembolik bağlar olmak zorundadır. Özellikle <code class="filename">/dev/console</code> bağları pek çok durumda gerekliliktir.
+<a id="idm903" class="indexterm"/>
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     <code class="filename">/dev/tty1, /dev/null, /dev/zero, /dev/mem, /dev/ram</code> ve <code class="filename">/dev/kmem</code> dosyalarını diskete koyduğunuzdan emin olun.
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Çekirdek ayarlarınız kontrol edin -- kullanıcı girişi anında gerekli olan bütün özkaynaklar, çekirdeğe gömülü olmalıdır, modüler yapıda değil. Bu nedenle <em class="emphasis">ramdisk ve ext2 desteği modüler olarak kullanılamaz</em>.
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Çekirdek kök aygıtı ve ramdisk ayarlarınızı kontrol edin.
+   </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+   Bu genel kaideleri geçtikten sonra, kontrol edebileceğiniz bazı belli başlı dosyalar  vardır:
+  </p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>
+     <span class="command"><strong>init</strong></span>'in  <code class="filename">/sbin/init</code> veya <code class="filename">/bin/init</code> olarak yüklendiğinden ve çalıştırılabilir olduğundan emin olun.
+   </p>
+          </li>
+          <li class="listitem">
+            <p>
+     <span class="command"><strong>init</strong></span>'in kütüphanelerini kontrol etmek için <span class="command"><strong>ldd init</strong></span> komutunu kullanın. Genelde bu sadece <code class="filename">libc.so</code> olur ama yine de kontrol etmekte fayda vardır.
+   </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Kütüphaneler için doğru yükleyicilere sahip olduğunuzdan emin olun -- a.out için <code class="filename">ld.so</code> veya ELF için <code class="filename">ld-linux.so</code>.
+<a id="idm930" class="indexterm"/>
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Açılış disketi dosya sisteminizdeki <code class="filename">/etc/inittab</code>'ı <span class="command"><strong>getty</strong></span> (veya bazı <span class="command"><strong>getty</strong></span>-benzeri uygulamalar; mesela <span class="command"><strong>agetty</strong></span>, <span class="command"><strong>mgetty</strong></span> veya <span class="command"><strong>getty_ps</strong></span>) çağrıları için kontrol edin. Sabit diskinizdeki <code class="filename">inittab</code> ile iki kere karşılaştırın.  Kullandığınız uygulamaların man sayfalarını kontrol edin. Muhtemelen, <code class="filename">inittab</code> zincirin en zayıf halkasıdır: sözdizimi ve sistemin doğal yapısından dolayı. Bu sorunu çözmenin tek yolu <span class="command"><strong>init</strong></span>'in ve <code class="filename">inittab</code>'ın man sayfalarını okumak ve  elinizdeki sistemin açılış esnasında ne yaptığını anlamaya çalışmaktır. <code class="filename">/etc/inittab</code> içinde sistem başlatma girdisi olup olmadığını kontrol edin.  Sistem başlatma betiğini çalıştıracak bir satır olması gerekmektedir.
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Tıpkı <span class="command"><strong>init</strong></span>'e yaptığımız gibi, <span class="command"><strong>ldd</strong></span> komutunu  <span class="command"><strong>getty</strong></span> için de çalıştırın ve onun gereksinimlerini kontrol edin. Gerekli kütüphane ve yükleyicilerin kök dosya sisteminizde bulunduğundan emin olun.
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     rc betiklerini çalıştırma yeteneğine sahip bir kabuk programı eklediğinizden emin olun(örneğin <span class="command"><strong>bash</strong></span> veya <span class="command"><strong>ash</strong></span>).
+<a id="idm954" class="indexterm"/>
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     Kurtarma diskinizde bir <code class="filename">/etc/ld.so.cache</code> dosyası varsa, bu dosyayı tekrar oluşturun.
+   </p>
+          </li>
+        </ol>
+      </div>
+      <p>
+   Şayet <span class="command"><strong>init</strong></span> başlıyor ama bunun gibi bir ileti alıyorsanız:
+  </p>
+      <div class="para">
+        <div align="right">
+          <pre class="screen">Id xxx respawning too fast: disabled for 5 minutes</pre>
+        </div>
+      </div>
+      <p>
+   Bunu sebebi <span class="command"><strong>init</strong></span>'dir, genelikle  <span class="command"><strong>getty</strong></span> veya <span class="command"><strong>login</strong></span>'in başlar başlamaz sonlandığı anlamına gelir.  <span class="command"><strong>getty</strong></span> ve <span class="command"><strong>login</strong></span> çalıştırılabilir dosyalarını ve kütüphanelerini kontrol edin. <code class="filename">/etc/inittab</code> içinde belirtilmiş çağrıların doğru olduğunu kontrol edin. Şayet  <span class="command"><strong>getty</strong></span>'den acayip iletiler alıyorsanız, bunu anlamı <code class="filename">/etc/inittab</code> içinden yapılan çağrıların hatalı olabileceğidir.
+  </p>
+      <p>
+   Şayet bir bağlantı ekranına kadar geliyor, geçerli bir isim giriyor ama sistem sizden başka bir isim girmenizi istiyorsa, problemin kaynağı PAM veya NSS olabilir. <a class="xref" href="bootdisk-howto_buildroot.xhtml#bootdisk-howto_PAMandNSS" title="PAM ve NSS'in sağlanması"> “PAM ve NSS'in sağlanması”</a> bölümüne göz atınız. Ayrıca gölgeli parolalar kullanıyor ama <code class="filename">/etc/shadow</code> dosyasını açılış disketinize kopyalamamış olabilirsiniz.
+  </p>
+      <p>
+   Şayet kurtarma disketinizdeki <span class="command"><strong>df</strong></span> gibi bazı çalıştırılabilir dosyaları deniyorsanız ve  <code class="literal">df: command not found</code>  gibi bir hata alıyorsanız; iki şeyi kontrol etmeniz gerekir:
+  </p>
+      <div class="orderedlist">
+        <ol class="orderedlist" type="1">
+          <li class="listitem">
+            <p>
+    <code class="literal">PATH</code> içinde, dosyanın içinde bulunduğu dizinin tanımlı olduğunu,
+    </p>
+          </li>
+          <li class="listitem">
+            <p>
+     komut için gerekli olan kütüphane ve yükleyicilerin diskette bulunduğunu.
+    </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_makingdisket.xhtml')">Önceki</button>
+          <div class="dropup-content">Herşeyi biraraya getirelim</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_slimfast.xhtml')">Sonraki</button>
+          <div class="dropup-content">Kök dosya sistemi boyutunun küçültülmesi</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

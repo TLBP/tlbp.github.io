@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Kök dosya sistemi boyutunun küçültülmesi</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_troubleshooting.xhtml" title="Sorun çözmek ya da Yenilginin Acısı"/>
+    <link rel="next" href="bootdisk-howto_misctopics.xhtml" title="Çeşitli konular"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_troubleshooting.xhtml')">Önceki</button>
+          <div class="dropdown-content">Sorun çözmek ya da Yenilginin Acısı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_misctopics.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Çeşitli konular</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_slimfast">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Kök dosya sistemi boyutunun küçültülmesi</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+Bu tür disket setleri yapmanın en zor tarafı, her şeyi bir veya iki diskete sığdırmak zorunda olmaktır. Dosyalar sıkıştırılmış bile olsalar, bu yine de zor bir iştir. Neden? Çünkü, Linux sistem araçları sürekli olarak artmakta. Aşağıda boyuttan tasarruf için kullanabileceğiniz bazı genel yöntemler açıklanmaktadır.
+  </p>
+      <section class="sect2" id="idm986">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Disket kapasitesini arttırın</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Öntanımlı olarak, disketler 1440k olarak biçimlenir.  Ama daha büyük disketler biçimlemek mümkündür. Daha büyük boyutlu disketler ile açılış yapabilmek BIOS'unuza bağlıdır. <span class="command"><strong>fdformat</strong></span> komutu, disketleri şu boyutlarda biçemleyebilir: 1600k, 1680k, 1722k, 1743k, 1760k, 1840k ve 1920k. Ayrıntılar için <span class="command"><strong>fdformat</strong></span> man sayfasına ve  <code class="filename">/usr/src/linux/Documentation/devices.txt</code> dosyasına bakınız.
+   </p>
+        <p>
+    İyi de hangi disket boyutu/geometrisi sizin makinanızca desteklenecek? Aşağıda <span class="command"><strong>fdutils</strong></span>'in yazarı Alain Knaff'ın cevaplarını bulacaksınız (hafiften düzenlenmiş bir biçimde):
+   </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+     "Bu olay, disket üzerine atılacak fiziksel biçimden ziyade BIOS ile alakalı bir durumdur. Şayet BIOS 18'den büyük sektör numaralarını bozuk olarak kabul ederse, yapılacak fazla birşey yok demektir.  Gerçekte, deneme ve yanılma yöntemi elimizdeki tek yoldur. Bununla birlikte, BIOS ED diskleri destekliyorsa (ek yoğunluk: 36sektör/iz ve 2.88 MB), 1722k'lık disketler elde etme şansımız olabilir.
+     </p>
+            <p>
+      21 sektör/iz oranından daha fazlasına sahip süper biçimli disketler kendiliğinden açılabilir değildir.  Aslında standart sektör boyutu yerine daha fazlasını kullanan disketlerin hiçbiri sistem açılışı yapamazlar. Bununla birlikte, özel bir önyükleme sektörü yazmak mümkündür. Şayet doğru hatırlıyorsam, DOS 2m aracı böyle bir "canavara" sahipti, tıpkı OS/2'nin XDF aracı gibi.
+     </p>
+            <p>
+      Bazı BIOS'lar "yalancıktan", 18'den büyük sektör numaralarının hata olması gerektiğini iddia ederler. 1722k'lık bir disket 21 sektör kullanır ve bu nedenle disket üzerinden açılış mümkün olmayacaktır.  Bunu sınamanın en iyi yolu, bir DOS veya syslinus disketini 1722K olarak biçimlemek ve bu disketi önyükleme yapabilir yapmaktır. Şayet LILO kullanıyorsanız, <code class="literal">linear</code> seçeneğini kullanmayın. Bu seçenek öntanımlı olarak 18 sektör/iz kabul eder ve BIOS desteklese bile açılış işlemi başarısız olur."
+    </p>
+          </blockquote>
+        </div>
+      </section>
+      <section class="sect2" id="idm999">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Ortak araçları BusyBox ile değiştirin</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Kök dosya sisteminin  büyük kısmı GNU sistem araçları tarafından ortaklaşa kullanılır: <span class="command"><strong>cat, chmod, cp, dd, df</strong></span>,  vs. BusyBox projesi, bu genel sistem araçlarını asgari gereksinimleri sağlayarak değiştirmek amacını gütmektedir.  BusyBox, tek bir çalıştırılabilir dosya sağlar, <code class="literal">/bin/busybox</code>, yaklaşık 150kB civarındadır. Bu dosya, bu araçların görevlerini yerine getirir. Daha sonra, bu çalıştırılabilir dosyaya, değişik araçlardan sembolik bağlar yapabilirsiniz: <span class="command"><strong>busybox</strong></span> bunun nasıl adlandırıldığını görür ve doğru kodu çalıştırır. BusyBox basit bir kabuk bile içerir. BusyBox, pek çok dağıtım için, ikilik paketler halinde dağıtılmaktadır ve kaynak kodları <a class="link" href="http://www.busybox.net/" target="_top">BusyBox yöresinden</a> elde edilebilir.
+
+    </p>
+      </section>
+      <section class="sect2" id="idm1006">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Başka bir kabuk kullanın</h3>
+            </div>
+          </div>
+        </div>
+        <p><span class="command"><strong>bash</strong></span> ve <span class="command"><strong>tcsh</strong></span> gibi bazı çok bilinen Linux kabukları oldukça büyüktür ve pek çok kütüphane isterler. Şayet BusyBox kabuğunu kullanmazsanız, bu kabuklar yerine bir başkasını kullanmayı düşünmelisiniz. Bazı hafif siklet kabuklar; <span class="command"><strong>ash</strong></span>, <span class="command"><strong>lsh</strong></span>, <span class="command"><strong>kiss</strong></span> ve <span class="command"><strong>smash</strong></span> oldukça küçük boyutludurlar ve çok az (ya da hiç) kütüphaneye ihtiyaç duyarlar. Bu kabukların pek çoğu <a class="link" href="http://www.ibiblio.org/pub/Linux/system/shells/" target="_top">http://www.ibiblio.org/pub/Linux/system/shells/</a> adresinden elde edilebilir. Kullandığınız kabuğun, rc dosyasındaki komutları çalıştırma yeteneği olduğundan emin olun.
+<a id="idm1016" class="indexterm"/>
+   </p>
+      </section>
+      <section class="sect2" id="idm1018">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Kütüphaneleri ve çalıştırılabilirleri soyun</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Pek çok kütüphane ve çalıştırılabilir hata ayıklama bilgileri ile birlikte dağıtılmaktadır. Bu dosyalar üzerinde <span class="command"><strong>file</strong></span> komutunu kullandığınızda, bu böyleyse ``<code class="literal">not stripped</code>'' şeklinde bunu belirtecektir. İkilik dosyaları kök dosya sisteminize kopyalarken, aşağıdaki komutu kullanmak oldukça faydalı olacaktır:
+   </p>
+        <a id="idm1023" class="indexterm"/>
+        <a id="idm1026" class="indexterm"/>
+        <a id="idm1029" class="indexterm"/>
+        <div class="para">
+          <div align="right">
+            <pre class="screen">objcopy --strip-all <code class="varname">bir_yerden bir_yere</code></pre>
+          </div>
+        </div>
+        <p/>
+        <div class="important">
+          <h3 class="title">Önemli</h3>
+          <p>
+     Kütüphaneleri kopyalarken, <code class="option">strip-all</code> yerine <code class="option">strip-debug</code> kullanmalısınız.
+    </p>
+        </div>
+      </section>
+      <section class="sect2" id="idm1039">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Dosyaları uygulamalar disketine koyun</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Şayet bazı ikilik dosyalar açılış veya sisteme giriş için gerekli değil ise, bunları başka bir uygulama disketine koyabilirsiniz.  Ayrıntılar için <a class="xref" href="bootdisk-howto_misctopics.xhtml#bootdisk-howto_UtilityDisk" title="Uygulamalar disketinin oluşturulması"> “Uygulamalar disketinin oluşturulması”</a> bölümüne göz atınız. Tabii ki modülleri de bir uygulama disketi içine koymayı düşünebilirsiniz.
+<a id="idm1043" class="indexterm"/>
+   </p>
+      </section>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_troubleshooting.xhtml')">Önceki</button>
+          <div class="dropup-content">Sorun çözmek ya da Yenilginin Acısı</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_misctopics.xhtml')">Sonraki</button>
+          <div class="dropup-content">Çeşitli konular</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

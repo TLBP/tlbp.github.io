@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Önyükleme yapabilen CD-ROMların hazırlanması</title>
+    <link rel="stylesheet" type="text/css" href="docbook.css"/>
+    <link rel="stylesheet" type="text/css" href="belgeler.css"/>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="bootdisk-howto_Pros.xhtml" title="Profesyoneller nasıl yapıyor"/>
+    <link rel="next" href="bootdisk-howto_faq.xhtml" title="Sıkça Sorulan Sorular(SSS) listesi"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <header>
+      <div class="topbar navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_Pros.xhtml')">Önceki</button>
+          <div class="dropdown-content">Profesyoneller nasıl yapıyor</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_faq.xhtml')">Sonraki</button>
+          <div class="dropdown-content">Sıkça Sorulan Sorular(SSS) listesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="sect1" id="bootdisk-howto_CD-ROMs">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title" style="clear: both">Önyükleme yapabilen CD-ROMların hazırlanması</h2>
+          </div>
+        </div>
+      </div>
+      <div class="note">
+        <h3 class="title">Not</h3>
+        <p>
+    Bu bölüm Rizwan Mohammed Darwe (<code class="literal">rizwan AT clovertechnologies dot com</code>) tarafından hazırlanmıştır.
+   </p>
+      </div>
+      <p>
+   Bu bölümde, Linux'da CD yazma süreci hakkında bilginiz olduğu kabul edilmiştir. Burada anlatılanları, yazdığınız CD'leri önyükleme yapabilir hale getirmek için hızlı referans olarak kabul edin. CD yazma hakkında daha ayrıntılı bilgi elde etmek için  <a class="xref" href="">???</a> belgesine göz atınız.
+  </p>
+      <section class="sect2" id="idm1135">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">El Torito nedir?</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    x86 platformlarında, pek çok BIOS önyükleme yapabilen CD'leri desteklemektedir. <span class="command"><strong>mkisofs</strong></span> için yazılan yamalar "El Torito" standardını temel alır. Basitçe anlatmak gerekirse; El Torito, CD'lerin kendiliğinden sistem açılışı gerçekleştirebilmeleri için nasıl biçimlenmesi gerektiğini gösteren bir belirtimdir.
+   </p>
+        <p>
+    "El Torito" belirtimi, BIOS desteklediği sürece herhangi bir CDROM sürücünün çalışması gerektiğini söyler (SCSI veya IDE). Bugüne kadar, bu olay sadece EIDE CD-ROMlar ile sınanabildi, çünkü SCSI kontrolcülerin hiçbiri El Torito'yu desteklemiyordu. Anakartlar  El Torito desteğine mutlaka sahip olmalıdır. Peki anakartınızın El Torito'yu desteklediğini nasıl anlarsınız? Şayet anakartınız sabit diskten, disketten, CD-ROM'dan veya ağ üzerinden başlatma seçeneğine sahip ise, El Torito'yu destekliyor demektir.
+   </p>
+      </section>
+      <section class="sect2" id="idm1140">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">El Torito nasıl çalışır?</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    El Torito standartı, CD sürücüyü, BIOS'a normal disket sürücü gibi gösterir. Bu yöntemde, basitçe, bir disket boyutlu biteşlem, ISO dosya sistemine yerleştirilir (1440k'lık disket için 1440k'lık bir biteşlem dosyası). ISO dosya sisteminin başına bu biteşlemi gösteren bir gösterici yerleştirilir. BIOS bu biteşlemi, CD'den bulur ve sanki disketten açılış yapıyormuşcasına devam eder. Bu sayede çalışan bir LILO önyükleme diski elde edilmiş olur.
+   </p>
+        <p>
+    Kabaca söylersek; CD'nin ilk 1.44 (veya destekliyorsa 2.88) MB'lık kısmı bir disket biteşlemi içerir. Bu biteşlem, BIOS'a kendini disket sürücü diye yutturur ve sistemin açılması işlemini başlatır. Bu açılma işlemi sırasında birinci disket sürücünüz (A veya <code class="filename">/dev/fd0</code>) erişilmez durumda olur ama bu problemi <code class="filename">/dev/fd1</code> kullanarak aşabilirsiniz.
+   </p>
+      </section>
+      <section class="sect2" id="idm1146">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Nasıl çalışır hale getireceğiz?</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    İlk olarak bir dosya oluşturacağız, diyelim ki "boot.img". Bu dosya disket biteşlemi boyutlarında olmalı: 1.44 MB. Disketin 1. sürücüde olduğunu varsayarak aşağıdaki komut işiniz görür:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># dd if=/dev/fd0 of=boot.img bs=10k count=144
+</pre>
+          </div>
+        </div>
+        <p>
+    Bu dosyayı iso9660 dosya sistemi hiyerarşisi içine yerleştirin. Açılış ile ilgili bütün dosyaları ilgili dizin altına (mesela iso9660fs'in kökü altında <code class="filename">boot</code> dizinine) yerleştirmek iyi bir fikir olabilir.
+   </p>
+        <p>
+    Bir yetersizlik -- Açılış disketiniz LILO üzerinden birincil ramdiski yükleyebilmelidir, çekirdek ramdisk sürücüsünü değil. Çünkü Linux çekirdeği yüklenmeye başladı mı, BIOS'a CD'yi disket olarak yutturma işlemi düşecek ve açılış gerçekleşmeyecektir. LILO, BIOS disk çağrılarını kullanarak, birincil ramdiski yükleyecek ve böylece yutturmaca tasarlandığı biçimde devam edebilecektir.
+   </p>
+        <p>
+    El Torito belirtimi bir "açılış kataloğu" gerektirir. Bu  kullanım amacı dışında hiçbir şey ile ilgisi olmayan 2048 baytlık bir dosyadır. <span class="command"><strong>mkisofs</strong></span>'nin yazarı tarafından yapılan yama, özdevinimli olarak açılış kataloğu yapılmasını sağlayacaktır fakat bu kataloğun iso9660 dosya sistemi içinde nerede bulunacağını tanımlamak zorundasınız.  Genellikle,  bu kataloğu önyükleme biteşlemi ile aynı yere koymak iyi bir fikirdir. <code class="filename">boot.catalog</code> şekilde bir isim ise oldukça uygun olacaktır.
+   </p>
+        <p>
+    Böylece <code class="filename">boot.img</code> dosyası içinde önyükleme biteşlemini elde etmiş olduk ve bunu iso9660 dosya sistemi içindeki <code class="filename">/boot</code> dizinine koyduk. Kataloğumuz da, <code class="filename">boot.catalog</code> adı ile aynı dizine yerleştirdik.<code class="filename">bootcd.iso</code> içinde iso9660 dosya sistemini oluşturmak için gereken komut:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen"># mkisofs -r -b boot/boot.img -c boot/boot.catalog -o bootcd.iso .</pre>
+          </div>
+        </div>
+        <p>
+    <span class="command"><strong>-b</strong></span> seçeneği kullanılacak önyükleme biteşlemini belirtir (dosya yolu diskteki yerine bağlı olarak değişebilir) ve  <span class="command"><strong>-c</strong></span> seçeneği önyükleme kataloğunun dosyası içindir. <span class="command"><strong>-r</strong></span> seçeneği uygun dosya iyelikleri ve kipleri (<span class="command"><strong>mkisofs</strong></span> man sayfasına bakınız) oluşturacaktır. En sondaki "<span class="command"><strong>.</strong></span>" işaret ise kaynakların geçerli dizinden alınacağını belirtmektedir.
+   </p>
+        <p>
+    Daha sonra CD'yi alışılmış yöntemler ile yakın; "önyükleme yapabilen" CD'niz artık hazır.
+   </p>
+      </section>
+      <section class="sect2" id="idm1169">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">Win9x Önyüklenebilir CD-ROMlarının yapımı</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    İlk adım önyükleme biteşleminin kaynak CD'den alınmasıdır. Ancak Linux altında CD'yi sisteme bağlayıp <span class="command"><strong>dd</strong></span> ile ilk 1440k yı bir diskete ya da <code class="filename">boot.img</code> gibi bir dosyaya alamazsınız. Bunun yerine basitçe CD-ROM'dan açılışı yapın.
+   </p>
+        <p>
+    Win98 CD ile açılış yapıldıktan sonra aslında bir ramdisk olan A: istemine düşün. DOS'un <span class="command"><strong>diskcopy</strong></span> komutu ile A: biteşlemini o an için B: olarak görünen birinci disket yuvasındaki diskete kopyalayın. Bunu şu şekilde yapabilirsiniz:
+   </p>
+        <div class="para">
+          <div align="right">
+            <pre class="screen">diskcopy A: B:</pre>
+          </div>
+        </div>
+        <p>
+    Bu komut <span class="command"><strong>dd</strong></span> gibi çalışır. Bu yeni oluştırduğunuz diskten önyükleme yaptırarak kaynak CDROMdan yapılan bir açılış gibi bir açılış yapıldığını deneyerek görebilirsiniz. Bu disketten dd ile <code class="filename">boot.img</code> gibi bir dosyaya önyükleme biteşlemini aktardıktan sonra yapılacaklar yukarıda anlatılanlar ile aynıdır.
+   </p>
+      </section>
+    </section>
+    <footer>
+      <div class="footbar navbar">
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_Pros.xhtml')">Önceki</button>
+          <div class="dropup-content">Profesyoneller nasıl yapıyor</div>
+        </div>
+        <div style="width:34%" class="dropup">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropup-content">
+            <p>
+              <a href="/index.xhtml">Baş Sayfa</a>
+            </p>
+            <p>
+              <a href="/kitaplik/index.xhtml">Kitaplık</a>
+            </p>
+            <p>
+              <a accesskey="h" href="bootdisk-howto.xhtml">Ana Başlık</a>
+            </p>
+          </div>
+        </div>
+        <div style="width:33%" class="dropup">
+          <button type="button" class="dropbtn" onclick="window.location.assign('bootdisk-howto_faq.xhtml')">Sonraki</button>
+          <div class="dropup-content">Sıkça Sorulan Sorular(SSS) listesi</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
