@@ -6,7 +6,16 @@ body {
   background-position: top left;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  line-height: 1.5;
+  line-height: 1.42857143;
+}
+* { word-wrap: break-word;}
+a {overflow-wrap: break-word;}
+
+:target::before {
+  content: "";
+  display: block;
+  height: 70px; /* fixed header height*/
+  margin: -70px 0 0; /* negative fixed header height */
 }
 /* navigation header and footer -- start -- */
 .topbar,.footbar{
@@ -26,7 +35,7 @@ display: flex;
 .navbar{
 margin:0;
 padding:0;
-height: 40px;
+height: 38px;
 background-color:white!important
 }
 .dropup, .dropdown {
@@ -42,28 +51,14 @@ background-color:white!important
  vertical-align: middle;
  -moz-appearance: none!important;
  max-height: 40px!important;
- font-size: 14pt!important;
+ font-size: 12pt!important;
  border-radius: 10px;
- background-color: white;
+ background-image:-webkit-linear-gradient(#fff, #eee 10%, #ddd 30%, #ccc 50%, #ddd 70%, #eee 90%, #fff);
+ background-image:linear-gradient(#fff, #eee 10%, #ddd 30%, #ccc 50%, #ddd 70%, #eee 90%, #fff);
+ border: 0.2rem ridge white;
 }
-.topbar .dropbtn {
- border: 0.2rem ridge #FFFFEE;
-  -webkit-box-shadow:
-       inset 0 -3em 3em rgba(0,0,0,0.1),
-             0.3em 0.3em 1em rgba(0,0,0,0.3);
-
-}
-.footbar .dropbtn {
- border: 0.2rem ridge #FFFFEE;
-  -webkit-box-shadow:
-       inset 0 3em 3em rgba(0,0,0,0.1),
-             0.3em -0.3em 1em rgba(0,0,0,0.3);
-
-}
-
 .dropdown:hover ,.dropup:hover {
-color: maroon;
-background-color: #FFFFEE
+ color: maroon;
 }
 @media screen and (min-width: 720px) {
   .footbar { display: inline-block; }
@@ -79,40 +74,45 @@ background-color: #FFFFEE
   z-index: -1;
 }
 .dropdown-content {
-  top:37px;
-  padding: 8px 0 10px 0;
-  -webkit-box-shadow:
-       inset 0 -3em 3em rgba(0,0,0,0.1),
-             0.3em 0.3em 1em rgba(0,0,0,0.3);
+  top:38px;
+  padding: 1px 0 -1px 0;
 }
 .dropup-content {
-  bottom: 37px;
-  padding: 10px 0;
-  -webkit-box-shadow:
-       inset 0 3em 3em rgba(0,0,0,0.1),
-             0.3em -0.3em 1em rgba(0,0,0,0.3);
+  bottom: 38px;
+  padding: -1px 0 1px 0;
 }
-.dropdown-content p,
-.dropup-content p {
+.dropdown-content button,
+.dropup-content button {
   color: black;
   margin:0;
-  padding: 12px;
+  padding: 6px;
   text-decoration: none;
   display: block;
   border: 0.2rem ridge;
   border-radius: 8px;
-  background-color: #EFEFEF;
+  background-color: white;
+  background-image:-webkit-linear-gradient(#fff, #eee 10%, #ddd 30%, #ccc 50%, #ddd 70%, #eee 90%, #fff);
+ background-image:linear-gradient(#fff, #eee 10%, #ddd 30%, #ccc 50%, #ddd 70%, #eee 90%, #fff);
+
 }
-.dropdown-content p:hover,
-.dropup-content p:hover {background-color: #FFFFEE;}
+.dropdown-content button,
+.dropup-content button {
+ text-decoration: none;
+}
+.dropdown-content button:hover,
+.dropup-content button:hover{
+ color: maroon;
+ border-radius: 8px;
+ border: 0.2rem ridge maroon;
+}
 
 .dropdown:hover .dropdown-content,
 .dropup:hover .dropup-content{
   display: block;
 }
 div a:hover,
-.dropdown:hover .dropbtn,
-.dropup:hover .dropbtn {
+.dropdown .dropbtn:hover,
+.dropup .dropbtn:hover {
   color: maroon;
 }/*
 .page-content {
@@ -131,7 +131,7 @@ div.footnote, .blockquote,
 
 dd .caution, dd .important, dd .note, dd .tip, dd .warning,
 dd div.glosslist, dd div.itemizedlist, dd div.simplelist,
-dd div.orderedlist, dd div.variablelist,
+dd div.orderedlist, dd div.variablelist, li p,
 dd p,  dd .para pre, .blockquote p { margin-left: 0; }
 
 .blockquote { padding: 0 1%; text-align: justify}
@@ -139,6 +139,15 @@ dd p,  dd .para pre, .blockquote p { margin-left: 0; }
 dl dd {
 position: relative;
 top:-10pt;
+}
+
+ol.qandaset li {
+ position: relative;
+ margin-top: -20px;
+}
+ol.qandaset li:first-child {
+ position: relative;
+ margin-top: 0;
 }
 
 .toc dd {
@@ -153,12 +162,12 @@ font-size: 12pt;
 
 pre, pre span, pre a, a tt, tt a
 small, tt, span.command {
-font-family: "Courier New", courier, monospace;
+font-family: "Noto Sans Mono","Courier New", courier, monospace;
 font-size: 12pt;
 }
 
-pre i, i tt, tt i, code.varname {
-font-family: "Courier New", courier, monospace;
+pre i, i tt, tt i {
+font-family: "Noto Sans Mono","Courier New", courier, monospace;
 color: green;
 font-weight: bold;
 font-size: 12pt
@@ -170,7 +179,7 @@ color: maroon;
 }
 
 td.paramdef { padding:0px 0px 3px;}
-dd, dt, pre { margin-top: 0; margin-bottom: 6px } /* opera 3.50 */
+pre { margin-top: 0; margin-bottom: 6px }
 .empinput { color: green; }
 .empoutput { color: blue; }
 
@@ -196,7 +205,8 @@ table.revhistory {
 .abstract, .toc, table.revhistory {
  margin-top: 20px;
 }
-.programlisting, .screen, .synopsis, .cmdsynopsis {
+.programlisting, .screen,
+.synopsis, .cmdsynopsis {
  text-align: left;
  border: 1px dotted #999999;
  padding: 5px;
@@ -206,6 +216,11 @@ table.revhistory {
  background: #ffffee;
 }
 
+.literallayout {
+ margin: -20px 1% -10px 2%;
+ padding:0;
+ overflow: auto;
+}
 .caution, .important, .note, .tip, .warning {
  border: 1px dotted grey;
  margin: 10px 1% 0 2%;
@@ -272,12 +287,6 @@ div.informaltable >  td, div.informaltable > th {
 background-color: white;
 background: white;
 }
-/*
-div.toc dl dt {
-white-space: nowrap;
-}
-*/
-
 .glosslist-title {
  font-family: "Noto Sans Mono", "Courier New", courier, monospace;
  font-size: 12pt;
@@ -315,7 +324,7 @@ td.admon { color: navy; text-align:justify; }
 img { padding:10px 20px;  }
 .note { padding:3px 5% 3px 3px; }
 
-.title {
+.title, .title code {
 color: maroon;
 text-align: left;
 margin: 15px 0 0 0;
@@ -338,7 +347,7 @@ padding: 15px 0 0 0;
 h1, h1 tt, .head1, .head1 tt { font-weight: bold; font-size: 200%; }
 h2,  h2 tt, .head2, .head2 tt { font-weight: bold; font-size: 175%; }
 h3, h2 span, h3 tt, .head3, .head3 tt { font-weight: bold; font-size: 150%; }
-h4, h4 tt, h5 tt, h6 tt, .head4, .head4 tt, .head5 tt, .head6 tt {
+h4, h4 code, h5 tt, h6 tt, .head4, .head4 tt, .head5 tt, .head6 tt {
 font-weight: bold; font-size: 120% }
 h5, .head5 { font-weight: bold; font-size: 100% }
 h6, .head6 { font-weight: bold; font-size: 100% }
@@ -354,12 +363,24 @@ font-size: 105%;}
  margin:  0 0 -10px 0;
  padding: 10px 0 0 0;
 }
+em code {
+font-family: "Noto Sans Mono","Courier New", courier, monospace;
+color: green;
+font-size: 11pt;
+}
+code {
+font-family: "Noto Sans Mono","Courier New", courier, monospace;
+color: maroon;
+font-size: 12pt;
+}
+.title code {
+ font-family: "Noto Sans Mono","Courier New", courier, monospace;
+}
 
 .qandaset li.listitem { padding-bottom: 0;}
 
-.question > td p {
+.question > p {
  color: maroon;
- margin: 20px 0 -10px 2%;
 }
 .answer > td p {
  margin-left: 2%;
@@ -446,8 +467,7 @@ font-family: terminus, courier, monospace;
 font-size: 110%
 }
 
-.tt, tt, span.dict,
-code.literal { color: maroon }
+.tt, tt, span.dict { color: maroon }
 
 
 /**/
