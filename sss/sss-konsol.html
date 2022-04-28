@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4. Konsol</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="sss-desktop.html" title="3. Masaüstü"/>
+    <link rel="next" href="sss-genel.html" title="5. Linux Genel"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-desktop.html')">Önceki</button>
+          <div class="dropdown-content">3. Masaüstü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../KiTAPLIK/index.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sss.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-genel.html')">Sonraki</button>
+          <div class="dropdown-content">5. Linux Genel</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section xml:lang="tr" class="chapter" id="sss-konsol">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">4. Konsol</h1>
+            </div>
+          </div>
+        </div>
+        <div class="qandaset" id="idm625">
+          <ol class="qandaset">
+            <li>
+              <dl>
+                <dt class="question" id="idm626">
+                  <p>
+     top ile baktığımda her zaman belleğin tamamına yakınının kullanıldığını
+     görüyorum. Bunun nedeni nedir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     Boş bellek tampon (buffer) ve arabellek (cache) olarak kullanılır.
+     Eğer takas kullanımınız sıfır ise gerçek kullanılan bellek değerini
+    </p>
+                  <pre class="screen">$ cat /proc/meminfo</pre>
+                  <p>
+     çıktısındaki <code class="literal">MemShared</code> değişkeninde görebilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm637">
+                  <p>
+     Konsoldaki ekran koruyucusunun süresini nasıl ayarlarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     Örneğin 15 dakikaya ayarlamak için
+    </p>
+                  <pre class="screen"># /bin/setterm -blank 15</pre>
+                  <p>komutunu kullanabilirsiniz.</p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm647">
+                  <p>
+     ls ile sadece dizinleri nasıl listelerim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <pre class="screen">$ ls -l | grep "^d"</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm653">
+                  <p>
+     Bulunduğum dizinde kaç tane altdizin olduğunu nasil öğrenirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">$ ls -la |grep "^d" | wc -l</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm661">
+                  <p>
+     Bir dosyanın nerede olduğunu nasıl bulurum?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">$ find BaşlanacakDizin -name "DosyaAdı" -print</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm673">
+                  <p>
+     İçinde belirli bir kelime geçen dosyaları nasıl bulurum?
+   </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">find BaşlamaDizini -type f -printf "%p " | xargs egrep -i "ArananKelime" | less
+</pre>
+                  <p>Örneğin,</p>
+                  <pre class="screen">$ find /etc -type f -printf "%p " | xargs egrep -i "User" | less
+</pre>
+                  <p>
+     komut dizisi <code class="literal">/etc</code> dizininden itibaren içinde
+     "User"  kelimesi geçen dosyaları listeler.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm690">
+                  <p>
+     CVS ağacından sadece "tr.po" dosyalarını nasıl ayıklayıp
+     paketleyebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Görkem Çetin</strong></span>
+    </p>
+                  <pre class="screen">$ tar -zcvf polar.tgz `find . -name "tr.po"`
+</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm698">
+                  <p>
+     Nasıl tar dosyası oluşturabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     <code class="literal">.tar</code> dosyası oluşturmak için:
+    </p>
+                  <pre class="screen">$ tar -cvf dosyam.tar dosya-veya-dizin ...
+</pre>
+                  <p><code class="literal">.tar.gz</code> dosyası oluşturmak için:</p>
+                  <pre class="screen">$ tar -czvf dosyam.tar dosya-veya-dizin ...</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm714">
+                  <p>
+     tar ile nasıl yedek alırım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <pre class="screen">$ tar -b4096 -zcvf hedef kaynak
+</pre>
+                  <p>
+     <code class="literal">-b</code> blok sayısını belirmenizi sağlar. Bu seçeneği
+     kullanmazsanız geçerli olarak 1024 byte kullanılır. Bu değer eski tip
+     yedekleme birimlerine göredir. 1024 byte ile yedekleme işleminiz çok
+     yavaş olacaktır.
+    </p>
+                  <p>
+     <code class="literal">-z</code> seçeneği sıkıştırmak içindir. İsterseniz kullanmayabilirsiniz. Yerden kazanmak için kullanışlıdır.
+    </p>
+                  <p><code class="literal">-c</code> yedek oluşturur.
+    </p>
+                  <p>
+     <code class="literal">-v</code> (verbose), yani ekrana ayrıntılı açıklama basar.
+    </p>
+                  <p>
+     <code class="literal">-f <em class="replaceable"><code>hedef</code></em></code> çıktının
+     yazılacağı dosya. Bu sizin yedekleme biriminizin <code class="literal">/dev/</code>
+     altındaki aygıt karşılığı  olabileceği gibi <code class="literal">yedek.tgz</code>
+     şeklinde bir dosya ismi de  olabilir.
+    </p>
+                  <p>
+     <code class="literal">kaynak</code> ise sıkıştırmak istediğiniz dizin ve/veya
+     dosyaları belirtir. Aralarında boşluk bırakarak çok sayıda dizin ve/veya
+     dosya belirtebilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm738">
+                  <p>
+     dump ile nasıl yedek alırım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>
+     dump ile bir dosya sisteminin yedeği şöyle alınır:
+    </p>
+                  <pre class="screen"># dump -auc0 -f/dev/st0 /dev/hda1</pre>
+                  <p>
+     Burada yedekleme ünitenizin <code class="literal">/dev/rsa0</code> olduğunu
+     varsaydım. Bu komut ile <code class="literal">/dev/hda1</code> yani sabit
+     diskinizin ilk bölümü yedeklenir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm750">
+                  <p>
+     Bir .bz2 dosyasını nasıl açarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">$ bzip2 -dv Dosyaadi.bz2</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm758">
+                  <p>
+     Yanlışlıkla ikilik bir dosyayı cat ile ekrana yazdırdım. Konsol
+     kullanılmaz hale geldi. Ne yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     Bunu düzeltmek için <code class="literal">Control+v Escape+c</code>
+     kullanabilirsiniz.
+    </p>
+                  <p>
+     Ekleme: Konsol kullanılamaz halde olsa bile ve siz birşey yazdığınızı
+     görmeseniz bile yine de konsolda <code class="literal">reset</code> yazın. Eski
+     haline dönecektir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm768">
+                  <p>
+     Bir önceki dizine nasıl dönerim? Bir üst dizine nasıl çıkarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     Bir önceki dizine <code class="literal">cd -</code>, bir üst dizine
+     <code class="literal">cd ..</code> ile gidebilirdiniz.
+  </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm777">
+                  <p>
+     Bir dosyayı nasıl sıkıştırabilirim?
+   </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     Bunun için en kolay yol <code class="literal">gzip</code> kullanmaktır.
+    </p>
+                  <pre class="screen">$ gzip -9 /dizin/dosya</pre>
+                  <p>
+     ile dosya sıkıştırılabilir. <code class="literal">-9</code> maksimum sıkıştırma
+     uygulanması içindir. <code class="literal">gzip</code> sıkıştırılan dosyaların
+     sonuna <code class="literal">.gz</code> ekler.
+    </p>
+                  <p>
+     Bu yolla sıkıştırılmış bir dosyayı açmak için
+    </p>
+                  <pre class="screen">$ gunzip /dizin/dosya</pre>
+                  <p>
+     kullanılır. Dosya açılacak ve sonundaki <code class="literal">.gz</code>
+     kaldırılacaktır.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm796">
+                  <p>
+     Bir dosyanın türünü nasıl öğrenebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <pre class="screen">$ file dosya</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm804">
+                  <p>
+     Bir dizinin ne kadar yer kapladığını nasıl öğrenirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">$ du -s dizinadi</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm812">
+                  <p>
+     Sabit disklerimin ne kadarını kullandığımı nasıl öğrenirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <pre class="screen">$ df -k</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm820">
+                  <p>
+     Ne kadar bellek kullanıldığını nasıl öğrenirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     <code class="literal">free</code> komutunu kullanabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm828">
+                  <p>
+     Bir dosyayı satır sayısına veya dosya boyuna göre nasıl bölerim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     Bunun için <code class="literal">split</code> komutu kullanılmaktadır. Belli bir
+     satır sayısından sonra bölmek için <code class="literal">-l</code>, dosya boyuna
+     göre bölmek için <code class="literal">-b</code> değiştirgeleri kullanılır. Örnek
+     vermek gerekirse:
+    </p>
+                  <pre class="screen">$ split -l 100 dosya.txt yeni</pre>
+                  <p>
+     Bu komut <code class="literal">dosya.txt</code> dosyasını 100'er satırlık parçalara
+     böler ve <code class="literal">yeniaa, yeniab, yeniac, ...</code> şeklinde dosyalar
+     oluşturur.
+    </p>
+                  <pre class="screen">$ split -b 1440k dosya.txt yeni</pre>
+                  <p>
+     Bu komut ise <code class="literal">dosya.txt</code> dosyasını 1.44 MB´lık parçalara
+     böler ve <code class="literal">yeniaa, yeniab, yeniac, ...</code> şeklinde dosyalar
+     oluşturur.
+  </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm848">
+                  <p>
+     Bir bash betiği ile sistemin tarih-saat bilgilerini nasıl alırım?
+   </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     Zaman bilgisi gerektiğinde aşağıdaki satırlar ile
+     <code class="literal">DDMMYY-hh:mm.ss</code> biçeminde zaman bilgisi
+     <code class="literal">$tarih</code> değişkenine yüklenebilir. Biçemi istediğiniz
+     gibi değiştirebilirsiniz. Hata olursa tırnak işaretlerinde sorun
+     olabilir.
+    </p>
+                  <pre class="screen">#!/bin/bash
+
+gun=`date +%d`
+ay=`date +%m`
+yil=`date +%y`
+saat=`date +%H:%M.%S`
+tarih=$gun$ay$yil-$saat
+echo $tarih
+</pre>
+                  <p>
+     Ayrıntılı bilgi için <code class="literal">man date</code> ya da
+     <code class="literal">date --help</code> ile yardım alabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm861">
+                  <p>
+     Bulunduğum dizindeki uygulamaları neden çalıştıramıyorum?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Murat Koç</strong></span>
+    </p>
+                  <p>
+     Çünkü bulunduğunuz dizin ".", $PATH ortam değişkeninde güvenlik sebebiyle
+     bulunmuyor. Bulunduğunuz dizindeki uygulamaları çalıştırmak için
+     <code class="literal">uygulamam</code> yerine <code class="literal">./uygulamam</code>
+     kullanın. Bir başka yol ise <code class="literal">export PATH=$PATH:.</code> ile
+     <code class="literal">./</code> dizinini $PATH ortam değişkeninize eklemektir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm872">
+                  <p>
+     Bulunduğumuz dizindeki uygulamaları çalıştırmak için ./ dizininin PATH'a
+     eklenmesinin güvenlik açığına neden olduğunu söylediniz.  Bahsedilen
+     güvenlik sakıncası nedir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Murat Koç</strong></span>
+    </p>
+                  <p>
+     Bulunduğunuz dizindeki uygulamalar kullanıcı uygulamaları olup güvenilir
+     olmayabilirler. Dolayısıyla çalıştırılmaları özellikle
+     <code class="literal">./</code> söylenerek yapılır. Tabi kendinizden eminseniz
+     PATH'e ekleyebilirsiniz. Ayrıca: <code class="literal">export PATH=".":$PATH</code>
+     şeklinde bir tanımlama yapmak ciddi bir güvenlik açığı olabilir. Bunun
+     yerine <code class="literal">export PATH=$PATH:.</code> şeklinde yapmak daha
+     güvenli olacaktır.
+    </p>
+                  <p>
+     Şundan dolayı; ilk tanımlamada bulunduğunuz dizin verilen komut için
+     aranılan ilk dizin olacaktir. Yani siz örneğin <code class="literal">ls</code>
+     komutunu verdiğiniz zaman ilk önce bulunduğunuz dizinde
+     <code class="literal">ls</code> adlı bir dosya olup olmadığına bakılır. Bu durumda
+     örneğin bir kullanıcı bulunduğu, yani kendi ev dizininde
+     <code class="literal">ls</code> diye bir çalıştırılabilir dosya yaratabilir ve
+     içine örneğin,
+    </p>
+                  <pre class="screen">echo "acemi:0:0:.... " &gt;&gt;/etc/passwd
+/bin/ls
+</pre>
+                  <p>
+     gibi veya daha düzenli bir bash betiği yazarak kendisine acemi adında
+     root haklarına sahip bir kullanıcı açılmasını sağlayabilir. Bunu
+     sağlaması ise root'un o kullanıcının ev dizinine giderek
+     <code class="literal">ls</code> komutunu vermesi ile olur. Böylece ilk örnekte "."
+     PATH tanımlasının en başında olduğu için bulunulan yerdeki
+     <code class="literal">ls</code>'e bakılır ve acemi kullanıcısı açılmış olur.
+     Bundan dolayı "." gibi tanımlamaları aslında eklememek, PATH'e
+     eklenecekse de en sona eklemek gerekir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm890">
+                  <p>
+     Linux açıldığında NumLock tuşunun otomatik olarak etkin olmasını nasıl
+     sağlarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     <code class="literal">/etc/rc.local</code> dosyasının sonuna
+    </p>
+                  <pre class="screen">for t in 1 2 3 4 5 6 7 8
+do
+  setleds +num &lt; /dev/tty$t &gt; /dev/null
+done
+</pre>
+                  <p>eklemesini yapın.</p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm900">
+                  <p>
+     Kullandığım Linux çekirdeğinin sürümünü ve makinanın adını nasıl
+     öğrenebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     <code class="literal">uname -a</code> komutunu kullanabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm908">
+                  <p>
+     Linux'ta silinen dosyalar nasıl geri alınabiliyor? (undelete)
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>
+     Midnight Commander'ın Command menüsünden ext2 dosya sisteminde silinen
+     dosyaları geri alabilirsiniz.
+    </p>
+                  <p>
+     Dosyayı geri kurtarmak için bir mekanizma yoktur. Ancak bunu yapabilmeniz
+     mümkün. Değişik yollardan birkaçı: (Bunların hepsi olasılık)
+    </p>
+                  <p>
+     Midnight Commander, dosya sistemi işlevlerini kullanarak (sadece ext2fs
+     ve  ext3fs için geçerli olmak üzere) silinen dosyayı geri kurtarabiliyor.
+    </p>
+                  <p>
+     Bunun dışında doğrudan disk üzerinde <code class="literal">grep</code> ile arama
+     yapabilirsiniz.
+    </p>
+                  <pre class="screen"># grep -b "kayip yazilarim" /dev/hda</pre>
+                  <p>
+     <code class="literal">-B</code> ve <code class="literal">-C</code> gibi seçenekler kullanışlı
+     olabilir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm924">
+                  <p>
+     Linux açılırken ekrana çıkanları daha sonra nasıl görebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Mehmet Kızılsakal</strong></span>
+    </p>
+                  <p><code class="literal">dmesg</code> ile görebilirsiniz.</p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm932">
+                  <p>
+     Sistem kaynaklarını nasıl görüntülerim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>
+     <code class="literal">top</code> komutu ile bellek ve takas alanınızın ne kadarının
+     kullanıldığını, ne kadarının boş olduğunu, ayrıca süreçlerinizin ne kadar
+     işlemci ve bellek kullandığını görebilirsiniz.
+  </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm940">
+                  <p>
+     Slackware dağıtımı için kaynak kodundan derlemek dışında bir çözüm yok mu?
+   </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     <a class="link" href="http://www.linuxpackages.net/" target="_top">http://www.linuxpackages.net/</a> adresinde Slackware
+     için derlenmiş <code class="literal">.tgz</code> paketleri bulabilirsiniz.
+  </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm949">
+                  <p>
+     Windows'dan telnet veya ssh ile bağlandığımda işlev tuşları çalışmıyor.
+     Mesela mc'nin menülerine ulaşamıyorum. Ne yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>M. Umut Atasever</strong></span>
+    </p>
+                  <p>
+     İşlev tuşları yerine ESC tuşu ile birlikte rakamlar kullanılabilir.
+     Örneğin: F3 yerine ESC + 3, F10 yerine ESC + 0
+   </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm956">
+                  <p>
+     Bir rpm paketini rpm -Uvf ile güncellemek  istediğimde "error: failed dependencies" şeklinde bir hata veriyor. Sorun nedir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     Kurmak istediğiniz rpm paketi diğer başka paketlere de ihtiyaç duyuyor.
+     Bu paketle *birlikte* onları da kurmalısınız (gerekmedikçe -f
+     kullanmayın).
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm963">
+                  <p>
+     Linux altında CD nasıl yazarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Nilgün Belma Bugüner</strong></span>
+    </p>
+                  <p>
+     <a class="link" href="http://tlbp.gen.tr/howto/cd-yazimi.html" target="_top">Linux'da CD
+     Yazımı</a> belgesinde anlatılıyor.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm971">
+                  <p>
+     Internet'den çektiğimiz bir ISO dosyasını CD'ye nasıl yazabiliriz?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Nilgün Belma Bugüner</strong></span>
+   </p>
+                  <p>
+     <a class="link" href="http://tlbp.gen.tr/howto/cd-yazimi.html" target="_top">Linux'da CD
+     Yazımı</a> belgesinde anlatılıyor.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm979">
+                  <p>
+     CD yazmak için bilgileri nereden bulabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Nilgün Belma Bugüner</strong></span>
+   </p>
+                  <p>
+     <a class="link" href="http://tlbp.gen.tr/howto/cd-yazimi.html" target="_top">Linux'da CD
+     Yazımı</a> belgesine bakın.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm987">
+                  <p>
+     CD yazmak istediğimde cdrecord yazılımı SCSI arabirimi kullanmadığım
+     halde sürekli olarak 'Cannot open SCSI driver' hatası veriyor?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Osman Bayazit</strong></span>
+    </p>
+                  <p>
+     Çekirdeğin IDE CD yazıcınızı SCSI olarak görmesi için çekirdeğe "SCSI
+     Emulator" desteği vermeli ve <code class="literal">/etc/lilo.conf</code> dosyanıza
+     aşağıdaki gibi bir tanım satırı eklemelisiniz:
+    </p>
+                  <p><code class="literal">label=linux</code> yazan gruba,
+    <code class="literal">append="hdX=ide-scsi"</code> eklemelisiniz.
+    <code class="literal">hdX</code>'de X yerine CDRW'ın takılı olduğu ide portunu
+    yazmalısınız.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm999">
+                  <p>
+     Takas alanım çalışmıyor? Sebebi ne olabilir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>
+     Linux'unuz açılırken ekranda
+    </p>
+                  <pre class="screen">Adding Swap: 208804k swap-space (priority -1)</pre>
+                  <p>
+gibi bir satır görmeniz gerekir. Eğer görmüyorsanız takas alanınız sistem  açılırken eklenmiyor demektir. Sisteme girdikten sonra:
+    </p>
+                  <pre class="screen"># swapon -av</pre>
+                  <p>
+     komutu ile takas alanı çalışır hale getirebilirsiniz. Her açılışta
+     takas  alanınızın da açılmasını istiyorsanız açılış betiklerinize
+     (genelde <code class="literal">/etc/rc.d</code> dizini altındadırlar):
+    </p>
+                  <pre class="screen">/dev/hda2 none swap sw</pre>
+                  <p>
+     şeklinde bir satır ekleyin. Burada takas alanınızı
+     <code class="literal">/dev/hda2</code> olarak ayırdığınızı varsaydım.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1015">
+                  <p>
+     "Unable to find swap-space signature" mesajı ne anlama geliyor?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>
+     Bu hatayı alıyorsanız <code class="literal">mkswap</code> komutunu
+     çalıştırmamışsınız demektir. <code class="literal">mkswap</code>,
+     <code class="literal">mkfs</code> gibi dosya sistemi (ama takas dosya sistemi)
+     oluşturur. Ancak oluşturulan dosya sisteminin tipini swap yapar.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1025">
+                  <p>
+     LILO'yu kaldırmak istiyorum, nasıl yapabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Barış Şimşek</strong></span>
+    </p>
+                  <p>Linux altında  </p>
+                  <pre class="screen"># lilo -u /dev/hda</pre>
+                  <p>Windows/DOS altında</p>
+                  <pre class="screen">C:\fdisk /mbr</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1037">
+                  <p>
+     Swap eklemek istiyorum ama diskimde yeni bir takas bölümü oluşturmak
+     için boş yerim yok. Ne yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     Linux için sistemdeki herhangi bir donanım, disk bölümlemeleri ve diğer
+     nesneler, dosyalar yoluyla temsil edilir. Herhangi bir dosya ile
+     <code class="literal">/dev/hda5</code> arasında dosya kullanan kullanıcı
+     yazılımları için bir fark yoktur. Bu nedenle sisteminize:
+    </p>
+                  <pre class="screen"># dd if=/dev/zero of=/var/swapfile bs=1M count=128
+# mkswap /var/swapfile
+# swapon /var/swapfile
+</pre>
+                  <p>
+     ile kolaylıkla 128 MB'lık bir takas dosyası ekleyebilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1050">
+                  <p>
+     Linux'ta login ekranınında çıkan mesajı nasıl değiştirebiliriz?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Devrim GÜNDÜZ</strong></span>
+    </p>
+                  <p>
+     <code class="literal">/etc/issue.net</code> dosyasının içeriği, telnet girişi
+     sırasında gösterilir. Ayrıntılı bilgi için,
+     <code class="literal">man issue.net</code> komutu ile ilgili yardım sayfasına
+     bakabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1059">
+                  <p>
+     Linux neden bu kadar yavaş?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     Linux yavaş değildir, bazı dağıtımlarla birlikte gelen derlenmiş
+     çekirdek donanım uyumluluğunu arttırabilmek için sistemi minimum güçte
+     çalıştırıyor olabilir.
+    </p>
+                  <p>
+     Hızlandırmak için birkaç ipucu:
+    </p>
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc; ">
+                      <li class="listitem">
+                        <p>
+       Sisteminizin IDE seçeneklerini düzenleyin:
+      </p>
+                        <pre class="screen"># hdparm -c1 -d1 -k1 -X66 /dev/hda</pre>
+                        <p>
+       Burada: <code class="literal">-c1</code>: 32bits disk G/Ç (etkin).
+       <code class="literal">-d1</code>: DMA kullanılsın (etkin).
+       <code class="literal">-k1</code>: IDE soft-reset sırasındaki ayarları sakla.
+       (Diskiniz kendi ayarlarını bir hata sonucunda sıfırlarsa bu ayarları
+       hatırlayacak) <code class="literal">-X66</code>: UDMA66 Kipi 2 (etkin).
+      </p>
+                      </li>
+                      <li class="listitem">
+                        <p>
+       Gereksiz gördüğünüz tüm yazılımları kapatın. Mümkünse çekirdeği
+       kendiniz  derleyin.
+      </p>
+                      </li>
+                    </ul>
+                  </div>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1079">
+                  <p>
+     Eyvah! Linux root parolamı unuttum. Ne yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Nilgün Belma Bugüner</strong></span>
+    </p>
+                  <p>
+     Sisteminiz açılırken, BIOS ekranını geçtikten hemen sonra
+     <code class="literal">LILO boot:</code> komut satırında, çekirdek için:
+    </p>
+                  <pre class="screen">linux single</pre>
+                  <p>
+     komutunu verin. Sistem açıldıktan sonra doğrudan root yetkileriyle
+     komut satırı ile karşılaşacaksınız. Parolanızı değiştirmek için
+     <code class="literal">passwd</code> komutu verdikten sonra parolanızı yazın ve
+     sisteminizi yeniden başlatın.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1090">
+                  <p>
+     /dev/hda2'de ntfs sistemi var. Bağlamaya çalıştığımda çekirdeğinin
+     ntfs'i desteklemediğini yazıyor. Nasıl destek verebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Doruk Fişek</strong></span>
+     <span class="emphasis"><strong>M. Özdoğan</strong></span>
+    </p>
+                  <p>
+     Bunun için çekirdeği yeniden derlemeniz ve <code class="literal">ntfs</code>'i
+     eklemeniz gerekebilir. Oradan "File System" sekmesinden NTFS'i açarsanız
+     görebilirsiniz.
+    </p>
+                  <p>
+     Eğer sistemde <code class="literal">ntfs</code> modül olarak varsa,
+    </p>
+                  <pre class="screen"># modprobe ntfs</pre>
+                  <p>
+     komutu ile bu modülü yükleyebilirsiniz. Bundan sonra aşağıdakine benzer
+     bir satır ile <code class="literal">ntfs</code> dosya bölümünüzü bir dizine
+     bağlayabilirsiniz:
+    </p>
+                  <pre class="screen"># mount  -t ntfs /dev/hda2 /mnt/ntfs</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1106">
+                  <p>
+     "tar.gz dosyasını al, ./configure, make sonra da make install yaz
+     çalışır." dediler, yapıyorum ama bazan olmuyor. Biraz daha bilgiye
+     ihtiyacım var.
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     <span class="command"><strong>configure</strong></span> betiği, GNU <span class="command"><strong>autoconf</strong></span>
+     tarafından, <span class="command"><strong>autogen.sh</strong></span> kullanılarak,
+     <code class="filename">configure.in</code> içersindeki tanımlar yoluyla
+     oluşturulan, yazılımcıların kendi işlerini kolaylaştırmak için
+     kullandıkları araçlardandır. Tam anlamıyla ifade etmek gerekirse,
+     derlenmesi arzu edilen paketin bu sistem üzerinde çalışıp çalışamayacağı,
+     çalışması mümkün ise hangi derleyici (compiler) ve seçeneklerle
+     derleneceği, hangi ilintileyici (linker) seçeneklerinin kullanılacağı ve
+     bunların hepsinden önce, derlenmesi istenen paketin ihtiyaç duyması
+     muhtemel diğer yazılımların ve kütüphanelerin denetlenmesi gibi işler
+     <span class="command"><strong>configure</strong></span> tarafından yapılır.
+    </p>
+                  <p>
+     <span class="command"><strong>configure</strong></span> betiği başarıyla sonuçlandıysa, tüm (alt)
+     dizinlerin ve yazılımın kaynak kodunun bulunduğu dizinin içersinde
+     <code class="filename">Makefile</code> adında dosyalar oluşur. Bu dosyalar
+     içersinde, <span class="command"><strong>make</strong></span> komutunun o dizinin içinde neler
+     yapması gerektiği tanımlıdır. <span class="command"><strong>make</strong></span> komutu
+     verdiğinizde, aslında <code class="filename">/usr/bin/make</code>, önce paketin
+     kurulduğu dizin içersindeki <code class="filename">Makefile</code> dosyasını
+     inceler. Bu dosya içersinde de alt dizinlerdeki
+     <code class="filename">Makefile</code> dosyalarına bağlantılar vardır ve bu
+     dosyalardaki tanımlara göre yine belirli bir sıra içersinde bazı işlemler
+     yapılır (Derleyicinin çalıştırılması, her .c dosyasının  derlenmesi,
+     bağlayıcının [<code class="filename">/usr/bin/ld</code>] çalıştırılması gibi).
+    </p>
+                  <p>
+     <code class="filename">Makefile</code> dosyaları içersinde işletilecek komutlar
+     belli komut grupları altında tanımlıdır ve <span class="command"><strong>make</strong></span>
+     komutuyla birlikte belirtilen seçenek ile
+     (<span class="command"><strong>make install</strong></span> komutunda <code class="literal">install</code> bir
+     seçenektir.) <span class="command"><strong>make</strong></span>'in bu komut gruplarından hangisinin
+     işletileceği belirtilir,  eğer belirtilmezse seçenek olarak
+     <code class="literal">all</code> verilmiş gibi <code class="literal">all</code> grubundaki
+     komutlar işletilir. Dolayısıyla <span class="command"><strong>make</strong></span> ve <span class="command"><strong>make
+     all</strong></span> aynıdır ve GNU
+     <span class="command"><strong>autoconf</strong></span> / <span class="command"><strong>automake</strong></span> tarafından
+     oluşturulan standart gruplardan <code class="literal">install</code> ve
+     <code class="literal">clean</code> dışındaki tüm grupların işletilmesi anlamına
+     gelir (tabii bu da <code class="filename">Makefile</code> içersinde tanımlıdır
+     ve değiştirilebilir).
+  </p>
+                  <p>
+     <span class="command"><strong>make install</strong></span> ile <code class="filename">Makefile</code>
+     içersindeki <code class="literal">install</code> adlı grubu işletmiş oluyoruz.
+     Bu da, derlenmesi tamamlanmış ve bağlama (linking) işlemi yapılmış
+     dosyaların ve bu yazılım tarafından ihtiyaç duyulan diğer dosyaların
+     sistemde istenen yerlere kopyalanması anlamına gelir. Eğer
+     <span class="command"><strong>make install</strong></span>'dan önce, <code class="literal">all</code> kuralı
+     uygulanmadıysa, yani <span class="command"><strong>make install</strong></span>'dan önce
+     <span class="command"><strong>make</strong></span> komutu çalıştırılmamışsa,
+     <span class="command"><strong>make all</strong></span> ile yapılması gereken işlemler de
+     yapılacaktır. Kısaca, <span class="command"><strong>make install</strong></span> standart gruplardan
+     <code class="literal">clean</code> dışındaki grupları işletir.
+    </p>
+                  <p>Örneğin:  </p>
+                  <pre class="screen">$ configure --prefix=/usr --disable-debug
+</pre>
+                  <p>
+     ile, derlenecek paketin, <span class="command"><strong>make install</strong></span> ile kurulacağı
+     dizinler <code class="filename">/usr</code> dizininin altındaki dizinler
+     olacaktır. Dolayısıyla yazılımın çalıştırılabilir dosyaları
+     <code class="filename">/usr/bin</code>  altında, belgeleri
+     <code class="filename">/usr/doc</code> altında, diğer yazılımlarla ortak
+     kullanılan dosyalar <code class="filename">/usr/share</code> altında, kütüphaneler
+     <code class="filename">/usr/lib</code> altında, vs. olacak. Ayrıca hata ayıklama
+     işlemini kolaylaştırmak için yazılım içersine eklenen bazı yardımcı
+     işlevler de <code class="option">--disable-debug</code> seçeneği ile kapatılıyor.
+    </p>
+                  <pre class="screen">$ make install</pre>
+                  <p>
+     ile de önce <code class="literal">all</code> kuralı uygulanacak, daha sonra
+     <code class="literal">install</code> kuralı uygulanacak ve yazılım ilgili dizinlere
+     yerleştirilecektir.
+    </p>
+                  <div class="tip">
+                    <h3 class="title">İpucu</h3>
+                    <div class="admon-contents">
+                      <p>
+       <span class="command"><strong>configure</strong></span> tarafından derleyiciye aktarılacak olan
+       CFLAGS ve CXXFLAGS (g++/C++ için) gibi seçenekleri ortam değişkenleri
+       ile oynayarak değiştirmek mümkün, ancak
+       <span class="command"><strong>configure</strong></span>'den önce yapılmalı. Örnek:
+      </p>
+                      <pre class="screen">$ CFLAGS="-O4 -march=i686 -fomit-frame-pointer -pipe" configure --prefix=/usr
+</pre>
+                    </div>
+                  </div>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1175">
+                  <p>
+     Konsol modundayken bazı servisleri açıp/kapamak icin gereken yöntem nedir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+  </p>
+                  <p>
+     Standart bir yöntem yok. Birçok yazılım, <code class="literal">SIGHUP</code> için
+     "yapılandırmayı yeniden okuma" ya da "yeniden başlatma" yapacak bir
+     sinyal yakalayıcı tanımlıyor.
+    </p>
+                  <p>
+     Örneğin <span class="command"><strong>inetd</strong></span> bu tür yazılımlardan biridir.
+     <code class="filename">/etc/services</code> dosyası, ağ protokollerinin (TCP ve
+     UDP) adlarının gerçekte hangi port numarasına ait olduğu bilgilerinin
+     tanımlandığı dosyadır. <span class="command"><strong>inetd</strong></span>/<span class="command"><strong>xinetd</strong></span>
+     tarafından yönetilen hizmetler (<span class="command"><strong>telnet, rlogin, finger, time,
+     ftp, pop3</strong></span> gibi) için <code class="filename">/etc/inetd.conf</code> veya
+     <span class="command"><strong>xinetd</strong></span> için <code class="filename">/etc/xinetd.d/*</code>
+     basitçe portları açıp kapatmak için kullanılabilir. Ayrıca sistemi
+     yeniden başlatmak gerekmez:
+    </p>
+                  <pre class="screen"># killall -HUP inetd</pre>
+                  <p>veya</p>
+                  <pre class="screen"># killall -HUP xinetd</pre>
+                  <p>
+     yeterli olur. Burada dikkat ederseniz <span class="command"><strong>killall</strong></span>
+     kullandık. <span class="command"><strong>kill</strong></span> komutunu da kullanabilirdik. Ancak
+     <span class="command"><strong>kill</strong></span> ve <span class="command"><strong>killall</strong></span> arasında bir fark
+     var. <span class="command"><strong>kill</strong></span> ile bir süreç kimliği (PID) belirtmelisiniz
+     (<span class="command"><strong>ps</strong></span> çıktısındaki gibi). örneğin sistemimdeki
+     <span class="command"><strong>inetd</strong></span>'yi bulmak için:
+    </p>
+                  <pre class="screen"># ps ax | grep inetd</pre>
+                  <p>komutunu veriyorum. Karşıma:</p>
+                  <pre class="screen">  PID TTY      STAT   TIME COMMAND
+   74 ?        S      0:00 /usr/sbin/inetd
+</pre>
+                  <p>
+     geliyor. <span class="command"><strong>inetd</strong></span>'yi yeniden başlatmak için:
+    </p>
+                  <pre class="screen"># kill -HUP 74</pre>
+                  <p>
+     komutunu vermem yeterli. Üstteki örnek, <span class="command"><strong>killall</strong></span> ile
+     yapılan işlemin aynısı.
+    </p>
+                  <p>
+     <span class="command"><strong>killall</strong></span> komutunun adının <span class="command"><strong>killall</strong></span>
+     olmasının nedeni, sistemde belirtilen adda birçok süreç çalışma
+     ihtimalinin olması. Örneğin makinanız çok sayıda web sunucusuna ev
+     sahipliği yapıyorsa bu sunucuları hepsini birden tek komutla yeniden
+     başlatabilirsiniz.
+    </p>
+                  <pre class="screen"># killall -HUP httpd</pre>
+                  <p>
+     Bu komut, sistemdeki tüm apache <span class="command"><strong>httpd</strong></span> süreçlerine bir
+     <code class="literal">SIGHUP</code> (Hang-up signal - aç-kapa sinyali) [bkz:
+     <code class="literal">man 7 signal</code>] gönderecektir.
+    </p>
+                  <div class="note">
+                    <h3 class="title">Bilginize</h3>
+                    <div class="admon-contents">
+                      <p>
+      <span class="command"><strong>kill</strong></span>, süreçlere sinyal göndermek için kullanılır.
+      <span class="command"><strong>kill</strong></span> için herhangi bir seçenek belirtilmezse
+      <code class="option">SIGTERM</code> sinyalinin gönderildiği varsayılır, bu da
+      sinyali alan sürecin güvenli biçimde kapanması demektir.
+      </p>
+                    </div>
+                  </div>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1229">
+                  <p>
+     Eposta günlük dosyalarını tail ile gözlüyorken, kullanıcıların pop
+     loginlerini boşuna görmeyeyim dedim. Böyle birşeyi nasıl yapabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Görkem Çetin</strong></span>
+    </p>
+                  <pre class="screen"># tail -f /var/log/mail | grep -v "POP login"
+</pre>
+                  <p>komutunun işinizi gormesi gerekiyor.</p>
+                  <p>
+     <span class="emphasis"><strong>Ek bilgi:</strong></span><code class="literal">|</code>
+     karakterinin solunda ve sağında iki komut bulunur.
+     <code class="literal">&gt;</code> karakterinin solunda bir komut, sağında ise
+     bir dosya vardır. Aynısı <code class="literal">&lt;</code> için de geçerlidir.
+     Yukarıdaki işlemde kısaca "<em class="emphasis"><code class="filename">/var/log/mail</code>
+     dosyasının son kısımlarını sürekli ekrana verirken, içinde "POP login"
+     geçen satırları ayıkla</em>" demeye çalıştık.
+   </p>
+                  <p>
+     Boru ( | ) karakteri bu işlemler için biçilmiş kaftandır. Üretilen bir
+     verinin belirli kriterlere göre yeniden işlenmesine olanak tanır.
+     <strong class="userinput"><code>grep</code></strong>'e verilen <code class="option">-v</code> seçeneği ise
+     içinde belirli bir metin geçmeyen satırları ekrana göndermeye yarar.
+    </p>
+                </dd>
+              </dl>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

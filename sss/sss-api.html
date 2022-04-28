@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2. Yazılım Geliştirme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="sss-gnu.html" title="1. GNU felsefesi, lisanslama vs..."/>
+    <link rel="next" href="sss-desktop.html" title="3. Masaüstü"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-gnu.html')">Önceki</button>
+          <div class="dropdown-content">1. GNU felsefesi, lisanslama vs...</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../KiTAPLIK/index.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sss.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-desktop.html')">Sonraki</button>
+          <div class="dropdown-content">3. Masaüstü</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section xml:lang="tr" class="chapter" id="sss-api">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">2. Yazılım Geliştirme</h1>
+            </div>
+          </div>
+        </div>
+        <div class="qandaset" id="idm213">
+          <ol class="qandaset">
+            <li>
+              <dl>
+                <dt class="question" id="idm214">
+                  <p>
+     C ile yazılım geliştirirken matematiksel işlevler kullanıyorum
+     (<code class="function">sqrt, sin</code> gibi), yazılımımın en başında
+    </p>
+                  <p>
+     </p>
+                  <pre class="screen">#include &lt;math.h&gt;</pre>
+                  <p>
+    </p>
+                  <p>
+     var, fakat yazılım derlenirken
+    </p>
+                  <p>
+</p>
+                  <pre class="screen">/tmp/ccayiXgZ.o: In function `main':
+/tmp/ccayiXgZ.o(.text+0x19): undefined reference to `sqrt'
+</pre>
+                  <p>
+    </p>
+                  <p>
+     şeklinde hata alıyorum, bu sorunu nasıl çözerim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Murat SULUHAN</strong></span>
+    </p>
+                  <p>Yazılımın,</p>
+                  <pre class="screen">$ gcc -lm -i foobar.c -o foobar</pre>
+                  <p>
+     şeklinde derlenmesi gerekiyor. <code class="literal">-lm</code> yönergesi derleme
+     esnasında matematiksel kütüphaneleri de koda ekliyor.
+    </p>
+                  <p>
+     E o zaman <code class="literal">math.h</code> dosyasını niye
+     <code class="literal">include</code>  ettik derseniz. Çünkü matematiksel işlevler
+     kütüphane olarak ayrı duruyor ve  öntanımlı derleme kütüphanelerinin
+     içinde değil. <code class="literal">-lm</code>  çalıştırılabilir koda <code class="literal">libm.so</code>'yu ekleyecek.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm237">
+                  <p>
+     QT kullanarak geliştirilen uygulamalar nasıl derlenir?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     <code class="literal">hello.cpp</code> isimli QT kullanılarak yazılmış XWindow
+     uygulamasının derlenmesi için iki ana yöntem vardır, bir tanesi el
+     yordamı ile, diğeri Makefile ile:
+    </p>
+                  <pre class="screen">$ g++ -Wall -I$QTDIR/include -L$QTDIR/lib hello.cpp -o hello -lqt
+</pre>
+                  <p>Burada:</p>
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt>
+                        <span class="term">
+                          <code class="literal">-Wall</code>
+                        </span>
+                      </dt>
+                      <dd>
+                        <p>
+        Bütün <code class="literal">-w</code> seçeneklerinin kullanılacağını belirtir.
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">
+                          <code class="literal">-I$QTDIR/include</code>
+                        </span>
+                      </dt>
+                      <dd>
+                        <p>
+        QT başlık dosyaları için nereye bakılacağını belirtir.
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">
+                          <code class="literal">-L$QTDIR/lib</code>
+                        </span>
+                      </dt>
+                      <dd>
+                        <p>
+        QT kütüphaneleri için nereye bakılacağını belirtir.
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term"><code class="literal">hello.cpp</code> </span>
+                      </dt>
+                      <dd>
+                        <p>
+        derlemek istediğimiz c++ kaynak dosyasinin ismi
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">
+                          <code class="literal">-o hello</code>
+                        </span>
+                      </dt>
+                      <dd>
+                        <p>
+        derleme sonucu oluşacak dosyanın ismi
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">
+                          <code class="literal">-lqt</code>
+                        </span>
+                      </dt>
+                      <dd>
+                        <p>
+        <code class="literal">libqt.so</code> dosyası ile derleme sonucu oluşacak
+        yürütülebilir dosyanın bağlanması için.
+        </p>
+                      </dd>
+                    </dl>
+                  </div>
+                  <p>
+     <code class="literal">tmake</code> ile: (Bu yöntemi kullanabilmek için makinenizde
+     <code class="literal">tmake</code> uygulamasının yüklü olması gerekmektedir.) En
+     sevdiğiniz metin düzenleyicinizi açıp, aşağıdaki 3 satırı yazıp
+     <code class="literal">hello.cpp</code> dosyanızın olduğu dizine kaydediniz.
+    </p>
+                  <pre class="screen">#hello.pro dosyasi
+HEADERS    =
+SOURCES    = hello.cpp
+TARGET     = hello
+</pre>
+                  <p>Daha sonra konsoldan,</p>
+                  <pre class="screen">$ tmake hello.pro -o Makefile</pre>
+                  <p>
+     komutu ile <code class="literal">Makefile</code> dosyanızı olşturunuz ve
+     <code class="literal">hello</code> isimli yürütülebilir dosya için tekrar konsoldan
+    </p>
+                  <pre class="screen">$ make all</pre>
+                  <p>
+     Bu kadar, herkese kolay gelsin. <code class="literal">tmake</code> uygulamasının
+     en güncel sürümünü <a class="link" href="ftp://ftp.trolltech.com/freebies/tmake/" target="_top">ftp://ftp.trolltech.com/freebies/tmake/</a>  adresinden
+     indirebilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm297">
+                  <p>
+     PHP'de herhangi bir Web sayfasını nasıl epostayla yollayabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Ergin Soysal</strong></span>
+    </p>
+                  <p>
+     Her eve lazım: <a class="link" href="http://www.heyes-computing.net/downloads/html.mime.mail/" target="_top">http://www.heyes-computing.net/downloads/html.mime.mail/</a>
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm305">
+                  <p>
+     PHP ile girilen bir epostanın geçerli söz dizimine sahip olup olmadığını nasıl sınarım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Mesut TUNGA</strong></span>
+    </p>
+                  <pre class="screen">function email_kontrol ($variable) {
+  return (ereg('^[-!#$%&amp;'*+\./0-9=?A-Z^_`a-z{|}~]+'. '@'.
+  '[-!#$%&amp;'*+\/0-9=?A-Z^_`a-z{|}~]+.' . '[-!#$%&amp;'*+\./0-9=?A-Z^_`a-z{|}~]+$',
+  $variable));
+}
+
+if (email_kontrol($gidecekadres)) {
+  mail($gidecekadres, \"Konu\", \"İleti\", \"From: ben@ben.com\");
+} else {
+  echo \"Hatalı eposta adresi girdiniz...\";
+}
+</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm312">
+                  <p>
+     Linux'ta Xwindows için yazılım geliştirme araçları nelerdir?
+     Qt, GTK ne işe yarar?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     Aslında, çok iyi olmamakla birlikte, Kylix var.
+     <a class="link" href="http://www.borland.com/kylix/" target="_top">http://www.borland.com/kylix/</a> adresinde bir miktar
+     bilgi bulabilirsiniz.
+    </p>
+                  <p>
+     Qt-designer sadece GUI tasarımının görsel olarak yapılmasını sağlayan
+     (aslında derlendiğinde o ekranı gösterecek olan kodu oluşturan) bir
+     yazılım. Qt bir dil değil, C++ kullanılarak yazılmış bir nesne
+     kütüphanesi.
+    </p>
+                  <p>
+     Unix bu noktada Windows'dan biraz farklı. Windows, ekrandaki button/
+     checkbox/option button/editbox gibi birçok nesnenin neye benzemesi
+     gerektiği konusunda kesin bir standart getiriyor ve bunların daha kolay
+     hazırlanmasi için de sofistike, iyi tasarlanmış ve hızlı bir kütüphane
+     ile birlikte geliyor.
+    </p>
+                  <p>
+     Ancak Unix bu duruma biraz daha farklı bir bakış açısı getiriyor ve
+     standart bir görünüm/yazılımlama arabirimi getir(e)miyor ve
+     benzerlerin oluşmasına izin veriyor:
+    </p>
+                  <div class="itemizedlist">
+                    <ul class="itemizedlist" style="list-style-type: disc; ">
+                      <li class="listitem">
+                        <p>
+       <span class="command"><strong>Athena:</strong></span> XFree86 ile gelen kütüphane; eski ve yavaş
+       ağlarda X kullanıldığında başarımından dolayı çok tutulur olmuş.
+      </p>
+                      </li>
+                      <li class="listitem">
+                        <p>
+       <span class="command"><strong>Motif</strong></span>
+      </p>
+                      </li>
+                      <li class="listitem">
+                        <p>
+       <span class="command"><strong>Gtk:</strong></span> (<a class="link" href="http://www.gtk.org/" target="_top">http://www.gtk.org/</a>)
+       The Gimp Tool Kit, GIMP (<a class="link" href="http://www.gimp.org/" target="_top">http://www.gimp.org/</a>)
+       adındaki yazılımın tasarımı için geliştirilmiş olmasına karşın GNOME
+       (<a class="link" href="http://www.gnome.org/" target="_top">http://www.gnome.org/</a>) projesi tarafından da
+       kullanılan ve GPL lisansı altında dağıtılan bir kütüphane.
+      </p>
+                      </li>
+                      <li class="listitem">
+                        <p>
+       <span class="command"><strong>Qt (cute):</strong></span> Troll Technologies, Inc.
+       (<a class="link" href="http://www.trolltech.com/" target="_top">http://www.trolltech.com/</a>) tarafından C++
+       kullanılarak geliştirilmiş bir kütüphane. Etkin olarak KDE (<a class="link" href="http://www.kde.org/" target="_top">http://www.kde.org/</a>) projesi tarafından kullanılıyor.
+      </p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+     Linux'da yazılım geliştirme birkaç farklı araç kullanılarak yapılıyor:
+    </p>
+                  <div class="variablelist">
+                    <dl class="variablelist">
+                      <dt>
+                        <span class="term">Grafik arabirim tasarımı</span>
+                      </dt>
+                      <dd>
+                        <p>
+        Gtk için Glade (<a class="link" href="http://glade.gnome.org/" target="_top">http://glade.gnome.org/</a>)
+        Qt için ise KDevelop ya da Qt designer yaygın olarak kullanılıyor.
+      </p>
+                      </dd>
+                      <dt>
+                        <span class="term">Kodun yazılması</span>
+                      </dt>
+                      <dd>
+                        <p>
+        emacs ,vim, anjuta
+        (<a class="link" href="http://anjuta.sourceforge.net/" target="_top">http://anjuta.sourceforge.net/</a>),
+        kdevelop (<a class="link" href="http://www.kdevelop.org/" target="_top">http://www.kdevelop.org/</a>).
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">Sınama/Hata Ayıklama</span>
+                      </dt>
+                      <dd>
+                        <p>
+        gdb, strace
+       </p>
+                      </dd>
+                      <dt>
+                        <span class="term">Dağıtım</span>
+                      </dt>
+                      <dd>
+                        <p>
+        cvs, diff, patch, tar
+       </p>
+                      </dd>
+                    </dl>
+                  </div>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm362">
+                  <p>
+     Qt kütüphanesini kullanarak oluşturduğum herhangi bir C++ yazılımı nasıl
+     derleyebilirim?
+    </p>
+                  <pre class="screen">$ gcc -I/usr/lib/qt2/include -l/usr/lib/qt2/lib/libqt.so main.cpp
+</pre>
+                  <p>komutu ile derlemeye çalıştığımda,</p>
+                  <pre class="screen">/usr/i486-suse-linux/bin/ld: cannot find -l/usr/lib/qt2/lib/libqt.so
+collect2: ld returned 1 exit status
+</pre>
+                  <p>hatasını veriyor. Acaba nerde yanlış yapıyorum?</p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     gcc'nin değiştirgelerini yanlış kullandığınız için bir hata oluşuyor.
+     <code class="literal">-L</code> ile <code class="literal">-l</code> seçeneklerini beraber
+     kullanmanız gerekiyor. <code class="literal">-L</code> seçeneği kütüphaneler için
+     dizin göstermenizi sağlar. <code class="literal">-l</code> ise hangi kütüphaneyi
+     kullanmak istediginizi belirtmek için kullanılır. Dolayısıyla ikisini
+     beraber, aşağıdaki gibi kullanmanız sorunu çözecektir:
+    </p>
+                  <pre class="screen">$ gcc -I/usr/lib/qt2/include -L/usr/lib/qt2/lib -lqt main.cpp
+</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm380">
+                  <p>
+     Visual Studio, Delphi ya da C++ Builder gibi bir IDE var mı?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>Birkaç seçiminiz var:</p>
+                  <div>
+                    <ul class="simplelist">
+                      <li class="member">
+      Delphi'nin Linux portu olan
+      <a class="link" href="http://www.borland.com/kylix/" target="_top">Kylix</a>
+     </li>
+                      <li class="member">
+      <a class="link" href="http://www.kdevelop.org" target="_top">KDevelop</a>
+     </li>
+                      <li class="member">
+      <a class="link" href="http://anjuta.sourceforge.net/" target="_top">Anjuta</a>
+     </li>
+                    </ul>
+                  </div>
+                  <p>
+     deneyebilirsiniz. Anjuta, diğerlerinden farklı olarak PHP için de
+     komutlar, sözdizimi tamamlama ve işlev çağrı ipuçlarını destekliyor.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm395">
+                  <p>
+     Kylix'i çalıştırırken "Generating font matrix. Please wait... Couldn't
+     find usable fonts for this locale" hatası veriyor. Nasıl düzeltebilirim ?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Sisteminizin Turkçe olmasından kaynaklanıyor olabilir.
+    </p>
+                  <pre class="screen">$ LC_ALL="en_EN" startkylix</pre>
+                  <p>ile deneyin.</p>
+                  <p>
+     Sisteminizde çalışır durumda bir <code class="literal">xfs</code> (X Yazıtipi
+     Sunucusu) olmayabilir ya da <code class="literal">XF86Config</code> dosyanızda
+     <code class="literal">FontPath</code> ile tanımlanmış yazıtipi dizinlerinde
+     sorunlar olabilir.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm407">
+                  <p>
+     DTMF sinyallerini nasıl üretebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Ragıp Özkan Konça</strong></span>
+    </p>
+                  <p>
+     Bir DTMF kodlayıcı. Komut satırından girilen rakamların tonlarını
+     <code class="filename">/dev/dsp</code> aygıtına yönlendirir. Aşağıda kodu verilen
+     <code class="filename">dtmf.c</code> dosyasını,
+    </p>
+                  <pre class="screen">$ gcc dtmf.c -lm -o dtmf</pre>
+                  <p>ile derleyebilirsiniz.</p>
+                  <pre class="screen">#include &lt;math.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+#define duration 800
+#define pause 400
+
+float col[] = { 1209.0, 1336.0, 1477.0, 1633.0 };
+float row[] = { 697.0, 770.0, 852.0, 941.0 };
+char positions[] = "123A456B789C*0#D";
+
+/* 8000 örnek/saniye, mono, 8 bit/örnek kabulüyle */
+main(int argc, char *argv[]) {
+  int i;
+  char *ap, *cp;
+  float f1, f2, ri, ci;
+
+  if (argc != 2)
+    exit(1);
+  ap = argv[1];
+  while (*ap) {
+    cp = strchr(positions, *ap);
+    if (cp) {
+      ci = col[(cp - positions) % 4];
+      ri = row[(cp - positions) / 4];
+      for (f1 = 0.0, f2 = 0.0, i=3D0; i &lt; duration;
+           i++, f1 += 6.28/8000.0*ri, f2 +=3D 6.28/8000.0*ci) {
+        putchar((sin(f1)*63.0) + (sin(f2)*63.0) + 128);
+      }
+      for (i = 0; i &lt; pause; i++)
+        putchar(128);
+    }
+    ap++;
+  }
+}
+</pre>
+                </dd>
+              </dl>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

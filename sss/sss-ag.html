@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8. Ağlar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="sss-guvenlik.html" title="7. Güvenlik"/>
+    <link rel="next" href="sss-yonetim.html" title="9. Sistem Yönetimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-guvenlik.html')">Önceki</button>
+          <div class="dropdown-content">7. Güvenlik</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../KiTAPLIK/index.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sss.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sss-yonetim.html')">Sonraki</button>
+          <div class="dropdown-content">9. Sistem Yönetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section xml:lang="tr" class="chapter" id="sss-ag">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">8. Ağlar</h1>
+            </div>
+          </div>
+        </div>
+        <div class="qandaset" id="idm1545">
+          <ol class="qandaset">
+            <li>
+              <dl>
+                <dt class="question" id="idm1546">
+                  <p>
+     IP bilgilerimi nasıl görebilir ve değiştirebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     Bunun için <code class="literal">ifconfig</code> komutu kullanılmaktadır.
+     Değiştirgesiz kullanıldığında her ağ aygıtının IP bilgileri görüntülenir.
+     Değişiklik yaparken, örneğin 1. ethernet kartının IP bilgilerini
+     değiştirmek için (1.2.3.4 IP adresiniz):
+    </p>
+                  <pre class="screen"># ifconfig eth0 1.2.3.4 netmask 255.255.255.0</pre>
+                  <p>Ağ aygıtını kapatmak için:</p>
+                  <pre class="screen"># ifconfig eth0 down</pre>
+                  <p>
+     Ağ aygıtını sistemde kayıtlı olan IP ayarlarıyla tekrar açmak için:
+    </p>
+                  <pre class="screen"># ifconfig eth0 up</pre>
+                  <p>
+     kullanılabilir. Daha ayrıntılı bilgi için <code class="literal">man ifconfig</code>
+     ile yardım sayfasına bakabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1564">
+                  <p>
+     Sistemin routing tablosunu nasıl görebilirim ve değiştirebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Oğuz</strong></span>
+    </p>
+                  <p>
+     <code class="literal">route</code> komutu ile yönlendirme (routing) tablosu  görülebilir.
+    </p>
+                  <p>
+     Yönlendirme tablosuna yeni bir ağ veya makina eklemek/çıkarmak için yine
+     <code class="literal">route</code> komutu kullanılır.
+    </p>
+                  <p>
+     Daha ayrıntılı bilgi için <code class="literal">man route</code> ile kılavuz
+     sayfalarına bakabilirsiniz.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1576">
+                  <p>
+     Linux'u ping'e nasıl kapatırım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Alper Özmalkoç</strong></span>
+    </p>
+                  <pre class="screen"># echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</pre>
+                  <p>komutunu yazmanız yeterli olur.</p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1585">
+                  <p>
+     Makinamdaki bir portu basitçe nasıl başka bir yere yönlendirebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Levent Yıldırım</strong></span>
+    </p>
+                  <p>
+     Bu işlemi en basit şekilde <code class="literal">rinetd</code> ile yapabilirsiniz.
+     Programı yükledikten sonra <code class="literal">/etc/rinetd.conf</code> dosyasında
+    </p>
+                  <pre class="screen">0.0.0.0 8080 192.168.1.43 80</pre>
+                  <p>
+     şeklinde bir satır girerek yönlendirebilirsiniz. Burada:
+    </p>
+                  <p>
+     <code class="literal">0.0.0.0</code>: gelen tüm istekler, <code class="literal">8080</code>:
+     gelen port numarası, <code class="literal">192.168.1.43</code>: yönlendirilecek
+     IP, <code class="literal">80</code>: yönlendirilecek port'dur.
+    </p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1601">
+                  <p>
+     Sunucumda squid proxy kurulu. Yerel ağımızdaki web sitelerine
+     bağlanabiliyoruz ama bazı uygulamalar Internet'e bağlanamıyor. Neden?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Enver ALTIN</strong></span>
+    </p>
+                  <p>
+     Squid proxy, bir ağ içersindeki bilgisayarların sadece HTTP ve FTP
+     trafiği için bağlantı sağlar. TCP/IP trafiğini de dağıtmak için
+     IPTables/NAT kullanıyoruz. İki satır yeterli:
+    </p>
+                  <pre class="screen"># iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE\
+# echo "1" &gt; /proc/sys/net/ipv4/ip_forward
+</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1611">
+                  <p>
+     Bir makinanın belli bir portuna gelen paketleri bir başka makinaya
+     nasıl yönlendirebilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Serdar Köylü</strong></span>
+    </p>
+                  <p>
+     Bunun için aşağıdaki gibi bir kural eklemeniz gerekli
+    </p>
+                  <div class="literallayout">
+                    <p><span class="command"><strong>iptables -t nat -A PREROUTING -p </strong></span><em class="emphasis">protokol </em>\<br/>
+<span class="command"><strong>-d </strong></span><em class="emphasis">kaynak_ip </em><span class="command"><strong>--dport </strong></span><em class="emphasis">portnum </em>\<br/>
+<span class="command"><strong>-j DNAT --to </strong></span><em class="emphasis">hedef_ip:port</em></p>
+                  </div>
+                  <p>
+     Yani, <code class="literal">10.0.0.1</code> makinasının <code class="literal">25/tcp</code>
+     portuna gelenleri <code class="literal">10.0.0.2</code>'ye yönlendirmek için:
+    </p>
+                  <pre class="screen"># iptables -t nat -A PREROUTING -d 10.0.0.1 -p tcp --dport 25 \
+-j DNAT --to 10.0.0.2:25
+</pre>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1634">
+                  <p>
+     Linux makinamdaki bir dizini ağ altındaki tüm kullanıcılara samba ile
+     paylaştırmak istiyorum ama parola sormayacak ve tüm kullanıcılar yazıp
+     silebilecek. smb.conf dosyasında nasıl bir tanımlama yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <pre class="screen">[Deneme]
+   path = /paylastirilacak/dizin
+   public = yes
+   writeable = yes
+   printable = no
+   comment = genel paylasim
+</pre>
+                  <p>şeklinde bir tanımlama yapılmalı.</p>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1640">
+                  <p>
+     Bir NT sunucudaki paylaşıma açılmış dizini linux makinamdaki bir dizine
+     nasıl bağlayabilirim?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Yanıtlayan: <span class="emphasis"><strong>Serdar Köylü</strong></span>
+    </p>
+                  <div class="literallayout">
+                    <p><span class="command"><strong>mount -t smbfs -o username=</strong></span><em class="emphasis">kullanici</em>, <span class="command"><strong>password=</strong></span><em class="emphasis">parola //sunucu/dizin /yerel_dizin</em></p>
+                  </div>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt class="question" id="idm1651">
+                  <p>
+     Linux sunucu üzerinden Internet'e çıkan makinaların yerel IPlerinin bir
+     siteye girildiğinde gözükmemesi için squid'de ne yapmalıyım?
+    </p>
+                </dt>
+                <dd class="answer">
+                  <p>
+     Squid yapılandırma dosyası <code class="filename">squid.conf</code>'un sonlarına  doğru:
+    </p>
+                  <pre class="screen"># TAG: forwarded_for    on|off
+# If set, Squid will include your system's IP address or name
+# in the HTTP requests it forwards.  By default it looks like
+# this:
+
+# X-Forwarded-For: 192.1.2.3
+
+# If you disable this, it will appear as
+
+# X-Forwarded-For: unknown
+
+forwarded_for off
+</pre>
+                  <p>
+     şeklinde <code class="option">forwarded_for</code> seçeneğini kapatırsanız
+     <span class="command"><strong>squid</strong></span> vekili olduğu IPnin bilgisini paket
+     başlıklarında göndermez.
+    </p>
+                </dd>
+              </dl>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>
