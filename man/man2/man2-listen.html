@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>listen</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man2-kill.html" title="kill"/>
+    <link rel="next" href="man2-send.html" title="send"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man2-kill.html')">Önceki</button>
+          <div class="dropdown-content">kill</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man2.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man2-send.html')">Sonraki</button>
+          <div class="dropdown-content">send</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man2-listen">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">LISTEN(2)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Çağrıları </td>
+              <td class="mheadfoot" align="right" width="25%">LISTEN(2)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>listen — soket üzerinde bağlantıları dinler</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>BİLDİRİM</h2>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include &lt;sys/types.h&gt;</code>          /* NOTLAR'a bakın */<br/>
+    <code class="option">#include &lt;sys/socket.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">int <strong class="fsfunc">listen</strong>(int <var class="pdparam">sockfd</var>, int <var class="pdparam">backlog</var>);</code>
+          </div>
+        </div>
+        <div class="refsect1" id="idm33222">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>listen</strong></span> <em class="replaceable"><code>sockfd</code></em> ile gösterilen soketi edilgen soket olarak imler ve <tt><b>accept</b>(2)</tt> ile gelen bağlantı isteklerini kabul edecek sokete dönüştürür.
+  </p>
+          <p>
+   <em class="replaceable"><code>sockfd</code></em> değiştirgesi <code class="constant">SOCK_STREAM</code> veya <code class="constant">SOCK_SEQPACKET</code> türünde bir soketin dosya tanıtıcısıdır.
+  </p>
+          <p>
+   <em class="replaceable"><code>backlog</code></em> değiştirgesi <em class="replaceable"><code>sockfd</code></em> kuyruğunun büyüyebileceği azami uzunluğu tanımlar.
+   Eğer kuyruk tam dolu olduğunda bir bağlantı isteği gelirse, istemci <code class="constant">ECONNREFUSED</code> hatası alabilir veya kullanılan protokol yeniden aktarımı destekliyorsa, bağlantı isteği görmezden gelinir, böylece tekrar gelen bağlantı isteği kabul edilir.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33236">
+          <h2>DÖNÜŞ DEĞERİ</h2>
+          <p>
+   Başarı durumunda sıfır döner. Hata oluşursa <code class="code">-1</code> döner ve hata <em class="replaceable"><code>errno</code></em> değişkenine atanır.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33241">
+          <h2>HATALAR</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EADDRINUSE</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>Başka bir soket aynı portu dinliyor.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EADDRINUSE</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      (İnternet alanı soketleri için) <em class="replaceable"><code>sockfd</code></em> ile belirtilen soket, önceden bir adres ile ilişkilendirilmemiş ve soketi geçici bir portla ilişkilendirmeye çalışırken geçici port aralığındaki tüm portların kullanımda olduğu anlaşılmış. <tt><b>ip</b>(7)</tt> sayfasındaki <code class="filename">/proc/sys/net/ipv4/ip_local_port_range</code> ile ilgili açıklamaya bakınız.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EBADF</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em> uygun bir dosya tanıtıcısı değil.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTSOCK</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em>'nin bir soketle ilgisi yok.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTSOCK</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket, <span class="command"><strong>listen</strong></span>()'ı destekleyen türde değil.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1" id="idm33275">
+          <h2>UYUMLULUK</h2>
+          <p>
+   POSIX.1-2001, POSIX.1-2008, 4.4BSD (<span class="command"><strong>listen</strong></span>() ilk defa 4.2BSD ile ortaya çıktı).
+  </p>
+        </div>
+        <div class="refsect1" id="man2-listen-notes">
+          <h2>NOTLAR</h2>
+          <p>
+   Bağlantıları kabul etmek için aşağıdaki adımlar uygulanır:
+  </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>
+     <tt><b>socket</b>(2)</tt> ile soket oluşturulur.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Diğer soketlerin oluşturulan sokete bağlanabilmesi için oluşturulan soket, <tt><b>bind</b>(2)</tt> kullanılarak yerel adres ile ilişkilendirilir.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Gelen bağlantıları kabul etme isteği ve gelen bağlantılar için azami kuyruk  uzunluğu <span class="command"><strong>listen</strong></span>() ile belirtilir.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Gelen bağlantılar <tt><b>accept</b>(2)</tt> ile kabul edilir.
+    </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+   POSIX.1'de, <code class="filename">&lt;sys/types.h&gt;</code> dahil edilmeyi gerektirmez ve yine bu başlık dosyası Linux'da gerekmez. Fakat bazı tarihsel (BSD) uygulamalardan ötürü bu başlık dosyası gerekir ve taşınabilir uygulamalar için dahil edilmesi akıllıca olacaktır.
+  </p>
+          <p>
+   <em class="replaceable"><code>backlog</code></em> değiştirgesinin TCP soketleri üzerindeki etkisi Linux 2.2 ile beraber değişti. Artık, tamamlanmamış bağlantı isteklerinin kuyruk uzunluğunu belirlemek yerine, kabul edilmeyi bekleyen kurulmuş soketlerin kuyruk uzunluğunu belirlemektedir. Tamamlanmamış soketler için azami kuyruk uzunluğu <code class="filename">/proc/sys/net/ipv4/tcp_max_syn_backlog</code> kullanılarak tanımlanabilir. Eşzamanlı çerezler (syncookies)  etkinleştirildiğinde, mantıksal olarak azami uzunluk yoktur ve bu ayar yok sayılır. Daha fazla bilgi için <tt><b>tcp</b>(7)</tt> sayfasına bakınız.
+  </p>
+          <p>
+   <em class="replaceable"><code>backlog</code></em> değeri, eğer <code class="filename">/proc/sys/net/core/somaxonn</code>'dan daha büyükse, bu değere düşürülür. Linux 5.4'ten bu yana bu dosyanın öntanımlı değeri <code class="literal">4096</code>'dır; eski çekirdeklerde öntanımlı değer <code class="literal">128</code> idi. 2.4.15'ten önceki çekirdeklerde <code class="constant">SOMAXCONN</code>'a <code class="literal">128</code> değeriyle sabitlenmişti.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33308">
+          <h2>ÖRNEKLER</h2>
+          <p>
+   <tt><b>bind</b>(2)</tt> sayfasına bakınız.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33312">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>accept</b>(2)</tt>, <tt><b>bind</b>(2)</tt>, <tt><a href="man2-connect.html"><b>connect(2)</b></a></tt>, <tt><b>socket</b>(2)</tt>, <tt><b>socket</b>(7)</tt>.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33320">
+          <h2>ÇEVİREN</h2>
+          <p>Fatih Koçer - Temmuz 2022</p>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">Linux man-pages 5.10</td>
+              <td class="mheadfoot" align="center" width="40%">2020-06-09</td>
+              <td class="mheadfoot" align="right" width="30%">LISTEN(2)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

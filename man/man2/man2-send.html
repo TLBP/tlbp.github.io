@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>send</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man2-listen.html" title="listen"/>
+    <link rel="next" href="../man6/man6.html" title="Oyunlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man2-listen.html')">Önceki</button>
+          <div class="dropdown-content">listen</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man2.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('../man6/man6.html')">Sonraki</button>
+          <div class="dropdown-content">Oyunlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man2-send">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">SEND(2)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Çağrıları </td>
+              <td class="mheadfoot" align="right" width="25%">SEND(2)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>send — bağlantılı soket üzerinden ileti yollar</p>
+        </div>
+        <div class="refnamediv">
+          <p>sendto — bağlantısız soket üzerinden ileti yollar</p>
+        </div>
+        <div class="refnamediv">
+          <p>sendmsg — soket üzerinden bir dizi ileti yollar</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>BİLDİRİM</h2>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include &lt;sys/types.h&gt;</code><br/>
+    <code class="option">#include &lt;sys/socket.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">send</strong>(int <var class="pdparam">sockfd</var>, const void *<var class="pdparam">buf</var>, size_t <var class="pdparam">len</var>, int <var class="pdparam">flags</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">sendto</strong>(int <var class="pdparam">sockfd</var>, const void *<var class="pdparam">buf</var>, size_t <var class="pdparam">len</var>, int <var class="pdparam">flags</var>, const struct sockaddr <var class="pdparam">dest_addr</var>, socklen_t <var class="pdparam">addrlen</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">sendmsg</strong>(int <var class="pdparam">sockfd</var>, const struct msghdr *<var class="pdparam">msg</var>, int <var class="pdparam">flags</var>);</code>
+          </div>
+        </div>
+        <div class="refsect1" id="idm33382">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>send</strong></span>(), <span class="command"><strong>sendto</strong></span>() ve <span class="command"><strong>sendmsg</strong></span>() sistem çağrıları bir başka sokete ileti aktarmakta kullanılır.
+  </p>
+          <p>
+   <span class="command"><strong>send</strong></span>() çağrısı soket sadece <em class="replaceable"><code>connected</code></em> (bağlantılı) durumda ise kullanılabilir (böylece amaçlanan alıcı biliniyor olur). <span class="command"><strong>send</strong></span>() ve <tt><b>write</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> değiştirgesinin varlığıdır. Sıfır değeri atanmış <em class="replaceable"><code>flags</code></em> değiştirgesi kullanan <span class="command"><strong>send</strong></span>() ile <tt><b>write</b>(2)</tt> eşdeğerdir. Ayrıca aşağıdaki
+  </p>
+          <pre class="screen">send(sockfd, buf, len, flags);
+</pre>
+          <p>çağrısı</p>
+          <pre class="screen">sendto(sockfd, buf, len, flags, NULL, 0);
+</pre>
+          <p>
+   çağrısına eşdeğerdir. <em class="replaceable"><code>sockfd</code></em> değiştirgesi, gönderen soketin dosya tanıtıcısıdır.
+  </p>
+          <p>
+   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<code class="constant">SOCK_STREAM</code>, <code class="constant">SOCK_SEQPACKET</code>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değiştirgeleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <code class="constant">EISCONN</code> hatası dönebilir) ve eğer soket bağlanmadıysa <code class="constant">ENOTCONN</code> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
+  </p>
+          <p>
+   <span class="command"><strong>send</strong></span>() ve <span class="command"><strong>sendto</strong></span>() için, ileti <em class="replaceable"><code>buf</code></em> tamponu içinde tutulur ve <em class="replaceable"><code>len</code></em> uzunluktadır. <span class="command"><strong>sendmsg</strong></span>() için, ileti <em class="replaceable"><code>msg.msg_iov</code></em> dizisindeki öğelerle gösterilir. <span class="command"><strong>sendmsg</strong></span>() çağrısı yardımcı verinin de yollanmasını sağlar (denetim bilgisi de denir).
+  </p>
+          <p>
+   Eğer ileti ilgili protokol için bütün olarak gönderilemeyecek kadar uzunsa, <code class="constant">EMGSIZE</code> hatası döner ve ileti gönderilmez.
+  </p>
+          <p>
+   <span class="command"><strong>send</strong></span>() işlevinde teslimatın yapılmadığını gösteren hiçbir belirti yoktur. Yerel olarak hatalar <code class="code">-1</code> dönüş değeri ile saptanır.
+  </p>
+          <p>
+   İleti soketin gönderim tamponuna sığmadığında, <span class="command"><strong>send</strong></span>() eğer soket engellemesiz G/Ç kipine alınmadıysa engellenir. Engellemesiz kip başarısız olduğunda <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> döner. <tt><b>select</b>(2)</tt> çağrısı daha fazla veri gönderme olasılığını saptamak için kullanılabilir.
+  </p>
+          <div class="refsect2" id="idm33433">
+            <h3><em class="replaceable"><code>flags</code></em> değerleri</h3>
+            <p>
+    <em class="replaceable"><code>flags</code></em> değiştirgesinin değeri ya sıfırdır ya da aşağıdaki sabitlerin  bit düzeyinde veyalanmasıyla elde edilir.
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_CONFIRM</code> (Linux 2.3.15 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bağlantı katmanına yönlendirme sürecinin durumunu bildir: Karşı taraftan başarılı bir yanıt aldın. Eğer bağlantı katmanı bunu alamazsa komşusunu düzenli olarak uyarır (örneğin, tek noktaya ARP ile). Sadece <code class="constant">SOCK_DGRAM</code> ve <code class="constant">SOCK_RAW</code> soketleri için geçerli olup şimdilik sadece IPv4 ve IPv6 için gerçeklenmiştir. Ayrıntılar için <tt><b>arp</b>(7)</tt> sayfasına bakın.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_DONTROUTE</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Paketi yollamak için geçit kullanma, doğrudan  bağlı ağdaki konaklara gönder. Bu genellikle teşhis ve yönlendirme uygulamaları tarafından kullanılır. Bu sadece yönlendirme yapan protokoller için tanımlanmıştır; paket soketleri için değil.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_DONTWAIT</code> (Linux 2.2 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Engellemesiz işlemi etkinleştirir; eğer işlem engellenirse, <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> döner. <code class="constant">O_NONBLOCK</code> seçeneği tanımlanmış (<tt><b>fcntl</b>(2)</tt> üzerinden <code class="constant">F_SETFL</code> işlemi ile) gibi davranır, fakat <code class="constant">MSG_DONTWAIT</code> çağrıya özel olmasıyla fark oluşturur. <code class="constant">O_NONBLOCK</code> seçeneği ise açık dosya tanıtıcısı içindir (<tt><b>open</b>(2)</tt> sayfasına bakın), çağrı sürecindeki tüm evreleri ve aynı zamanda aynı açık dosyanın dosya tanıtıcılarına sahip diğer süreçleri de etkiler.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_EOR</code> (Linux 2.2 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bir kaydı sonlandırır (bu kavram <code class="constant">SOCK_SEQPACKET</code> türündeki soketlerdeki gibi destekleniyorsa).
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_MORE</code> (Linux 2.4.4 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Çağrıcının hala yollayacağı veri var. Bu seçenek <code class="constant">TCP_CORK</code> soket seçeneğine ait etkiyi TCP soketleri ile elde etmek için kullanılır (<tt><b>tcp</b>(7)</tt> sayfasına bakın). Bu seçeneğin farkı çağrıya özel olmasıdır.
+      </p>
+                  <p>
+       Linux 2.6'dan itibaren, bu seçenek UDP soketleri için de desteklenmektedir. Çekirdeğe, sadece bu seçenek belirtilmeksizin yapılan bir çağrı ile aktarım yapılan tek bir verikatarına gönderilecek tüm veriyi bu seçenek kullanılarak yapılan çağrılarla gönderilecek şekilde paketlemesini söyler. (Ayrıca <tt><b>udp</b>(7)</tt>'de açıklanan <code class="constant">UDP_CORK</code> soket seçeneğine de bakın.)
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_NOSIGNAL</code> (Linux 2.2 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Eğer akım odaklı soket karşıdan bağlantıyı kapattıysa <code class="constant">SIGPIPE</code> sinyali üretme. <code class="constant">EPIPE</code> hatası yine de döner. <code class="constant">SIGPIPE</code> sinyalini görmezden gelmek için <tt><b>sigaction</b>(2)</tt> kullanımına benzer bir davranış sağlar, fakat <code class="constant">MSG_NOSIGNAL</code> çağrıya özeldir, <code class="constant">SIG_PIPE</code> sinyalinin görmezden gelinmesi sürecin tüm evrelerini etkileyen bir süreç özelliğinin atanmasına sebep olur.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_OOB</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Veriyi bantdışı (Out Of Band) veriyi destekleyen soketlere gönderir (örneğin <code class="constant">SOCK_STREAM</code> türü); kullanılan protokol bantdışı veriyi desteklemelidir.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2" id="idm33498">
+            <h3><span class="command"><strong>sendmsg</strong></span>()</h3>
+            <p>
+    <span class="command"><strong>sendmsg</strong></span>() ile kullanılan <em class="replaceable"><code>msghdr</code></em> yapısının tanımı:
+   </p>
+            <pre class="screen">struct msghdr {
+     void         *msg_name;       /* isteğe bağlı adres */
+     socklen_t     msg_namelen;    /* adresin boyutu */
+     struct iovec *msg_iov;        /* dağıtma/toplama dizisi */
+     size_t        msg_iovlen;     /* msg_iov içindeki öğe sayısı */
+     void         *msg_control;    /* yardımcı veri, aşağıya bakınız */
+     size_t        msg_controllen; /* yardımcı veri tampon boyutu */
+     int           msg_flags;      /* seçenekler (kullanılmıyor) */
+ };
+ </pre>
+            <p>
+    <em class="replaceable"><code>msg_name</code></em> alanı bağlantısız bir soket üzerinde verikatarı için hedef adresini belirtmekte kullanılır. Adresi içeren tampona göstericidir; <em class="replaceable"><code>msg_namelen</code></em> alanına adresin boyutu atanmalıdır. Bağlantılı bir soket için, bu alanlar sırasıyla NULL ve 0 olarak belirtilmelidir.
+   </p>
+            <p>
+    <em class="replaceable"><code>msg_iov</code></em> ve <em class="replaceable"><code>msg_iovlen</code></em> alanları <tt><b>writev</b>(2)</tt> çağrısındaki gibi dağıtma-toplama konumlarını belirtir.
+   </p>
+            <p>
+    <em class="replaceable"><code>msg_control</code></em> ve <em class="replaceable"><code>msg_controllen</code></em> kullanılarak denetim bilgisi (yardımcı bilgi) gönderilebilir. Çekirdeğin soket başına işleyebileceği denetim tamponunun azami boyutu <em class="replaceable"><code>/proc/sys/net/core/optmem_max</code></em> içindeki değerle sınırlanmıştır; <tt><b>socket</b>(7)</tt> sayfasına bakın. Yardımcı verilerin çeşitli soketlerde kullanımına ilişkin ayrıntılılı bilgi edinmek için <tt><b>unix</b>(7)</tt> ve <tt><b>ip</b>(7)</tt> sayfasına bakın.
+   </p>
+            <p>
+    <em class="replaceable"><code>msg_flags</code></em> alanı görmezden gelinir.
+   </p>
+          </div>
+        </div>
+        <div class="refsect1" id="idm33521">
+          <h2>DÖNÜŞ DEĞERİ</h2>
+          <p>
+   Başarı durumunda bu çağrılar gönderilen baytların sayısını döndürür. Hata durumunda, <code class="code">-1</code> döner ve hata <em class="replaceable"><code>errno</code></em> değişkenine atanır.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33526">
+          <h2>HATALAR</h2>
+          <p>
+   Soket katmanı tarafından üretilen bazı standart hatalar vardır. Ayrıca, kullanılan protokol modülleri tarafından üretilen ve döndürülen hatalar da olabilir; bilgi için bunlarla ilgili kılavuz sayfalarına bakın.
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EACCES</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      (Dosya yoluna göre tanınan UNIX alan soketleri için) Hedef soket dosyası için yazma izni veya dosya yolundaki bir dizin için arama izni reddedilmiş. (Ayrıca <tt><b>path_resolution</b>(7)</tt> sayfasına da bakın.)
+     </p>
+                <p>
+      (UDP soketleri için) Ağ/yayın adresine veri yollanmak için girişimde bulunulmuş ancak adres tek nokta için.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code></span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket engellemesiz olarak işaretlenmiş ama talep edilen işlem soketi engelleyecek. POSIX.1-2001 her iki hatanın da döndürülmesine izin verir ve bu sabitlerin aynı değerde olmasını gerektirmez, bu bakımdan taşınabilir uygulamalar her iki seçeneği de sınamalıdır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EAGAIN</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      (İnternet alanı verikatarı soketleri için) <em class="replaceable"><code>sockfd</code></em> ile belirtilen soket, önceden bir adres ile ilişkilendirilmemiş ve soketi geçici bir portla ilişkilendirmeye çalışırken geçici port aralığındaki tüm portların kullanımda olduğu anlaşılmış. <tt><b>ip</b>(7)</tt> sayfasındaki <code class="filename">/proc/sys/net/ipv4/ip_local_port_range</code> ile ilgili açıklamaya bakınız.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EALREADY</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Başka bir Hızlı Açma işlemde.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EBADF</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em> geçerli bir açık dosya tanıtıcısı değil.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ECONNRESET</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bağlantı karşıdan sıfırlandı.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EDESTADDRREQ</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket bağlantılı kipte değil ve karşı adres atanmamış.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EFAULT</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bir değiştirge için belirtilen kullanıcı adres uzayı geçersiz.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EINTR</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Veri gönderilmeden önce bir sinyal alınmış; <tt><b>signal</b>(7)</tt> sayfasına bakın.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EINVAL</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen değiştirge geçersiz.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EISCONN</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bağlantılı kipteki soket zaten bağlı ancak bir alıcı belirtilmiş. (Ya bu hata döner ya da belirtilen alıcı dikkate alınmaz.)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EMSGSIZE</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket türü iletinin bütün olarak gönderilmesini gerektiriyor ancak iletinin boyutu bunu imkansız kılıyor.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOBUFS</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Ağ arabiriminin çıktı kuyruğu dolu. Bu, genellikle arabirimin göndermeyi durdurduğunu gösterir, ancak geçici bir tıkanıklıktan ötürü de olabilir. (Normalde bu durum Linux'ta olmaz. Aygıtın kuyruğu taşarsa paketler sessizce düşürülür.)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOMEM</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Yeterli bellek yok.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTCONN</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket bağlantısız ve bir hedef belirtilmemiş.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTSOCK</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em>'nin bir soketle ilgisi yok.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EOPNOTSUPP</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>flags</code></em> değiştirgesindeki bazı bitler soket türüyle uyumsuz.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EPIPE</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bağlantı yönelimli sokette yerel uç kapatılmış. Bu durumda, <code class="constant">MSG_NOSIGNAL</code> atanmamışsa işlem ayrıca <code class="constant">SIGPIPE</code> sinyalini de alır.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1" id="idm33632">
+          <h2>UYUMLULUK</h2>
+          <p>
+   4.4BSD, SVr4, POSIX.1-2001.  Bu arayüzler ilk defa 4.2BSD ile ortaya çıktı.
+  </p>
+          <p>
+   POSIX.1-2001 sadece <code class="constant">MSG_OOB</code> ve <code class="constant">MSG_EOR</code> seçeneklerini açıklar. POSIX.1-2008 <code class="constant">MSG_NOSIGNAL</code>'e bir belirtim ekler. <code class="constant">MSG_CONFIRM</code> seçeneği ise Linux eklentisidir.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33640">
+          <h2>EK BİLGİ</h2>
+          <p>
+   POSIX.1-2001'e göre, <em class="replaceable"><code>msghdr</code></em> yapısının <em class="replaceable"><code>msg_controllen</code></em> alanı <em class="replaceable"><code>socklen_t</code></em> türünden, <em class="replaceable"><code>msg_iovlen</code></em> alanı ise <em class="replaceable"><code>int</code></em> türünde olmalıdır, fakat glibc ikisine de <em class="replaceable"><code>size_t</code></em> türünü atar.
+  </p>
+          <p>
+   Tek çağrıda çok sayıda verikatarı iletmek için kullanılan Linux'a özgü sistem çağrısı hakkında bilgi edinmek için <tt><b>sendmmsg</b>(2)</tt> sayfasına bakın.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33651">
+          <h2>HATALAR</h2>
+          <p>
+   Linux, <code class="constant">ENOTCONN</code> yerine <code class="constant">EPIPE</code> döndürebilir.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33656">
+          <h2>ÖRNEKLER</h2>
+          <p>
+   <span class="command"><strong>sendto</strong></span>() kullanım örneği <tt><b>getaddrinfo</b>(3)</tt> sayfasında verilmiştir.
+  </p>
+        </div>
+        <div class="refsect1" id="idm33661">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>fcntl</b>(2)</tt>, <tt><b>getsockopt</b>(2)</tt>, <tt><b>recv</b>(2)</tt>, <tt><b>select</b>(2)</tt>, <tt><b>sendfile</b>(2)</tt>, <tt><b>sendmmsg</b>(2)</tt>, <tt><b>shutdown</b>(2)</tt>, <tt><b>socket</b>(2)</tt>, <tt><b>write</b>(2)</tt>, <tt><b>cmsg</b>(3)</tt>, <tt><b>ip</b>(7)</tt>, <tt><b>ipv6</b>(7)</tt>, <tt><b>socket</b>(7)</tt>, <tt><b>tcp</b>(7)</tt>, <tt><b>udp</b>(7)</tt>, <tt><b>unix</b>(7)</tt>
+  </p>
+        </div>
+        <div class="refsect1" id="idm33680">
+          <h2>ÇEVİREN</h2>
+          <p>Fatih Koçer - Ağustos 2022</p>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">Linux man-pages 5.10</td>
+              <td class="mheadfoot" align="center" width="40%">2020-11-01</td>
+              <td class="mheadfoot" align="right" width="30%">SEND(2)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>
