@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>recv</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man2-listen.html" title="listen"/>
+    <link rel="next" href="man2-send.html" title="send"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man2-listen.html')">Önceki</button>
+          <div class="dropdown-content">listen</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man2.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man2-send.html')">Sonraki</button>
+          <div class="dropdown-content">send</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man2-recv">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">RECV(2)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Çağrıları </td>
+              <td class="mheadfoot" align="right" width="25%">RECV(2)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>recv — bağlantılı soket üzerinden ileti alır</p>
+        </div>
+        <div class="refnamediv">
+          <p>recvfrom — bağlantısız soket üzerinden ileti alır</p>
+        </div>
+        <div class="refnamediv">
+          <p>recvmsg — soket üzerinden bir dizi ileti alır</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>BİLDİRİM</h2>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include &lt;sys/types.h&gt;</code><br/>
+    <code class="option">#include &lt;sys/socket.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">recv</strong>(int <var class="pdparam">sockfd</var>, void *<var class="pdparam">buf</var>, size_t <var class="pdparam">len</var>, int <var class="pdparam">flags</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">recvfrom</strong>(int <var class="pdparam">sockfd</var>, void *<var class="pdparam">buf</var>, size_t <var class="pdparam">len</var>, int <var class="pdparam">flags</var>, struct sockaddr *<var class="pdparam">src_addr</var>, socklen_t *<var class="pdparam">addrlen</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">ssize_t <strong class="fsfunc">recvmsg</strong>(int <var class="pdparam">sockfd</var>, struct msghdr *<var class="pdparam">msg</var>, int <var class="pdparam">flags</var>);</code>
+          </div>
+        </div>
+        <div class="refsect1" id="idm39428">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>recv</strong></span>(), <span class="command"><strong>recvfrom</strong></span>() ve <span class="command"><strong>recvmsg</strong></span>() sistem çağrıları bir soketten veri almak için kullanılır. Bu sistem çağrıları hem bağlantılı hem de bağlantısız soketlerde kullanılabilir. Bu sayfada önce bu üç çağrının genel özellikleri ve ardından aralarındaki fark anlatılmıştır.
+  </p>
+          <p>
+   <span class="command"><strong>recv</strong></span>() ve	<tt><b>read</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> değiştirgesinin varlığıdır. <em class="replaceable"><code>flags</code></em> değiştirgesine sıfır değeri atanmış <span class="command"><strong>recv</strong></span>() genel olarak <tt><b>read</b>(2)</tt> ile eşdeğerdir (ancak yine de <a class="xref" href="man2-recv.html#man2-recv-notes" title="EK BİLGİ"> “EK BİLGİ”</a> bölümüne bakın). Ayrıca aşagıdaki
+  </p>
+          <pre class="screen">recv(sockfd, buf, len, flags);
+</pre>
+          <p>çağrısı</p>
+          <pre class="screen">recvfrom(sockfd, buf, len, flags, NULL, NULL);
+</pre>
+          <p>çağrısına eşdeğerdir.</p>
+          <p>
+   Üç sistem çağrısı da başarı durumunda iletinin boyutunu döndürür. Eğer ileti verilen tampona sığamayacak kadar uzunsa, iletiyi alan soket türüne bağlı olarak fazlalık baytlar atılabilir.
+  </p>
+          <p>
+   Eğer sokette ileti yoksa ve soket engellemesiz değilse çağrılar bir iletinin gelmesini bekler (<tt><b>fcntl</b>(2)</tt> sayfasına bakın), eğer soket engellemeliyse <code class="code">-1</code> döner ve <em class="replaceable"><code>errno</code></em> harici değişkenine <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> sabitlerinden bir tanesi atanır. Bu sistem çağrıları, talep edilen miktarın tamamının alınmasını beklemek yerine mevcut olan tüm verileri döndürür.
+  </p>
+          <p>
+   Bir uygulamada <tt><b>select</b>(2)</tt>, <tt><b>poll</b>(2)</tt> veya <tt><b>epoll</b>(2)</tt> çağrıları kullanılarak sokete fazla verinin ne zaman geleceğine karar verilebilir.
+  </p>
+          <div class="refsect2" id="idm39457">
+            <h3><em class="replaceable"><code>flags</code></em> değerleri</h3>
+            <p>
+    <em class="replaceable"><code>flags</code></em> değiştirgesinin değeri aşağıdaki değerlerin VEYAlanmasıyla elde edilir.
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_CMSG_CLOEXEC</code> (sadece <span class="command"><strong>recvmsg</strong></span>() için geçerlidir, Linux 2.6.23 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <code class="constant">SCM_RIGHTS</code> işlemi kullanılarak sağlanan UNIX alan dosya tanıtıcısını (<tt><b>unix</b>(7)</tt> sayfasında açıklanmıştır) <code class="literal">close-on-exec</code> kipine ayarlar. Bu kip, <tt><b>open</b>(2)</tt> çağrısına ait <code class="constant">O_CLOEXEC</code> ile aynı sebeplerden ötürü kullanışlıdır.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_DONTWAIT</code> (Linux 2.2. ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+        Engellemesiz işlemi etkinleştirir; eğer işlem engellenirse, <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> döner. <code class="constant">O_NONBLOCK</code> seçeneği tanımlanmış (<tt><b>fcntl</b>(2)</tt> üzerinden <code class="constant">F_SETFL</code> işlemi ile) gibi davranır, fakat <code class="constant">MSG_DONTWAIT</code> çağrıya özel olmasıyla fark oluşturur. <code class="constant">O_NONBLOCK</code> seçeneği ise açık dosya tanıtıcısı içindir (<tt><b>open</b>(2)</tt> sayfasına bakın), çağrı sürecindeki tüm evreleri ve aynı zamanda aynı açık dosyanın dosya tanıtıcılarına sahip diğer süreçleri de etkiler.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_ERRQUEUE</code> (Linux 2.2 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bu seçenek, hata kuyruğunun soket hata kuyruğundan alınmasını belirtir. Hata, protokole bağlı türden yardımcı veri olarak iletilir (IPv4 için <code class="constant">IP_RECVERR</code>). Kullanıcı yeteri boyutta bir tampon belirtmelidir. Daha ayrıntılı bilgi için <tt><b>cmsg</b>(3)</tt> ve <tt><b>ip</b>(7)</tt> sayfalarına bakın. Esas paketteki hataya sebep olan yük <em class="replaceable"><code>msg_iovec</code></em> ile normal veri olarak aktarılır. Hataya sebep olan verikatarının özgün hedef adresi <em class="replaceable"><code>msg_name</code></em> ile sağlanır.
+      </p>
+                  <p>
+       <em class="replaceable"><code>sock_extended_err</code></em> yapısında sağlanan hatalar:
+      </p>
+                  <pre class="screen">#define SO_EE_ORIGIN_NONE    0
+#define SO_EE_ORIGIN_LOCAL   1
+#define SO_EE_ORIGIN_ICMP    2
+#define SO_EE_ORIGIN_ICMP6   3
+
+struct sock_extended_err
+{
+    uint32_t ee_errno;   /* Hata sayısı */
+    uint8_t  ee_origin;  /* Hatanın kaynağı */
+    uint8_t  ee_type;    /* Tür */
+    uint8_t  ee_code;    /* Kod */
+    uint8_t  ee_pad;     /* Dolgu */
+    uint32_t ee_info;    /* Ek bilgiler */
+    uint32_t ee_data;    /* Diğer veriler */
+    /* Fazladan veri takip edebilir */
+};
+
+struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
+</pre>
+                  <p>
+       <em class="replaceable"><code>ee_errno</code></em> kuyruğa alınmış <em class="replaceable"><code>errno</code></em> hata numarasını içerir. <em class="replaceable"><code>ee_origin</code></em> hatanın kodda oluştuğu yeri gösterir. Diğer alanlar protokole özeldir. <code class="constant">SOCK_EE_OFFENDER</code> makrosu, yardımcı iletinin göstericisinden kaynaklanan hatanın kaynaklandığı ağ nesnesinin adresine bir gösterici döndürür. Eğer adres bilinmiyorsa, <em class="replaceable"><code>sockaddr</code></em> yapısının <em class="replaceable"><code>sa_family</code></em> alanı <code class="constant">AF_UNSPEC</code> içerirken yapının diğer alanları tanımsız kalır. Hataya sebep olan paket yükü normal veri olarak aktarılır.
+      </p>
+                  <p>
+       Yerel hatalar için adres belirtilmez (bu, <em class="replaceable"><code>cmsghdr</code></em> üyesi <em class="replaceable"><code>cmsg_len</code></em> ile sınanabilir). Hata alımı için <em class="replaceable"><code>msghdr</code></em> değiştirgesine <code class="constant">MSG_ERRQUEUE</code> atanır. Bir hata aktarıldıktan sonra, bekleyen soket hatası, hata kuyruğundaki sonraki hataya göre yeniden oluşturulur ve sonraki soket işleminde aktarılır.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_OOB</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bu seçenek normalde veri akımında alınmayacak bantdışı (Out Of Band) veri alındısı isteğinde bulunur. Bazı protokoller hızlandırılmış veriyi normal veri kuyruğunun başına yerleştirir, bu yüzden bu seçenek bu tür protokollerde kullanılamaz.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_PEEK</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bu seçenek alım işlemini, alım kuyruğunun başındaki veriyi kuyruktaki veriyi silmeden almasına neden olur. Bu sebepten, sonraki alım çağrısında aynı veriyi döndürür.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_TRUNC</code> (Linux 2.2 ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Ham (<code class="constant">AF_PACKET</code>), İnternet verikatarı (Linux 2.4.27/2.6.8 ve sonrası), ağ bağlantısı (Linux 2.6.22 ve sonrası) ve UNIX verikatarı (Linux 3.4 ve sonrası) soketleri için: Tampona aktarılandan büyük olsa bile, paketin veya verikatarının gerçek uzunluğunu döndürür.
+      </p>
+                  <p>
+       İnternet akım soketleriyle kullanmak için <tt><b>tcp</b>(7)</tt> sayfasına bakın.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="constant">MSG_WAITALL</code> (Linux 2.2. ve sonrası)</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bu seçenek, tüm istekler tamamlandığında işlemin engellemesi içindir. Ancak çağrı, bir sinyal yakaladığında, bir hata veya bağlantı kopması meydana geldiğinde, alınacak kuyruktaki verinin türü alınan veri türünden farklıysa daha az veri döndürür. Bu seçeneğin verikatarı soketleri için herhangi bir etkisi yoktur.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2" id="idm39536">
+            <h3><span class="command"><strong>recvfrom</strong></span>()</h3>
+            <p>
+    <span class="command"><strong>recvfrom</strong></span>() gelen iletiyi <em class="replaceable"><code>buf</code></em> tamponuna yerleştirir. Çağrıcı tamponun boyutunu <em class="replaceable"><code>len</code></em> değiştirgesi ile belirtmelidir.
+   </p>
+            <p>
+    Eğer <em class="replaceable"><code>src_addr</code></em> NULL değilse ve ilgili protokol iletinin kaynak adresini sağlıyorsa <em class="replaceable"><code>src_addr</code></em> tampon içine yerleştirilen kaynak adrese göstericidir. Bu durumda, <em class="replaceable"><code>addrlen</code></em> hem aktarılan değere hem de dönen sonuca göstericidir. <em class="replaceable"><code>addrlen</code></em>, çağrıdan önce <em class="replaceable"><code>src_addr</code></em> ile ilişkilendirilmiş tamponun boyutuna gösterici olmalıdır. İşlev döndüğünde, <em class="replaceable"><code>addrlen</code></em>, kaynak adresin gerçek boyutunu gösterecek şekilde güncellenir. Sağlanan tampon çok küçükse döndürülen adres kırpılır; bu durumda, <em class="replaceable"><code>addrlen</code></em> çağrıdan önceki boyuttan daha büyük bir değer döndürür.
+   </p>
+            <p>
+    Eğer çağrıcı kaynak adresiyle ilgilenmiyorsa <em class="replaceable"><code>src_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değiştirgelerinde NULL aktarmalıdır.
+   </p>
+          </div>
+          <div class="refsect2" id="idm39554">
+            <h3><span class="command"><strong>recv</strong></span>()</h3>
+            <p>
+    <span class="command"><strong>recv</strong></span>() çağrısı normalde <em class="replaceable"><code>connected</code></em> (bağlantılı) soketlerle kullanılır (<tt><a href="man2-connect.html"><b>connect(2)</b></a></tt> sayfasına bakın). Bu çağrı:
+   </p>
+            <pre class="screen">recvfrom(fd, buf, len, flags, NULL, 0);
+</pre>
+            <p>
+    çağrısıyla eşdeğerdir.
+   </p>
+          </div>
+          <div class="refsect2" id="idm39563">
+            <h3><span class="command"><strong>recvmsg</strong></span>()</h3>
+            <p>
+    <span class="command"><strong>recvmsg</strong></span>(), <em class="replaceable"><code>msghdr</code></em> yapısını kullanarak doğrudan sağlanan değiştirge sayısını azaltır. Bu yapı, <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde şu şekilde tanımlanmıştır:
+   </p>
+            <pre class="screen">struct iovec {         /* Dağıtma/toplama dizisinin öğeleri */
+    void  *iov_base;              /* Başlangıç adresi */
+    size_t iov_len;               /* Aktarılacak bayt saysı */
+};
+</pre>
+            <pre class="screen">struct msghdr {
+    void         *msg_name;       /* İsteğe bağlı adres */
+    socklen_t     msg_namelen;    /* Adresin boyutu */
+   struct iovec *msg_iov;         /* Dağıtma/toplama dizisi */
+    size_t        msg_iovlen;     /* msg_iov dizisinin öğe sayısı*/
+    void         *msg_control;    /* Yardımcı veri tamponu, aşağıya bakın*/
+    size_t        msg_controllen; /* Yardımcı veri tampon boyutu */
+    int           msg_flags;      /* Alınan iletideki seçenekler */
+};
+</pre>
+            <p>
+    Soket bağlantısızsa, <em class="replaceable"><code>msg_name</code></em> alanı çağrıcı tarafından tahsis edilen kaynak adresi döndürmek için kullanılan tampona göstericidir. Çağrıcı çağrıyı yapmadan önce tamponun boyutunu <em class="replaceable"><code>msg_namelen</code></em>'e belirtmelidir; başarılı bir çağrıdan sonra <em class="replaceable"><code>msg_namelen</code></em> dönen adresin uzunluğunu içerir. Eğer uygulama kaynak adresi bilmeye ihtiyaç duymuyorsa <em class="replaceable"><code>msg_name</code></em> NULL olarak belirtilebilir.
+   </p>
+            <p>
+    <tt><b>readv</b>(2)</tt> sayfasında açıklandığı üzere, <em class="replaceable"><code>msg_iov</code></em> ve <em class="replaceable"><code>msg_iovlen</code></em> alanları dağıtma-toplama konumlarını belirler.
+   </p>
+            <p>
+    <em class="replaceable"><code>msg_controllen</code></em> uzunluğundaki <em class="replaceable"><code>msg_control</code></em> alanı, diğer protokollere ait denetim iletileri veya çeşitli yardımcı verilere göstericidir. <span class="command"><strong>recvmsg</strong></span>() çağrıldığında, <em class="replaceable"><code>msg_controllen</code></em> <em class="replaceable"><code>msg_control</code></em> içindeki kullanılabilir tamponun boyutunu içermelidir; başarılı bir çağrıda denetim ileti dizisinin boyutunu içerir.
+   </p>
+            <p>
+    İletinin yapısı:
+   </p>
+            <pre class="screen">struct cmsghdr {
+    size_t cmsg_len;    /* Başlıkla beraber verinin bayt sayısı
+                           (POSIX'de veri türü socklen_t'dir) */
+    int    cmsg_level;  /* Kaynak protokol */
+    int    cmsg_type;   /* Protokole özgü tür */
+/* devamında,
+    unsigned char cmsg_data[];  */
+};
+</pre>
+            <p>
+    Yardımcı veriye sadece <tt><b>cmsg</b>(3)</tt> içinde tanımlanan makrolarla erişilmedir.
+   </p>
+            <p>
+    Örnek olarak, Linux bu yardımcı veri mekanizmasını genişletilmiş hataları, IP seçeneklerini veya UNIX alan soketleri üzerinden dosya tanıtıcılarını aktarmak için kullanır. Yardımcı verinin diğer çeşitli soket alanlarında kullanımına ilişkin ayrıntılı bilgi için <tt><b>unix</b>(7)</tt> ve <tt><b>ip</b>(7)</tt> sayfalarına bakın.
+   </p>
+            <p>
+    <em class="replaceable"><code>msghdr</code></em> yapısına ait <em class="replaceable"><code>msg_flags</code></em> alanı, <span class="command"><strong>recvmsg</strong></span>() dönüdüğünde şu sabitler için sınanabilir:
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_EOR</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Döndürülen verilerin bir kaydı tamamladığını yani kayıt sonunu (End Of Record) belirtir (genellikle <code class="constant">SOCK_SEQPACKET</code> türündeki soketlerle kullanılır).
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_TRUNC</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Verikatarının sağlanan tampondan daha uzun olmasından dolayı kalan kısmın atılacağını belirtir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_CTRUNC</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Yardımcı veri için tampondaki boşluğun az olmasından dolayı denetim verisinin atılacağını belirtir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_OOB</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Hızlandırılmış veya bantdışı (Out Of Band) veri alındığını belirtir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+                    <code class="constant">MSG_ERRQUEUE</code>
+                  </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Bir veri alınmadığını ancak soket hata kuyruğundaki genişletilmiş bir hatanın alındığını belirtir.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="refsect1" id="idm39625">
+          <h2>DÖNÜŞ DEĞERİ</h2>
+          <p>
+   Başarı durumunda bu çağrılar alınan baytların sayısını döndürür. Hata durumunda, <code class="code">-1</code> döner ve hata <em class="replaceable"><code>errno</code></em> değişkenine atanır.
+  </p>
+          <p>
+   Akım soketinin bağlantısı karşıdan düzenli ollarak kapatılıyorsa dönen değer <code class="code">0</code> olur (geleneksel dosya sonu dönüş değeri).
+  </p>
+          <p>
+   Çeşitli alanlardaki verikatarı soketleri (örneğin UNIX ve İnternet alan soketleri) sıfır uzunluktaki verikatarlarına izin verir. Böyle bir verikatarı alınırsa dönüş değeri <code class="code">0</code> olur.
+  </p>
+          <p>
+   Eğer akım soketinden istenilen bayt boyutu 0 ise aynı şekilde <code class="code">0</code> değeri döner.
+  </p>
+        </div>
+        <div class="refsect1" id="idm39636">
+          <h2>HATALAR</h2>
+          <p>
+   Soket katmanı tarafından üretilen bazı standart hatalar vardır. Ayrıca, kullanılan protokol modülleri tarafından üretilen ve döndürülen hatalar da olabilir; bilgi için bunlarla ilgili kılavuz sayfalarına bakın.
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code></span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket engellemesiz olarak işaretlenmiş ama talep edilen işlem soketi engelleyecek veya veri alım zaman aşımı ayarlanmış ve veri gelmeden önce zaman aşımı süresi dolmuş. POSIX.1 her iki hatanın da döndürülmesine izin verir ve bu sabitlerin aynı değerde olmasını gerektirmez, bu bakımdan taşınabilir uygulamalar her iki seçeneği de sınamalıdır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EBADF</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em> geçerli bir açık dosya tanıtıcısı değil.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ECONNREFUSED</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Uzak konak ağ bağlantısını reddetti (genelde sebep, talep edilen hizmeti çalıştırmamasıdır).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EFAULT</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Alım tamponu göstericisi/göstericileri süreç adres alanının dışını gösteriyor.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EINTR</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Herhangi bir veri alınmadan aktarım bir sinyal ile kesilmiş; <tt><b>signal</b>(7)</tt> sayfasına bakın.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EINVAL</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen değiştirge geçersiz.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOMEM</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <span class="command"><strong>recvmsg</strong></span>() için yeterli bellek ayrılamıyor.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTCONN</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Soket, bağlantılı bir protokolle ilişkilendirilmiş ancak bağlanmamış (<tt><a href="man2-connect.html"><b>connect(2)</b></a></tt> ve <tt><b>accept</b>(2)</tt> sayfalarına bakın).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOTSOCK</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>sockfd</code></em>'nin bir soketle ilgisi yok.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1" id="idm39692">
+          <h2>UYUMLULUK</h2>
+          <p>
+   POSIX.1-2001, POSIX.1-2008, 4.4BSD  (Bu arayüzler ilk defa 4.2BSD ile ortaya çıktı.)
+  </p>
+          <p>
+   POSIX.1 sadece <code class="constant">MSG_OOB</code>, <code class="constant">MSG_PEEK</code> ve <code class="constant">MSG_WAITALL</code> seçeneklerini açıklar.
+  </p>
+        </div>
+        <div class="refsect1" id="man2-recv-notes">
+          <h2>EK BİLGİ</h2>
+          <p>
+   Eğer sıfır uzunluğunda bir verikatarı beklemedeyse, sıfır <em class="replaceable"><code>flags</code></em> değiştirgeli <tt><b>read</b>(2)</tt> ve <span class="command"><strong>recv</strong></span>() farklı davranışlar sergiler. Bu koşullarda, <span class="command"><strong>recv</strong></span>() bekleyen verikatarını tüketirken <tt><b>read</b>(2)</tt> hiçbir etkiye sahip değildir (verikatarı beklemede kalır).
+  </p>
+          <p>
+   <em class="replaceable"><code>socklen_t</code></em> POSIX ile icat edilmiştir. Ayrıca <tt><b>accept</b>(2)</tt> sayfasına bakın.
+  </p>
+          <p>
+   POSIX.1'e göre, <em class="replaceable"><code>msghdr</code></em> yapısının <em class="replaceable"><code>msg_controllen</code></em> alanı <em class="replaceable"><code>socklen_t</code></em> türünde, <em class="replaceable"><code>msg_iovlen</code></em> alanı ise <em class="replaceable"><code>int</code></em> türünde olmalıdır, fakat glibc ikisine de <em class="replaceable"><code>size_t</code></em> türünü atar.
+  </p>
+          <p>
+   Tek çağrıda çok sayıda verikatarı alabilmek için kullanılan Linux'a özgü sistem çağrısı hakkında bilgi edinmek için <tt><b>recvmmsg</b>(2)</tt> sayfasına bakın.
+  </p>
+        </div>
+        <div class="refsect1" id="idm39719">
+          <h2>ÖRNEKLER</h2>
+          <p>
+   <span class="command"><strong>recvfrom</strong></span>() kullanım örneği <tt><b>getaddrinfo</b>(3)</tt> sayfasında verilmiştir.
+  </p>
+        </div>
+        <div class="refsect1" id="idm39724">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>fcntl</b>(2)</tt>, <tt><b>getsockopt</b>(2)</tt>, <tt><b>read</b>(2)</tt>, <tt><b>recvmmsg</b>(2)</tt>, <tt><b>select</b>(2)</tt>, <tt><b>shutdown</b>(2)</tt>, <tt><a href="man2-socket.html"><b>socket(2)</b></a></tt>, <tt><b>cmsg</b>(3)</tt>, <tt><b>sockatmark</b>(3)</tt>, <tt><b>ip</b>(7)</tt>, <tt><b>ipv6</b>(7)</tt>, <tt><b>socket</b>(7)</tt>, <tt><b>tcp</b>(7)</tt>, <tt><b>udp</b>(7)</tt>, <tt><b>unix</b>(7)</tt>
+  </p>
+        </div>
+        <div class="refsect1" id="idm39742">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">Fatih Koçer - Ağustos 2022</div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">Linux man-pages 5.10</td>
+              <td class="mheadfoot" align="center" width="40%">2020-11-01</td>
+              <td class="mheadfoot" align="right" width="30%">RECV(2)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>
