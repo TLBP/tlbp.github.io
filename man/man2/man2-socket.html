@@ -50,65 +50,246 @@
         <div class="titlepage"/>
         <div class="refnamediv">
           <h2>İSİM</h2>
-          <p>socket — iletişim için son nokta oluşturur</p>
+          <p>socket — iletişim için uç nokta oluşturur</p>
         </div>
         <div class="refsynopsisdiv">
           <h2>BİLDİRİM</h2>
           <div class="funcsynopsisinfo"><br/>
-    <code class="option">#include &lt;sys/types.h&gt;</code>          /* NOTLAR'a bakın */<br/>
+    <code class="option">#include &lt;sys/types.h&gt;</code>       /* Bkz: <a class="xref" href="man2-socket.html#man2-socket-notes" title="EK BİLGİLER"> “EK BİLGİLER”</a> */<br/>
     <code class="option">#include &lt;sys/socket.h&gt;</code><br/>
    </div>
           <div class="funcprototype">
             <code class="funcdef">int <strong class="fsfunc">socket</strong>(int <var class="pdparam">domain</var>, int <var class="pdparam">type</var>, int <var class="pdparam">protocol</var>);</code>
           </div>
         </div>
-        <div class="refsect1" id="idm40134">
+        <div class="refsect1">
           <h2>AÇIKLAMA</h2>
           <p>
-   <span class="command"><strong>socket</strong></span>() iletişim için uç oluşturur ve bu ucu ifade eden bir dosya tanıtıcısı döndürür. Başarılı bir çağrı ile dönen dosya tanıtıcısı, süreç için açık olmayan en düşük dosya tanıtıcı sayısı olur.
+   <span class="command"><strong>socket</strong></span>() iletişim için uç nokta oluşturur ve bu ucu ifade eden bir dosya tanıtıcısı döndürür. Başarılı bir çağrı ile dönen dosya tanıtıcısı, süreç için açık olmayan en küçük numaralı dosya tanıtıcısı olur.
   </p>
           <p>
-   <em class="replaceable"><code>domain</code></em> değiştirgesi iletişim alanını belirtir; bu, iletişim için kullanılacak protokol ailesini seçer. Bu aileler <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde tanımlanmıştır. Linux çekirdeği tarafından anlaşılan biçimler şunlardır:
+   <em class="replaceable"><code>domain</code></em> değiştirgesinde belirtilen adres ailesi iletişim alanını, adres ve protokol ailesini belirler. Bu aileler <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde tanımlanmıştır. Adres ailesi sabitlerinin isimleri <code class="code">AF</code>, protokol ailesi sabitlerinin isimleri ise <code class="code">PF</code> ile başlar ve bunlar eşdeğerdir. Linux çekirdeği tarafından tanınan aileler:
   </p>
-          <div class="literallayout">
-            <p><br/>
-İsim         Amaç                                       Kılavuz Sayfası<br/>
-<code class="code">AF_UNIX</code>      Yerel iletişim                             <tt><b>unix</b>(7)</tt><br/>
-<code class="code">AF_LOCAL</code>     AF_UNIX için eşanlamlı sözcük<br/>
-<code class="code">AF_INET</code>      IPv4 İnternet protokolü                    <tt><b>ip</b>(7)</tt><br/>
-<code class="code">AF_AX25</code>      Amatör radyo AX.25 protokolü               <tt><b>ax25</b>(4)</tt><br/>
-<code class="code">AF_IPX</code>       IPX - Novell protokolleri<br/>
-<code class="code">AF_APPLETALK</code> AppleTalk                                  <tt><b>ddp</b>(7)</tt><br/>
-<code class="code">AF_X25</code>       ITU-T X.25 / ISO-8208 protokolü            <tt><b>dx25</b>(7)</tt><br/>
-<code class="code">AF_INET6</code>     IPv6 İnternet protokolü                    <tt><b>ipv6</b>(7)</tt><br/>
-<code class="code">AF_DECnet</code>    DECet protokol soketleri<br/>
-<code class="code">AF_KEY </code>      Anahtar yönetim protokolü, özgün ola-<br/>
-	     rak IPsec ile kullanmak için geliştirildi<br/>
-<code class="code">AF_NETLINK</code>   Çekirdek kullanıcı arayüz cihazı           <tt><b>netlink</b>(7)</tt><br/>
-<code class="code">AF_PACKET</code>    Düşük seviye paket arayüzü                 <tt><b>packet</b>(7)</tt><br/>
-<code class="code">AF_RDS</code>       Güvenilir veri katarı soket protokolü      <tt><b>rds</b>(7)</tt><br/>
-                                                        <tt><b>rds-rdma</b>(7)</tt><br/>
-<code class="code">AF_PPPOX</code>     L2 tünellerini ayarlamak için <br/>
-	     genel PPP aktarım katmanı (L2TP ve PPPoE)<br/>
-<code class="code">AF_LLC</code>       Mantıksal bağlantı protokolü <br/>
-  	     (IEEE 802.2 LLC)<br/>
-<code class="code">AF_IB</code>        InfiniBand doğal adresleme<br/>
-<code class="code">AF_MPLS</code>      Çoklu protokol etiket değiştirme<br/>
-<code class="code">AF_CAN</code>       Denetleyici alan ağ otomotiv bus protokolü<br/>
-<code class="code">AF_TIPC</code>      TIPC, "küme alan soketleri" protokolü<br/>
-<code class="code">AF_BLUETOOTH</code> Bluetooth düşük seviye soket protokolü<br/>
-<code class="code">AF_ALG</code>       Çekirdek kripto API'sine arayüz<br/>
-<code class="code">AF_VSOCK</code>     VSOCK   (aslı  "VMWare  VSockets")         <tt><b>vsock</b>(7)</tt><br/>
-             yüksek yönetici konuk için iletişim soketi<br/>
-<code class="code">AF_KCM</code>       KCM  (çekirdek bağlantı çoğaltıcı) arayüzü<br/>
-<code class="code">AF_XDP</code>       XDP (hızlı veri yolu) arayüzü<br/>
-</p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+                <col/>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>İsim</th>
+                  <th>Amaç</th>
+                  <th>Kılavuz Sayfası</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <code class="constant">AF_UNIX</code>
+                  </td>
+                  <td>Yerel iletişim</td>
+                  <td>
+                    <tt><b>unix</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_LOCAL</code>
+                  </td>
+                  <td><code class="code">AF_UNIX</code> için eşanlamlı sözcük</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_INET</code>
+                  </td>
+                  <td>IPv4 İnternet protokolü</td>
+                  <td>
+                    <tt><b>ip</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_AX25</code>
+                  </td>
+                  <td>Amatör radyo AX.25 protokolü</td>
+                  <td>
+                    <tt><b>ax25</b>(4)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_IPX</code>
+                  </td>
+                  <td>IPX - Novell protokolleri</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_APPLETALK</code>
+                  </td>
+                  <td>AppleTalk</td>
+                  <td>
+                    <tt><b>ddp</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_X25</code>
+                  </td>
+                  <td>ITU-T X.25 / ISO-8208 protokolü</td>
+                  <td>
+                    <tt><b>x25</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_INET6</code>
+                  </td>
+                  <td>IPv6 İnternet protokolü</td>
+                  <td>
+                    <tt><b>ipv6</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_DECnet</code>
+                  </td>
+                  <td>DECnet protokol soketleri</td>
+                  <td>
+                    <tt><b>ipv6</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_KEY</code>
+                  </td>
+                  <td>Anahtar yönetim protokolü, özgün olarak IPsec ile kullanım için geliştirildi</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_NETLINK</code>
+                  </td>
+                  <td>Çekirdek kullanıcı arayüzü aygıtı</td>
+                  <td>
+                    <tt><b>netlink</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_PACKET</code>
+                  </td>
+                  <td>Düşük seviye paket arayüzü</td>
+                  <td>
+                    <tt><b>packet</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_RDS</code>
+                  </td>
+                  <td>Güvenilir veri katarı soketleri protokolü</td>
+                  <td>
+                    <tt><b>rds</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td> </td>
+                  <td>
+                    <tt><b>rds-rdma</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_PPPOX</code>
+                  </td>
+                  <td>L2 tünellerini ayarlamak için genel PPP aktarım katmanı (L2TP ve PPPoE)</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_LLC</code>
+                  </td>
+                  <td>Mantıksal bağlantı denetim (IEEE 802.2 LLC) protokolü</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_IB</code>
+                  </td>
+                  <td>InfiniBand doğal adresleme</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_MPLS</code>
+                  </td>
+                  <td>Çoklu protokol etiket değiştirme</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_CAN</code>
+                  </td>
+                  <td>Denetleyici alan ağı otomotiv veriyolu protokolü</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_TIPC</code>
+                  </td>
+                  <td>TIPC, "küme alan soketleri" protokolü</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_BLUETOOTH</code>
+                  </td>
+                  <td>Bluetooth düşük seviye soket protokolü</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_ALG</code>
+                  </td>
+                  <td>Çekirdek şifreleme API'sine arayüz</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_VSOCK</code>
+                  </td>
+                  <td>VSOCK (aslen  "VMWare  VSockets") yüksek yönetici ile misafirin iletişimi için protokol</td>
+                  <td>
+                    <tt><b>vsock</b>(7)</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_KCM</code>
+                  </td>
+                  <td>KCM  (çekirdek bağlantı çoğullayıcı) arayüzü</td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="constant">AF_XDP</code>
+                  </td>
+                  <td>XDP (hızlı veri yolu) arayüzü</td>
+                  <td> </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <p>
    Yukarıdaki adres aileleri ve diğer adres aileleri için ayrıntılı bilgiler <tt><b>address_families</b>(7)</tt> sayfasında bulunabilir.
   </p>
           <p>
-   Soket, iletişim türünü belirleyen <em class="replaceable"><code>type</code></em> değiştirgesine sahiptir. Tanımlanan türler şunlardır:
+   <span class="command"><strong>socket</strong></span>() çağrısının <em class="replaceable"><code>type</code></em> değiştirgesi iletişim türünü belirler. Tanımlı türler:
   </p>
           <div class="glosslist">
             <dl>
@@ -118,7 +299,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Sıralı, güvenli, çift yönlü, bağlantı temelli bayt yayını sağlar. Bant dışı (Out Of Band) veri iletim mekanizması desteklenebilir.
+                <p>
+      Sıralı, güvenli, çift yönlü, bağlantı temelli bayt akımı sağlar. Bant dışı (Out Of Band) veri iletim mekanizması desteklenebilir.
      </p>
               </dd>
               <dt>
@@ -127,7 +309,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Veri katarını destekler (bağlantısız, sabit maksimum uzunluğa sahip güvenilmez iletiler).
+                <p>
+      Veri katarını destekler (bağlantısız, sabit azami uzunluğa sahip güvenilmez iletiler).
      </p>
               </dd>
               <dt>
@@ -136,7 +319,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Sabit uzunluğa sahip veri katarları için sıralı, güvenli, çift yönlü bağlantı temelli veri iletim yolu sağlar; tüm paketi giriş sistem çağrısıyla okuyacak alıcı gerekir.
+                <p>
+      Sabit azami uzunluğa sahip veri katarları için sıralı, güvenli, çift yönlü bağlantı temelli veri iletim yolu sağlar; bir alıcının, her girdi sistem çağrısında bir paketin tamamını okuması gerekir.
      </p>
               </dd>
               <dt>
@@ -145,7 +329,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Ham ağ protokolü erişimi sağlar.
+                <p>
+      Ham ağ protokolü erişimi sağlar.
      </p>
               </dd>
               <dt>
@@ -154,7 +339,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Düzeni garanti etmeyen güvenli veri katarı katmanı sağlar.
+                <p>
+      Düzeni garanti etmeyen güvenli veri katarı katmanı sağlar.
      </p>
               </dd>
               <dt>
@@ -163,7 +349,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Eskidir ve yeni programlarda kullanılmamalıdır; <tt><b>packet</b>(7)</tt> sayfasına bakın.
+                <p>
+      Eskidir ve yeni programlarda kullanılmamalıdır; <tt><b>packet</b>(7)</tt> sayfasına bakın.
      </p>
               </dd>
             </dl>
@@ -172,7 +359,7 @@
    Bazı soket türleri tüm protokol aileleri tarafından uygulanmayabilir.
   </p>
           <p>
-   Linux 2.6.27'den itibaren, <em class="replaceable"><code>type</code></em> değiştirgesi ikinci bir işleve sahiptir: soket türünü belirtmeye ek olarak <span class="command"><strong>socket</strong></span>()'in davranışını değiştirmek için aşağıdaki değerleri bit düzeyinde VEYA'layabilir:
+   Linux 2.6.27'den itibaren, <em class="replaceable"><code>type</code></em> değiştirgesi ikinci bir işleve sahiptir: soket türünü belirtmeye ek olarak <span class="command"><strong>socket</strong></span>()'in davranışını değiştirmek için aşağıdaki değerler bit düzeyinde VEYA'lanabilir:
   </p>
           <div class="glosslist">
             <dl>
@@ -191,43 +378,44 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Yürütmeyi kapat (Close On Exec) (<code class="constant">FD_CLOEXEC</code>) bayrağını yeni dosya tanıtıcısına ayarla. Bunun neden faydalı olabileceğinin sebepleri için <tt><b>open</b>(2)</tt> sayfasındaki <code class="constant">O_CLOEXEC</code> bayrağının açıklamasına bakın.
+                <p>
+      Yürütmeyi kapat (Close On Exec) (<code class="constant">FD_CLOEXEC</code>) bayrağını yeni dosya tanıtıcısına ayarla. Bunun neden faydalı olabileceği <tt><b>open</b>(2)</tt> sayfasındaki <code class="constant">O_CLOEXEC</code> bayrağının açıklamasında bulunabilir.
      </p>
               </dd>
             </dl>
           </div>
           <p>
-   <em class="replaceable"><code>protocol</code></em>, soket ile belirli bir protokolün kullanılmasını belirtir. Normalde, verilen protokol ailesiyle belirli soket türünü desteklemek için sadece tek bir protokol vardır, bu durumda <em class="replaceable"><code>protocol</code></em> 0 olarak belirtilebilir. Ancak birçok protokolün var olması mümkündür ve bu durumda özel bir protokol belirtilmelidir. Kullanılacak protokol numarası iletişimin gerçekleşeceği "iletişim alanına" özeldir; <tt><b>protocols</b>(5)</tt> sayfasına bakın. Protokol adlarının protokol sayılarıyla nasıl eşleneceği için <tt><b>getprotoent</b>(3)</tt> sayfasına bakın.
+   <em class="replaceable"><code>protocol</code></em> değiştirgesinde, soket ile kullanılacak protokol belirtilir. Normalde, belirli bir protokol ailesindeki belirli bir soket türünü desteklemek için yalnızca tek bir protokol vardır, bu nedenle <em class="replaceable"><code>protocol</code></em> 0 olarak belirtilebilir. Ancak soket türünü destekleyen birden fazla protokolün var olması da mümkündür, bu durumda bir protokolün belirtilmesi gereklidir. Kullanılacak protokol numarası iletişimin gerçekleşeceği "iletişim alanına" özeldir; <tt><b>protocols</b>(5)</tt> sayfasına bakın. Protokol adlarının protokol numaraları ile nasıl eşleneceği <tt><b>getprotoent</b>(3)</tt> sayfasında açıklanmıştır.
   </p>
           <p>
-   <code class="constant">SOCK_STREAM</code> türündeki soketler tam çift yönlü bayt yayınlardır. Kayıt sınırlarını korumazlar. Bir yayın soketi, veri iletmeden veya almadan önce <em class="replaceable"><code>connected</code></em> (bağlanmış) durumunda olmalıdır. Bir başka sokete bağlantı oluşturmak <tt><a href="man2-connect.html"><b>connect(2)</b></a></tt> çağrısı ile yapılır. Bağlandıktan sonra, veri, <tt><b>read</b>(2)</tt> ve <tt><b>write</b>(2)</tt>  çağrılarıyla veya <tt><a href="man2-send.html"><b>send(2)</b></a></tt> ve <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt> çağrılarının bazı türevleriyle taşınabilir. Oturum tamamlandığında <tt><b>close</b>(2)</tt> çağrılabilir. Bant dışı (Out Of Band) veri <tt><a href="man2-send.html"><b>send(2)</b></a></tt> sayfasında açıklandığı gibi iletilebilir veya <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt> sayfasında açıklandığı gibi alınabilir.
+   <code class="constant">SOCK_STREAM</code> türündeki soketler tam çift yönlü bayt akımlarıdır. Kayıt sınırlarını korumazlar. Bir akım soketi, veri iletmeden veya almadan önce bağlanmış durumda olmalıdır. Bir başka sokete bağlantı oluşturmak için <tt><a href="man2-connect.html"><b>connect(2)</b></a></tt> çağrısı kullanılır. Bağlandıktan sonra, veri, <tt><b>read</b>(2)</tt> ve <tt><b>write</b>(2)</tt>  çağrılarıyla veya <tt><a href="man2-send.html"><b>send(2)</b></a></tt> ve <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt> çağrılarının bazı türevleriyle taşınabilir. Oturum tamamlandığında <tt><b>close</b>(2)</tt> çağrılabilir. Bant dışı (Out Of Band) veri <tt><a href="man2-send.html"><b>send(2)</b></a></tt> sayfasında açıklandığı gibi iletilebilir veya <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt> sayfasında açıklandığı gibi alınabilir.
   </p>
           <p>
-   <code class="constant">SOCK_STREAM</code> kullanan iletişim protokolleri verinin kaybolmamasını veya kopyalanmamasını sağlar. Eş protokolünün arabellek boyutuna sahip bir veri parçası veriyi mantıklı bir süre içerisinde iletemezse bağlantının koptuğu kabul edilir. Soket için <code class="constant">SO_KEEPALIVE</code> etkinleştirildiğinde, protokol kendine özgü şekilde karşı tarafın etkin olup olmadığını kontrol eder. Eğer süreç, bozuk yayında veri gönderir veya alırsa <code class="constant">SIGPIPE</code> sinyali oluşturulur; Bu, çıkmak için sinyali kontrol etmeyen saf süreçleri meydana getirir. Tek fark, <tt><b>read</b>(2)</tt> çağrısının talep edilen veri miktarını döndürmesidir ve gelen paketteki kalan veriler atılır. Ayrıca gelen veri katarlarındali tüm ileti sınırları korunur.
+   <code class="constant">SOCK_STREAM</code> kullanan iletişim protokolleri verinin kaybolmamasını veya kopyalanmamasını sağlar. Eş protokolün tampon alanına sahip bir veri parçası mantıklı bir süre içerisinde başarıyla iletilemezse bağlantının koptuğu kabul edilir. Soket için <code class="constant">SO_KEEPALIVE</code> etkinleştirildiğinde, protokol kendine özgü şekilde karşı tarafın etkin olup olmadığına bakar. Eğer süreç, bozuk yayında veri gönderir veya alırsa <code class="constant">SIGPIPE</code> sinyali oluşturulur; bu, sinyali işlemeyen ham süreçlerin çıkmasına neden olur. Tek fark, <tt><b>read</b>(2)</tt> çağrısının talep edilen veri miktarını döndürmesi, gelen paketteki kalan verilerin atılmasıdır. Ayrıca gelen veri katarlarındaki tüm ileti sınırları korunur.
   </p>
           <p>
-   <code class="constant">SOCK_DGRAM</code> ve <code class="constant">SOCK_RAW</code> soketleri <tt><b>sendto</b>(2)</tt> çağrısında belirtilen alıcıya veri katarları iletilmesini sağlar. Veri katarları genellikle, gönderenin adresiyle beraber bir sonraki veri katarını döndüren <tt><b>recvfrom</b>(2)</tt> ile alınır.
+   <code class="constant">SOCK_DGRAM</code> ve <code class="constant">SOCK_RAW</code> soketleri <tt><b>sendto</b>(2)</tt> çağrısında belirtilen alıcıya veri katarlarının iletilmesini sağlar. Veri katarları genellikle, gönderenin adresiyle beraber bir sonraki veri katarını döndüren <tt><b>recvfrom</b>(2)</tt> çağrısı ile alınır.
   </p>
           <p>
-   <code class="constant">SOCK_PACKET</code> eski bir soket türüdür ve doğrudan cihaz sürücüsünden ham paket alınması için kullanılır. Bunun yerine <tt><b>packet</b>(7)</tt> kullanın.
+   <code class="constant">SOCK_PACKET</code> kullanımı önerilmeyen bir soket türüdür ve doğrudan aygıt sürücüsünden ham paket alınması için kullanılır. Bunun yerine <tt><b>packet</b>(7)</tt> kullanılmalıdır.
   </p>
           <p>
-   <tt><b>fcntl</b>(2)</tt> <code class="constant">F_SETOWN</code> işlemi, bir sürece veya süreç grubuna bant dışı (Out Of Band) veri ulaşırsa <code class="constant">SIGURG</code> sinyalini veya <code class="constant">SOCK_STREAM</code> bağlantısı beklenmedik şekilde koparsa <code class="constant">SIGPIPE</code> sinyalini almasını belirtir. Bu işlem G/Ç ve sıra beklemesiz G/Ç bildirimlerini <code class="constant">SIGIO</code> ile süreç ve süreç gruplarının almasını sağlar. <code class="constant">F_SETOWN</code>, <tt><b>ioctl</b>(2)</tt>'nin FIOSETWON veya SIOCSPGRP değiştirgeleriyle kullanımına eşdeğerdir.
+   <tt><b>fcntl</b>(2)</tt> çağrısının <code class="constant">F_SETOWN</code> işlemi, bant dışı (Out Of Band) veri geldiğinde <code class="constant">SIGURG</code> veya <code class="constant">SOCK_STREAM</code> bağlantısı beklenmedik şekilde koparsa <code class="constant">SIGPIPE</code> sinyalini alacak süreci veya süreç grubunu belirtmek için kullanılabilir. Bu işlem ayrıca, sıra beklemesiz G/Ç bildirimlerini ve G/Ç'ı <code class="constant">SIGIO</code> aracılığıyla alacak süreç ve süreç gruplarını belirtmek için de kullanılabilir. <code class="constant">F_SETOWN</code> kullanımı, <tt><b>ioctl</b>(2)</tt> çağrısının <code class="constant">FIOSETWON</code> veya <code class="constant">SIOCSPGRP</code> değerleriyle kullanımına eşdeğerdir.
   </p>
           <p>
-   Ağ, protokol modülüne (örneğin IP'ye ICMP iletisi kullanmak) hata durumu sinyallediğinde bekleyen hata bayrağı sokete atanır. Soket için sıradaki işlem bekleyen hata kodunu döndürür. Bazı protokollerde hata üzerine daha ayrıntılı bilgi edinmek için sokete özgü hata kuyruğu kullanmak mümkündür; <tt><b>ip</b>(7)</tt> sayfasındaki <code class="constant">IP_RECVERR</code> sabitine bakın.
+   Ağ, protokol modülüne bir hata durumu (örneğin IP için ICMP iletisi kullanarak) sinyallediğinde bekleyen hata bayrağı sokete atanır. Bekleyen hatanın kodunu, soket üzerindeki sonraki işlem döndürür. Bazı protokollerde hata üzerine daha ayrıntılı bilgi edinmek için sokete özgü hata kuyruğu kullanmak mümkündür; <tt><b>ip</b>(7)</tt> sayfasındaki <code class="constant">IP_RECVERR</code> sabitine bakın.
   </p>
           <p>
-   Soketin işlemleri soket seviye ayarları <em class="replaceable"><code>options</code></em> ile kontrol edilir. Bu seçenekler <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde tanımlanmıştır. <tt><b>setsockopt</b>(2)</tt> ve <tt><b>getsockopt</b>(2)</tt> işlevleri bu seçenekleri ayarlamak ve çekmek için kullanılır.
+   Soketin işlemleri, soket seviye seçenekleri ile kontrol edilir. Bu seçenekler <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde tanımlanmıştır. <tt><b>setsockopt</b>(2)</tt> ve <tt><b>getsockopt</b>(2)</tt> işlevleri bu seçenekleri atamak ve sorgulamak için kullanılır.
   </p>
         </div>
-        <div class="refsect1" id="idm40280">
+        <div class="refsect1">
           <h2>DÖNÜŞ DEĞERİ</h2>
           <p>
-   Başarılı durumda, yeni soket için dosya tanımlayıcısını döndürür. Hata durumunda, <code class="code">-1</code> döner ve hata <em class="replaceable"><code>errno</code></em> değişkenine atanır.
+   Başarılı durumda, yeni soket için dosya tanıtıcısını döndürür. Hata durumunda, <code class="code">-1</code> döner ve hata <em class="replaceable"><code>errno</code></em> değişkenine atanır.
   </p>
         </div>
-        <div class="refsect1" id="idm40285">
+        <div class="refsect1">
           <h2>HATALAR</h2>
           <div class="glosslist">
             <dl>
@@ -237,7 +425,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Belirtilen türde ve/veya protokolde soket oluşturulma izni reddedildi.
+                <p>
+      Belirtilen türde ve/veya protokolde soket oluşturulma izni reddedildi.
      </p>
               </dd>
               <dt>
@@ -247,7 +436,7 @@
               </dt>
               <dd class="glossdef">
                 <p>
-      Gerçekleme, belirtilen adres ailesi desteklenmiyor.
+      Gerçekleme, belirtilen adres ailesini desteklenmiyor.
      </p>
               </dd>
               <dt>
@@ -256,7 +445,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Bilinmeyen protokol veya protokol ailesi mevcut değil.
+                <p>
+      Protokol bilinmiyor veya protokol ailesi mevcut değil.
      </p>
               </dd>
               <dt>
@@ -265,7 +455,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p><em class="replaceable"><code>type</code></em>'da geçersiz bayraklar.
+                <p>
+      <em class="replaceable"><code>type</code></em> değiştirgesinde belirtilen türler geçersiz.
      </p>
               </dd>
               <dt>
@@ -274,7 +465,8 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Süreç başına açık dosya tanımlayıcısı sayı sınırına ulaşıldı.
+                <p>
+      Süreç başına açık dosya tanıtıcısı sayısı sınırına ulaşıldı.
      </p>
               </dd>
               <dt>
@@ -283,15 +475,18 @@
                 </span>
               </dt>
               <dd class="glossdef">
-                <p>Sistem geneli açık dosya sayı sınırına ulaşıldı.
+                <p>
+      Sistem genelinde açık dosya sayısı sınırına ulaşıldı.
      </p>
               </dd>
               <dt>
-                <span class="glossterm"><code class="constant">ENOBUFS</code> veya <code class="constant">ENOMEM</code></span>
+                <span class="glossterm">
+     <code class="constant">ENOBUFS</code> veya <code class="constant">ENOMEM</code>
+    </span>
               </dt>
               <dd class="glossdef">
                 <p>
-      Yeterli bellek mevcut değil. Yeterli kaynak açılmadığı sürece soket oluşturulamaz.
+      Bellek yetersiz. Yeterli kaynak serbest bırakılmadığı sürece soket oluşturulamaz.
      </p>
               </dd>
               <dt>
@@ -307,10 +502,10 @@
             </dl>
           </div>
           <p>
-   Diğer hatalar kullanılan protokol modülleri tarafından oluşturulabilir.
+   Kullanılan protokol modülleri tarafından başka hatalar oluşturulabilir.
   </p>
         </div>
-        <div class="refsect1" id="idm40331">
+        <div class="refsect1">
           <h2>UYUMLULUK</h2>
           <p>
    POSIX.1-2001, POSIX.1-2008 4.4BSD
@@ -323,12 +518,12 @@
   </p>
         </div>
         <div class="refsect1" id="man2-socket-notes">
-          <h2>NOTLAR</h2>
+          <h2>EK BİLGİLER</h2>
           <p>
    POSIX.1'de, <code class="filename">&lt;sys/types.h&gt;</code> dahil edilmeyi gerektirmez ve yine bu başlık dosyası Linux'da da gerekmez. Fakat bazı tarihsel (BSD) uygulamalardan ötürü bu başlık dosyasının olması gerekir ve  uygulamaların taşınabilirliği için dahil edilmesi akıllıca olacaktır.
   </p>
           <p>
-   4.x BSD altında protokol aileleri için kullanılan bildirim sabitleri <code class="constant">PF_UNIX</code> ve <code class="constant">PF_INET</code> vb. iken, <code class="constant">AF_UNIX</code> ve <code class="constant">AF_INET</code> vb. sabitler adres aileleri için kullanılır.
+   4.x BSD altında protokol aileleri için <code class="constant">PF_UNIX</code> ve <code class="constant">PF_INET</code> vb. sabitleri kullanılırken, <code class="constant">AF_UNIX</code> ve <code class="constant">AF_INET</code> vb. sabitleri adres aileleri için kullanılmaktadır. Ancak, zaten BSD kılavuz sayfasında şunlar geçiyor: "Protokol ailesi genellikle adres ailesiyle aynıdır" ve sonraki standartlar artık her yerde <code class="literal">AF_*</code> sabitlerini kullanıyor.
   </p>
         </div>
         <div class="refsect1" id="man2-socket-examples">
@@ -337,16 +532,16 @@
    <span class="command"><strong>socket</strong></span>()'in örnek kullanımı <tt><b>getaddrinfo</b>(3)</tt> sayfasında verilmiştir.
   </p>
         </div>
-        <div class="refsect1" id="idm40353">
+        <div class="refsect1">
           <h2>İLGİLİ BELGELER</h2>
           <p>
-   <tt><b>accept</b>(2)</tt>, <tt><b>bind</b>(2)</tt>, <tt><b>close</b>(2)</tt>, <tt><a href="man2-connect.html"><b>connect(2)</b></a></tt>, <tt><b>fcntl</b>(2)</tt>, <tt><b>getpeername</b>(2)</tt>, <tt><b>getsockname</b>(2)</tt>, <tt><b>getsockopt</b>(2)</tt>, <tt><b>ioctl</b>(2)</tt>, <tt><a href="man2-listen.html"><b>listen(2)</b></a></tt>, <tt><b>read</b>(2)</tt>, <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt>, <tt><b>select</b>(2)</tt>, <tt><a href="man2-send.html"><b>send(2)</b></a></tt>, <tt><b>shutdown</b>(2)</tt>, <tt><b>socketpair</b>(2)</tt>, <tt><b>write</b>(2)</tt>, <tt><b>getprotoent</b>(3)</tt>,<tt><b>address_families</b>(7)</tt>, <tt><b>ip</b>(7)</tt>, <tt><b>socket</b>(7)</tt>, <tt><b>tcp</b>(7)</tt>, <tt><b>udp</b>(7)</tt>, <tt><b>unix</b>(7)</tt>
+   <tt><b>accept</b>(2)</tt>, <tt><a href="man2-bind.html"><b>bind(2)</b></a></tt>, <tt><b>close</b>(2)</tt>, <tt><a href="man2-connect.html"><b>connect(2)</b></a></tt>, <tt><b>fcntl</b>(2)</tt>, <tt><b>getpeername</b>(2)</tt>, <tt><b>getsockname</b>(2)</tt>, <tt><b>getsockopt</b>(2)</tt>, <tt><b>ioctl</b>(2)</tt>, <tt><a href="man2-listen.html"><b>listen(2)</b></a></tt>, <tt><b>read</b>(2)</tt>, <tt><a href="man2-recv.html"><b>recv(2)</b></a></tt>, <tt><b>select</b>(2)</tt>, <tt><a href="man2-send.html"><b>send(2)</b></a></tt>, <tt><b>shutdown</b>(2)</tt>, <tt><b>socketpair</b>(2)</tt>, <tt><b>write</b>(2)</tt>, <tt><b>getprotoent</b>(3)</tt>, <tt><b>address_families</b>(7)</tt>, <tt><b>ip</b>(7)</tt>, <tt><b>socket</b>(7)</tt>, <tt><b>tcp</b>(7)</tt>, <tt><b>udp</b>(7)</tt>, <tt><b>unix</b>(7)</tt>
   </p>
           <p>
    "An Introductory 4.3BSD Interprocess Communication Tutorial" ve "BSD  Interprocess Communication Tutorial", <em class="replaceable"><code>UNIX Programcısının Ek Belgeleri Cilt 1</code></em>'de yeniden basılmıştır.
   </p>
         </div>
-        <div class="refsect1" id="idm40382">
+        <div class="refsect1">
           <h2>ÇEVİREN</h2>
           <p/>
           <div class="simpara">Fatih Koçer - Ağustos 2022</div>
