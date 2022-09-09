@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>crypt</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man3.html" title="Kütüphane İşlevleri"/>
+    <link rel="next" href="man3-system.html" title="system"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man3.html')">Önceki</button>
+          <div class="dropdown-content">Kütüphane İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man3-system.html')">Sonraki</button>
+          <div class="dropdown-content">system</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man3-crypt">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">CRYPT(3)</td>
+              <td class="mheadfoot" align="center" width="50%">Kütüphane İşlevleri </td>
+              <td class="mheadfoot" align="right" width="25%">CRYPT(3)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>crypt — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>BİLDİRİM</h2>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include _XOPEN_SOURCE</code><br/>
+    <code class="option">#include &lt;unistd.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">void <strong class="fsfunc">crypt</strong>(const char *<var class="pdparam">phrase</var>, const char *<var class="pdparam">setting</var>);</code>
+          </div>
+          <p>
+   -lcrypt ile ilintileme gerektirir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>crypt</strong></span>() parola şifreleme işlevidir. Veri Şifreleme Standartı (Data Encryption Standard) algoritmasına dayanır, fakat anahtar tarama için tasarlanmış donanımlara engel olmak için bir takım farklılıklar içerir.
+  </p>
+          <p>
+   <em class="replaceable"><code>phrase</code></em> kullanıcın girdiği paroladır.
+  </p>
+          <p>
+   <em class="replaceable"><code>setting</code></em> ise, elemanları <code class="literal">[a-zA-Z0-9./]</code> kümesinden seçilen iki karakterli bir dizgedir. Bu dizge algoritmayı 4096 farklı ihtimalden biri ile karıştırmayı amaçlar.
+  </p>
+          <p>
+   <em class="replaceable"><code>phrase</code></em>'nın ilk sekiz karakterinden her birinin en düşük anlamlı 7 biti alınarak 56 bitlik parola oluşturulur. Bu 56 bitlik parola tekrar tekrar bir dizgeyi (genellikle hepsi sıfırlardan oluşan bir dizge) şifrelemede kullanılır. Dönüş değeri 13 karakterli bir ASCII dizgesi olan ve ilk iki karakteri tuzu temsil eden şifrelenmiş paroladır. Dönüş değeri, her işlev çağrısında içeriği değişen statik bir veridir.
+  </p>
+          <div class="refsect2">
+            <h3>Uyarı</h3>
+            <p>
+    Anahtar aralığı 2^56 (7.2e16) farklı değer içermektedir. Bu anahtar aralığının tümünü kapsayan taramalar paralel bilgisayarlar ile mümkündür. <tt><b>crack</b>(1)</tt> gibi yazılımlar bu anahtar aralığının bir kısmını tarayıp parolaları elde etmek için insanlar tarafından kullanılmaktadır. Bu sebeple, parola seçerken sık kullanılan kelime ve isimlerden sakınılmalıdır. Parola seçme işlemi esnasında kırılabilir parolaları kontrol eden <tt><a href="../man1/man1-passwd.html"><b>passwd(1)</b></a></tt> uygulaması kullanmalıdır.
+   </p>
+            <p>
+    DES algoritması, <span class="command"><strong>crypt</strong></span>() arayüzünün parola kimlik denetimi haricinde kullanılmasını kötü bir seçenek haline getirmiştir. Eğer <span class="command"><strong>crypt</strong></span>() arayüzünü kriptografi projenizde kullanmayı planlıyorsanız, bundan vazgeçin: Şifreleme ve DES kütüphaneleri konusunda iyi bir kitap elde edinin.
+   </p>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>DÖNÜŞ DEĞERİ</h2>
+          <p>
+   Dönüş değeri şifrelenmiş parolaya bir göstericidir. Hata durumunda, boş gösterici döner.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>HATALAR</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOSYS</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      İşlev kütüphanede bulunmamaktadır (Örneğin, ABD'nin ihracat sınırlamalarından dolayı).
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>GNU OLUŞUMU</h2>
+          <p>
+   Bu işlevin glibc2 sürümü şu ek özelliklere sahiptir. Eğer <em class="replaceable"><code>setting</code></em> karakter dizisi, "<code class="literal">$1$</code>" karakterleri ile başlar ve bunun ardından en fazla 8 karakter gelirse (ve tercihen "<code class="literal">$</code>" karakteri ile sonlandırılırsa), bu durumda glib crypt işlevi DES motoru yerine, MD5 algoritması kullanılır ve 34  bayta kadar çıktı verilir. Çıktı "<code class="literal">$1$&lt;<em class="replaceable"><code>dizge</code></em>&gt;$</code>" biçimindedir. Burada <code class="varname">dizge</code>, 8 karaktere kadar <em class="replaceable"><code>setting</code></em> ve bunu takip eden <code class="literal">[a-zA-Z0-9./]</code> kümesinden seçilmiş 22 bayttan oluşur.  Burada bu anahtarın bütünü anlamlıdır (sadece ilk 8 baytı değil).
+  </p>
+          <p>
+   Bu işlevin kullanıldığı yazılımlar derlenirken <span class="command"><strong>-lcrypt</strong></span> ile ilintilemelidir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>UYUMLULUK</h2>
+          <p>
+   <span class="command"><strong>crypt</strong></span>() işlevi SVID, X/OPEN, BSD 4.3 ve POSIX 1003.1-2001 ile uyumludur.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><a href="../man1/man1-login.html"><b>login(1)</b></a></tt>, <tt><b>crypt</b>(1)</tt>, <tt><a href="../man1/man1-passwd.html"><b>passwd(1)</b></a></tt>, <tt><b>encrypt</b>(3)</tt>, <tt><b>getpass</b>(3)</tt>, <tt><b>passwd</b>(5)</tt>
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">Emin İslam Tatlı - Nisan 2004</div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%"/>
+              <td class="mheadfoot" align="center" width="40%">2001-12-23</td>
+              <td class="mheadfoot" align="right" width="30%">CRYPT(3)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

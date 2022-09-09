@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>system</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man3-crypt.html" title="crypt"/>
+    <link rel="next" href="../man5/man5.html" title="Dosya Biçimleri ve Dosya Dönüşümleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man3-crypt.html')">Önceki</button>
+          <div class="dropdown-content">crypt</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('../man5/man5.html')">Sonraki</button>
+          <div class="dropdown-content">Dosya Biçimleri ve Dosya Dönüşümleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man3-system">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">SYSTEM(3)</td>
+              <td class="mheadfoot" align="center" width="50%">Kütüphane İşlevleri </td>
+              <td class="mheadfoot" align="right" width="25%">SYSTEM(3)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>system — bir kabuk komutunu çalıştırır</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>BİLDİRİM</h2>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include &lt;stdlib.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">int <strong class="fsfunc">system</strong>(const char *<var class="pdparam">command</var>);</code>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>system</strong></span>() <em class="replaceable"><code>command</code></em> ile belirtilen bir komutu, <span class="command"><strong>/bin/sh -c </strong></span><em class="replaceable"><code>command</code></em> çağrısıyla çalıştırır ve komutun çalışması bittikten sonra geri döner. Komutun çalışması esnasında, <code class="constant">SIGCHLD</code> engellenir, <code class="constant">SIGINT</code> ve <code class="constant">SIGOUT</code> göz ardı edilir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>DÖNÜŞ DEĞERİ</h2>
+          <p>
+   Herhangi bir hatada <code class="code">-1</code> döner (fork başarısız olmuş gibi), aksi takdirde komutun dönüş durumu döner. Bu sonuncu dönüş durumu <tt><b>wait</b>(2)</tt>'de belirtilen biçimde olur.  Bundan dolayı, komutun çıkış kodu  <span class="command"><strong>WEXITSTATUS(</strong></span><em class="replaceable"><code>status</code></em><span class="command"><strong>)</strong></span> olacaktır.  <span class="command"><strong>/bin/sh</strong></span>’ın çalıştırılamadığı durumlarda, çıkış durumu, <span class="command"><strong>exit</strong></span>(127) yapan komutun durumu olacaktır.
+  </p>
+          <p>
+   Şayet <em class="replaceable"><code>command</code></em> değeri NULL ise ve kabuk uygunsa, <span class="command"><strong>system</strong></span>() sıfırdan farklı bir değer döndürür; uygun değilse sıfır döndürür.
+  </p>
+          <p>
+   <span class="command"><strong>system</strong></span>(), çocuk süreçlerden hiçbirinin bekleme durumunu etkilemez.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>UYUMLULUK</h2>
+          <p>
+   ANSI C, POSIX.2, BSD 4.3
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>EK BİLGİLER</h2>
+          <p>
+   Bahsedildiği gibi; <span class="command"><strong>system</strong></span>(), <code class="constant">SIGINT</code> ve <code class="constant">SIGQUIT</code> sinyalini yoksayar.  Bu, uygulamaların kendi çocuklarının çıkış durumlarını kontrol etmedikleri takdirde aşağıdaki örnekteki gibi durdurulamaz bir döngüden sürekli çağrılan uygulamalara sebep olabilir.
+  </p>
+          <pre class="screen">while (birsey) {
+int donen = system("foo");
+
+if (WIFSIGNALED(donen) &amp;&amp;
+    (WTERMSIG(donen) == SIGINT || WTERMSIG(donen) == SIGQUIT))
+        break;
+}
+</pre>
+          <p>
+   Sistem bütünlüğünü bozmak için, bazı çevre değişkenleri tuhaf değerlerle kullanılabileceğinden, <span class="command"><strong>system</strong></span>()’i suid veya sgid yetkileri olan bir yazılımda kullanmayın. Onun yerine <tt><b>exec</b>(3)</tt> ailesine ait işlevleri kullanın, ama <tt><b>execlp</b>(3)</tt> veya <tt><b>execvp</b>(3)</tt> işlevleri hariç. <span class="command"><strong>/bin/sh</strong></span>'ın bash'ın 2. sürümü olduğu sistemlerde, bash başlatma sırasında yetkileri tutacağından <span class="command"><strong>system</strong></span>(), suid veya sgid hakları olan yazılımlardan düzgün çalışmayacaktır. (Debian <span class="command"><strong>sh</strong></span> olarak çağrıldığında bunu yapmayan değiştirilmiş bir bash kullanır.)
+  </p>
+          <p>
+   <span class="command"><strong>/bin/sh</strong></span>'ın kullanılabilirliği aslında kontrol edilmez; Daima kullanılabilir olduğu varsayılır. ISO C  kontrolün yapılmasını isterse de POSIX.2 kabuktan geri dönen değerin daima sıfırdan farklı olması gerektiğini kabul eder (çünkü kabuk olmayan bir sistem uyumlu değildir ve uyum için kabuğun eklenmiş olması gerekmektedir).
+  </p>
+          <p>
+   Kabuk komutu için 127 döndürmek mümkündür, bu nedenle kod, <tt><b>execve</b>(2)</tt> çağrısının  hata verdiğinin, kesin bir kanıtı sayılamaz.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>sh</b>(1)</tt>, <tt><b>signal</b>(2)</tt>, <tt><b>wait</b>(2)</tt>, <tt><b>exec</b>(3)</tt>
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">Yalçın Kolukısa - Kasım 2003</div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%"/>
+              <td class="mheadfoot" align="center" width="40%">2001-09-23</td>
+              <td class="mheadfoot" align="right" width="30%">SYSTEM(3)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

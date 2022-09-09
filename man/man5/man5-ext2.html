@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>ext2</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
+    <link rel="prev" href="man5.html" title="Dosya Biçimleri ve Dosya Dönüşümleri"/>
+    <link rel="next" href="../man6/man6.html" title="Oyunlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man5.html')">Önceki</button>
+          <div class="dropdown-content">Dosya Biçimleri ve Dosya Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man5.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('../man6/man6.html')">Sonraki</button>
+          <div class="dropdown-content">Oyunlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man5-ext2">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">EXT2(5)</td>
+              <td class="mheadfoot" align="center" width="50%">Dosya Biçimleri ve Dosya Dönüşümleri </td>
+              <td class="mheadfoot" align="right" width="25%">EXT2(5)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>ext2 — ikinci genişletilmiş dosya sistemi</p>
+        </div>
+        <div class="refnamediv">
+          <p>ext3 — üçüncü genişletilmiş dosya sistemi</p>
+        </div>
+        <div class="refnamediv">
+          <p>ext4 — dördüncü genişletilmiş dosya sistemi</p>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   The  second,  third,  and fourth extended file systems, or ext2, ext3, and ext4 as they are commonly known, are Linux file systems that have historically been the default file  system  for  many  Linux distributions.   They are general purpose file systems that have been designed for extensibility and backwards compatibility.  In particular, file systems previously intended for use with the ext2  and ext3  file systems can be mounted using the ext4 file system driver, and indeed in many modern Linux distributions, the ext4 file system driver has been configured to handle mount requests for ext2 and ext3 file systems.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>DOSYA SİSTEMİNİN ÖZELLİKLERİ</h2>
+          <p>
+   A  file system formatted for ext2, ext3, or ext4 can have some collection of the following file system feature flags enabled.  Some of these features are not supported by all implementations  of  the ext2,  ext3, and ext4 file system drivers, depending on Linux kernel version in use.  On other operating systems, such as the GNU/HURD or FreeBSD, only a very restrictive set of file system  features may be supported in their implementations of ext2.
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">64bit</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Enables the file system to be larger than 2^32 blocks.  This feature is set automatically, as needed, but it can be useful to specify this feature explicitly if the file system might need o be resized larger than 2^32 blocks, even if it was smaller than that threshold when it was originally created.  Note that some older kernels and older versions of  e2fsprogs  will  not support file systems with this ext4 feature enabled.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">bigalloc</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4  feature  enables  clustered block allocation, so that the unit of allocation is a power of two number of blocks.  That is, each bit in the what had traditionally been known as the block allocation bitmap now indicates whether a cluster is in use or not, where a cluster is by default composed of 16 blocks.  This feature can decrease the time spent on doing block allocation  and  brings  smaller  fragmentation, especially for large files.  The size can be specified using the mke2fs -C option.
+     </p>
+                <div class="warning">
+                  <h3 class="title">Uyarı</h3>
+                  <div class="admon-contents">
+                    <p>
+       The bigalloc feature is still under development, and may not be fully supported with your  kernel  or  may  have  various  bugs.   Please  see  the web page http://ext4.wiki.kernel.org/index.php/Bigalloc for details.  May clash with delayed  allocation  (see  nodelalloc mount option).
+      </p>
+                  </div>
+                </div>
+                <p>
+      This feature requires that the extent feature be enabled.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">casefold</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4 feature provides file system level character encoding support for directories with the casefold (+F) flag enabled.  This feature is name-preserving on the disk, but  it  allows applications  to lookup for a file in the file system using an encoding equivalent version of the file name.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">dir_index</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Use hashed b-trees to speed up name lookups in large directories.  This feature is  supported by ext3 and ext4 file systems, and is ignored by ext2 file systems.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">dir_nlink</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Normally, ext4 allows an inode to have no more than 65,000 hard links.  This applies to regular files as well as directories, which means that there can be no more than 64,998 subdirectories in a directory (because each of the '.' and '..' entries, as well as the directory entry for the directory in its parent directory counts as a hard  link).   This  feature  lifts this limit by causing ext4 to use a link count of 1 to indicate that the number of hard links to a directory is not known when the link count might exceed the maximum count limit.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">ea_inode</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Normally, a file's extended attributes and associated metadata must fit within the  inode  or the  inode's  associated  extended attribute block. This feature allows the value of each extended attribute to be placed in the data blocks of a separate inode if necessary, increasing the limit on the size and number of extended attributes per file.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">encrypt</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Enables  support  for  file-system level encryption of data blocks and file names.  The inode metadata (timestamps, file size, user/group ownership, etc.) is not encrypted.
+     </p>
+                <p>
+      This feature is most useful on file systems with multiple  users,  or  where  not  all  files should be encrypted.  In many use cases, especially on single-user systems, encryption at the block device layer using dm-crypt may provide much better security.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">ext_attr</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This feature enables the use of extended attributes.  This  feature  is  supported  by  ext2, ext3, and ext4.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">extent</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This ext4 feature allows the mapping of logical block numbers for a particular inode to physical blocks on the storage device to be stored using an extent tree, which is  a  more  efficient  data  structure  than  the traditional indirect block scheme used by the ext2 and ext3 file systems.  The use of the extent tree decreases metadata block  overhead,  improves  file system  performance,  and  decreases  the needed to run e2fsck(8) on the file system.  (Note: both extent and extents are accepted as valid names for this feature for historical/backwards compatibility reasons.)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">extra_isize</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4  feature  reserves  a specific amount of space in each inode for extended metadata such as nanosecond timestamps and file creation time, even if the  current  kernel  does  not currently need to reserve this much space.  Without this feature, the kernel will reserve the amount of space for features it currently needs, and the rest may be consumed by extended attributes.
+     </p>
+                <p>
+      For this feature to be useful the inode size must be 256 bytes in size or larger.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">filetype</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This feature enables the storage of file type information in directory entries.  This feature is supported by ext2, ext3, and ext4.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">flex_bg</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This ext4 feature allows the per-block group metadata (allocation bitmaps and  inode  tables) to  be  placed  anywhere  on the storage media.  In addition, mke2fs will place the per-block group metadata together starting at the first block group of each "flex_bg group".   The size of the flex_bg group can be specified using the -G option.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">has_journal</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Create  a  journal  to ensure file system consistency even across unclean shutdowns.  Setting the file system feature is equivalent to using the -j option with mke2fs  or  tune2fs.   This feature is supported by ext3 and ext4, and ignored by the ext2 file system driver.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">huge_file</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This ext4 feature allows files to be larger than 2 terabytes in size.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">inline_data</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Allow data to be stored in the inode and extended attribute area.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">journal_dev</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  feature  is  enabled  on the superblock found on an external journal device.  The block size for the external journal must be the same as the file system which uses it.
+     </p>
+                <p>
+      The external journal device can be used by a file system by specifying the -J  device=&lt;external-device&gt; option to mke2fs(8) or tune2fs(8).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">large_dir</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  feature increases the limit on the number of files per directory by raising the maximum size of directories and, for hashed b-tree directories (see dir_index), the maximum height of the hashed b-tree used to store the directory entries.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">large_file</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  feature flag is set automatically by modern kernels when a file larger than 2 gigabytes is created.  Very old kernels could not handle large files, so this feature flag was used  to prohibit those kernels from mounting file systems that they could not understand.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">metadata_csum</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4  feature  enables metadata checksumming.  This feature stores checksums for all of the file system metadata (superblock, group descriptor blocks, inode and block  bitmaps,  directories,  and  extent tree blocks).  The checksum algorithm used for the metadata blocks is different than the one used for group descriptors with the uninit_bg feature.  These two features are incompatible and metadata_csum will be used preferentially instead of uninit_bg.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">metadata_csum_seed</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  feature  allows  the file system to store the metadata checksum seed in the superblock, which allows the administrator to change the UUID of a file system  using  the  metadata_csum feature while it is mounted.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">meta_bg</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This ext4 feature allows file systems to be resized on-line without explicitly needing to reserve space for growth in the size of the block group descriptors.  This scheme is also  used to  resize  file  systems which are larger than 2^32 blocks.  It is not recommended that this feature be set when a file system is created, since this  alternate  method  of  storing  the block  group  descriptors  will slow down the time needed to mount the file system, and newer kernels can automatically set this feature as necessary when doing an online  resize  and  no more reserved space is available in the resize inode.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">mmp</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4  feature  provides multiple mount protection (MMP).  MMP helps to protect the file system from being multiply mounted and is useful in shared storage environments.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">project</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This ext4 feature provides project quota support. With this feature, the project ID of  inode will be managed when the file system is mounted.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">quota</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Create quota inodes (inode #3 for userquota and inode #4 for group quota) and set them in the superblock.  With this feature, the quotas will be enabled automatically when the file system is mounted.
+     </p>
+                <p> Causes the quota files (i.e., user.quota and group.quota which existed in the older quota design) to be hidden inodes.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">resize_inode</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This file system feature indicates that space has been reserved so that the block  group  descriptor table can be extended while resizing a mounted file system.  The online resize operation is carried out by the kernel, triggered by resize2fs(8).  By default  mke2fs  will  attempt  to  reserve  enough  space  so that the file system may grow to 1024 times its initial size.  This can be changed using the resize extended option.
+     </p>
+                <p>
+      This feature requires that the sparse_super or sparse_super2 feature be enabled.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">sparse_super</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This file system feature is set on all modern ext2, ext3, and ext4 file  systems.   It  indicates  that backup copies of the superblock and block group descriptors are present only in a few block groups, not all of them.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">sparse_super2</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This feature indicates that there will only be at most two backup superblocks and block group descriptors.  The block groups used to store the backup superblock(s) and blockgroup descriptor(s) are stored in the superblock, but typically, one will be located at the  beginning  of block  group  #1, and one in the last block group in the file system.  This feature is essentially a more extreme version of sparse_super and is designed to allow a much larger percentage of the disk to have contiguous blocks available for data files.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">stable_inodes</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Marks  the  file  system's  inode  numbers  and  UUID as stable.  resize2fs(8) will not allow shrinking a file system with this feature, nor will tune2fs(8) allow changing its UUID.  This feature  allows the use of specialized encryption settings that make use of the inode numbers and UUID.  Note that the encrypt feature still needs to be enabled separately.  stable_inodes is a "compat" feature, so old kernels will allow it.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">uninit_bg</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      This  ext4  file  system feature indicates that the block group descriptors will be protected using checksums, making it safe for mke2fs(8) to create a file  system  without  initializing all  of  the  block groups.  The kernel will keep a high watermark of unused inodes, and initialize inode tables and blocks lazily.  This feature speeds up the time to  check  the  file system  using  e2fsck(8), and it also speeds up the time required for mke2fs(8) to create the file system.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">verity</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Enables support for verity protected files.  Verity files are readonly,  and  their  data  is transparently  verified  against  a  Merkle  tree hidden past the end of the file.  Using the Merkle tree's root hash, a verity file can be efficiently authenticated, independent  of  the file's size.
+     </p>
+                <p>
+      This  feature  is most useful for authenticating important read-only files on read-write file systems.  If the file system itself is read-only, then using dm-verity  to  authenticate  the entire block device may provide much better security.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>BAĞLAMA SEÇENEKLERİ</h2>
+          <p>
+   This  section  describes  mount  options  which are specific to ext2, ext3, and ext4.  Other generic mount options may be used as well; see mount(8) for details.
+  </p>
+          <div class="refsect2">
+            <h3>Mount options for ext2</h3>
+            <p>
+    The `ext2' file system is the standard Linux file system.  Since Linux 2.5.46, for  most  mount  options the default is determined by the file system superblock. Set them with tune2fs(8).
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">acl</code>|<code class="option">noacl</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Support POSIX Access Control Lists (or not).  See the acl(5) manual page.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">bsddf</code>|<code class="option">minixdf</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>Set  the  behavior  for  the  statfs  system  call.  The minixdf behavior is to return in the f_blocks field the total number of blocks of the file system, while the bsddf behavior (which is  the  default)  is  to  subtract  the overhead blocks used by the ext2 file system and not available for file storage. Thus
+     </p>
+                  <pre class="screen">% mount /k -o minixdf; df /k; umount /k
+
+File System  1024-blocks   Used  Available  Capacity  Mounted on
+/dev/sda6      2630655    86954   2412169      3%     /k
+
+% mount /k -o bsddf; df /k; umount /k
+
+File System  1024-blocks  Used  Available  Capacity  Mounted on
+/dev/sda6      2543714      13   2412169      0%     /k
+</pre>
+                  <p>
+      (Note that this example shows that one can add command line options to the options  given  in/etc/fstab.)
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">check=none</code>|<code class="option">nocheck</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       No  checking  is done at mount time. This is the default. This is fast.  It is wise to invoke e2fsck(8) every now and then, e.g. at boot time.  The  non-default  behavior  is  unsupported (check=normal  and  check=strict  options  have  been removed). Note that these mount options don't have to be supported if ext4 kernel driver is used for ext2 and ext3 file systems.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">debug</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Print debugging info upon each (re)mount.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">errors</code>={<code class="option">continue</code>|<code class="option">remount-ro</code>|<code class="option">panic</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Define the behavior when an error is encountered.  (Either ignore errors and  just  mark  the file  system  erroneous and continue, or remount the file system read-only, or panic and halt the system.)  The default is set in the file system superblock,  and  can  be  changed  using tune2fs(8).
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">grpid</code>|<code class="option">bsdgroups</code> ve
+      <code class="option">nogrpid</code>|<code class="option">sysvgroups</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       These  options  define  what group id a newly created file gets.  When grpid is set, it takes the group id of the directory in which it is created; otherwise (the default)  it  takes  the fsgid  of  the current process, unless the directory has the setgid bit set, in which case it takes the gid from the parent directory, and also gets the setgid bit set if it is  a  directory itself.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">grpquota</code>|<code class="option">noquota</code>|<code class="option">quota</code>|<code class="option">usrquota</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The  usrquota (same as quota) mount option enables user quota support on the file system. grpquota enables group quotas support. You need the quota utilities to actually enable and manage the quota system.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">nouid32</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Disables  32-bit  UIDs  and GIDs.  This is for interoperability with older kernels which only store and expect 16-bit values.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">oldalloc</code> veya <code class="option">orlov</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Use old allocator or Orlov allocator for new inodes. Orlov is default.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">resgid</code>=n|<code class="option">resuid</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The ext2 file system reserves a certain percentage of the available space (by default 5%, see mke2fs(8)  and  tune2fs(8)).   These  options  determine  who  can  use  the reserved blocks. (Roughly: whoever has the specified uid, or belongs to the specified group.)
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">sb</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Instead of using the normal superblock, use an alternative superblock specified by  n.   This option  is  normally  used  when  the primary superblock has been corrupted.  The location of backup superblocks is dependent on the file system's blocksize,  the  number  of  blocks  per group, and features such as sparse_super.
+     </p>
+                  <p>
+      Additional  backup superblocks can be determined by using the mke2fs program using the -n option to print out where the superblocks exist, supposing mke2fs is  supplied  with  arguments that  are  consistent  with  the  file  system's  layout  (e.g.  blocksize, blocks per group, sparse_super, etc.).
+     </p>
+                  <p>
+      The block number here uses 1 k units. Thus, if you want to use logical block 32768 on a  file system with 4 k blocks, use "sb=131072".
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">user_xattr</code>|<code class="option">nouser_xattr</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Support "user." extended attributes (or not).
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2">
+            <h3>Mount options for ext3</h3>
+            <p>
+    The  ext3  file system is a version of the ext2 file system which has been enhanced with journaling. It supports the same options as ext2 as well as the following additions:
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">ournal_dev=devnum</code>/<code class="option">journal_path=path</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       When the external journal device's major/minor numbers have changed, these options allow  the user  to  specify  the new journal location.  The journal device is identified either through its new major/minor numbers encoded in devnum, or via a path to the device.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">norecovery</code>/<code class="option">noload</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Don't load the journal on mounting.  Note that if the file system was not unmounted  cleanly, skipping  the journal replay will lead to the file system containing inconsistencies that can lead to any number of problems.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">data</code>={<code class="option">journal</code>|<code class="option">ordered</code>|<code class="option">writeback</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Specifies the journaling mode for file data.  Metadata is always  journaled.   To  use  modes other  than  ordered  on the root file system, pass the mode to the kernel as boot parameter, e.g. rootflags=data=journal.
+      </p>
+                  <div class="glosslist">
+                    <dl>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">journal</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          All data is committed into the journal prior to being written into the main file  system.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">ordered</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          This  is  the  default  mode.  All data is forced directly out to the main file system prior to its metadata being committed to the journal.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">writeback</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Data ordering is not preserved – data may be written into the main file  system  after its  metadata  has been committed to the journal.  This is rumoured to be the highest-throughput option. It guarantees internal file system integrity, however it can allow old data to appear in files after a crash and journal recovery.
+         </p>
+                      </dd>
+                    </dl>
+                  </div>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">data_err=ignore</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Just print an error message if an error occurs in a file data buffer in ordered mode.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">data_err=abort</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Abort the journal if an error occurs in a file data buffer in ordered mode.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">barrier=0</code> / <code class="option">barrier=1</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This  disables / enables the use of write barriers in the jbd code.  barrier=0 disables, barrier=1 enables (default). This also requires an IO stack which can support barriers,  and  if jbd  gets  an error on a barrier write, it will disable barriers again with a warning.  Write barriers enforce proper on-disk ordering of  journal  commits,  making  volatile  disk  write caches safe to use, at some performance penalty.  If your disks are battery-backed in one way or another, disabling barriers may safely improve performance.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">commit</code>=nrsec
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Start a journal commit every nrsec seconds.  The default value is 5 seconds.  Zero means  default.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">user_xattr</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Enable Extended User Attributes. See the attr(5) manual page.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">jqfmt</code>={<code class="option">vfsold</code>|<code class="option">vfsv0</code>|<code class="option">vfsv1</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Apart from the old quota system (as in ext2, jqfmt=vfsold aka version 1 quota) ext3 also supports journaled quotas (version 2 quota). jqfmt=vfsv0 or jqfmt=vfsv1 enables  journaled  quotas.  Journaled quotas have the advantage that even after a crash no quota check is required. When the quota file system feature is enabled, journaled quotas are used  automatically,  and this mount option is ignored.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">usrjquota=aquota.user</code>|<code class="option">grpjquota=aquota.group</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       For  journaled  quotas  (jqfmt=vfsv0 or jqfmt=vfsv1), the mount options usrjquota=aquota.user and grpjquota=aquota.group are required to tell the quota system which quota  database  files to  use.  When  the quota file system feature is enabled, journaled quotas are used automatically, and this mount option is ignored.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2">
+            <h3>Mount options for ext4</h3>
+            <p>
+    The ext4 file system is an advanced level of the ext3 file system which incorporates scalability and reliability enhancements for supporting large file system.
+   </p>
+            <p>
+    <code class="option">journal_dev,  journal_path,  norecovery,  noload,  data,  commit,  orlov,  oldalloc, [no]user_xattr, [no]acl, bsddf, minixdf, debug, errors, data_err, grpid, bsdgroups,  nogrpid,  sysvgroups,  resgid,  resuid, sb, quota, noquota, nouid32, grpquota, usrquota, usrjquota, grpjquota</code> ve <code class="option">jqfmt</code> seçenekleri ext3 veya ext2 ile geriye yönelik uyumludur.
+   </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">journal_checksum</code>|<code class="option">nojournal_checksum</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The journal_checksum option enables checksumming of the journal transactions.  This will  allow  the  recovery  code in e2fsck and the kernel to detect corruption in the kernel. It is a compatible change and will be ignored by older kernels.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">journal_async_commit</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Commit block can be written to disk without waiting for descriptor blocks. If  enabled  older kernels cannot mount the device.  This will enable 'journal_checksum' internally.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">barrier=0</code>/<code class="option">barrier=1</code>/<code class="option">barrier</code>/<code class="option">nobarrier</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       These mount options have the same effect as in ext3.  The mount options "barrier" and "nobarrier" are added for consistency with other ext4 mount options.
+     </p>
+                  <p>
+      The ext4 file system enables write barriers by default.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">inode_readahead_blks</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This tuning parameter controls the maximum number of inode table blocks that ext4's inode table readahead algorithm will pre-read into the buffer cache.  The value must be a power of 2. The default value is 32 blocks.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">stripe</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Number of file system blocks that mballoc will try to use for allocation size and  alignment. For  RAID5/6 systems this should be the number of data disks * RAID chunk size in file system blocks.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">delalloc</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Deferring block allocation until write-out time.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">nodelalloc</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Disable delayed allocation. Blocks are allocated when data is copied from user to page cache.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">max_batch_time</code>=usec
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Maximum amount of time ext4 should wait for additional file system operations to be batch together  with  a  synchronous write operation. Since a synchronous write operation is going to force a commit and then a wait for the I/O complete, it doesn't cost much, and can be a  huge throughput  win, we wait for a small amount of time to see if any other transactions can piggyback on the synchronous write. The algorithm used is designed to automatically tune for the speed  of the disk, by measuring the amount of time (on average) that it takes to finish committing a transaction. Call this time the "commit time".  If the time  that  the  transaction has  been running is less than the commit time, ext4 will try sleeping for the commit time to see if other operations will  join  the  transaction.  The  commit  time  is  capped  by  the max_batch_time,  which  defaults to 15000 µs (15 ms). This optimization can be turned off entirely by setting max_batch_time to 0.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">min_batch_time</code>=usec
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This parameter sets the commit time (as described above) to be at  least  min_batch_time.  It defaults to zero microseconds. Increasing this parameter may improve the throughput of multi-threaded, synchronous workloads on very fast disks, at the cost of increasing latency.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">journal_ioprio</code>=öncelik
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The I/O priority (from 0 to 7, where 0 is the highest priority) which should be used for  I/O operations submitted by kjournald2 during a commit operation.  This defaults to 3, which is a slightly higher priority than the default I/O priority.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">abort</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Simulate the effects of calling ext4_abort() for debugging purposes.  This is  normally  used while remounting a file system which is already mounted.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">auto_da_alloc</code>|<code class="option">noauto_da_alloc</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Many broken applications don't use fsync() when replacing existing files via patterns such as
+     </p>
+                  <pre class="screen">fd = open("foo.new")/write(fd,...)/close(fd)/ rename("foo.new", "foo")
+</pre>
+                  <p>or worse yet
+     </p>
+                  <pre class="screen">fd = open("foo", O_TRUNC)/write(fd,...)/close(fd).
+</pre>
+                  <p>
+      If auto_da_alloc is enabled, ext4 will detect the replace-via-rename and replace-via-truncate patterns and force that any delayed allocation blocks are allocated such  that  at  the  next journal  commit, in the default data=ordered mode, the data blocks of the new file are forced to disk before the rename() operation is committed.  This provides roughly the same level  of guarantees  as  ext3,  and  avoids  the  "zero-length"  problem that can happen when a system crashes before the delayed allocation blocks are forced to disk.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">noinit_itable</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Do not initialize any uninitialized inode table blocks in the background. This feature may be used  by  installation  CD's so that the install process can complete as quickly as possible; the inode table initialization process would then be deferred until the next  time  the  file system is mounted.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">init_itable</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The  lazy  itable  init code will wait n times the number of milliseconds it took to zero out the previous block group's inode table. This minimizes the impact on system performance while the file system's inode table is being initialized.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">discard</code>/<code class="option">nodiscard</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Controls  whether ext4 should issue discard/TRIM commands to the underlying block device when blocks are freed.  This is useful for SSD devices and sparse/thinly-provisioned LUNs, but  it is off by default until sufficient testing has been done.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">block_validity</code>|<code class="option">noblock_validity</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This  option enables/disables the in-kernel facility for tracking file system metadata blocks within internal data structures. This allows multi-block  allocator  and  other  routines  to quickly  locate  extents which might overlap with file system metadata blocks. This option is intended for debugging purposes and since it negatively affects the performance, it is off by default.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">dioread_lock</code>|<code class="option">dioread_nolock</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Controls whether or not ext4 should use the DIO read locking. If the dioread_nolock option is specified ext4 will allocate uninitialized extent before buffer write and convert the  extent to  initialized  after IO completes.  This approach allows ext4 code to avoid using inode mutex, which improves scalability on high speed storages. However this does not work with  data journaling  and  dioread_nolock  option  will  be  ignored  with  kernel  warning.  Note that dioread_nolock code path is only used for extent-based files.  Because  of  the  restrictions this options comprises it is off by default (e.g. dioread_lock).
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">max_dir_size_kb</code>=n
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This  limits the size of the directories so that any attempt to expand them beyond the specified limit in kilobytes will cause an ENOSPC error. This is useful in memory-constrained  environments,  where  a very large directory can cause severe performance problems or even provoke the Out Of Memory killer. (For example, if there is  only  512 MB  memory  available,  a 176 MB directory may seriously cramp the system's style.)
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">i_version</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Enable 64-bit inode version support. This option is off by default.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">nombcache</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       This  option  disables  use of mbcache for extended attribute deduplication. On systems where extended attributes are rarely or never shared between files, use of mbcache  for  deduplication adds unnecessary computational overhead.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">prjquota</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       The  prjquota  mount  option  enables project quota support on the file system.  You need the quota utilities to actually enable and manage the quota system.  This mount  option  requires the project file system feature.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>DOSYA ÖZNİTELİKLERİ</h2>
+          <p>
+   The ext2, ext3, and ext4 file systems support setting the following file attributes on Linux systems using the chattr(1) utility:
+  </p>
+          <div class="literallayout">
+            <p><code class="option">a</code> - yalnızca sona ekle<br/>
+<code class="option">A</code> - no atime updates<br/>
+<code class="option">d</code> - no dump<br/>
+<code class="option">D</code> - synchronous directory updates<br/>
+<code class="option">i</code> - immutable<br/>
+<code class="option">S</code> - synchronous updates<br/>
+<code class="option">u</code> - undeletable<br/>
+</p>
+          </div>
+          <p>In addition, the ext3 and ext4 file systems support the following flag:
+  </p>
+          <div class="literallayout">
+            <p><code class="option">j</code> - data journaling<br/>
+</p>
+          </div>
+          <p>Finally, the ext4 file system also supports the following flag:
+  </p>
+          <div class="literallayout">
+            <p><code class="option">e</code> - extents format<br/>
+</p>
+          </div>
+          <p>
+   For descriptions of these attribute flags, please refer to the chattr(1) man page.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEKİRDEK DESTEĞİ</h2>
+          <p>
+   This section lists the file system driver (e.g., ext2, ext3, ext4) and upstream kernel version where a  particular file system feature was supported.  Note that in some cases the feature was present in earlier kernel versions, but there were known, serious bugs.  In other cases the feature  may  still be  considered  in an experimental state.  Finally, note that some distributions may have backported features into older kernels; in particular the kernel versions in certain "enterprise distributions" can be extremely misleading.
+  </p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+                <col/>
+              </colgroup>
+              <thead align="left">
+                <tr>
+                  <th style="text-align: left; ">Özellik</th>
+                  <th style="text-align: left; ">Dosya Sistemi</th>
+                  <th style="text-align: left; ">Çekirdek Sürümü</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <code class="option">filetype</code>
+                  </td>
+                  <td>ext2</td>
+                  <td>2.2.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">sparse_super</code>
+                  </td>
+                  <td>ext2</td>
+                  <td>2.2.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">large_file</code>
+                  </td>
+                  <td>ext2</td>
+                  <td>2.2.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">has_journal</code>
+                  </td>
+                  <td>ext3</td>
+                  <td>2.4.15</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">ext_attr</code>
+                  </td>
+                  <td>ext2/ext3</td>
+                  <td>2.6.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">dir_index</code>
+                  </td>
+                  <td>ext3</td>
+                  <td>2.6.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">resize_inode</code>
+                  </td>
+                  <td>ext3</td>
+                  <td>2.6.10 (online resizing)</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">64bit</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">dir_nlink</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">extent</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">extra_isize</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">flex_bg</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">huge_file</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">meta_bg</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">uninit_bg</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>2.6.28</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">mmp</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.0</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">bigalloc</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.2</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">quota</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.6</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">inline_data</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.8</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">sparse_super2</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.16</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">metadata_csum</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>3.18</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">encrypt</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>4.1</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">metadata_csum_seed</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>4.4</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">project</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>4.5</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">ea_inode</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>4.13</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">large_dir</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>4.13</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">casefold</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>5.2</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">verity</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>5.4</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code class="option">stable_inodes</code>
+                  </td>
+                  <td>ext4</td>
+                  <td>5.5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>mke2fs</b>(8)</tt>, <tt><b>mke2fs.conf</b>(5)</tt>, <tt><b>e2fsck</b>(8)</tt>, <tt><b>dumpe2fs</b>(8)</tt>, <tt><b>tune2fs</b>(8)</tt> <tt><b>debugfs</b>(8)</tt>, <tt><b>mount</b>(8)</tt>, <tt><a href="../man1/man1-chattr.html"><b>chattr(1)</b></a></tt>.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">Nilgün Belma Bugüner - Eylül 2022</div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">E2fsprogs 1.46.5</td>
+              <td class="mheadfoot" align="center" width="40%">Aralık 2021</td>
+              <td class="mheadfoot" align="right" width="30%">EXT2(5)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>
