@@ -70,7 +70,7 @@
         <div class="refsect1">
           <h2>AÇIKLAMA</h2>
           <p>
-   <span class="command"><strong>e2image</strong></span>, <em class="replaceable"><code>aygıt</code></em>ta bulunan hassas ext2, ext3 veya ext4 dosya sistemi meta verilerini belirtilen <em class="replaceable"><code>imge-dosyası</code></em>na kaydeder. <em class="replaceable"><code>imge-dosyası</code></em> <code class="option">-i</code> seçeneği ile birlikte <tt><b>dumpe2fs</b>(8)</tt> ve <tt><b>debugfs</b>(8)</tt> komutlarına aktarılarak incelenebilir. <em class="replaceable"><code>imge-dosyası</code></em>, feci şekilde bozulmuş dosya sistemlerini kurtarmak için bir uzmana yardımcı olabilir.
+   <span class="command"><strong>e2image</strong></span>, <em class="replaceable"><code>aygıt</code></em>ta bulunan hassas ext2, ext3 veya ext4 dosya sistemi meta verilerini belirtilen <em class="replaceable"><code>imge-dosyası</code></em>na kaydeder. <em class="replaceable"><code>imge-dosyası</code></em> <code class="option">-i</code> seçeneği ile birlikte <tt><a href="man8-dumpe2fs.html"><b>dumpe2fs(8)</b></a></tt> ve <tt><b>debugfs</b>(8)</tt> komutlarına aktarılarak incelenebilir. <em class="replaceable"><code>imge-dosyası</code></em>, feci şekilde bozulmuş dosya sistemlerini kurtarmak için bir uzmana yardımcı olabilir.
   </p>
           <p>
    Bir sistemdeki tüm dosya sistemleri için imge dosyaları oluşturmak ve bölüm düzenini (<span class="command"><strong>fdisk -l</strong></span> komutu ile) düzenli aralıklarla (önyükleme sırasında ve/veya haftada bir vb.) kaydetmek çok iyi bir fikirdir. Dosya sisteminin ciddi şekilde zarar görmesi durumunda bu verilere erişilebilir olmasını sağlamak için, <em class="replaceable"><code>imge-dosyası</code></em> verilerini içerdiği dosya sisteminde değil, başka dosya sistemlerinde (örn. bir USB diskte) saklanmalıdır.
@@ -233,12 +233,12 @@
         <div class="refsect1" id="man8-e2image-raw">
           <h2>HAM İMGE DOSYALARI</h2>
           <p>
-   <code class="option">-r</code> seçeneği, normal bir imge dosyasından iki şekilde farklı olan ham bir imge dosyası oluşturur. İlk olarak, imge dosyası içinde dosya sistemi meta verileri, aygıttaki konumuna göreli bir konuma yerleştirilir, böylece <tt><b>debugfs</b>(8)</tt>, <tt><b>dumpe2fs</b>(8)</tt>, <tt><b>e2fsck</b>(8)</tt>, <tt><b>losetup</b>(8)</tt>, vb. doğrudan ham <em class="replaceable"><code>imge-dosyası</code></em> üzerinde çalıştırılabilir. Ham imge dosyası, tüketilen disk alanı miktarını en aza indirmek için seyrek dosya olarak oluşturulur. (Bu dosyanın, seyrek dosyaların nasıl oluşturulacağını anlamayan yardımcı uygulamalarla kopyalama, sıkıştırma/açma işlemlerinde dikkatli olun; dosya, dosya sisteminin kendisi kadar büyük olacaktır!) İkinci olarak, ham imge dosyası ayrıca, standart imge dosyasında bulunmayan dolaylı bloklar ve dizin blokları da içerecektir.
+   <code class="option">-r</code> seçeneği, normal bir imge dosyasından iki şekilde farklı olan ham bir imge dosyası oluşturur. İlk olarak, imge dosyası içinde dosya sistemi meta verileri, aygıttaki konumuna göreli bir konuma yerleştirilir, böylece <tt><b>debugfs</b>(8)</tt>, <tt><a href="man8-dumpe2fs.html"><b>dumpe2fs(8)</b></a></tt>, <tt><b>e2fsck</b>(8)</tt>, <tt><b>losetup</b>(8)</tt>, vb. doğrudan ham <em class="replaceable"><code>imge-dosyası</code></em> üzerinde çalıştırılabilir. Ham imge dosyası, tüketilen disk alanı miktarını en aza indirmek için seyrek dosya olarak oluşturulur. (Bu dosyanın, seyrek dosyaların nasıl oluşturulacağını anlamayan yardımcı uygulamalarla kopyalama, sıkıştırma/açma işlemlerinde dikkatli olun; dosya, dosya sisteminin kendisi kadar büyük olacaktır!) İkinci olarak, ham imge dosyası ayrıca, standart imge dosyasında bulunmayan dolaylı bloklar ve dizin blokları da içerecektir.
   </p>
           <p>
    İmge dosyaları bazen, e2fsprogs'a gönderilen hata raporlarının bir parçası olarak dosya sistemleri gönderilirken kullanılır. Böyle bir  kullanım için önerilen komut aşağıdakine benzer (hda1 yerine kendi aygıtınızı yazın):
   </p>
-          <pre class="screen">e2image -r /dev/hda1 - | bzip2 &gt; hda1.e2i.bz2
+          <pre class="screen"><span class="command"><strong>e2image -r /dev/hda1 - | bzip2 &gt; hda1.e2i.bz2</strong></span>
 </pre>
           <p>
    Bu, herhangi bir veri bloğu içermeden yalnızca meta verileri gönderir. Ancak, dizin bloklarındaki dosya adları, hata bildiricisinin gizli tutmak isteyebileceği dosya sisteminin içeriği hakkındaki bilgileri yine de açığa çıkarabilir. Bu sorunu gidermek için, <code class="option">-s</code> seçeneği belirtilerek imgedeki dosya adları karıştırılabilir.
@@ -255,8 +255,8 @@
           <p>
    İmge dosyaları bazen, e2fsprogs'a gönderilen hata raporlarının bir parçası olarak dosya sistemleri gönderilirken kullanılır. Böyle bir  kullanım için önerilen komut aşağıdakine benzer (hda1 yerine kendi aygıtınızı yazın):
   </p>
-          <pre class="screen">e2image -Q /dev/hda1 hda1.qcow2
-bzip2 -z hda1.qcow2
+          <pre class="screen"><span class="command"><strong>e2image -Q /dev/hda1 hda1.qcow2</strong></span>
+<span class="command"><strong>bzip2 -z hda1.qcow2</strong></span>
 </pre>
           <p>
    Bu, herhangi bir veri bloğu içermeden yalnızca meta verileri gönderir. Ancak, dizin bloklarındaki dosya adları, hata bildiricisinin gizli tutmak isteyebileceği dosya sisteminin içeriği hakkındaki bilgileri yine de açığa çıkarabilir. Bu sorunu gidermek için, <code class="option">-s</code> seçeneği belirtilerek imgedeki dosya adları karıştırılabilir.
@@ -267,7 +267,7 @@ bzip2 -z hda1.qcow2
           <p>
    QCOW2 imgesi ham imgeye şöyle dönüştürülebilir:
   </p>
-          <pre class="screen">e2image -r hda1.qcow2 hda1.raw
+          <pre class="screen"><span class="command"><strong>e2image -r hda1.qcow2 hda1.raw</strong></span>
 </pre>
           <p>
    Bu komut, tüm verileri içeren bir QCOW2 imgesini, bir disk bölümü veya <code class="literal">loop</code> aygıtı olarak bağlanabilecek (örn, <code class="code">mount -o loop imge</code>) bir seyrek imge dosyasına yazmak için yararlı olabilir. Bunun, <span class="command"><strong>e2image</strong></span> tarafından oluşturulmamış QCOW2 imgeleri ile çalışmayabileceği unutulmamalıdır.
@@ -281,12 +281,12 @@ bzip2 -z hda1.qcow2
           <p>
    Örneğin, 1 MiB'tan başlayan disk bölümünde bulunan ext2 dosya sistemini içeren sabit sürücünün tamamının <tt><a href="../man1/man1-dd.html"><b>dd(1)</b></a></tt> imgesi bir blok aygıtına şöyle klonlanabilir:
   </p>
-          <pre class="screen">e2image -aro 1048576 imge /dev/sda1
+          <pre class="screen"><span class="command"><strong>e2image -aro 1048576 imge /dev/sda1</strong></span>
 </pre>
           <p>
    Veya bir dosya sistemi, bir blok aygıtından bir imge dosyasına, disk bölümleme tablosu için 1 MiB'lık yer bırakarak şöyle kopyalanabilir:
   </p>
-          <pre class="screen">e2image -arO 1048576 /dev/sda1 imge
+          <pre class="screen"><span class="command"><strong>e2image -arO 1048576 /dev/sda1 imge</strong></span>
 </pre>
           <p>
    En az bir konum ve yalnızca bir dosya belirtilirse, yerinde taşıma gerçekleştirilir ve dosya sistemi bir konumdan diğerine güvenle taşınabilir.
@@ -307,7 +307,7 @@ bzip2 -z hda1.qcow2
         <div class="refsect1">
           <h2>İLGİLİ BELGELER</h2>
           <p>
-   <tt><b>dumpe2fs</b>(8)</tt>, <tt><b>debugfs</b>(8)</tt>, <tt><b>e2fsck</b>(8)</tt>.
+   <tt><a href="man8-dumpe2fs.html"><b>dumpe2fs(8)</b></a></tt>, <tt><b>debugfs</b>(8)</tt>, <tt><b>e2fsck</b>(8)</tt>.
   </p>
         </div>
         <div class="refsect1">

@@ -4,7 +4,7 @@
     <title>crypt</title>
     <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
     <link rel="prev" href="man3.html" title="Kütüphane İşlevleri"/>
-    <link rel="next" href="man3-system.html" title="system"/>
+    <link rel="next" href="man3-encrypt.html" title="encrypt"/>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('man3-system.html')">Sonraki</button>
-          <div class="dropdown-content">system</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('man3-encrypt.html')">Sonraki</button>
+          <div class="dropdown-content">encrypt</div>
         </div>
       </div>
     </header>
@@ -52,6 +52,24 @@
           <h2>İSİM</h2>
           <p>crypt — parola ve veri şifrelemesi</p>
         </div>
+        <div class="refnamediv">
+          <p>crypt_r — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refnamediv">
+          <p>crypt_rn — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refnamediv">
+          <p>crypt_ra — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refnamediv">
+          <p>crypt_gensalt — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refnamediv">
+          <p>crypt_gensalt_rn — parola ve veri şifrelemesi</p>
+        </div>
+        <div class="refnamediv">
+          <p>crypt_gensalt_ra — parola ve veri şifrelemesi</p>
+        </div>
         <div class="refsynopsisdiv">
           <h2>BİLDİRİM</h2>
           <div class="funcsynopsisinfo"><br/>
@@ -59,40 +77,94 @@
     <code class="option">#include &lt;unistd.h&gt;</code><br/>
    </div>
           <div class="funcprototype">
-            <code class="funcdef">void <strong class="fsfunc">crypt</strong>(const char *<var class="pdparam">phrase</var>, const char *<var class="pdparam">setting</var>);</code>
+            <code class="funcdef">char *<strong class="fsfunc">crypt</strong>(const char *<var class="pdparam">key</var>, const char *<var class="pdparam">setting</var>);</code>
           </div>
-          <p>
-   -lcrypt ile ilintileme gerektirir.
-  </p>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include _GNU_SOURCE</code><br/>
+    <code class="option">#include &lt;crypt.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_r</strong>(const char *<var class="pdparam">key</var>, const char *<var class="pdparam">setting</var>, struct crypt_data *<var class="pdparam">data</var>);</code>
+          </div>
+          <div class="funcsynopsisinfo"><br/>
+    <code class="option">#include _QW_SOURCE</code><br/>
+    <code class="option">#include &lt;crypt.h&gt;</code><br/>
+   </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_rn</strong>(const char *<var class="pdparam">key</var>, const char *<var class="pdparam">setting</var>, void *<var class="pdparam">data</var>, int <var class="pdparam">size</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_ra</strong>(const char *<var class="pdparam">key</var>, const char *<var class="pdparam">setting</var>, void **<var class="pdparam">data</var>, int *<var class="pdparam">size</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_gensalt</strong>(const char *<var class="pdparam">prefix</var>, unsigned long <var class="pdparam">count</var>, const char *<var class="pdparam">input</var>, int <var class="pdparam">size</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_gensalt_rn</strong>(const char *<var class="pdparam">prefix</var>, unsigned long <var class="pdparam">count</var>, const char *<var class="pdparam">input</var>, int <var class="pdparam">size</var>, char <var class="pdparam">output</var>, int <var class="pdparam">output_size</var>);</code>
+          </div>
+          <div class="funcprototype">
+            <code class="funcdef">char *<strong class="fsfunc">crypt_gensalt_ra</strong>(const char *<var class="pdparam">prefix</var>, unsigned long <var class="pdparam">count</var>, const char *<var class="pdparam">input</var>, int <var class="pdparam">size</var>);</code>
+          </div>
         </div>
         <div class="refsect1">
           <h2>AÇIKLAMA</h2>
           <p>
-   <span class="command"><strong>crypt</strong></span>() parola şifreleme işlevidir. Veri Şifreleme Standartı (Data Encryption Standard) algoritmasına dayanır, fakat anahtar tarama için tasarlanmış donanımlara engel olmak için bir takım farklılıklar içerir.
+   <code class="function">crypt</code>, <code class="function">crypt_r</code>, <code class="function">crypt_rn</code> ve <code class="function">crypt_ra</code> işlevleri,  bir tuz ve muhtemelen diğer değiştirgeleri de aktarmak için kullanılan bir dizi desteklenen yöntemden biriyle istendiği şekilde anahtarın kriptografik aş işlevini hesaplar.
   </p>
           <p>
-   <em class="replaceable"><code>phrase</code></em> kullanıcın girdiği paroladır.
+   Unlike  crypt,  the functions crypt_r, crypt_rn and crypt_ra are reentrant.  They place their result
+       and possibly their private data in a data area of size bytes as passed to  them  by  an  application
+       and/or  in memory they allocate dynamically.  Some hashing algorithms may use the data area to cache
+       precomputed intermediate values across calls.  Thus, applications must properly initialize the  data
+       area  before its first use.  crypt_r requires that only data-&gt;initialized be reset to zero; crypt_rn
+       and crypt_ra require that either the entire data area is zeroed or, in the case of  crypt_ra,  *data
+       is  NULL.   When called with a NULL *data or insufficient *size for the requested hashing algorithm,
+       crypt_ra uses realloc(3) to allocate the required amount of memory dynamically.  Thus, crypt_ra  has
+       the  additional requirement that *data, when non-NULL, must point to an area allocated either with a
+       previous call to crypt_ra or with a malloc(3) family call.  The memory allocated by crypt_ra  should
+       be freed with free(3).
+
   </p>
           <p>
-   <em class="replaceable"><code>setting</code></em> ise, elemanları <code class="literal">[a-zA-Z0-9./]</code> kümesinden seçilen iki karakterli bir dizgedir. Bu dizge algoritmayı 4096 farklı ihtimalden biri ile karıştırmayı amaçlar.
+   The crypt_gensalt, crypt_gensalt_rn, and crypt_gensalt_ra functions compile a string for use as set‐
+       ting - with the given prefix (used to choose a hashing method), the iteration count (if supported by
+       the  chosen  method) and up to size cryptographically random input bytes for use as the actual salt.
+       If count is 0, a low default will be picked.  The random bytes may be  obtained  from  /dev/urandom.
+       Unlike crypt_gensalt, the functions crypt_gensalt_rn and crypt_gensalt_ra are reentrant.  crypt_gen‐
+       salt_rn places its result in the output buffer of  output_size  bytes.   crypt_gensalt_ra  allocates
+       memory for its result dynamically.  The memory should be freed with free(3).
+
   </p>
-          <p>
-   <em class="replaceable"><code>phrase</code></em>'nın ilk sekiz karakterinden her birinin en düşük anlamlı 7 biti alınarak 56 bitlik parola oluşturulur. Bu 56 bitlik parola tekrar tekrar bir dizgeyi (genellikle hepsi sıfırlardan oluşan bir dizge) şifrelemede kullanılır. Dönüş değeri 13 karakterli bir ASCII dizgesi olan ve ilk iki karakteri tuzu temsil eden şifrelenmiş paroladır. Dönüş değeri, her işlev çağrısında içeriği değişen statik bir veridir.
-  </p>
-          <div class="refsect2">
-            <h3>Uyarı</h3>
-            <p>
-    Anahtar aralığı 2^56 (7.2e16) farklı değer içermektedir. Bu anahtar aralığının tümünü kapsayan taramalar paralel bilgisayarlar ile mümkündür. <tt><b>crack</b>(1)</tt> gibi yazılımlar bu anahtar aralığının bir kısmını tarayıp parolaları elde etmek için insanlar tarafından kullanılmaktadır. Bu sebeple, parola seçerken sık kullanılan kelime ve isimlerden sakınılmalıdır. Parola seçme işlemi esnasında kırılabilir parolaları kontrol eden <tt><a href="../man1/man1-passwd.html"><b>passwd(1)</b></a></tt> uygulaması kullanmalıdır.
-   </p>
-            <p>
-    DES algoritması, <span class="command"><strong>crypt</strong></span>() arayüzünün parola kimlik denetimi haricinde kullanılmasını kötü bir seçenek haline getirmiştir. Eğer <span class="command"><strong>crypt</strong></span>() arayüzünü kriptografi projenizde kullanmayı planlıyorsanız, bundan vazgeçin: Şifreleme ve DES kütüphaneleri konusunda iyi bir kitap elde edinin.
-   </p>
-          </div>
         </div>
         <div class="refsect1">
           <h2>DÖNÜŞ DEĞERİ</h2>
           <p>
-   Dönüş değeri şifrelenmiş parolaya bir göstericidir. Hata durumunda, boş gösterici döner.
+   Upon successful completion, the functions crypt, crypt_r, crypt_rn, and crypt_ra return a pointer to
+       a string containing the setting that was actually used and a printable encoding of the hash function
+       value.   The  entire  string  is  directly  usable  as  setting  with other calls to crypt, crypt_r,
+       crypt_rn, and crypt_ra and as prefix with calls to crypt_gensalt, crypt_gensalt_rn,  and  crypt_gen‐
+       salt_ra.
+  </p>
+          <p>
+   The  behavior  of  crypt  on errors isn't well standardized.  Some implementations simply can't fail
+       (unless the process dies, in which case they obviously can't return), others return NULL or a  fixed
+       string.  Most implementations don't set errno, but some do.  SUSv2 specifies only returning NULL and
+       setting errno as a valid behavior, and defines only one possible error (ENOSYS,  "The  functionality
+       is  not  supported  on this implementation.")  Unfortunately, most existing applications aren't pre‐
+       pared to handle NULL returns from crypt.  The description below corresponds to  this  implementation
+       of  crypt  and  crypt_r  only, and to crypt_rn and crypt_ra.  The behavior may change to match stan‐
+       dards, other implementations or existing applications.
+  </p>
+          <p>
+   crypt and crypt_r may only fail (and return) when passed an invalid or unsupported setting, in which
+       case they return a pointer to a magic string that is shorter than 13 characters and is guaranteed to
+       differ from setting.  This behavior is safe for older applications which  assume  that  crypt  can't
+       fail, when both setting new passwords and authenticating against existing password hashes.  crypt_rn
+       and crypt_ra return NULL to indicate failure.  All four functions set errno when they fail.
+  </p>
+          <p>
+       The functions crypt_gensalt, crypt_gensalt_rn, and crypt_gensalt_ra return a pointer to the compiled
+       string for setting, or NULL on error in which case errno is set.
   </p>
         </div>
         <div class="refsect1">
@@ -101,42 +173,356 @@
             <dl>
               <dt>
                 <span class="glossterm">
+                  <code class="constant">EINVAL</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      crypt,  crypt_r,  crypt_rn, crypt_ra: setting is invalid or not supported by this implementation;
+     </p>
+                <p>
+      crypt_gensalt, crypt_gensalt_rn, crypt_gensalt_ra: prefix is invalid or not supported by this implementation; count is invalid for the requested prefix; the input size is insufficient for the smallest valid salt with the requested prefix; input is NULL.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ERANGE</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      crypt_rn: the provided data area size is insufficient for the requested hashing algorithm;
+     </p>
+                <p>
+      crypt_gensalt_rn: output_size is too small to hold the compiled setting string.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">ENOMEM</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      crypt (original glibc only): failed to allocate memory for the output  buffer  (which  subsequent calls would re-use);
+     </p>
+                <p>
+      crypt_ra:  *data is NULL or *size is insufficient for the requested hashing algorithm and realloc(3) failed;
+     </p>
+                <p>
+      crypt_gensalt_ra: failed to allocate memory for the compiled setting string.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
                   <code class="constant">ENOSYS</code>
                 </span>
               </dt>
               <dd class="glossdef">
                 <p>
-      İşlev kütüphanede bulunmamaktadır (Örneğin, ABD'nin ihracat sınırlamalarından dolayı).
+      crypt (SUSv2): the functionality is not supported on this implementation;
+     </p>
+                <p>
+      crypt, crypt_r (glibc 2.0 to 2.0.1 only): the crypt add-on is not compiled in and setting requests something other than the MD5-based algorithm.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="constant">EOPNOTSUPP</code>
+                </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      crypt,  crypt_r  (glibc 2.0.2 to 2.1.3 only): the crypt add-on is not compiled in and setting requests something other than the MD5-based algorithm.
      </p>
               </dd>
             </dl>
           </div>
         </div>
         <div class="refsect1">
-          <h2>GNU OLUŞUMU</h2>
+          <h2>AŞLAMA YÖNTEMLERİ</h2>
           <p>
-   Bu işlevin glibc2 sürümü şu ek özelliklere sahiptir. Eğer <em class="replaceable"><code>setting</code></em> karakter dizisi, "<code class="literal">$1$</code>" karakterleri ile başlar ve bunun ardından en fazla 8 karakter gelirse (ve tercihen "<code class="literal">$</code>" karakteri ile sonlandırılırsa), bu durumda glib crypt işlevi DES motoru yerine, MD5 algoritması kullanılır ve 34  bayta kadar çıktı verilir. Çıktı "<code class="literal">$1$&lt;<em class="replaceable"><code>dizge</code></em>&gt;$</code>" biçimindedir. Burada <code class="varname">dizge</code>, 8 karaktere kadar <em class="replaceable"><code>setting</code></em> ve bunu takip eden <code class="literal">[a-zA-Z0-9./]</code> kümesinden seçilmiş 22 bayttan oluşur.  Burada bu anahtarın bütünü anlamlıdır (sadece ilk 8 baytı değil).
+   The implemented hashing methods are intended specifically for processing user passwords for  storage and authentication; they are at best inefficient for most other purposes.
   </p>
           <p>
-   Bu işlevin kullanıldığı yazılımlar derlenirken <span class="command"><strong>-lcrypt</strong></span> ile ilintilemelidir.
+   It  is  important to understand that password hashing is not a replacement for strong passwords.  It is always possible for an attacker with access to password hashes to try  guessing  candidate  passwords against the hashes.  There are, however, certain properties a password hashing method may have which make these key search attacks somewhat harder.
+  </p>
+          <p>
+   All of the hashing methods use salts such that the  same  key  may  produce  many  possible  hashes. Proper use of salts may defeat a number of attacks, including:
+  </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>
+     The ability to try candidate passwords against multiple hashes at the price of one.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     The use of pre-hashed lists of candidate passwords.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     The  ability  to  determine  whether two users (or two accounts of one user) have the same or different passwords without actually having to guess one of the passwords.
+    </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+   The key search attacks depend on computing hashes of large numbers of  candidate  passwords.   Thus, the  computational  cost of a good password hashing method must be high - but of course not too high to render it impractical.
+  </p>
+          <p>
+   All hashing methods implemented within the crypt, crypt_r, crypt_rn,  and  crypt_ra  interfaces  use multiple  iterations  of an underlying cryptographic primitive specifically in order to increase the cost of trying a candidate password.  Unfortunately, due to hardware improvements, the hashing methods which have a fixed cost become increasingly less secure over time.
+  </p>
+          <p>
+   In addition to salts, modern password hashing methods accept a variable iteration count.  This makes it possible to adapt their cost to the hardware improvements while still maintaining compatibility.
+  </p>
+          <p>
+   The following hashing methods are or may be implemented within the described interfaces:
+  </p>
+          <div class="refsect2">
+            <h3>Traditional DES-based</h3>
+            <p>
+   This method is supported by almost all implementations of crypt.  Unfortunately, it no longer offers adequate  security  because  of its many limitations.  Thus, it should not be used for new passwords unless you absolutely have to be able to migrate the password hashes to other systems.
+  </p>
+            <pre class="screen">
+prefix "" (empty string);
+       a string matching ^[./0-9A-Za-z]{2} (see regex(7))
+
+Encoding syntax
+       [./0-9A-Za-z]{13}
+
+Maximum password length
+       8 (uses 7-bit characters)
+
+Effective key size
+       up to 56 bits
+
+Hash size
+       64 bits
+
+Salt size
+       12 bits
+
+Iteration count
+       25
+</pre>
+          </div>
+          <div class="refsect2">
+            <h3>Extended BSDI-style DES-based</h3>
+            <p>
+   This method is used on BSDI and is also available on at least NetBSD, OpenBSD, and  FreeBSD  due  to the use of David Burren's FreeSec library.
+  </p>
+            <pre class="screen">
+ prefix "_"
+
+ Encoding syntax
+        _[./0-9A-Za-z]{19}
+
+ Maximum password length
+        unlimited (uses 7-bit characters)
+
+ Effective key size
+        up to 56 bits
+
+ Hash size
+        64 bits
+
+ Salt size
+        24 bits
+
+ Iteration count
+        1 to 2**24-1 (must be odd)
+</pre>
+          </div>
+          <div class="refsect2">
+            <h3>FreeBSD-style MD5-based</h3>
+            <p>
+   This  is Poul-Henning Kamp's MD5-based password hashing method originally developed for FreeBSD.  It is currently supported on many free Unix-like systems, on Solaris 10 and newer, and it  is  part  of the  official  glibc.   Its main disadvantage is the fixed iteration count, which is already too low for the currently available hardware.
+  </p>
+            <pre class="screen">
+prefix "$1$"
+
+Encoding syntax
+       \$1\$[^$]{1,8}\$[./0-9A-Za-z]{22}
+
+Maximum password length
+       unlimited (uses 8-bit characters)
+
+Effective key size
+       limited by the hash size only
+
+Hash size
+       128 bits
+
+Salt size
+       6 to 48 bits
+
+Iteration count
+       1000
+</pre>
+          </div>
+          <div class="refsect2">
+            <h3>OpenBSD-style Blowfish-based (bcrypt)</h3>
+            <p>
+    bcrypt was originally developed by Niels Provos and David Mazieres for OpenBSD and is also supported
+       on  recent  versions of FreeBSD and NetBSD, on Solaris 10 and newer, and on several GNU/*/Linux dis‐
+       tributions.  It is, however, not part of the official glibc.
+  </p>
+            <p>
+   While both bcrypt and the BSDI-style DES-based hashing offer a variable iteration count, bcrypt  may
+       scale to even faster hardware, doesn't allow for certain optimizations specific to password cracking
+       only, doesn't have the effective key size limitation, and uses 8-bit characters in passwords.
+  </p>
+            <pre class="screen">
+prefix "$2b$"
+
+Encoding syntax
+       \$2[abxy]\$[0-9]{2}\$[./A-Za-z0-9]{53}
+
+Maximum password length
+       72 (uses 8-bit characters)
+
+Effective key size
+       limited by the hash size only
+
+Hash size
+       184 bits
+
+Salt size
+       128 bits
+
+Iteration count
+       2**4 to 2**99 (current implementations are limited to 2**31 iterations)
+</pre>
+            <p>
+   With bcrypt, the count passed to crypt_gensalt, crypt_gensalt_rn, and crypt_gensalt_ra is the base-2
+       logarithm of the actual iteration count.
+  </p>
+            <p>
+   bcrypt hashes used the "$2a$" prefix since 1997.  However, in 2011 an implementation bug was discov‐
+       ered in crypt_blowfish (versions up to 1.0.4 inclusive) affecting handling  of  password  characters
+       with  the  8th bit set.  Besides fixing the bug, to provide for upgrade strategies for existing sys‐
+       tems, two new prefixes were introduced: "$2x$", which fully re-introduces the bug, and "$2y$", which
+       guarantees correct handling of both 7- and 8-bit characters.  OpenBSD 5.5 introduced the "$2b$" pre‐
+       fix for behavior that exactly matches crypt_blowfish's "$2y$", and current  crypt_blowfish  supports
+       it  as  well.  Unfortunately, the behavior of "$2a$" on password characters with the 8th bit set has
+       to be considered system-specific.  When generating new password hashes, the "$2b$" or "$2y$"  prefix
+       should  be  used.   (If  such  hashes ever need to be migrated to a system that does not yet support
+       these new prefixes, the prefix in migrated copies of the already-generated hashes may be changed  to
+       "$2a$".)
+  </p>
+            <p>
+   crypt_gensalt,  crypt_gensalt_rn,  and  crypt_gensalt_ra support the "$2b$", "$2y$", and "$2a$" pre‐
+       fixes (the latter for legacy programs or configurations), but not "$2x$" (which must not be used for
+       new hashes).  crypt, crypt_r, crypt_rn, and crypt_ra support all four of these prefixes.
+  </p>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>TAŞINABİLİRLİK</h2>
+          <p>
+   Bir glibc 2.x sisteminde bu işlevlerden herhangi birini kullanan yazılımların, <code class="systemitem">libcrypt</code> ile ilintilenmesi gerekir. Bununla birlikte, birçok Unix benzeri işletim sistemi ve GNU C Kitaplığının eski sürümleri, libc'de <code class="function">crypt</code> işlevini içermektedir. <code class="function">crypt</code> ve <code class="function">crypt_r</code> glibc-2.28'de kaldırılmıştır.
+  </p>
+          <p>
+   <code class="function">crypt_r</code>, <code class="function">crypt_rn</code>, <code class="function">crypt_ra</code>, <code class="function">crypt_gensalt</code>, <code class="function">crypt_gensalt_rn</code> ve <code class="function">crypt_gensalt_ra</code> işlevleri çok taşınabilir değildir.
+  </p>
+          <p>
+   Desteklenen aşlama yöntemleri gerçeklenime bağımlıdır.
   </p>
         </div>
         <div class="refsect1">
-          <h2>UYUMLULUK</h2>
+          <h2>ÖZNİTELİKLER</h2>
           <p>
-   <span class="command"><strong>crypt</strong></span>() işlevi SVID, X/OPEN, BSD 4.3 ve POSIX 1003.1-2001 ile uyumludur.
+   Bu bölümde kulllanılan terimlerin açıklamaları <tt><b>attributes</b>(7)</tt> sayfasında bulunabilir.
+  </p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+                <col/>
+              </colgroup>
+              <thead align="left">
+                <tr>
+                  <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">İşlev</th>
+                  <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">Öznitelik</th>
+                  <th style="text-align: left; border-bottom: 1px solid ; ">Değer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; "><code class="function">crypt</code>, <code class="function">crypt_gensalt</code></td>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Evre Güvenliği</td>
+                  <td style="border-bottom: 1px solid ; ">ÇEG-hayır yarış:crypt</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; "><code class="function">crypt_r</code>, <code class="function">crypt_rn</code>, <code class="function">crypt_ra</code>, <code class="function">crypt_gensalt_rn</code>, <code class="function">crypt_gensalt_ra</code></td>
+                  <td style="border-right: 1px solid ; ">Evre Güvenliği</td>
+                  <td>ÇEG-evet</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>TARİHÇE</h2>
+          <p>
+   Rotor temelli <code class="function">crypt</code> işlevi Sürüm 6 AT&amp;T UNIX'te göründü. "Geleneksel" DES temelli <code class="function">crypt</code> ilk kez Sürüm 7 AT&amp;T UNIX'te göründü.
+  </p>
+          <p>
+   <code class="function">crypt</code> işlevi SVID, X/OPEN uyumludur ve BSD 4.3 üzerinde kullanılmaktadır. <code class="function">crypt</code> tarafından döndürülen dizgelerin uyumlu sistemler arasında taşınabilir olması gerekmez.
+  </p>
+          <p>
+   <code class="function">crypt_r</code> GNU C Kütüphanesinden kaynaklanır.  HP-UX ve MKS Toolkit üzerinde de bir <code class="function">crypt_r</code> içerir fakat tanım ve anlamsallığı farklıdır.
+  </p>
+          <p>
+   <code class="function">crypt_gensalt</code> Openwall eklentisidir. Solaris 10 ve üstü de bir <code class="function">crypt_gensalt</code> içerir fakat tanım ve anlamsallığı farklıdır.
+  </p>
+          <p>
+   <code class="function">crypt_rn</code>, <code class="function">crypt_ra</code>, <code class="function">crypt_gensalt_rn</code> ve <code class="function">crypt_gensalt_ra</code> işlevleri de Openwall eklentisidir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>HATA AYIKLAMA</h2>
+          <p>
+   The return values of crypt and crypt_gensalt point to static buffers that are overwritten by  subse‐
+       quent  calls.   These  functions  are  not  thread-safe.   (crypt on recent versions of Solaris uses
+       thread-specific data and actually is thread-safe.)
+  </p>
+          <p>
+   The strings returned by certain other implementations of crypt on error may be stored  in  read-only
+       locations  or  only initialized once, which makes it unsafe to always attempt to zero out the buffer
+       normally pointed to by the crypt return value as it would otherwise be preferable for security  rea‐
+       sons.   The problem could be avoided with the use of crypt_r, crypt_rn, or crypt_ra where the appli‐
+       cation has full control over output buffers of these functions (and often over some of their private
+       data  as  well).   Unfortunately, the functions aren't (yet?) available on platforms where crypt has
+       this undesired property.
+  </p>
+          <p>
+   Applications using the thread-safe crypt_r need to allocate address space for the  large  (over  128
+       KB)  struct  crypt_data  structure.   Each  thread  needs a separate instance of the structure.  The
+       crypt_r interface makes it impossible to implement a hashing algorithm which would need to  keep  an
+       even  larger amount of private data, without breaking binary compatibility.  crypt_ra allows for dy‐
+       namically increasing the allocation size as required by the hashing algorithm that is actually used.
+       Unfortunately, crypt_ra is even more non-portable than crypt_r.
+  </p>
+          <p>
+   Multi-threaded  applications  or  library  functions  which  are  meant to be thread-safe should use  crypt_gensalt_rn or crypt_gensalt_ra rather than crypt_gensalt.
   </p>
         </div>
         <div class="refsect1">
           <h2>İLGİLİ BELGELER</h2>
           <p>
-   <tt><a href="../man1/man1-login.html"><b>login(1)</b></a></tt>, <tt><b>crypt</b>(1)</tt>, <tt><a href="../man1/man1-passwd.html"><b>passwd(1)</b></a></tt>, <tt><b>encrypt</b>(3)</tt>, <tt><b>getpass</b>(3)</tt>, <tt><b>passwd</b>(5)</tt>
+   <tt><a href="../man1/man1-login.html"><b>login(1)</b></a></tt>, <tt><a href="../man1/man1-passwd.html"><b>passwd(1)</b></a></tt>, <tt><b>crypto</b>(3)</tt>,  <tt><a href="man3-encrypt.html"><b>encrypt(3)</b></a></tt>, <tt><b>free</b>(3)</tt>,<tt><b>getpass</b>(3)</tt>, <tt><b>getpwent</b>(3)</tt>, <tt><b>malloc</b>(3)</tt>, <tt><b>realloc</b>(3)</tt>, <tt><b>shadow</b>(3)</tt>, <tt><b>passwd</b>(5)</tt>, <tt><b>shadow</b>(5)</tt>, <tt><b>regex</b>(7)</tt>, <tt><b>pam</b>(8)</tt>
   </p>
         </div>
         <div class="refsect1">
           <h2>ÇEVİREN</h2>
           <p/>
           <div class="simpara">Emin İslam Tatlı - Nisan 2004</div>
+          <div class="simpara">Nilgün Belma Bugüner - Eylül 2022</div>
           <div class="simpara">
    Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
   </div>
@@ -144,8 +530,8 @@
         <div class="refentry-footer">
           <table cellspacing="3" cellpadding="3" width="100%" border="0">
             <tr>
-              <td class="mheadfoot" align="left" width="30%"/>
-              <td class="mheadfoot" align="center" width="40%">2001-12-23</td>
+              <td class="mheadfoot" align="left" width="30%">crypt_blowfish 1.3</td>
+              <td class="mheadfoot" align="center" width="40%">7 Temmuz 2014</td>
               <td class="mheadfoot" align="right" width="30%">CRYPT(3)</td>
             </tr>
           </table>

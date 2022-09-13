@@ -3,7 +3,7 @@
   <head>
     <title>system</title>
     <meta name="generator" content="DocBook XSL Stylesheets V-special(derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.gen.tr)"/>
-    <link rel="prev" href="man3-crypt.html" title="crypt"/>
+    <link rel="prev" href="man3-encrypt.html" title="encrypt"/>
     <link rel="next" href="../man5/man5.html" title="Dosya Biçimleri ve Dosya Dönüşümleri"/>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -14,8 +14,8 @@
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('man3-crypt.html')">Önceki</button>
-          <div class="dropdown-content">crypt</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('man3-encrypt.html')">Önceki</button>
+          <div class="dropdown-content">encrypt</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -50,7 +50,7 @@
         <div class="titlepage"/>
         <div class="refnamediv">
           <h2>İSİM</h2>
-          <p>system — bir kabuk komutunu çalıştırır</p>
+          <p>system — kabuk komutu çalıştırır</p>
         </div>
         <div class="refsynopsisdiv">
           <h2>BİLDİRİM</h2>
@@ -64,31 +64,109 @@
         <div class="refsect1">
           <h2>AÇIKLAMA</h2>
           <p>
-   <span class="command"><strong>system</strong></span>() <em class="replaceable"><code>command</code></em> ile belirtilen bir komutu, <span class="command"><strong>/bin/sh -c </strong></span><em class="replaceable"><code>command</code></em> çağrısıyla çalıştırır ve komutun çalışması bittikten sonra geri döner. Komutun çalışması esnasında, <code class="constant">SIGCHLD</code> engellenir, <code class="constant">SIGINT</code> ve <code class="constant">SIGOUT</code> göz ardı edilir.
+   <code class="function">system</code>() kütüphane işlevi, aşağıdaki gibi <tt><b>exec</b>(3)</tt> kullanarak belirtilen kabuk komutunu yürüten bir alt süreç oluşturmak için <tt><b>fork</b>(2)</tt> çağrısını kullanır:
+  </p>
+          <pre class="screen">execl("/bin/sh", "sh", "-c", komut, (char *) NULL);
+</pre>
+          <p>
+   Komut tamamlanınca <code class="function">system</code>() işlevi döner.
+  </p>
+          <p>
+   Komutun yürütülmesi sırasında <code class="function">system</code>() çağrısının yapıldığı süreçte <code class="constant">SIGCHLD</code> engellenir, <code class="constant">SIGINT</code> ve <code class="constant">SIGQUIT</code> yok sayılır. (Bu sinyaller, komutu yürüten alt süreç içindeki öntanımlılarına göre işlenir.)
+  </p>
+          <p>
+   <em class="parameter"><code>command</code></em> NULL ise <code class="function">system</code>(), sistemde bir kabuğun mevcut olup olmadığını gösteren bir durum döndürür.
   </p>
         </div>
         <div class="refsect1">
           <h2>DÖNÜŞ DEĞERİ</h2>
           <p>
-   Herhangi bir hatada <code class="code">-1</code> döner (fork başarısız olmuş gibi), aksi takdirde komutun dönüş durumu döner. Bu sonuncu dönüş durumu <tt><b>wait</b>(2)</tt>'de belirtilen biçimde olur.  Bundan dolayı, komutun çıkış kodu  <span class="command"><strong>WEXITSTATUS(</strong></span><em class="replaceable"><code>status</code></em><span class="command"><strong>)</strong></span> olacaktır.  <span class="command"><strong>/bin/sh</strong></span>’ın çalıştırılamadığı durumlarda, çıkış durumu, <span class="command"><strong>exit</strong></span>(127) yapan komutun durumu olacaktır.
+   <code class="function">system</code>() işlevinin dönüş değeri şunlardan biridir:
+  </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+     <em class="parameter"><code>command</code></em> NULL ise, kullanılabilir bir kabuk varsa sıfırdan farklı bir değer, yoksa 0 döner.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Bir alt süreç oluşturulamıyorsa veya durumu alınamıyorsa -1 döner ve hata kodu <code class="varname">errno</code> değişkenine atanır.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Alt süreçte bir kabuk yürütülemezse, alt kabuk 127 durum koduyla çağrılan <tt><b>_exit</b>(2)</tt> ile sonlandırılmış gibi bir durum koduyla (durum &amp; 0xFF) döner.
+    </p>
+              </li>
+              <li class="listitem">
+                <p>
+     Tüm <code class="function">system</code>() çağrıları başarılı olursa dönüş değeri komutu çalıştıran alt kabuğun sonlanma durum kodudur. (Kabuğun sonlanma durum kodu, çalıştırdığı son komutun sonlanma durum kodudur.)
+    </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+   Son iki durumda dönüş değeri, <tt><b>waitpid</b>(2)</tt> sayfasında açıklanan makrolar (<code class="function">WIFEXITED</code>(), <code class="function">WEXITSTATUS</code>() vb.) kullanılarak incelenebilen bir "bekleme durumu" kodudur.
   </p>
           <p>
-   Şayet <em class="replaceable"><code>command</code></em> değeri NULL ise ve kabuk uygunsa, <span class="command"><strong>system</strong></span>() sıfırdan farklı bir değer döndürür; uygun değilse sıfır döndürür.
+   <code class="function">system</code>() herhangi bir başka alt sürecin bekleme durumunu etkilemez.
   </p>
+        </div>
+        <div class="refsect1">
+          <h2>HATALAR</h2>
           <p>
-   <span class="command"><strong>system</strong></span>(), çocuk süreçlerden hiçbirinin bekleme durumunu etkilemez.
+   <code class="function">system</code>() <tt><b>fork</b>(2)</tt> ile aynı hatalardan herhangi biriyle başarısız olabilir.
   </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÖZNİTELİKLER</h2>
+          <p>
+   Bu bölümde kulllanılan terimlerin açıklamaları <tt><b>attributes</b>(7)</tt> sayfasında bulunabilir.
+  </p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+                <col/>
+              </colgroup>
+              <thead align="left">
+                <tr>
+                  <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">İşlev</th>
+                  <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">Öznitelik</th>
+                  <th style="text-align: left; border-bottom: 1px solid ; ">Değer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border-right: 1px solid ; ">
+                    <code class="function">system</code>
+                  </td>
+                  <td style="border-right: 1px solid ; ">Evre Güvenliği</td>
+                  <td>ÇEG-evet</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="refsect1">
           <h2>UYUMLULUK</h2>
           <p>
-   ANSI C, POSIX.2, BSD 4.3
+   POSIX.1-2001, POSIX.1-2008, C89, C99.
   </p>
         </div>
         <div class="refsect1">
           <h2>EK BİLGİLER</h2>
           <p>
-   Bahsedildiği gibi; <span class="command"><strong>system</strong></span>(), <code class="constant">SIGINT</code> ve <code class="constant">SIGQUIT</code> sinyalini yoksayar.  Bu, uygulamaların kendi çocuklarının çıkış durumlarını kontrol etmedikleri takdirde aşağıdaki örnekteki gibi durdurulamaz bir döngüden sürekli çağrılan uygulamalara sebep olabilir.
+   <code class="function">system</code>() basitlik ve kolaylık sağlar: <tt><b>fork</b>(2)</tt>, <tt><b>execl</b>(3)</tt> ve <tt><b>waitpid</b>(2)</tt> çağrılarının tüm ayrıntılarını ve ayrıca gerekli sinyal yönlendirimlerini ele alır; ek olarak, kabuk komut için olağan ikameleri ve G/Ç yönlendirmelerini gerçekleştirir. <code class="function">system</code>() işlevinin ana maliyeti verimsizliktir: kabuğu çalıştıran süreci oluşturmak ve kabuğu çalıştırmak için ek sistem çağrıları gerekir.
+  </p>
+          <p>
+   <code class="function">_XOPEN_SOURCE</code> özellik sınama makrosu tanımlanırsa (herhangi bir başlık dosyası dahil edilmeden önce), <tt><b>waitpid</b>(2)</tt> içinde açıklanan makrolar (<code class="function">WEXITSTATUS</code>(), vb.), &lt;stdlib.h&gt; dahil edildiğinde kullanılabilir hale gelir.
+  </p>
+          <p>
+   Bahsedildiği gibi; <code class="function">system</code>(), <code class="constant">SIGINT</code> ve <code class="constant">SIGQUIT</code> sinyalini yoksayar.  Bu, uygulamaların kendi çocuklarının çıkış durumlarını kontrol etmedikleri takdirde aşağıdaki örnekteki gibi durdurulamaz bir döngüden sürekli çağrılan uygulamalara sebep olabilir.
   </p>
           <pre class="screen">while (birsey) {
 int donen = system("foo");
@@ -99,25 +177,38 @@ if (WIFSIGNALED(donen) &amp;&amp;
 }
 </pre>
           <p>
-   Sistem bütünlüğünü bozmak için, bazı çevre değişkenleri tuhaf değerlerle kullanılabileceğinden, <span class="command"><strong>system</strong></span>()’i suid veya sgid yetkileri olan bir yazılımda kullanmayın. Onun yerine <tt><b>exec</b>(3)</tt> ailesine ait işlevleri kullanın, ama <tt><b>execlp</b>(3)</tt> veya <tt><b>execvp</b>(3)</tt> işlevleri hariç. <span class="command"><strong>/bin/sh</strong></span>'ın bash'ın 2. sürümü olduğu sistemlerde, bash başlatma sırasında yetkileri tutacağından <span class="command"><strong>system</strong></span>(), suid veya sgid hakları olan yazılımlardan düzgün çalışmayacaktır. (Debian <span class="command"><strong>sh</strong></span> olarak çağrıldığında bunu yapmayan değiştirilmiş bir bash kullanır.)
+   POSIX.1'e göre, <code class="function">system</code>() işlevinin yürütülmesi sırasında <tt><b>pthread_atfork</b>(3)</tt> kullanılarak kaydedilen işleyicilerin çağrılıp çağrılmayacağı konusu belirlenmemiştir. glibc gerçekleniminde bu tür işleyiciler çağrılmamaktadır.
   </p>
           <p>
-   <span class="command"><strong>/bin/sh</strong></span>'ın kullanılabilirliği aslında kontrol edilmez; Daima kullanılabilir olduğu varsayılır. ISO C  kontrolün yapılmasını isterse de POSIX.2 kabuktan geri dönen değerin daima sıfırdan farklı olması gerektiğini kabul eder (çünkü kabuk olmayan bir sistem uyumlu değildir ve uyum için kabuğun eklenmiş olması gerekmektedir).
+   <em class="parameter"><code>command</code></em> NULL ise <span class="command"><strong>/bin/sh</strong></span>'nin kullanılabilirliğinin sınanması 2.1.3'ten önceki glibc sürümlerinde gerçekleştirilmezdi; bunun yerine her zaman kullanılabilir olduğu varsayılırdı ve <code class="function">system</code>() bu durumda her zaman 1 döndürürdü. POSIX.1-2001 bir kabuk sağlamak için uyumlu bir uygulama gerektirmesine rağmen, çağıran uygulama daha önce <tt><b>chroot</b>(2)</tt> çağrısı yapmışsa, kabuk kullanılabilir veya yürütülebilir olmayabileceğinden (POSIX.1-2001 tarafından bu durum belirtilmese de) Glibc 2.1.3'ten bu yana bu sınama yapılmaktadır.
   </p>
           <p>
-   Kabuk komutu için 127 döndürmek mümkündür, bu nedenle kod, <tt><b>execve</b>(2)</tt> çağrısının  hata verdiğinin, kesin bir kanıtı sayılamaz.
+   Alt süreçte bir kabuğun yürütülemediği durumdan ayırt edilemeyecek şekilde,  <code class="function">system</code>() işlevinden dönen 127 değeri nedeniyle kabuk komutunun 127 durum koduyla sona ermiş gibi görünmesi mümkündür.
   </p>
+          <div class="refsect2">
+            <h3>Yetersizlikler</h3>
+            <p>
+    Ayrıcalıklı bir uygulama (kullanıcı ve grup kimliklerini değiştirebilen bir uygulama) içinden <code class="function">system</code>() işlevini kullanmayın, çünkü sistem bütünlüğünü bozmak için bazı ortam değişkenlerine tuhaf değerler atanabilir. Örneğin, <code class="envar">PATH</code>, keyfi bir uygulamanın ayrıcalıklı yürütülmesi için tahrif edilebilir. Bunun yerine <tt><b>exec</b>(3)</tt> işlev ailesini kullanın, ancak <tt><b>execlp</b>(3)</tt> veya <tt><b>execvp</b>(3)</tt> işlevini kullanmayın (bir yürütülebilir dosyayı aramak için <code class="envar">PATH</code> ortam değişkenini de kullanır).
+   </p>
+            <p>
+    <span class="command"><strong>bash</strong></span> sürüm 2 başlatıldığında bir güvenlik önlemi olarak ayrıcalıkları düşürdüğünden, <span class="command"><strong>/bin/sh</strong></span>'nin <span class="command"><strong>bash</strong></span> sürüm 2 olduğu sistemlerde <code class="function">system</code>() işlevi kullanıcı ve grup kimliklerini değiştirebilen uygulamalardan çağrıldığında düzgün çalışmayacaktır. (Debian, <span class="command"><strong>sh</strong></span> olarak çağrıldığında bunu yapmayan, <tt><b>dash</b>(1)</tt> adlı farklı bir kabuk kullanır.)
+   </p>
+            <p>
+    Komutun bir parçası olarak kullanılan herhangi bir kullanıcı girişi, beklenmeyen kabuk komutlarının veya komut seçeneklerinin yürütülmemesini sağlamak için dikkatlice temizlenmelidir. <code class="function">system</code>()  ayrıcalıklı bir uygulamadan kullanıldığında bu tür riskler özellikle ciddidir
+   </p>
+          </div>
         </div>
         <div class="refsect1">
           <h2>İLGİLİ BELGELER</h2>
           <p>
-   <tt><b>sh</b>(1)</tt>, <tt><b>signal</b>(2)</tt>, <tt><b>wait</b>(2)</tt>, <tt><b>exec</b>(3)</tt>
+   <tt><b>sh</b>(1)</tt>, <tt><b>execv</b>(2)</tt>, <tt><b>fork</b>(2)</tt>, <tt><b>sigaction</b>(2)</tt>, <tt><b>sigprocmask</b>(2)</tt>, <tt><b>wait</b>(2)</tt>, <tt><b>exec</b>(3)</tt>, <tt><b>signal</b>(7)</tt>
   </p>
         </div>
         <div class="refsect1">
           <h2>ÇEVİREN</h2>
           <p/>
           <div class="simpara">Yalçın Kolukısa - Kasım 2003</div>
+          <div class="simpara">Nilgün Belma Bugüner - Eylül 2022</div>
           <div class="simpara">
    Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
   </div>
@@ -125,8 +216,8 @@ if (WIFSIGNALED(donen) &amp;&amp;
         <div class="refentry-footer">
           <table cellspacing="3" cellpadding="3" width="100%" border="0">
             <tr>
-              <td class="mheadfoot" align="left" width="30%"/>
-              <td class="mheadfoot" align="center" width="40%">2001-09-23</td>
+              <td class="mheadfoot" align="left" width="30%">Linux man-pages 5.10</td>
+              <td class="mheadfoot" align="center" width="40%">2019-03-06</td>
               <td class="mheadfoot" align="right" width="30%">SYSTEM(3)</td>
             </tr>
           </table>
