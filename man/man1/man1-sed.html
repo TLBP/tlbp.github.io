@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>sed</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, belgeler, kabuk, komut, kullanıcı, yardım, kılavuz, sed, kalıp, alan, satır, tut, süz, dönüştür, yerleştir, metin, ileti, akım, düzenleyici, girdi, çıktı"/>
+    <link rel="prev" href="man1-sdiff.html" title="sdiff"/>
+    <link rel="next" href="man1-seq.html" title="seq"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man1-sdiff.html')">Önceki</button>
+          <div class="dropdown-content">sdiff</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man1.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man1-seq.html')">Sonraki</button>
+          <div class="dropdown-content">seq</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man1-sed">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">SED(1)</td>
+              <td class="mheadfoot" align="center" width="50%">Kullanıcı Komutları </td>
+              <td class="mheadfoot" align="right" width="25%">SED(1)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>sed — metni süzmek ve dönüştürmek için akım düzenleyici</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>KULLANIM</h2>
+          <br/>
+          <table class="cmdsynopsis">
+            <tr>
+              <td class="cmdsynopsis"><code class="command">sed</code> </td>
+              <td class="cmdsynopsis">  <em class="replaceable"><code>SEÇENEKLER</code></em>...  [<em class="replaceable"><code>BETİK</code></em>] [ <em class="replaceable"><code>GİRDİ-DOSYASI</code></em>... ]</td>
+            </tr>
+          </table>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>sed</strong></span> bir akım düzenleyicisidir. Akım düzenleyicisi girdi akımında (dosya veya boru hattı girdisi) temel metin dönüşümlerini gerçekleştirmek için kullanılır. Bazı yönlerden komut dosyasıyla düzenlemelere (ed gibi) izin veren bir düzenleyiciye benzese de, <span class="command"><strong>sed</strong></span> girdi(ler) üzerinden yalnızca bir geçiş yaparak çalışır ve sonuç olarak daha verimlidir. Ancak, onu diğer düzenleyicilerden özellikle ayıran, <span class="command"><strong>sed</strong></span>'in bir boru hattındaki metni süzme yeteneğidir.
+  </p>
+          <div class="refsect2" id="man1-sed-how">
+            <h3>sed nasıl çalışır</h3>
+            <p>
+    <span class="command"><strong>sed</strong></span> iki veri tamponu tutar: etkin kalıp alanı ve yardımcı tutma alanı. Her ikisi de başlangıçta boştur.
+   </p>
+            <p>
+    <span class="command"><strong>sed</strong></span>, her girdi satırında şöyle bir döngü gerçekleştirerek çalışır: ilk olarak, <span class="command"><strong>sed</strong></span> girdi akımından bir satır okur, satır sonu karakterini kaldırıp satırı kalıp alanına yerleştirir. Ardından komutlar yürütülür; her komutun kendisiyle ilişkili bir adresi vardır: adresler bir tür koşul kodudur ve bir komut yalnızca, koşul doğrulanırsa yürütülür.
+   </p>
+            <p>
+    Betiğin sonuna ulaşıldığında, <code class="option">-n</code> seçeneği kullanımda değilse, kalıp alanının içeriği çıktı akımına yazılır ve kaldırılmışsa satır sonu karakteri de satırın sonuna eklenir. Ardından, bir sonraki girdi satırı için bir sonraki döngü başlar.
+   </p>
+            <p>
+    '<code class="option"><a class="option" href="man1-sed.html#man1-sed-commands-D" title="D">D</a></code>' gibi özel komutlar kullanılmadıkça, iki döngü arasında kalıp alanı silinir. Tutma alanındaki veriler ise döngüler arasında saklanır (verileri iki tampon arasında taşıyan <a class="link" href="man1-sed.html#man1-sed-commands" title="KOMUTLAR">'h', 'H', 'x', 'g', 'G' komutları</a>na da bakınız).
+   </p>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>SEÇENEKLER</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--version</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <span class="command"><strong>sed</strong></span> sürüm ve telif hakkı bilgilerini gösterir ve çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--help</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Komut satırını, seçeneklerin kısa açıklamalarını ve hata bildirim adresini gösterir ve çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-n</code>, <code class="option">--quiet</code>, <code class="option">--silent</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Öntanımlı olarak, <span class="command"><strong>sed</strong></span> betik üzerinden her döngünün sonunda kalıp alanını çıktılar (bkz: <a class="xref" href="man1-sed.html#man1-sed-how" title="sed nasıl çalışır"> “sed nasıl çalışır”</a>). Bu seçenekler bu öntanımlı çıktılamayı devre dışı bırakır ve <span class="command"><strong>sed</strong></span> yalnızca <code class="option">p</code> komutu ile çıktı üretir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--debug</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Girilen <span class="command"><strong>sed</strong></span> uygulamasını kurallı biçimde çıktılayıp işlemin açıklamasını ekler.
+     </p>
+                <pre class="screen">$ <strong class="userinput"><code>echo 1 | sed '\%1%s21232'</code></strong>
+3
+
+$ <strong class="userinput"><code>echo 1 | sed --debug '\%1%s21232'</code></strong>
+SED PROGRAM:
+  /1/ s/1/3/
+INPUT:   'STDIN' line 1
+PATTERN: 1
+COMMAND: /1/ s/1/3/
+MATCHED REGEX REGISTERS
+  regex[0] = 0-1 '1'
+PATTERN: 3
+END-OF-CYCLE:
+3
+</pre>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-e</code>[<em class="replaceable"><code>BETİK</code></em>],
+     <code class="option">--expression</code>[=<em class="replaceable"><code>BETİK</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Girdi işlenirken çalıştırılacak komut kümesine <em class="replaceable"><code>BETİK</code></em>teki komutları ekler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-f</code>[<em class="replaceable"><code>BETİK</code></em>],
+     <code class="option">--file</code>[=<em class="replaceable"><code>BETİK</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Girdi işlenirken çalıştırılacak komut kümesine <em class="replaceable"><code>BETİK</code></em> dosyasındaki komutları ekler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-i</code>[<em class="replaceable"><code>SONEK</code></em>],
+     <code class="option">--in-place</code>[=<em class="replaceable"><code>SONEK</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenek, dosyaların yerinde düzenleneceğini belirtir. GNU <span class="command"><strong>sed</strong></span> bunu geçici bir dosya oluşturarak ve standart çıktı yerine bu dosyaya çıktı göndererek yapar. Bu, <code class="option">=, a, c, i, l, p</code> gibi komutlar için geçerlidir. <code class="filename">/dev/stdout</code> özel dosyasıyla birlikte <code class="option">w</code> veya <code class="option">W</code> komutunu kullanarak standart çıktıya yine de yazabilirsiniz.
+     </p>
+                <p>
+      Bu seçenek örtük olarak <code class="option">-s</code> seçeneğini de uygular.
+     </p>
+                <p>
+      Dosyanın sonuna ulaşıldığında, geçici dosya, çıktı dosyasının özgün adıyla yeniden adlandırılır. Sağlanmışsa, <em class="replaceable"><code>SONEK</code></em>, geçici dosyayı yeniden adlandırmadan önce eski dosyanın adını değiştirmek ve böylece yedek bir kopya oluşturmak için kullanılır.
+     </p>
+                <div class="note">
+                  <h3 class="title">Bilginize</h3>
+                  <div class="admon-contents">
+                    <p>
+      GNU <span class="command"><strong>sed</strong></span> herhangi bir çıktının gerçekten değişip değişmediğine bakılmaksızın yedekleme dosyasını oluşturacaktır.
+     </p>
+                  </div>
+                </div>
+                <p>
+      Şu kural izlenir: <em class="replaceable"><code>SONEK</code></em> bir * içermiyorsa, geçerli dosya adının sonuna uzantı olarak eklenir; <em class="replaceable"><code>SONEK</code></em> bir veya daha fazla * karakteri içeriyorsa, her yıldız imi geçerli dosya adıyla değiştirilir. Bu, bir sonek yerine (veya buna ek olarak) yedekleme dosyasına bir önek eklemenize ve hatta özgün dosyaların yedeklerini başka bir dizine (dizinin mevcut olması koşuluyla) yerleştirmenize olanak tanır.
+     </p>
+                <p>
+      <em class="replaceable"><code>SONEK</code></em> belirtilmemişse yedekleme yapılmaksızın özgün dosyanın üzerine yazılır.
+     </p>
+                <p>
+      <code class="option">-i</code> seçeneği isteğe bağlı değiştirge aldığından ardından başka bir kısa seçenek gelmemelidir:
+     </p>
+                <pre class="screen">sed -Ei '...' DOSYA
+</pre>
+                <p>
+      Yedekeme soneki olmaksızın <code class="option">-E -i</code> ile aynıdır. DOSYA yedeği alınmadan yerinde düzenlenir.
+     </p>
+                <pre class="screen">sed -iE '...' DOSYA
+</pre>
+                <p>
+      <code class="option">--in-place=E</code> seçeneğine eşdeğer olup DOSYA yedeği olarak DOSYAE oluşturulur.
+     </p>
+                <p>
+      <code class="option">-n</code>'yi <code class="option">-i</code> ile kullanırken dikkatli olun: ilki satırların otomatik çıktılanmasını devre dışı bırakır ve ikincisi dosyayı yedeklemeden yerinde değiştirir. Dikkatsizce kullanıldığında (ve açık bir <code class="option">p</code> komutu olmadan), çıktı dosyası boş olacaktır:
+     </p>
+                <pre class="screen"># YANLIŞ KULLANIM: 'DOSYA' kırpılır.
+sed -ni 's/foo/bar/' DOSYA
+</pre>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-l</code>[<em class="replaceable"><code>N</code></em>],
+     <code class="option">--line-length</code>[=<em class="replaceable"><code>N</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">l</code> komutu için satır sarmalama uzunluğunu belirler. <code class="literal">0</code> belirtilirse satırlar asla sarmalanmaz. Hiç belirtilmezse <code class="literal">70</code> öntanımlıdır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--posix</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      GNU <span class="command"><strong>sed</strong></span>, POSIX <span class="command"><strong>sed</strong></span>'e göre  birkaç eklenti içerir. Taşınabilir betikler yazmayı basitleştirmek için bu seçenek, ek komutlar da dahil olmak üzere bu kılavuzun belgelediği tüm eklentileri devre dışı bırakır. Çoğu sed uyguaması, POSIX tarafından zorunlu kılınan sözdiziminin dışındaki eklentilerin çoğunu kabul eder, ancak bazı eklentiler (Geribidirim bölümünde açıklanan <code class="option">N</code> komutunun davranışı gibi) aslında standardı ihlal eder. Yalnızca standardı ihlal eden eklentiler devre dışı bırakılmak istenirse, <code class="envar">POSIXLY_CORRECT</code> değişkeni boş olmayan bir değere ayarlanabilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-b</code>, <code class="option">--binary</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenek her platformda mevcuttur, ancak yalnızca işletim sisteminin metin dosyaları ile ikili dosyalar arasında bir ayrım yaptığı durumlarda etkilidir. Böyle bir ayrım yapıldığında (MS-DOS, Windows, Cygwin'de olduğu gibi) metin dosyaları bir satır sonu ve bir satır başı karakteri ile ayrılmış satırlardan oluşur ve <span class="command"><strong>sed</strong></span> sonlandıran satır başını görmez. Bu seçenek belirtildiğinde, <span class="command"><strong>sed</strong></span> girdi dosyalarını ikil kipte açar, böylece bu özel işlemi talep etmez ve satırların bir satır başı ile bitmesini dikkate alır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--follow-symlinks</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenek yalnızca sembolik bağları destekleyen platformlarda kullanılabilir ve yalnızca <code class="option">-i</code> seçeneği belirtilmişse bir etkiye sahiptir. Bu durumda, komut satırında belirtilen dosya sembolik bağ ise, <span class="command"><strong>sed</strong></span> bağlantıyı takip edecek ve bağlantının nihai hedefini düzenleyecektir. Öntanımlı davranış, sembolik bağı koparmaktır, böylece bağlantı hedefi değiştirilmez.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-E</code>, <code class="option">-r</code>, <code class="option">--regexp-extended</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Temel düzenli ifadeler yerine genişletilmiş düzenli ifadeler kullanılır. Genişletilmiş düzenli ifadeler, <tt><b>egrep</b>(1)</tt>'in kabul ettiği ifadelerdir; genellikle daha az ters eğik çizgiye sahip oldukları için bunlar daha okunaklıdır. Tarihsel olarak bu bir GNU eklentisi idi, ancak <code class="option">-E</code> eklentisi artık POSIX standardına eklendiğinden (<a class="link" href="http://austingroupbugs.net/view.php?id=528" target="_top">http://austingroupbugs.net/view.php?id=528</a>) <code class="option">-E</code> seçeneği yalnızca taşınabilirlik için kullanılır oldu. GNU <span class="command"><strong>sed</strong></span> yıllarca <code class="option">-E</code>'yi belgelendirilmemiş bir seçenek olarak kabul etti ve *BSD <span class="command"><strong>sed</strong></span>'leri de yıllarca <code class="option">-E</code>'yi kabul etti, ancak <code class="option">-E</code> kullanan betikler diğer eski sistemlere taşınamayabilir. Bkz. Genişletilmiş düzenli ifadeler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+    <code class="option">-s</code>, <code class="option">--separate</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Öntanımlı olarak, <span class="command"><strong>sed</strong></span> komut satırında belirtilen dosyaları tek bir sürekli uzun akım olarak kabul eder. Bu GNU <span class="command"><strong>sed</strong></span> eklentisi, kullanıcının bunları ayrı dosyalar olarak görmesine izin verir: aralık adreslerinin ('<code class="code">/abc/,/def/</code>' gibi) birden fazla dosyaya yayılmasına izin verilmez, satır numaraları her dosyanın başlangıcına görelidir, <code class="option">$</code> her dosyanın son satırını ifade eder ve <code class="option">R</code> komutları ile çağrılan dosyalar dosya başlangıcına geri sarılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">--sandbox</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Korumalı alan tipinde, <code class="option">e/w/r</code> komutları reddedilir - bunları içeren betikler çalıştırılmadan iptal edilir. Korumalı alan kipi, <span class="command"><strong>sed</strong></span>'in yalnızca komut satırında belirtilen girdi dosyalarında çalışmasını ve harici betikleri çalıştıramamasını sağlar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-u</code>, <code class="option">--unbuffered</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Hem girdiyi hem de çıktıyı mümkün olan en düşük düzeyde tamponlar. (Bu, özellikle girdi "<span class="command"><strong>tail -f</strong></span>" benzeri komutlardan geliyorsa ve dönüştürülen çıktının mümkün olan en kısa sürede görülmesi isteniyorsa kullanışlıdır.)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-z</code>, <code class="option">--null-data</code>,
+     <code class="option">--zero-terminated</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Girdiyi, her satırı, satır sonu yerine boş karakter (ASCII 'NUL' karakteri) ile sonlandırılmış bir satır kümesi olarak ele alır. Bu seçenek, rastgele dosya adlarını işlemek için "<span class="command"><strong>sort -z</strong></span>" ve "<span class="command"><strong>find -print0</strong></span>" gibi komutlarla kullanılabilir.
+     </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+    Komut satırında <code class="option">-e</code>, <code class="option">-f</code>, <code class="option">--expression</code> veya <code class="option">--file</code> seçeneği verilmezse, komut satırındaki seçenek olmayan ilk değiştirge yürütülecek betik dosyası olarak alınır.
+   </p>
+          <p>
+    Yukarıdakilerin işlenmesinden sonra herhangi bir komut satırı değiştirgesi kalırsa, bu değiştirgeler işlenecek girdi dosyalarının adları olarak yorumlanır. '-' dosya adı, standart girdi akımını ifade eder. Hiçbir dosya adı belirtilmemişse standart girdi okunur.
+   </p>
+        </div>
+        <div class="refsect1" id="man1-sed-commands">
+          <h2>KOMUTLAR</h2>
+          <p>
+   GNU <span class="command"><strong>sed</strong></span> aşağıdaki komutları destekler. Bazıları standart POSIX komutlarıdır, diğerleri ise GNU eklentisidir.
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     
+      <code class="option">a \</code>
+     
+     <br/>
+      <em class="replaceable"><code>metin</code></em>
+     
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Satırın ardına <em class="replaceable"><code>metin</code></em>i ekler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">a</code> <em class="replaceable"><code>metin</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Satırın ardına <em class="replaceable"><code>metin</code></em>i ekler (başka bir sözdizimi).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">b</code> [<em class="replaceable"><code>ETİKET</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Koşulsuz olarak <em class="replaceable"><code>ETİKET</code></em>e dallanır. <em class="replaceable"><code>ETİKET</code></em> belirtilmemişse sonraki döngü başlatılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     
+      <code class="option">c \</code>
+     
+     <br/>
+      <em class="replaceable"><code>metin</code></em>
+     
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Seçili satırları, satır sonu karakterlerinin yerine ters eğik çizgiler yerleştirilmiş metin ile değiştirir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">c</code> <em class="replaceable"><code>metin</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Satırları metin ile değiştirir (başka bir sözdizimi).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">d</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını silip sonraki döngüyü başlatır.
+     </p>
+              </dd>
+              <dt id="man1-sed-commands-D">
+                <span class="glossterm">
+     <code class="option">D</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanı satır sonu karakterlerini içeriyorsa, kalıp alanındaki metni ilk satır sonu karakterine kadar silip yeni bir girdi satırı okumaksızın kalıp alanında kalanlarla döngüyü yeniden başlatır.
+     </p>
+                <p>
+      Kalıp alanı satır sonu karakteri içermiyorsa, d komutu kullanılmış gibi  yeni dongüyü normal olarak başlatır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">e</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanında bulunan komutu yürütüp, çıktıyı kalıp alanının üzerine sondaki satır sonu karakteri olmaksızın yazar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">e</code> <em class="replaceable"><code>KOMUT</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>KOMUT</code></em> yürütülüp çıktısı çıktı akımına gönderilir. <em class="replaceable"><code>KOMUT</code></em>, ters eğik çizgi ile bitenler dışında, birden çok satırda çalışabilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">F</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Geçerli girdi dosyasının ismini satır sonu karakteri ile birlikte çıktıya yazar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">g</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanının içeriğini tutma alanının içeriği ile değiştirir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">G</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanının içeriğine satır sonu karakterini ekledikten sonra tutma alanının içeriğini kalıp alanının içeriğine ekler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">h</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Tutma alanının içeriğini kalıp alanının içeriği ile değiştirir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">H</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Tutma alanının içeriğine satır sonu karakterini ekledikten sonra kalıp alanının içeriğini tutma alanının içeriğine ekler.
+     </p>
+              </dd>
+              <dt id="man1-sed-cmd-i">
+                <span class="glossterm">
+     
+      <code class="option">i \</code>
+     
+     <br/>
+      <em class="replaceable"><code>metin</code></em>
+     
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Satırdan önce metni basar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">i</code> <em class="replaceable"><code>metin</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Satırdan önce metni basar (başka bir sözdizimi).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">n</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Otomatik çıktılama devre dışı değilse kalıp alanını çıktıladıktan sonra, ne olursa olsun, kalıp alanını sonraki girdi satırı ile değiştirir. Hiç girdi satırı kalmamışsa <span class="command"><strong>sed</strong></span> hiçbir komut yürütmeden çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">l</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını belirsizliğe yol açmadan ekrana basar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">l</code> <em class="replaceable"><code>genişlik</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını <em class="replaceable"><code>genişlik</code></em> karakterden keserek belirsizliğe yol açmadan ekrana basar. Bu bir GNU eklentisidir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">n</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Otomatik çıktılama devre dışı değilse kalıp alanını çıktıladıktan sonra, ne olursa olsun, kalıp alanını sonraki girdi satırı ile değiştirir. Hiç girdi satırı kalmamışsa <span class="command"><strong>sed</strong></span> hiçbir komut yürütmeden çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">N</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanına satır sonu karakterini ekledikren sonra sonraki girdi satırını kalıp alanına ekler. Hiç girdi satırı kalmamışsa <span class="command"><strong>sed</strong></span> hiçbir komut yürütmeden çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">p</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını satır sonu karakterine kadar çıktılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">P</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını çıktılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">q</code> [<em class="replaceable"><code>ÇIKIŞ-KODU</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Otomatik çıktılama devre dışı bırakılmazsa, geçerli kalıp alanının çıktılanmasının gerekliliği dışında, daha fazla girdi işlemeden <span class="command"><strong>sed</strong></span> betikten hemen çıkar. <em class="replaceable"><code>ÇIKIŞ-KODU</code></em> değiştirgesi bir GNU eklentisidir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">Q</code> [<em class="replaceable"><code>ÇIKIŞ-KODU</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">q</code> gibidir, farklı olarak kalıp alanının içeriği çıktılanmaz. Tıpkı <code class="option">q</code> komutundaki gibi çağrıcıya bir çıkış kodu döndürür. Bu bir GNU eklentisidir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">r</code> <em class="replaceable"><code>DOSYA</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>DOSYA</code></em>dan okunan metni ekler.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">R</code> <em class="replaceable"><code>DOSYA</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>DOSYA</code></em>dan okunan satırı ekler. Komutun her çağrısında dosyadan bir satır okunur. Bu bir GNU eklentisidir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="code">s/</code><em class="replaceable"><code>DÜZİFADE</code></em><code class="code">/</code><em class="replaceable"><code>YENİSİ</code></em><code class="code">/</code>[<em class="replaceable"><code>SÇN</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>DÜZİFADE</code></em> düzenli ifadesini kalıp alanı ile eşleştirmeye çalışır. Başarılı olursa, eşleşen kısım  <em class="replaceable"><code>YENİSİ</code></em> ile değiştirilir. <em class="replaceable"><code>YENİSİ</code></em> dizgesi kalıp uzayının eşleşen kısmına atıfta bulunmak için <code class="code">&amp;</code> özel karakterini ve <em class="replaceable"><code>DÜZİFADE</code></em>de karşılık gelen eşleşen alt ifadelere atıfta bulunmak için <code class="code">\1</code> ile <code class="code">\9</code> arasındaki özel öncelemler içerebilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">t</code>[<em class="replaceable"><code>YAFTA</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Yalnızca son giriş satırının okunmasından veya koşullu dallanmanın alınmasından sonra başarılı bir ikame olmuşsa, <em class="replaceable"><code>YAFTA</code></em>ya atlanır. <em class="replaceable"><code>YAFTA</code></em> belirtilmezse, bir sonraki döngü başlatılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">T</code> <em class="replaceable"><code>label</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Yalnızca son giriş satırının okunmasından veya koşullu dallanmanın alınmasından sonra başarılı bir ikame yoksa, <em class="replaceable"><code>YAFTA</code></em>ya atlanır. <em class="replaceable"><code>YAFTA</code></em> belirtilmezse, bir sonraki döngü başlatılır. Bu bir GNU eklentisidir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">v</code> [<em class="replaceable"><code>SÜRÜM</code></em>]
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu komut hiçbir şey yapmaz, ancak GNU <span class="command"><strong>sed</strong></span> eklentileri desteklenmiyorsa veya belirtilen <em class="replaceable"><code>SÜRÜM</code></em> mevcut değilse <span class="command"><strong>sed</strong></span> başarısız olur.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">w</code> <em class="replaceable"><code>DOSYA</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Geçerli kalıp alanını <em class="replaceable"><code>DOSYA</code></em>ya yazar
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">W</code> <em class="replaceable"><code>filename</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Geçerli kalıp alanının ilk satırını <em class="replaceable"><code>DOSYA</code></em>ya yazar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">x</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp ve tutma alanlarının içeriklerini takas eder.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="code">y/</code><em class="replaceable"><code>KAYNAK</code></em><code class="code">/</code><em class="replaceable"><code>HEDEF</code></em><code class="code">/</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanındaki karakterlerden <em class="replaceable"><code>KAYNAK</code></em>ta görünenleri <em class="replaceable"><code>HEDEF</code></em>teki karşılıklarına dönüştürür.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">z</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kalıp alanını boşaltır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">#</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu karakterden satır sonu karakterine kadar dizge bir yorum olup yok sayılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     { <em class="replaceable"><code>KOMUT</code></em> ;
+     <em class="replaceable"><code>KOMUT</code></em> ... }
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Çeşitli komutları tek bir komuta gruplar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">=</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Geçerli satırın numarasını (satır sonu karakteri ekleyerek) çıktılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">:</code><em class="replaceable"><code>YAFTA</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Dallanma komutları (<code class="option">b</code>, <code class="option">t</code>, <code class="option">T</code>) için <em class="replaceable"><code>YAFTA</code></em> konumunu belirler.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>ADRESLER</h2>
+          <p>
+   <span class="command"><strong>sed</strong></span> komutları adressiz verilebilir, bu durumda komut tüm girdi satırları için yürütülür; tek adresle verilmesi durumunda komut yalnızca bu adresle eşleşen girdi satırları için yürütülür; iki adresle verilmesi durumunda durumda ise komut, birinci adresten başlayıp ikinci adrese kadar devam eden kapsayıcı satır aralığıyla eşleşen tüm girdi satırları için yürütülür.
+  </p>
+          <p>
+   Adres aralıkları hakkında dikkat edilmesi gereken üç şey:
+  </p>
+          <p/>
+          <div class="simpara">
+   1. Sözdizimi <em class="replaceable"><code>ADDR1,ADDR2</code></em>'dir (yani, adresler virgülle ayrılır);
+  </div>
+          <div class="simpara">
+   2. <em class="replaceable"><code>ADDR1</code></em>'in eşleştiği satır, <em class="replaceable"><code>ADDR2</code></em> daha önceki bir satırı seçse bile her zaman kabul edilir;
+  </div>
+          <div class="simpara">
+   3. Eğer <em class="replaceable"><code>ADDR2</code></em> bir düzenli ifade ise, <em class="replaceable"><code>ADDR1</code></em>'in eşleştiği satırla eşleştirmeye çalışılmaz.
+  </div>
+          <p>
+   Adresten (veya adres aralığından) önce veya sonra <code class="code">!</code> komutu yerleştirilebilir. Bu durumda komut, yalnızca adres (veya adres aralığı) eşleşmediğinde yürütülür.
+  </p>
+          <div class="refsect2">
+            <h3>Sayısal adresler</h3>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+      <em class="replaceable"><code>NUM</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Yalnızca belirtilen satır <em class="replaceable"><code>NUM</code></em>arasıyla eşleşme olur (komut satırında <code class="option">-s</code> seçeneği belirtilmemişse, dosyalar arasında eklenerek artan satır <em class="replaceable"><code>NUM</code></em>arasıyla eşleşme olur)
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">$</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Son satırla eşleşir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <em class="replaceable"><code>İLK</code></em><span class="command"><strong>~</strong></span><em class="replaceable"><code>ADIM</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <em class="replaceable"><code>İLK</code></em> satırdan başlayarak her <em class="replaceable"><code>ADIM</code></em>ıncı satırla eşleşir. Örneğin, "<span class="command"><strong>sed -n 1~2p</strong></span>" komutu girdi akımındaki tüm tek sayılı satırları çıktıllayacak, "<span class="command"><strong>2~5</strong></span>" adresi ise ikinciden başlayarak her beşinci satırla eşleşecektir. <em class="replaceable"><code>İLK</code></em> sıfır olabilir; bu durumda <span class="command"><strong>sed</strong></span>, adıma eşitmiş gibi çalışır. (Bu bir eklentidir.) Örnekler:
+      </p>
+                  <pre class="screen">$ <strong class="userinput"><code>seq 10 | sed -n '0~4p'</code></strong>
+4
+8
+
+$ <strong class="userinput"><code>seq 10 | sed -n '1~3p'</code></strong>
+1
+4
+7
+10
+</pre>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2" id="man1-sed-regexp-addr">
+            <h3>Düzenli ifadeli adresler</h3>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">/</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      <em class="replaceable"><code>DÜZİFD</code></em> düzenli ifadesiyle eşleşen satırı seçer. <em class="replaceable"><code>DÜZİFD</code></em> içinde <code class="option">/</code> karakterleri varsa, bunlar ters eğik çizgi (<code class="option">\</code>) ile öncelenmelidir.
+     </p>
+                  <p>
+      Aşağıdaki komut, <code class="filename">/etc/passwd</code> dosyasında '<code class="code">bash</code>' ile biten satırları ekrana basar:
+     </p>
+                  <pre class="screen">sed -n '/bash$/p' /etc/passwd
+</pre>
+                  <p>
+      Boş düzenli ifade '<code class="code">//</code>', son düzenli ifade eşleşmesini tekrarlar (aynı durum, boş düzenli ifade <code class="option">s</code> komutuna aktarıldığında da geçerlidir). Düzenli ifade değiştiricilerinin düzenli ifade derlenirken değerlendirildiğini, dolayısıyla bunları boş düzenli ifadeyle birlikte belirtmenin geçersiz olacağı unutulmamalıdır.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\c</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">c</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      <code class="option">c</code> herhangi bir karakter olabilir.
+     </p>
+                  <p>
+      Bu aynı zamanda <em class="replaceable"><code>DÜZİFD</code></em> düzenli ifadesiyle de eşleşir, ancak <code class="code">/</code> dışında bir sınırlayıcı kullanılmasına da izin verir. Bu, özellikle düzenli ifadenin kendisi çok sayıda eğik çizgi içeriyorsa kullanışlıdır. Düzenli ifadenin kendisi herhangi bir sınırlayıcı karakter içeriyorsa, her biri bir ters eğik çizgi (<code class="code">\</code>) ile öncelenmelidir.
+     </p>
+                  <p>
+      Aşağıdaki komutlar eşdeğerdir. <code class="filename">/home/alice/documents/</code> ile başlayan satırları ekrana basar:
+     </p>
+                  <pre class="screen">sed -n '/^\/home\/alice\/documents\//p'
+sed -n '\%^/home/alice/documents/%p'
+sed -n '\;^/home/alice/documents/;p'
+</pre>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     
+      <code class="option">/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">/I</code>
+     
+     <br/>
+      <code class="option">\c</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">cI</code>
+     
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Düzenli ifade eşleştirmesinin <code class="option">I</code> değiştiricisi, düzenli ifadenin harf büyüklüğünü önemsemeden eşleşmesine sebep olan bir GNU eklentisidir.
+     </p>
+                  <p>
+      Çoğu yazılım dilinde, harf büyüklüğünü önemsemeyen düzenli ifade eşleşmesi için küçük harf <code class="option">i</code> kullanılır. Ancak, <span class="command"><strong>sed</strong></span>'de <code class="option">i</code>, yerleştirme komutu için kullanılır (bkz. <a class="link" href="man1-sed.html#man1-sed-cmd-i" title="i \ metin">yerleştirme komutu</a>).
+     </p>
+                  <p>
+      Aşağıdaki örnekler arasındaki farka dikkat edin.
+     </p>
+                  <p>
+      Bu örnekte, <code class="code">/b/I</code> adrestir, <code class="code">I</code> düzenli ifade değiştiricisidir, <code class="code">d</code> ise silme komutudur:
+     </p>
+                  <pre class="screen">$ <strong class="userinput"><code>printf "%s\n" a b c | sed '/b/Id'</code></strong>
+a
+c
+</pre>
+                  <p>
+      Burada, <code class="code">/b/</code>  adrestir, <code class="code">i</code> yerleştirme komutudur. <code class="code">d</code> yerleştirilen değerdir.
+     </p>
+                  <pre class="screen">$ <strong class="userinput"><code>printf "%s\n" a b c | sed '/b/id'</code></strong>
+a
+d
+b
+c
+</pre>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     
+      <code class="option">/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">/M</code>
+     
+     <br/>
+      <code class="option">\%</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">%M</code>
+     
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      <code class="option">M</code> değiştiricisi, düzenli ifadeyi çok satırlı kipte eşleştirmeye yönlendiren bir GNU sed eklentisidir. Değiştirici, (normal davranışa ek olarak) <code class="code">^</code>'ın satır sonu karakterinden sonraki boş dizgeyle (sonraki satırın başıyla) ve <code class="code">$</code>'ın satır sonu karakterinden önceki boş dizgeyle eşleşmesine sebep olur. Daima tamponun başı veya sonuyla eşleşen özel karakter dizilimleri de (<code class="code">\`</code> ve <code class="code">\'</code>) vardır. Ek olarak nokta karakteri, çok satırlı kipte satır sonu karakteriyle eşleşmez.
+     </p>
+                </dd>
+              </dl>
+            </div>
+            <p>
+   Düzenli ifadeli adresler, mevcut kalıp uzayının içeriği üzerinde çalışır. Kalıp alanı değiştirilirse (örneğin <code class="option">s///</code> komutuyla), düzenli ifade değiştirilen metin ile eşleştirilmeye çalışılır.
+  </p>
+            <p>
+   Aşağıdaki örnekte, <code class="option">-n</code> ile otomatik yazdırma devre dışı bırakılmıştır. <code class="code">s/2/X/</code> komutu, '<code class="code">2</code>' içeren satırları '<code class="code">X</code>' ile değiştirir. <code class="code">/[0-9]/p</code> komutu, satırları rakamlarla eşleştirir ve yazdırır. İkinci satır <code class="code">/[0-9]/</code> düzenli ifadesinden önce değiştirildiği için eşleşmeyecek ve yazdırılmayacaktır:
+  </p>
+            <pre class="screen">$ <strong class="userinput"><code>seq 3 | sed -n 's/2/X/ ; /[0-9]/p'</code></strong>
+1
+3
+</pre>
+          </div>
+          <div class="refsect2">
+            <h3>Desteklenen diğer adres biçemleri</h3>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+      <code class="code">0,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+        <code class="code">0,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code> adres belirtiminde <code class="code">0</code> satır numarası kullanılabilir, böylece <span class="command"><strong>sed</strong></span> ilk girdi satırında da <em class="replaceable"><code>DÜZİFD</code></em> ile eşleşmeye çalışır. Başka bir deyişle, <em class="replaceable"><code>DÜZİFD</code></em>'nin en baştaki girdi satırı ile eşleşmesi dışında <code class="code">0,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code> ile <code class="code">1,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code> benzerdir. <code class="code">0,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code> bunu aralığın sonu olarak değerlendirir. Halbuki, <code class="code">1,/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="code">/</code> aralığın başlangıcı ile eşleşir. Bu nedenle, aralık düzenli ifadenin ikinci benzerine kadar genişletilir.
+      </p>
+                  <p>
+       Bunun, 0 adresinin anlamlı olduğu tek yer oluşuna dikkat edilmelidir; 0. satır yoktur ve başka bir yolla 0 adresi belirtilen komutlar hata verir.
+      </p>
+                  <p>
+       Aşağıdaki örnekler, adres 1 ve 0 ile başlama arasındaki farkı göstermektedir:
+      </p>
+                  <pre class="screen">$ <strong class="userinput"><code>seq 10 | sed -n '1,/[0-9]/p'</code></strong>
+1
+2
+
+$ <strong class="userinput"><code>seq 10 | sed -n '0,/[0-9]/p'</code></strong>
+1
+</pre>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <em class="replaceable"><code>ADRES1</code></em>, <em class="replaceable"><code>+N</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <em class="replaceable"><code>ADRES1</code></em> ve <em class="replaceable"><code>ADRES1</code></em>'i izleyen <em class="replaceable"><code>N</code></em> satırla eşleşir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <em class="replaceable"><code>ADRES1</code></em>, <em class="replaceable"><code>~N</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <em class="replaceable"><code>ADRES1</code></em> ve <em class="replaceable"><code>ADRES1</code></em>i izleyen satırlardan, satır numarası <em class="replaceable"><code>N</code></em>'nin katları olan satırlara kadar olan satırlarla eşleşir.
+      </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>EK BİLGİ</h2>
+          <div class="refsect2">
+            <h3>s komutu</h3>
+            <p>
+   <code class="option">s</code> komutu muhtemelen <span class="command"><strong>sed</strong></span> içindeki en önemli komuttur ve birçok farklı seçeneğe sahiptir. <code class="option">s</code> komutunun sözdizimi:
+  </p>
+            <pre class="screen">‘<code class="option">s/</code><em class="replaceable"><code>DÜZİFD</code></em><code class="option">/</code><em class="replaceable"><code>YENİSİ</code></em><code class="option">/</code><em class="replaceable"><code>SEÇENEKLER</code></em>’
+</pre>
+            <p>
+   Temel kavram basittir: <code class="option">s/</code> komutu, kalıp alanını belirtilen <em class="replaceable"><code>DÜZİFD</code></em> düzenli ifadesiyle eşleştirmeye çalışır; eşleşme başarılı olursa, kalıp alanının eşleşen kısmı <em class="replaceable"><code>YENİSİ</code></em> ile değiştirilir.
+  </p>
+            <p>
+   Düzenli ifade sözdizimi ile ilgili ayrıntılar için bkz: <a class="xref" href="man1-sed.html#man1-sed-regexp-addr" title="Düzenli ifadeli adresler"> “Düzenli ifadeli adresler”</a>
+  </p>
+            <p>
+   <em class="replaceable"><code>YENİSİ</code></em>, eşleşmenin <code class="code">n</code>'inci <code class="code">\...\</code> kısmına atıfta bulunan, <code class="code">\n</code>  atıfları içerebilir (<code class="code">n</code>, 1'den 9'a kadar bir sayıdır). Ayrıca, <em class="replaceable"><code>YENİSİ</code></em> kalıp alanının eşleşen kısmının tamamına atıfta bulunan öncelenmemiş <code class="code">&amp;</code> karakterleri de içerebilir.
+  </p>
+            <p>
+   Sınırlayıcı <code class="code">/</code> karakterleri, verilen herhangi bir <code class="option">s</code> komutunda herhangi bir başka tek karakterle eşli olarak değiştirilebilir. <code class="code">/</code> karakteri (veya onun yerine kullanılan karakter), <em class="replaceable"><code>DÜZİFD</code></em> ve <em class="replaceable"><code>YENİSİ</code></em> içinde ancak bir <code class="code">\</code> karakteri ile öncelenerek görünebilir.
+  </p>
+            <p>
+   Son olarak, GNU <span class="command"><strong>sed</strong></span> eklentisi olarak, komut, bir ters eğik çizgi ile öncelenerek  <code class="option">L, l, U, u, E</code> özel karakterlerinden birini içerebilir. Bunların anlamları:
+  </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\L</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Bir <code class="option">\U</code> veya <code class="option">\E</code> öncelemine rastlayana dek <em class="replaceable"><code>YENİSİ</code></em> içeriği küçük harfe dönüştürülür.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\l</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Sonraki karakteri küçük harfe dönüştürür.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\U</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Bir <code class="option">\L</code> veya <code class="option">\E</code> öncelemine rastlayana dek <em class="replaceable"><code>YENİSİ</code></em> içeriği büyük harfe dönüştürülür.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\u</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Sonraki karakteri büyük harfe dönüştürür.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">\E</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      <code class="option">\L</code> veya <code class="option">\U</code> ile başlatılmış harf dönüşümünü durdurur.
+     </p>
+                </dd>
+              </dl>
+            </div>
+            <p>
+   <code class="option">g</code> komutu kullanıldığında, harf dönüşümü düzenli ifadenin yinelenen oluşumları arasında aktarılmaz. Örneğin, aşağıdaki komut kalıp alanındaki ‘<code class="code">a-b-</code>’ ile çalıştırıldığında:
+  </p>
+            <pre class="screen">s/\(b\?\)-/x\u\1/g
+</pre>
+            <p>
+   ‘<code class="code">axxB</code>’ çıktılar. İlk ‘<code class="code">-</code>’ dönüştürülürken ‘<code class="option">\u</code>’ seçeneği ile ‘<code class="option">\1</code>' numaralı düzenli ifade için <em class="replaceable"><code>YENİSİ</code></em> boş olur. <code class="code">b-</code> ise <code class="code">xB</code>'ye dönüştürülürken kalıp alanına eklenen x karakteri dönüşümden etkilenmez.
+  </p>
+            <p>
+   Diğer yandan, \l ve \u boş bir ikameye öncülük ediyorsa <em class="replaceable"><code>YENİSİ</code></em>'nin kalanını etkiler. Kalıp alanındaki ‘<code class="code">a-b-</code>’ ile:
+  </p>
+            <pre class="screen">s/\(b\?\)-/\u\1x/g
+</pre>
+            <p>
+   komutu '-’ ile ‘X’ (büyük harf) ve ‘b-’ ile ‘Bx’ dönüşümü yapar. Bu davranış istenmiyorsa, '\1’den sonra dönüşümü durduran bir ‘\E’ eklenebilir.
+  </p>
+            <p>
+   Son dönüşümde \, &amp; veya satır sonu karakteri yerleştirilmek istenirse, bu karakterlerin bir \ ile öncelenmiş olmasına dikkat edilmelidir.
+  </p>
+            <p>
+   <code class="option">s</code> komutunu şu seçeneklerden sıfır veya daha fazlası izleyebilir:
+  </p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">g</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Eşleşen (yalnızca ilkini değil) tüm <em class="replaceable"><code>DÜZİFD</code></em>'leri <em class="replaceable"><code>YENİSİ</code></em> ile değiştirir.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <em class="replaceable"><code>N</code></em>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Yalnızca <em class="replaceable"><code>N</code></em>inci <em class="replaceable"><code>DÜZİFD</code></em> <em class="replaceable"><code>YENİSİ</code></em> ile değiştirilir.
+     </p>
+                  <div class="note">
+                    <h3 class="title"><code class="option">g</code> ve <em class="replaceable"><code>N</code></em> etkileşimi</h3>
+                    <div class="admon-contents">
+                      <p>
+       POSIX standardı, <code class="option">g</code> ve sayı değiştiricileri birlikte kullanıldığında ne olması gerektiğini belirtmez ve şu anda <span class="command"><strong>sed</strong></span> uygulamaları arasında geniş çapta üzerinde anlaşmaya varılmış bir çözüm yoktur. GNU <span class="command"><strong>sed</strong></span> için etkileşim şu şekilde tanımlanıştır: <em class="replaceable"><code>N</code></em>'den önceki eşleşmeleri yoksay ve ardından <em class="replaceable"><code>N</code></em>'den itibaren tüm eşleşmeleri eşleştir ve değiştir.
+      </p>
+                    </div>
+                  </div>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">p</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Dönüşüm yapılmışsa yeni kalıp alanını çıktılar.
+     </p>
+                  <div class="note">
+                    <h3 class="title">Bilginize</h3>
+                    <div class="admon-contents">
+                      <p>
+       <code class="option">p</code> ve <code class="option">e</code> seçenekleri birlikte belirtildiğinde bu ikisinin bir birine göre konumu farklı sonuçlar üretebilir. Genelde, <code class="option">ep</code> (değerlendir ve çıktıla) istenir fakat diğer türlüsü de hata ayıklama için kullanışlıdır. Bu nedenle, GNU <span class="command"><strong>sed</strong></span>'in geçerli sürümü <code class="option">s</code> komutunun genel seçenekleri etkilerini yalnızca bir kere gösterirken, özellikle <code class="option">p</code> seçeneğinin hem <code class="option">e</code> den önce hem de <code class="option">e</code> den sonra kullanımında kalıp alanını önce ve sonra değerlendirir. Bu davranış, bu sürümde böyle belgelenmiş olsa da gelecekte değişebilir.
+      </p>
+                    </div>
+                  </div>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">w</code> <em class="replaceable"><code>DOSYA</code></em>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Dönüşüm yapılmışsa sonucu belirtilen <em class="replaceable"><code>DOSYA</code></em>'ya yazar. GNU <span class="command"><strong>sed</strong></span> eklentisi olarak, <em class="replaceable"><code>DOSYA</code></em> için iki özel değer desteklenmektedir: sonuçları standart hataya yazan <code class="filename">/dev/stderr</code> ve standart çıktıya yazan <code class="filename">/dev/stdout</code>. Bu seçenek, <code class="option">-i</code> seçeneği kullanılmadıkça <code class="option">p</code>'ye eşdeğerdir.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">e</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Bu komut, bir kabuk komutundaki girdiyi kalıp alanına borulamaya yarar. Dönüşüm yapılmışsa, kalıp alanında bulunan komut yürütülür ve kalıp alanı komutun çıktısına yerleştirilir. Sondaki satır sonu karakterleri engellenir; boş (NUL) karakter içeren bir komutun yürütülmesinin sonuçları tanımsızdır. Bu bir GNU eklentisidir.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">I</code>, <code class="option">i</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Düzenli ifadenin harf büyüklüğüne duyarsız eşleştirilmesini sağlayan <code class="option">I</code> değiştiricisi bir GNU eklentisidir.
+     </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+     <code class="option">M</code>, <code class="option">m</code>
+    </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+      Düzenli ifadenin çok satırlı kipte eşleştirilmesini sağlayan <code class="option">M</code> değiştiricisi bir GNU eklentisidir. Değiştirici, (normal davranışa ek olarak) <code class="code">^</code>'ın satır sonu karakterinden sonraki boş dizgeyle (sonraki satırın başıyla) ve <code class="code">$</code>'ın satır sonu karakterinden önceki boş dizgeyle eşleşmesine sebep olur. Daima tamponun başı veya sonuyla eşleşen özel karakter dizilimleri de (<code class="code">\`</code> ve <code class="code">\'</code>) vardır. Ek olarak nokta karakteri, çok satırlı kipte satır sonu karakteriyle eşleşmez.
+     </p>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="refsect2">
+            <h3>Düzenli İfadeler</h3>
+            <p>
+   POSIX.2 Temel Düzenli İfadelerinin desteklenmesini gerektirse de başarım sorunları nedeniyle bunlar tamamlanmış değildir. <code class="code">\n</code> dizilimi bir düzenli ifadede satır sonu karakteri ile eşleşir, <code class="code">\a</code>, <code class="code">\t</code> ve benzerleri için benzer eşleşmeler söz konusudur. <code class="option">-E</code> seçeneği temel düzenli ifadeler yerine gelişmiş düzenli ifadelerin kullanılmasını sağlar. Gelişmiş düzenli ifadeler yıllarca GNU <span class="command"><strong>sed</strong></span> tarafından desteklenmiş ve artık POSIX'e de dahil edilmiştir.
+  </p>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>ÇIKIŞ DURUMU</h2>
+          <p>
+   Sıfır çıkış durumu başarıyı betimller. Sıfırdan farklı bir çıkış kodu ise hata oluştuğunu gösterir. GNU <span class="command"><strong>sed</strong></span> şu çıkış kodları ile çıkar:
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">0</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      İşlem başarılı.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">1</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Komut veya düzenli ifade geçersiz ya da <code class="option">--posix</code> seçeneği ile GNU <span class="command"><strong>sed</strong></span> eklentisi kullanılmış.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">2</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Komut satırında belirtilmiş bir veya daha fazla girdi dosyası açılamadı (örn, dosya yoktur veya izinler yetersizdir). Diğer dosyalardan işleme devam edildi.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">4</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Çalışma anında bir G/Ç veya ciddi bir işlem hatası oluştu. GNU <span class="command"><strong>sed</strong></span> hemen çıktı.
+     </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+   Ek olarak, <code class="option">q</code> ve <code class="option">Q</code> komutları <span class="command"><strong>sed</strong></span>'in özel bir çıkış kodu ile çıkmasını sağlamak için kullanılabilir:
+  </p>
+          <pre class="screen">$ <strong class="userinput"><code>echo | sed 'Q42' ; echo $?</code></strong>
+42
+</pre>
+        </div>
+        <div class="refsect1">
+          <h2>GERİBİLDİRİM</h2>
+          <p>
+   Yazılım hatalarını bildirmek için: bug-sed (at) gnu.org.  Ayrıca, eposta gönderirken <span class="command"><strong>sed --version</strong></span> komutunun çıktısının da iletiye dahil edilmesi rica olunur.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>YAZAN</h2>
+          <p>
+   Jay Fenlason, Tom Lord, Ken Pizzini, Paolo Bonzini, Jim Meyering ve Assaf Gordon tarafından yazıldı.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>TELİF HAKKI</h2>
+          <p/>
+          <div class="simpara">
+   Telif hakkı © 2020 Free Software Foundation, Inc.
+  </div>
+          <div class="simpara">
+   Lisans GPLv3+: GNU GPL sürüm 3 veya üstü &lt;<a class="link" href="http://gnu.org/licenses/gpl.html" target="_top">http://gnu.org/licenses/gpl.html</a>&gt;
+  </div>
+          <div class="simpara">
+   Bu bir özgür yazılımdır: yazılımı değiştirmek ve dağıtmakta özgürsünüz. Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>awk</b>(1)</tt>, <tt><b>ad</b>(1)</tt>, <tt><b>grep</b>(1)</tt>, <tt><a href="man1-tr.html"><b>tr</b></a>(1)</tt>, <tt><b>perlre</b>(1)</tt>, sed.info, sed hakkında çeşitli kitaplar, sed SSS (<a class="link" href="http://sed.sf.net/grabbag/tutorials/sedfaq.txt" target="_top">http://sed.sf.net/grabbag/tutorials/sedfaq.txt</a>), <a class="link" href="http://sed.sf.net/grabbag/" target="_top">http://sed.sf.net/grabbag/</a>.
+  </p>
+          <p/>
+          <div class="simpara">
+   GNU  sed  sayfası:  &lt;<a class="link" href="https://www.gnu.org/software/sed/" target="_top">https://www.gnu.org/software/sed/</a>&gt;.
+  </div>
+          <div class="simpara">
+   GNU yazılımları için genel yardım sayfası: &lt;<a class="link" href="https://www.gnu.org/gethelp/" target="_top">https://www.gnu.org/gethelp/</a>&gt;.
+  </div>
+          <p>
+   <span class="command"><strong>sed</strong></span> komutu ile ilgili kapsamlı bir kılavuz Texinfo olarak mevcuttur. <span class="command"><strong>info</strong></span> ve <span class="command"><strong>sed</strong></span> yazılımları düzgün bir şekilde sisteminizde mevcutsa,
+  </p>
+          <div class="blockquote">
+            <blockquote class="blockquote">
+              <p>
+    <span class="command"><strong>info sed</strong></span>
+   </p>
+            </blockquote>
+          </div>
+          <p>
+   komutu ile bu kılavuzu görüntüleyebilirsiniz.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">© 2022 Nilgün Belma Bugüner</div>
+          <div class="simpara">
+   Bu çeviri özgür yazılımdır: Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">sed-4.8</td>
+              <td class="mheadfoot" align="center" width="40%">Ocak 2020</td>
+              <td class="mheadfoot" align="right" width="30%">SED(1)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>e2fsck</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, belgeler, dumpe2fs, E2fsprogs, disk, aygıt, bölüm, denetleme, ext2, ext3, ext4, süperblok, günlük, bağlı, etkileşimli, G/Ç, blok, düğüm, dizin, dosya, sistem, mk2efs, e2fsck"/>
+    <link rel="prev" href="man8-dumpe2fs.html" title="dumpe2fs"/>
+    <link rel="next" href="man8-e2freefrag.html" title="e2freefrag"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man8-dumpe2fs.html')">Önceki</button>
+          <div class="dropdown-content">dumpe2fs</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man8.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man8-e2freefrag.html')">Sonraki</button>
+          <div class="dropdown-content">e2freefrag</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man8-e2fsck">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">E2FSCK(8)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Yönetim Komutları </td>
+              <td class="mheadfoot" align="right" width="25%">E2FSCK(8)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>e2fsck — Linux ext2/ext3/ext4 dosya sistemini denetler</p>
+        </div>
+        <div class="refnamediv">
+          <p>fsck.ext2 — Linux ext2 dosya sistemini denetler</p>
+        </div>
+        <div class="refnamediv">
+          <p>fsck.ext3 — Linux ext3 dosya sistemini denetler</p>
+        </div>
+        <div class="refnamediv">
+          <p>fsck.ext4 — Linux ext4 dosya sistemini denetler</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>KULLANIM</h2>
+          <table class="cmdsynopsis">
+            <tr>
+              <td class="cmdsynopsis"><code class="command">e2fsck</code> </td>
+              <td class="cmdsynopsis"> [ <code class="option">-pacnyrdfkvtDFV</code> ] [ <code class="option">-b</code> <em class="replaceable"><code>süperblok</code></em> ] [ <code class="option">-B</code> <em class="replaceable"><code>blokboyu</code></em> ] [ <code class="option">-l</code>  |   <code class="option">-L</code> <em class="replaceable"><code>bozuk_blok_dosyası</code></em> ] [ <code class="option">-C</code> <em class="replaceable"><code>dt</code></em> ] [ <code class="option">-j</code> <em class="replaceable"><code>harici_günlük</code></em> ] [ <code class="option">-E</code> <em class="replaceable"><code>ek_seçenekler</code></em> ] [ <code class="option">-z</code> <em class="replaceable"><code>gerial_dosyası</code></em> ]   <em class="replaceable"><code>aygıt</code></em>  </td>
+            </tr>
+          </table>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   
+   
+   
+   
+   <span class="command"><strong>e2fsck</strong></span>, ext2/ext3/ext4 dosya sistemlerini denetlemek için kullanılır. Günlük kaydı kullanan ext3 ve ext4 dosya sistemleri için, sistem temiz olmayan bir şekilde hatasız olarak kapatılmışsa, normal olarak, günlükte kayıtlı hareketler yeniden yürütüldükten sonra dosya sisteminin temiz olarak işaretlenmesi gerekir. Bu nedenle, günlük kaydı kullanan dosya sistemleri için <span class="command"><strong>e2fsck</strong></span>, süper blokta daha fazla denetim gerektiğini belirtilmediği takdirde normal olarak günlüğü yeniden yürütür ve çıkar.
+  </p>
+          <p>
+   <em class="replaceable"><code>aygıt</code></em>, blok aygıtının  (örneğin: <code class="filename">/dev/sdc1</code>) veya dosya sistemini içeren dosyanın adıdır.
+  </p>
+          <div class="warning">
+            <h3 class="title">Uyarı</h3>
+            <div class="admon-contents">
+              <p>
+    Genelde <span class="command"><strong>e2fsck</strong></span>'yı bağlı dosya sistemlerinde çalıştırmak güvenli değildir. Tek istisna <code class="option">-n</code> seçeneğinin belirtilmesi ve <code class="option">-c</code>, <code class="option">-l</code> veya <code class="option">-L</code> seçeneklerinin belirtilmemesidir. Ancak, bunu yapmak güvenli olsa bile, dosya sistemi bağlanmışsa <span class="command"><strong>e2fsck</strong></span> tarafından gösterilen sonuçlar geçerli değildir. <span class="command"><strong>e2fsck</strong></span>, bağlı bir dosya sisteminin denetlenmesi gerekip gerekmediğini sorarsa, tek doğru cevap “no/hayır”dır. Ne yaptıklarını gerçekten bilen uzmanlar bile bu soruya başka bir yanıt vermeden önce düşünmelidir.
+   </p>
+            </div>
+          </div>
+          <p>
+   <span class="command"><strong>e2fsck</strong></span> etkileşimli kipte çalıştırılırsa (yani <code class="option">-y</code>, <code class="option">-n</code> veya <code class="option">-p</code> seçeneklerinden hiçbiri belirtilmemişse), uygulama kullanıcıdan dosya sisteminde bulunan her sorunu düzeltmesini ister. 'y' yanıtı hatayı düzeltecektir; 'n' hatayı düzeltmeden bırakır; ve 'a' sorunu ve sonraki tüm sorunları çözecektir; Enter tuşuna basmak, soru işaretinden önce yazdırılan öntanımlı yanıtla devam edecektir. Ctrl-C'ye basmak <span class="command"><strong>e2fsck</strong></span>'yı hemen sonlandırır.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>SEÇENEKLER</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-a</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">-p</code> seçeneği ile aynıdır. Geriye uyumluluk için vardır; mümkün olduğunca <code class="option">–p</code> seçeneğinin kullanılması önerilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-b</code> <em class="replaceable"><code>süperblok</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Birincil süperbloğu kullanmak yerine, <em class="replaceable"><code>süperblok</code></em> ile belirtilen başka bir süperbloğu kullanır. Bu seçenek, birincil süperblok bozulduğu durumlarda kullanılır. Yedek süperbloğun yeri, dosya sisteminin blok boyutu, her gruptaki blok sayısı ve <code class="option"><a class="option" href="../man5/man5-ext4.html#man5-ext4-sparse_super" title="sparse_super">sparse_super</a></code> gibi özellikler ile alakalıdır.
+     </p>
+                <p>
+      <tt><b>mke2fs</b>(8)</tt> komutunu <code class="option">–n</code> seçeneği ile birlikte kullanılarak, mke2fs'nin dosya sisteminin düzeniyle tutarlı seçeneklerle (dosya sisteminin blok boyutu, her gruptaki blok sayısı, <code class="option"><a class="option" href="../man5/man5-ext4.html#man5-ext4-sparse_super" title="sparse_super">sparse_super</a></code> gibi) dosya sistemini oluşturduğu varsayımıyla, yedek süperblokların nerelerde bulunduğu öğrenilebilir.
+     </p>
+                <p>
+      Şayet bir süperblok tanımlanmış ve dosya sistemi salt okunur açılmamışsa, <span class="command"><strong>e2fsck</strong></span>, birincil süperbloğu dosya sisteminin bütünlüğü adına uygun şekilde güncelleyecektir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-B</code> <em class="replaceable"><code>blokboyu</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>Normalde, <span class="command"><strong>e2fsck</strong></span> uygun blok boyutunu bulabilmek için değişik blok boyutlarına uyan bir süperblok arar. Bazı durumlarda bu arama iyi sonuç vermez. Bu seçeneği kullanarak, <span class="command"><strong>e2fsck</strong></span>’nın sadece belirtilen boyutta arama yapması sağlanır. Şayet süperblok bulunamazsa, <span class="command"><strong>e2fsck</strong></span> ölümcül  hata vererek sonlanır.
+    </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-c</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenekle, <span class="command"><strong>e2fsck</strong></span>’nın <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt> uygulamasını çalıştırması sağlanır. <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt> uygulaması dosya sistemindeki bozuk blokları arar ve bir dosya veya dizin için kullanılmasını engellemek için onları “bozuk/bad” olarak işaretleyip bozuk blok düğümüne ekler.  Şayet bu seçenek iki kez belirtilirse,  bozuk blok araması verileri bozmayan oku/yaz sınaması kullanılarak yapılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-C</code> <em class="replaceable"><code>dt</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenek ile <span class="command"><strong>e2fsck</strong></span>, denetim sürecinin tamamını, dosya tanımlayıcısı <em class="replaceable"><code>dt</code></em> ile belirtilen dosyaya yazar ve böylece işlemlerin bitmesinin ardından, bütün süreç tekrar gözden geçirilebilir. Bu seçenek, <span class="command"><strong>e2fsck</strong></span>’yi kullanan uygulamalar tarafından sıklıkla kullanılır. <em class="replaceable"><code>dt</code></em> olarak negatif bir değer belirtilmişse, dosya tanıtıcının mutlak değeri kullanılır ve ilerleme bilgisi başlangıçta gizlenir. Daha sonra <span class="command"><strong>e2fsck</strong></span> sürecine <code class="constant">SIGUSR1</code> sinyali gönderilerek ilerleme bilgisi etkinleştirilebilir. <em class="replaceable"><code>dt</code></em> olarak 0 belirtilmişse, <span class="command"><strong>e2fsck</strong></span> bir süreç ilerleme çubuğu görüntüleyecek ve işin ne kadarlık kısmının bittiğini bu çubuktan izlemek mümkün olacaktır. Bunun için, <span class="command"><strong>e2fsck</strong></span>’nin video konsolu veya uçbirimde çalışıyor olması gerekmektedir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-d</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Hata ayıklama iletilerini görüntüler (<span class="command"><strong>e2fsck</strong></span> içinde hata ayıklaması yapmıyorsanız, kullanışlı değildir).
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-D</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Dosya sistemindeki dizinlerde eniyileme yapar. Bu seçenek, <span class="command"><strong>e2fsck</strong></span>’nın bütün dizinleri olabilecek en iyi duruma getirmesini sağlar: ya dizini yeniden indisler (dosya sistemi destekliyor ise) ya da yeniden sıralar ve daha küçük bir dizinler halinde ya da geleneksel dosya sistemleri için düz dizin yapısında sıkıştırır.
+     </p>
+                <p>
+      <code class="option">-D</code> seçeneği olmasa bile, <span class="command"><strong>e2fsck</strong></span> bazen örneğin, dizin indisleme etkinse ve bir dizin indislenmemişse ve indislenmesi yarar sağlayacaksa veya indis yapıları bozulmuşsa ve yeniden oluşturulması gerekiyorsa, birkaç dizini en iyileyebilir. <code class="option">-D</code> seçeneği, dosya sistemindeki tüm dizinleri en iyilenmeye zorlar. Bu bazen onları biraz daha küçük ve arama için biraz daha hızlı hale getirebilir, ancak normalde bu seçenek pek kulanılmaz.
+     </p>
+                <p>
+      <code class="option">-D</code> seçeneği, <span class="command"><strong>e2fsck</strong></span>'nın başarımı düşürmemek adına normalde zorlanmadığı, tek bir dizindeki yinelenen adlara sahip dizin girdilerini de algılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-E</code> <em class="replaceable"><code>ek_seçenekler</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <span class="command"><strong>e2fsck</strong></span>’nın desteklediği ek seçenekleri belirtmek için kullanılır. Bu seçenekler virgül ile ayrılımış ve “=” işaretini kullanan isim değer çiftlerinden oluşur. Aşağıdaki seçenekler desteklenmektedir:
+     </p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">ea_ver</code>=<em class="replaceable"><code>ek_özellik_sürümü</code></em>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Bu seçenekle, <span class="command"><strong>e2fsck</strong></span>’nın dosya sistemin denetlerken kullandığı ek özellik bloklarının sürüm numarasını belirler. Sürüm numarası 1 veya 2 olabilir. Öntanımlı değer 2'dir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">journal_only</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Gerekliyse günlük yeniden yürütülür, herhangi bir denetim ve onarım yapılmaz.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">fragcheck</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         1. geçişte dosya sistemindeki dosyalar için bitişik olmayan blokların ayrıntılı raporunu gösterir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">discard</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Tam dosya sistemi denetiminden sonra boş bloklar ve kullanılmayan dosya düğümü bloklarından kurtulmaya çalışır (katı hal aygıtlarında ve seyrek/ince olarak sağlanan depolamada gereksiz bloklardan kurtulmak yararlıdır). Bunun 5. geçişte dosya sistemi tamamen denetlendikten  SONRA ve yalnızca tanınabilir hatalar içermeyen bloklar için yapıldığı unutulmamalıdır. Ancak <span class="command"><strong>e2fsck</strong></span>'nın bir sorunu tam olarak saptayamadığı durumlar olabilir ve bu durumda bu seçenek daha fazla elle veri kurtarma işleminden de kurtarabilir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">nodiscard</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Boş bloklar ve kullanılmayan dosya düğümü bloklarından kurtulmaya çalışılmaz. <code class="option">discard</code> seçeneğinin zıddıdır. Öntanımlı olarak etkindir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">no_optimize_extents</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Gereksiz genişlik veya derinliği ortadan kaldırarak genişletilmiş ağacı en iyilemeyi önermez. Bu, <code class="filename">/etc/e2fsck.conf</code> dosyasının seçenekler bölümünden de etkinleştirilebilir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">optimize_extents</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Gereksiz genişlik veya derinliği ortadan kaldırarak genişletilmiş ağacı en iyilemeyi önerir. <code class="filename">/etc/e2fsck.conf</code> dosyasında aksi belirtilmedikçe bu seçenek öntanımlıdır.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">inode_count_fullmap</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Çok sayıda sabit bağlı dosya içeren bir dosya sistemini denetlerken hız için belleği kullanarak takaslama yapar. Gereken bellek miktarı, dosya sistemindeki düğüm sayısıyla orantılıdır. Büyük dosya sistemleri için bu, gigabaytlarca bellek anlamına gelebilir. (Örneğin, 2,8 milyar düğüme sahip 40 TB'lık bir dosya sistemi, bu en iyileme etkinleştirilirse ek olarak 5,7 GB bellek tüketecektir.) Bu en iyileme, <code class="filename">/etc/e2fsck.conf</code> dosyasının seçenekler bölümünde de etkinleştirilebilir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">no_inode_count_fullmap</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         <code class="option">inode_count_fullmap</code> en iyilemesini devre dışı bırakır. <code class="filename">/etc/e2fsck.conf</code> dosyasında aksi belirtilmedikçe bu seçenek öntanımlıdır.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">readahead_kb</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         <span class="command"><strong>e2fsck</strong></span> çalışma zamanını azaltma umuduyla meta verileri önden alacak kadar KiB bellek kullanır. Öntanımlı olarak, bu, iki blok grubunun dosya düğümü tablolarının boyutuna ayarlanır (normal bir ext4 dosya sisteminde genelde 4MiB); bu miktar toplam fiziksel belleğin 1/50'sinden fazlaysa, okuma işlemi devre dışı bırakılır. Okumayı tamamen devre dışı bırakmak için buna sıfır belirtilmelidir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">bmap2extent</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Blok eşlemli dosyaları genişletilmiş eşlemli dosyalara dönüştürür.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">fixes_only</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Yalnızca bozuk meta verileri düzelltir. Htree dizinlerini veya sıkıştırılmış genişletilmiş ağaçları en iyilemez. Bu seçenek <code class="option">-D</code> ve <code class="option">-E bmap2extent</code> seçenekleriyle uyumlu değildir.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">check_encoding</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Harf büyüklüğüne duyarlı olmayan dizinlerde kodlanmış dosya adlarının doğrulanmasını zorlar. Dosya sisteminde katı kip etkinse, bu öntanımlıdır.
+        </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+        <code class="option">unshare_blocks</code>
+       </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+         Dosya sisteminde, salt okunur özelliği etkin paylaşımlı bloklar varsa, bu, tüm paylaşımlı blokların paylaşımını ve salt okunurluk bitini kaldıracaktır. Yeterli boş alan yoksa işlem başarısız olur. Dosya sistemi salt okunur özellik bitine sahip değilse, ancak yine de paylaşımlı bloklara sahipse, bu seçeneğin hiçbir etkisi olmayacaktır. Bu seçeneği kullanırken, blokları klonlamak için boş alan yoksa, dosyaları silmek için bir istem olmayacağı ve bunun yerine işlemin başarısız olacağı unutulmamalıdır.
+        </p>
+                      <p>
+         <code class="option">unshare_blocks</code> tüm geçişlerin çalıştırıldığından emin olmak için örtük olarak <code class="option">-f</code> seçeneğinin de uygulanmasını sağlar. Ek olarak, <code class="option">-n</code> seçeneği de belirtilirse, <span class="command"><strong>e2fsck</strong></span>, tekilleştirme için yeterli alan ayırmaya çalışmayı taklit eder. Bu başarısız olursa, çıkış kodu sıfırdan farklı olacaktır.
+        </p>
+                    </dd>
+                  </dl>
+                </div>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-f</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Dosya sistemi temiz olsa bile, denetim yapılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-F</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      
+      
+      Denetime başlamadan önce, dosya sistemi aygıtının tampon önbelleklerini boşaltır. Aslında sadece, <span class="command"><strong>e2fsck</strong></span>’nin zamanlama denemeleri için kullanışlıdır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-j</code> <em class="replaceable"><code>harici_günlük</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu dosya sistemi için kayıtların tutulacağı harici günlük dosyasının yeri belirtilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-k</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">-c</code> seçeneğiyle birlikte kullanıldığında, bozuk bloklar listesindeki mevcut tüm bozuk bloklar korunur ve <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt> çalıştırılarak bulunan yeni bozuk bloklar da mevcut bozuk bloklar listesine eklenir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-l</code> <em class="replaceable"><code>bozuk_blok_dosyası</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <em class="replaceable"><code>bozuk_blok_dosyası</code></em> ile belirtilen dosyada bulunan bozuk blok numaraları listesini, bozuk blokların listesine ekler. Bu dosyanın biçimi, <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt> ile oluşturulan ile aynıdır. Bu blok numaraları, sadece içinde bulundukları dosya sistemleri için geçerlidir. Çünkü <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt>’a, kesin ve doğru bir sonuç alabilmek için, dosya sisteminin blok boyunu vermek gerekmektedir. Sonuç olarak, <span class="command"><strong>e2fsck</strong></span> ile <code class="option">–c</code> seçeneğini kullanmak çok daha basit ve akıllıca olacaktır. Ancak böylece, <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt> yazılımına doğru değiştirgelerin geçildiğinden emin olunabilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-L</code> <em class="replaceable"><code>bozuk_blok_dosyası</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bozuk blok listesi olarak <em class="replaceable"><code>bozuk_blok_dosyası</code></em> ile belirtilen dosyayı kullanır. Bu seçenek aslında, <code class="option">–l</code> seçeneğine benzer, fakat burada bozuk blok listesine yeni bloklar eklenmeden önce eskileri silinir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-n</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Dosya sistemi salt okunur açılır ve bütün sorulara “no/hayır” cevabının verildiği varsayılır. Böylece <span class="command"><strong>e2fsck</strong></span> etkileşimsiz kipte çalıştırılmış olur. Bu seçenek <code class="option">-p</code> ve <code class="option">-y</code> seçenekleriyle birlikte kullanılamaz. (EK BİLGİ: <code class="option">-n</code> seçeneğine ek olarak <code class="option">–c</code>, <code class="option">-l</code> veya <code class="option">–L</code> seçeneği de belirtilirse; dosya sistemi oku-yaz kipinde açılacak ve bozuk blok listesinin güncellenmesi de mümkün olacaktır.)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-p</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Onay beklemeden dosya sistemini düzeltir. Bu seçenek, <span class="command"><strong>e2fsck</strong></span>'in insan müdahalesi olmadan güvenli bir şekilde çözülebilecek herhangi bir dosya sistemi sorununu otomatik olarak düzeltmesini sağlar. <span class="command"><strong>e2fsck</strong></span>, sistem yöneticisinin ek düzeltici önlem almasını gerektirebilecek bir sorun tespit ederse, <span class="command"><strong>e2fsck</strong></span> sorunun bir açıklamasını basar ve ardından çıkış koduna mantıksal olarak veyalanan 4 değeriyle çıkar. (bkz: <a class="xref" href="man8-e2fsck.html#man8-e2fsck-exit" title="ÇIKIŞ KODLARI"> “ÇIKIŞ KODLARI”</a> bölümü) Bu seçenek normalde sistemin önyükleme betikleri tarafından kullanılır. <code class="option">-n</code> veya <code class="option">-y</code> seçenekleriyle birlikte belirtilemez.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-r</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Aslında bu seçenek hiçbir şey yapmaz, sadece geçmişe uyumluluk adına bulunmaktadır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-t</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <span class="command"><strong>e2fsck</strong></span> için zaman istatiklerini görüntüler. Şayet bu seçenek iki kere kullanılırsa, ek zaman değerleri her geçiş için ayrıca görüntülenir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-v</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Ayrıntı kipi.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-V</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Sürüm bilgilerini basar ve çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-z</code> <em class="replaceable"><code>gerial_dosyası</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bir dosya sistemi bloğunun üzerine yazılmadan önce, bloğun eski içeriği belirtilen <em class="replaceable"><code>gerial_dosyası</code></em>na yazılır. Bu geri alma dosyası, bir şeyler ters gittiğinde dosya sisteminin eski içeriğini geri yüklemek için <tt><b>e2undo</b>(8)</tt> ile birlikte kullanılabilir. Belirtilmediğinde, geri alma dosyası, <code class="envar">E2FSPROGS_UNDO_DIR</code> ortam değişkeni ile belirtilen dizinde <code class="filename">e2fsck-device.e2undo</code> adlı bir dosyaya yazılır.
+     </p>
+                <div class="warning">
+                  <h3 class="title">Uyarı</h3>
+                  <div class="admon-contents">
+                    <p>
+       <em class="replaceable"><code>gerial_dosyası</code></em> güç veya sistem çökmesinden kurtulmak için kullanılamaz.
+      </p>
+                  </div>
+                </div>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-V</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Sürüm bilgilerini basar ve çıkar.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1" id="man8-e2fsck-exit">
+          <h2>ÇIKIŞ KODLARI</h2>
+          <p>
+   <span class="command"><strong>e2fsck</strong></span>’nin çıkış kodu aşağıdakilerin toplamıdır:
+  </p>
+          <div class="literallayout">
+            <p>  0 - Hata yok<br/>
+  1 - Dosya sistemi hataları düzeltildi<br/>
+  2 - Dosya sistemi hataları düzeltildi, sistem yeniden<br/>
+      başlatılmalı<br/>
+  4 - Dosya sistemi hataları düzeltilmeden bırakıldı<br/>
+  8 - İşlemsel hata<br/>
+ 16 - Kullanım veya sözdizimi hatası<br/>
+ 32 - E2fsck kullanıcı tarafından iptal edildi<br/>
+128 - Paylaşımlı kütüphane hatası<br/>
+</p>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>SİNYALLER</h2>
+          <p>
+   <span class="command"><strong>e2fsck</strong></span>'ya gönderildiğinde hangi sinyallerin ne etkilere sebep olduğu aşağıda açıklanmıştır:
+  </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="constant">SIGUSR1</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bir süreç ilerleme çubuğu görüntülenir veya ilerleme bilgisi çıktılanır. (bkz: <code class="option">-C</code> seçeneği)
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="constant">SIGUSR2</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Süreç ilerleme çubuğunun görüntülenmesine veya ilerleme bilgisi çıktılanmasına son verilir.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>HATALARIN BİLDİRİLMESİ</h2>
+          <p>
+   Her yazılımda hatalar olabilir. Şayet <span class="command"><strong>e2fsck</strong></span>’nin çökmesine sebep olan bir dosya sistemi veya <span class="command"><strong>e2fsck</strong></span>’nin tamir edemediği bir dosya sistemi bulursanız, lütfen yazara bunu bildirin.
+  </p>
+          <p>
+   Hata bildirirken mümkün olduğunca fazla bilgi ekleyin. En iyisi, <span class="command"><strong>e2fsck</strong></span>’nin hata iletisinin tamamını e-postanıza iliştirin. (e2fsck tarafından basılan iletilerin İngilizce olduğundan emin olun; Sisteminiz <span class="command"><strong>e2fsck</strong></span>'nın iletilerini başka bir dile çevrilecek şekilde yapılandırılmışsa, lütfen <code class="envar">LC_ALL</code> ortam değişkenine "C" değerini atayın, böylece <span class="command"><strong>e2fsck</strong></span> çıktısının dökümü benim için faydalı olacaktır.) Şayet kopyaların saklanabildiği yazılabilir bir dosya sisteminiz varsa, <tt><b>script</b>(1)</tt> komutu <span class="command"><strong>e2fsck</strong></span>’nin çıktılarının bir dosyaya yazılabilmesi için en kullanışlı yoldur.
+  </p>
+          <p>
+   Ayrıca <tt><a href="man8-dumpe2fs.html"><b>dumpe2fs</b></a>(8)</tt>’nin çıktılarını göndermek de faydalı olabilir. Şayet özel bir düğüm veya düğümler <span class="command"><strong>e2fsck</strong></span>’ya sorun çıkarıyorsa, <tt><b>debugfs</b>(8)</tt>'i kullanmak ve ilgili düğümler hakkındaki raporu da göndermek iyi bir fikir olacaktır. Şayet bu düğüm bir dizin ise, <code class="option">debugfs dump</code> komutu bu dizin düğümünün içeriğini almanıza yardımcı olur. Daha sonra <tt><b>uuencode</b>(1)</tt> komutunu bu çıktı üzerinde çalıştırdıktan sonra bana gönderin. Hatayı yeniden oluşturmaya yardımcı olmak için gönderebileceğiniz en kullanışlı veri, dosya sisteminin <tt><a href="man8-e2image.html"><b>e2image</b></a>(8)</tt> kullanılarak oluşturulan sıkıştırılmış ham imge dökümüdür. Daha fazla bilgi için <tt><a href="man8-e2image.html"><b>e2image</b></a>(8)</tt> kılavuz sayfasında bulunabilir.
+  </p>
+          <p>
+   <code class="option">e2fsck -V</code> çıktısını da eklemeyi unutmayın, böylece hangi sürümü çalıştırdığınızı bilirim.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ORTAM DEĞİŞKENLERİ</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="envar">E2FSCK_CONFIG</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Yapılandırma dosyasının yerini belirtir (bkz: <tt><b>e2fsck.conf</b>(5)</tt>).
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>YAZAN</h2>
+          <p>
+   <span class="command"><strong>e2fsck</strong></span>’nın bu sürümü Theodore Ts’o tarafından yazılmıştır.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>e2fsck.conf</b>(5)</tt>, <tt><a href="man8-badblocks.html"><b>badblocks</b></a>(8)</tt>,  <tt><a href="man8-dumpe2fs.html"><b>dumpe2fs</b></a>(8)</tt>, <tt><b>debugfs</b>(8)</tt>, <tt><a href="man8-e2image.html"><b>e2image</b></a>(8)</tt>, <tt><b>mke2fs</b>(8)</tt>, <tt><b>tune2fs</b>(8)</tt>.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">© 2004 Yalçın Kolukısa</div>
+          <div class="simpara">© 2022 Nilgün Belma Bugüner</div>
+          <div class="simpara">
+   Bu çeviri özgür yazılımdır: Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
+  </div>
+        </div>
+        <div class="refnotice">
+          <div class="legalnotice-title">Yasal Uyarı</div>
+          <div class="reflegal">
+            <pre> * Özgün Belgenin Lisans ve Telif Hakkı bilgileri:
+ *
+ * Copyright 1993, 1994, 1995 by Theodore Ts'o. *
+ * This file may be redistributed under the terms of the GNU Public License.
+ *
+</pre>
+          </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">E2fsprogs 1.46.5</td>
+              <td class="mheadfoot" align="center" width="40%">Aralık 2021</td>
+              <td class="mheadfoot" align="right" width="30%">E2FSCK(8)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

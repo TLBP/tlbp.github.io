@@ -194,7 +194,7 @@
    <span class="command"><strong>rsync</strong></span> dosyaları, uzak konaktan yerele veya yerelden uzak konağa ya da yerel dosya sistemi içinde kopyalayabilir. İki uzak konak arasında dosya kopyalamayı desteklememektedir.
   </p>
           <p>
-   <span class="command"><strong>rsync</strong></span>'in uzak bir sisteme bağlanmasının iki yolu vardır: <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> veya <tt><b>rsh</b>(1)</tt> gibi uzak kabuk uygulamalarından birini kullanarak ya da doğrudan TCP üzerinden <span class="command"><strong>rsync</strong></span> sunucusuna bağlanarak. Kaynak veya hedef, konak belirtiminden sonra tek bir <code class="literal">:</code> imi ile ayrılarak belirtiliyorsa uzak kabuk aktarımı uygulanır. Kaynak veya hedef, konak belirtiminden sonra bir çift <code class="literal">:</code> imi (<code class="literal">::</code>) ile ayrılarak belirtiliyorsa veya <code class="filename">rsync://URL</code> belirtimi kullanılmışsa doğrudan <span class="command"><strong>rsync</strong></span> sucucusuna bağlanmaya çalışılır. (İkinci kuralın bir istisnası için bkz: <a class="xref" href="man1-rsync.html#man1-rsync-server-ssh" title="RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK"> “RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK”</a>).
+   <span class="command"><strong>rsync</strong></span>'in uzak bir sisteme bağlanmasının iki yolu vardır: <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> veya <tt><b>rsh</b>(1)</tt> gibi uzak kabuk uygulamalarından birini kullanarak ya da doğrudan TCP üzerinden <span class="command"><strong>rsync</strong></span> sunucusuna bağlanarak. Kaynak veya hedef, konak belirtiminden sonra tek bir <code class="literal">:</code> imi ile ayrılarak belirtiliyorsa uzak kabuk aktarımı uygulanır. Kaynak veya hedef, konak belirtiminden sonra bir çift <code class="literal">:</code> imi (<code class="literal">::</code>) ile ayrılarak belirtiliyorsa veya <code class="filename">rsync://URL</code> belirtimi kullanılmışsa doğrudan <span class="command"><strong>rsync</strong></span> sucucusuna bağlanmaya çalışılır. (İkinci kuralın bir istisnası için bkz: <a class="xref" href="man1-rsync.html#man1-rsync-server-ssh" title="RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK"> “RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK”</a>).
   </p>
           <p>
    Özel bir durum olarak, hedef belirtmeksizin tek bir kaynak belirtilmesi durumunda dosyalar "<span class="command"><strong>ls -l</strong></span>" çıktısına benzer biçemde listelenir.
@@ -358,13 +358,13 @@ rsync -av hedefkonak1::modul/kaynak/ /hedef/
 rsync -av rsync://hedefkonak2/modul/kaynak/ /hedef/
 </pre>
           <p>
-   Yukarıda, ilk komutta, tüm verileri <code class="filename">hedefkonak</code>taki (%H) 873. porta (<span class="command"><strong>rsync</strong></span> artalan sürecine) ileten <code class="filename">vekilkonak</code> üzerinde <tt><b>nc</b>(1)</tt> (netcat) çalıştırmak için <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> kullanılmaktadır. Ayrıca, <a class="link" href="man1-rsync.html#man1-rsync-RSYNC_SHELL" title="RSYNC_SHELL"><code class="envar">RSYNC_SHELL</code></a> ortam değişkenine bir uygulama tanımlanırsa, <a class="link" href="man1-rsync.html#man1-rsync-RSYNC_CONNECT_PROG" title="RSYNC_CONNECT_PROG"><code class="envar">RSYNC_CONNECT_PROG</code></a> komutunu çalıştırmak için <tt><a href="../man3/man3-system.html"><b>system(3)</b></a></tt> çağrısının öntanımlı kabuğu yerine bu uygulama kullanılır.
+   Yukarıda, ilk komutta, tüm verileri <code class="filename">hedefkonak</code>taki (%H) 873. porta (<span class="command"><strong>rsync</strong></span> artalan sürecine) ileten <code class="filename">vekilkonak</code> üzerinde <tt><b>nc</b>(1)</tt> (netcat) çalıştırmak için <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> kullanılmaktadır. Ayrıca, <a class="link" href="man1-rsync.html#man1-rsync-RSYNC_SHELL" title="RSYNC_SHELL"><code class="envar">RSYNC_SHELL</code></a> ortam değişkenine bir uygulama tanımlanırsa, <a class="link" href="man1-rsync.html#man1-rsync-RSYNC_CONNECT_PROG" title="RSYNC_CONNECT_PROG"><code class="envar">RSYNC_CONNECT_PROG</code></a> komutunu çalıştırmak için <tt><a href="../man3/man3-system.html"><b>system</b></a>(3)</tt> çağrısının öntanımlı kabuğu yerine bu uygulama kullanılır.
   </p>
         </div>
         <div class="refsect1" id="man1-rsync-server-ssh">
           <h2>RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK</h2>
           <p>
-   <span class="command"><strong>rsync</strong></span> artalan sürecinin, (isimli modüller gibi) çeşitli özelliklerini kullanarak, fazladan bir soket bağlantısı yapmadan, sisteme uzak kabukla bağlanmak bazen yararlıdır. <span class="command"><strong>rsync</strong></span>, bir konağa uzak kabuk kullanarak bağlanmayı ve ardından uzak kullanıcının ev dizinindeki bir yapılandırma dosyasını okuyacak tek kullanımlık bir "artalan" sunucusu çatallamayı destekler. Artalan süreci tarzı bir aktarımda verilerin şifrelenmek istenmesi durumunda bu yararlı olabilir, ancak artalan süreci uzak kullanıcı tarafından başlatıldığından, <tt><a href="man1-chroot.html"><b>chroot(1)</b></a></tt> gibi özellikler kullanılamayabilir veya artalan süreci tarafından kullanılan kullanıcı kimliği değiştirilemeyebilir. (Artalan süreci aktarımını şifrelemenin başka bir yolu da, <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> kullanarak yerel bir portu uzak bir konağa tünellemek ve uzak konaktaki normal <span class="command"><strong>rsync</strong></span> artalan sürecini yalnızca "<code class="literal">localhost</code>" bağlantılarına izin verecek şekilde yapılandırmaktır.)
+   <span class="command"><strong>rsync</strong></span> artalan sürecinin, (isimli modüller gibi) çeşitli özelliklerini kullanarak, fazladan bir soket bağlantısı yapmadan, sisteme uzak kabukla bağlanmak bazen yararlıdır. <span class="command"><strong>rsync</strong></span>, bir konağa uzak kabuk kullanarak bağlanmayı ve ardından uzak kullanıcının ev dizinindeki bir yapılandırma dosyasını okuyacak tek kullanımlık bir "artalan" sunucusu çatallamayı destekler. Artalan süreci tarzı bir aktarımda verilerin şifrelenmek istenmesi durumunda bu yararlı olabilir, ancak artalan süreci uzak kullanıcı tarafından başlatıldığından, <tt><a href="man1-chroot.html"><b>chroot</b></a>(1)</tt> gibi özellikler kullanılamayabilir veya artalan süreci tarafından kullanılan kullanıcı kimliği değiştirilemeyebilir. (Artalan süreci aktarımını şifrelemenin başka bir yolu da, <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> kullanarak yerel bir portu uzak bir konağa tünellemek ve uzak konaktaki normal <span class="command"><strong>rsync</strong></span> artalan sürecini yalnızca "<code class="literal">localhost</code>" bağlantılarına izin verecek şekilde yapılandırmaktır.)
   </p>
           <p>
    Kullanıcı açısından, uzak kabuk bağlantısıyla uzak artalan süreci çatallayarak aktarımda, normal <span class="command"><strong>rsync</strong></span> artalan süreci aktarımında kullanılanla hemen hemen aynı komut satırı sözdizimi kullanılır. Tek fark, uzak kabuğun <code class="option">--rsh=</code><em class="replaceable"><code>KOMUT</code></em> seçeneğiyle komut satırında açıkça belirtilmesi gerekliliğidir. (<a class="link" href="man1-rsync.html#man1-rsync-RSYNC_RSH" title="RSYNC_RSH"><code class="envar">RSYNC_RSH</code></a> ortam değişkeninin kullanımı aynı işlevselliği sağlamaz.) Örnek:
@@ -377,10 +377,10 @@ rsync -av rsync://hedefkonak2/modul/kaynak/ /hedef/
           <pre class="screen">rsync -av -e "ssh -l ssh-kull" rsync-kull@konak::modul /hedef
 </pre>
           <p>
-   <code class="filename">ssh-kull</code>anıcısı <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> seviyesinde kullanılmalıdır; <code class="filename">rsync-kull</code>anıcısı ise "modul"e oturum açmak için kullanılacaktır.
+   <code class="filename">ssh-kull</code>anıcısı <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> seviyesinde kullanılmalıdır; <code class="filename">rsync-kull</code>anıcısı ise "modul"e oturum açmak için kullanılacaktır.
   </p>
           <p>
-   Bu kullanımda,  <span class="command"><strong>rsync</strong></span> artalan süreci <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> tarafından sisteme erişilerek başlatılmaktadır (istenirse, <code class="filename">~/.ssh/authorized_keys</code> dosyası üzerinden de zorlanabilir). Ancak, artalan sürecine (uzak kabuk uygulaması ile değil) doğrudan erişilecekse sürecin önceden çalıştırılmış olması gerekir.
+   Bu kullanımda,  <span class="command"><strong>rsync</strong></span> artalan süreci <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> tarafından sisteme erişilerek başlatılmaktadır (istenirse, <code class="filename">~/.ssh/authorized_keys</code> dosyası üzerinden de zorlanabilir). Ancak, artalan sürecine (uzak kabuk uygulaması ile değil) doğrudan erişilecekse sürecin önceden çalıştırılmış olması gerekir.
   </p>
         </div>
         <div class="refsect1">
@@ -430,7 +430,7 @@ sync: get put
           <pre class="screen">rsync -az -e ssh --delete ~ftp/pub/samba nimbus:"~ftp/pub/tridge"
 </pre>
           <p>
-   Bu komut her saat başı <tt><b>cron</b>(8)</tt>'dan çalıştırılıyor.
+   Bu komut her saat başı <tt><a href="../man8/man8-cron.html"><b>cron</b></a>(8)</tt>'dan çalıştırılıyor.
   </p>
         </div>
         <div class="refsect1">
@@ -1401,7 +1401,7 @@ rsync alias -t -t@-1
                   </ul>
                 </div>
                 <p>
-       Bu nedenle, <code class="option">--perms</code> ve <a class="link" href="man1-rsync.html#man1-rsync-executability" title="-E, --executability"><code class="option">--executability</code></a> seçeneklerinin ikisi de devre dışı bırakıldığında, <span class="command"><strong>rsync</strong></span>'in davranışı <tt><a href="man1-cp.html"><b>cp(1)</b></a></tt> ve <tt><b>tar</b>(1)</tt> gibi diğer dosya kopyalama uygulamalarıyla aynıdır.
+       Bu nedenle, <code class="option">--perms</code> ve <a class="link" href="man1-rsync.html#man1-rsync-executability" title="-E, --executability"><code class="option">--executability</code></a> seçeneklerinin ikisi de devre dışı bırakıldığında, <span class="command"><strong>rsync</strong></span>'in davranışı <tt><a href="man1-cp.html"><b>cp</b></a>(1)</tt> ve <tt><a href="man1-tar.html"><b>tar</b></a>(1)</tt> gibi diğer dosya kopyalama uygulamalarıyla aynıdır.
       </p>
                 <p>
        Özetle: Hedef dosyalara (hem eski hem de yeni) kaynak izinlerini vermek için <code class="option">--perms</code> kullanılmalıdır. Yeni dosyalara hedefin öntanımlı izinlerini vermek için (mevcut dosyaları değiştirmeden bırakarak), <code class="option">--perms</code> seçeneği olmaksızın <a class="link" href="man1-rsync.html#man1-rsync-chmod" title="--chmod=KİP"><code class="option">--chmod=ugo=rwX</code></a> kullanılması gerekir (bu, tüm maskelenmemiş bitlerin etkinleştirilmesini sağlar). Bu seçeneklerin daha sonra kolayca yazılması için, ~/.popt adında bir dosya oluşturup komut satırının bu dosyay yazılması ve popt takma adının tanımlanması yeterli olur. Aşağıdaki örnekte, diğer seçeneklere ek olarak hedef dizinin öntanımlı grubunun kullanılması için <code class="option">--no-g</code> seçeneğini de içeren bir takma ad olarak <code class="option">-Z</code> seçeneği tanımlanmaktadır:
@@ -1501,7 +1501,7 @@ rsync alias -t -t@-1
        Bu seçenek, aktarımdaki dosyaların izinlerine bir veya daha fazla virgül ayraçlı <span class="command"><strong>chmod</strong></span> kipinin uygulamasını sağlar. Ortaya çıkan değer, gönderen tarafın dosya için sağladığı izinler olarak değerlendirilir; <a class="link" href="man1-rsync.html#man1-rsync-perms" title="-p, --perms"><code class="option">--perms</code></a> seçeneği belirtilmemişse bu seçeneğin mevcut dosyalar üzerinde hiçbir etkisi olmaz.
       </p>
                 <p>
-       <tt><a href="man1-chmod.html"><b>chmod(1)</b></a></tt> kılavuz sayfasında belirtilen normal çözümleme kurallarına ek olarak, '<code class="option">D</code>' ile öncelenerek belirtilen öğeler yalnızca dizinlere, '<code class="option">F</code>' ile öncelenerek belirtilen öğeler ise yalnızca dosyalara uygulanır. Örneğin, aşağıdakiler tüm dizinlerin setgid olarak imlenmesini, dosyalara başkaları tarafından yazılamamasını, kullanıcı ve grup tarafından yazılabilmesini ve tüm bitlerle tutarlı çalıştırılabilirlik sağlayacaktır:
+       <tt><a href="man1-chmod.html"><b>chmod</b></a>(1)</tt> kılavuz sayfasında belirtilen normal çözümleme kurallarına ek olarak, '<code class="option">D</code>' ile öncelenerek belirtilen öğeler yalnızca dizinlere, '<code class="option">F</code>' ile öncelenerek belirtilen öğeler ise yalnızca dosyalara uygulanır. Örneğin, aşağıdakiler tüm dizinlerin setgid olarak imlenmesini, dosyalara başkaları tarafından yazılamamasını, kullanıcı ve grup tarafından yazılabilmesini ve tüm bitlerle tutarlı çalıştırılabilirlik sağlayacaktır:
       </p>
                 <pre class="screen">--chmod=Dg+s,ug+w,Fo-w,+X
 </pre>
@@ -2122,7 +2122,7 @@ none</code>
               </dt>
               <dd class="glossdef">
                 <p>
-       Bu seçenek yerel ve uzak <span class="command"><strong>rsync</strong></span> kopyaların arasında iletişim için başka bir uzak kabuk uygulaması belirleyebilmeyi sağlar. Genelde, <span class="command"><strong>rsync</strong></span> öntanımlı olarak <tt><a href="man1-ssh.html"><b>ssh(1)</b></a></tt> kullanacak şekilde yapılandırılır, fakat yerel ağda <tt><b>rsh</b>(1)</tt> kullanımı da tercih edilebilir.
+       Bu seçenek yerel ve uzak <span class="command"><strong>rsync</strong></span> kopyaların arasında iletişim için başka bir uzak kabuk uygulaması belirleyebilmeyi sağlar. Genelde, <span class="command"><strong>rsync</strong></span> öntanımlı olarak <tt><a href="man1-ssh.html"><b>ssh</b></a>(1)</tt> kullanacak şekilde yapılandırılır, fakat yerel ağda <tt><b>rsh</b>(1)</tt> kullanımı da tercih edilebilir.
       </p>
                 <p>
        Bu seçenek <code class="literal">[kullanıcı@]konak::modül/yol</code> değiştirgesi ile birlikte kullanılırsa, uzak makinedeki <span class="command"><strong>rsync</strong></span> sunucusunu çalıştırmak için belirtilen uzak kabuk <em class="replaceable"><code>KOMUT</code></em>'u kullanılacak ve aktarım için uzak makinede çalışan <span class="command"><strong>rsync</strong></span> sunucusunun soket bağlantısı değil, uzak kabuk bağlantısı kullanılacaktır. Ayrıca, bkz: <a class="xref" href="man1-rsync.html#man1-rsync-server-ssh" title="RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK"> “RSYNC ARTALAN SÜRECİNE UZAK KABUKTAN BAĞLANMAK”</a>
@@ -3613,7 +3613,7 @@ harf Bir özniteliğin güncellendiğini belirtir.<br/>
        <span class="command"><strong>rsync</strong></span>, bu seçeneği kullanarak dosya adlarını karakter kümeleri arasında dönüştürebilir. <em class="replaceable"><code>DÖNÜŞÜM</code></em> olarak "." değeri  belirtilerek, <span class="command"><strong>rsync</strong></span>'e öntanımlı karakter kümesinin yerel tanımına göre aranması sağlanabilir. Ayrıca, yerelin ve hedefin karakter kümesi <code class="option">--iconv=</code><em class="replaceable"><code>YEREL,HEDEF</code></em> biçeminde virgülle ayrılarak da (<code class="option">--iconv=iso88599,utf8</code> gibi) belirtilebilir. Bu sıra, dosyaları gönderirken veya alırken seçeneğin aynı kalmasını sağlar. Son olarak, herhangi bir dönüştürmeyi engellemek için <code class="option">--no-iconv</code> veya <em class="replaceable"><code>DÖNÜŞÜM</code></em> olarak "-⁠" belirtebilirsiniz. Bu seçeneğin öntanımlı değeri konağa özeldir ve ayrıca <a class="link" href="man1-rsync.html#man1-rsync-RSYNC_ICONV" title="RSYNC_ICONV"><code class="envar">RSYNC_ICONV</code></a> ortam değişkeni ile de dönüşüm belirlenebilir.
       </p>
                 <p>
-       Yerel <tt><a href="man1-iconv.html"><b>iconv(1)</b></a></tt> kitaplığının desteklediği karakter kümesi adlarının listesi için "<span class="command"><strong>iconv --list</strong></span>" komutu çalıştırılabilir.
+       Yerel <tt><a href="man1-iconv.html"><b>iconv</b></a>(1)</tt> kitaplığının desteklediği karakter kümesi adlarının listesi için "<span class="command"><strong>iconv --list</strong></span>" komutu çalıştırılabilir.
       </p>
                 <p>
        <a class="link" href="man1-rsync.html#man1-rsync-protect-args" title="-s, --protect-args"><code class="option">--protect-args</code></a> (<code class="option">-s</code>) seçeneğini belirtilirse, <span class="command"><strong>rsync</strong></span> komut satırında belirtilen dosya adlarını gönderen taraf dönüştürecektir. Ayrıca bkz: <a class="link" href="man1-rsync.html#man1-rsync-files-from" title="--files-from=DOSYA"><code class="option">--files-from</code></a>
@@ -4745,7 +4745,10 @@ $ ssh uzak rsync --read-batch=- -a /hedef2/dzn/ &lt;foo
           <p/>
           <div class="simpara">© 2005, 2022 Nilgün Belma Bugüner</div>
           <div class="simpara">
-   Bu çeviri özgür yazılımdır: Yazılımı değiştirmek ve dağıtmakta özgürsünüz. Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+   Bu çeviri özgür yazılımdır: Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+          <div class="simpara">
+   Lütfen, çeviri ile ilgili bildirimler için &lt;belgeler-genel (at) lists.sourceforge.net&gt; adresini kullanın.
   </div>
         </div>
         <div class="refnotice">
