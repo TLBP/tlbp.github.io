@@ -80,10 +80,9 @@ pre, pre em, pre .command {
   font-stretch: condensed;
   color: #111;
 }
-.refsynopsisdiv p,
-.refsynopsisdiv .simpara,
 code,  tt, em code, p em code, .token, .type,
-.pdparam, .command, td.cmdsynopsis, .constant {
+.pdparam, .command, .constant, .fsfunc,
+td.cmdsynopsis, td.funcdef, td.paramdef {
   font: 500 .93rem/1.5rem "Noto Sans Mono", monospace;
   font-stretch: condensed;
 }
@@ -92,7 +91,7 @@ code,  tt, em code, p em code, .token, .type,
  font-stretch: expanded;
 }
 .envar, strong, .command, strong code, b,
-.term code, .glossterm code, .type, .constant {
+.term code, .glossterm code, .type, .fsfunc, .constant {
   font-weight: 700;
   font-style: normal;
 }
@@ -105,7 +104,8 @@ code, tt, .token,v.type,
 .refsynopsisdiv dt,
 .command,  pre .command,
 .glossterm, .glossterm code,
-.term, .term code {
+.term, .fsfunc, .term code,
+td.funcdef, td.paramdef {
   color: #720;
 }
 em.warn {
@@ -418,11 +418,14 @@ td.revremark-blank {
  padding: 0.75rem;
 }
 td { padding: 1px 4px; }
-td.cmdsynopsis {
+td.cmdsynopsis, td.funcdef, td.paramdef {
   background-color: #fff;
   text-align: left;
   vertical-align: top;
   padding-right: 0.5em;
+}
+td.funcdef {
+  white-space: nowrap;
 }
 .revhistory {
  font-size: .92rem;
@@ -449,6 +452,7 @@ div p.copyright {
 .refsect3 > p,
 .refnamediv > p,
 .refsynopsisdiv > p,
+.refsynopsisdiv > .simpara,
 .refsect1 > .simpara,
 .refsect2 > .simpara,
 .refsect3 > .simpara,
@@ -458,6 +462,10 @@ div p.copyright {
 div.literallayout {
   margin-left: 1rem;
 }
+.refsynopsisdiv .refsect3 >.cmdsynopsis {
+ margin-left: 2rem;
+}
+
 .refentry-header table,
 .refentry-footer table {
  margin-left:0;
@@ -476,9 +484,6 @@ div.literallayout {
 .refsynopsisdiv > .refsect2 > h3 {
   margin-bottom: -2rem;
 }
-.refsynopsisdiv > .refsect2 > p {
-  margin-left: 3rem;
-}
 .refsynopsisdiv > .refsect2 > .refsect3 > h4 {
   margin-left: 1rem;
   margin-bottom: -2rem;
@@ -487,7 +492,6 @@ div.literallayout {
   margin-left: 4rem;
 }
 .refsynopsisdiv > .refsect2 > .refsect3 > .simpara {
-  margin-top: 1rem;
   margin-left: 4rem;
 }
 .refentry ol, .refentry ul {
