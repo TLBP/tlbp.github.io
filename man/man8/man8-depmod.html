@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>depmod</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, belgeler, kabuk, komut, kullanıcı, yardım, kılavuz, depmod, depmod, çekirdek, kabuk, sistem, modül, module, kernel, root"/>
+    <link rel="prev" href="man8-ctrlaltdel.html" title="ctrlaltdel"/>
+    <link rel="next" href="man8-dmesg.html" title="dmesg"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man8-ctrlaltdel.html')">Önceki</button>
+          <div class="dropdown-content">ctrlaltdel</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man8.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man8-dmesg.html')">Sonraki</button>
+          <div class="dropdown-content">dmesg</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man8-depmod">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">DEPMOD(8)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Yönetim Komutları </td>
+              <td class="mheadfoot" align="right" width="25%">DEPMOD(8)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>depmod — modules.dep ve .map dosyalarını üretir</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>KULLANIM</h2>
+          <br/>
+          <table class="cmdsynopsis">
+            <tr>
+              <td class="cmdsynopsis"><code class="command">depmod</code> </td>
+              <td class="cmdsynopsis"> [<code class="option">-b</code> <em class="replaceable"><code>DİZİN</code></em>] [<code class="option">-e</code>] [<code class="option">-E</code> <em class="replaceable"><code>Module.symvers</code></em>] [<code class="option">-F</code> <em class="replaceable"><code>System.map</code></em>] [<code class="option">-n</code>] [<code class="option">-v</code>] [<code class="option">-A</code>] [<code class="option">-P</code> <em class="replaceable"><code>ÖNEK</code></em>] [<code class="option">-w</code>] [<em class="replaceable"><code>SÜRÜM</code></em>]</td>
+            </tr>
+          </table>
+          <table class="cmdsynopsis">
+            <tr>
+              <td class="cmdsynopsis"><code class="command">depmod</code> </td>
+              <td class="cmdsynopsis"> [<code class="option">-e</code>] [<code class="option">-E</code> <em class="replaceable"><code>Module.symvers</code></em>] [<code class="option">-F</code> <em class="replaceable"><code>System.map</code></em>] [<code class="option">-n</code>] [<code class="option">-v</code>] [<code class="option">-P</code> <em class="replaceable"><code>ÖNEK</code></em>] [<code class="option">-w</code>] [<em class="replaceable"><code>SÜRÜM</code></em>] [ <em class="replaceable"><code>DOSYA</code></em>... ]</td>
+            </tr>
+          </table>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   Linux çekirdek modülleri, diğer modüllerin kullanması için hizmetler ("semboller" olarak adlandırılır) sağlayabilir (koddaki <code class="constant">EXPORT_SYMBOL</code> türevlerinden birini kullanarak). İkinci bir modül bu sembolü kullanıyorsa, ikinci modül açıkça birinci modüle bağımlıdır. Bu bağımlılıklar oldukça karmaşık hale gelebilir.
+  </p>
+          <p>
+   <span class="command"><strong>depmod</strong></span>, <code class="filename">/lib/modules/&lt;sürüm&gt;</code> altındaki her modülü okuyarak ve hangi sembollerin dışa aktarıldığını ve hangi sembollere ihtiyaç duyulduğunu belirleyerek bir modül bağımlılıkları listesi oluşturur. Öntanımlı olarak bu liste, <code class="filename">modules.dep</code> dosyasına ve aynı dizinde <code class="filename">module.dep.bin</code> adlı ikil aşlı sürüme yazılır. Yalnızca, dosya adları komut satırından verilen modüller incelenir (tüm modüller listelenmedikçe bu nadiren yararlıdır). <span class="command"><strong>depmod</strong></span> ayrıca, <code class="filename">module.symbols</code> adlı dosyada ve ikil aşlı sürümü olan <code class="filename">module.symbols.bin</code> adlı dosyada modüller tarafından sağlanan sembollerin bir listesini oluşturur. Son olarak, modüller önyükleme sırasında <code class="filename">/dev</code> dizini altında (systemd-tmpfiles gibi bir yardımcı araç tarafından) özel aygıt adları (devname) sağlıyorsa, <span class="command"><strong>depmod</strong></span> <code class="filename">module.devname</code> adlı bir dosya daha çıktılar.
+  </p>
+          <p>
+   <em class="replaceable"><code>SÜRÜM</code></em> belirtilmişse, geçerli çekirdek sürümü (<span class="command"><strong>uname -r</strong></span> tarafından döndürülen) yerine bu çekirdek sürümünün modül dizini kullanılır.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>SEÇENEKLER</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-a</code>, <code class="option">--all</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Tüm modüller algılanır. Komut satırında hiçbir dosya adı verilmemişse bu seçenek öntanımlı olarak etkin olur.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-A</code>, <code class="option">--quick</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu seçenek, herhangi bir çalışma yapılmadan önce modüllerin <code class="filename">module.dep</code> dosyasındakinden daha yeni olup olmadığını görmek için tarar; değilse, dosyaları yeniden oluşturmak yerine sessizce çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-b</code>,
+     <code class="option">--basedir</code> <em class="replaceable"><code>DİZİN</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Modüller normalde <code class="filename">/lib/modules/&lt;sürüm&gt;</code> dizininde değilse, ancak bir hazırlama alanındaysa, dizin adının önüne eklenecek bir <em class="replaceable"><code>DİZİN</code></em> belirtilebilir. Bu dizin, sonuçlanan <code class="filename">module.dep</code> dosya adından ayıklanır, bu nedenle normal konumuna taşınmaya hazırdır. <span class="command"><strong>depmod</strong></span>'u daha sonra yeniden çalıştırmak yerine meta veri dosyalarını önceden oluşturması gereken bir dağıtım satıcısının bu seçeneği kullanması gerekir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-C</code>,
+     <code class="option">--config</code> <em class="replaceable"><code>DOSYA veya DİZİN</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="filename">/etc/depmod.d/</code> dizinindeki öntanımlı yapılandırma dizinini geçersiz kılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-e</code>, <code class="option">--errsyms</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">-F</code> seçeneği ile birleştirildiğinde, bir modülün ihtiyaç duyduğu ve diğer modüller veya çekirdek tarafından sağlanmayan tüm sembolleri bildirir. Normalde, modüller tarafından sağlanmayan herhangi bir sembolün çekirdek tarafından sağlandığı varsayılır (ki mükemmel bir dünyada bu böyle olmalıdır), ancak bu varsayım, özellikle ek olarak güncel üçüncü taraf sürücüleri doğru şekilde kurulmadığında veya yanlış derlendiğinde bozulabilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-E</code>, <code class="option">--symvers</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">-e</code> seçeneği ile birleştirildiğinde, modüller tarafından sağlanan ve <code class="filename">Module.symvers</code> dosyasında çekirdek tarafından sağlanan sembol sürümleriyle eşleşmeyen tüm sembol sürümlerini bildirir. Bu seçenek <code class="option">-F</code> seçeneği ile karşılıklı uyumsuzdur.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-F</code>,
+     <code class="option">--filesyms</code> <em class="replaceable"><code>System.map</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Çekirdek derlendiğinde üretilen <em class="replaceable"><code>System.map</code></em> ile birlikte belirtildiğinde  <code class="option">-e</code> seçeneğinin çözümlenmeyen sembolleri bildirmesini sağlar. Bu seçenek <code class="option">-E</code> seçeneği ile karşılıklı uyumsuzdur.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-h</code>, <code class="option">--help</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Kullanım bilgilerini gösterir ve çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-n</code>, <code class="option">--show</code>, <code class="option">--dry-run</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Elde edilen <code class="filename">module.dep</code> dosyasını ve çeşitli <code class="filename">.map</code> dosyalarını modül dizinine yazmak yerine standart çıktıya gönderir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-P</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bazı mimariler, yabancı bir karaktere sahip sembollere önek ekler. Yoksayılacak bir önek karakteri (örneğin '_') belirtmek için kullanılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-v</code>, <code class="option">--verbose</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Ayrıntılı kipte, <span class="command"><strong>depmod</strong></span> her modülün bağımlı olduğu tüm sembolleri ve bu sembolleri sağlayan modülün dosya adını  standart çıktıya çıktılar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-V</code>, <code class="option">--version</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Sürüm bilgilerini gösterir ve çıkar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">-w</code>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Yinelenen bağımlılıklar, takma adlar, sembol sürümleri vb. konusunda uyarır.
+     </p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>TELİF HAKKI</h2>
+          <p>
+   Belgenin telif hakkı © 2002, Rusty Russell, IBM Corporation.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>YAZAN</h2>
+          <p>
+   Belgenin yazımı Jon Masters, Robby Workman ve Lucas De Marchi tarafından sürdürülmektedir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><b>depmod.d</b>(5)</tt>, <tt><a href="man8-modprobe.html"><b>modprobe</b></a>(8)</tt>, <tt><b>modules.dep</b>(5)</tt>.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">© 2022 Nilgün Belma Bugüner</div>
+          <div class="simpara">
+   Bu çeviri özgür yazılımdır: Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+          <div class="simpara">
+    Lütfen, çeviri ile ilgili bildirimde bulunmak veya çeviri yapmak için
+    <a class="link" href="https://github.com/TLBP/manpages-tr/issues" target="_top">https://github.com/TLBP/manpages-tr/issues</a> adresinde "New Issue" düğmesine tıklayıp yeni bir konu açınız ve isteğinizi belirtiniz.
+  </div>
+        </div>
+        <div class="refnotice">
+          <div class="legalnotice-title">Yasal Uyarı</div>
+          <div class="reflegal">
+            <pre> * Özgün Belgenin Lisans ve Telif Hakkı bilgileri:
+ *
+ * kmod-depmod - calculate modules.dep  using libkmod.
+ *
+ * Copyright (C) 2011-2013  ProFUSION embedded systems
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+</pre>
+          </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">Kmod-29</td>
+              <td class="mheadfoot" align="center" width="40%">Ocak 2021</td>
+              <td class="mheadfoot" align="right" width="30%">DEPMOD(8)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>modprobe.d</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, belgeler, kabuk, komut, kullanıcı, yardım, kılavuz, kmod, modprobe, çekirdek, kabuk, sistem, modül, module, kernel, root"/>
+    <link rel="prev" href="man5-ext4.html" title="ext4"/>
+    <link rel="next" href="../man6/man6.html" title="Oyunlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('man5-ext4.html')">Önceki</button>
+          <div class="dropdown-content">ext4</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('man5.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('../man6/man6.html')">Sonraki</button>
+          <div class="dropdown-content">Oyunlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="refentry" id="man5-modprobe.d">
+        <div class="refentry-header">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="25%">MODPROBE.D(5)</td>
+              <td class="mheadfoot" align="center" width="50%">Sistem Yönetim Komutları </td>
+              <td class="mheadfoot" align="right" width="25%">MODPROBE.D(5)</td>
+            </tr>
+          </table>
+        </div>
+        <p/>
+        <div class="titlepage"/>
+        <div class="refnamediv">
+          <h2>İSİM</h2>
+          <p>modprobe.d — modprobe için yapılandırma dizini</p>
+        </div>
+        <div class="refsynopsisdiv">
+          <h2>İLGİLİ DOSYALAR</h2>
+          <pre class="screen">/lib/modprobe.d/*.conf
+
+/usr/local/lib/modprobe.d/*.conf
+
+/run/modprobe.d/*.conf
+
+/etc/modprobe.d/*.conf
+</pre>
+        </div>
+        <div class="refsect1">
+          <h2>AÇIKLAMA</h2>
+          <p>
+   <span class="command"><strong>modprobe</strong></span> komutu birden fazla modül ekleyebildiği veya kaldırabildiği için, modüllerin bağımlılıkları nedeniyle, bu modüllerle hangi seçeneklerin kullanılacağını belirleyecek bir yönteme ihtiyaç vardır. <code class="filename">/etc/modprobe.d</code> dizininin altında <code class="filename">.conf</code> uzantısıyla biten tüm dosyalar bu seçenekleri gerektiği gibi belirtir. Ayrıca uygun takma adlar oluşturmak için kullanılabilir: Takma ad veya özel gereksinimleri olan modüller için (birden fazla modül eklemek gibi) normal <span class="command"><strong>modprobe</strong></span> davranışı tamamen geçersiz kılınabilir.
+  </p>
+          <p>
+   Modül ve takma adlarının (diğer modül adları gibi) içinde <code class="code">_</code> ve <code class="code">-</code> olabilir: alt çizgi dönüştürme otomatik olarak gerçekleştiğinden, tüm modül komutlarında her ikisi de kullanılabilir.
+  </p>
+          <p>
+   <code class="filename">modprobe.d</code> altındaki dosyaların biçemi basittir: her satıra bir komut; boş satırlar ve '#' ile başlayan satırlar yok sayılır (yorum eklemek için kullanışlıdır). Bir satırın sonundaki bir '\' satırın sonraki satırda devam etmesine neden olur, bu da dosyayı biraz daha düzenli hale getirir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>KOMUTLAR</h2>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+     <code class="option">alias</code> <em class="replaceable"><code>takma_ad modül</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Belirtilen <em class="replaceable"><code>modül</code></em>e <em class="replaceable"><code>takma_ad</code></em> verilmesini sağlar. Örneğin: "alias kiymetlimis gercekten_uzun_modulismi" komutu, "modprobe gercekten_uzun_modulismi" yerine "modprobe kiymetlimis" kullanabileceği anlamına gelir. Ayrıca kabuk tarzı joker karakterler de kullanılabilir, bu nedenle "alias kiymetlimis* gercekten_uzun_modulismi" komutu, "modprobe kiymetlimis" ile "modprobe kiymetlimisss" komutunun aynı etkiye sahip olmasını sağlar. Diğer takma adlara sahip olamazsınız (bu şekilde çılgınlık olur), ancak takma adların diğer seçeneklere eklenecek seçenekleri olabilir.
+     </p>
+                <p>
+      Modüllerin, <span class="command"><strong>modinfo</strong></span> kullanarak görebileceğiniz kendi takma adlarını da içerebileceği unutulmamalıdır. Bu takma adlar son çare olarak (yani, yapılandırmada gerçek modül, <code class="option">install</code>, <code class="option">remove</code> ve <code class="option">alias</code> komutları yoksa) kullanılır.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">blacklist</code>  <em class="replaceable"><code>takma_ad modül</code></em>
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Modüller kendi takma adlarını içerebilir: Genellikle bunlar "pci:123..." gibi destekledikleri aygıtları açıklayan takma adlardır. Bu "dahili" takma adlar, normal <em class="replaceable"><code>takma_ad</code></em> anahtar sözcükleri tarafından geçersiz kılınabilir, ancak iki veya daha fazla modülün her ikisinin de aynı aygıtları desteklediği veya bir modülün bir aygıtı aslında desteklemeyip desteklediğini iddia ettiği durumlar vardır: <code class="option">blacklist</code> komutu, belirtilen tüm <em class="replaceable"><code>modül</code></em>lerin dahili <em class="replaceable"><code>takma_ad</code></em>larının göz ardı edilmesini sağlar.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">install</code> <em class="replaceable"><code>modül komut</code></em>...
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu komut, <span class="command"><strong>modprobe</strong></span>'a belirtilen <em class="replaceable"><code>modül</code></em>ü normal şekilde çekirdeğe eklemek yerine belirtilen <em class="replaceable"><code>komut</code></em>u çalıştırmasını söyler. <em class="replaceable"><code>komut</code></em> herhangi bir kabuk komutu olabilir: bu, her türlü karmaşık işlemin yapılmasını sağlar. Örneğin, "fred" modülü zaten kurulu "barney" modülüyle daha iyi çalışıyorsa (ancak bağımlı modül olmadığından <span class="command"><strong>modprobe</strong></span> otomatik olarak yüklemiyorsa), bunu sağlamak için "<span class="command"><strong>install fred /sbin/modprobe barney; /sbin/modprobe --ignore-install fred</strong></span>" komutu verilebilir. İkinci <span class="command"><strong>modprobe</strong></span>'un aynı yükleme komutunu yeniden çalıştırmasını engelleyen <code class="option">--ignore-install</code>'a da dikkat edilmelidir. Ayrıca aşağıya da bkz.
+     </p>
+                <p>
+      Ek modül bağımlılıkları sağlama sorununa bir çözüm olarak bu komutun uzun vadeli geleceği garanti edilmez ve bu komutun, gelecekteki bir sürümde kalıcı olarak kaldırılması ya da kullanımdan kaldırılma hakkında bir uyarı ile değiştirilmesi düşünülmektedir. Kullanımı, <span class="command"><strong>mkinitrd</strong></span> gibi dağıtıma yardımcı uygulamalar tarafından modül bağımlılıklarının otomatik olarak belirlenmesi işlemini karmaşıklaştırmaktadır. Çünkü bunların artık bir şekilde yükleme komutlarının ne yapıyor olabileceğini yorumlaması gerekmektedir. Mükemmel bir dünyada, modüllerin bu komutu kullanmadan tüm bağımlılık bilgilerini sağlaması gerekir. Linux çekirdeği içinde akıllı bağımlılık desteğini sağlamak için çalışmalar devam etmektedir.
+     </p>
+                <p>
+      Komutta <code class="envar">$CMDLINE_OPTS</code> dizgesini kullanırsanız, <span class="command"><strong>modprobe</strong></span> komut satırını belirtilen seçeneklerle değiştirir. Bu, yapılandırma dosyasında bir <span class="command"><strong>install</strong></span> komutu olsa bile, kullanıcılar "<span class="command"><strong>modprobe fred opt=1</strong></span>" komutunun "<code class="code">opt=1</code>" değiştirgesini modüle aktarmasını beklediğinden faydalı olabilir. Dolayısıyla yukarıdaki örneğimiz "<span class="command"><strong>install fred /sbin/modprobe barney; /sbin/modprobe --ignore-install fred $CMDLINE_OPTS</strong></span>" haline gelir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">options</code> <em class="replaceable"><code>modül seçenek</code></em>...
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu komut, çekirdeğe her eklendiğinde belirtilen <em class="replaceable"><code>modül</code></em>e (bir takma ad da olabilir) <em class="replaceable"><code>seçenek</code></em>ler eklemenizi sağlar: İster doğrudan (modprobe modül ile) ister eklenen modül bu modüle bağlı olduğundan dolaylı olarak.
+     </p>
+                <p>
+      Tüm seçenekler birlikte eklenir. Bu seçenekler modülün kendisi ve takma adı için belirtilen seçeneklerden başka komut satırındaki bir seçenekten gelebilir.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">remove</code> <em class="replaceable"><code>modül komut</code></em>...
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      Bu, <span class="command"><strong>modprobe -r</strong></span> ile çağrılması dışında, yukarıdaki <code class="option">install</code> komutuna benzer.
+     </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+     <code class="option">softdep</code> <em class="replaceable"><code>anamodül</code></em>
+     <code class="option">pre:</code> <em class="replaceable"><code>modül</code></em>...
+     <code class="option">post:</code> <em class="replaceable"><code>modül</code></em>...
+    </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+      <code class="option">softdep</code> komutu, esnek veya isteğe bağlı modül bağımlılıklarının belirtilmesine olanak tanır. <em class="replaceable"><code>anamodül</code></em>, bu isteğe bağlı modüller kurulmadan kullanılabilir, ancak genellikle bazı özellikler eksik kalır. Örneğin, bir depolama aygıtı sürücüsü, yönetim özelliklerini kullanmak için başka bir modülün yüklenmesini gerektirebilir.
+     </p>
+                <p>
+      <code class="option">pre:</code> ve <code class="option">post:</code> <em class="replaceable"><code>modül</code></em>leri, <em class="replaceable"><code>anamodül</code></em>den önce (pre) ve sonra (post) <span class="command"><strong>modprobe</strong></span>'un kurmaya (veya kaldırmaya) çalışacağı diğer modüllerin adlarının ve/veya takma adlarının listeleridir.
+     </p>
+                <p>
+      Örnek: Yapılandırmada "<span class="command"><strong>softdep c pre: a b post: d e</strong></span>" sağlandığı varsayılsın. <code class="option">softdep</code> olmadan "<span class="command"><strong>modprobe c</strong></span>"yi çalıştırmak artık  "<span class="command"><strong>modprobe a b c d e</strong></span>" çalıştırmaya eşdeğerdir. <code class="option">--use-blacklist</code> gibi seçenekler belirtilen tüm modüllere uygulanırken modül değiştirgeleri yalnızca <code class="filename">c</code> modülüne uygulanır.
+     </p>
+                <div class="note">
+                  <h3 class="title">Bilginize</h3>
+                  <div class="admon-contents">
+                    <p>
+       <em class="replaceable"><code>anamodül</code></em> değiştirgeli <code class="option">install</code>, <code class="option">remove</code> komutlarına göre <code class="option">softdep</code> önceliklidir.
+      </p>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="refsect1">
+          <h2>UYUMLULUK</h2>
+          <p>
+   Kmod'un gelecekteki bir sürümü, yukarıda açıklandığı gibi <code class="option">install</code> kullanılmasını önlemek için güçlü bir uyarı ile gelecektir. Bu, çekirdekteki esnek bağımlılıklar için destek tamamlandığında gerçekleşebilir. Bu destek, bu tür bağımlılıkları doğrudan modüller içinde sağlayarak bu yardımcı uygulama içindeki mevcut <code class="option">softdep</code> desteğini tamamlayacaktır.
+ </p>
+        </div>
+        <div class="refsect1">
+          <h2>TELİF HAKKI</h2>
+          <p>
+   Belgenin telif hakkı © 2003 Rusty Russell, IBM Corporation.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>YAZAN</h2>
+          <p>
+   Belgenin yazımı Jon Masters, Robby Workman ve Lucas De Marchi tarafından sürdürülmektedir.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>İLGİLİ BELGELER</h2>
+          <p>
+   <tt><a href="../man8/man8-modprobe.html"><b>modprobe</b></a>(8)</tt>, <tt><b>modules.dep</b>(5)</tt>.
+  </p>
+        </div>
+        <div class="refsect1">
+          <h2>ÇEVİREN</h2>
+          <p/>
+          <div class="simpara">© 2022 Nilgün Belma Bugüner</div>
+          <div class="simpara">
+   Bu çeviri özgür yazılımdır: Yasaların izin verdiği ölçüde HİÇBİR GARANTİ YOKTUR.
+  </div>
+          <div class="simpara">
+    Lütfen, çeviri ile ilgili bildirimde bulunmak veya çeviri yapmak için
+    <a class="link" href="https://github.com/TLBP/manpages-tr/issues" target="_top">https://github.com/TLBP/manpages-tr/issues</a> adresinde "New Issue" düğmesine tıklayıp yeni bir konu açınız ve isteğinizi belirtiniz.
+  </div>
+        </div>
+        <div class="refnotice">
+          <div class="legalnotice-title">Yasal Uyarı</div>
+          <div class="reflegal">
+            <pre> * Özgün Belgenin Lisans ve Telif Hakkı bilgileri:
+ *
+ * kmod-modprobe - manage linux kernel modules using libkmod.
+ *
+ * Copyright (C) 2011-2013  ProFUSION embedded systems
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+</pre>
+          </div>
+        </div>
+        <div class="refentry-footer">
+          <table cellspacing="3" cellpadding="3" width="100%" border="0">
+            <tr>
+              <td class="mheadfoot" align="left" width="30%">Kmod-29</td>
+              <td class="mheadfoot" align="center" width="40%">Ocak 2021</td>
+              <td class="mheadfoot" align="right" width="30%">MODPROBE.D(5)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>
