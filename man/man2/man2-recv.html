@@ -22,7 +22,7 @@
           <button class="dropbtn">Yukarı</button>
           <div class="dropdown-content">
             <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
-            <button type="button" class="dropbtn" onclick="window.location.assign('/kitaplik/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
             <button type="button" class="dropbtn" onclick="window.location.assign('../manpages.html')">Ana Başlık</button>
             <button type="button" class="dropbtn" onclick="window.location.assign('man2.html')">Üst Başlık</button>
           </div>
@@ -90,7 +90,7 @@
    <span class="command"><strong>recv</strong></span>(), <span class="command"><strong>recvfrom</strong></span>() ve <span class="command"><strong>recvmsg</strong></span>() sistem çağrıları bir soketten veri almak için kullanılır. Bu sistem çağrıları hem bağlantılı hem de bağlantısız soketlerde kullanılabilir. Bu sayfada önce bu üç çağrının genel özellikleri ve ardından aralarındaki fark anlatılmıştır.
   </p>
           <p>
-   <span class="command"><strong>recv</strong></span>() ve	<tt><b>read</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> değiştirgesinin varlığıdır. <em class="replaceable"><code>flags</code></em> değiştirgesine sıfır değeri atanmış <span class="command"><strong>recv</strong></span>() genel olarak <tt><b>read</b>(2)</tt> ile eşdeğerdir (ancak yine de <a class="xref" href="man2-recv.html#man2-recv-notes" title="EK BİLGİ"> “EK BİLGİ”</a> bölümüne bakın). Ayrıca aşagıdaki
+   <span class="command"><strong>recv</strong></span>() ve	<tt><b>read</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> bağımsız değişkeninin varlığıdır. <em class="replaceable"><code>flags</code></em> bağımsız değişkenine sıfır değeri atanmış <span class="command"><strong>recv</strong></span>() genel olarak <tt><b>read</b>(2)</tt> ile eşdeğerdir (ancak yine de <a class="xref" href="man2-recv.html#man2-recv-notes" title="EK BİLGİ"> “EK BİLGİ”</a> bölümüne bakın). Ayrıca aşagıdaki
   </p>
           <pre class="screen">recv(sockfd, buf, len, flags);
 </pre>
@@ -110,7 +110,7 @@
           <div class="refsect2">
             <h3><em class="replaceable"><code>flags</code></em> değerleri</h3>
             <p>
-    <em class="replaceable"><code>flags</code></em> değiştirgesinin değeri aşağıdaki değerlerin VEYAlanmasıyla elde edilir.
+    <em class="replaceable"><code>flags</code></em> bağımsız değişkeninin değeri aşağıdaki değerlerin VEYAlanmasıyla elde edilir.
    </p>
             <div class="glosslist">
               <dl>
@@ -163,7 +163,7 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
        <em class="replaceable"><code>ee_errno</code></em> kuyruğa alınmış <em class="replaceable"><code>errno</code></em> hata numarasını içerir. <em class="replaceable"><code>ee_origin</code></em> hatanın kodda oluştuğu yeri gösterir. Diğer alanlar protokole özeldir. <code class="constant">SOCK_EE_OFFENDER</code> makrosu, yardımcı iletinin göstericisinden kaynaklanan hatanın kaynaklandığı ağ nesnesinin adresine bir gösterici döndürür. Eğer adres bilinmiyorsa, <em class="replaceable"><code>sockaddr</code></em> yapısının <em class="replaceable"><code>sa_family</code></em> alanı <code class="constant">AF_UNSPEC</code> içerirken yapının diğer alanları tanımsız kalır. Hataya sebep olan paket yükü normal veri olarak aktarılır.
       </p>
                   <p>
-       Yerel hatalar için adres belirtilmez (bu, <em class="replaceable"><code>cmsghdr</code></em> üyesi <em class="replaceable"><code>cmsg_len</code></em> ile sınanabilir). Hata alımı için <em class="replaceable"><code>msghdr</code></em> değiştirgesine <code class="constant">MSG_ERRQUEUE</code> atanır. Bir hata aktarıldıktan sonra, bekleyen soket hatası, hata kuyruğundaki sonraki hataya göre yeniden oluşturulur ve sonraki soket işleminde aktarılır.
+       Yerel hatalar için adres belirtilmez (bu, <em class="replaceable"><code>cmsghdr</code></em> üyesi <em class="replaceable"><code>cmsg_len</code></em> ile sınanabilir). Hata alımı için <em class="replaceable"><code>msghdr</code></em> bağımsız değişkenine <code class="constant">MSG_ERRQUEUE</code> atanır. Bir hata aktarıldıktan sonra, bekleyen soket hatası, hata kuyruğundaki sonraki hataya göre yeniden oluşturulur ve sonraki soket işleminde aktarılır.
       </p>
                 </dd>
                 <dt>
@@ -211,13 +211,13 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
           <div class="refsect2">
             <h3><span class="command"><strong>recvfrom</strong></span>()</h3>
             <p>
-    <span class="command"><strong>recvfrom</strong></span>() gelen iletiyi <em class="replaceable"><code>buf</code></em> tamponuna yerleştirir. Çağrıcı tamponun boyutunu <em class="replaceable"><code>len</code></em> değiştirgesi ile belirtmelidir.
+    <span class="command"><strong>recvfrom</strong></span>() gelen iletiyi <em class="replaceable"><code>buf</code></em> tamponuna yerleştirir. Çağrıcı tamponun boyutunu <em class="replaceable"><code>len</code></em> bağımsız değişkeni ile belirtmelidir.
    </p>
             <p>
     Eğer <em class="replaceable"><code>src_addr</code></em> NULL değilse ve ilgili protokol iletinin kaynak adresini sağlıyorsa <em class="replaceable"><code>src_addr</code></em> tampon içine yerleştirilen kaynak adrese göstericidir. Bu durumda, <em class="replaceable"><code>addrlen</code></em> hem aktarılan değere hem de dönen sonuca göstericidir. <em class="replaceable"><code>addrlen</code></em>, çağrıdan önce <em class="replaceable"><code>src_addr</code></em> ile ilişkilendirilmiş tamponun boyutuna gösterici olmalıdır. İşlev döndüğünde, <em class="replaceable"><code>addrlen</code></em>, kaynak adresin gerçek boyutunu gösterecek şekilde güncellenir. Sağlanan tampon çok küçükse döndürülen adres kırpılır; bu durumda, <em class="replaceable"><code>addrlen</code></em> çağrıdan önceki boyuttan daha büyük bir değer döndürür.
    </p>
             <p>
-    Eğer çağrıcı kaynak adresiyle ilgilenmiyorsa <em class="replaceable"><code>src_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değiştirgelerinde NULL aktarmalıdır.
+    Eğer çağrıcı kaynak adresiyle ilgilenmiyorsa <em class="replaceable"><code>src_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> bağımsız değişkenlerinde NULL aktarmalıdır.
    </p>
           </div>
           <div class="refsect2">
@@ -234,7 +234,7 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
           <div class="refsect2">
             <h3><span class="command"><strong>recvmsg</strong></span>()</h3>
             <p>
-    <span class="command"><strong>recvmsg</strong></span>(), <em class="replaceable"><code>msghdr</code></em> yapısını kullanarak doğrudan sağlanan değiştirge sayısını azaltır. Bu yapı, <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde şu şekilde tanımlanmıştır:
+    <span class="command"><strong>recvmsg</strong></span>(), <em class="replaceable"><code>msghdr</code></em> yapısını kullanarak doğrudan sağlanan bağımsız değişken sayısını azaltır. Bu yapı, <em class="replaceable"><code>&lt;sys/socket.h&gt;</code></em> içerisinde şu şekilde tanımlanmıştır:
    </p>
             <pre class="screen">struct iovec {         /* Dağıtma/toplama dizisinin öğeleri */
     void  *iov_base;              /* Başlangıç adresi */
@@ -414,7 +414,7 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
               </dt>
               <dd class="glossdef">
                 <p>
-      Belirtilen değiştirge geçersiz.
+      Belirtilen bağımsız değişken geçersiz.
      </p>
               </dd>
               <dt>
@@ -462,7 +462,7 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
         <div class="refsect1" id="man2-recv-notes">
           <h2>EK BİLGİ</h2>
           <p>
-   Eğer sıfır uzunluğunda bir verikatarı beklemedeyse, sıfır <em class="replaceable"><code>flags</code></em> değiştirgeli <tt><b>read</b>(2)</tt> ve <span class="command"><strong>recv</strong></span>() farklı davranışlar sergiler. Bu koşullarda, <span class="command"><strong>recv</strong></span>() bekleyen verikatarını tüketirken <tt><b>read</b>(2)</tt> hiçbir etkiye sahip değildir (verikatarı beklemede kalır).
+   Eğer sıfır uzunluğunda bir verikatarı beklemedeyse, sıfır <em class="replaceable"><code>flags</code></em> bağımsız değişkenli <tt><b>read</b>(2)</tt> ve <span class="command"><strong>recv</strong></span>() farklı davranışlar sergiler. Bu koşullarda, <span class="command"><strong>recv</strong></span>() bekleyen verikatarını tüketirken <tt><b>read</b>(2)</tt> hiçbir etkiye sahip değildir (verikatarı beklemede kalır).
   </p>
           <p>
    <em class="replaceable"><code>socklen_t</code></em> POSIX ile icat edilmiştir. Ayrıca <tt><b>accept</b>(2)</tt> sayfasına bakın.
