@@ -128,7 +128,7 @@
           <div class="refsect2">
             <h3>Bağlı dosya sistemlerinin listelenmesi</h3>
             <p>
-    <span class="command"><strong>mount</strong></span> komutu bağımsız değişkensiz kullanıldığında bağlı dosya sistemlerinin tamamını listeler. Listeleme kipi yalnızca geriye uyumluluk için vardır.
+    <span class="command"><strong>mount</strong></span> komutu hiçbir seçenek ve bağımsız değişken belirtmeden kullanıldığında bağlı dosya sistemlerinin tamamını listeler. Listeleme kipi yalnızca geriye uyumluluk için vardır.
   </p>
             <p>
    Daha sağlam ve özelleştirilebilir çıktılar için özellikle betiklerde <tt><b>findmnt</b>(8)</tt> kullanılabilir. Bağlantı noktası adında bulunan denetim karakterlerinin '?' ile değiştirildiği unutulmamalıdır.
@@ -139,7 +139,7 @@
             <pre class="screen"><span class="command"><strong>mount</strong></span> [<code class="option">-l</code>] [<code class="option">-t</code> <em class="replaceable"><code>ds-türü</code></em>]
 </pre>
             <p>
-   <code class="option">-l</code> seçeneği ile etiketler de listeye eklenebilir. Aşağıya bakınız.
+   <code class="option">-l</code> seçeneği ile etiketler de listeye eklenebilir. Bu konu aşağıda bölümde daha ayrıntılı açıklanmıştır.
    </p>
           </div>
           <div class="refsect2">
@@ -356,7 +356,7 @@
           <div class="refsect2">
             <h3>Alt ağacın paylaşılması (yayılım)</h3>
             <p>
-    Linux 2.6.15'ten beri, bir bağlantıyı ve onun alt bağlantılarını paylaşımlı (shared), özel (private), köle (slave) veya klonlanamaz (unbindable) olarak işaretlemek mümkündür. Paylaşımlı bağlantı, bir bağlantının yansılarını oluşturma yeteneği sağlar. Böylece bir bağlantıda bir yansının alt bağlantıları ayrıldığında bu değişiklik diğer yansılara da yansıtılır. Köle bağlantı değişiklikleri yalnızca efendisinden alır, tersi olmaz. Özel bağlantı hiçbir yansı, köle, efendi almaz veya vermez. Klonlanamayan bağlantı, başka yere tekrar bağlanamaz. Ayrıntılar, çekirdek kaynak ağacındaki <code class="filename">Documentation/filesystems/sharedsubtree.txt</code> dosyasında belgelenmiştir; ayrıca bkz. <tt><b>mount-namespaces</b>(7)</tt>.
+    Linux 2.6.15'ten beri, bir bağlantıyı ve onun alt bağlantılarını paylaşımlı (shared), özel (private), köle (slave) veya kopyalanamaz (unbindable) olarak işaretlemek mümkündür. Paylaşımlı bağlantı, bir bağlantının yansılarını oluşturma yeteneği sağlar. Böylece bir bağlantıda bir yansının alt bağlantıları ayrıldığında bu değişiklik diğer yansılara da yansıtılır. Köle bağlantı değişiklikleri yalnızca efendisinden alır, tersi olmaz. Özel bağlantı hiçbir yansı, köle, efendi almaz veya vermez. Kopyalanamayan bağlantı, başka yere tekrar bağlanamaz. Ayrıntılar, çekirdek kaynak ağacındaki <code class="filename">Documentation/filesystems/sharedsubtree.txt</code> dosyasında belgelenmiştir; ayrıca bkz. <tt><b>mount-namespaces</b>(7)</tt>.
    </p>
             <p>
     Desteklenen işlemler:
@@ -375,13 +375,13 @@
 <span class="command"><strong>mount --make-runbindable</strong></span> <em class="replaceable"><code>bağlama-noktası</code></em>
 </pre>
             <p>
-    <span class="command"><strong>mount</strong></span> bir <code class="option">--make-*</code> seçeneği belirtildiğinde <tt><b>fstab</b>(5)</tt> dosyasını okumaz. Gerekli bilgi komut satırında belirtilmelidir.
+    <span class="command"><strong>mount</strong></span> bir <code class="option">--make-*</code> seçeneği belirtildiğinde <tt><b>fstab</b>(5)</tt> dosyasını okumaz. Gerekli bilgi komut satırında belirtilmelidir. Yayılım seçeneklerini (<code class="option">private, slave, share, unbindable, rprivate, rslave, rshared, runbindable</code>) <tt><b>fstab</b>(5)</tt> dosyasında bağlama seçenekleri olarak belirtmek de mümkündür.
    </p>
             <p>
     Linux çekirdeğinin tek bir <tt><b>mount</b>(2)</tt> sistem çağrısı ile birden çok yayılım seçeneğinin değiştirilmesine izin vermediği ve yayılım seçeneklerinin diğer bağlama seçenekleri ve işlemleriyle birlikte kullanılamayacağı unutulmamalıdır.
    </p>
             <p>
-    util-linux 2.23'ten beri <span class="command"><strong>mount</strong></span> komutu, bir <tt><b>mount</b>(2)</tt> sistem çağrısı ile daha fazla yayılım (topoloji) değişikliği yapmak ve bunu üstelik, diğer bağlama işlemleriyle birlikte yapmak için de kullanılabilir. Yayılım seçenekleri, önceki bağlama işlemleri başarılı olduğunda ek <tt><b>mount</b>(2)</tt> sistem çağrıları ile teker teker uygulanır. Bu kullanım durumunun atomik olmadığı unutulmamalıdır. Yayılım seçeneklerini (<code class="option">private, slave, share, unbindable, rprivate, rslave, rshared, runbindable</code>) <tt><b>fstab</b>(5)</tt> dosyasında bağlama seçenekleri olarak belirtmek de mümkündür. Örneğin,
+    util-linux 2.23'ten beri <span class="command"><strong>mount</strong></span> komutu, bir <tt><b>mount</b>(2)</tt> sistem çağrısı ile daha fazla yayılım (topoloji) değişikliği yapmak ve bunu üstelik, diğer bağlama işlemleriyle birlikte yapmak için de kullanılabilir. Yayılım seçenekleri, önceki bağlama işlemleri başarılı olduğunda ek <tt><b>mount</b>(2)</tt> sistem çağrıları ile teker teker uygulanır. Bu kullanım durumunun atomik olmadığı unutulmamalıdır. Örneğin,
    </p>
             <pre class="screen">mount --make-private --make-unbindable /dev/sda1 /foo
 </pre>
@@ -397,7 +397,7 @@ mount --make-unbindable /foo
         <div class="refsect1">
           <h2>KOMUT SATIRI SEÇENEKLERİ</h2>
           <p>
-   <span class="command"><strong>mount</strong></span> komutu, önce varsa <tt><b>fstab</b>(5)</tt> dosyasındaki dosya sistemi bağlama seçeneklerini, ardından varsa <code class="option"><a class="option" href="man8-mount.html#man8-mount-opt-o" title="-o, --options seçenekler">-o</a></code> komut satırı seçeneğinde belirtilen bağlama seçeneklerini elde edip bunları uyguladıktan sonra son olarak varsa <code class="option">-r</code> veya <code class="option">-w</code> komut satırı seçeneğini uygular.
+   <span class="command"><strong>mount</strong></span> komutu, önce varsa <tt><b>fstab</b>(5)</tt> dosyasındaki dosya sistemi bağlama seçeneklerini, ardından varsa <code class="option"><a class="option" href="man8-mount.html#man8-mount-opt-o" title="-o, --options seçenekler">-o</a></code> komut satırı seçeneğinde belirtilen bağlama seçeneklerini elde edip bunları uyguladıktan sonra son olarak varsa <code class="option"><a class="option" href="man8-mount.html#man8-mount-opt-r" title="-r, --read-only">-r</a></code> veya <code class="option">-w</code> komut satırı seçeneğini uygular.
   </p>
           <p>
    <span class="command"><strong>mount</strong></span> komutu <span class="command"><strong>/sbin/mount.</strong></span><em class="replaceable"><code>ds-türü</code></em> dışsal bağlama araçlarına komut satırı seçeneklerinin tamamını aktarmaz. <span class="command"><strong>mount</strong></span> ile dışsal bağlama araçları arasındaki arayüz aşağıdaki <a class="xref" href="man8-mount.html#man8-mount-helpers" title="YARDIMCI BAĞLAMA ARAÇLARI"> “YARDIMCI BAĞLAMA ARAÇLARI”</a> bölümünde açıklanmıştır.
@@ -639,7 +639,7 @@ mount --make-unbindable /foo
       Bir alt ağaç ve olası tüm alt ağaçlar başka bir yere tekrar bağlanabilir (böylece bu içerik her iki yerden de erişilebilir olur). Bu konu yukarıda <a class="xref" href="man8-mount.html#man8-mount-clone" title="Başka bir yere tekrar bağlamak"> “Başka bir yere tekrar bağlamak”</a> bölümünde açıklanmıştır.
      </p>
               </dd>
-              <dt>
+              <dt id="man8-mount-opt-r">
                 <span class="glossterm">
      <code class="option">-r</code>, <code class="option">--read-only</code>
     </span>
@@ -1329,11 +1329,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-           Allow to make a target directory (mountpoint) if it does not exist yet. The optional argument
-           mode specifies the filesystem access mode used for mkdir(2) in octal notation. The default
-           mode is 0755. This functionality is supported only for root users or when mount is executed
-           without suid permissions. The option is also supported as x-mount.mkdir, but this notation is
-           deprecated since v2.30. See also --mkdir command line option.
+      Henüz mevcut değilse, bir hedef dizin (bağlama noktası) oluşturmaya izin verir. İsteğe bağlı <em class="replaceable"><code>kip</code></em> bağımsız değişkeni, sekizli gösterimde <tt><b>mkdir</b>(2)</tt> için kullanılan dosya sistemi erişim kipini belirler. Öntanımlı kip 0755'tir. Bu işlevsellik yalnızca root kullanıcılar için veya <span class="command"><strong>mount</strong></span> suid izinleri olmadan çalıştırıldığında desteklenir. Seçenek ayrıca <code class="option">x-mount.mkdir</code> olarak da desteklenir, ancak v2.30'dan beri bu gösterimin kullanımı önerilmemektedir. Ayrıca bkz: <code class="option">--mkdir</code>
      </p>
               </dd>
               <dt id="man8-mount-X-mount_subdir">
@@ -1343,11 +1339,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-           Allow mounting sub-directory from a filesystem instead of the root directory. For now, this
-           feature is implemented by temporary filesystem root directory mount in unshared namespace and
-           then bind the sub-directory to the final mount point and umount the root of the filesystem.
-           The sub-directory mount shows up atomically for the rest of the system although it is
-           implemented by multiple mount(2) syscalls. This feature is EXPERIMENTAL.
+      Bağlı olmayan bir dosya sistemini geçici olarak bağlayıp onun bir alt dizinine bağlı bir dosya sistemini başka bir yere kopyalamak için kullanılabilir. Şimdilik, bu özellik, paylaşılmamış bir ad alanındaki geçici bir dosya sistemi kök dizinini bağladıktan sonra, belirtilen alt <em class="replaceable"><code>dizin</code></em>e son bağlama noktasını kopyalayıp (remount değil bind) dosya sistemi kök dizinini ayırmak şeklinde gerçeklenmektedir. Böyle bir alt dizin bağlaması, birden çok <tt><b>mount</b>(2)</tt> sistem çağrısı tarafından gerçeklenmesine rağmen, sistemin geri kalanı için tek bir çağrı olarak görünür. Bu özellik DENEYSELDİR.
      </p>
               </dd>
               <dt id="man8-mount-nosymfollow">
@@ -1357,8 +1349,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-           Do not follow symlinks when resolving paths. Symlinks can still be created, and readlink(1),
-           readlink(2), realpath(1), and realpath(3) all still work properly.
+      Dosya yolları çözümlenirken sembolik bağlar izlenmez. Sembolik bağlar yine de oluşturulabilir ve <tt><a href="../man1/man1-readlink.html"><b>readlink</b></a>(1)</tt>, <tt><b>readlink</b>(2)</tt>, <tt><a href="../man1/man1-realpath.html"><b>realpath</b></a>(1)</tt> ve <tt><b>realpath</b>(3)</tt>hala düzgün şekilde çalışır.
      </p>
               </dd>
             </dl>
@@ -1428,17 +1419,13 @@ mount --make-unbindable /foo
             </table>
           </div>
           <p>
-       Note that some of the pages listed above might be available only after you install the respective
-       userland tools.
+   Yukarıda listelenen bazı sayfaların yalnızca ilgili kullanıcı alanı araçları kurulduktan sonra kullanılabilir olacağı unutulmamalıdır.
   </p>
           <p>
-     The following options apply only to certain filesystems. We sort them by filesystem. All options
-       follow the -o flag.
+   Aşağıdaki seçenekler yalnızca belirli dosya sistemleri için geçerlidir. Bunlar dosya sisteminin adına göre abecesel sıralanmıştır. Tüm seçenekler bağlama seçeneği olup yalnızca <code class="option"><a class="option" href="man8-mount.html#man8-mount-opt-o" title="-o, --options seçenekler">-o</a></code> komut satırı seçeneğinde belirtilebilir.
   </p>
           <p>
-       What options are supported depends a bit on the running kernel. Further information may be
-       available in filesystem-specific files in the kernel source subdirectory
-       Documentation/filesystems.
+   Hangi seçeneklerin destekleneceği biraz da çalışan çekirdeğe bağlıdır. Daha fazla bilgi, çekirdek kaynak paketinin <code class="filename">Documentation/filesystems</code> alt dizinindeki dosya sistemine özgü dosyalarda bulunabilir.
   </p>
           <div class="refsect2">
             <h3><code class="literal">adfs</code> için bağlama seçenekleri</h3>
@@ -1542,7 +1529,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Bir bağı izlerken oylum isminden önce kullanılan önek.
+       Bir bağı izlerken ds birim isminden önce kullanılan önek.
       </p>
                 </dd>
                 <dt>
@@ -1612,8 +1599,7 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3><code class="literal">debugfs</code> için bağlama seçenekleri</h3>
             <p>
-       The debugfs filesystem is a pseudo filesystem, traditionally mounted on /sys/kernel/debug. As of
-       kernel version 3.4, debugfs has the following options:
+    <code class="literal">debugfs</code> dosya sistemi, geleneksel olarak <code class="filename">/sys/kernel/debug</code> altına bağlanan sözde dosya sistemidir. Çekirdek 3.4 sürümünden beri, <code class="literal">debugfs</code> için aşağıdaki seçenekleri desteklemektedir:
    </p>
             <div class="glosslist">
               <dl>
@@ -1644,7 +1630,7 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3><code class="literal">devpts</code> için bağlama seçenekleri</h3>
             <p>
-    <code class="option">devpts</code> dosya sistemi bir sahte dosya sistemidir,  geleneksel olarak <code class="filename">/dev/pts</code> üzerine bağlanır. Bir sahte uçbirim elde edebilmek için, bir süreç <code class="filename">/dev/ptmx</code>’i açar; daha sonra bu uçbirimin numarası bu sürece bildirilir ve yardımcı sahte uçbirime <code class="filename">/dev/pts/&lt;numara&gt;</code> şeklinde erişilebilir.
+    <code class="literal">devpts</code> dosya sistemi sözde dosya sistemidir,  geleneksel olarak <code class="filename">/dev/pts</code> altına bağlanır. Bir sözde uçbirim elde edebilmek için, bir süreç <code class="filename">/dev/ptmx</code>’i açar; daha sonra bu uçbirimin numarası bu sürece bildirilir ve yardımcı sözde uçbirime <code class="filename">/dev/pts/&lt;numara&gt;</code> şeklinde erişilebilir.
    </p>
             <div class="glosslist">
               <dl>
@@ -1656,68 +1642,55 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Yeni oluşturulan PTY'lerin kullanıcı ve grup kimliklerini ayarlar. Hiçbir şey belirtilmemişse, bu değerlere, uçbirimi oluşturan sürecin değerleri atanır. Örneğin: GID 5 ile bir tty grubu varsa, <code class="option">gid=5</code> ile yeni açılan PTY bu gruba dahil edilir.
+       Yeni oluşturulan PTY'lerin kullanıcı ve grup kimliklerini ayarlar. Hiçbir şey belirtilmemişse, bu değerlere, uçbirimi oluşturan sürecin değerleri atanır. Örneğin: Grup kimliği 5 olan bir tty grubu varsa, <code class="code">gid=5</code> ile yeni açılan PTY bu gruba dahil edilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">mode</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">mode</code>=<em class="replaceable"><code>kip</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Yeni oluşturulan PTY'lerin kipini ayarlar. Öntanımlı değer 0600 dür. <code class="option">mode=620</code> ve <code class="option">gid=5</code> değerleri ile yeni açılan PTYler için “mesg y” öntanımlı olur.
+       Yeni oluşturulan PTY'lerin <em class="replaceable"><code>kip</code></em>ini belirler. Öntanımlı <em class="replaceable"><code>kip</code></em> <code class="literal">0600</code>'dür. <code class="code">mode=620</code> ve <code class="code">gid=5</code> değerleri ile yeni açılan PTYler için “mesg y” öntanımlı olur.
       </p>
                 </dd>
-                <dt>
+                <dt id="man8-mount-devpts-newinstance">
                   <span class="glossterm">
       <code class="option">newinstance</code>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Create a private instance of the devpts filesystem, such that indices of pseudo terminals
-           allocated in this new instance are independent of indices created in other instances of
-           devpts.
+       <code class="literal">devpts</code> dosya sisteminin özel bir örneğini oluşturur, böylece bu yeni örnekte tahsis edilen sözde terminaller, diğer devpts örneklerinde oluşturulanlardan bağımsız olur.
      </p>
                   <p>
-           All mounts of devpts without this newinstance option share the same set of pseudo terminal
-           indices (i.e., legacy mode). Each mount of devpts with the newinstance option has a private
-           set of pseudo terminal indices.
+      <code class="option">newinstance</code> seçeneği olmayan tüm <code class="literal">devpts</code>ler, aynı sözde uçbirim indisleri kümesini paylaşır (yani, eski kipi). <code class="option">newinstance</code> seçeneği olanların indis kümesi ise, kendilerine özel, diğerlerinden bağımsız olur.
      </p>
                   <p>
-           This option is mainly used to support containers in the Linux kernel. It is implemented in
-           Linux kernel versions starting with 2.6.29. Further, this mount option is valid only if
-           CONFIG_DEVPTS_MULTIPLE_INSTANCES is enabled in the kernel configuration.
+      Bu seçenek esas olarak Linux çekirdeğindeki kapsayıcıları desteklemek için kullanılır. 2.6.29 ve üstü Linux çekirdek sürümlerinde gerçeklenmiştir. Ayrıca, bu bağlama seçeneği yalnızca, çekirdek yapılandırmasında <code class="constant">CONFIG_DEVPTS_MULTIPLE_INSTANCES</code> etkinleştirildiğinde geçerli olur.
      </p>
                   <p>
-           To use this option effectively, /dev/ptmx must be a symbolic link to pts/ptmx. See
-           Documentation/filesystems/devpts.txt in the Linux kernel source tree for details.
+      Bu seçeneği etkin şekilde kullanmak için <code class="filename">/dev/ptmx</code>, <code class="filename">pts/ptmx</code>'e sembolik bir bağ olmalıdır. Daha fazla bilgi, çekirdek kaynak paketinindeki <code class="filename">Documentation/filesystems/devpts.txt</code> dosyasında bulunabilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">ptmxmode</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">ptmxmode</code>=<em class="replaceable"><code>kip</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Set the mode for the new ptmx device node in the devpts filesystem.
+       <code class="literal">devpts</code> dosya sisteminde yeni <code class="filename">ptmx</code> aygıt düğümünün <em class="replaceable"><code>kip</code></em>ini belirler.
      </p>
                   <p>
-           With the support for multiple instances of devpts (see newinstance option above), each
-           instance has a private ptmx node in the root of the devpts filesystem (typically
-           /dev/pts/ptmx).
+      Birden çok <code class="literal">devpts</code> örneği desteğiyle, her örneğin (bkz: <code class="option"><a class="option" href="man8-mount.html#man8-mount-devpts-newinstance" title="newinstance">newinstance</a></code>) <code class="literal">devpts</code> dosya sisteminin kök dizininde özel bir <code class="filename">ptmx</code> düğümü bulunur (genel olarak <code class="filename">/dev/pts/ptmx</code>).
      </p>
                   <p>
-           For compatibility with older versions of the kernel, the default mode of the new ptmx node is
-           0000. ptmxmode=value specifies a more useful mode for the ptmx node and is highly recommended
-           when the newinstance option is specified.
+      Çekirdeğin eski sürümleriyle uyumluluk için, yeni <code class="filename">ptmx</code> düğümünün öntanımlı kipi <code class="literal">0000</code>'dır. Bu seçenek ile <code class="filename">ptmx</code> düğümü için daha kullanışlı bir <em class="replaceable"><code>kip</code></em> belirtilebilir.  <code class="option"><a class="option" href="man8-mount.html#man8-mount-devpts-newinstance" title="newinstance">newinstance</a></code> seçeneği belirtildiğinde bu seçeneğin de kullanılması şiddetle önerilir.
      </p>
                   <p>
-           This option is only implemented in Linux kernel versions starting with 2.6.29. Further, this
-           option is valid only if CONFIG_DEVPTS_MULTIPLE_INSTANCES is enabled in the kernel
-           configuration.
+      2.6.29 ve üstü Linux çekirdek sürümlerinde gerçeklenmiştir. Ayrıca, bu seçenek yalnızca, çekirdek yapılandırmasında <code class="constant">CONFIG_DEVPTS_MULTIPLE_INSTANCES</code> etkinleştirildiğinde geçerli olur.
       </p>
                 </dd>
               </dl>
@@ -1729,7 +1702,7 @@ mount --make-unbindable /foo
               <h3 class="title">Bilginize</h3>
               <div class="admon-contents">
                 <p>
-     <code class="option">fat</code> bağımsız bir dosya sistemi değildir ama msdos, umsdos ve vfat dosya sistemlerinin ana parçasıdır.
+     <code class="literal">fat</code> bağımsız bir dosya sistemi değildir ama msdos, umsdos ve vfat dosya sistemlerinin ana parçasıdır.
     </p>
               </div>
             </div>
@@ -1750,7 +1723,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Blok boyu belirtilir (öntanımlı: 512). Bu seçenek artık kullanılmıyor.
+       Blok boyunu belirler (öntanımlı: 512). Bu seçenek artık kullanılmıyor.
       </p>
                 </dd>
                 <dt>
@@ -1766,17 +1739,17 @@ mount --make-unbindable /foo
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">umask</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">umask</code>=<em class="replaceable"><code>maske</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       umask’ı (verilmeyecek izinlerin bit maskesi) ayarlar. Öntanımlı olarak, o anki sürecin umask'ı kullanılır. Değer sekizlik tabanda verilir.
+       umask’ı (verilmeyecek izinlerin bit maskesi) belirler. Öntanımlı olarak, o anki sürecin umask'ı kullanılır. Değer sekizlik tabanda verilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">dmask</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">dmask</code>=<em class="replaceable"><code>maske</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
@@ -1786,7 +1759,7 @@ mount --make-unbindable /foo
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">fmask</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">fmask</code>=<em class="replaceable"><code>maske</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
@@ -1862,7 +1835,7 @@ mount --make-unbindable /foo
                       </dt>
                       <dd class="glossdef">
                         <p>
-          "relaxed" seçeneğine çok benzer ama pek çok özel karakter kabul edilmez (*, ?, &lt;, boşluk, vs.).  Bu seçenek öntanımlıdır.
+          "<code class="literal">relaxed</code>" değerine çok benzer ama pek çok özel karakter kabul edilmez (*, ?, &lt;, boşluk, vs.).  Bu seçenek öntanımlıdır.
          </p>
                       </dd>
                       <dt>
@@ -1872,7 +1845,7 @@ mount --make-unbindable /foo
                       </dt>
                       <dd class="glossdef">
                         <p>
-          "normal" seçeneğine çok benzer ama Linux’ta bazan kullanılan fakat MS-DOS tarafından kabul edilmeyen özel karakterler ve uzun isimler reddedilir (+, =, boşluk, vs.).
+          "<code class="literal">normal</code>" değerine çok benzer ama Linux’ta bazan kullanılan fakat MS-DOS tarafından kabul edilmeyen özel karakterler ve uzun isimler reddedilir (+, =, boşluk, vs.).
          </p>
                       </dd>
                     </dl>
@@ -1905,7 +1878,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Sürücü olarak kullanılacak CVF (Compressed Volume File - Sıkıştırılmış Oylum Dosyası) modülü olarak otomatik saptanan modül yerine <em class="replaceable"><code>modül</code></em> modülünü kullanmaya zorlar. Şayet çekirdek kmod destekli ise, <code class="option">cvf_format=</code><em class="replaceable"><code>xxx</code></em> seçeneği istek üzerine CVF modülü yüklemesini de denetler.
+       Sürücü olarak kullanılacak CVF (Compressed Volume File - Sıkıştırılmış Oylum Dosyası) modülü olarak otomatik saptanan modül yerine <em class="replaceable"><code>modül</code></em> modülünü kullanmaya zorlar. Şayet çekirdek kmod destekli ise bu seçenek, istendiğinde CVF modülü yüklemesini de denetler.
       </p>
                 </dd>
                 <dt>
@@ -1935,8 +1908,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       If set, causes discard/TRIM commands to be issued to the block device when blocks are freed.
-           This is useful for SSD devices and sparse/thinly-provisioned LUNs
+       Belirtilirse, bloklar serbest bırakıldığında blok aygıtında yoket/kırp işlemlerinin uygulanmasına neden olur. Bu, SSD'ler ve seyrek/ince olarak sağlanan LUN'lar için kullanışlıdır.
       </p>
                 </dd>
                 <dt>
@@ -1946,9 +1918,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       If set, use a fallback default BIOS Parameter Block configuration, determined by backing
-           device size. These static parameters match defaults assumed by DOS 1.x for 160 kiB, 180 kiB,
-           320 kiB, and 360 kiB floppies and floppy images.
+       Belirtilirse, yedekleme aygıtı boyutuna göre belirlenen bir son çare öntanımlısı olarak BIOS Bağımsız Değişken Bloğu yapılandırması kullanılır. Bu statik bağımsız değişkenler 160 kiB, 180 kiB, 320 kiB ve 360 kiB disketler ve disket imgeleri için DOS 1.x tarafından kabul edilen öntanımlı değerlerle eşleştirilir.
       </p>
                 </dd>
                 <dt>
@@ -1966,8 +1936,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Specify FAT behavior on critical errors: panic, continue without doing anything, or remount
-           the partition in read-only mode (default behavior).
+       Önemli hatalar için FAT davranışını belirler: <code class="code">panic</code> (panikle), <code class="code">continue</code> (hiçbir şey yapmadan devam et) veya <code class="code">remount-ro</code> (bölümü salt okunur yeniden bağla - öntanımlıdır).
       </p>
                 </dd>
                 <dt>
@@ -1985,17 +1954,17 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       12, 16 veya 32 bitlik fat sistemi belirtilir. Bu seçeneğin belirtildiği durumlarda otomatik FAT türü saptaması yoksayılır. Kullanırken DİKKATLİ OLUN!
+       12, 16 veya 32 bitlik fat sistemi belirtir. Bu seçeneğin belirtildiği durumlarda otomatik FAT türü saptaması yoksayılır. Kullanırken DİKKATLİ OLUN!
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">iocharset</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">iocharset</code>=<em class="replaceable"><code>küme</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       8 bitlik karakterlerle, 16 bitlik Unicode karakterler arasında dönüşüm işlemi için kullanılacak karakter kümesi belirtilir. Öntanımlı değer iso8859-1 dır. Uzun dosya isimleri disk üzerinde Unicode biçiminde saklanır.
+       8 bitlik karakterlerle, 16 bitlik Unicode karakterler arasında dönüşüm işlemi için kullanılacak karakter kümesini belirler. Öntanımlı <em class="replaceable"><code>küme</code></em> iso8859-1'dir. Uzun dosya isimleri disk üzerinde Unicode biçiminde saklanır.
       </p>
                 </dd>
                 <dt>
@@ -2010,23 +1979,16 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Enable this only if you want to export the FAT filesystem over NFS.
+       Yalnızca FAT dosya sistemi NFS üzerinden dışa aktarılmak isteniyorsa etkinleştirilmelidir.
       </p>
                   <p>
-           <code class="option">nfs=stale_rw</code>: This option maintains an index (cache) of directory inodes which is used by the
-           nfs-related code to improve look-ups. Full file operations (read/write) over NFS are supported
-           but with cache eviction at NFS server, this could result in spurious ESTALE errors.
+       <code class="option">nfs=stale_rw</code>: Bu seçenek, aramaları iyileştirmek için nfs ile ilgili kod tarafından kullanılan dizinlerin dosya düğümlerini tamponlamakta kullanılır . NFS üzerinden tüm dosya işlemleri (okuma/yazma) desteklenir, ancak NFS sunucusundaki bir önbellek tahliyesinin, yapay ESTALE hatalarına neden olma olasılığı vardır.
       </p>
                   <p>
-           <code class="option">nfs=nostale_ro</code>: This option bases the inode number and file handle on the on-disk location of a
-           file in the FAT directory entry. This ensures that ESTALE will not be returned after a file is
-           evicted from the inode cache. However, it means that operations such as rename, create and
-           unlink could cause file handles that previously pointed at one file to point at a different
-           file, potentially causing data corruption. For this reason, this option also mounts the
-           filesystem readonly.
+       <code class="option">nfs=nostale_ro</code>: Bu seçenek, dosya düğümü indisini ve dosya tanıtıcısını FAT dizini girdisindeki bir dosyanın disk üzerindeki konumuna dayandırır. Bir dosya, bulunduğu dizinin dosya düğümü tamponundan çıkarıldıktan sonra ESTALE hatasının oluşmamasını sağlar. Ancak bu, yeniden adlandırma, oluşturma ve bağ kaldırma gibi işlemlerin dosya tanıtıcılarının artık farklı bir dosyayı göstermesine ve büyük olasılıkla veri bozulmasına neden olabileceği anlamına gelir. Bunun ortaya çıkmaması için, bu seçenek ek olarak dosya sistemini salt okunur  olarak bağlar.
       </p>
                   <p>
-           To maintain backward compatibility, -o nfs is also accepted, defaulting to stale_rw.
+       Geriye dönük uyumluluğu korumak için, <code class="option">stale_rw</code> öntanımlı olduğu takdirde <code class="option">-o nfs</code> de kabul edilir.
       </p>
                 </dd>
                 <dt>
@@ -2036,24 +1998,17 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       This option disables the conversion of timestamps between local time (as used by Windows on
-           FAT) and UTC (which Linux uses internally). This is particularly useful when mounting devices
-           (like digital cameras) that are set to UTC in order to avoid the pitfalls of local time.
+       Bu seçenek, yerel saat (FAT üzerinde Windows tarafından kullanıldığı gibi) ve UTC (Linux'un dahili olarak kullandığı) arasındaki zaman damgalarının dönüştürülmesini devre dışı bırakır. Bu, yerel saatin olumsuzluklarından kaçınmak için UTC'ye ayarlanmış aygıtları (sayısal kameralar gibi) bağlarken özellikle kullanışlıdır.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">time_offset</code>=<em class="replaceable"><code>süre</code></em>
+      <code class="option">time_offset</code>=<em class="replaceable"><code>fark</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Set offset for conversion of timestamps from local time used by FAT to UTC. I.e., minutes will
-           be subtracted from each timestamp to convert it to UTC used internally by Linux. This is
-           useful when the time zone set in the kernel via settimeofday(2) is not the time zone used by
-           the filesystem. Note that this option still does not provide correct time stamps in all cases
-           in presence of DST - time stamps in a different DST setting will be off by one hour.
-
+       Zaman damgalarının FAT tarafından kullanılan yerel saatten UTC'ye  dönüştürülmesi için saat <em class="replaceable"><code>fark</code></em>ını belirler. Yani, Linux tarafından dahili olarak kullanılan UTC'ye dönüştürmek için her zaman damgasından <em class="replaceable"><code>fark</code></em> dakika çıkarılır. Bu, çekirdekte settimeofday(2) aracılığıyla ayarlanan saat dilimi dosya sistemi tarafından kullanılan saat dilimi olmadığında kullanışlıdır. Yaz saati uygulamalarında bu seçeneğin doğru zaman damgaları sağlamadığı unutulmamalıdır - yaz saatinin uygulandığı saatlere bağlı olarak zaman damgaları bir saat farklı olacaktır.
       </p>
                 </dd>
                 <dt>
@@ -2063,7 +2018,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Sessiz kip etkinleştirilir. Dosyalara chown ve chmod uygulandığında başarısızlık halinde hata döndürülmez. DİKKATLİ kullanılmalıdır!
+       Sessiz kip etkinleştirilir. Dosyaların sahiplik ve kipleri değiştirilirken başarısızlık halinde hata döndürülmez. DİKKATLİ kullanılmalıdır!
       </p>
                 </dd>
                 <dt>
@@ -2073,11 +2028,10 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           FAT has the ATTR_RO (read-only) attribute. On Windows, the ATTR_RO of the directory will just
-           be ignored, and is used only by applications as a flag (e.g. it’s set for the customized
-           folder).
-
-           If you want to use ATTR_RO as read-only flag even for the directory, set this option.
+       FAT dosya sisteminde, <code class="code">ATTR_RO</code> (salt okunur) özniteliği vardır. Windows'ta, dizinler için <code class="code">ATTR_RO</code> yok sayılır ve bir seçenek olarak yalnızca uygulamalar tarafından kullanılır (örneğin, dizini özelleştirmek için).
+      </p>
+                  <p>
+       <code class="code">ATTR_RO</code> özniteliği, dizinleri bile salt okunur yapmak için kullanılmak istenirse bu seçenek belirtilmelidir.
       </p>
                 </dd>
                 <dt>
@@ -2087,8 +2041,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           If set, the execute permission bits of the file will be allowed only if the extension part of
-           the name is .EXE, .COM, or .BAT. Not set by default.
+       Belirtilirse, dosyanın çalıştırma izni bitlerine yalnızca dosya uzantısı <code class="filename">.EXE</code>, <code class="filename">.COM</code> veya <code class="filename">.BAT</code> ise izin verilir. Öntanımlı olarak etkin değildir.
       </p>
                 </dd>
                 <dt>
@@ -2098,7 +2051,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           If set, ATTR_SYS attribute on FAT is handled as IMMUTABLE flag on Linux. Not set by default.
+       Belirtilirse, FAT dosya sisteminin <code class="code">ATTR_SYS</code> özniteliği Linux üzerinde <code class="constant">IMMUTABLE</code> seçeneği ile gerçeklenir. Öntanımlı olarak etkin değildir.
       </p>
                 </dd>
                 <dt>
@@ -2108,7 +2061,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           If set, the filesystem will try to flush to disk more early than normal. Not set by default.
+       Belirtilirse, dosya sistemi bellekten diske normalden daha erken boşaltılmaya çalışılır. Öntanımlı olarak etkin değildir.
       </p>
                 </dd>
                 <dt>
@@ -2118,10 +2071,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Use the "free clusters" value stored on FSINFO. It’ll be used to determine number of free
-           clusters without scanning disk. But it’s not used by default, because recent Windows don’t
-           update it correctly in some case. If you are sure the "free clusters" on FSINFO is correct, by
-           this option you can avoid scanning disk.
+       Belirtilirse, <code class="code">FSINFO</code>'da saklanan "free clusters" ("serbest kümeler") değeri kullanılır. Diski taramadan boş küme sayısını belirlemek için kullanılır. Ancak öntanımlı olarak kullanılmaz, çünkü son Windows sürümlerinde bazı durumlarda doğru şekilde güncellenmemektedir. <code class="code">FSINFO</code>'daki bu değerin doğru olduğundan emin olunması durumunda, bu seçenekle disk taramasını önlenebilir.
       </p>
                 </dd>
                 <dt>
@@ -2139,7 +2089,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Various misguided attempts to force Unix or DOS conventions onto a FAT filesystem.
+       Unix veya DOS kurallarını bir FAT dosya sisteminde zorlamak için yanlış yönlendirilmiş çeşitli girişimler.
       </p>
                 </dd>
               </dl>
@@ -2151,13 +2101,13 @@ mount --make-unbindable /foo
               <dl>
                 <dt>
                   <span class="glossterm">
-      <code class="option">creator</code>=<em class="replaceable"><code>değer</code></em> ,
+      <code class="option">creator</code>=<em class="replaceable"><code>değer</code></em>,
       <code class="option">type</code>=<em class="replaceable"><code>değer</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Set the creator/type values as shown by the MacOS finder used for creating new files. Default values: '????'.
+       Yeni dosyalar oluşturmak için MacOS bulucu tarafından kullanılan <code class="option">creator</code>/<code class="option">type</code> için belirtilen <em class="replaceable"><code>değer</code></em>ler tanımlanır. '<code class="literal">????</code>' öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -2180,8 +2130,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Set the umask used for all directories, all regular files, or all files and directories.
-           Defaults to the umask of the current process.
+       Tüm dizinler, tüm normal dosyalar veya tüm dosyal ve dizinler için kullanılan umask <em class="replaceable"><code>değer</code></em>ini belirler. Geçerli sürecin umask'ı öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -2191,19 +2140,17 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Select the CDROM session to mount. Defaults to leaving that decision to the CDROM driver. This
-           option will fail with anything but a CDROM as underlying device.
+       Bağlanacak CDROM oturumunu seçmek için kullanılır. Öntanımlı olarak bu karar CDROM sürücüsüne bırakılır. Bu seçenek, CDROM dışında herhangi bir aygıtta başarısız olur.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">part</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">part</code>=<em class="replaceable"><code>N</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Select partition number n from the device. Only makes sense for CDROMs. Defaults to not
-           parsing the partition table at all.
+       Aygıtın <em class="replaceable"><code>N</code></em>inci disk bölümünü seçer. Yalnızca CDROM'lar için anlamlıdır. Bölüm tablosunu hiç araştırmamak öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -2261,7 +2208,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       This option is obsolete and may fail or being ignored.
+       Bu seçeneğin kullanımı önerilmemekte olup kullanımı durumunda başarısız olabilir veya yok sayılabilir.
       </p>
                 </dd>
                 <dt>
@@ -2297,7 +2244,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Rock Ridge genişletmesinin, kullanmak mümkün olsa bile, kullanılmasını önler. Aşağıda, <code class="option">map</code> seçeneğine bakınız.
+       Rock Ridge genişletmesinin, kullanmak mümkün olsa bile, kullanılmasını önler. Bkz: Aşağıdaki <code class="option"><a class="option" href="man8-mount.html#man8-mount-iso9660-map" title="map=n[ormal] map=o[ff] map=a[corn]">map</a></code> seçeneği
       </p>
                 </dd>
                 <dt>
@@ -2307,7 +2254,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Microsoft Joliet genişletmesinin, kullanmak mümkün olsa bile, kullanılmasını önler. Aşağıda, <code class="option">map</code> seçeneğine bakınız.
+       Microsoft Joliet genişletmesinin, kullanmak mümkün olsa bile, kullanılmasını önler. Bkz: Aşağıdaki <code class="option"><a class="option" href="man8-mount.html#man8-mount-iso9660-map" title="map=n[ormal] map=o[ff] map=a[corn]">map</a></code> seçeneği
       </p>
                 </dd>
                 <dt>
@@ -2336,7 +2283,7 @@ mount --make-unbindable /foo
        Muhtemelen, Rock Ridge genişletmesinde belirtilen bilgileri önemsenmeden dosya sistemindeki bütün dosyaların sahiplik veya grup iyeliklerini belirtilen değerlere çevirir. Öntanımlı olarak <code class="option">uid=0</code> ve <code class="option">gid=0</code> kullanılmaktadır.
       </p>
                 </dd>
-                <dt>
+                <dt id="man8-mount-iso9660-map">
                   <span class="glossterm">
       
        <code class="option">map=n[ormal]</code>
@@ -2391,7 +2338,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       This option is obsolete and may fail or being ignored.
+       Bu seçeneğin kullanımı önerilmemekte olup kullanımı durumunda başarısız olabilir veya yok sayılabilir.
       </p>
                 </dd>
                 <dt>
@@ -2470,14 +2417,12 @@ mount --make-unbindable /foo
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">resize</code>=<em class="replaceable"><code>değer</code></em>
+      <code class="option">resize</code>=<em class="replaceable"><code>sayı</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Resize the volume to value blocks. JFS only supports growing a volume, not shrinking it. This
-           option is only valid during a remount, when the volume is mounted read-write. The resize
-           keyword with no value will grow the volume to the full size of the partition.
+       Birimi belirtilen blok <em class="replaceable"><code>sayı</code></em>sına göre yeniden boyutlandırır. JFS, bir birimi küçültmeyi değil, yalnızca büyütmeyi destekler. Bu seçenek, yalnızca birim oku-yaz olarak yeniden bağlanırken geçerlidir. Seçenek <em class="replaceable"><code>sayı</code></em> belirtilmeksizin kullanılırsa birim disk bölümünün tam boyuna kadar genişletilir.
       </p>
                 </dd>
                 <dt>
@@ -2487,9 +2432,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Do not write to the journal. The primary use of this option is to allow for higher performance
-           when restoring a volume from backup media. The integrity of the volume is not guaranteed if
-           the system abnormally ends.
+       Günlüğe yazılmaz. Bu seçeneğin birincil kullanım amacı, bir birimi yedekleme ortamından geri yüklerken daha yüksek başarım elde etmektir. Sistem normal kapanmamışsa birimin bütünlüğü garanti edilmez.
       </p>
                 </dd>
                 <dt>
@@ -2499,20 +2442,17 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Default. Commit metadata changes to the journal. Use this option to remount a volume where the
-           nointegrity option was previously specified in order to restore normal behavior.
+       Öntanımlıdır. Meta veri değişiklikleri günlüğe yazılır. Evvelce <code class="option">nointegrity</code> seçeneği ile bağlanmış bir dosya sistemini  normal davranışına geri döndürmek için yeniden bağlarken kullanılır.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">errors</code>={<code class="code">continue</code>|{<code class="code">remount-ro</code>|{<code class="code">panic</code>}
+      <code class="option">errors</code>={<code class="code">continue</code>|<code class="code">remount-ro</code>|<code class="code">panic</code>}
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Define the behavior when an error is encountered. (Either ignore errors and just mark the
-           filesystem erroneous and continue, or remount the filesystem read-only, or panic and halt the
-           system.)
+       Hatalara rastlandığında davranışı belirler: <code class="code">continue</code> (dosya sistemini im koy ve devam et), <code class="code">remount-ro</code> (bölümü salt okunur yeniden bağla), <code class="code">panic</code> (panikle ve sistemi durdur).
       </p>
                 </dd>
                 <dt>
@@ -2612,128 +2552,157 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3>Katmanlı dosya sistemi için bağlama seçenekleri</h3>
             <p>
-    Linux 3.18'den beri, katmanlı sözde dosya sistemi, diğer dosya sistemleri için birlikte bağlama olanağı sağlar.
+    Linux 3.18'den beri, katmanlı sözde dosya sistemi (overlayfs), diğer dosya sistemleri için birlikte bağlama olanağı sağlar.
    </p>
             <p>
-           With the "nfs_export" feature, on copy_up of any lower object, an index entry is created under
-           the index directory. The index entry name is the hexadecimal representation of the copy up
-           origin file handle. For a non-directory object, the index entry is a hard link to the upper
-           inode. For a directory object, the index entry has an extended attribute
-           "{trusted|user}.overlay.upper" with an encoded file handle of the upper directory inode.
+    Bir katmanlı dosya sistemi, iki dosya sistemini üst ve alt dosya sistemi olarak birleştirir. Her iki dosya sisteminin de adı varsa, alt dosya sistemindeki nesne gizliyken veya dizinler söz konusu olduğunda üst nesneyle birleştirilirken üst dosya sistemindeki nesne görünür olur.
    </p>
             <p>
-           When encoding a file handle from an overlay filesystem object, the following rules apply
-   </p>
-            <div class="itemizedlist">
-              <ul class="itemizedlist" style="list-style-type: disc; ">
-                <li class="listitem">
-                  <p>
-      For a non-upper object, encode a lower file handle from lower inode
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      For an indexed object, encode a lower file handle from copy_up origin
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      For a pure-upper object and for an existing non-indexed upper object, encode an upperfile handle from upper inode
-     </p>
-                </li>
-              </ul>
-            </div>
-            <p>
-           The encoded overlay file handle includes
-   </p>
-            <div class="itemizedlist">
-              <ul class="itemizedlist" style="list-style-type: disc; ">
-                <li class="listitem">
-                  <p>
-      Header including path type information (e.g. lower/upper)
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      UUID of the underlying filesystem
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      Underlying filesystem encoding of underlying inode
-      </p>
-                </li>
-              </ul>
-            </div>
-            <p>
-           This encoding format is identical to the encoding format of file handles that are stored in
-           extended attribute "{trusted|user}.overlay.origin". When decoding an overlay file handle, the
-           following steps are followed
-   </p>
-            <div class="itemizedlist">
-              <ul class="itemizedlist" style="list-style-type: disc; ">
-                <li class="listitem">
-                  <p>
-      Find underlying layer by UUID and path type information.
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      Decode the underlying filesystem file handle to underlying dentry.
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      For a lower file handle, lookup the handle in index directory by name.
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      If a whiteout is found in index, return ESTALE. This represents an overlay object that was deleted after its file handle was encoded.
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      For a non-directory, instantiate a disconnected overlay dentry from the decoded underlying dentry, the path type and index inode, if found.
-     </p>
-                </li>
-                <li class="listitem">
-                  <p>
-      For a directory, use the connected underlying decoded dentry, path type and index, to lookup a connected overlay dentry.
-      </p>
-                </li>
-              </ul>
-            </div>
-            <p>
-           Decoding a non-directory file handle may return a disconnected dentry. copy_up of that
-           disconnected dentry will create an upper index entry with no upper alias.
+    Alt dosya sistemi, Linux tarafından desteklenen herhangi bir dosya sistemi olabilir ve yazılabilir olması gerekmez. Alt dosya sistemi başka bir katmanlı dosya sistemi bile olabilir. Üst dosya sistemi normalde yazılabilir olacaktır ve eğer öyleyse, <code class="code">trusted.*</code> genişletilmiş özniteliklerinin oluşturulmasını desteklemesi ve <tt><b>readdir</b>(3)</tt> yanıtlarında geçerli bir <code class="code">d_type</code> alanı sağlaması gerekir, bu nedenle NFS uygun değildir.
    </p>
             <p>
-           When overlay filesystem has multiple lower layers, a middle layer directory may have a
-           "redirect" to lower directory. Because middle layer "redirects" are not indexed, a lower file
-           handle that was encoded from the "redirect" origin directory, cannot be used to find the
-           middle or upper layer directory. Similarly, a lower file handle that was encoded from a
-           descendant of the "redirect" origin directory, cannot be used to reconstruct a connected
-           overlay path. To mitigate the cases of directories that cannot be decoded from a lower file
-           handle, these directories are copied up on encode and encoded as an upper file handle. On an
-           overlay filesystem with no upper layer this mitigation cannot be used NFS export in this setup
-           requires turning off redirect follow (e.g. "redirect_dir=nofollow").
+    İki salt okunur dosya sisteminden oluşan bir salt okunur katmanlı sistem, herhangi bir dosya sistemi türünü kullanabilir.  <code class="option">lowerdir</code> ve <code class="option">upperdir</code> seçenekleri, aşağıdaki gibi  kullanılarak <code class="filename">/alt</code> ve <code class="filename">/ust</code> dizinleri <code class="filename">/birlesik</code> dizini altında birleştirilebilir:
    </p>
-            <p>
-           The overlay filesystem does not support non-directory connectable file handles, so exporting
-           with the subtree_check exportfs configuration will cause failures to lookup files over NFS.
-   </p>
-            <p>
-           When the NFS export feature is enabled, all directory index entries are verified on mount time
-           to check that upper file handles are not stale. This verification may cause significant
-           overhead in some cases.
-   </p>
-            <p>
-           Note: the mount options index=off,nfs_export=on are conflicting for a read-write mount and
-           will result in an error.
-   </p>
+            <pre class="screen">mount -t overlay  overlay  \
+-olowerdir=/alt,upperdir=/ust,workdir=/calisma  /birlesik
+</pre>
             <div class="glosslist">
               <dl>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">lowerdir</code>=<em class="replaceable"><code>dizin</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <code class="option">lowerdir</code> yazılabilir olması gerekmeyen dosya sistemidir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">upperdir</code>=<em class="replaceable"><code>dizin</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <code class="option">upperdir</code> normalde yazılabilir olması gereken dosya sistemidir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">workdir</code>=<em class="replaceable"><code>dizin</code></em>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <code class="option">workdir</code>, <code class="option">upperdir</code> dosya sistemi üzerinde boş bir dizin gerektirir.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">userxattr</code>
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       xattr isim alanı olarak "<code class="code">trusted.overlay.</code>" yerine "<code class="code">user.overlay.</code>" kullanılır. Katmanlı dosya sisteminin ayrıcalıksız bağlanması için yararlıdır.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">redirect_dir</code>={<code class="code">on</code>|<code class="code">off</code>|<code class="code">follow</code>|<code class="code">nofollow</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       <code class="option">redirect_dir</code> özelliği etkin olursa dizin kopyalanır (ama içeriği değil). Ardından katmanlı dosya sisteminin kök dizinindeki özgün konum yoluna "{<code class="code">trusted</code>|<code class="code">user</code>}<code class="code">.overlay.redirect</code>" ek özniteliği tanımlanır. Son olarak dizin yeni yerine taşınır
+      </p>
+                  <div class="glosslist">
+                    <dl>
+                      <dt>
+                        <span class="glossterm">
+         <code class="code">on</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Yönlendirmeler etkinleştirilir.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="code">off</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Yönlendirmeler oluşturulmaz ve çekirdek/modül yapılandırmasında "<code class="code">redirect_always_follow</code>" özelliği etkinse yalnızca izlenir.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="code">follow</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Yönlendirmeler oluşturulmaz, ancak izlenir.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="code">nofollow</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Yönlendirmeler oluşturulmaz ve izlenmez (çekirdek/modül yapılandırmasında "<code class="code">redirect_always_follow</code>" özelliği etkinse "<code class="option">redirect_dir</code>=<code class="code">off</code>" seçeneğine eşdeğerdir).
+         </p>
+                      </dd>
+                    </dl>
+                  </div>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">index</code>={<code class="code">on</code>|<code class="code">off</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Dosya düğümü indisi. <code class="option">index=off</code> durumunda birden fazla sabit bağı olan bir dosya kopyalanırsa, bu bağlar "koparılır". Değişiklikler, aynı dosya düğümüne atıfta bulunan diğer sabit bağ adlarına yansıtılmaz.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">uuid</code>={<code class="code">on</code>|<code class="code">off</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       Dosya tanıtıcılarındaki temel dosya sisteminin UUID'sini null ile değiştirmek ve UUID denetimlerini etkin şekilde devre dışı bırakmak için kullanılabilir. Bu, diskin kopyalanması ve bu kopyanın UUID'sinin değişmesi durumunda faydalı olabilir. Bu, yalnızca tüm <code class="option">lowerdir</code>/<code class="option">upperdir</code>/<code class="option">workdir</code> dizinleri aynı dosya sistemindeyse geçerlidir, aksi takdirde normal davranışa dönülür.
+      </p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+      <code class="option">nfs_export</code>={<code class="code">on</code>|<code class="code">off</code>}
+     </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+       NFS dışa aktarımını destekleyen bir dosya sisteminde <code class="option">nfs_export</code>=<code class="code">on</code> seçeneği ile katmanlı bir dosya sistemi NFS'ye aktarılabilir.
+      </p>
+                  <div class="note">
+                    <h3 class="title">Bilginize</h3>
+                    <div class="admon-contents">
+                      <p>
+        <code class="option">index=off,nfs_export=on</code> bağlama seçenekleri oku-yaz bir bağlantı ile çeliştiğinden bir hatayla sonuçlanabilir.
+       </p>
+                    </div>
+                  </div>
+                  <p>
+       Bu seçeneğin ayrıntılı açıklaması için bkz: <a class="link" href="https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html?highlight=overlayfs" target="_top">https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html?highlight=overlayfs</a>
+      </p>
+                </dd>
                 <dt>
                   <span class="glossterm">
       <code class="option">xino</code>={<code class="code">on</code>|<code class="code">off</code>|<code class="code">auto</code>}
@@ -2741,15 +2710,10 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           The "xino" feature composes a unique object identifier from the real object st_ino and an
-           underlying fsid index. The "xino" feature uses the high inode number bits for fsid, because
-           the underlying filesystems rarely use the high inode number bits. In case the underlying inode
-           number does overflow into the high xino bits, overlay filesystem will fall back to the non
-           xino behavior for that inode.
+       <code class="option">xino</code> özelliği, gerçek nesne <code class="code">st_ino</code> özelliğindeki benzersiz bir nesne tanıtıcısı ve ilgili <code class="code">fsid</code> dizininden oluşur. <code class="option">xino</code> özelliği, <code class="code">fsid</code> için dosya düğüm indisinin yüksek bitlerini kullanır, çünkü bu dosya sistemleri nadiren bu bitleri kullanır. İlgili düğümün bitlerinin yüksek <code class="option">xino</code> bitlerine taşması durumunda, katmanlı dosya sistemi o düğüm için <code class="option">xino</code> özelliği olmayan davranışa geri dönecektir.
       </p>
                   <p>
-           For a detailed description of the effect of this option please refer to
-           https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html?highlight=overlayfs
+       Bu seçeneğin etkisinin ayrıntılı açıklaması için bkz: <a class="link" href="https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html?highlight=overlayfs" target="_top">https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html?highlight=overlayfs</a>
       </p>
                 </dd>
                 <dt>
@@ -2759,13 +2723,10 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           When metadata only copy up feature is enabled, overlayfs will only copy up metadata (as
-           opposed to whole file), when a metadata specific operation like chown/chmod is performed. Full
-           file will be copied up later when file is opened for WRITE operation.
+       Yalnızca meta veri kopyalama özelliği etkinleştirildiğinde ve chown/chmod gibi meta veriye özel bir işlem gerçekleştirildiğinde, overlayfs yalnızca meta verileri kopyalar (tüm dosyanın aksine). Daha sonra dosya YAZ işlemi için açıldığında dosyanın tamamı kopyalanacaktır.
       </p>
                   <p>
-           In other words, this is delayed data copy up operation and data is copied up when there is a
-           need to actually modify data.
+       Başka bir deyişle, bu gecikmeli veri kopyalama işlemidir ve verilerin gerçekten değiştirilmesi gerektiğinde veriler kopyalanır.
       </p>
                 </dd>
                 <dt>
@@ -2775,29 +2736,16 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Volatile mounts are not guaranteed to survive a crash. It is strongly recommended that
-           volatile mounts are only used if data written to the overlay can be recreated without
-           significant effort.
+       Uçucu (volatile) bağlamaların bir çökmeden kurtulma garantisi yoktur. Uçucu bağlamaların, katmanlı dosya sistemine yazılan veriler yalnızca önemli bir çaba sarf etmeden yeniden oluşturulabiliyorsa kullanılması şiddetle önerilir.
       </p>
                   <p>
-           The advantage of mounting with the "volatile" option is that all forms of sync calls to the
-           upper filesystem are omitted.
+       <code class="option">volatile</code> seçeneğiyle bağlamanın getirisi, üst dosya sistemine yapılan tüm eşzamanlama çağrılarının atlanmasıdır.
       </p>
                   <p>
-           In order to avoid a giving a false sense of safety, the syncfs (and fsync) semantics of
-           volatile mounts are slightly different than that of the rest of VFS. If any writeback error
-           occurs on the upperdir’s filesystem after a volatile mount takes place, all sync functions
-           will return an error. Once this condition is reached, the filesystem will not recover, and
-           every subsequent sync call will return an error, even if the upperdir has not experience a new
-           error since the last sync call.
+       Yanlış bir güvenlik hissi vermekten kaçınmak için, geçici bağlamaların eşzamanlanması (<tt><b>fsync</b>(2)</tt>), VFS'nin geri kalanından biraz farklıdır. Geçici bir bağlama gerçekleştikten sonra <code class="option">upperdir</code> dosya sisteminde herhangi bir geri yazma hatası oluşursa, tüm eşzamanlama işlevleri hata döndürür. Bu durumda, dosya sistemi kurtarılmayacak ve <code class="option">upperdir</code>, son eşzamanlama çağrısından bu yana yeni bir hatayla karşılaşmamış olsa bile, sonraki her eşzamanlama çağrısı bir hata döndürecektir.
       </p>
                   <p>
-           When overlay is mounted with "volatile" option, the directory
-           "$workdir/work/incompat/volatile" is created. During next mount, overlay checks for this
-           directory and refuses to mount if present. This is a strong indicator that user should throw
-           away upper and work directories and create fresh one. In very limited cases where the user
-           knows that the system has not crashed and contents of upperdir are intact, The "volatile"
-           directory can be removed.
+       Katmanlı dosya sistemi <code class="option">volatile</code> seçeneği ile bağlandığında "<code class="filename">$workdir/work/incompat/volatile</code>" dizini oluşturulur. Bir sonraki bağlama sırasında, bu dizin denetlenir ve bağlama zaten varsa bağlama reddedilir. Bu, kullanıcının <code class="option">upperdir</code> ve <code class="option">workdir</code> dizinlerini atması ve yeni bir tane oluşturması gerektiğinin güçlü bir göstergesidir. Kullanıcının sistemin çökmediğini ve <code class="option">upperdir</code> içeriğinin bozulmadığını bildiği çok sınırlı durumlarda, uçucu (<code class="option">volatile</code>) dizin kaldırılabilir.
       </p>
                 </dd>
               </dl>
@@ -2959,7 +2907,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Enable Extended User Attributes. See the attr(1) manual page.
+       Genişletilmiş kullanıcı öznitelikleri etkinleştirilir. Bkz: <tt><a href="../man1/man1-chattr.html"><b>chattr</b></a>(1)</tt>
       </p>
                 </dd>
                 <dt>
@@ -2969,7 +2917,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Enable POSIX Access Control Lists. See the acl(5) manual page.
+       POSIX Erişim denetim listeleri etkinleştirilir. Bkz: <tt><b>acl</b>(5)</tt>
       </p>
                 </dd>
                 <dt>
@@ -2979,12 +2927,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           This disables / enables the use of write barriers in the journaling code. barrier=none
-           disables, barrier=flush enables (default). This also requires an IO stack which can support
-           barriers, and if reiserfs gets an error on a barrier write, it will disable barriers again
-           with a warning. Write barriers enforce proper on-disk ordering of journal commits, making
-           volatile disk write caches safe to use, at some performance penalty. If your disks are
-           battery-backed in one way or another, disabling barriers may safely improve performance.
+       Günlükleme kodunda yazma engellerinin kullanımı <code class="option">barrier=none</code> ile devre dışı bırakılır, <code class="option">barrier=flush</code> ile etkinleştirilir (öntanımlıdır). Bu aynı zamanda yazma engellerini destekleyen bir G/Ç yığıtı gerektirir ve reiserfs yazarken bir engelleme hatası alırsa, bir uyarı ile engelleri tekrar devre dışı bırakır. Yazma engelleri, günlüğe yazma işlemlerinin disk üzerinde uygun şekilde sıralanmasını zorlayarak, geçici disk yazma önbelleklerini bazı başarım düşmelerinde güvenli hale getirir. Batarya ile beslenen disklerin varlığında, engelleri devre dışı bırakmak başarımı güvenli bir şekilde artırabilir.
       </p>
                 </dd>
               </dl>
@@ -2993,11 +2936,10 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3><code class="literal">ubitfs</code> için bağlama seçenekleri</h3>
             <p>
-       UBIFS is a flash filesystem which works on top of UBI volumes. Note that atime is not supported
-       and is always turned off.
+    UBIFS, UBI birimlerinin üzerinde çalışan bir flash dosya sistemidir. Erişim zamanının desteklenmediği ve her zaman kapalı olduğu unutulmamalıdır.
    </p>
             <p>
-       The device name may be specified as
+    Aygıt adı şöyle belirtilebilir:
    </p>
             <div class="glosslist">
               <dl>
@@ -3058,10 +3000,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Enable bulk-read. VFS read-ahead is disabled because it slows down the filesystem. Bulk-Read
-           is an internal optimization. Some flashes may read faster if the data are read at one go,
-           rather than at several read requests. For example, OneNAND can do "read-while-load" if it
-           reads more than one NAND page.
+       Toplu okuma etkinleştirilir. Dosya sistemini yavaşlattığı için VFS ileri okuması devre dışı bırakılır. Toplu okuma, dahili bir en iyilemedir. Veriler birkaç okuma isteği yerine tek seferde okunursa bazı katı hal diskler daha hızlı okunabilir. Örneğin, OneNAND birden fazla NAND sayfası okuyorsa "yüklerken-oku" işlemi yapabilir.
       </p>
                 </dd>
                 <dt>
@@ -3071,7 +3010,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Do not bulk-read. This is the default.
+       Toplu okuma yapılmaz. Öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -3081,7 +3020,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Check data CRC-32 checksums. This is the default.
+       Verilerin CRC-32 sağlama toplamlarına bakılır. Öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -3091,9 +3030,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Do not check data CRC-32 checksums. With this option, the filesystem does not check CRC-32
-           checksum for data, but it does check it for the internal indexing information. This option
-           only affects reading, not writing. CRC-32 is always calculated when writing the data.
+       Verilerin CRC-32 sağlama toplamlarına bakılmaz. Bu seçenekle, dosya sistemi veri için CRC-32 sağlama toplamına bakmaz, ancak dahili indisleme bilgisi için bakar. Bu seçenek sadece okumayı etkiler, yazmayı değil. Veriler yazılırken CRC-32 her zaman hesaplanır.
       </p>
                 </dd>
                 <dt>
@@ -3103,8 +3040,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Select the default compressor which is used when new files are written. It is still possible
-           to read compressed files if mounted with the none option.
+       Yeni dosyalar yazılırken kullanılacak öntanımlı sıkıştırıcıyı belirler. Bağlama <code class="code">none</code> seçeneği ile yapılmışsa, sıkıştırılmış dosyaları okumak hala mümkündür.
       </p>
                 </dd>
               </dl>
@@ -3113,36 +3049,28 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3><code class="literal">udf</code> için bağlama seçenekleri</h3>
             <p>
-    UDF is the "Universal Disk Format" filesystem defined by OSTA, the Optical Storage Technology  Association, and is often used for DVD-ROM, frequently in the form of a hybrid UDF/ISO-9660 filesystem. It is, however, perfectly usable by itself on disk drives, flash drives and other block devices. See also iso9660.
+    UDF, Optik Depolama Teknolojisi Derneği olan OSTA tarafından tanımlanan "Evrensel Disk Biçimi" dosya sistemidir ve genellikle DVD-ROM'lar için, sıklıkla UDF/ISO-9660 melezi bir dosya sistemi olarak kullanılır. Bununla birlikte, disk sürücülerinde, flash sürücülerde ve diğer blok aygıtlarında da tek başına mükemmel bir şekilde kullanılabilir. Ayrıca bkz. <code class="code"><a class="code" href="man8-mount.html#man8-mount-iso9660" title="iso9660 için bağlama seçenekleri">iso9660</a></code>
    </p>
             <div class="glosslist">
               <dl>
                 <dt>
                   <span class="glossterm">
-      <code class="option">uid=</code>
+      <code class="option">uid=</code><em class="replaceable"><code>kullanıcı</code></em>|<code class="literal">forget</code>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Make all files in the filesystem belong to the given user. uid=forget can be specified
-           independently of (or usually in addition to) uid=<em class="replaceable"><code>kullanıcı</code></em> and results in UDF not storing uids to
-           the media. In fact the recorded uid is the 32-bit overflow uid -1 as defined by the UDF
-           standard. The value is given as either <em class="replaceable"><code>kullanıcı</code></em> which is a valid user name or the corresponding
-           decimal user id, or the special string "forget".
+       Dosya sistemindeki tüm dosyaların sahibi belirtilen <em class="replaceable"><code>kullanıcı</code></em> olur. <code class="option">uid=</code><em class="replaceable"><code>kullanıcı</code></em>'dan bağımsız olarak (veya genellikle ek olarak) <code class="option">uid=forget</code> belirtilebilir. Bu durumda kullanıcı kimliklerini disk ortamına kaydedilmez. Aslında kaydedilen kullanıcı kimliği, UDF standardında tanımlandığı gibi 32 bitlik taşma kullanıcı kimliği -1'dir. Seçeneğe değer olarak kullanıcının adı, sayısal kullanıcı kimliği veya özel bir kullanım olarak <code class="literal">forget</code> sözcüğü belirtilebilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">gid=</code>
+      <code class="option">gid=</code><em class="replaceable"><code>grup</code></em>|<code class="literal">forget</code>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Make all files in the filesystem belong to the given group. gid=forget can be specified
-           independently of (or usually in addition to) gid=<em class="replaceable"><code>grup</code></em> and results in UDF not storing gids
-           to the media. In fact the recorded gid is the 32-bit overflow gid -1 as defined by the UDF
-           standard. The value is given as either <em class="replaceable"><code>grup</code></em> which is a valid group name or the
-           corresponding decimal group id, or the special string "forget".
+       Dosya sistemindeki tüm dosyaların sahibi belirtilen <em class="replaceable"><code>grup</code></em> olur. <code class="option">gid=</code><em class="replaceable"><code>grup</code></em>'dan bağımsız olarak (veya genellikle ek olarak) <code class="option">gid=forget</code> belirtilebilir. Bu durumda grup kimliklerini disk ortamına kaydedilmez. Aslında kaydedilen grup kimliği, UDF standardında tanımlandığı gibi 32 bitlik taşma grup kimliği -1'dir. Seçeneğe değer olarak grup adı, sayısal grup kimliği veya özel bir kullanım olarak <code class="literal">forget</code> sözcüğü belirtilebilir.
       </p>
                 </dd>
                 <dt>
@@ -3152,44 +3080,40 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Mask out the given permissions from all inodes read from the filesystem. The value is given in octal.
+       umask’ı (verilmeyecek izinlerin bit maskesi) belirler. Öntanımlı olarak, o anki sürecin umask'ı kullanılır. Değer sekizlik tabanda verilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">mode=</code>
+      <code class="option">mode=</code><em class="replaceable"><code>kip</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           If mode= is set the permissions of all non-directory inodes read from the filesystem will be
-           set to the given mode. The value is given in octal.
+       Belirtilirse, dosya sisteminden okunan tüm dizin dışı düğümlerin izinlerine <em class="replaceable"><code>kip</code></em> atanır. Değer sekizlik tabanda verilir.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">dmode=</code>
+      <code class="option">dmode=</code><em class="replaceable"><code>kip</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           If dmode= is set the permissions of all directory inodes read from the filesystem will be set
-           to the given dmode. The value is given in octal.
+       Belirtilirse, dosya sisteminden okunan tüm dizin düğümlerin izinlerine <em class="replaceable"><code>kip</code></em> atanır.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">bs=</code>
+      <code class="option">bs=</code><em class="replaceable"><code>değer</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-           Set the block size. Default value prior to kernel version 2.6.30 was 2048. Since 2.6.30 and
-           prior to 4.11 it was logical device block size with fallback to 2048. Since 4.11 it is logical
-           block size with fallback to any valid block size between logical device block size and 4096.
-
-           For other details see the mkudffs(8) 2.0+ manpage, see the COMPATIBILITY and BLOCK SIZE
-           sections.
+       Blok boyunu belirler. 2.6.30 öncesi çekirdek sürümlerinde 2048 öntanımlı değerdi. 2.6.30 sonrası ve 4.11 öncesi çekirdeklerde, 2048 değerinin son çare olarak kullanıldığı mantıksal blok boyu değeriydi. dönüşlü mantıksal aygıt blok boyutuydu. 4.11'den beri, mantıksal aygıt blok boyu ile 4096 arasındaki geçerli blok boyutunun son çare olduğu mantıksal blok boyudur.
+      </p>
+                  <p>
+       Diğer ayrıntılar için <tt><b>mkudffs</b>(8)</tt> 2.0+ kılavuz sayfasının UYUMLULUK ve BLOK BOYUTU bölümlerine bakılabilir.
       </p>
                 </dd>
                 <dt>
@@ -3296,7 +3220,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Ignore the Volume Recognition Sequence and attempt to mount anyway.
+       Birim Tanıma Sırası yoksayılır ve bağlama yine de denenir.
       </p>
                 </dd>
                 <dt>
@@ -3306,7 +3230,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Select the session number for multi-session recorded optical media. (default= last session)
+       Çok oturumlu kayıtlı optik ortam için oturum numarasını belirler, sonuncusu öntanımlıdır.
       </p>
                 </dd>
                 <dt>
@@ -3316,7 +3240,7 @@ mount --make-unbindable /foo
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Override standard anchor location. (default= 256)
+       Standart konum 256 geçersiz kılınır.
       </p>
                 </dd>
                 <dt>
@@ -3403,7 +3327,7 @@ mount --make-unbindable /foo
                       <dd class="glossdef">
                         <p>
           <code class="option">ufs</code>’nin eski biçimi, salt okunurdur ve öntanımlıdır.
-          (<code class="option">-r</code> seçeneğinin belirtilmesi gerekir.)
+          (<code class="option"><a class="option" href="man8-mount.html#man8-mount-opt-r" title="-r, --read-only">-r</a></code> seçeneğinin belirtilmesi gerekir.)
          </p>
                       </dd>
                       <dt>
@@ -3517,7 +3441,7 @@ mount --make-unbindable /foo
                       </dt>
                       <dd class="glossdef">
                         <p>
-          Bir hata durumunda çekirdek paniğine sebep olur.
+          Bir hata durumunda çekirdek paniğine sebep olur, sistem durdurulur.
          </p>
                       </dd>
                       <dt>
@@ -3539,7 +3463,7 @@ mount --make-unbindable /foo
           <div class="refsect2">
             <h3><code class="literal">umsdos</code> için bağlama seçenekleri</h3>
             <p>
-    Bkz: <a class="xref" href="man8-mount.html#man8-mount-msdos" title="msdos için bağlama seçenekleri"> “<code class="literal">msdos</code> için bağlama seçenekleri”</a> <code class="option">dotsOK</code> seçeneği kabul edilmez.
+    <code class="option">dotsOK</code> seçeneği kabul edilmez. Bkz: <a class="xref" href="man8-mount.html#man8-mount-msdos" title="msdos için bağlama seçenekleri"> “<code class="literal">msdos</code> için bağlama seçenekleri”</a>
    </p>
           </div>
           <div class="refsect2">
@@ -3581,56 +3505,6 @@ mount --make-unbindable /foo
                   <p>
        Usbfs dosya sistemindeki dosya aygıtlarının sahibini, grubunu ve kipini belirler (uid=gid=0, mode=0444 öntanımlıdır). <em class="replaceable"><code>kip</code></em> sekizlik tabanda belirtilir.
       </p>
-                  <div class="glosslist">
-                    <dl>
-                      <dt>
-                        <span class="glossterm">
-         <code class="option">lower</code>
-        </span>
-                      </dt>
-                      <dd class="glossdef">
-                        <p>
-               Force the short name to lower case upon display; store a long name when the short name is
-               not all upper case.
-         </p>
-                      </dd>
-                      <dt>
-                        <span class="glossterm">
-         <code class="option">win95</code>
-        </span>
-                      </dt>
-                      <dd class="glossdef">
-                        <p>
-               Force the short name to upper case upon display; store a long name when the short name is
-               not all upper case.
-         </p>
-                      </dd>
-                      <dt>
-                        <span class="glossterm">
-         <code class="option">winnt</code>
-        </span>
-                      </dt>
-                      <dd class="glossdef">
-                        <p>
-               Display the short name as is; store a long name when the short name is not all lower case
-               or all upper case.
-         </p>
-                      </dd>
-                      <dt>
-                        <span class="glossterm">
-         <code class="option">mixed</code>
-        </span>
-                      </dt>
-                      <dd class="glossdef">
-                        <p>
-               Display the short name as is; store a long name when the short name is not all upper case.
-         </p>
-                        <p>
-               This mode is the default since Linux 2.6.32.
-         </p>
-                      </dd>
-                    </dl>
-                  </div>
                 </dd>
               </dl>
             </div>
@@ -3684,25 +3558,66 @@ mount --make-unbindable /foo
                 </dd>
                 <dt>
                   <span class="glossterm">
-      <code class="option">hortname</code>=<em class="replaceable"><code>kip</code></em>
+      <code class="option">shortname</code>=<em class="replaceable"><code>kip</code></em>
      </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       shortname=mode
-           Defines the behavior for creation and display of filenames which fit into 8.3 characters. If a
-           long name for a file exists, it will always be the preferred one for display. There are four
-           modes:
+       8.3 gösterimine uyan kısa dosya adlarının oluşturulması ve görüntülenmesi için davranışı tanımlar. Bir dosya için uzun bir ad varsa, görüntüleme için her zaman tercih edilen uzun ad olacaktır. Dört kip vardır:
       </p>
+                  <div class="glosslist">
+                    <dl>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">lower</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Kısa ad küçük harfe dönüştürülerek gösterilir; kısa adın tamamı büyük harf olmadığında uzun ad saklanır.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">win95</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Kısa ad büyük harfe dönüştürülerek gösterilir; kısa adın tamamı büyük harf olmadığında uzun ad saklanır.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">winnt</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Kısa ad olduğu gibi gösterilir; kısa adın tamamı büyük veya tamamı küçük harf olmadığında uzun ad saklanır.
+         </p>
+                      </dd>
+                      <dt>
+                        <span class="glossterm">
+         <code class="option">mixed</code>
+        </span>
+                      </dt>
+                      <dd class="glossdef">
+                        <p>
+          Kısa ad olduğu gibi gösterilir; kısa adın tamamı büyük harf olmadığında uzun ad saklanır. Linux 2.6.32'den beri bu kip öntanımlıdır.
+         </p>
+                      </dd>
+                    </dl>
+                  </div>
                 </dd>
               </dl>
             </div>
           </div>
         </div>
         <div class="refsect1">
-          <h2>AYGIT EŞLEMCİ DOĞRULUĞU DESTEĞİ</h2>
+          <h2>AYGIT EŞLEMCİ DOĞRULUĞU (<code class="literal">dm-verity</code>) DESTEĞİ</h2>
           <p>
-   The device-mapper verity target provides read-only transparent integrity checking of block devices using kernel crypto API. The mount command can open the dm-verity device and do the integrity verification before the device filesystem is mounted. Requires libcryptsetup with in libmount (optionally via dlopen(3)). If libcryptsetup supports extracting the root hash of an already mounted device, existing devices will be automatically reused in case of a match. Mount options for dm-verity:
+   Aygıt eşleyici doğrulama hedefi, çekirdek şifreleme API'sini kullanan blok aygıtlarının salt okunur şeffaf bütünlük denetimini sağlar. <span class="command"><strong>mount</strong></span> komutu, <code class="literal">dm-verity</code> aygıtını açabilir ve aygıt dosya sistemini bağlamadan önce bütünlük doğrulamasını yapabilir. <code class="filename">libmount</code> ve <code class="filename">libcryptsetup</code> kütüphanelerini gerektirir (isteğe bağlı olarak <tt><b>dlopen</b>(3)</tt> aracılığıyla). <code class="filename">libcryptsetup</code>, önceden bağlanmış bir aygıtının kök aşını çıkartmayı destekliyorsa, eşleşme durumunda mevcut aygıtlar otomatik olarak yeniden kullanılacaktır. <code class="literal">dm-verity</code> için bağlama seçenekleri:
   </p>
           <div class="glosslist">
             <dl>
@@ -3713,7 +3628,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      Path to the hash tree device associated with the source volume to pass to dm-verity.
+      <code class="literal">dm-verity</code>'ye aktarılacak kaynak birim ile ilişkili aş ağacı aygıtının <em class="replaceable"><code>yol</code></em>unu belirler.
      </p>
               </dd>
               <dt>
@@ -3723,7 +3638,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-       Hex-encoded hash of the root of verity.hashdevice. Mutually exclusive with verity.roothashfile.
+      <code class="option">verity.hashdevice</code> kökünün onaltılık tabanda <em class="replaceable"><code>aş</code></em> değeri. <code class="option">verity.roothashfile</code> ile birlikte kullanılamaz.
      </p>
               </dd>
               <dt>
@@ -3733,7 +3648,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      Path to file containing the hex-encoded hash of the root of verity.hashdevice. Mutually exclusive with verity.roothash.
+      <code class="option">verity.hashdevice</code> kökünün onaltılık tabanda aşını içeren dosyanın <em class="replaceable"><code>yol</code></em>unu belirler. <code class="option">verity.roothash</code> ile birlikte kullanılamaz.
      </p>
               </dd>
               <dt>
@@ -3743,7 +3658,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      If the hash tree device is embedded in the source volume, offset (default: 0) is used by dm-verity to get to the tree.
+      Aş ağacı aygıtı, kaynak birime gömülüyse, ağaca ulaşmak için <code class="literal">dm-verity</code> tarafından kullanılacak <em class="replaceable"><code>konum</code></em>u belirler (0 öntanımlıdır).
      </p>
               </dd>
               <dt>
@@ -3753,7 +3668,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      Path to the Forward Error Correction (FEC) device associated with the source volume to pass to dm-verity. Optional. Requires kernel built with CONFIG_DM_VERITY_FEC.
+      <code class="literal">dm-verity</code>'a aktarılacak kaynak birim ile ilişkili Aktarım öncesi Hata Düzeltme (FEC) aygıtının <em class="replaceable"><code>yol</code></em>unu belirler. İsteğe bağlıdır. <code class="code">CONFIG_DM_VERITY_FEC</code> seçeneği ile derlenmiş çekirdek gerektirir.
      </p>
               </dd>
               <dt>
@@ -3763,8 +3678,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      If the FEC device is embedded in the source volume, offset (default: 0) is used by dm-verity to get to the FEC area. Optional.
-
+      Aktarım öncesi Hata Düzeltme (FEC) aygıtı, kaynak birime gömülüyse, FEC alanına ulaşmak için <code class="literal">dm-verity</code> tarafından kullanılacak <em class="replaceable"><code>konum</code></em>u belirler (0 öntanımlıdır). İsteğe bağlıdır.
      </p>
               </dd>
               <dt>
@@ -3774,7 +3688,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-      Parity bytes for FEC (default: 2). Optional.
+      FEC için eşlik baytı sayısı (2 öntanımlıdır). İsteğe bağlıdır.
      </p>
               </dd>
               <dt>
@@ -3784,9 +3698,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-           Path to pkcs7(1ssl) signature of root hash hex string. Requires crypt_activate_by_signed_key()
-           from cryptsetup and kernel built with CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG. For device reuse,
-           signatures have to be either used by all mounts of a device or by none. Optional.
+      Kök aşının onaltılık tabandaki dizgesinin <tt><b>pkcs7</b>(1ssl)</tt> imzasını içeren dosyanın yolunu belirler. Linux çekirdeğinin <code class="code">CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG</code> seçeneği ile derlenmiş olmasını ve <code class="filename">libcryptsetup</code> kütüphanesinin <code class="function">crypt_activate_by_signed_key</code>() işlevini gerektirir. Aygıtın yeniden kullanımı için, imzaların ya aygıtın tüm bağlamalarında kullanılmış olması ya da hiçbiri tarafından kullanılmamış olması gerekir. İsteğe bağlıdır. İsteğe bağlıdır.
      </p>
               </dd>
               <dt>
@@ -3796,9 +3708,7 @@ mount --make-unbindable /foo
               </dt>
               <dd class="glossdef">
                 <p>
-           Instruct the kernel to ignore, reboot or panic when corruption is detected. By default the I/O
-           operation simply fails. Requires Linux 4.1 or newer, and libcrypsetup 2.3.4 or newer.
-           Optional.
+      Çekirdeğe, bozulma algılandığında yok saymasını (<code class="literal">ignore</code>), yeniden başlatmasını(<code class="literal">restart</code>) veya paniklemesini (<code class="literal">panic</code>) söyler. Öntanımlı olarak G/Ç işlemi başarısız olur. Linux 4.1 veya üstü ve libcrypsetup 2.3.4 veya üstü sürüm gerektirir.
      </p>
               </dd>
             </dl>
@@ -3807,37 +3717,38 @@ mount --make-unbindable /foo
    util-linux paketinin 2.35 sürümünden beri desteklenmektedir. Örneğin,
   </p>
           <pre class="screen"><span class="command"><strong>mksquashfs /etc /tmp/etc.squashfs
+
 dd if=/dev/zero of=/tmp/etc.hash bs=1M count=10
+
 veritysetup format /tmp/etc.squashfs /tmp/etc.hash
+
 openssl smime -sign -in</strong></span> <em class="replaceable"><code>aş</code></em> <span class="command"><strong>-nocerts -inkey private.key \
 -signer private.crt -noattr -binary -outform der -out /tmp/etc.p7
+
 mount -o verity.hashdevice=/tmp/etc.hash,verity.roothash=</strong></span><em class="replaceable"><code>aş</code></em><span class="command"><strong>,\
 verity.roothashsig=/tmp/etc.p7 /tmp/etc.squashfs /mnt</strong></span>
 </pre>
           <p>
-   komutları,
-       create squashfs image from /etc directory, verity hash device and mount verified filesystem image
-       to /mnt. The kernel will verify that the root hash is signed by a key from the kernel keyring if
-       roothashsig is used.
+   komutları, <code class="filename">/etc</code> dizininin <code class="literal">squashfs</code> imgesini oluşturur, aş aygıtını doğrular ve doğrulanmış dosya sistemi imgesini <code class="filename">/mnt</code> altına bağlar. Çekirdek, <code class="option">verity.roothashsig</code> kullanıyorsa, kök aşının çekirdek anahtarlığındaki bir anahtar tarafından imzalandığını doğrulayacaktır.
   </p>
         </div>
         <div class="refsect1" id="man8-mount-loop">
           <h2>DÖNÜŞ AYGITI DESTEĞİ</h2>
           <p>
-   İleride muhtemel bağllama türlerinden birisi de dönüş (dev/loop) aygıtları üzerinden yapılacak olandır. Örnek komutumuz;
+   Olası bağlama türlerinden biri de dönüş (dev/loop) aygıtları üzerinden yapılandır. Örnek:
   </p>
           <pre class="screen"><strong class="userinput"><code>mount /tmp/disk.img /mnt -t vfat -o loop=/dev/loop3</code></strong>
 </pre>
           <p>
-   <code class="filename">/dev/loop3</code> aygıtını karşılık gelen <code class="filename">/tmp/disk.img</code> dosyasına ayarlayacak ve daha sonra bu aygıtı <code class="filename">/mnt</code> üzerine bağlayacaktır.
+   <code class="filename">/dev/loop3</code> aygıtını karşılık gelen <code class="filename">/tmp/disk.img</code> aygıt imgesini oluşturacak ve daha sonra bu aygıtı <code class="filename">/mnt</code> altına bağlayacaktır.
   </p>
           <p>
-   Şayet aygıt açık seçik belirtilmemişse (fakat <code class="option">-o loop</code> seçeneği verilmişse), <span class="command"><strong>mount</strong></span> komutu kullanılmayan bir dönüş aygıtı arar ve onu kullanır. Örnek:
+   Şayet aygıt dosyası açıkça belirtilmemişse (fakat <code class="option">-o loop</code> seçeneği verilmişse), <span class="command"><strong>mount</strong></span> komutu kullanılmayan bir dönüş aygıtı arar ve onu kullanır. Örnek:
   </p>
           <pre class="screen"><strong class="userinput"><code>mount /tmp/disk.img /mnt -o loop</code></strong>
 </pre>
           <p>
-   Bir dosya sistemi türü belirtilmemişse veya dosya sistemi libblkid için biliniyorsa, mount komutu normal bir dosyadan otomatik olarak bir döngü aygıtı oluşturur. Örnek:
+   Bir dosya sistemi türü belirtilmemişse veya dosya sistemi <code class="code">libblkid</code> tarafından biliniyorsa, <span class="command"><strong>mount</strong></span> komutu normal bir dosyadan otomatik olarak bir dönüş aygıtı oluşturur. Örnek:
   </p>
           <pre class="screen"><strong class="userinput"><code>mount /tmp/disk.img /mnt
 
@@ -3854,7 +3765,7 @@ mount -t ext4 /tmp/disk.img /mnt</code></strong>
     <span class="command"><strong>losetup -d</strong></span> veya <span class="command"><strong>umount -d</strong></span> kullanılarak  bir dönüş aygıtı elle de serbest bırakılabilir.
   </p>
           <p>
-    util-linux v2.29'dan beri, belirtilen dosya aynı konum ve boyut sınırına sahip bir dönüş aygıtı için zaten kullanımdaysa, mount yeni bir aygıtı başlatmak yerine dönüş aygıtını yeniden kullanır. Bu, olası bir dosya sistemi bozulmasını önlemek için gereklidir.
+    util-linux v2.29'dan beri, belirtilen dosya aynı konum ve boyut sınırına sahip bir dönüş aygıtı için zaten kullanımdaysa, <span class="command"><strong>mount</strong></span> yeni bir aygıtı başlatmak yerine dönüş aygıtını yeniden kullanır. Bu, olası bir dosya sistemi bozulmasını önlemek için gereklidir.
   </p>
         </div>
         <div class="refsect1">
@@ -3882,7 +3793,7 @@ mount -t ext4 /tmp/disk.img /mnt</code></strong>
                 </span>
               </dt>
               <dd>
-                <p>kullanım ve izinler hatallı</p>
+                <p>kullanım ve izinler hatalı</p>
               </dd>
               <dt>
                 <span class="term">
@@ -3955,15 +3866,15 @@ mount -t ext4 /tmp/disk.img /mnt</code></strong>
           <p>
    Dışsal bağlama araçları için sözdizimi:
   </p>
-          <pre class="synopsis"><span class="command"><strong>/sbin/mount.</strong></span><em class="replaceable"><code>sonek belirtim dizin</code></em> [<code class="option">-sfnv</code>] [<code class="option">-N</code> <em class="replaceable"><code>isimuzayı</code></em>] [<code class="option">-o</code> <em class="replaceable"><code>seçenekler</code></em>] [<code class="option">-t</code> <em class="replaceable"><code>tür.alttür</code></em>]
+          <pre class="synopsis"><span class="command"><strong>/sbin/mount.</strong></span><em class="replaceable"><code>ds-türü belirtim dizin</code></em> [<code class="option">-sfnv</code>] [<code class="option">-N</code> <em class="replaceable"><code>isimuzayı</code></em>] [<code class="option">-o</code> <em class="replaceable"><code>seçenekler</code></em>] [<code class="option">-t</code> <em class="replaceable"><code>tür.alttür</code></em>]
   </pre>
           <p>
-   Burada, <em class="replaceable"><code>sonek</code></em> dosya sistemi türü olup <code class="option">-sfnvoN</code> seçenekleri normal <span class="command"><strong>mount</strong></span> seçenekleri ile aynıdır. <code class="option">-t</code> seçeneği alt tür desteği olan dosya sistemleri için kullanılır. Örnek:
+   Burada, <em class="replaceable"><code>ds-türü</code></em> dosya sistemi türü olup <code class="option">-sfnvoN</code> seçenekleri normal <span class="command"><strong>mount</strong></span> seçenekleri ile aynıdır. <code class="option">-t</code> seçeneği alt tür desteği olan dosya sistemleri için kullanılır. Örnek:
   </p>
           <pre class="screen"><strong class="userinput"><code>/sbin/mount.fuse -t fuse.sshfs</code></strong>
 </pre>
           <p>
-   <span class="command"><strong>mount</strong></span> komutu, <span class="command"><strong>mount.</strong></span><em class="replaceable"><code>sonek</code></em> dışsal araçlarına <code class="option">unbindable, runbindable, private, rprivate, slave, rslave, shared, rshared, auto, noauto, comment, x-*, loop, offset</code> ve <code class="option">sizelimit</code> bağlama seçeneklerini aktarmaz. Diğer tüm seçenekler,  <code class="option">-o</code> seçeneğine virgül ayraçlı bir liste olarak belirtilebilir.
+   <span class="command"><strong>mount</strong></span> komutu, <span class="command"><strong>mount.</strong></span><em class="replaceable"><code>ds-türü</code></em> dışsal araçlarına <code class="option">unbindable, runbindable, private, rprivate, slave, rslave, shared, rshared, auto, noauto, comment, x-*, loop, offset</code> ve <code class="option">sizelimit</code> bağlama seçeneklerini aktarmaz. Diğer tüm seçenekler,  <code class="option">-o</code> seçeneğine virgül ayraçlı bir liste olarak belirtilebilir.
   </p>
         </div>
         <div class="refsect1">
@@ -4102,32 +4013,22 @@ mount -t ext4 /tmp/disk.img /mnt</code></strong>
         <div class="refsect1">
           <h2>YAZILIM HATALARI</h2>
           <p>
-   Bozulmuş bir dosya sisteminde çökmeye sebep olma olasılığı vardır.
+   Bozulmuş bir dosya sisteminin çökmeye sebep olma olasılığı vardır.
   </p>
           <p>
    Bazı Linux dosya sistemleri <code class="option">-o sync</code> ve <code class="option">-o dirsync</code> desteklemez (ext2, ext3, ext4, fat ve vfat dosya sistemleri <code class="option">sync</code> seçeneği ile bağlandıklarında eşzamanlı güncellemeleri (BSD tarzı) destekler).
   </p>
           <p>
-   <code class="option">-o remount</code> seçeneği <span class="command"><strong>mount</strong></span> bağımsız değişkenlerini değiştiremeyebilir (örneğin, <code class="option">sb</code> hariç bütün <code class="option">ext2fs</code>'e özgü bağımsız değişkenler tekrar bağlama durumunda değiştirilebilir, fakat <code class="option">fat</code> için <code class="option">gid</code> ve <code class="option">umask</code> değiştirilemez.)
+   <code class="option">-o remount</code> seçeneği <span class="command"><strong>mount</strong></span> bağlama seçeneklerini değiştiremeyebilir (örneğin, <code class="option">sb</code> hariç bütün <code class="option">ext2fs</code>'e özgü bağlama seçenekleri tekrar bağlama durumunda değiştirilebilir, fakat <code class="option">fat</code> için <code class="option">gid</code> ve <code class="option">umask</code> değiştirilemez.)
   </p>
           <p>
-       It is possible that the files /etc/mtab and /proc/mounts don’t match on systems with a regular
-       mtab file. The first file is based only on the mount command options, but the content of the
-       second file also depends on the kernel and others settings (e.g. on a remote NFS server — in
-       certain cases the mount command may report unreliable information about an NFS mount point and the
-       /proc/mount file usually contains more reliable information.) This is another reason to replace
-       the mtab file with a symlink to the /proc/mounts file.
+   Normal <code class="filename">mtab</code> dosyasına sahip sistemlerde <code class="filename">/etc/mtab</code> ve <code class="filename">/proc/mounts</code> dosyalarının eşleşmemesi mümkündür. İlk dosya yalnızca <span class="command"><strong>mount</strong></span> komut seçeneklerine dayanır, ancak ikinci dosyanın içeriği çekirdeğe ve diğer ayarlara da bağlıdır (örn. bir NFS sunucusu üzerinde bazı durumlarda <span class="command"><strong>mount</strong></span> komutu NFS bağlama noktaları hakkında güvenilir olmayan bilgiler bildirebilirken <code class="filename">/proc/mounts</code> dosyası genellikle daha güvenilir bilgiler içerir.) Bu, <code class="filename">mtab</code> dosyasını <code class="filename">/proc/mounts</code> dosyasına sembolik bağ yapmak için nedenlerden biridir.
   </p>
           <p>
-       Checking files on NFS filesystems referenced by file descriptors (i.e. the fcntl and ioctl
-       families of functions) may lead to inconsistent results due to the lack of a consistency check in
-       the kernel even if the noac mount option is used.
+   NFS dosya sistemlerinde dosyaların dosya tanıtıcıları (yani <tt><b>fcntl</b>(2)</tt> çağrıları ve <tt><b>ioctl</b>(2)</tt> ailesi) üzerinden denetlenmesi, <code class="code">noacl</code> bağlama seçeneği kullanılsa bile çekirdekte tutarlılık denetimi olmaması nedeniyle tutarsız sonuçlar verebilir.
   </p>
           <p>
-       The loop option with the offset or sizelimit options used may fail when using older kernels if the
-       mount command can’t confirm that the size of the block device has been configured as requested.
-       This situation can be worked around by using the losetup(8) command manually before calling mount
-       with the configured loop device.
+   Eski çekirdekler kullanılırken, <span class="command"><strong>mount</strong></span> komutu blok aygıtı boyutunun istendiği gibi yapılandırıldığını doğrulamıyorsa, <code class="option">loop</code> seçeneği, kullanılan <code class="option">offset</code> veya <code class="option">sizelimit</code> seçenekleriyle başarısız olabilir. Bu sorun, <span class="command"><strong>mount</strong></span> yapılandırılmış dönüş aygıtıyla çağrılmadan önce <tt><a href="man8-losetup.html"><b>losetup</b></a>(8)</tt> komutu elle kullanılarak çözülebilir.
   </p>
         </div>
         <div class="refsect1">
