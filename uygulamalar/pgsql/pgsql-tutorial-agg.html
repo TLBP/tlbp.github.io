@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.6. Ortak Değer İşlevleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-join.html" title="3.5. Tablolar Arası Katılım"/>
+    <link rel="next" href="pgsql-tutorial-update.html" title="3.7. Verilerin Güncellenmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-join.html')">Önceki</button>
+          <div class="dropdown-content">3.5. Tablolar Arası Katılım</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-sql.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-update.html')">Sonraki</button>
+          <div class="dropdown-content">3.7. Verilerin Güncellenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-agg">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.6. Ortak Değer İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Çoğu ilişkisel veritabanı ürünü gibi PostgreSQL'de ortak değer işlevlerini destekler. Bir ortak değer işlevi çok sayıda satırı girdi olarak alır ve bunlardan tek bir sonuç elde eder. Belli bir satır grubu üzerinde işlem yaparak, bunların sayısını bulan <code class="function">count</code>, değerlerin toplamını bulan <code class="function">sum</code>, değerlerin ortalamasını hesaplayan <code class="function">avg</code>, en büyük ve en küçük değerleri bulan <code class="function">max</code> ve <code class="function">min</code> işlevleri bunlara birer örnektir.
+   </p>
+        <p>
+    Örnek olarak, düşük sıcaklık değerlerinin en yükseğini bulalım:
+   </p>
+        <pre class="screen">SELECT max(asg_sck) FROM hava_durumu;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen"> max
+-----
+  46
+(1 satır)
+</pre>
+        <p>
+    Eğer bu sıcaklığın hangi il (veya illerde) ortaya çıktığını bulmak istersek,
+   </p>
+        <pre class="screen">SELECT il FROM hava_durumu WHERE asg_sck = max(asg_sck);     <em class="lineannotation"><span class="lineannotation">YANLIŞ</span></em>
+</pre>
+        <p>
+    bu çalışmaz, çünkü <code class="function">max</code> işlevi <code class="literal">WHERE</code> deyiminde kullanılamaz. (Böyle bir sınırlamanın olmasının sebebi, <code class="literal">WHERE</code> deyiminin ortak değeri bulunacak satırların belirlenmesinde kullanılmak zorunda olmasıdır; yani, deyim, işlevden önce değerlendirilmiş olmalıdır.) Bu durumda böyle bir sorunu gidermek için sorgunun yeniden durumlanabilmesini sağlayan aşağıdaki gibi bir <em class="wordasword">altsorgu</em> (subquery) kullanılır:
+   </p>
+        <pre class="screen">SELECT il FROM hava_durumu
+    WHERE asg_sck = (SELECT max(asg_sck) FROM hava_durumu);
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il
+---------------
+ San Francisco
+(1 satır)
+</pre>
+        <p>
+    Şimdi her şey yolunda. Çünkü ortak değer bulma bir altsorgu ile yapıldıktan sonra sonuç dış sorguda karşılaştırma değeri olarak kullanıldı.
+   </p>
+        <p>
+    Ortak değer işlevleri <code class="literal">GROUP BY</code> deyimi ile kullanıldığında oldukça yararlıdır. Örneğin her şehrin en yüksek düşük sıcaklığını bulmak için şunu yazabiliriz:
+   </p>
+        <pre class="screen">SELECT il, max(asg_sck)
+    FROM hava_durumu
+    GROUP BY il;
+</pre>
+        <p>Bu bize her il için bir değer verecektir:</p>
+        <pre class="screen">      il       | max
+---------------+-----
+ Hayward       |  37
+ San Francisco |  46
+(2 satır)
+</pre>
+        <p>
+    Burada, satırlar illere göre gruplanmakta, her gruptaki satırlar üzerinde <code class="literal">max</code> işlevi hesaplanmakta ve sonuçlar listelenmektedir. Hesaplamaya dahil olacak satırları <code class="literal">HAVING</code> deyimini kullanarak gruplayabiliriz:
+   </p>
+        <pre class="screen">SELECT il, max(asg_sck), count(*) FILTER (WHERE asg_sck &lt; 30)
+    FROM hava_durumu
+    GROUP BY il
+    HAVING max(asg_sck) &lt; 40;
+</pre>
+        <p>
+    Çıktısı:
+   </p>
+        <pre class="screen">   il    | max | count
+---------+-----+-------
+ Hayward |  37 |     0
+(1 satır)
+</pre>
+        <p>
+    Sadece <code class="literal">asg_sck</code> değeri 40'ın altında olan illeri listelemesi dışında bu cümle de aynı sonucu verir.  Eğer bir de bu işi abartıp sadece "S" ile başlayan il isimlerini istersek:
+   </p>
+        <pre class="screen">
+SELECT il, max(asg_sck), count(*) FILTER (WHERE asg_sck &lt; 30)
+    FROM hava_durumu
+    WHERE il LIKE 'S%'            -- <span id="pgsql-co.tutorial-agg-like"/>❶
+    GROUP BY il
+    HAVING max(asg_sck) &lt; 40;
+</pre>
+        <div class="calloutlist">
+          <dl class="calloutlist">
+            <dt><a href="#pgsql-co.tutorial-agg-like">❶</a> </dt>
+            <dd>
+              <p>
+      <code class="literal">LIKE</code> işleci kalıp eşleştirmesi yapar ve <span class="productname">PostgreSQL</span> belgelerindeki <a class="link" href="http://www.postgresql.org/docs/current/functions-matching.html" target="_top">Kalıp Eşleme</a> bölümünde açıklanmıştır.
+     </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+    <abbr class="acronym">SQL</abbr> dilinde <code class="literal">WHERE</code> ve <code class="literal">HAVING</code> deyimlerinin ortak değer işlevleri ile nasıl etkileşime girdiğinin anlaşılması önemlidir. <code class="literal">WHERE</code> ve <code class="literal">HAVING</code> deyimleri arasındaki temel fark şudur: <code class="literal">WHERE</code> satırları, gruplar ve ortak değerler hesaplanmadan önce seçer (ortak değer hesaplamasında kullanılacak satırları seçer), <code class="literal">HAVING</code> deyimi ise ortak değerler hesaplandıktan ve gruplamalar yapıldıktan sonra işleme sokulur. Sonuç olarak, <code class="literal">WHERE</code> ifadelerinde (altsorgu dışında) ortak değer bulma işlemleri kullanılmazken, <code class="literal">HAVING</code> deyimlerinde kaçınılmazdır. (Aslında <code class="literal">HAVING</code> deyimleri içinde ortak değer işlevleri dışında ifadeler de kullanmanıza izin verilmiştir ama, bu biraz savurganlık olur; böyle bir koşulu <code class="literal">WHERE</code> deyiminde kullanmak daha verimlidir.)
+   </p>
+        <p>
+    Önceki örnekte,  <code class="literal">WHERE</code> deyiminde bir ortak değer bulma işlemine ihtiyaç duyulmadığından, il isimlerine kısıtlama uygulamıştık. Bu, kısıtlamanın <code class="literal">HAVING</code> ile sağlanmasından daha uygundur; çünkü gruplamanın ve ortak değer hesaplamasının <code class="literal">WHERE</code> sınamasından geçemeyen satırlar için yapılması gereksizdir.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

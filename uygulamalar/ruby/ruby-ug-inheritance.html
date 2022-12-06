@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13. Kalıtım</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-classes.html" title="12. Sınıflar"/>
+    <link rel="next" href="ruby-ug-redefinemethods.html" title="14. Yöntemleri Yeniden Tanımlama"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-classes.html')">Önceki</button>
+          <div class="dropdown-content">12. Sınıflar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-redefinemethods.html')">Sonraki</button>
+          <div class="dropdown-content">14. Yöntemleri Yeniden Tanımlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-inheritance">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">13. Kalıtım</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Gerçek hayatta yaptığımız sınıflandırmalar son derece hiyerarşiktir. Örneğin bütün kedilerin memeli olduğunu ve bütün memelilerin hayvan olduğunu biliriz. Küçük sınıflar mensup oldukları büyük sınıfların karakteristik özelliklerini miras alırlar. Eğer bütün memeliler nefes alabiliyorsa, bütün kediler de nefes alabiliyor demektir.
+  </p>
+        <p>
+   Bu durumu Ruby'de aşağıdaki gibi açıklayabiliriz:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Memeli</em>
+    |    <em class="emphasis evalinput">def nefeslen</em>
+    |       <em class="emphasis evalinput">print "nefes al, nefes ver\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput"> end</em>
+   <em class="emphasis evaloutput">:nefeslen</em>
+ruby&gt; <em class="emphasis evalinput">class Kedi &lt; Memeli</em>
+    |    <em class="emphasis evalinput">def konuş</em>
+    |       <em class="emphasis evalinput">print "Miyauvvvv\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput"> end</em>
+   <em class="emphasis evaloutput">:konuş</em>
+</pre>
+        <p>
+   Örneğin bir <span class="command"><strong>Kedi</strong></span>'nin nasıl nefes alması gerektiğini belirtmediğimizi farz edelim. Bu durumda her kedi <span class="command"><strong>Kedi</strong></span> sınıfı <span class="command"><strong>Memeli</strong></span> sınıfının bir alt sınıfı olarak tanımlanmışsa, bu davranışı <span class="command"><strong>Memeli</strong></span> sınıfından miras olarak alacaktır. (Nesneye yönelik terminolojide küçük sınıf <em class="wordasword">alt sınıf</em> , büyük sınıfsa <em class="wordasword">süper sınıf</em> olarak isimlendirilir.) Yazılımcının bakış açısına göre, kediler nefes alma yeteneğini bağımsız olarak almıştır, eğer bir <span class="command"><strong>konuş</strong></span> yöntemi de eklersek, artık kedilerimiz hem nefes alabilme hem de konuşabilme yeteneğine sahip olur.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">pisi = Kedi.new</em>
+   <em class="emphasis evaloutput">#&lt;Kedi:0x0000558744912cd0&gt;</em>
+ruby&gt; <em class="emphasis evalinput">pisi.nefeslen</em>
+nefes al, nefes ver
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput"> pisi.konuş</em>
+Miyauvvvv
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Bazen süper sınıfta olması gereken ancak alt sınıf tarafından miras alınması istenmeyen bir özellik olabilir. Örneğin genel olarak kuşların uçmayı bildiğini ancak penguenlerin, kuşların uçamayan bir alt sınıfı olduğunu kabul edelim.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Kuş</em>
+    |    <em class="emphasis evalinput">def gagala</em>
+    |       <em class="emphasis evalinput">print "Tüylerimi temizliyorum.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">def uç</em>
+    |       <em class="emphasis evalinput">print "Uçuyorum.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:uç</em>
+ruby&gt; <em class="emphasis evalinput">class Penguen &lt; Kuş</em>
+    |    <em class="emphasis evalinput">def uç</em>
+    |       <em class="emphasis evalinput">fail "Üzgünüm, yüzmeyi tercih ederim.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:uç</em>
+</pre>
+        <p>
+   Her yeni sınıfın her özelliğini ayrı ayrı tanımlamak yerine, sadece her alt sınıfla onun süper sınıfı arasındaki farklılıkları eklemek ya da yaniden tanımlamak daha iyidir. Kalıtımın bu kullanımına bazen <em class="wordasword">farksal yazılım geliştirme</em> denir. Bu nesneye yönelik yazılım geliştirmenin en yararlı özelliklerinden biridir.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

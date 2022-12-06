@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17. Modüller</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-smethots.html" title="16. Tekil Yöntemler"/>
+    <link rel="next" href="ruby-ug-pobjects.html" title="18. Yordam Nesneleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-smethots.html')">Önceki</button>
+          <div class="dropdown-content">16. Tekil Yöntemler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-pobjects.html')">Sonraki</button>
+          <div class="dropdown-content">18. Yordam Nesneleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-modules">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">17. Modüller</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Ruby'de modüller sınıflara benzer özellikler gösterirler:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">Modülün örneği yoktur.</li>
+            <li class="member">Modülün alt sınıfı yoktur.</li>
+            <li class="member">Modül <span class="command"><strong>module ... end</strong></span> şeklinde tanımlanır.</li>
+          </ul>
+        </div>
+        <p>
+   Aslında modülün "Module" sınıfı, sınıfın "Class" sınıfının süper sınıfıdır. Anladınız mı? Hayır? O zaman devam edelim.
+  </p>
+        <p>
+   Modüller iki türlü kullanılır. Bir tanesi ilişkili yöntemleri ve sabitleri merkezi bir yerde toplar. Ruby'nin standart kitaplığındaki <span class="command"><strong>Math</strong></span> modülü böyle bir rol oynar:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">Math.sqrt(2)</em>
+   <em class="emphasis evaloutput">1.4142135623730951</em>
+ruby&gt; <em class="emphasis evalinput">Math::PI</em>
+   <em class="emphasis evaloutput">3.141592653589793</em>
+</pre>
+        <p>
+   <span class="command"><strong>::</strong></span> işleci Ruby yorumlayıcısına bir sabit için hangi modülü yükleyeceğini söyler. (örneğin <span class="command"><strong>Math</strong></span> için bir anlam ihtiva eden birşey <span class="command"><strong>PI</strong></span> için başka bir anlama gelebilir). Eğer bir yöntem ya da sabitin, <span class="command"><strong>::</strong></span> kullanmadan doğrudan modüle başvurmasını istiyorsak bu modülü <span class="command"><strong>include</strong></span> ile ekleyebiliriz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">include Math</em>
+   <em class="emphasis evaloutput">Object</em>
+ruby&gt; <em class="emphasis evalinput">sqrt(2)</em>
+   <em class="emphasis evaloutput">1.4142135623730951</em>
+ruby&gt; <em class="emphasis evalinput">PI</em>
+   <em class="emphasis evaloutput">3.141592653589793</em>
+</pre>
+        <p>
+   Diğer bir kullanım da <em class="wordasword">karışım</em> (mixin) olarak adlandırılır. Bazı nesneye yönelik yazılım geliştirme dili, C++ da dahil, birden fazla süper sınıftan miras almamızı sağlayan <em class="wordasword">çoklu miras</em> kavramına izin verir. Bunun gerçek dünyadaki örneği çalar saatler olabilir. Çalar saatleri hem <code class="literal">saat</code> sınıfına hem de <code class="literal">alarm</code> sınıfına sokabilirsiniz.
+  </p>
+        <p>
+   Ruby gerçek çoklu mirası doğrudan desteklemez ancak <em class="wordasword">karışım</em> tekniği iyi bir seçenektir. Modüllerin örneklenemeyeceğini ve alt sınıflanamayacağını hatırlayın, ancak bir modülü  bir sınıf tanımlamasının içine <span class="command"><strong>include</strong></span> ile eklersek bu yöntemi sınıfa 'karıştırmış' ya da eklemiş oluruz.
+  </p>
+        <p>
+   Karışım stratejisi, ek olarak sınıfımıza hangi özellikleri istediğimizi belirtmenin başka bir yoludur. Örneğin eğer bir sınıfın çalışan bir <span class="command"><strong>each</strong></span> yöntemi varsa- bunu <code class="literal">Enumerable</code> standart kütüphanesine eklemek size <span class="command"><strong>sort</strong></span> ve <span class="command"><strong>find</strong></span> yöntemlerini bedavaya getirir.
+  </p>
+        <p>
+   Modüllerin bu kullanımı işlevel bir çoklu miras kullanımı sağlarken, aynı zamanda basit bir ağaç yapısıyla sınıf akrabalıklarını temsil eder, böylece dil gerçeklenimini basitleştirir (benzer bir dil gerçeklenimi Java tasarımcıları tarafından da yapılmıştı).
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

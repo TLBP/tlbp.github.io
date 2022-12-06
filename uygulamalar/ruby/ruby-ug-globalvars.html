@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>20. Genel Değişkenler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-vars.html" title="19. Değişkenler"/>
+    <link rel="next" href="ruby-ug-instancevars.html" title="21. Örnek Değişkenler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-vars.html')">Önceki</button>
+          <div class="dropdown-content">19. Değişkenler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-instancevars.html')">Sonraki</button>
+          <div class="dropdown-content">21. Örnek Değişkenler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-globalvars">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">20. Genel Değişkenler</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Genel değişkenler isimlerinin başında birer <span class="command"><strong>$</strong></span> işareti bulunur. Genel değişkenlere yazılımın her hangi bir yerinden başvurulabilir ve ilklendirilmeden önce <span class="command"><strong>nil</strong></span> değerine sahiptir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">$foo</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">$foo = 5</em>
+   <em class="emphasis evaloutput">5</em>
+ruby&gt; <em class="emphasis evalinput">$foo</em>
+   <em class="emphasis evaloutput">5</em>
+</pre>
+        <p>
+   Genel değişkenler dikkatli kullanılmalıdır. Her yerden yazılabildikleri için tehlikelidir. Genel değişkenlerin aşırı kullanılması yanlışları izole etmede zorluk çıkarabildiği gibi yazılımın iyice düşünülmeden tasarlandığına dikkat çeker. Genel değişken kullanmayı uygun gördüğünüz zaman, onlara anlaşılabilir isimler verdiğinizden emin olun ( <span class="command"><strong>$foo</strong></span> gibi birşeyi çağırmak oldukça kötü bir fikir değil mi?).
+  </p>
+        <p>
+   Genel değişkenlerin güzel bir özelliği de izlenebilir olmalarıdır; bir değişkenin değeri ne zaman değişirse o zaman çağrılan bir yordam belirleyebilirsiniz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">trace_var :$x, proc{ print "$x şimdi ", $x, "\n" }</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">$x = 5</em>
+$x şimdi 5
+   <em class="emphasis evaloutput">5</em>
+</pre>
+        <p>
+   Bir küresel değişken, değiştiği zaman bir yordamı çalıştırmak için kullanılıyorsa, <em class="wordasword">etkin değişken</em> olarak da anılır.
+  </p>
+        <p>
+   Aşağıda <span class="command"><strong>$</strong></span> işaretini takiben tek bir karakter daha içeren bir dizi özel değişken bulunuyor. Örneğin <span class="command"><strong>$$</strong></span> Ruby yorumcusunun süreç numarasını içerir ve salt okunabilirdir. Aşağıda önemli sistem değişkenleri ve anlamları bulunuyor: (ayrıntılar için <a class="link" href="http://www.ruby-lang.org/en/man-1.4/" target="_top">Ruby Başvuru Kılavuzu</a>na bakınız):
+  </p>
+        <div class="informaltable">
+          <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+            <colgroup>
+              <col style="width: 10%; "/>
+              <col style="width: 90%; "/>
+            </colgroup>
+            <tbody>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$!</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">son hata iletisi</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$@</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">hatanın konumu</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$_</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; "><span class="command"><strong>gets</strong></span> tarafından okunan son dizge</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$.</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">yorumlayıcı tarafından son okunan satır numarası</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$&amp;</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">regexp tarafından son bulunan dizge</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$~</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">alt ifade (<em class="emphasis">subexpression</em>) dizisi olarak regexp tarafından bulunan son ifade</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; "><span class="command"><strong>$</strong></span> <code class="literal">n</code></td>
+                <td style="border-bottom: 1px solid ; ">son bulunan <code class="literal">n</code>'inci alt ifade (<span class="command"><strong>$~[</strong></span><code class="literal">n</code><span class="command"><strong>]</strong></span> ile aynı)</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$=</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">büyük-küçük harfe duyarsız bayrak</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$/</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">girdi kaydı ayracı (<em class="emphasis">input record separator</em>)</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$\</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">çıktı kaydı ayracı (<em class="emphasis">output record separator</em>)</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$0</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">ruby betik dosyasının adı</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$*</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">komut satırı girdileri</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+                  <span class="command">
+                    <strong>$$</strong>
+                  </span>
+                </td>
+                <td style="border-bottom: 1px solid ; ">yorumcunun süreç numarası (PID)</td>
+              </tr>
+              <tr>
+                <td style="border-right: 1px solid ; ">
+                  <span class="command">
+                    <strong>$?</strong>
+                  </span>
+                </td>
+                <td>son işletilen çocuk sürecin çıkış durumu</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+   <span class="command"><strong>$_</strong></span> ve <span class="command"><strong>$~</strong></span> için etki alanı yereldir. Her ne kadar isimleri gereği genel değişkenler olmaları gerekiyorsa da böyle daha kullanışlıdır.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

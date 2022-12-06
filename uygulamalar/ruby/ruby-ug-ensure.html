@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>25. Hata İşleme: ensure deyimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-rescue.html" title="24. Hata İşleme: rescue deyimi"/>
+    <link rel="next" href="ruby-ug-accessors.html" title="26. Erişim Yöntemleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-rescue.html')">Önceki</button>
+          <div class="dropdown-content">24. Hata İşleme: <code class="literal">rescue</code> deyimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-accessors.html')">Sonraki</button>
+          <div class="dropdown-content">26. Erişim Yöntemleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-ensure">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">25. Hata İşleme: <code class="literal">ensure</code> deyimi</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bazen bir yöntem işini bitirdikten sonra temizlik yapılması gerekebilir. Örneğin açılmış olan bir dosyanın kapatılması ya da bir veri için ayrılan bellek gözesinin boşaltılması gerekebilir. Eğer her yöntem için her zaman tek bir çıkış noktası olsaydı temizleme kodumuzu tek bir yere koyardık ve çalıştırılacağından emin olurduk. Ancak yöntem bir çok yere geri dönebilir ve temizlik kodumuz beklenmeyen istisnalardan dolayı atlanabilir.
+  </p>
+        <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yaziliyor...
+  file.close
+end
+</pre>
+        <p>
+   Ayrıca eğer kodun dosyaya yazdığımız kısmında bir istisna meydana gelirse o zaman dosya açık bırakılabilir. Ve böyle bir fazlalığa gitmek istemeyiz:
+  </p>
+        <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yazılıyor ...
+  file.close
+rescue
+  file.close
+  fail # istisna yakalanıyor
+end
+</pre>
+        <p>
+   Bu hantal bir yöntemdir; her <span class="command"><strong>return</strong></span> ve <span class="command"><strong>break</strong></span> ile ilgilenmek zorunda kalınca işler çığrından çıkar.
+  </p>
+        <p>
+   Bu yüzden "<span class="command"><strong>begin...rescue...end</strong></span>" şemasına <span class="command"><strong>ensure</strong></span> adında başka bir anahtar kelime daha ekleriz. <span class="command"><strong>ensure</strong></span> kodu <span class="command"><strong>begin</strong></span> kodunun başarılı olup olmadığına bakmaksızın çalıştırılır.
+  </p>
+        <pre class="screen">
+begin
+  file = open("/tmp/bir_dosya", "w")
+  # ... dosyaya yazılıyor ...
+rescue
+  # ... istisnalar yakalanıyor...
+ensure
+  file.close   # ...her zaman yapılması gerekir
+end
+</pre>
+        <p>
+   <span class="command"><strong>ensure</strong></span> kodunu <span class="command"><strong>rescue</strong></span> olmadan da kullanmak mümkündür ya da tam tersi; ancak aynı <span class="command"><strong>begin...end </strong></span> bloğunda birlikte kullanılıyorlarsa <span class="command"><strong>rescue</strong></span>, <span class="command"><strong>ensure</strong></span>'den önce gelmelidir.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>27. Nesnenin İlklendirilmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-accessors.html" title="26. Erişim Yöntemleri"/>
+    <link rel="next" href="ruby-ug-misc.html" title="28. Sona Kalanlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-accessors.html')">Önceki</button>
+          <div class="dropdown-content">26. Erişim Yöntemleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-misc.html')">Sonraki</button>
+          <div class="dropdown-content">28. Sona Kalanlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-oinit">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">27. Nesnenin İlklendirilmesi</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>27.1. <a href="ruby-ug-oinit.html"><code class="literal">initialize</code> yöntemi</a></dt>
+            <dt>27.2. <a href="ruby-ug-oinit.html">Öntanımlı değerlerin değiştirilmesi</a></dt>
+            <dt>27.3. <a href="ruby-ug-oinit.html">Esnek ilklendirme</a></dt>
+          </dl>
+        </div>
+        <p>
+   Geçen bölümdeki Meyve sınıfı, biri meyvenin çeşidini diğeri de niteliğini açıklayan iki örnek değişkene sahipti. Bunu yapmamızın nedeni bir kaç meyve için karakteristiğin önemli olmamasıydı ve amacımız genel bir <span class="command"><strong>inspect</strong></span> yöntemi oluşturmaktı. Ruby örnek değişkenlerin her zaman hazırlanmış olduğunu garanti eden bir yol sunuyor.
+  </p>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">27.1. <code class="literal">initialize</code> yöntemi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Ruby yeni bir nesne örneklendiği zaman <span class="command"><strong>initialize</strong></span> denen bir yöntem arar ve çalıştırır. Yapabileceğimiz basit şeylerden biri her örnek değişkene öntanımlı bir <span class="command"><strong>initialize</strong></span> yöntemi koymak ve böylece <span class="command"><strong>inspect</strong></span> yöntemine söyleyebilecek bir şeyler sağlamaktır.
+  </p>
+          <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def initialize</em>
+    |       <em class="emphasis evalinput">@çeşidi = "elma"</em>
+    |       <em class="emphasis evalinput">@nitelik = "olgun"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:initialize</em>
+ruby&gt; <em class="emphasis evalinput">f4 = Meyve.new</em>
+   <em class="emphasis evaloutput">"olgun elma"</em>
+</pre>
+        </section>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">27.2. Öntanımlı değerlerin değiştirilmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Bazen öntanımlı değerlerin pek de anlamlı olmadığı zamanlar olabilir. Öntanımlı bir meyve çeşidi gibi birşey olabilir mi? Her meyvenin yaratıldığı zaman kendi çeşidini belirlemesi daha tercih edilebilir bir durumdur. Bunu yapmak için <span class="command"><strong>initialize</strong></span> yöntemine bir bağımsız değişken ekleriz. Burada bahsetmeyeceğimiz nedenlerden dolayı <span class="command"><strong>new</strong></span>'e verdiğiniz her bağımsız değişken <span class="command"><strong>initialize</strong></span> yöntemi tarafından alınmış olur.
+  </p>
+          <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def initialize( k )</em>
+    |       <em class="emphasis evalinput">@çeşidi = k</em>
+    |       <em class="emphasis evalinput">@nitelik = "olgun"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:initialize</em>
+ruby&gt; <em class="emphasis evalinput">f5 = Meyve.new "mango"</em>
+   <em class="emphasis evaloutput">"olgun mango"</em>
+ruby&gt; <em class="emphasis evalinput">f6 = Meyve.new</em>
+<em class="emphasis evaloutput">ERR: wrong number of arguments (given 0, expected 1)</em>
+</pre>
+        </section>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">27.3. Esnek ilklendirme</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Yukarıda gördüğümüz gibi bir bağımsız değişkeni <span class="command"><strong>initialize</strong></span> yöntemi ile ilişkilendirirseniz boş değer vermeniz durumunda hatayla karşılaşırsınız. Daha düşünceli davranmak istersek, değer verildiği zaman o değeri kullanabilir, verilmediği zamansa öntanımlı bir değer atayabiliriz.
+  </p>
+          <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Meyve</em>
+    | <em class="emphasis evalinput">def initialize( k="elma" )</em>
+    |       <em class="emphasis evalinput">@çeşidi = k</em>
+    |       <em class="emphasis evalinput">@nitelik = "olgun"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:initialize</em>
+ruby&gt; <em class="emphasis evalinput"> f5 = Meyve.new "mango"</em>
+   <em class="emphasis evaloutput">"olgun mango"</em>
+ruby&gt; <em class="emphasis evalinput"> f6 = Meyve.new</em>
+   <em class="emphasis evaloutput">"olgun elma"</em>
+</pre>
+          <p>
+   Öntanımlı değerleri sadece <span class="command"><strong>initialize</strong></span> için değil tüm yöntemler için uygulayabilirsiniz.
+  </p>
+          <p>
+   Bazen bir nesneyi hazırlamak için birçok yol hazırlamak yararlı olabilir. Bu kılavuzun kapsamının dışında olmasına rağmen Ruby, yöntemleri aşırı yüklemeyi sağlayan nesne yansıtmaya (<em class="emphasis">object reflection</em>) ve değişken uzunluklu bağımsız değişken listesine izin verir.
+  </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

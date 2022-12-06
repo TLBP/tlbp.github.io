@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14. Yöntemleri Yeniden Tanımlama</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-inheritance.html" title="13. Kalıtım"/>
+    <link rel="next" href="ruby-ug-accesscontrol.html" title="15. Erişim Denetimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-inheritance.html')">Önceki</button>
+          <div class="dropdown-content">13. Kalıtım</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-accesscontrol.html')">Sonraki</button>
+          <div class="dropdown-content">15. Erişim Denetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-redefinemethods">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">14. Yöntemleri Yeniden Tanımlama</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir alt sınıfın davranışlarını, süper sınıfın yöntemlerini yeniden tanımlayarak değiştirebiliriz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class İnsan</em>
+    |    <em class="emphasis evalinput">def tanımla</em>
+    |       <em class="emphasis evalinput">print "Ben insanım.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">def tren_bileti(yaş)</em>
+    |       <em class="emphasis evalinput">if yaş &lt; 12</em>
+    |          <em class="emphasis evalinput">print "İndirimli ücret.\n"</em>
+    |       <em class="emphasis evalinput">else</em>
+    |          <em class="emphasis evalinput">print "Normal ücret.\n"</em>
+    |       <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+  <em class="emphasis evaloutput">:tren_bileti</em>
+ruby&gt; <em class="emphasis evalinput">İnsan.new.tanımla</em>
+Ben insanım.
+  <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">class Öğrenci1 &lt; İnsan</em>
+    |    <em class="emphasis evalinput">def tanımla</em>
+    |       <em class="emphasis evalinput">print "Ben öğrenciyim.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+  <em class="emphasis evaloutput">:tanımla</em>
+ruby&gt; <em class="emphasis evalinput">Öğrenci1.new.tanımla</em>
+Ben öğrenciyim.
+  <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Örneğin süper sınıfın <span class="command"><strong>tanımla</strong></span> yöntemini tamamen yeniden tanımlamak yerine geliştirmek istediğimizi düşünelim. Bunun için <span class="command"><strong>super</strong></span>'i kullanıyoruz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Öğrenci2 &lt; İnsan</em>
+    |    <em class="emphasis evalinput">def tanımla</em>
+    |       <em class="emphasis evalinput">super</em>
+    |       <em class="emphasis evalinput">print "Ben öğrenciyim, aynı zamanda.\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+  <em class="emphasis evaloutput">:tanımla</em>
+ruby&gt; <em class="emphasis evalinput"> Öğrenci2.new.tanımla</em>
+Ben insanım.
+Ben öğrenciyim, aynı zamanda.
+  <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   <span class="command"><strong>super</strong></span> özgün yöntemin ilgili özelliğinin miras alınmasını sağlar. Bazen iki tür insan olduğunu söylerler...
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Sahtekar &lt; İnsan</em>
+    |    <em class="emphasis evalinput">def tren_bileti(yaş)</em>
+    |       <em class="emphasis evalinput">super(11) # ucuz tarife istiyoruz.</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+  <em class="emphasis evaloutput">:tren_bileti</em>
+ruby&gt;<em class="emphasis evalinput">Sahtekar.new.tren_bileti(25)</em>
+İndirimli ücret.
+  <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">class Dürüst &lt; İnsan</em>
+    |    <em class="emphasis evalinput">def tren_bileti(yaş)</em>
+    |       <em class="emphasis evalinput">super(yaş) # verilen bağımsız değişkeni aktaralım</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+  <em class="emphasis evaloutput">:tren_bileti</em>
+ruby&gt;<em class="emphasis evalinput">Dürüst.new.tren_bileti(25)</em>
+Normal ücret.
+  <em class="emphasis evaloutput">nil</em>
+</pre>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

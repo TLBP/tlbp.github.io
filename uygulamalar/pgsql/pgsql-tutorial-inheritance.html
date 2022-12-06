@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.5. Kalıtım</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-window.html" title="4.4. Pencere İşlevleri"/>
+    <link rel="next" href="pgsql-tutorial-conclusion.html" title="4.6. Sonuç"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-window.html')">Önceki</button>
+          <div class="dropdown-content">4.4. Pencere İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-advanced.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-conclusion.html')">Sonraki</button>
+          <div class="dropdown-content">4.6. Sonuç</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-inheritance">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.5. Kalıtım</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Kalıtım (miras alma), nesne yönelimli veritabanlarından kaynaklanan bir kavramdır. Bu sayede veritabanı tasarımında ilginç ve yeni olasılıkların yolu açılmıştır.
+   </p>
+        <p>
+    İki tablo oluşturalım: Bir <code class="literal">iller</code> tablosu ile bir <code class="literal">başkentler</code> tablosu. Doğal olarak, başkentler aynı zamanda ildir, dolayısıyla illeri listelerken dolaylı olarak başkentleri de bir şekilde göstermek isteriz. Biraz akıllıca hareket ederek, şöyle bir şema kullanabilirsiniz:
+   </p>
+        <pre class="screen">CREATE TABLE başkentler (
+  ad         text,
+  nüfus      real,
+  yükseklik  int,    -- (metre cinsinden)
+  ülke       char(2)
+);
+
+CREATE TABLE kentler (
+  ad         text,
+  nüfus      real,
+  yükseklik  int     -- (metre cinsinden)
+);
+
+CREATE VIEW iller AS
+  SELECT ad, nüfus, yükseklik FROM başkentler
+    UNION
+  SELECT ad, nüfus, yükseklik FROM kentler;
+</pre>
+        <p>
+    Çok fazla sorgulamadan bu doğru çalışır, fakat, bazı satırları güncellemek istediğinizde tuhaf şeyler olur.
+   </p>
+        <p>
+    Bu daha iyi bir çözümdür:
+   </p>
+        <pre class="screen">CREATE TABLE iller (
+  ad         text,
+  nüfus      real,
+  yükseklik  int     -- (metre cinsinden)
+);
+
+CREATE TABLE başkentler (
+  ülke      char(2) UNIQUE NOT NULL
+) INHERITS (iller);
+</pre>
+        <p>
+    Bu durumda <code class="literal">başkentler</code> tablosu, <code class="literal">iller</code> tablosundaki bütün sütunları (<code class="literal">ad</code>, <code class="literal">nüfus</code> ve <code class="literal">yükseklik</code>) miras alacaktır. <code class="literal">ad</code> sütununun türü <code class="literal">text</code> olup, değişken uzunlukta dizge kabul eden bir PostgreSQL türüdür. <code class="classname">başkentler</code> tablosu ek bir sütuna, ülke kısaltmasını gösteren <tt>ülke</tt> sütununa sahiptir. PostgreSQL'de bir tablo, sıfır ya da daha fazla tablo miras alabilir.
+   </p>
+        <p>
+    Örneğin, aşağıdaki sorgu, tüm illerin isimleri arasından başkentler de dahil 500 metre'den daha yüksekteki illeri bulmaktadır:
+   </p>
+        <pre class="screen">SELECT ad, yükseklik
+  FROM iller
+ WHERE yükseklik &gt; 500;
+</pre>
+        <p>
+Sorgu şöyle dönecektir:
+   </p>
+        <pre class="screen">   ad    | yükseklik
+---------+----------
+ Erzurum |      1900
+ Bitlis  |      1500
+ Ankara  |       850
+(3 satır)
+</pre>
+        <p>
+    Aşağıdaki sorgu ise, ülke başkenti olmayan illerden 500 metre ve daha yüksekte olan illeri bulmaktadır:
+   </p>
+        <pre class="screen">SELECT ad, yükseklik
+  FROM ONLY iller
+ WHERE yükseklik &gt; 500;
+</pre>
+        <p>Çıktısı:
+   </p>
+        <pre class="screen">   ad    | yükseklik
+---------+----------
+ Erzurum |      1900
+ Bitlis  |      1500
+(2 satır)
+</pre>
+        <p>
+    Buradaki <code class="literal">ONLY</code> deyimi sorgunun sadece <code class="literal">iller</code> tablosunda yapılacağını <code class="literal">iller</code> tablosunu miras alan tablolarda yapılmayacağını belirtir. Daha önce bahsedilen <strong class="userinput"><code>SELECT</code></strong>, <strong class="userinput"><code>UPDATE</code></strong> ve <strong class="userinput"><code>DELETE</code></strong> cümleleri de dahil olmak üzere pek çok SQL cümlesi <code class="literal">ONLY</code> deyimini destekler.
+   </p>
+        <div class="note">
+          <h3 class="title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+     Kalıtım yeterince kullanışlı olduğundan, kullanışlılığını sınırlayan tekil kısıtlar ve anahtarlar ile bütünleştirilmemiştir. Daha fazla bilgi güncel <span class="productname">PostgreSQL</span> belgelerindeki <a class="link" href="http://www.postgresql.org/docs/current/ddl-inherit.html" target="_top">Inheritance</a> bölümünde bulunabilir.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

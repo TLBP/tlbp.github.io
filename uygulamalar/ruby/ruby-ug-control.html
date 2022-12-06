@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8. Denetim Yapıları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-b2examples.html" title="7. Örneklere Dönüş"/>
+    <link rel="next" href="ruby-ug-iterators.html" title="9. Yineleyiciler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-b2examples.html')">Önceki</button>
+          <div class="dropdown-content">7. Örneklere Dönüş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-iterators.html')">Sonraki</button>
+          <div class="dropdown-content">9. Yineleyiciler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-control">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">8. Denetim Yapıları</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu bölümde Ruby'nin denetim yapılarını açıklayacağız.
+  </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">
+                <span class="command">
+                  <strong>case</strong>
+                </span>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      <span class="command"><strong>case</strong></span> deyimini bir dizi koşulu test etmek için kullanırız. Bu yapı, C ve Java 'daki <span class="command"><strong>switch</strong></span>'e çok benzer ancak birazdan da göreceğiniz gibi ondan biraz daha güçlüdür.
+     </p>
+              <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">i=8</em>
+ruby&gt; <em class="emphasis evalinput">case i</em>
+    | <em class="emphasis evalinput">when 1, 2..5</em>
+    |   <em class="emphasis evalinput">print "1..5\n"</em>
+    | <em class="emphasis evalinput">when 6..10</em>
+    |   <em class="emphasis evalinput">print "6..10\n"</em>
+    | <em class="emphasis evalinput">end</em>
+6..10
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+              <p>
+      <span class="command"><strong>2..5</strong></span>, 2 ile 5 arasındaki sayı aralığını ifade eder. Sonraki ifade, <span class="command"><strong>i</strong></span> değişkeninin bu aralığa düşüp düşmediğini sınar:
+     </p>
+              <pre class="screen">(2..5) === i</pre>
+              <p>
+      <span class="command"><strong>case</strong></span> aynı anda birden çok koşulu sınamak için <code class="code">===</code> ilişki işleçini kullanır. Ruby'nin nesneye yönelik yapısını korumak için <code class="code">===</code> işleci nesneye uygun olarak yorumlanır. Örneğin aşağıdaki kodda ilk <span class="command"><strong>when</strong></span>'de dizgelerin eşitliği sınanırken ikinci <span class="command"><strong>when</strong></span>'de düzenli ifadenin eşleşmesi sınanıyor.
+     </p>
+              <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">case 'abcdef'</em>
+    | <em class="emphasis evalinput">when 'aaa', 'bbb'</em>
+    |   <em class="emphasis evalinput">print "aaa or bbb\n"</em>
+    | <em class="emphasis evalinput">when /def/</em>
+    |   <em class="emphasis evalinput">print "/def/ icerir\n"</em>
+    | <em class="emphasis evalinput">end</em>
+/def/ icerir
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+            </dd>
+            <dt>
+              <span class="term">
+                <span class="command">
+                  <strong>while</strong>
+                </span>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Ruby döngü oluşturmak için bir çok yola sahiptir, bununla birlikte ileriki bölümde doğrudan döngü kurmanıza yarayan <em class="emphasis">yineleyici</em>leri göreceksiniz.
+     </p>
+              <p>
+      <span class="command"><strong>while</strong></span> bir tekrarlanmış <span class="command"><strong>if</strong></span>'ten başka birşey değildir. <span class="command"><strong>while</strong></span>'ı daha önce kelime-tahmin oyunumuzda ve düzenli ifadeler yazılımımızda kullanmıştık (<a class="xref" href="ruby-ug-regex.html" title="5. Düzenli İfadeler"><em>Düzenli İfadeler</em></a> bölümüne göz atın); <span class="command"><strong>while </strong></span><code class="varname">koşul</code><span class="command"><strong> ... end</strong></span> ile çevrilmiş bir kod bloğu koşul doğru olduğu sürece tekrarlanmaktaydı. Ancak <span class="command"><strong>while</strong></span> ve <span class="command"><strong>if</strong></span> ayrı ifadeler olarak da kullanılabilir:
+     </p>
+              <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">i = 0</em>
+   <em class="emphasis evaloutput">0</em>
+ruby&gt; <em class="emphasis evalinput">print "Sıfır.\n" if i==0</em>
+Sıfır.
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">print "Negatif.\n" if i&lt;0</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">print "#{i+=1}\n" while i&lt;3</em>
+1
+2
+3
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+              <p>
+      Bazen bir sınama koşulunu olumsuzlamak istersiniz. <span class="command"><strong>unless</strong></span> bir olumsuzlandırılmış <span class="command"><strong>if</strong></span>, <span class="command"><strong>until</strong></span> ise olumsuzlandırılmış bir <span class="command"><strong>while</strong></span>'dır. Bunları deneyip tecrübe etmeyi size bırakıyoruz.
+     </p>
+              <p>
+      Bir döngüyü içerden kesmek için dört yol vardır. İlki C'deki gibi, döngüden tamamen çıkmamızı sağlayan <span class="command"><strong>break</strong></span>'tir. İkincisi (C'deki <span class="command"><strong>continue</strong></span>'ya benzeyen) döngünün başına atlayan <span class="command"><strong>next</strong></span>'tir. Üçüncüsü o anki yinelemeyi tekrar çalıştıran <span class="command"><strong>redo</strong></span>'dur. Aşağıda <span class="command"><strong>break</strong></span>, <span class="command"><strong>next</strong></span> ve  <span class="command"><strong>redo</strong></span> arasındaki farkı açıklayan bir C kodu bulunuyor:
+     </p>
+              <pre class="screen">
+while (koşul) {
+ label_redo:
+   goto label_next;        /* ruby'nin "next"'i */
+   goto label_break;       /* ruby'nin "break"'i */
+   goto label_redo;        /* ruby'nin "redo"'su */
+   ...
+   ...
+ label_next:
+}
+label_break:
+...
+</pre>
+              <p>
+      Bir döngünün içinden çıkmak için dördüncü yol, <span class="command"><strong>return</strong></span>'dür. <span class="command"><strong>return</strong></span> sadece döngüden değil, döngüyü içeren yöntemden de çıkmamızı sağlar. Eğer bir bağımsız değişken verildiyse, yöntem çağrısına dönecektir; aksi halde <span class="command"><strong>nil</strong></span> döndürecektir.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <span class="command">
+                  <strong>for</strong>
+                </span>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      C yazılımcıları <span class="command"><strong>for</strong></span> döngüsünün nasıl yapıldığını merak edeceklerdir. Ruby'nin <span class="command"><strong>for</strong></span>'u tahmin ettiğinizden biraz daha ilginçtir. Aşağıdaki döngü, her eleman için bir kere döner:
+     </p>
+              <pre class="screen">
+for eleman in dizi
+  ...
+end
+</pre>
+              <p>
+      Elemanlar bir değer aralığı olabilir (bu, döngü denildiğinde çoğu insanın anladığı şeydir):
+     </p>
+              <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">for num in (4..6)</em>
+    | <em class="emphasis evalinput">   print num,"\n"</em>
+    | <em class="emphasis evalinput">end</em>
+4
+5
+6
+   <em class="emphasis evaloutput">4..6</em>
+</pre>
+              <p>
+      Elemanlar dizi gibi başka bir türden değerler olabilir:
+     </p>
+              <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">for elt in [100,-9.6,"pickle"]</em>
+    |    <em class="emphasis evalinput">print "#{elt}\t(#{elt.type})\n"</em>
+    | <em class="emphasis evalinput">end</em>
+100    (Fixnum)
+-9.6   (Float)
+pickle (String)
+   <em class="emphasis evaloutput">[100, -9.6, "pickle"]</em>
+</pre>
+              <p>
+      Ancak ilerleme kaydediyoruz. <span class="command"><strong>for</strong></span> aslında <span class="command"><strong>each</strong></span>'i kullanmanın başka bir yoludur. Aşağıdaki iki biçim de aynı görevi görür:
+     </p>
+              <pre class="screen">
+# Eğer daha önce C ya da Java kullandıysanız aşağıdaki gibi
+# birşey tercih edersiniz:
+for i in collection
+  ...
+end
+
+#  Smalltalk yazılımcısıysanız aşağıdaki gibi birşeyi tercih edersiniz:
+collection.each {|i|
+  ...
+}
+</pre>
+              <p>
+      Yineleyiciler sık sık geleneksel döngülere tercih edilir; bir kere onları kullanmaya alıştığınızda ne kadar kolay olduklarını göreceksiniz.
+     </p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

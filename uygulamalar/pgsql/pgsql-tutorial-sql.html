@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3. SQL Dili</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-accessdb.html" title="2.3. Bir Veritabanına Erişim"/>
+    <link rel="next" href="pgsql-tutorial-concepts.html" title="3.1. Kavramlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-accessdb.html')">Önceki</button>
+          <div class="dropdown-content">2.3. Bir Veritabanına Erişim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-concepts.html')">Sonraki</button>
+          <div class="dropdown-content">3.1. Kavramlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="pgsql-tutorial-sql">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">3. <abbr class="acronym">SQL</abbr> Dili</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>3.1. <a href="pgsql-tutorial-concepts.html">Kavramlar</a></dt>
+            <dt>3.2. <a href="pgsql-tutorial-table.html">Yeni bir Tablonun Oluşturulması</a></dt>
+            <dt>3.3. <a href="pgsql-tutorial-populate.html">Tablolara Satırların Girilmesi</a></dt>
+            <dt>3.4. <a href="pgsql-tutorial-select.html">Bir Tablonun Sorgulanması</a></dt>
+            <dt>3.5. <a href="pgsql-tutorial-join.html">Tablolar Arası Katılım</a></dt>
+            <dt>3.6. <a href="pgsql-tutorial-agg.html">Ortak Değer İşlevleri</a></dt>
+            <dt>3.7. <a href="pgsql-tutorial-update.html">Verilerin Güncellenmesi</a></dt>
+            <dt>3.8. <a href="pgsql-tutorial-delete.html">Veri Silme</a></dt>
+          </dl>
+        </div>
+        <p>
+   Bu kısımda basit işlemleri uygulamak için <abbr class="acronym">SQL</abbr> kullanımına kısaca değineceğiz. Verilecek <abbr class="acronym">SQL</abbr> bilgisi bir başlangıç niteliği taşımaktadır, kesinlikle tam bir <abbr class="acronym">SQL</abbr> eğitmeni değildir. <abbr class="acronym">SQL</abbr> dili üzerine sayısız kitap yazılmıştır, bunlar arasından <a class="link" href="http://www.postgresql.org/docs/current/biblio.html#MELT93" target="_top">Understanding the New SQL</a> ve <a class="link" href="http://www.postgresql.org/docs/current/biblio.html#DATE97" target="_top">A Guide to the SQL Standard</a> örnek gösterilebilir. Bazı PostgreSQL dil özelliklerinin <abbr class="acronym">SQL</abbr> belirtiminden fazlasını içerdiğini bilmenizde yarar var.
+  </p>
+        <p>
+   Bu kısımdaki örneklerde, önceki bölümde <strong class="userinput"><code>psql</code></strong>'i başlatırken kullandığınız, <code class="literal">mydb</code> isimli veritabanını oluşturmuş olduğunuz varsayılmıştır.
+  </p>
+        <p>
+   Bu belgedeki örnekleri ayrıca PostgreSQL kaynak paketinde yer alan <code class="filename">src/tutorial/</code> dizininde de bulabilirsiniz. Bu dosyaları kullanmaya başlamadan önce dizine girip <strong class="userinput"><code>make</code></strong> komutunu vermelisiniz:
+  </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>cd <em class="replaceable"><code>...</code></em>/src/tutorial</code></strong>
+<code class="prompt">$</code> <strong class="userinput"><code>make</code></strong>
+</pre>
+        <p>
+   Böylece, kullanıcı tanımlı işlevlerle türleri içeren C dosyaları derlenmiş ve betikler oluşturulmuş olur. (Bu işlem için GNU <strong class="userinput"><code>make</code></strong> kullanılmalıdır. Eğitmeni şöyle başlatabilirsiniz:
+  </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>psql -s mydb</code></strong>
+<code class="computeroutput">
+...
+</code>
+<code class="prompt">mydb=&gt;</code> <strong class="userinput"><code>\i basics.sql</code></strong>
+</pre>
+        <p>
+   Buradaki <strong class="userinput"><code>\i</code></strong> komutu, komutları belirtilen dosyadan okur. <span class="command"><strong>psql</strong></span>'in <code class="literal">-s</code> seçeneği sizi, her komutu sunucuya göndermeden önce bekleyen tek adımlık kipe sokar. Bu bölümde kullanılmış olan komutları <code class="filename">basics.sql</code> dosyasında bulabilirsiniz. (Komutları kolayca ayrımsamak için aşağıdaki örnekler kısmen türkçeye çevrilerek alıntılanmıştır.)
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

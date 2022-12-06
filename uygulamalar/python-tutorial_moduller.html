@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6. Modüller</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="python-tutorial_veri-yapilari.html" title="5. Veri Yapıları"/>
+    <link rel="next" href="python-tutorial_io.html" title="7. Giriş ve Çıkış"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_veri-yapilari.html')">Önceki</button>
+          <div class="dropdown-content">5. Veri Yapıları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_io.html')">Sonraki</button>
+          <div class="dropdown-content">7. Giriş ve Çıkış</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="python-tutorial_moduller">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">6. Modüller</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>6.1. <a href="python-tutorial_moduller.html#python-tutorial_moduller-daha">Modüller Üzerine Daha Fazla Bilgi</a></dt>
+            <dd>
+              <dl>
+                <dt>6.1.1. <a href="python-tutorial_moduller.html">Modül Arama Yolu</a></dt>
+                <dt>6.1.2. <a href="python-tutorial_moduller.html">"Derlenmiş" Python Dosyaları</a></dt>
+              </dl>
+            </dd>
+            <dt>6.2. <a href="python-tutorial_moduller.html#python-tutorial_moduller-std">Standart Modüller</a></dt>
+            <dt>6.3. <a href="python-tutorial_moduller.html#python-tutorial_dir"><code class="literal">dir()</code> İşlevi</a></dt>
+            <dt>6.4. <a href="python-tutorial_moduller.html#python-tutorial_paketler">Paketler</a></dt>
+            <dd>
+              <dl>
+                <dt>6.4.1. <a href="python-tutorial_moduller.html">Bir paketten * yüklemek</a></dt>
+                <dt>6.4.2. <a href="python-tutorial_moduller.html">Birbirlerini Yükleyen Modüller</a></dt>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   Python yorumlayıcısını kapatıp tekrar açarsanız yaptığınız tanımlar
+   (işlevler ve değişkenler) kaybolur. Uzunca bir yazılım yazmak isterseniz
+   bunun için yazılımınızı bir metin düzenleyici ile hazırlayıp yazdığınız
+   dosyayı yorumlayıcı girişi olarak kullanırsanız daha iyi olur. Bu işleme
+   betik yazmak denir. Programınız uzadıkça bunu daha kolay idare etmek için
+   birkaç dosyaya bölmek isteyebilirsiniz. Yazdığınız bir işlev tanımını
+   kopyalamaya ihtiyaç duymaksızın birkaç yazılımda kullanmayı da
+   isteyebilirsiniz.
+  </p>
+        <p>
+   Bu iş için Python'da modül denen dosyalar var. Bunlara yazılan tanımlar
+   diğer modüllere ya da etkileşimli kipteki yorumlayıcıya <code class="literal">import</code>
+   deyimi ile yüklenebilir.
+  </p>
+        <p>
+   Modüller <code class="literal">.py</code> uzantılı metin dosyalarıdır ve içlerinde
+   Python deyimleri ve tanımları bulur. Bir modül içerisinde
+   <code class="literal">__name__ </code> global değişkeninin değeri (bir dizge) o
+   modülün adını verir. Örneğin, favori metin düzenleyiciniz ile
+   <code class="literal">fibo.py</code> adlı bir dosya yaratıp Python yorumlayıcısının
+   bulabileceği bir dizine kaydedin. Dosyanın içeriği de şu olsun:
+  </p>
+        <pre class="screen">
+# Fibonacci sayıları modülü
+
+def fib(n):    # n e kadar Fibonacci serisini yazdır
+    a, b = 0, 1
+    while b &lt; n:
+        print b,
+        a, b = b, a+b
+
+def fib2(n): # n e kadar Fibonacci serisi geri döndürür
+    sonuc = []
+    a, b = 0, 1
+    while b &lt; n:
+        sonuc.append(b)
+        a, b = b, a+b
+    return sonuc
+</pre>
+        <p>
+   Yorumlayıcıyı açıp bu modülü şu komut ile yükleyin:
+  </p>
+        <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import fibo
+</pre>
+        <p>
+   Bu fibo içindeki işlev tanımlarını yürürlükte olan simge tablosuna
+   eklemez; sadece modül adı fibo tabloya eklenir. İşlevlere modül adı
+   kullanarak erişilebilir:
+  </p>
+        <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> fibo.fib(1000)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+<code class="prompt">&gt;&gt;&gt;</code> fibo.fib2(100)
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+<code class="prompt">&gt;&gt;&gt;</code> fibo.__name__
+'fibo'
+</pre>
+        <p>
+   Bir işlevi sık sık kullanmak isterseniz bunu yerel bir isme
+   atayabilirsiniz:
+  </p>
+        <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> fib = fibo.fib
+<code class="prompt">&gt;&gt;&gt;</code> fib(500)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</pre>
+        <section class="sect1" id="python-tutorial_moduller-daha">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">6.1. Modüller Üzerine Daha Fazla Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <p><span class="notfoot"/>
+    İşlev tanımlarının yanısıra modül içinde çalıştırılabilir ifadeler de
+    olabilir. Bu ifadeler modülün ilk kullanıma hazırlanması için
+    kullanılabilirler ve sadece modülün ilk yüklenişinde çalışır.<a href="#ftn.idm66433" class="footnote"><sup class="footnote">[30]</sup></a>
+   </p>
+          <p>
+    Her modülün o modül içindeki bütün işlevler tarafından global simge
+    tablosu olarak kullanılan kendi simge tablosu vardır. Bu özellik
+    sayesinde modülü yazan kişi rahatlıkla modül içnde global değişkenler
+    kullanabilir. Modülü kullanan diğer kişilerin global değişkenleri ile
+    isim çakışması olmaz. Modül içindeki global değişkenlere de
+    <code class="literal">modulAdi.degiskenAdi</code> şeklinde ulaşmak ve istenirse
+    bunları değiştirmek mümkündür.
+   </p>
+          <p>
+    Modüller diğer modülleri yükleyebilir. Bütün <code class="literal">import</code>
+    ifadelerinin modülün (ya da betiğin) başına konması gelenektendir; ancak
+    şart değildir. Yüklenen modüller kendilerini yükleyen modülün global simge
+    tablosuna eklenir.
+   </p>
+          <p>
+    <code class="literal">import</code> deyiminin bir modüldeki isimleri doğrudan
+    yükleyen modülün simge tablosuna ekleyen kullanım şekli var. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> from fibo import fib, fib2
+<code class="prompt">&gt;&gt;&gt;</code> fib(500)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</pre>
+          <p>
+    Bu kullanım şeklinde yüklemenin yapıldığı modül adı yerel simge tablosuna
+    eklenmez (yani örnekteki fibo tanımlı değildir).
+   </p>
+          <p>
+    Bir modülde tanımlanmış bütün isimleri de yüklemek şu şekilde mümkündür:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> from fibo import *
+<code class="prompt">&gt;&gt;&gt;</code> fib(500)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</pre>
+          <p>
+    Bu altçizgi ( <code class="literal">_</code> ) ile başlayanlar dışındaki bütün
+    isimleri yükler.
+   </p>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">6.1.1. Modül Arama Yolu</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     <code class="literal">spam</code> isimli bir modül yüklenmek istendiğinde
+     yorumlayıcı önce çalıştırıldığı dizinde ve sonra
+     <code class="literal">PYTHONPATH</code> ortam değişkenince tanımlanan dizinler
+     içinde <code class="literal">spam.py</code> isimli bir dosya arar.
+     <code class="literal">PYTHONPATH</code> dizin isimlerinden oluşan bir listedir
+     (PATH gibi). Aranan dosya bulunmazsa arama, kuruluma bağlı başka bir
+     yolda da aranabilir. Genelde bu <code class="literal">/usr/local/lib/python</code>
+     dizinidir.
+    </p>
+            <p>
+     Aslında modüller <code class="literal">sys.path</code> değişkeninde bulunan dizin
+     listesinde aranır. Bu değişken değerini betiğin alıştırıldığı dizin,
+     <code class="literal">PYTHONPATH</code> ve kuruluma bağlı diğer dizinlerden alır.
+     <code class="literal">sys.path</code> değişkeni sayesinde Python yazılımları modül
+     arama yolunu değiştirebilir.
+    </p>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">6.1.2. "Derlenmiş" Python Dosyaları</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Derlenmiş Python dosyaları yazılımların çalışmaya başlaması için
+     gereken süreyi kısaltır. Örneğin <code class="literal">spam.py</code> adlı
+     dosyanın bulunduğu dizinde <code class="literal">spam.pyc</code> adlı bir dosya
+     varsa bu modul, <code class="literal">spam</code> modülünün ikilik derlenmiş
+     halidir. <code class="literal">spam.py</code> dosyasının son değiştirilme
+     tarihi <code class="literal">spam.pyc</code> dosyasının içinde de kayıtlıdır ve
+     bu tarihler aynı değil ise <code class="literal">.pyc</code> dosyası dikkate
+     alınmaz.
+    </p>
+            <p>
+     <code class="literal">spam.pyc</code> dosyasının oluşması için bir şey yapmanız
+     gerekmez. <code class="literal">spam.py</code> her ne zaman başarılı olarak
+     derlenirse yazılımın derlenmiş hali <code class="literal">spam.pyc</code>
+     dosyasına kaydedilir. Bunun yapılamaması bir hata değildir; herhangi
+     bir nedenle <code class="literal">.pyc</code> dosyası tam olarak yazılamazsa
+     geçersiz sayılır ve dikkate alınmaz. <code class="literal">.pyc</code>
+     dosyalarının içeriği platformdan bağımsızdır. Bu sayede bir Python
+     modülü dizini farklı mimarideki makineler tarafından paylaşılabilir.
+    </p>
+            <p>
+     Uzmanlar için birkaç ip ucu:
+    </p>
+            <div class="itemizedlist">
+              <ul class="itemizedlist" style="list-style-type: disc; ">
+                <li class="listitem">
+                  <p>
+       Python yorumlayıcısı <code class="literal">-O</code> bağımsız değişkeni ile
+       çalıştırıldığında eniyileştirilmiş (optimized) kod üretilir
+       ve <code class="literal">.pyo</code> uzantılı dosyalarda saklanır.
+       Eniyileştircinin (optimizer) şu anda pek bir yararı olmuyor;
+       sadece <code class="literal">assert</code> deyimlerini siliyor.
+       <code class="literal">-O</code> bağımsız değişkeni kullanıldığında tüm ikilik
+       kod eniyileştirilir, <code class="literal">.pyc</code> dosyaları göz ardı
+       edilir ve <code class="literal">.py</code> dosyaları eniyileştirilmiş
+       ikilik kod olarak derlenir.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       Yorumlayıcıya iki tane <code class="literal">-O</code> bağımsız değişkeni
+       (<code class="literal">-OO</code>) vermek derleyicinin bazı ender durumlarda
+       doğru çalışmayan yazılımlara neden olan eniyileştirmeler yapmasına
+       neden olur. Şu anda sadece <code class="literal">__doc__</code> dizgeleri
+       silinerek daha küçük <code class="literal">.pyo</code> dosyaları üretilmektedir.
+       Bazı yazılımların çalışması bunların varlığına bağımlı olabileceğinden
+       bu bağımsız değişkeni kullanırken dikkatli olun.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       Bir yazılım <code class="literal">.pyc</code> ya da <code class="literal">.pyo</code>
+       dosyasından okunduğunda <code class="literal">.py</code> dosyasından okunan
+       halinden daha hızlı çalışmaz; sadece yüklenme süresi kısalır.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       Bir betik komut satırından ismi verilerek çalıştırıldığında bunun
+       ikilik kodu asla bir <code class="literal">.pyc</code> ya da
+       <code class="literal">.pyo</code> dosyasına yazılmaz. Bu yüzden betiğin başlama
+       süresini kısaltmak için bunun bir kısmı bir modüle aktarılarak ve bu
+       modülü yükleyen küçük bir başlatıcı betik kullanılarak kısaltılabilir.
+       Komut satırından bir <code class="literal">.pyc</code> ya da <code class="literal">.pyo</code>
+       dosyası da ismi verilerek doğrudan çalıştırılabilir.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       <code class="literal">spam.py</code> dosyası olmadan da <code class="literal">spam.pyc</code>
+       (ya da <code class="literal">-O</code> kullanıldığında <code class="literal">spam.pyo</code>)
+       dosyası kullanılabilir. Bunlar bir Python kodu kütüphanesinin
+       tersine mühendisliği zorlaştıran şekilde dağıtılmasında
+       kullanılabilir.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       <code class="literal">compileall</code> modülü bir dizindeki bütün dosyalar
+       için <code class="literal">spam.pyc</code> (ya da <code class="literal">-O</code>
+       kullanıldığında <code class="literal">spam.pyo</code>) dosyaları yaratabilir.
+      </p>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section class="sect1" id="python-tutorial_moduller-std">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">6.2. Standart Modüller</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Python zengin bir standart modül kütüphanesine sahiptir. Bazı modüller
+    yorumlayıcı ile bütünleşiktir. Bu modüller dilin parçası olmadıkları
+    halde verimlerini artırmak ya da sistem çağrıları gibi işletim sistemine
+    ait özelliklere erişim için yorumlayıcı içine dahil edilmişlerdir.
+    Bunlara iyi bir örnek her Python yorumlayıcısına dahil edilen
+    <code class="literal">sys</code> modülüdür. <code class="literal">sys.ps1</code> ve
+    <code class="literal">sys.ps2</code> değişkenleri de birincil ve ikincil komut
+    satırı olarak kullanılan dizgeleri belirlerler:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import sys
+<code class="prompt">&gt;&gt;&gt;</code> sys.ps1
+'<code class="prompt">&gt;&gt;&gt;</code> '
+<code class="prompt">&gt;&gt;&gt;</code> sys.ps2
+'<code class="prompt">...</code> '
+<code class="prompt">&gt;&gt;&gt;</code> sys.ps1 = 'C&gt; '
+C&gt; print 'Böö !'
+Böö !
+C&gt;
+</pre>
+          <p>
+    Bu iki değişken yorumlayıcı sadece etkileşimli kipte iken tanımlıdır.
+   </p>
+          <p>
+    <code class="literal">sys.path</code> değişkeni de yorumlayıcının modül arama yolunu
+    belirler. Bu değerini ortam değişkeni <code class="literal">PYTHONPATH</code>
+    belirler. <code class="literal">PYTHONPATH</code> değişkenine değer atanmadıysa
+    <code class="literal">sys.path</code> öntanımlı değerini alır. Bunun değeri
+    listelere uygulana işlemler ile değiştirilebilir:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import sys
+<code class="prompt">&gt;&gt;&gt;</code> sys.path.append('/ufs/guido/lib/python')
+</pre>
+        </section>
+        <section class="sect1" id="python-tutorial_dir">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">6.3. <code class="literal">dir()</code> İşlevi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Yerleşik işlev <code class="literal">dir()</code> bir modülün hangi isimleri
+    tanımladığını bulmak içik kullanılır. Bu işlev dizgelerden oluşan bir
+    liste geri döndürür:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import fibo, sys
+<code class="prompt">&gt;&gt;&gt;</code> dir(fibo)
+['__name__', 'fib', 'fib2']
+<code class="prompt">&gt;&gt;&gt;</code> dir(sys)
+['__displayhook__', '__doc__', '__excepthook__', '__name__', '__stderr__',
+ '__stdin__', '__stdout__', '_getframe', 'argv', 'builtin_module_names',
+ 'byteorder', 'copyright', 'displayhook', 'exc_info', 'exc_type',
+ 'excepthook', 'exec_prefix', 'executable', 'exit', 'getdefaultencoding',
+ 'getdlopenflags', 'getrecursionlimit', 'getrefcount', 'hexversion',
+ 'maxint', 'maxunicode', 'modules', 'path', 'platform', 'prefix', 'ps1',
+ 'ps2', 'setcheckinterval', 'setdlopenflags', 'setprofile',
+ 'setrecursionlimit', 'settrace', 'stderr', 'stdin', 'stdout', 'version',
+ 'version_info', 'warnoptions']
+</pre>
+          <p>
+    Bağımsız değişken kullanmadan çağırılan <code class="literal">dir()</code>
+    işlevi o anda tanımlamış olduğunuz isimleri geri döndürür:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> a = [1, 2, 3, 4, 5]
+<code class="prompt">&gt;&gt;&gt;</code> import fibo, sys
+<code class="prompt">&gt;&gt;&gt;</code> fib = fibo.fib
+<code class="prompt">&gt;&gt;&gt;</code> dir()
+['__name__', 'a', 'fib', 'fibo', 'sys']
+</pre>
+          <p>
+    Bunun değişken, modül, işlev vs. gibi her tür ismini listelediğine
+    dikkat ediniz.
+   </p>
+          <p>
+    <code class="literal">dir()</code> yerleşik işlev ve değişkenlerin isimlerini
+    listelemez. Bunların bir listesini isterseniz, standart modül
+    <code class="literal">__builtin__</code> içinde bulabilirsiniz:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import __builtin__
+<code class="prompt">&gt;&gt;&gt;</code> dir(__builtin__)
+['ArithmeticError', 'AssertionError', 'AttributeError',
+ 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError',
+ 'Exception', 'False', 'FloatingPointError', 'IOError', 'ImportError',
+ 'IndentationError', 'IndexError', 'KeyError', 'KeyboardInterrupt',
+ 'LookupError', 'MemoryError', 'NameError', 'None', 'NotImplemented',
+ 'NotImplementedError', 'OSError', 'OverflowError', 'OverflowWarning',
+ 'PendingDeprecationWarning', 'ReferenceError',
+ 'RuntimeError', 'RuntimeWarning', 'StandardError', 'StopIteration',
+ 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError',
+ 'True', 'TypeError', 'UnboundLocalError', 'UnicodeError', 'UserWarning',
+ 'ValueError', 'Warning', 'ZeroDivisionError', '__debug__', '__doc__',
+ '__import__', '__name__', 'abs', 'apply', 'bool', 'buffer',
+ 'callable', 'chr', 'classmethod', 'cmp', 'coerce', 'compile', 'complex',
+ 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod',
+ 'enumerate', 'eval', 'execfile', 'exit', 'file', 'filter', 'float',
+ 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id',
+ 'input', 'int', 'intern', 'isinstance', 'issubclass', 'iter',
+ 'len', 'license', 'list', 'locals', 'long', 'map', 'max', 'min',
+ 'object', 'oct', 'open', 'ord', 'pow', 'property', 'quit',
+ 'range', 'raw_input', 'reduce', 'reload', 'repr', 'round',
+ 'setattr', 'slice', 'staticmethod', 'str', 'string', 'super',
+ 'tuple', 'type', 'unichr', 'unicode', 'vars', 'xrange', 'zip']
+</pre>
+        </section>
+        <section class="sect1" id="python-tutorial_paketler">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">6.4. Paketler</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Paketler "noktalı modül isimleri" kullanarak Python'un modül isim
+    alanının düzenlenmesinde kullanılır. Örneğin modül adı
+    <code class="literal">A.B</code> adı <code class="literal">A</code> olan bir paket
+    içindeki <code class="literal">B</code> adlı alt modülü gösterir. Nasıl modüller
+    farklı modül yazarlarını birbirlerinin kullandığı global değişkenleri
+    dert etmekten kurtarıyorsa, paketler de <code class="literal">NumPy</code> ya da
+    <code class="literal">PyOpenGL</code> gibi çok sayıda modül içeren paketlerin
+    birbirlerinin modül isimlerinin çakışması tehlikesinden kurtarır.
+   </p>
+          <p>
+    Ses dosyaları ve ses verisi üzerinde işlem yapacak bir modül kolleksiyonu
+    (bir "paket") geliştirmek istediğinizi düşünelim. Farklı biçemlerdeki ses
+    dosyalarını (<code class="literal">.wav</code>, <code class="literal">.aiff</code>,
+    <code class="literal">.au</code> gibi dosya uzantıları olan) birbirine dönüştürmek,
+    seslere efektler uygulamak veya sesleri filtrelemek için pek çok modüle
+    ihtiyacınız olacak. Paketinizin muhtemel dizin yapısı şöyle olabilir:
+   </p>
+          <pre class="screen">
+Sound/                          Paketin en üst seviyesi
+      __init__.py               paketi ilk kullanıma hazırlama
+      Formats/                  Farklı dosya biçemleri için alt paket
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      Effects/                  ses efektleri alt paketi
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      Filters/                  filtre alt paketi
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+              ...
+</pre>
+          <p>
+    <code class="literal">__init__.py</code> dosyaları Python'un bu dizinleri paket
+    içeren dizinler olarak algılaması için gereklidir. Bunlar aynı isimli
+    dizinlerin modül arama yolunda bulunacak diğer geçerli modülleri istemdışı
+    saklamasını engeller. <code class="literal">__init__.py</code> boş bir dosya
+    olabileceği gibi paketi ilk çalışmaya hazırlayabilir ya da daha sonra
+    açıklanacak olan <code class="literal">__all__</code> değişkenine değer atıyor olabilir.
+   </p>
+          <p>
+    Paketin kullanıcısı paketten dilediği bir modülü yükleyebilir.
+   </p>
+          <pre class="screen">
+import Sound.Effects.echo
+</pre>
+          <p>
+    Bu <code class="literal">Sound.Effects.echo</code> modülünü yükler. Modüle tüm
+    ismi ile atıfta bulunulmalı:
+   </p>
+          <pre class="screen">
+Sound.Effects.echo.echofilter(input, output, delay=0.7, atten=4)
+</pre>
+          <p>
+    Aynı modülü yüklemenin bir diğer yolu:
+   </p>
+          <pre class="screen">
+from Sound.Effects import echo
+</pre>
+          <p>
+    Bu da <code class="literal">echo</code> alt modülünü yükler; ancak bunu paket adı
+    verilmeden erişilebilir kılar ve modül şu şekilde kullanılabilir:
+   </p>
+          <pre class="screen">
+echo.echofilter(input, output, delay=0.7, atten=4)
+</pre>
+          <p>
+    Bir diğer yol da istenen işlev ya da değişkeni doğrudan yüklemektir:
+   </p>
+          <pre class="screen">
+from Sound.Effects.echo import echofilter
+</pre>
+          <p>
+    Bu da <code class="literal">echo</code> modülünü yükler; ancak
+    <code class="literal">echofilter()</code> işlevini doğrudan erişilebilir kılar:
+   </p>
+          <pre class="screen">
+echofilter(input, output, delay=0.7, atten=4)
+</pre>
+          <p>
+    <code class="literal">from PAKET import İSİM</code> kullanılırken İSİM bir alt
+    modül, alt paket ya da paket içinde tanımlı bir işlev, sınıf veya
+    değişken ifade eden herhangi bir isim olabilir. <code class="literal">import</code>
+    deyimi önce ismin pakette tanımlı olup olmadığına bakar; tanımlı değil
+    ise bunun bir modül olduğunu varsayar ve bunu yüklemeye teşebbüs eder.
+    Modülü bulamaz ise <code class="literal">ImportError</code> istisnası oluşur.
+   </p>
+          <p>
+    <code class="literal">import ÖĞE.ALTÖĞE.ALTALTÖĞE</code> ifadesinde ise son
+    ismin dışındaki isimler paket olmalıdır. Son isim bir modül veya paket
+    olabilir; ancak bir önceki ismin içinde tanımlanan bir işlev ya da
+    değişken olamaz.
+   </p>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">6.4.1. Bir paketten * yüklemek</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Kullanıcı <code class="literal">from Sound.Effects import *</code> yazdığında ne
+     olur? Dosya sistemine ulaşılıp paketin içinde hangi alt paketlerin
+     olduğunun bulunması ve hepsinin yüklenmesi beklenir. Bu uzun zaman alabilir ve alt modüllerin içe aktarılmasının, yalnızca alt modül açıkça içe aktarıldığında ortaya çıkan istenmeyen yan etkileri olabilir.
+    </p>
+            <p>
+     Tek çözüm paket yazarının açık bir paket indeksi hazırlamasıdır. Bir
+     paketin <code class="literal">__init__.py</code> dosyası <code class="literal">__all__</code>
+     adlı bir liste tanımlıyorsa bu liste
+     <code class="literal">from PAKET import *</code> ifadesi kullanıldığında
+     yüklenecek modül isimlerinin listesi olarak kullanılır. Paketin yeni
+     bir sürümü hazırlandığında bu listenin uygun şekilde güncellenmesi
+     paket yazarının sorumluğundadır. Eğer paketten <code class="literal">*</code>
+     yüklemeye ihtiyaç duyulmayacağına karar verilirse bu özellik
+     kullanılmayabilir. Örneğin <code class="literal">Sounds/Effects/__init__.py</code>
+     dosyasının içeriği şöyle olabilir:
+    </p>
+            <pre class="screen">
+__all__ = ["echo", "surround", "reverse"]
+</pre>
+            <p>
+     Bu <code class="literal">from Sound.Effects import *</code> ifadesinin <code class="literal">Sound</code>
+     paketinden isimleri <code class="literal">__all__</code> içinde geçen üç modülün
+     yüklemesini sağlar.
+    </p>
+            <p>
+     <code class="literal">__all__</code> tanımlanmamış ise
+     <code class="literal">from Sound.Effects import *</code> ifadesi <code class="literal">Sound.Effects</code>
+     paketindeki bütün alt modülleri yürürlükte olan isim alanına yüklemez;
+     sadece <code class="literal">Sound.Effects</code> paketinin ve içindeki isimlerin
+     yüklenmesini sağlar (muhtemelen <code class="literal">__init__.py</code>) dosyasını
+     çalıştırdıktan sonra). Bundan önceki <code class="literal">import</code> deyimlerince
+     yüklenen alt paketler de yüklenir. Şu koda bir bakalım:
+    </p>
+            <pre class="screen">
+import Sound.Effects.echo
+import Sound.Effects.surround
+from Sound.Effects import *
+</pre>
+            <p>
+     Bu örnekte <code class="literal">echo</code> ve <code class="literal">surround</code>
+     modülleri <code class="literal">from...import...</code> ifadesi çalıştırıldığında
+     <code class="literal">Sound.Effects</code> paketinde tanımlı oldukları için
+     yürürlükte olan isim alanına yüklenir. Bu <code class="literal">__all__</code>
+     tanımlı olduğunda da bu çalışır.
+    </p>
+            <p>
+     Genel olarak bir modül ya da paketten <code class="literal">*</code> yüklemek
+     hoş karşılanmaz; çünkü çoğunlukla zor okunan koda neden olur. Bunun
+     etkileşimli kipte kullanılmasının bir sakıncası yoktur. Ayrıca bazı
+     modüller sadece belirli bir kalıba uyan isimleri verecek şekilde
+     tasarlanmışlardır.
+    </p>
+            <p>
+     <code class="literal">from PAKET import GEREKLİ_ALTMODÜL</code> ifadesini
+     kullanmanın hiç bir kötü tarafı yoktur. Yükleyen modül farklı
+     paketlerden aynı isimli modüller yüklemeye gereksinim duymadığı
+     sürece tavsiye edilen kullanım şekli de budur.
+    </p>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">6.4.2. Birbirlerini Yükleyen Modüller</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Alt modüller çoğu kez birbirlerine atıfta bulunur. Örneğin
+     surround modülü echo modülüne ihtiyaç duyabilir. Aslında bu
+     türden atıflar öyle yaygındır ki <code class="literal">import</code>
+     deyimi standart modül arama yoluna bakmadan önce çağrıldığı
+     paketin içinde arama yapar. Bu şekilde surround modülü
+     <code class="literal">import echo</code> veya
+     <code class="literal">from echo import echofilter</code> ifadeleri ile
+     kolayca echo modülüne kavuşabilir. Yüklenmek istenen modül içinde
+     bulunan pakette (yükleme yapmaya çalışan modülün bulunduğu paket)
+     bulunamaz ise <code class="literal">import</code> deyimi aynı isimli üst
+     seviyeli bir modül arar.
+    </p>
+            <p>
+     Paketler Sound paketindeki gibi alt paketler şeklinde düzenlenmişler
+     ise farklı alt paketler içindeki modüllerin birbirilerine atıfta
+     bulunmasının kısa bir yolu yoktur; paketin tam adı kullanılmalıdır.
+     Örneğin, Sound.Filters.vocoder modülünün echo modülünü kullanması
+     gerekiyor ise <code class="literal">from Sound.Effects import echo</code>
+     ifadesi ile buna erişebilir.
+    </p>
+          </section>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm66433" class="footnote">
+            <p><a href="#idm66433" class="para"><sup class="para">[30] </sup></a>
+     Aslında işlev tanımları da `çalıştırılan' ifadelerdir; işlev adını
+     modülün global simge tablosuna ekler.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

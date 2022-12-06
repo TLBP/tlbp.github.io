@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8. Hatalar ve İstisnalar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="python-tutorial_io.html" title="7. Giriş ve Çıkış"/>
+    <link rel="next" href="python-tutorial_siniflar.html" title="9. Sınıflar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_io.html')">Önceki</button>
+          <div class="dropdown-content">7. Giriş ve Çıkış</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_siniflar.html')">Sonraki</button>
+          <div class="dropdown-content">9. Sınıflar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="python-tutorial_hatalar">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">8. Hatalar ve İstisnalar</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>8.1. <a href="python-tutorial_hatalar.html#python-tutorial_sozdizimi">Sözdizim Hataları</a></dt>
+            <dt>8.2. <a href="python-tutorial_hatalar.html#python-tutorial_istisnalar">İstisnalar</a></dt>
+            <dt>8.3. <a href="python-tutorial_hatalar.html#python-tutorial_istisnalar-daha">İstisnaların Ele Alınması</a></dt>
+            <dt>8.4. <a href="python-tutorial_hatalar.html#python-tutorial_istisna-olusturma">İstisna Oluşturma</a></dt>
+            <dt>8.5. <a href="python-tutorial_hatalar.html#python-tutorial_istisna-kull">Kullanıcı Tanımlı İstisnalar</a></dt>
+            <dt>8.6. <a href="python-tutorial_hatalar.html#python-tutorial_try">Son İşlemlerin Belirlenmesi</a></dt>
+          </dl>
+        </div>
+        <p>
+   Şu ana kadar hata mesajlarından pek bahsedilmedi; ancak örnekleri
+   denediyseniz muhtemelen birkaç tane görmüşsünüzdür. Birbirinden ayırt
+   edilebilen en az iki tür hata mevcuttur: sözdizim hataları ve istisnalar.
+  </p>
+        <section class="sect1" id="python-tutorial_sozdizimi">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.1. Sözdizim Hataları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sözdizim hataları ayrıştırma (parsing) hataları olarak da bilinirler
+    ve Python öğrenirken en çok bunlar ile karşılaşırsınız:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> while 1 print 'Merhaba'
+  File "&lt;stdin&gt;", line 1, in ?
+    while 1 print 'Merhaba'
+                ^
+SyntaxError: invalid syntax
+</pre>
+          <p>
+    Ayrıştırıcı sorun olan satırı basar ve satır içinde hatanın algılandığı
+    ilk noktayı küçük bir `ok' ile gösterir. Hata oktan önce gelen kısımdan
+    kaynaklanmaktadır. Örnekte hata <code class="literal">print</code> anahtar
+    kelimesinde fark edilmektedir; çünkü ondan önce bir iki nokta üst üste
+    (":") karakteri eksiktir. Dosya adı ve satır numarası da yazdırılmaktadır
+    ki yorumlayıcı girişinin bir dosyadan gelmesi durumunda hatanın nereden
+    kaynaklandığını bilesiniz.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_istisnalar">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.2. İstisnalar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir deyim ya da ifade sözdizimsel olarak doğru olsa da yürütülmek
+    istendiğinde bir hataya sebep olabilir. İcra sırasında meydana gelen
+    hatalara istisna denir. İstisnaları nasıl ele alabileceğinizi yakında
+    öğreneceksiniz. Çoğu istisnalar yazılımlar tarafından ele alınmaz ve
+    aşağıdakiler gibi hata mesajları ile sonuçlanırlar:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> 10 * (1/0)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+ZeroDivisionError: integer division or modulo
+<code class="prompt">&gt;&gt;&gt;</code> 4 + spam*3
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+NameError: spam
+<code class="prompt">&gt;&gt;&gt;</code> '2' + 2
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+TypeError: illegal argument type for built-in operation
+</pre>
+          <p>
+    Hata mesajının son satırı sorunun ne olduğunu belirtir. İstisnaların
+    farklı türleri vardır ve istisnanın türü hata mesajının bir bölümü olarak
+    yazdırılır. Örneklerdeki istisna türleri: <code class="literal">ZeroDivisionError</code>,
+    <code class="literal">NameError</code> ve <code class="literal">TypeError</code>. İstisna türü
+    olarak yazdırılan dizge meydana gelen istisnanın yerleşik ismidir.
+    Bu bütün yerleşik istisnalar için geçerlidir; ancak kullanıcı tanımlı
+    istisnalar için böyle olmayabilir. Standart istisna isimleri yerleşik
+    belirteçlerdir; ayrılmış anahtar kelimeler değil.
+   </p>
+          <p>
+    Satırın devamı istisna türüne bağlı ayrıntılardan oluşur ve anlamı
+    istisna türüne bağlıdır.
+   </p>
+          <p>
+    Hata mesajının baş kısmında istisnanın meydana geldiği yer yığın dökümü
+    şeklinde görülür. Bu genellikle istisnanın gerçekleştiği noktaya gelene
+    kadar işletilen kaynak kodu şeklinde olur; ancak standart girdiden
+    okunan satırlar gösterilmez.
+   </p>
+          <p>
+    Yerleşik istisnalar ve bunların anlamları için Python ile gelen
+    belgelerden yararlanılabilir.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_istisnalar-daha">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.3. İstisnaların Ele Alınması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Belirli istisnaları ele alan yazılımlar yazmak mümkündür. Aşağıdaki örnek,
+    kullanıcıdan geçerli bir tamsayı girilene kadar kullanıcıdan giriş yapması
+    istenir. Control-C tuş kombinasyonu (ya da işletim sisteminin desteklediği
+    başka bir kombinasyon) ile kullanıcı yazılımdan çıkabilir. Kullanıcın
+    sebep olduğu bu olay ise <code class="literal">KeyboardInterrupt</code> istisnasının
+    oluşmasına neden olur.
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> while True:
+<code class="prompt">...</code>     try:
+<code class="prompt">...</code>         x = int(raw_input("Lütfen bir rakam giriniz: "))
+<code class="prompt">...</code>         break
+<code class="prompt">...</code>     except ValueError:
+<code class="prompt">...</code>         print "Bu geçerli bir giriş değil.  Tekrar deneyin..."
+<code class="prompt">...</code>
+</pre>
+          <p>
+    <code class="literal">try</code> deyimi aşağıdaki gibi çalışır:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+      Önce <code class="literal">try</code> bloğu (<code class="literal">try</code> ve
+      <code class="literal">except</code> arasındaki ifade(ler)) işletilir.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Hiçbir istisna oluşmaz ise <code class="literal">except</code> bloğu atlanır
+      ve <code class="literal">try</code> deyimin icrası son bulur.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Eğer <code class="literal">try</code> bloğu içinde bir istisna oluşur ise
+      bloğun geri kalanı atlanır. İstisnanın türü <code class="literal">except</code>
+      anahtar kelimesinden sonra kullanılan ile aynı ise <code class="literal">try</code>
+      bloğunun kalan kısmı atlanır ve <code class="literal">except</code> bloğu
+      yürütülür. Programın akışı <code class="literal">try ... except</code> kısmından
+      sonra gelen ilk satırdan devam eder.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Adı <code class="literal">except</code> bloğunda geçmeyen bir istisna oluşur
+      ise üst seviyedeki <code class="literal">try</code> ifadelerine geçirilir; ancak
+      bunu ele alan bir şey bulunmaz ise bu bir ele alınmamış istisna olur ve
+      yürütme işlemi yukarıda da görüldüğü gibi bir hata mesajı ile son bulur.
+     </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+    Bir <code class="literal">try</code> deyimi farklı istisnaları yakalayabilmek için
+    birden fazla <code class="literal">except</code> bloğuna sahip olabilir. Bir
+    <code class="literal">except</code> bloğu parantez içine alınmış bir liste ile
+    birden fazla istisna adı belirtebilir. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">...</code> except (RuntimeError, TypeError, NameError):
+<code class="prompt">...</code>     pass
+</pre>
+          <p>
+    Son <code class="literal">except</code> bloğu istisna adı belirtilmeden de
+    kullanılıp herhangi bir istisnayı yakalayabilir. Bunu çok dikkatli
+    kullanın, çünkü çok ciddi bir yazılımlama hatasını bu şekilde gözden
+    kaçırabilirsiniz! Bu özellik bir hata mesajı bastırıp ve tekrar bir
+    istisna oluşturarak çağıranın istisnayı ele almasını da sağlamak için
+    kullanılabilir:
+   </p>
+          <pre class="screen">
+import string, sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(string.strip(s))
+except IOError, (errno, strerror):
+    print "I/O error(%s): %s" % (errno, strerror)
+except ValueError:
+    print "Could not convert data to an integer."
+except:
+    print "Unexpected error:", sys.exc_info()[0]
+    raise
+</pre>
+          <p>
+    <code class="literal">try ... except</code> ifadesinin seçimlik
+    <code class="literal">else</code> bloğu da vardır. Bu her
+    <code class="literal">except</code> bloğunun ardına yazılır ve
+    <code class="literal">try</code> bloğunun istisna oluşturmadığı durumlarda
+    icra edilmesi gereken kod bulunduğu zaman kullanılır. Örnek:
+   </p>
+          <pre class="screen">
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except IOError:
+        print 'cannot open', arg
+    else:
+        print arg, 'has', len(f.readlines()), 'lines'
+        f.close()
+</pre>
+          <p>
+    <code class="literal">else</code> bloğu kullanmak <code class="literal">try</code> bloğuna
+    ek satırlar eklemekten iyidir çünkü bu <code class="literal">try ... except</code>
+    ifadesi tarafından korunan kodun oluşturmadığı bir istisnanın kazara
+    yakalanmasını engeller.
+   </p>
+          <p>
+    Bir istisna meydana geldiğinde istisna bağımsız değişkeni olarak bilinen
+    bir değer de bulunabilir. Bağımsız değişkennin varlığı ve türü istisnanın
+    türüne bağlıdır. Bağımsız değişkeni olan istisna türleri için
+    <code class="literal">except</code> bloğunda istisna adından (ya da listesinden)
+    sonra bağımsız değişken değerini alacak bir değişken belirtilebilir:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> try:
+<code class="prompt">...</code>     spam()
+<code class="prompt">...</code> except NameError, x:
+<code class="prompt">...</code>     print 'name', x, 'undefined'
+<code class="prompt">...</code>
+name spam undefined
+</pre>
+          <p>
+    Bir istisnanın bağımsız değişkeni var ise ele alınmayan istisna mesajının
+    son kısmında (`ayrıntı') basılır.
+   </p>
+          <p>
+    İstisna işleyiciler (exception handlers) sadece <code class="literal">try</code>
+    bloğu içinde meydana gelen istisnaları değil <code class="literal">try</code>
+    bloğundan çağırılan (dolaylı olarak bile olsa) işlevlerdeki istisnaları
+    da ele alır. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> def this_fails():
+<code class="prompt">...</code>     x = 1/0
+<code class="prompt">...</code>
+<code class="prompt">&gt;&gt;&gt;</code> try:
+<code class="prompt">...</code>     this_fails()
+<code class="prompt">...</code> except ZeroDivisionError, detail:
+<code class="prompt">...</code>     print 'Handling run-time error:', detail
+<code class="prompt">...</code>
+Handling run-time error: integer division or modulo
+</pre>
+        </section>
+        <section class="sect1" id="python-tutorial_istisna-olusturma">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.4. İstisna Oluşturma</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <code class="literal">raise</code> deyimi yazılımcının kasıtlı olarak bir istisna
+    oluşturmasını sağlar. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> raise NameError, 'Merhaba'
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+NameError: Merhaba
+</pre>
+          <p>
+    <code class="literal">raise</code> için ilk bağımsız değişken oluşturulacak
+    istisnanın adıdır ve ikinci bağımsız değişken ise istisnanın bağımsız
+    değişkenidir.
+   </p>
+          <p>
+    Eğer bir istisnanın oluşup oluşmadığını öğrenmek istiyor; fakat bunu
+    ele almak istemiyorsanız, <code class="literal">raise</code> ifadesinin istisnayı
+    tekrar oluşturmanıza mkan veren daha basit bir biçimi var:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> try:
+<code class="prompt">...</code>     raise NameError, 'Merhaba'
+<code class="prompt">...</code> except NameError:
+<code class="prompt">...</code>     print 'Bir istisna gelip geçti!'
+<code class="prompt">...</code>     raise
+<code class="prompt">...</code>
+Bir istisna gelip geçti!
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 2, in ?
+NameError: Merhaba
+</pre>
+        </section>
+        <section class="sect1" id="python-tutorial_istisna-kull">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.5. Kullanıcı Tanımlı İstisnalar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Programlar yeni bir istisna sınıfı yaratarak kendi istisnalarını
+    isimlendirebilir. İstisnalar genellikle, doğrudan veya dolaylı olarak,
+    <code class="literal">Exception</code> sınıfından türetilir. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> class bizimHata(Exception):
+<code class="prompt">...</code>     def __init__(self, deger):
+<code class="prompt">...</code>         self.deger = deger
+<code class="prompt">...</code>     def __str__(self):
+<code class="prompt">...</code>         return `self.deger`
+<code class="prompt">...</code>
+<code class="prompt">&gt;&gt;&gt;</code> try:
+<code class="prompt">...</code>     raise bizimHata(2*2)
+<code class="prompt">...</code> except bizimHata, e:
+<code class="prompt">...</code>     print 'İstisnamız oluştu, deger:', e.deger
+<code class="prompt">...</code>
+İstisnamız oluştu, deger: 4
+<code class="prompt">&gt;&gt;&gt;</code> raise bizimHata, 'aaah!'
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+__main__.bizimHata: 'aaah!'
+</pre>
+          <p>
+    İstisna sınıfları diğer sınıfların yapabildiği her şeyi yapabilecek şekilde
+    tanımlanabilirler, fakat genellikle basit tutulurlar ve sıklıkla sadece
+    istisnayı işleyenlerin hata hakkında bilgi almasını sağlayacak birkaç
+    özellik sunar. Birkaç farklı istisna oluşturabilen bir modül yaratırken,
+    yaygın bir uygulama da bu modül tarafından tanımlanan istisnalar için bir
+    temel sınıf yaratıp ve farklı hata durumları için bundan başka istisna
+    sınıfları türetmektir:
+   </p>
+          <pre class="screen">
+class Error(Exception):
+    """Bu modüldeki istisnalar için temel sınıf."""
+    pass
+
+class GirisHatasi(Error):
+    """Giriş hataları için oluşacak istisna.
+
+    Özellikler:
+        ifade -- hatanın oluştuğu giriş ifadesi
+        mesaj -- explanation of the error
+    """
+
+    def __init__(self, ifade, mesaj):
+        self.ifade = ifade
+        self.mesaj = mesaj
+
+class GecisHatasi(Error):
+    """İzin verilmeyen bir durum geçişine teşebbüs edildiğinde oluşacak istisna.
+
+    Özellikler:
+        onceki -- geçiş başlangıcındaki durum
+        sonraki -- istenen yeni durum
+        mesaj -- durum geçişine izin verilmemesinin sebebi
+    """
+
+    def __init__(self, onceki, sonraki, mesaj):
+        self.onceki = onceki
+        self.sonraki = sonraki
+        self.mesaj = mesaj
+</pre>
+          <p>
+    Çoğu standart modül kendi tanımladıkları işlevlerde meydana gelen hataları
+    rapor etmek için kendi istisnalarını tanımlar.
+   </p>
+          <p>
+    Sınıflar üzerine daha fazla bilgi sonraki bölümünde sunulacaktır.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_try">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">8.6. Son İşlemlerin Belirlenmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <code class="literal">try</code> deyiminin her durumda yürütülecek işlemleri
+    belirten seçimlik bir bloğu da vardır. Örnek:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> try:
+<code class="prompt">...</code>     raise KeyboardInterrupt
+<code class="prompt">...</code> finally:
+<code class="prompt">...</code>     print 'Goodbye, world!'
+<code class="prompt">...</code>
+Goodbye, world!
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 2
+KeyboardInterrupt
+</pre>
+          <p>
+    <code class="literal">finally</code> bloğu <code class="literal">try</code> bloğu içinde
+    bir istisna oluşsa da oluşmasa da yürütülür. Bir istisna oluşursa
+    <code class="literal">finally</code> bloğu icra edildikten sonra istisna tekrar
+    oluşturulur. <code class="literal">Finally</code> bloğu <code class="literal">try</code>
+    deyimi <code class="literal">break</code> veya <code class="literal">return</code> ile
+    sonlanırsa da icra edilir.
+   </p>
+          <p>
+    <code class="literal">try</code> deyiminin bir ya da daha fazla
+    <code class="literal">except</code> bloğu veya bir <code class="literal">finally</code>
+    bloğu olmalıdır; ancak her ikisi bir arada olamaz.
+   </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

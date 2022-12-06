@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>PostgreSQL Eğitmeni</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <meta name="description" content="Bu belgede PostgreSQL'e, ilişkisel veritabanı kavramlarına ve SQL dilinin kavramlarına yabancı olanlar için SQL diline basit bir giriş yapılacaktır."/>
+    <link rel="prev" href="../../man/man8/man8-vipw.html" title="vipw"/>
+    <link rel="next" href="pgsql-tutorial-intro.html" title="1. Giriş"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('#')">  </button>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-intro.html')">Sonraki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <div xml:lang="tr" class="book" id="pgsql-tutorial">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">PostgreSQL Eğitmeni</h1>
+            </div>
+            <div>
+              <div class="authorgroup">
+                <div class="author">Çeviren: <span class="firstname">Nilgün Belma Bugüner</span></div>
+                <div>
+                  <dl>
+                    <dd class="address">
+     <a class="link" href="https://github.com/nilgun" target="_top">https://github.com/nilgun</a>
+    </dd>
+                  </dl>
+                </div>
+                <div class="author">Çeviren: <span class="firstname">Volkan "knt" Yazıcı</span></div>
+                <div>
+                  <dl>
+                    <dd class="address">
+     <a class="link" href="https://github.com/vy" target="_top">https://github.com/vy</a>
+    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="copyright">Telif Hakkı © 2005,2022 Nilgün Belma Bugüner</p>
+            </div>
+            <div>
+              <p class="copyright">Telif Hakkı © 2003 Volkan Yazıcı</p>
+            </div>
+            <div>
+              <p class="copyright">Telif Hakkı © 1996-2022 The PostgreSQL Global Development Group</p>
+            </div>
+            <div>
+              <div class="dropnotice">
+                <div class="legalnotice-title">
+                  <a style="text-decoration: underline">Yasal Uyarı</a>
+                </div>
+                <div class="droplegal">
+                  <p>
+    Bu çeviriyi, çevirisinin yapıldığı özgün belgeye ilişkin aşağıdaki yasal uyarı, çeviriye ait yukarıdaki telif hakkı bilgileri ve aşağıdaki iki paragrafı tüm kopyalarının başlangıcında içermesi şartıyla, ücretsiz olarak kullanabilir, kopyalayabilir, değiştirebilir ve dağıtabilirsiniz.
+   </p>
+                  <p>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ
+BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ
+VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI
+SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ",
+AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA
+DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIRLAR. BİLGİNİN
+KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN
+DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE
+AİTTİR.
+  </p>
+                  <p>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ
+BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ
+DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA
+KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ,
+SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE
+UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ
+BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE
+BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </p>
+                  <p>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir.
+Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar
+kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış
+olması ona onay verildiği anlamında görülmemelidir.
+  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="dropnotice">
+                <div class="legalnotice-title">
+                  <a style="text-decoration: underline">Legal Notice</a>
+                </div>
+                <div class="droplegal">
+                  <p>
+    <span class="productname">PostgreSQL</span> is Copyright © 1996-2022 by the PostgreSQL Global Development Group and is distributed under the terms of the license of the University of California below.
+  </p>
+                  <p>
+    <span class="productname">Postgres95</span> is Copyright © 1994-5 by the Regents of the University of California.
+   </p>
+                  <p>
+    Permission to use, copy, modify, and distribute this software and
+    its documentation for any purpose, without fee, and without a
+    written agreement is hereby granted, provided that the above
+    copyright notice and this paragraph and the following two paragraphs
+    appear in all copies.
+   </p>
+                  <p>
+    IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY
+    PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
+    DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS
+    SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA
+    HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   </p>
+                  <p>
+    THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+    INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE
+    PROVIDED HEREUNDER IS ON AN <span class="quote">“<span class="quote">AS-IS</span>”</span> BASIS, AND THE UNIVERSITY OF
+    CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
+    UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+   </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="pubdate">Kasım 2022</p>
+            </div>
+            <div>
+              <div class="revhistory">
+                <div class="formaltitle">Sürüm Bilgileri</div>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="revhistory">
+                  <tr>
+                    <td style="line-height: 1rem;" align="left">Sürüm 15.1</td>
+                    <td style="line-height: 1rem;" align="left">Kasım 2022</td>
+                    <td style="line-height: 1rem;" align="left">NBB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">
+     PostgreSQL 15.1 ile gelen belgelerden güncellendi.
+    </td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"/>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left">Sürüm 8.0.1</td>
+                    <td style="line-height: 1rem;" align="left">Mart 2005</td>
+                    <td style="line-height: 1rem;" align="left">NBB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">
+     PostgreSQL 8.0.1 ile gelen belgelerden güncelleme yapıldı.
+    </td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"/>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left">Sürüm 7.3.2</td>
+                    <td style="line-height: 1rem;" align="left">Temmuz 2003</td>
+                    <td style="line-height: 1rem;" align="left">knt</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">
+     PostgreSQL 7.3.2 ile gelen belgelerden çevrildi.
+    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="abstract">
+                <div class="abstract-title">Özet</div>
+                <p>
+    Bu belgede PostgreSQL'e, ilişkisel veritabanı kavramlarına ve SQL dilinin kavramlarına yabancı olanlar için SQL diline basit bir giriş yapılacaktır.
+   </p>
+              </div>
+            </div>
+          </div>
+          <hr/>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>1. <a href="pgsql-tutorial-intro.html">Giriş</a></dt>
+            <dt>2. <a href="pgsql-tutorial-start.html">Başlangıç</a></dt>
+            <dd>
+              <dl>
+                <dt>2.1. <a href="pgsql-tutorial-arch.html">Mimarinin Temelleri</a></dt>
+                <dt>2.2. <a href="pgsql-tutorial-createdb.html">Bir Veritabanının Oluşturulması</a></dt>
+                <dt>2.3. <a href="pgsql-tutorial-accessdb.html">Bir Veritabanına Erişim</a></dt>
+              </dl>
+            </dd>
+            <dt>3. <a href="pgsql-tutorial-sql.html"><abbr class="acronym">SQL</abbr> Dili</a></dt>
+            <dd>
+              <dl>
+                <dt>3.1. <a href="pgsql-tutorial-concepts.html">Kavramlar</a></dt>
+                <dt>3.2. <a href="pgsql-tutorial-table.html">Yeni bir Tablonun Oluşturulması</a></dt>
+                <dt>3.3. <a href="pgsql-tutorial-populate.html">Tablolara Satırların Girilmesi</a></dt>
+                <dt>3.4. <a href="pgsql-tutorial-select.html">Bir Tablonun Sorgulanması</a></dt>
+                <dt>3.5. <a href="pgsql-tutorial-join.html">Tablolar Arası Katılım</a></dt>
+                <dt>3.6. <a href="pgsql-tutorial-agg.html">Ortak Değer İşlevleri</a></dt>
+                <dt>3.7. <a href="pgsql-tutorial-update.html">Verilerin Güncellenmesi</a></dt>
+                <dt>3.8. <a href="pgsql-tutorial-delete.html">Veri Silme</a></dt>
+              </dl>
+            </dd>
+            <dt>4. <a href="pgsql-tutorial-advanced.html">Gelişmiş Özellikler</a></dt>
+            <dd>
+              <dl>
+                <dt>4.1. <a href="pgsql-tutorial-views.html">Sanal Tablolar</a></dt>
+                <dt>4.2. <a href="pgsql-tutorial-fk.html">Anahtarlar</a></dt>
+                <dt>4.3. <a href="pgsql-tutorial-transactions.html">Hareketler</a></dt>
+                <dt>4.4. <a href="pgsql-tutorial-window.html">Pencere İşlevleri</a></dt>
+                <dt>4.5. <a href="pgsql-tutorial-inheritance.html">Kalıtım</a></dt>
+                <dt>4.6. <a href="pgsql-tutorial-conclusion.html">Sonuç</a></dt>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+    <footer/>
+  </body>
+</html>

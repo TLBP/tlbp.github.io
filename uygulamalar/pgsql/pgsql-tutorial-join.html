@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.5. Tablolar Arası Katılım</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-select.html" title="3.4. Bir Tablonun Sorgulanması"/>
+    <link rel="next" href="pgsql-tutorial-agg.html" title="3.6. Ortak Değer İşlevleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-select.html')">Önceki</button>
+          <div class="dropdown-content">3.4. Bir Tablonun Sorgulanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-sql.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-agg.html')">Sonraki</button>
+          <div class="dropdown-content">3.6. Ortak Değer İşlevleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-join">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.5. Tablolar Arası Katılım</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Buraya kadar, yaptığımız sorgulamalarda her seferinde sadece bir tabloya erişildi. Oysa sorgulamalar aynı andan birden çok tabloya erişebildiği gibi, aynı tabloya birden fazla kez erişerek satırlara daha çeşitli yaptırımlar uygulayabilir. Aynı anda birden fazla satır ya da birden fazla tabloya erişen sorgulara <em class="wordasword">katılımlı sorgu</em> denir. Sözgelimi (daha önce oluşturduğumuz tablolardaki) tüm illerin hava durumlarını ve konumlarını aynı anda listelemek istiyoruz. Bunun için <code class="literal">hava_durumu</code> tablosundaki tüm <code class="literal">il</code> sütunları ile <code class="literal">iller</code> tablosundaki tüm <code class="literal">ad</code> sütunlarını karşılaştırıp, aynı olan satır çiftlerini seçmek gerekir.
+   </p>
+        <div class="note">
+          <h3 class="title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+     Bu sadece kavramsal bir modeldir. Katılımlı sorgular, aslında, her olası satır çiftini karşılaştırmaktan biraz daha verimli bir anlamda uygulanır ama bu işlemi kullanıcı görmez.
+    </p>
+          </div>
+        </div>
+        <p>
+    Yukarıda bahsedilen işlemi şu sorgu ile elde edebiliriz:
+   </p>
+        <pre class="screen">SELECT * FROM hava_durumu JOIN iller ON il = ad;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il       | asg_sck | azm_sck | yağış |   tarih    |      ad       |   konum
+---------------+---------+---------+-------+------------+---------------+-----------
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27 | San Francisco | (-194,53)
+ San Francisco |      43 |      57 |     0 | 1994-11-29 | San Francisco | (-194,53)
+(2 satır)
+</pre>
+        <p>
+    Çıktıda dikkat edilmesi gereken iki nokta bulunmakta:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Haywrad şehri için hiçbir çıktı alınmadı dikkat edildiyse. Bunun nedeni ise <code class="literal">iller</code>  tablosunda Hayward adlı bir il olmaması ve dolayısıyla <code class="literal">JOIN</code> bu şehri eledi. İleride bunun nasıl düzeltilebileceği üzerinde durulacak.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Bir diğer dikkat çeken nokta ise, illerin adını yazan iki tane sütun olması. Bunun sebebi <code class="literal">hava_durumu</code> ve <code class="literal">iller</code> tablosunun birleştirilmesidir. Pratikte bu istenmeyen bir sonuçtur. Böyle bir durumda buna neden olan <code class="literal">*</code> ifadesi yerine açıkça listelenmesini istediğimiz sütunları yazarak bu işi halledebiliriz:
+     </p>
+              <pre class="screen">SELECT il, asg_sck, azm_sck, yağış, tarih, konum
+    FROM hava_durumu JOIN iller ON il = ad;
+</pre>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Tablolardaki tüm sütun isimleri farklı olduğundan çözümleyici hangi ismin hangi tabloya ait olduğunu bulur. Ama bunu daha da açıkça belirtmek isimler aynı olduğunda dahi sorun çıkmasını önler ve tavsiye edilen de budur:
+   </p>
+        <pre class="screen">SELECT hava_durumu.il, hava_durumu.asg_sck, hava_durumu.azm_sck,
+       hava_durumu.yağış, hava_durumu.tarih, iller.konum
+    FROM hava_durumu JOIN iller ON hava_durumu.il = iller.ad;
+</pre>
+        <p>
+    Birleştirme sorgusundaki tüm sütun adlarını nitelemek yaygın olarak iyi bir uygulama olarak kabul edilir, böylece daha sonra tablolardan birine yinelenen sütun adlarından biri eklenirse sorgu başarısız olmaz.
+   </p>
+        <p>
+    Şimdiye kadar gördüğümüz katılım sorguları ayrıca şu şekilde de yazılabilir:
+   </p>
+        <pre class="screen">SELECT *
+    FROM hava_durumu, iller
+    WHERE il = ad;
+</pre>
+        <p>
+    Bu sözdizimi, SQL-92'de tanıtılan <code class="literal">JOIN</code>/<code class="literal">ON</code> sözdizimine dayanır. Tablolar basitçe <code class="literal">FROM</code> deyiminde listelenir ve karşılaştırma ifadesi <code class="literal">WHERE</code> deyimine eklenir. Bu eski örtük sözdiziminden ve daha yeni açık <code class="literal">JOIN</code>/<code class="literal">ON</code> sözdiziminden elde edilen sonuçlar aynıdır. Ancak sorgunun okuyucusu için, açık sözdizimi anlamını anlamayı kolaylaştırır: Daha önce koşul, diğer koşullarla birlikte <code class="literal">WHERE</code> deyimine karıştırılmışken, birleştirme koşulu kendi anahtar sözcüğüyle tanıtılır.
+   </p>
+        <p>
+    Şimdi Hayward kayıtlarına nasıl kavuşacağımızı işleyeceğiz. İstediğimiz şey <code class="literal">hava_durumu</code> tablosu üzerinde tarama yapıp, <code class="literal">iller</code> tablosunda bunlarla eşleşen satırları bulmak. Eğer <code class="literal">iller</code> tablosunda herhangi bir eşleşme bulamazsak, o sütun <code class="literal">iller</code> tablosu alanında boş gözükecek. Bu tür sorgulama işlemleri <em class="wordasword">haricen katılım</em> (outer join) olarak bilinir. (Şimdiye kadar gördüğümüz katılım sorgularında ise hep <em class="wordasword">dahilen katılım</em> (inner join) kullanmıştık.) Komut şöyle görünür:
+   </p>
+        <pre class="screen">SELECT *
+    FROM hava_durumu LEFT OUTER JOIN iller ON hava_durumu.il = iller.ad;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il       | asg_sck | azm_sck | yağış |   tarih    |      ad       |   konum
+---------------+---------+---------+-------+------------+---------------+-----------
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27 | San Francisco | (-194,53)
+ San Francisco |      43 |      57 |     0 | 1994-11-29 | San Francisco | (-194,53)
+ Hayward       |      37 |      54 |       | 1994-11-29 |               |
+(3 satır)
+</pre>
+        <p>
+    Bu sorguya <em class="wordasword">sola haricen katılımlı</em> (left outer join) sorgu denir. Böyle adlandırılmasının sebebi soldaki tablonun tüm satırları en az bir kere listelenirken, sağda yer alan tablonun sadece soldaki tablonun satırlarıyla eşleşen satırlarının listelenmesidir. Bir sol-tablo satırı çıktılanırken sağ-tabloda bu satırla eşleşen bir satır yoksa, sağ-tablonun sütunları boş kalır.
+   </p>
+        <dl>
+          <dt>Alıştırma:</dt>
+          <dd>
+     Ayrıca, <em class="wordasword">sağa haricen katılımlı</em> (right outer join) ve <em class="wordasword">iki yönlü haricen katılımlı</em> (full outer join) sorgu türleri de var.  Bunların ne yaptığını da siz bulmayı deneyin.
+    </dd>
+        </dl>
+        <p>
+    Ayrıca, bir tabloyu kendine katılımlı olarak da sorgulayabiliriz ve buna  <em class="wordasword">kendine katılımlı</em> sorgu denir. Bir örnek olarak, diğer hava durumu kayıtlarının sıcaklık aralığı içinde kalan hava durumu kayıtlarını bulmak isteyelim. Yani, her <code class="literal">hava_durumu</code> satırının <code class="literal">asg_sck</code> ve <code class="literal">azm_sck</code> sütununu diğer <code class="literal">hava_durumu</code> satırlarının <code class="literal">asg_sck</code> ve <code class="literal">azm_sck</code> sütunu ile karşılaştıracağız. Bunu şu sorgu ile yapabiliriz:
+   </p>
+        <pre class="screen">SELECT w1.il, w1.asg_sck AS low, w1.azm_sck AS high,
+       w2.il, w2.asg_sck AS düşük, w2.azm_sck AS yüksek
+    FROM hava_durumu w1 JOIN hava_durumu w2
+    ON w1.asg_sck &lt; w2.asg_sck AND w1.azm_sck &gt; w2.azm_sck;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il       | low | high |      il       | düşük | yüksek
+---------------+-----+------+---------------+-------+--------
+ San Francisco |  43 |   57 | San Francisco |    46 |     50
+ Hayward       |  37 |   54 | San Francisco |    46 |     50
+(2 satır)
+</pre>
+        <p>
+    Burada katılımın sol ve sağ taraflarını ayırabilmek için <code class="literal">hava_durumu</code> tablosunu <code class="literal">W1</code> ve <code class="literal">W2</code> olarak yeniden isimlendirdik. Ayrıca, bu çeşit isimlendirmeleri aynı şeyleri uzun uzadıya yazmaktan kaçınmak için diğer sorgularda da kullanabilirsiniz. Örnek:
+   </p>
+        <pre class="screen">SELECT *
+    FROM hava_durumu w JOIN iller c ON w.il = c.name;
+</pre>
+        <p>
+    Bu tarz kısaltmalarla sıkça karşılaşacaksınız.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

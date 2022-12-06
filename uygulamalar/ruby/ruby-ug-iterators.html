@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9. Yineleyiciler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-control.html" title="8. Denetim Yapıları"/>
+    <link rel="next" href="ruby-ug-oothinking.html" title="10. Nesne Yönelimli Düşünme"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-control.html')">Önceki</button>
+          <div class="dropdown-content">8. Denetim Yapıları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-oothinking.html')">Sonraki</button>
+          <div class="dropdown-content">10. Nesne Yönelimli Düşünme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-iterators">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">9. Yineleyiciler</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Yineleyiciler sadece Ruby'ye özgü bir kavram değildir. Genel olarak çoğu nesneye yönelik yazılım geliştirme dilinde kullanılmaktadır. Lisp'te de yineleyiciler olarak adlandırılmasalar da  kullanılmaktadır. Ancak yineleyici kavramı neredeyse her dilde değişik bir anlam kazandığı için önce bu kavramı daha ayrıntılı anlatmaya çalışalım:
+  </p>
+        <p>
+   <em class="emphasis">Yinelemek</em> sözcüğü aynı şeyi birçok kez tekrarlamak anlamına gelir.
+  </p>
+        <p>
+   Kod yazarken değişik durumlarda döngülere ihtiyacımız olur. C'de <span class="command"><strong>for</strong></span> ya da <span class="command"><strong>while</strong></span> kullanarak işimizi hallederiz. Örneğin,
+  </p>
+        <pre class="screen">
+char *str;
+for (str = "abcdefg"; *str != '\0'; str++) {
+  /* her karakter için işlemler burada */
+}
+</pre>
+        <p>
+   C'nin <span class="command"><strong> for(...) </strong></span> sözdizimi döngünün oluşturulmasında soyutlama sağlayarak yardımcı olsa da <code class="literal">*str</code>'nin boş bir karakterle sınanması yazılımcının dizge yapısı hakkında daha ayrıntılı bilgi edinmesini gerektirir. Bu C'ye düşük-seviyeli hissi veren nedenlerden biridir. Yüksek seviyeli diller yineleyicilere uyumluluklarıyla ün kazanmışlardır. Aşağıdaki <span class="command"><strong>sh</strong></span> kabuk betiğini göz önünde alalım:
+  </p>
+        <pre class="screen">
+#!/bin/sh
+
+for i in *.[ch]; do
+  # ... her dosya icin yapilacak birkaç işlem
+done
+</pre>
+        <p>
+   Bulunulan dizindeki tüm C kaynak ve başlık dosyaları çalıştırıldı ve komut satırı ayrıntıları tuttu.  C'den daha yüksek seviyeli olduğunu düşünüyorum, öyle değil mi?
+  </p>
+        <p>
+   Ancak göz önüne alınması gereken başka bir nokta daha var: bir dilin gömülü veri yapıları için yineleyicileri desteklemesi güzel birşey olsa da, geri dönüp kendi veri yapılarımızı tekrarlatacak düşük seviyeli döngüler yazmak hayal kırıklığı yaratacaktır. Nesneye yönelik yazılım geliştirmede, kullanıcılar çoğu kez ardı ardına veri türleri tanımlar ve bu ciddi bir sorun olabilir.
+  </p>
+        <p>
+   Her nesneye yönelik yazılım geliştirme dili yineleyiciler için kolaylıklar içerir. Bazı diller bu iş için özel sınıflar tanımlarken, Ruby yineleyicileri doğrudan tanımlamayı tercih eder.
+  </p>
+        <p>
+   Ruby'nin <span class="command"><strong>String</strong></span> türü bazı yararlı yineleyicilere sahiptir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"abc".each_byte{|c| printf "&lt;%c&gt;", c}; print "\n"</em>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   <code class="function">each_byte</code>, dizgedeki her karakter için bir yineleyicidir. Her bir karakter yerel bir değişken olan <code class="literal">c</code>'ye yerleştirilir. Bu daha çok C koduna benzeyen bir şeyle açıklanabilir...
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">s="abc";i=0</em>
+   <em class="emphasis evaloutput">0</em>
+ruby&gt; <em class="emphasis evalinput">while i&lt;s.length</em>
+    |    <em class="emphasis evalinput">printf "&lt;%c&gt;", s[i]; i+=1</em>
+    | <em class="emphasis evalinput">end; print "\n"</em>
+&lt;a&gt;&lt;b&gt;&lt;c&gt;
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Buna rağmen <code class="function">each_byte</code> yineleyicisi hem kabul edilebilir bir basitliktedir hem de <span class="command"><strong>String</strong></span> sınıfı radikal bir değişikliğe uğrasa da çalışmaya devam eder. Yineleyicilerin başka bir yararı da değişiklere karşı sağlam durmasıdır ki bu da iyi bir kodun karakteristik özelliklerinden biridir (evet, sabırlı olun, <em class="emphasis">sınıflar</em> hakkında da konuşacağız.).
+  </p>
+        <p>
+   <span class="command"><strong>String</strong></span>'in başka bir yineleyicisi de <span class="command"><strong>each_line</strong></span>'dır.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"a\nb\nc\n".each_line{|l| print l}</em>
+a
+b
+c
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   C'de satır sınırlayıcıları bulmak, alt dizgeler üretmek gibi güç işlerin yineleyicilerle kolayca üstesinden gelinebilir.
+  </p>
+        <p>
+   Geçen bölümdeki <span class="command"><strong>for</strong></span> döngüsü, <span class="command"><strong>each</strong></span> işlecini kullanarak tekrarlamayı sağlamaktaydı. <span class="command"><strong>String</strong></span>'in <span class="command"><strong>each</strong></span>'i aynı <span class="command"><strong>each_line</strong></span> gibi görev görür, o yüzden yukarıdaki örneği <span class="command"><strong>for</strong></span> ile tekrar yazalım:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">for l in "a\nb\nc\n"</em>
+    |   <em class="emphasis evalinput">print l </em>
+    | <em class="emphasis evalinput">end</em>
+a
+b
+c
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Bulunan yineleyiciyi döngünün başından itibaren tekrar ettirmek için <span class="command"><strong>retry</strong></span> denetim yapısını kullanabiliriz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput"> c=0</em>
+   <em class="emphasis evaloutput">0</em>
+ruby&gt; <em class="emphasis evalinput">for i in 0..4</em>
+    |   <em class="emphasis evalinput">print i</em>
+    |   <em class="emphasis evalinput">if i == 2 and c == 0</em>
+    |     <em class="emphasis evalinput">c = 1</em>
+    |     <em class="emphasis evalinput">print "\n"</em>
+    |     <em class="emphasis evalinput">retry</em>
+    |   <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end; print "\n"</em>
+012
+01234
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Yineleyici tanımlamasında bazen <span class="command"><strong>yield</strong></span>'le karşılaşırız.  <span class="command"><strong>yield</strong></span>, denetimi yineleyiciye bağımsız değişken olarak geçilen kod bloğuna verir (bu konu <a class="xref" href="ruby-ug-pobjects.html" title="18. Yordam Nesneleri"><em>Yordam Nesneleri</em></a> bölümünde daha ayrıntılı anlatılacaktır).
+  </p>
+        <p>
+   Aşağıdaki örnekte, bağımsız değişkende verilen sayı kadar bir kod bloğunu tekrarlayan <span class="command"><strong>repeat</strong></span> yineleyicisi tanımlanmıştır.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">def repeat(num)</em>
+    |   <em class="emphasis evalinput">while num &gt; 0</em>
+    |     <em class="emphasis evalinput">yield</em>
+    |     <em class="emphasis evalinput">num -= 1</em>
+    |   <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">repeat(3) { print "foo\n" }</em>
+foo
+foo
+foo
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   <span class="command"><strong>retry</strong></span> ile <span class="command"><strong>while</strong></span> gibi çalışan ancak hız açısından pek de pratik olmayan bir yineleyici tanımlayabiliriz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">def WHILE(cond)</em>
+    |   <em class="emphasis evalinput">return if not cond</em>
+    |   <em class="emphasis evalinput">yield</em>
+    |   <em class="emphasis evalinput">retry</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">i=0; WHILE(i&lt;3) { print i; i+=1 }</em>
+012  nil
+</pre>
+        <p>
+   Yineleyicinin ne olduğunu anladınız mı? Bir kaç kısıtlama hariç, kendi yineleyicinızı yazabilirsiniz, aslında yeni bir veri türü tanımladığınız zaman ona uygun bir yineleyici tanımlamanız da uygun olacaktır. Yukarıdaki örnekler pek de kullanışlı örnekler sayılmazlar. Sınıfları daha iyi anladığımızda daha uygulanabilir yineleyiciler hakkında konuşabiliriz.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

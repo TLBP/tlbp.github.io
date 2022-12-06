@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>11. Yöntemler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-oothinking.html" title="10. Nesne Yönelimli Düşünme"/>
+    <link rel="next" href="ruby-ug-classes.html" title="12. Sınıflar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-oothinking.html')">Önceki</button>
+          <div class="dropdown-content">10. Nesne Yönelimli Düşünme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-classes.html')">Sonraki</button>
+          <div class="dropdown-content">12. Sınıflar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-methots">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">11. Yöntemler</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Yöntem nedir? Nesneye yönelik yazılım geliştirmede, nesnenin dışından doğrudan veri üzerinde işlem yapmak yerine (<em class="emphasis">eğer nazikçe böyle yapmalarını söylerseniz</em>) nesnelerin kendilerini nasıl çalıştıracakları hakkında bilgiye sahip olması tercih edilir. Nesnelere iletiler gönderdiğimizi ve bunların genelde bir olay tarafından gerçekleştirildiğini ya da anlamlı bir cevapla karşılandığını söyleyebilirsiniz. Bu muhtemelen bizim özellikle bilmemizi gerektiren ya da nesnenin kendi içinde nasıl çalıştığına dikkat etmemizi gerektirmeyen bir olaydır. Bir nesneye gerçekleştirmesi için (<em class="emphasis">ya da anlayacağı iletiler göndermemiz için</em>) vereceğimiz görevlere, <em class="wordasword">nesnenin yöntemleri</em> denir.
+  </p>
+        <p>
+   Ruby'de bir nesnenin yöntemini nokta gösterimi ile çağırırız (C++ ya da Java'da olduğu gibi).
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput"> "abcdef".length</em>
+    <em class="emphasis evaloutput">6</em>
+</pre>
+        <p>
+   Muhtemelen bu dizgenin <em class="emphasis">uzunluğunun ne kadar olduğu</em> soruluyor.
+  </p>
+        <p>
+   Teknik olarak,<span class="command"><strong>"abcdef"</strong></span> nesnesi için <span class="command"><strong>length</strong></span> yöntemini çağırıyoruz.
+  </p>
+        <p>
+   Diğer nesnelerin <span class="command"><strong>length</strong></span> yöntemi için biraz farklılıkları olabilir ya da hiç olmayabilir de. İletilere nasıl yanıt verileceği kararı yazılımın çalıştırılması sırasında verilir ve hangi nesneye başvurduğuna bağlı olarak olay değişebilir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">foo = "abc"</em>
+   <em class="emphasis evaloutput">"abc"</em>
+ruby&gt; <em class="emphasis evalinput">foo.length</em>
+   <em class="emphasis evaloutput">3</em>
+ruby&gt; <em class="emphasis evalinput">foo = ["abcde", "fghij"]</em>
+   <em class="emphasis evaloutput">["abcde", "fghij"]</em>
+ruby&gt; <em class="emphasis evalinput">foo.length</em>
+   <em class="emphasis evaloutput">2</em>
+</pre>
+        <p>
+   <code class="literal">length</code> yönteminin, nesneye göre değişebilmesiyle neyi kastediyoruz?
+  </p>
+        <p>
+   Yukarıdaki örnekte ilk önce <span class="command"><strong>foo</strong></span>'nun uzunluğunu soruyoruz, basit bir dizgeye başvuruyor ve sadece tek bir mantıklı yanıt olabilir. İkinci sefer <span class="command"><strong>foo</strong></span> bir diziye başvuruyor ve uzunluğunun 2, 5 ya da 10 olduğunu düşünebilirsiniz ama genelde en kabul edilebilir yanıt tabii ki 2 olacaktır.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput"> foo[0].length</em>
+   <em class="emphasis evaloutput">5</em>
+ruby&gt; <em class="emphasis evalinput"> foo[0].length + foo[1].length</em>
+   <em class="emphasis evaloutput">10</em>
+</pre>
+        <p>
+   Burada dikkat edilmesi gereken nokta bir dizinin, dizi olmanın ne demek olduğunu bilmesidir. Ruby'de veri parçaları beraberlerinde bilgi taşıdıkları için talepler otomatik olarak  algılanabilir ve bir çok yolla gerçekleştirilebilir.
+  </p>
+        <p>
+   Bu yazılımcıyı belli işlev adlarını hatırlamaktan kurtarır, değişik veri türlerine uygulanabilir ve sonuç istediğimiz gibi olur. Nesneye yönelik yazılım geliştirmenin bu özelliği <code class="literal">çok biçimlilik</code> olarak adlandırılır.
+  </p>
+        <p>
+   Bir nesne anlamadığı bir ileti aldığında bir hata ortaya çıkar:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput"> foo = 5</em>
+   <em class="emphasis evaloutput">5</em>
+ruby&gt; <em class="emphasis evalinput"> foo.length</em>
+<em class="emphasis evaloutput">ERR: (eval):1: undefined method `length' for 5(Fixnum)</em>
+</pre>
+        <p>
+   Sonuçta bir nesne için hangi yöntemlerın kabul edilebilir olduğunu bilmemiz gerektiği halde, yöntemlerin nasıl işlediğini bilmek zorunda değiliz.
+  </p>
+        <p>
+   Eğer bağımsız değişkenler bir yönteme verilecekse genelde yaylı ayraçlar arasına alınır.
+  </p>
+        <p>
+   <code class="literal"><em class="replaceable"><code>nesne.yöntem</code></em>(<em class="replaceable"><code>dğş1</code></em>, <em class="replaceable"><code>dğş2</code></em>)</code>
+  </p>
+        <p>
+   Ancak belirsizliğe yol açmadıkları sürece kullanılmayabilirler de.
+  </p>
+        <p>
+   <em class="replaceable"><code>nesne.yöntem dğş1, dğş2</code></em>
+  </p>
+        <p>
+   Ruby, <span class="command"><strong>self</strong></span> adında bir nesnenin bir yöntemini çağırırken  başvurulan özel bir değişkene sahiptir. Rahatlık için "<span class="command"><strong>self.</strong></span>"  genelde yöntem çağrılırken kullanılmayabilir:
+  </p>
+        <p>
+   <span class="command"><strong>self.</strong></span><em class="replaceable"><code>yöntem_adı</code></em><code class="literal">(<em class="replaceable"><code>dğş</code></em>...)</code>
+  </p>
+        <p>
+   yukarıdaki ifadeyle aşağıdaki aynıdır:
+  </p>
+        <p>
+   <em class="replaceable"><code>yöntem_adı</code></em><code class="literal">(<em class="replaceable"><code>dğş</code></em>...)</code>
+  </p>
+        <p>
+   Bir <em class="wordasword">işlev çağrısı</em> sadece <span class="command"><strong>self</strong></span>'le yöntem çağrımının kısaltılmış şeklidir. Bu da Ruby'yi saf bir nesneye yönelik yazılım geliştirme dili yapan şeydir.  Hala işlevsel yöntemler diğer dillerdeki işlevlere çok benzese de aslında işlev çağrılarının Ruby'de gerçek nesne yöntemlerinden başka birşey olmadığını görmeniz gerekir. İstersek hala gerçek nesne yöntemleri değilmiş gibi kabul ederek <code class="literal">işlev</code>lerden bahsedebiliriz.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

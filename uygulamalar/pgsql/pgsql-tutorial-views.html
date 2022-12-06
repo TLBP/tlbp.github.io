@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.1. Sanal Tablolar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-advanced.html" title="4. Gelişmiş Özellikler"/>
+    <link rel="next" href="pgsql-tutorial-fk.html" title="4.2. Anahtarlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-advanced.html')">Önceki</button>
+          <div class="dropdown-content">4. Gelişmiş Özellikler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-advanced.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-fk.html')">Sonraki</button>
+          <div class="dropdown-content">4.2. Anahtarlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-views">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.1. Sanal Tablolar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümü okumadan önce <a class="xref" href="pgsql-tutorial-join.html" title="3.5. Tablolar Arası Katılım">Tablolar Arası Katılım</a> bölümünü okumanızı öneririz. Diyelim ki, uygulamanızda hava durumu kayıtları ile illerin yerlerinin birarada listelenmesi ile çok ilgileniyorsunuz. Bunun için bir sorgu oluşturup bu sorguya isim verebilir ve bu sorguya herhangi bir tabloya erişir gibi erişebilirsiniz.
+   </p>
+        <pre class="screen">CREATE VIEW myview AS
+    SELECT ad, asg_sck, azm_sck, yağış, tarih, konum
+        FROM hava_durumu, iller
+        WHERE il = ad;
+
+SELECT * FROM myview;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">CREATE VIEW
+      ad       | asg_sck | azm_sck | yağış |   tarih    |   konum
+---------------+---------+---------+-------+------------+-----------
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27 | (-194,53)
+ San Francisco |      41 |      55 |     0 | 1994-11-29 | (-194,53)
+(2 satır)
+</pre>
+        <p>
+    Sanal tablo kullanımı iyi SQL veritabanı tasarımında önemli bir rol oynar. Sanal tablolar, tablolarınızdaki yapının ayrıntılarını toparlamanızı mümkün kılarak, arkasında kararlı bir arayüz olarak uygulamanızın gelişimini değiştirebilir.
+   </p>
+        <p>
+    Sanal tablolar, gerçek bir tablonun kullanılabildiği hemen her yerde kullanılabilir. Fakat, sanal tabloları başka sanal tablolar oluşturmak için kullanmak pek iyi bir yöntem değildir.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

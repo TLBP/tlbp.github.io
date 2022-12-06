@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22. Yerel Değişkenler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-instancevars.html" title="21. Örnek Değişkenler"/>
+    <link rel="next" href="ruby-ug-constants.html" title="23. Sınıf Sabitleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-instancevars.html')">Önceki</button>
+          <div class="dropdown-content">21. Örnek Değişkenler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-constants.html')">Sonraki</button>
+          <div class="dropdown-content">23. Sınıf Sabitleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-localvars">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">22. Yerel Değişkenler</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Yerel değişkenler küçük harfle ya da <span class="command"><strong>_</strong></span> karakteriyle başlayan isimlere sahiptir. Yerel değişkenler genel ya da örnek değişkenlerde olduğu gibi, başlangıçta <span class="command"><strong>nil</strong></span> değerine sahip değildir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">$foo</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">@foo</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">foo</em>
+   <em class="emphasis evaloutput">ERR: undefined local variable or method `foo' for main:Object</em>
+</pre>
+        <p>
+   Yerel bir değişkene yaptığınız ilk atama onu bildirmekle aynı şeydir. Eğer başlangıç değeri olmayan bir yerel değişkene başvurursanız, Ruby yorumlayıcısı bunun bir yöntemi çalıştırma girişimi olduğunu düşünür ve aşağıdaki gibi bir hata verir.
+  </p>
+        <p>
+   Genelde yerel bir değişkenin etki alanı aşağıdakilerden biridir:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member"><span class="command"><strong>proc{</strong></span> <em class="replaceable"><code>...</code></em> <span class="command"><strong>}</strong></span></li>
+            <li class="member"><span class="command"><strong>loop{</strong></span> <em class="replaceable"><code>...</code></em> <span class="command"><strong>}</strong></span></li>
+            <li class="member"><span class="command"><strong>def</strong></span> <em class="replaceable"><code>...</code></em> <span class="command"><strong>end</strong></span></li>
+            <li class="member"><span class="command"><strong>class</strong></span> <em class="replaceable"><code>...</code></em> <span class="command"><strong>end</strong></span></li>
+            <li class="member"><span class="command"><strong>module</strong></span> <em class="replaceable"><code>...</code></em> <span class="command"><strong>end</strong></span></li>
+            <li class="member">yazılımın tamamı (yukarıdakilerden herhangi biri yoksa)</li>
+          </ul>
+        </div>
+        <p>
+   Aşağıdaki örnekte görülen <span class="command"><strong>defined?</strong></span> işleci bir belirtecin tanımlanıp tanımlanmadığına bakar. Eğer tanımlanmışsa bir açıklama döndürür; tanımlanmamış ise <span class="command"><strong>nil</strong></span> değerini döndürür. Gördüğünüz gibi <span class="command"><strong>bar</strong></span> döngüde yerel, döngüden çıkınca tanımsızdır.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">foo = 44; print foo, "\n"; defined? foo</em>
+44
+   <em class="emphasis evaloutput">"local-variable"</em>
+ruby&gt; <em class="emphasis evalinput">loop{bar=45; print bar, "\n"; break}; defined? bar</em>
+45
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Yordam nesneleri aynı etki alanındaki yerel değişkenleri paylaşırlar. Örnekte yerel değişken <span class="command"><strong>bar</strong></span>, <span class="command"><strong>main</strong></span> ve yordam nesneleri <span class="command"><strong>p1</strong></span> ve <span class="command"><strong>p2</strong></span> tarafından paylaşılmaktadır:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">bar=nil</em>
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">p1 = proc{ |n| bar=n }</em>
+   <em class="emphasis evaloutput">#&lt;Proc:0x000055e097eb6950 &lt;main&gt;:0&gt;</em>
+ruby&gt; <em class="emphasis evalinput">p2 = proc{ bar }</em>
+   <em class="emphasis evaloutput">#&lt;Proc:0x000055e097eb6338 &lt;main&gt;</em>
+ruby&gt; <em class="emphasis evalinput">p1.call(5)</em>
+   <em class="emphasis evaloutput">5</em>
+ruby&gt; <em class="emphasis evalinput">bar</em>
+   <em class="emphasis evaloutput">5</em>
+ruby&gt; <em class="emphasis evalinput">p2.call</em>
+   <em class="emphasis evaloutput">5</em>
+</pre>
+        <p>
+   Baştaki "<code class="literal">bar=nil</code>"'ın çıkarılamayacağına dikkat edin; bu atama <span class="command"><strong>bar</strong></span>'ın <span class="command"><strong>p1</strong></span> ve <span class="command"><strong>p2</strong></span> tarafından kuşatılacağını garanti eder. Öteki türlü <span class="command"><strong>p1</strong></span> ve <span class="command"><strong>p2</strong></span> kendi yerel <span class="command"><strong>bar</strong></span> değişkenlerini sonlandırır ve <span class="command"><strong>p2</strong></span>'yi çağırmak "undefined local variable or method" hatasına neden olabilir.
+  </p>
+        <p>
+   Yordam nesnelerinin güçlü bir özelliği de bağımsız değişken olarak aktarılabilme yetenekleridir: paylaşımlı yerel değişkenler özgün etki alanının dışından değer aktarıldığında bile geçerli kalırlar.
+  </p>
+        <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">def kutu</em>
+    |    <em class="emphasis evalinput">içerik = 15</em>
+    |    <em class="emphasis evalinput">getir = proc{ içerik }</em>
+    |    <em class="emphasis evalinput">ata = proc{ |n| içerik = n }</em>
+    |    <em class="emphasis evalinput">return getir, ata</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:kutu</em>
+ruby&gt; <em class="emphasis evalinput">okur, yazar = kutu</em>
+   <em class="emphasis evaloutput">[#&lt;Proc:0x000055e097e472d0 &lt;main&gt;:2&gt;, #&lt;Proc:0x000055e097e47230 &lt;main&gt;:3&gt;]</em>
+ruby&gt; <em class="emphasis evalinput">okur.call</em>
+   <em class="emphasis evaloutput">15</em>
+ruby&gt; <em class="emphasis evalinput">yazar.call(2)</em>
+   <em class="emphasis evaloutput">2</em>
+ruby&gt; <em class="emphasis evalinput">okur.call</em>
+   <em class="emphasis evaloutput">2</em>
+</pre>
+        <p>
+   Ruby etki alanı konusunda bir parça akıllıca davranır. Örneğimizde <span class="command"><strong>içerik</strong></span> değişkeni <span class="command"><strong>okur</strong></span> ve <span class="command"><strong>yazar</strong></span> tarafından paylaşılıyordu. Aynı zamanda yukarıda tanımladığımız kutumuzdan birden çok okur-yazar çifti oluşturabilir ve her çiftin aynı sabiti paylaşmasını sağlayabiliriz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">okur_1, yazar_1 = kutu</em>
+   <em class="emphasis evaloutput">[#&lt;Proc:0x000055e097e449e0 &lt;main&gt;:2&gt;, #&lt;Proc:0x000055e097e449b8 &lt;main&gt;:3&gt;]</em>
+ruby&gt; <em class="emphasis evalinput">okur_2, yazar_2 = kutu</em>
+   <em class="emphasis evaloutput">[#&lt;Proc:0x000055e097e44c88 &lt;main&gt;:2&gt;, #&lt;Proc:0x000055e097e44e40 &lt;main&gt;:3&gt;]</em>
+ruby&gt; <em class="emphasis evalinput">yazar_1.call(99)</em>
+   <em class="emphasis evaloutput">99</em>
+ruby&gt; <em class="emphasis evalinput">okur_1.call</em>
+   <em class="emphasis evaloutput">99</em>
+ruby&gt; <em class="emphasis evalinput">okur_2.call</em>
+   <em class="emphasis evaloutput">15</em>
+</pre>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

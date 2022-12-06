@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2. Yeni bir Tablonun Oluşturulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-concepts.html" title="3.1. Kavramlar"/>
+    <link rel="next" href="pgsql-tutorial-populate.html" title="3.3. Tablolara Satırların Girilmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-concepts.html')">Önceki</button>
+          <div class="dropdown-content">3.1. Kavramlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-sql.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-populate.html')">Sonraki</button>
+          <div class="dropdown-content">3.3. Tablolara Satırların Girilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-table">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.2. Yeni bir Tablonun Oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Yeni bir tabloyu, tablo ismini ve içerdiği sütün isimlerini veri türleri ile birlikte belirterek oluşturabilirsiniz:
+   </p>
+        <pre class="screen">CREATE TABLE hava_durumu (
+    il             varchar(80),
+    asg_sck        int,           -- en düşük sıcaklık
+    azm_sck        int,           -- en yüksek sıcaklık
+    yağış          real,          -- yağış miktarı
+    tarih          date
+);
+</pre>
+        <p>
+    Bu komut listesini <strong class="userinput"><code>psql</code></strong> komut satırına aynen buradaki gibi girebilirsiniz (alt satıra geçmek için &lt;enter&gt;'a basmanız yeterli olacaktır). <strong class="userinput"><code>psql</code></strong> en sonda yer alan noktalı virgülü görene kadar komutun bitmediğini anlayacaktır.
+   </p>
+        <p>
+    SQL komutları içinde boşluklar (boşluk karakteri, sekme ve satırsonu karakteri) özgürce kullanılabilir. Yani, yukarıdaki komut listesini siz istediğiniz gibi yazabilirsiniz; hatta hepsini tek bir satıra dahi girebilirsiniz. Yanyana gelen iki tire ("<code class="literal">--</code>") açıklama satırları için kullanılır. Bu işaretten sonra yazılan her şey o satırın sonuna kadar ihmal edilecektir. SQL komutlarının normalde büyük-küçük harf duyarlılığı yoktur. Duruma bağlı olarak değişkenlerin çift tırnak içine alınması onların büyük-küçük harf duyarlı olduğunu gösterir (Yukarıda bu yöntem kullanılmamıştır).
+   </p>
+        <p>
+    <code class="literal">varchar(80)</code> 80 karakter uzunluğundaki bir dizgeyi tutabilecek bir veri türü belirtir. <code class="literal">int</code> normal bir tamsayıyı niteler. <code class="literal">real</code> tek hassasiyetli (single precision) gerçel sayılar için kullanılır. <code class="literal">date</code> alanı da adından anlaşılacağı üzere tarih saklamak için kullanılır.
+   </p>
+        <p>
+    <span class="productname">PostgreSQL</span> standart <abbr class="acronym">SQL</abbr> veri türlerinden <code class="literal">int, smallint, real, double, char(<em class="replaceable"><code>N</code></em>), varchar(<em class="replaceable"><code>N</code></em>), date, time, timestamp</code> ve  <code class="literal">interval</code> ile birlikte diğer genel araç türleriyle zengin bir geometrik tür ailesini destekler. <span class="productname">PostgreSQL</span> sınırsız sayıda kullanıcı tanımlı veri türü ile özelleştirilebilir. Dolayısla, tür isimleri <abbr class="acronym">SQL</abbr> standardındaki özel durumların desteklenmesinin gerektiği yerler dışında sözdizimsel anahtar sözcükler değildir.
+   </p>
+        <p>
+    İkinci örnek, il isimlerini ve bulundukları coğrafik bölgeleri saklayacaktır:
+   </p>
+        <pre class="screen">CREATE TABLE iller (
+    ad            varchar(80),
+    konum         point
+);
+</pre>
+        <p>
+    Buradaki <code class="literal">point</code>, PostgreSQL'e özel veri türüne bir örnektir.
+   </p>
+        <p>
+    Son olarak, eğer bir tabloya artık ihtiyacınız kalmadıysa ya da onu baştan oluşturmak istiyorsanız şu komutu kullanabilirsiniz:
+   </p>
+        <p>
+    <span class="command"><strong>DROP TABLE</strong></span> <em class="replaceable"><code>tabloismi</code></em>;
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

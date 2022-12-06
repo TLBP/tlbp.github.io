@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4. Dizgeler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-examples.html" title="3. Basit Örnekler"/>
+    <link rel="next" href="ruby-ug-regex.html" title="5. Düzenli İfadeler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-examples.html')">Önceki</button>
+          <div class="dropdown-content">3. Basit Örnekler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-regex.html')">Sonraki</button>
+          <div class="dropdown-content">5. Düzenli İfadeler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-strings">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">4. Dizgeler</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Ruby'de dizgelerle sayısal bir veriymiş gibi işlem yapabilirsiniz. Bir dizge çift ("...") ya da tek ('...') tırnaklı olabilir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"abc"</em>
+   <em class="emphasis evaloutput">"abc"</em>
+ruby&gt; <em class="emphasis evalinput">'abc'</em>
+   <em class="emphasis evaloutput">"abc"</em>
+</pre>
+        <p>
+   Bazı durumlarda çift ve tek tırnak farklı işlevler görür. Çift tırnaklı bir dizge tersbölü öncelemeli karakterleri kullanmayı ve <span class="command"><strong>#{}</strong></span> kullanan gömülü ifadeleri çalıştırmayı mümkün kılar. Halbuki, tek tırnaklı dizgelerle bunlar yapılamaz: ne görürseniz onu alırsınız. Örneğin:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">print "a\nb\nc","\n"</em>
+a
+b
+c
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">print 'a\nb\n',"\n"</em>
+a\nb\nc
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">"\n"</em>
+   <em class="emphasis evaloutput">"\n"</em>
+ruby&gt; <em class="emphasis evalinput">'\n'</em>
+   <em class="emphasis evaloutput">"\\n"</em>
+ruby&gt; <em class="emphasis evalinput">"\001"</em>
+   <em class="emphasis evaloutput">"\001"</em>
+ruby&gt; <em class="emphasis evalinput">'\001'</em>
+   <em class="emphasis evaloutput">"\\001"</em>
+ruby&gt; <em class="emphasis evalinput">"abcd #{5*3} efg"</em>
+   <em class="emphasis evaloutput">"abcd 15 efg"</em>
+ruby&gt; <em class="emphasis evalinput">var = " abc "</em>
+   <em class="emphasis evaloutput">" abc "</em>
+ruby&gt; <em class="emphasis evalinput">"1234#{var}5678"</em>
+   <em class="emphasis evaloutput">"1234 abc 5678"</em>
+</pre>
+        <p>
+   Ruby'nin dizge işlemleri C'ye kıyasla daha esnek ve şıktır.Örneğin <span class="command"><strong>+</strong></span> ile iki dizgeyi birleştirebilirsiniz ya da <span class="command"><strong>*</strong></span> ile bir dizgeyi birçok kez tekrar ettirebirsiniz:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"foo" + "bar"</em>
+   <em class="emphasis evaloutput">"foobar"</em>
+ruby&gt; <em class="emphasis evalinput">"foo" * 2</em>
+   <em class="emphasis evaloutput">"foofoo"</em>
+</pre>
+        <p>
+   Dizgeleri birleştirme işi C'de, doğrudan bellek yönetimi nedeniyle oldukça yakışıksızdır:
+  </p>
+        <pre class="screen">
+char *s = malloc(strlen(s1)+strlen(s2)+1);
+strcpy(s, s1);
+strcat(s, s2);
+/* ... */
+free(s);
+</pre>
+        <p>
+   Ruby kullandığımız için dizgelere herhangi bir alan ayırmamıza gerek yok. Bellek yönetimi açısından tamamen özgürüz.
+  </p>
+        <p>
+   Aşağıda dizgelerle yapabileceğiniz birkaç örnek var:
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek 4.1. Birleştirme</div>
+          <div class="example-contents">
+            <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">word = "fo" + "o"</em>
+   <em class="emphasis evaloutput">"foo"</em>
+</pre>
+          </div>
+        </div>
+        <br class="example-break"/>
+        <div class="example">
+          <div class="example-title">Örnek 4.2. Tekrarlatma</div>
+          <div class="example-contents">
+            <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">word = word * 2</em>
+   <em class="emphasis evaloutput">"foofoo"</em>
+</pre>
+          </div>
+        </div>
+        <br class="example-break"/>
+        <div class="example">
+          <div class="example-title">Örnek 4.3. Karakterler seçimi</div>
+          <div class="example-contents">
+            <p>
+    Ruby'de karakterlerin tamsayı olduğuna dikkat edelim:
+   </p>
+            <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">word[0]</em>
+   <em class="emphasis evaloutput">102</em>            # 102, `f' harfinin ASCII kodudur.
+ruby&gt; <em class="emphasis evalinput">word[-1]</em>
+   <em class="emphasis evaloutput">111</em>            # 111 `o' harfinin ASCII kodudur.
+</pre>
+            <p>
+    (Negatif indisler dizgenin başlangıcı yerine sonundan itibaren konumlanır.)
+   </p>
+          </div>
+        </div>
+        <br class="example-break"/>
+        <div class="example">
+          <div class="example-title">Örnek 4.4. Altdizge seçimi</div>
+          <div class="example-contents">
+            <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">herb = "parsley"</em>
+   <em class="emphasis evaloutput">"parsley"</em>
+ruby&gt; <em class="emphasis evalinput">herb[0,1]</em>
+   <em class="emphasis evaloutput">"p"</em>
+ruby&gt; <em class="emphasis evalinput">herb[-2,2]</em>
+   <em class="emphasis evaloutput">"ey"</em>
+ruby&gt; <em class="emphasis evalinput">herb[0..3]</em>
+   <em class="emphasis evaloutput">"pars"</em>
+ruby&gt; <em class="emphasis evalinput">herb[-5..-2]</em>
+   <em class="emphasis evaloutput">"rsle"</em>
+</pre>
+          </div>
+        </div>
+        <br class="example-break"/>
+        <div class="example">
+          <div class="example-title">Örnek 4.5. Aynılığın sınanması</div>
+          <div class="example-contents">
+            <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"foo" == "foo"</em>
+   <em class="emphasis evaloutput">true</em>
+ruby&gt; <em class="emphasis evalinput">"foo" == "bar"</em>
+   <em class="emphasis evaloutput">false</em>
+</pre>
+            <div class="note">
+              <h3 class="title">Bilginize</h3>
+              <div class="admon-contents">
+                <p>
+     ruby-1.0 sürümünde yukarıdaki sonuçlar büyük harflidir (TRUE gibi).
+    </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br class="example-break"/>
+        <p>
+   Şimdi bu özelliklerin bazılarını hayata geçirelim: Bulmacamız bir "kelimeyi bil" bulmacası ama sanırım "bulmaca" kelimesi fazla mütevazi oldu <span class="command"><strong>;)</strong></span>
+  </p>
+        <pre class="screen">
+# guess.rb olarak kaydedin
+words = ['kestane', 'gurgen', 'palamut']
+secret = words[rand(3)]
+
+print "tahmin et? "
+while guess = STDIN.gets
+  guess.chop!
+  if guess == secret
+    print "Bildin!\n"
+    break
+  else
+    print "Üzgünüm kaybettin.\n"
+  end
+  print "tahmin et? "
+end
+print "Kelime ", secret, ".\n"
+</pre>
+        <p>
+   Şimdilik kodun ayrıntıları hakkında fazla kafa yormayalım. Aşağıda yazılımın nasıl çalışması gerektiği görülüyor:
+  </p>
+        <pre class="screen">
+<code class="prompt">$</code> <span class="command"><strong>ruby guess.rb</strong></span>
+tahmin et? kestane
+Üzgünüm kaybettin.
+tahmin et? gurgen
+Üzgünüm kaybettin.
+tahmin et? ^D
+Kelime palamut.
+</pre>
+        <p>
+   (1/3 olasılığa karşı biraz daha iyi yapmalıydım...)
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

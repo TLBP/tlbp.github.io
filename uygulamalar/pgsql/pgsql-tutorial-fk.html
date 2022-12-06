@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.2. Anahtarlar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-views.html" title="4.1. Sanal Tablolar"/>
+    <link rel="next" href="pgsql-tutorial-transactions.html" title="4.3. Hareketler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-views.html')">Önceki</button>
+          <div class="dropdown-content">4.1. Sanal Tablolar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-advanced.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-transactions.html')">Sonraki</button>
+          <div class="dropdown-content">4.3. Hareketler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-fk">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.2. Anahtarlar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <a class="xref" href="pgsql-tutorial-sql.html" title="3. SQL Dili"><em><abbr class="acronym">SQL</abbr> Dili</em></a> kısmındaki <code class="literal">hava_durumu</code> ve <code class="literal">iller</code> tablolarını tekrar ele alalım ve <code class="literal">hava_durumu</code> tablosuna girilecek kayıtlardan <code class="literal">iller</code> tablosundaki kayıtlarla eşleşmeyecek olanlarının tabloya girilmeyeceğinden emin olmak istediğinizi varsayalım. Buna <em class="wordasword">verilerin göreli bütünlüğünün sağlanaması</em> diyoruz. Basitleştirmeli veritabanı sistemlerinde bu şöyle gerçeklenir: Önce <code class="literal">iller</code> tablosunda eşleşen bir kaydın olup olmadığına bakılır ve yeni <code class="literal">hava_durumu</code> kaydının tabloya girilip girilmeyeceğine karar verilir. Bu yaklaşım çok sakıncalı sorunlar içerir, ancak <span class="productname">PostgreSQL</span> bunu sizin için yapabilir.
+   </p>
+        <p>
+    Tabloların yeni bildirimleri şöyle olurdu:
+   </p>
+        <pre class="screen">CREATE TABLE iller (
+        ad     varchar(80) primary key,
+        konum  point
+);
+
+CREATE TABLE hava_durumu (
+        il        varchar(80) references iller(ad),
+        asg_sck   int,
+        azm_sck   int,
+        yağış     real,
+        tarih     date
+);
+</pre>
+        <p>
+    Şimdi geçersiz bir kaydı girmeye çalışalım:
+   </p>
+        <pre class="screen">INSERT INTO hava_durumu VALUES ('Berkeley', 45, 53, 0.0, '1994-11-28');
+</pre>
+        <p>Çıktısı:</p>
+        <pre class="screen">HATA:  "hava_durumu" tablosu üzerindeki ekleme veya güncelleme işlemi "hava_durumu_il_fkey" foreign key kısıtlamasını ihlal ediyor
+AYRINTI:  "iller" tablosunda (il)=(Berkeley) anahtarı mevcut değildir.
+</pre>
+        <p>
+    Anahtarların davranışları uygulamanıza en iyi şekilde uyarlanabilir. Bu eğitmende bu basit örnekten daha ileri gitmeyeceğiz, fakat daha fazla bilgi edinmek isterseniz, <span class="productname">PostgreSQL</span> belgelerindeki <a class="link" href="http://www.postgresql.org/docs/current/ddl.html" target="_top">Data Definition</a> kısmına bakabilirsiniz. Anahtarları doğru şekilde kullanarak veritabanı uygulamalarınızın kalitesini oldukça arttırabilirsiniz, dolayısıyla anahtar kullanımını iyi öğrenmenizi öneririz.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

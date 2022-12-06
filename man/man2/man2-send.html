@@ -90,7 +90,7 @@
    <span class="command"><strong>send</strong></span>(), <span class="command"><strong>sendto</strong></span>() ve <span class="command"><strong>sendmsg</strong></span>() sistem çağrıları bir başka sokete ileti aktarmakta kullanılır.
   </p>
           <p>
-   <span class="command"><strong>send</strong></span>() çağrısı soket sadece <em class="replaceable"><code>connected</code></em> (bağlantılı) durumda ise kullanılabilir (böylece amaçlanan alıcı biliniyor olur). <span class="command"><strong>send</strong></span>() ve <tt><b>write</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> bağımsız değişkeninin varlığıdır. Sıfır değeri atanmış <em class="replaceable"><code>flags</code></em> bağımsız değişkeni kullanan <span class="command"><strong>send</strong></span>() ile <tt><b>write</b>(2)</tt> eşdeğerdir. Ayrıca aşağıdaki
+   <span class="command"><strong>send</strong></span>() çağrısı soket sadece <em class="replaceable"><code>connected</code></em> (bağlantılı) durumda ise kullanılabilir (böylece amaçlanan alıcı biliniyor olur). <span class="command"><strong>send</strong></span>() ve <tt><b>write</b>(2)</tt> arasındaki tek fark <em class="replaceable"><code>flags</code></em> değişkeninin varlığıdır. Sıfır değeri atanmış <em class="replaceable"><code>flags</code></em> değişkeni kullanan <span class="command"><strong>send</strong></span>() ile <tt><b>write</b>(2)</tt> eşdeğerdir. Ayrıca aşağıdaki
   </p>
           <pre class="screen">send(sockfd, buf, len, flags);
 </pre>
@@ -98,10 +98,10 @@
           <pre class="screen">sendto(sockfd, buf, len, flags, NULL, 0);
 </pre>
           <p>
-   çağrısına eşdeğerdir. <em class="replaceable"><code>sockfd</code></em> bağımsız değişkeni, gönderen soketin dosya tanıtıcısıdır.
+   çağrısına eşdeğerdir. <em class="replaceable"><code>sockfd</code></em> değişkeni, gönderen soketin dosya tanıtıcısıdır.
   </p>
           <p>
-   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<code class="constant">SOCK_STREAM</code>, <code class="constant">SOCK_SEQPACKET</code>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> bağımsız değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <code class="constant">EISCONN</code> hatası dönebilir) ve eğer soket bağlanmadıysa <code class="constant">ENOTCONN</code> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
+   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<code class="constant">SOCK_STREAM</code>, <code class="constant">SOCK_SEQPACKET</code>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <code class="constant">EISCONN</code> hatası dönebilir) ve eğer soket bağlanmadıysa <code class="constant">ENOTCONN</code> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
   </p>
           <p>
    <span class="command"><strong>send</strong></span>() ve <span class="command"><strong>sendto</strong></span>() için, ileti <em class="replaceable"><code>buf</code></em> tamponu içinde tutulur ve <em class="replaceable"><code>len</code></em> uzunluktadır. <span class="command"><strong>sendmsg</strong></span>() için, ileti <em class="replaceable"><code>msg.msg_iov</code></em> dizisindeki öğelerle gösterilir. <span class="command"><strong>sendmsg</strong></span>() çağrısı yardımcı verinin de yollanmasını sağlar (denetim bilgisi de denir).
@@ -118,7 +118,7 @@
           <div class="refsect2">
             <h3><em class="replaceable"><code>flags</code></em> değerleri</h3>
             <p>
-    <em class="replaceable"><code>flags</code></em> bağımsız değişkeninin değeri ya sıfırdır ya da aşağıdaki sabitlerin  bit düzeyinde veyalanmasıyla elde edilir.
+    <em class="replaceable"><code>flags</code></em> değişkeninin değeri ya sıfırdır ya da aşağıdaki sabitlerin  bit düzeyinde veyalanmasıyla elde edilir.
    </p>
             <div class="glosslist">
               <dl>
@@ -308,7 +308,7 @@
               </dt>
               <dd class="glossdef">
                 <p>
-      Bir bağımsız değişken için belirtilen kullanıcı adres uzayı geçersiz.
+      Belirtilen kullanıcı adres uzayı geçersiz.
      </p>
               </dd>
               <dt>
@@ -328,7 +328,7 @@
               </dt>
               <dd class="glossdef">
                 <p>
-      Belirtilen bağımsız değişken geçersiz.
+      Belirtilen değer geçersiz.
      </p>
               </dd>
               <dt>
@@ -398,7 +398,7 @@
               </dt>
               <dd class="glossdef">
                 <p>
-      <em class="replaceable"><code>flags</code></em> bağımsız değişkenindeki bazı bitler soket türüyle uyumsuz.
+      <em class="replaceable"><code>flags</code></em> değişkenindeki bazı bitler soket türüyle uyumsuz.
      </p>
               </dd>
               <dt>

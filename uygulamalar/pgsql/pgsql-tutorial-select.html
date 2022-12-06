@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.4. Bir Tablonun Sorgulanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-populate.html" title="3.3. Tablolara Satırların Girilmesi"/>
+    <link rel="next" href="pgsql-tutorial-join.html" title="3.5. Tablolar Arası Katılım"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-populate.html')">Önceki</button>
+          <div class="dropdown-content">3.3. Tablolara Satırların Girilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-sql.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-join.html')">Sonraki</button>
+          <div class="dropdown-content">3.5. Tablolar Arası Katılım</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-select">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.4. Bir Tablonun Sorgulanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir tablodan verileri almak için tablo <em class="wordasword">sorgulanır</em>. Bunun için bir <abbr class="acronym">SQL</abbr> cümlesi olan <code class="literal">SELECT</code> kullanılır. Cümle, bir seçim listesi (istenen sütunları içeren bir liste), bir tablo listesi (verilerin alınacağı tabloların listesi) ve isteğe bağlı bir niteleme (sınırlamaların belirtildiği kısım) içerir. Örneğin, <code class="literal">hava_durumu</code> tablosundaki satırların tamamını almak için şunu yazın:
+   </p>
+        <pre class="screen">SELECT * FROM hava_durumu;
+</pre>
+        <p><span class="notfoot"/>
+    Burada <code class="literal">*</code>, "tüm sütunlar" anlamına gelen bir kısayoldur.<a href="#ftn.idm64971" class="footnote"><sup class="footnote">[25]</sup></a>
+   </p>
+        <p>
+    Yani, aynı sonuç böyle de alınacaktır:
+   </p>
+        <pre class="screen">SELECT il, asg_sck, azm_sck, yağış, tarih FROM hava_durumu;
+</pre>
+        <p>
+    Çıktı şöyle olmalıdır:
+   </p>
+        <pre class="screen">      il       | asg_sck | azm_sck | yağış |   tarih
+---------------+---------+---------+-------+------------
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27
+ San Francisco |      43 |      57 |     0 | 1994-11-29
+ Hayward       |      37 |      54 |       | 1994-11-29
+(3 satır)
+
+</pre>
+        <p>
+    Seçim listesinde sadece sütun isimlerini değil, ifadeleri de kullanabilirsiniz. Örnek:
+   </p>
+        <pre class="screen">SELECT il, (asg_sck+azm_sck)/2 AS ort_sck, tarih FROM hava_durumu;
+</pre>
+        <p>
+    Bunun çıktısı şöyle olacaktır:
+   </p>
+        <pre class="screen">      il       | ort_sck |   tarih
+---------------+---------+------------
+ San Francisco |      48 | 1994-11-27
+ San Francisco |      50 | 1994-11-29
+ Hayward       |      45 | 1994-11-29
+(3 satır)
+</pre>
+        <p>
+    <code class="literal">AS</code> deyiminin çıktılanacak sütunu yeniden isimlendirmekte nasıl kullanıldığına dikkat edin. (<code class="literal">AS</code> deyimi isteğe bağlıdır.)
+   </p>
+        <p>
+    Bir sorgu, istenen satırların yerini belirtmek üzere bir <code class="literal">WHERE</code> deyimi eklenerek nitelikli yapılabilir. <code class="literal">WHERE</code> deyimi bir mantıksal ifade içerir ve sadece mantıksal ifadeyi doğrulayan satırlar döndürülür. Niteleme amacıyla mantıksal işleçlere (<code class="literal">AND</code>, <code class="literal">OR</code> ve <code class="literal">NOT</code>) izin verilir. Örneğin, San Francisco'nun yağışlı olduğu günleri bulalım:
+   </p>
+        <pre class="screen">SELECT * FROM hava_durumu
+     WHERE il = 'San Francisco' AND yağış &gt; 0.0;
+</pre>
+        <p>
+    Sonuç:
+   </p>
+        <pre class="screen">      il       | asg_sck | azm_sck | yağış |   tarih
+---------------+---------+---------+-------+------------
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27
+(1 satır)
+
+</pre>
+        <p>
+    Sorgu sonucunun sıralanmış olmasını da isteyebilirsiniz:
+   </p>
+        <pre class="screen">SELECT * FROM hava_durumu
+    ORDER BY il;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il       | asg_sck | azm_sck | yağış |   tarih
+---------------+---------+---------+-------+------------
+ Hayward       |      37 |      54 |       | 1994-11-29
+ San Francisco |      46 |      50 |  0.25 | 1994-11-27
+ San Francisco |      43 |      57 |     0 | 1994-11-29
+(3 satır)
+</pre>
+        <p>
+    Bu örnekte, sıralamanın nasıl yapılacağı tam olarak belirtilmemiştir, dolayısıyla hangi San Fransisco satırının önce geleceği belli olmaz. Fakat aşağıdaki sorgu daima bu sıralamayla dönecektir.
+   </p>
+        <pre class="screen">SELECT * FROM hava_durumu
+    ORDER BY il, asg_sck;
+</pre>
+        <p>
+    Bir sorgunun sonucundan yinelenmiş satırların kaldırılmasını isteyebilirsiniz:
+   </p>
+        <pre class="screen">mydb=&gt; SELECT DISTINCT il
+    FROM hava_durumu;
+</pre>
+        <p>Sonuç:</p>
+        <pre class="screen">      il
+---------------
+ Hayward
+ San Francisco
+(2 satır)
+
+</pre>
+        <p><span class="notfoot"/>
+    Burada da yine satırların sırası her sorguda farklı olabilir. Sonucun istediğimiz sırada olmasını <code class="literal">DISTINCT</code> ve  <code class="literal">ORDER BY</code> deyimlerini birlikte kullanarak sağlayabilirsiniz<a href="#ftn.idm65007" class="footnote"><sup class="footnote">[26]</sup></a>:
+   </p>
+        <pre class="screen">SELECT DISTINCT il
+    FROM hava_durumu
+    ORDER BY il;
+</pre>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm64971" class="footnote">
+            <p><a href="#idm64971" class="para"><sup class="para">[25] </sup></a><code class="literal">SELECT *</code> kolay bir sorgulama olarak kullanışlı gibi görünse de, tabloya bir sütun eklemek sonuçları değiştireceğinden uygulamada çoğunlukla kötü bir tarz olarak kabul edilir.  </p>
+          </div>
+          <div id="ftn.idm65007" class="footnote">
+            <p><a href="#idm65007" class="para"><sup class="para">[26] </sup></a>
+     Bazı veritabanı sistemlerinde ve PostgreSQL'in eski sürümlerinde <code class="literal">DISTINCT</code> gerçeklenimi sıralamayı özdevimli yaptığından <code class="literal">ORDER BY</code> gereksizdir. Fakat bunun böyle olması SQL standardının bir zorlaması değildir ve şimdiki <span class="productname">PostgreSQL</span> <code class="literal">DISTINCT</code> deyiminin satırları sıralayacağını garanti etmemektedir.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

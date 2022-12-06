@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.4. Pencere İşlevleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-transactions.html" title="4.3. Hareketler"/>
+    <link rel="next" href="pgsql-tutorial-inheritance.html" title="4.5. Kalıtım"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-transactions.html')">Önceki</button>
+          <div class="dropdown-content">4.3. Hareketler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-advanced.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-inheritance.html')">Sonraki</button>
+          <div class="dropdown-content">4.5. Kalıtım</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-window">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.4. Pencere İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir <em class="firstterm">pencere işlevi</em>, geçerli satırla bir şekilde ilişkili olan bir dizi tablo satırında bir hesaplama gerçekleştirir. Bu hesaplama türü, toplama işlevleriyle yapılabilecek hesaplamayla karşılaştırılabilir. Ancak, pencere işlevleri, penceresiz toplama çağrıların yaptığı gibi satırların tek bir çıktı satırında gruplandırılmasını sağlamaz. Bunun yerine, satırlar kendi kimliklerini korur. Perde arkasında, pencere işlevi, sorgu sonucunun geçerli tek bir satırından çok daha fazlasına erişebilir.
+   </p>
+        <p>
+    Her çalışanın (employee) maaşını (salary) kendi bölümündeki (depname) ortalama maaşla nasıl karşılaştıracağını gösteren bir örnek:
+   </p>
+        <pre class="screen">
+SELECT depname, empno, salary, avg(salary) OVER (PARTITION BY depname) FROM empsalary;
+</pre>
+        <p>Çıktısı:</p>
+        <pre class="screen">
+  depname  | empno | salary |          avg
+-----------+-------+--------+-----------------------
+ develop   |    11 |   5200 | 5020.0000000000000000
+ develop   |     7 |   4200 | 5020.0000000000000000
+ develop   |     9 |   4500 | 5020.0000000000000000
+ develop   |     8 |   6000 | 5020.0000000000000000
+ develop   |    10 |   5200 | 5020.0000000000000000
+ personnel |     5 |   3500 | 3700.0000000000000000
+ personnel |     2 |   3900 | 3700.0000000000000000
+ sales     |     3 |   4800 | 4866.6666666666666667
+ sales     |     1 |   5000 | 4866.6666666666666667
+ sales     |     4 |   4800 | 4866.6666666666666667
+(10 satır)
+</pre>
+        <p>
+    Çıktının ilk üç sütunu doğrudan <code><span class="structname"><strong>empsalary</strong></span></code> tablosundan gelir ve tablodaki her satır için bir çıktı satırı vardır. Dördüncü sütun, geçerli satırla aynı <tt>depname</tt> değerine sahip tüm satırlardan elde edilen ortalamayı temsil eder. (Bu aslında, pencere olmayan <code class="function">avg</code> toplamı ile aynı işlevdir, ancak <code class="literal">OVER</code> deyimi, bunun bir pencere işlevi olarak ele alınmasına ve pencere çerçevesi boyunca hesaplanmasına neden olur.)
+   </p>
+        <p>
+    Bir pencere işlevi çağrısı her zaman pencere işlevinin adını ve bağımsız değişkenlerini izleyen bir <code class="literal">OVER</code> deyimi içerir. Bu, onu normal bir işlevden veya pencere olmayan bir toplamdan sözdizimsel olarak ayıran şeydir. <code class="literal">OVER</code> deyimi, sorgu satırlarının pencere işlevi tarafından işlenmek üzere tam olarak nasıl bölüneceğini belirler. <code class="literal">OVER</code> içindeki <code class="literal">PARTITION BY</code> deyimi, satırları, <code class="literal">PARTITION BY</code> ifade(ler)iyle aynı değerlerini paylaşan gruplara veya bölümlere ayırır. Her satır için pencere işlevi, geçerli satırla aynı bölüme düşen satırlar arasında hesaplanır.
+   </p>
+        <p>
+    <code class="literal">OVER</code> içinde <code class="literal">ORDER BY</code> kullanarak satırların pencere işlevleri tarafından işlenme sırasını da denetim altına alabilirsiniz. (<code class="literal">ORDER BY</code> penceresinin çıktı satırlarının sırasına uyması bile gerekmez.) İşte bir örnek:
+   </p>
+        <pre class="screen">
+SELECT depname, empno, salary,
+       rank() OVER (PARTITION BY depname ORDER BY salary DESC)
+FROM empsalary;
+</pre>
+        <p>Çıktısı:</p>
+        <pre class="screen">
+  depname  | empno | salary | rank
+-----------+-------+--------+------
+ develop   |     8 |   6000 |    1
+ develop   |    10 |   5200 |    2
+ develop   |    11 |   5200 |    2
+ develop   |     9 |   4500 |    4
+ develop   |     7 |   4200 |    5
+ personnel |     2 |   3900 |    1
+ personnel |     5 |   3500 |    2
+ sales     |     1 |   5000 |    1
+ sales     |     4 |   4800 |    2
+ sales     |     3 |   4800 |    2
+(10 satır)
+</pre>
+        <p>
+    Burada gösterildiği gibi, <code class="function">rank</code>() işlevi, <code class="literal">ORDER BY</code> deyimi tarafından tanımlanan sırayı kullanarak, geçerli satırın bölümündeki her farklı <code class="literal">ORDER BY</code> değeri için sayısal bir sıra üretir. <code class="function">rank</code>() işlevinin bağımsız değişkenleri yoktur, çünkü davranışı tamamen <code class="literal">OVER</code> deyimi tarafından belirlenir.
+   </p>
+        <p>
+    Bir pencere işlevi tarafından dikkate alınan satırlar, sorgunun <code class="literal">FROM</code> deyimi tarafından <code class="literal">WHERE</code>, <code class="literal">GROUP BY</code> ve varsa <code class="literal">HAVING</code> deyimleri ile elde edilen "hayali" bir tablonun satırlarıdır. Örneğin, <code class="literal">WHERE</code> koşulunu karşılamadığı için kaldırılan bir satırı herhangi bir pencere işlevi göremez. Bir sorgu, farklı <code class="literal">OVER</code> deyimleri kullanarak verileri farklı şekillerde dilimleyen birden çok pencere işlevi içerebilir, ancak bunların tümü bu "hayali" tablo tarafından tanımlanan aynı satır kümesinde hareket eder.
+   </p>
+        <p>
+    Satırların sıralaması önemli değilse, <code class="literal">ORDER BY</code> deyiminin atlanabileceğini zaten gördük. <code class="literal">PARTITION
+    BY</code> deyimini de atlamak da mümkündür, bu durumda tüm satırları içeren tek bir bölüm olur.
+   </p>
+        <p><span class="notfoot"/>
+    Pencere işlevleriyle ilişkili önemli kavram daha vardır: her satır için, kendi bölümünde <em class="firstterm">pencere çerçevesi</em> adı verilen bir dizi satır vardır. Bazı pencere işlevleri, tüm bölme yerine yalnızca pencere çerçevesinin satırları üzerinde hareket eder. Öntanımlı olarak, <code class="literal">ORDER BY</code> belirtilirse, pencere çerçevesi bölümün başlangıcından geçerli satıra kadar olan tüm satırlardan ve takip eden satırlardan <code class="literal">ORDER BY</code> deyimine göre geçerli satırla eşleşen satırlardan oluşur. <code class="literal">ORDER BY</code> atlandığında, öntanımlı pencere çerçevesi bölümdeki tüm satırlardan oluşur.<a href="#ftn.idm65298" class="footnote"><sup class="footnote">[27]</sup></a>
+    İşte <code class="function">sum</code>() işlevini kullanan bir örnek:
+   </p>
+        <pre class="screen">
+SELECT salary, sum(salary) OVER () FROM empsalary;
+</pre>
+        <p>Çıktısı:</p>
+        <pre class="screen">
+ salary |  sum
+--------+-------
+   5200 | 47100
+   5000 | 47100
+   3500 | 47100
+   4800 | 47100
+   3900 | 47100
+   4200 | 47100
+   4500 | 47100
+   4800 | 47100
+   6000 | 47100
+   5200 | 47100
+(10 satır)
+</pre>
+        <p>
+    Yukarıda, <code class="literal">OVER</code> deyiminde <code class="literal">ORDER BY</code> olmadığı için pencere çerçevesi, <code class="literal">PARTITION BY</code> olmadığı için  tablonun tamamından oluşan bölme ile aynıdır; diğer bir deyişle, her toplam tablonun tamamından elde edilir ve böylece her çıktı satırı için aynı sonucu elde ederiz. Ancak bir <code class="literal">ORDER BY</code> deyimi eklersek çok farklı sonuçlar elde ederiz:
+   </p>
+        <pre class="screen">
+SELECT salary, sum(salary) OVER (ORDER BY salary) FROM empsalary;
+</pre>
+        <p>Çıktısı:</p>
+        <pre class="screen">
+ salary |  sum
+--------+-------
+   3500 |  3500
+   3900 |  7400
+   4200 | 11600
+   4500 | 16100
+   4800 | 25700
+   4800 | 25700
+   5000 | 30700
+   5200 | 41100
+   5200 | 41100
+   6000 | 47100
+(10 satır)
+</pre>
+        <p>
+    Maaşlar düşükten yükseğe sıralanırken, ikinci sütunda her maaş kendinden öncekilerin toplamına eklenerek gösterilir.
+   </p>
+        <p>
+    Pencere işlevlerine yalnızca <code class="literal">SELECT</code> listesinde ve sorgunun ORDER BY deyiminde izin verilir. <code class="literal">GROUP BY</code>, <code class="literal">HAVING</code> ve <code class="literal">WHERE</code> deyimleri gibi başka yerlerde yasaktır. Bunun nedeni, bu deyimlerin işlenmesinden sonra mantıksal olarak yürütülmeleridir. Ayrıca, pencere işlevleri, penceresiz toplu işlevlerden sonra yürütülür. Bu, bir pencere işlevinin bağımsız değişkenlerine bir toplu işlev çağrısını dahil etmenin geçerli olduğu, ancak bunun tersinin geçerli olmadığı anlamına gelir.
+   </p>
+        <p>
+    Pencere hesaplamaları yapıldıktan sonra satırları elemek veya gruplandırmak gerekirse, bir alt seçim kullanabilirsiniz. Örneğin:
+   </p>
+        <pre class="screen">
+SELECT depname, empno, salary, enroll_date
+FROM
+  (SELECT depname, empno, salary, enroll_date,
+          rank() OVER (PARTITION BY depname ORDER BY salary DESC, empno) AS pos
+     FROM empsalary
+  ) AS ss
+WHERE pos &lt; 3;
+</pre>
+        <p>
+    Yukarıdaki sorgu, iç sorguda sıralanan satırlardan ilk 3'ünü gösterir.
+   </p>
+        <p>
+    Bir sorgu birden çok pencere işlevi içerdiğinde, her biri için ayrı bir <code class="literal">OVER</code> deyimi yazmak mümkündür, ancak birkaç işlev için aynı pencereleme davranışı istenirse bu tekrarlanabilir ama hataya açıktır. Bunun yerine, her pencereleme davranışı bir <code class="literal">WINDOW</code> deyiminde adlandırılıp <code class="literal">OVER</code> deyiminde bu ada başvurulabilir. Örnek:
+   </p>
+        <pre class="screen">
+SELECT sum(salary) OVER w, avg(salary) OVER w
+  FROM empsalary
+  WINDOW w AS (PARTITION BY depname ORDER BY salary DESC);
+</pre>
+        <p>
+    Pencere işlevleri hakkında daha ayrıntılı bilgi  <span class="productname">PostgreSQL</span> belgelerindeki
+    <a class="link" href="https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS" target="_top">Window Function Calls</a>,
+    <a class="link" href="https://www.postgresql.org/docs/current/functions-window.html" target="_top">Window Functions</a>,
+    <a class="link" href="https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-WINDOW" target="_top">Window Function Processing</a> bölümlerinde ve
+    <a class="link" href="https://www.postgresql.org/docs/current/sql-select.html" target="_top">SELECT</a> kılavuz sayfasında bulunabilir.
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm65298" class="footnote">
+            <p><a href="#idm65298" class="para"><sup class="para">[27] </sup></a>
+     Pencere çerçevesini başka şekillerde tanımlamak da mümkündür, ancak bu eğitim bunları kapsamamaktadır. Ayrıntılar <a class="link" href="https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS" target="_top">Window Function Calls</a> bölümünde bulunabilir.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

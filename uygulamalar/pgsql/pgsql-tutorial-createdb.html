@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2.2. Bir Veritabanının Oluşturulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="pgsql-tutorial-arch.html" title="2.1. Mimarinin Temelleri"/>
+    <link rel="next" href="pgsql-tutorial-accessdb.html" title="2.3. Bir Veritabanına Erişim"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-arch.html')">Önceki</button>
+          <div class="dropdown-content">2.1. Mimarinin Temelleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-start.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('pgsql-tutorial-accessdb.html')">Sonraki</button>
+          <div class="dropdown-content">2.3. Bir Veritabanına Erişim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="pgsql-tutorial-createdb">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">2.2. Bir Veritabanının Oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Veritabanına sunucusuna erişiminiz olup olmadığını görmek için yapılacak ilk sınama bir veritabanı oluşturmaya çalışmaktır. Çalışan bir <span class="productname">PostgreSQL</span> sunucusu çok sayıda veritabanını yönetebilir. Genellikle, her proje ya da her kullanıcı için ayrı bir veritabanı kullanılır.
+   </p>
+        <p>
+    Muhtemelen, sistem yöneticiniz sizin için bir veritabanını zaten oluşturmuştur ve size oluşturduğu veritabanı ismini de söylemiştir. Böyle bir durumda bu adımı geçerek bir sonraki bölüme bakabilirsiniz.
+   </p>
+        <p>
+    Bu örnekte, yeni bir veritabanını <code class="literal">mydb</code> ismiyle şöyle oluşturabilirsiniz:
+   </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>createdb -e mydb</code></strong>
+</pre>
+        <p>
+    Çıktısının şöyle olması lazım:
+   </p>
+        <pre class="screen">SELECT pg_catalog.set_config('search_path', '', false);
+CREATE DATABASE mydb;
+</pre>
+        <p>
+    Bu çıktıyı alıyorsanız, bu adım tamamlanmış demektir.
+   </p>
+        <p>
+    Ama, <strong class="userinput"><code>createdb</code></strong> komutunun bulunamadığına ilişkin, şöyle bir çıktı alıyorsanız,
+   </p>
+        <pre class="screen">createdb: command not found
+</pre>
+        <p>
+    <span class="productname">PostgreSQL</span> olması gerektiği gibi kurulmamış demektir. Ya hiç kurulum yapılmamıştır ya da dosya arama yolları (<code class="envar">$PATH</code>) doğru yapılandırılmamıştır. Komutu dosya yolunu belirterek kullanmayı deneyin:
+   </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>/usr/local/pgsql/bin/createdb mydb</code></strong>
+</pre>
+        <p>
+    Bu dosya yolu sisteminizde farklı olabilir. Böyle bir durumda sistem yöneticisi ile bağlantı kurmayı deneyin ya da kurulum adımlarını tekrar gözden geçirip sorunu tespit etmeye çalışın.
+   </p>
+        <p>
+    Çıktı şöyle de olabilirdi:
+   </p>
+        <pre class="screen">createdb: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such file or directory
+     Is the server running locally and accepting connections on that socket?
+</pre>
+        <p>
+    Böyle bir hatanın anlamı ya sunucu başlatılmamıştır ya da <strong class="userinput"><code>createdb</code></strong> sunucunun aradığı yerde değildir. Kurulum adımlarını yeniden gözden geçirin ya da sistem yöneticisi ile temasa geçin.
+   </p>
+        <p>
+    Yanıt şöyle de olabilirdi:
+   </p>
+        <pre class="screen">createdb: hata: template1 veritabanına bağlanılamadı: ÖLÜMCÜL (FATAL):  "nilgun" rolü mevcut değil
+</pre>
+        <p><span class="notfoot"/>
+    Burada "nilgun" yerine sizin kullanıcı isminiz görünecektir. Bu, sistem yöneticinizin sizin için bir  <span class="productname">PostgreSQL</span> kullanıcısı hesabı açmadığı anlamına gelir. (<span class="productname">PostgreSQL</span> kullanıcı hesapları, sistem kullanıcı hesaplarından ayrıdır.) Eğer sistem yöneticisi sizseniz, hesapların oluşturulması ile ilgili bilgi edinmek için PostgreSQL belgelerindeki <a class="link" href="http://www.postgresql.org/docs/current/user-manag.html" target="_top">Veritabanı Kullanıcıları ve Grupları</a> kısmına bakın. İlk kullanıcı hesabını oluşturmak için PostgreSQL'i kuran işletim sistemi kullanıcısı (genellikle bu kullanıcı <code class="literal">postgres</code>'dir) olmanız gerekecektir:<a href="#ftn.idm64752" class="footnote"><sup class="footnote">[23]</sup></a></p>
+        <p>
+    İsterseniz, bu amaçla, bir sistem kullanıcı isminden farklı bir <span class="productname">PostgreSQL</span> kullanıcı ismini de kullanabilirsiniz; <span class="productname">PostgreSQL</span> kullanıcı isminini belirtmek için ya  <code class="option">-U</code> seçeneğini kullanmalı ya da bu ismi <code class="envar">PGUSER</code> ortam değişkenine atamalısınız.
+   </p>
+        <p>
+    Eğer bir kullanıcı hesabınız varsa, ama bir veritabanı oluşturma izniniz yoksa, şöyle bir çıktı alacaksınız:
+   </p>
+        <pre class="screen">SELECT pg_catalog.set_config('search_path', '', false);
+CREATE DATABASE mydb;
+createdb: hata: veritabanı yaratma başarısız oldu: HATA:  veritabanı oluşturmaya izin verilmedi.
+</pre>
+        <p><span class="notfoot"/>
+    Her kullanıcının yeni bir veritabanı oluşturma yetkisi yoktur.  Eğer <span class="productname">PostgreSQL</span> sizin veritabanı oluşturma isteğinizi geri çeviriyorsa, sistem yöneticisinin size gerekli izinleri vermesi gerekmektedir. Böyle bir durumda sistem yöneticisi ile temasa geçin. Eğer sistem yöneticisi siz iseniz böyle bir izin işlemi için sunucuyu hangi kullanıcı ile başlatmışsanız onun ile sisteme giriş yapın ve bu eğiticiyi okuyup uygulamak isteyenlere gerekli hakları tanıyın.<a href="#ftn.idm64764" class="footnote"><sup class="footnote">[24]</sup></a>
+   </p>
+        <p>
+    İsterseniz başka isimler ile de veritabanları oluşturabilirsiniz. <span class="productname">PostgreSQL</span> istediğiniz sayıda veritabanı oluşturma imkanını sunmaktadır. Veritabanı isminin ilk karakteri bir harf olmalı ve isim 63 bayttan daha uzun olmamalıdır. Tercihen kullanıcı adınız ile aynı ismi taşıyan veritabanları oluşturulması tavsiye olunur. Çoğu araç, böyle bir veritabanı ismini öntanımlı olarak kabul eder ve bu sizi az da olsa yazmaktan kurtarır. Yeni bir veritabanı oluşturmak için, basitçe şunu yazın:
+   </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>createdb</code></strong>
+</pre>
+        <p>
+    Eğer veritabanınızı artık kullanmak istemiyorsanız onu kaldırabilirsiniz. Örnek olarak, eğer siz <code class="literal">mydb</code> adlı veritabanının sahibi iseniz, bunu şöyle silebilirsiniz:
+   </p>
+        <pre class="screen"><code class="prompt">$</code> <strong class="userinput"><code>dropdb mydb</code></strong>
+</pre>
+        <p>
+    (Bu komut için, veritabanı ismi öntanımlı olarak kullanıcı ismi değildir. Daima bu ismi belirtmeniz gerekir.) Bu işlem sonucunda fiziksel olarak veritabanınız ile ilgili bütün dosyalar silinecektir ve veritabanınızı geri alamayacaksınız. Bu yüzden bu komutu uygulamadan önce kararınızı tekrar gözden geçirmeniz tavsiye olunur.
+   </p>
+        <p>
+    <strong class="userinput"><code>createdb</code></strong> ve <strong class="userinput"><code>dropdb</code></strong> hakkında daha fazla bilgi edinmek için PostgreSQL belgelerindeki <a class="link" href="http://www.postgresql.org/docs/current/app-createdb.html" target="_top">createdb</a> ve <a class="link" href="http://www.postgresql.org/docs/current/app-dropdb.html" target="_top">dropdb</a> komutlarının açıklamalarına bakınız.
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm64752" class="footnote">
+            <p>
+              <a href="#idm64752" class="para">
+                <sup class="para">[23] </sup>
+              </a>
+            </p>
+            <pre class="screen">$ sudo su postgres
+$ createuser --interactive &lt;kullanıcı&gt;
+</pre>
+          </div>
+          <div id="ftn.idm64764" class="footnote">
+            <p><a href="#idm64764" class="para"><sup class="para">[24] </sup></a>
+      Bunun neden böyle çalıştığına dair açıklama: <span class="productname">PostgreSQL</span> kullanıcı isimleri sistem kullanıcı isimlerinden bağımsızdır. Eğer bir veritabanına bağlanıyorsanız, hangi <span class="productname">PostgreSQL</span> kullanıcı adı ile bağlanacağınızı belirtebilirsiniz; bunu yapmazsanız, sistem kullanıcısı isminiz öntanımlı <span class="productname">PostgreSQL</span> kullanıcı isminiz olarak kullanacaktır. Böyle bir durumda veritabanı sunucusunu başlatan kullanıcı ile aynı isme sahip bir <span class="productname">PostgreSQL</span> kullanıcısı olacaktır ve böyle bir durumda bu kullanıcı her zaman veritabanı oluşturma izinlerine sahip olacaktır. Her seferinde o kullanıcı ile sisteme girmektense <code class="option">-U</code> seçeneği ile PostgreSQL'e bağlanmak istediğiniz kullanıcı adını belirtebilirsiniz.
+     </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

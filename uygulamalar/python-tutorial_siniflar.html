@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9. Sınıflar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="python-tutorial_hatalar.html" title="8. Hatalar ve İstisnalar"/>
+    <link rel="next" href="python-tutorial_son.html" title="10. Ya bundan sonra?"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_hatalar.html')">Önceki</button>
+          <div class="dropdown-content">8. Hatalar ve İstisnalar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_son.html')">Sonraki</button>
+          <div class="dropdown-content">10. Ya bundan sonra?</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="python-tutorial_siniflar">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">9. Sınıflar</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>9.1. <a href="python-tutorial_siniflar.html#python-tutorial_terminoloji">Terminoloji hakkında...</a></dt>
+            <dt>9.2. <a href="python-tutorial_siniflar.html#python-tutorial_isimalani">Python Etki ve İsim Alanları</a></dt>
+            <dt>9.3. <a href="python-tutorial_siniflar.html#python-tutorial_siniflar-ilk">Sınıflara İlk Bakış</a></dt>
+            <dd>
+              <dl>
+                <dt>9.3.1. <a href="python-tutorial_siniflar.html">Sınıf Tanımlama</a></dt>
+                <dt>9.3.2. <a href="python-tutorial_siniflar.html">Sınıf Nesneleri</a></dt>
+                <dt>9.3.3. <a href="python-tutorial_siniflar.html">Örnek Nesneler</a></dt>
+                <dt>9.3.4. <a href="python-tutorial_siniflar.html">Yöntem Nesneleri</a></dt>
+              </dl>
+            </dd>
+            <dt>9.4. <a href="python-tutorial_siniflar.html#python-tutorial_siniflar-aciklamalar">Bazı Açıklamalar</a></dt>
+            <dt>9.5. <a href="python-tutorial_siniflar.html#python-tutorial_miras">Kalıtım</a></dt>
+            <dd>
+              <dl>
+                <dt>9.5.1. <a href="python-tutorial_siniflar.html">Çoklu Kalıtım</a></dt>
+              </dl>
+            </dd>
+            <dt>9.6. <a href="python-tutorial_siniflar.html#python-tutorial_ozel-deg">Özel Değişkenler</a></dt>
+            <dt>9.7. <a href="python-tutorial_siniflar.html#python-tutorial_son1">Sona Kalanlar</a></dt>
+            <dt>9.8. <a href="python-tutorial_siniflar.html#python-tutorial_son2">İstisnalar Sınıf Olabilir</a></dt>
+          </dl>
+        </div>
+        <p>
+   Python'un sınıf mekanizması sınıfları çok az bir sözdizimi ve
+   kavramsallıkla dile ekler. Sınıf mekanizması C++ ile Modula-3 karışımıdır
+   denebilir. Python'da sınıflar modüllerdeki gibi kullanıcı ile tanımlar
+   arasına somut engeller koymaz. Python'da sınıflara gücünü veren başlıca
+   özelliklerini şöyle sıralayabiliriz: sınıflar çok sayıda sınıfı miras
+   alabilir. Bu türetilmiş sınıflar, atalarının yöntemlerini değiştirerek
+   kullanabilirler; ataları ile aynı isme sahip yöntemlerle, atasındaki
+   yöntemleri çağırabilir. Nesneler özel verilere sahip olabilir.
+  </p>
+        <p>
+   C++ terminolojisinde, tüm sınıf üyeleri (veri üyeleri dahil)
+   <code class="literal">public</code> ve tüm üye işlevler <code class="literal">virtual</code>'dir.
+   Özel bir kurucu ya da yıkıcı yoktur. Modula-3'deki gibi, bir nesnenin
+   yöntemlerinden üyelerine başvuru için bir kestirme yol yoktur: bir üye
+   yöntem, dolaylı olarak çağrı ile sağlanan ve doğrudan nesneyi ifade eden
+   bir ilk bağımsız değişken ile bildirilir. Smalltalk'daki gibi, sınıfların kendileri
+   nesnelerdir (sınıfların ve nesnelerin kavramsal özelliklerine uymasa da
+   böyledir). Python'da tüm veri türleri birer nesnedir. Bu onların yeniden
+   isimlendirilebilmesi ve başka veri türlerine dahil edilmesi için bir yol
+   sağlar. Ancak kullanıcı bunları genişletmek için temel sınıf olarak
+   kullanamaz. Ayrıca Modula-3'de olmayan ama C++'da olan, özel yazımlı bir
+   çok yerleşik işleç (aritmetik işleçler, alt indisleme, vs), sınıf
+   gerçeklemeleri için yeniden tanımlanabilir.
+  </p>
+        <section class="sect1" id="python-tutorial_terminoloji">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.1. Terminoloji hakkında...</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sınıflar hakkında konuşurken, evrensel olarak kabul edilmiş bir
+    terminolojinin olmayışından dolayı arasıra Smalltalk ve C++ terimlerini
+    kullanacağım. (Aslında, nesne yönelimi açısından Python'a daha çok benzeyen
+    Modula-3 dili terimlerini kullanırdım; fakat bu dilden haberdar olan
+    okuyucuların azınlıkta olduğunu sanıyorum.)
+   </p>
+          <p>
+    Ayrıca nesne yönelim kavramını bilenleri bir terminoloji tuzağına karşı
+    uyarmalıyım: "Nesne" sözcüğü, Python'da "bir sınıfın gerçeklenmesi"
+    anlamına gelmez.
+    Smalltalk'da olmayan ancak C++ ve Modula-3'dekine
+    benzer şekilde Python'daki veri türlerinin hepsi birer sınıf değildir:
+    tamsayılar ve listeler gibi yerleşik veri türleri ile dosyalar sınıf
+    değildir. Yine de tüm Python veri türleri için ortak bir kavramı
+    paylaşmaları adına nesnelerdir demek yanlış olmaz.
+   </p>
+          <p>
+    Nesneler tek tek ve çoklu isimlerle (çoklu etki alanları içinde), aynı
+    nesneye bağlı olabilir. Bu diğer dillerde kod isimlendirme (aliasing)
+    olarak bilinir. Bu genellikle Python'da ilk bakışta anlaşılmaz ve
+    değişmez temel türler (sayılar, dizgeler, demetler) ile çalışırken
+    yoksayılabilir. Yine de kod isimlendirme, listeler sözlükler gibi
+    değiştirilebilen nesneler ve yazılım dışındaki öğeler (dosyalar,
+    pencereler, vs) için kullanılan bazı türlerinde katılımıyla Python kodunun
+    kavramsallaştırılmasında (kasıtlı!) bir etkiye sahiptir. Bazı yönleriyle
+    kod isimlendirme göstergelere benzer bir davranış sergilediğinden
+    genellikle, yazılım yararına kullanılmıştır. Örneğin, sadece göstergesi
+    aktarıldığından bir nesnenin aktarılması kolaydır; eğer bir işlev,
+    bir bağımsız değişken olarak aktarılan bir nesneyi değiştirirse, işlevi
+    çağıran değişikliği görecektir - bu, Pascal'daki gibi iki farklı bağımsız
+    değişken aktarma gereksinimini ortadan kaldırır.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_isimalani">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.2. Python Etki ve İsim Alanları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sizi sınıflar ile tanışmadan önce, biraz da Python'un etki alanı kurallarından
+    bahsetmem gerek. Sınıf tanımlamalarını tam olarak anlamak için etki ve isim
+    alanlarının nasıl çalıştığını bilmeniz gerek. Bu konudaki bilgiler ileri
+    seviyedeki her Python yazılımcısı için yaralıdır.
+   </p>
+          <p>Birkaç tanım ile işe koyulalım.</p>
+          <p>
+    Bir <em class="emphasis">isim alanı</em> isimler ile nesnelerin eşleşmesidir.
+    Çoğu isim alanı şu anda Python sözlükleri olarak kodlanmışlardır, fakat bu
+    hiçbir şekilde fark edilmez ve gelecekte değiştirilebilir. İsim alanlarına
+    örnekler: yerleşik isimler kümesi (<code class="literal">abs()</code> gibi işlevler
+    ve yerleşik istisna isimleri vs.), bir modül içindeki global isimler ve
+    bir işlev çağrısındaki yerel isimler. Bir nesnenin özellikler kümesi de
+    bir isim alanıdır. İsim alanlarına ilişkin bilinecek önemli şey farklı
+    isim alanlarındaki isimlerin birbirileri ile hiçbir ilişkisi olmadığıdır.
+    Örneğin, iki farklı modül karışıklık yaratmadan “maksimize” adlı birer
+    işlev tanımlayabilir; kullanıcılar bu işlevleri önlerine modül adını
+    ekleyerek kullanır.
+   </p>
+          <p><span class="notfoot"/>
+    Bu arada, bir noktadan sonra yazılan her herhangi bir isim için
+    <em class="emphasis">öznitelik</em> sözcüğünü kullanıyorum. Örneğin,
+    <code class="literal">z.real</code> ifadesinde <code class="literal">real</code>,
+    <code class="literal">z</code> nesnesinin bir özniteliğidir. Modül içindeki
+    isimlere atıflar da öznitelik atıflarıdır:
+    <code class="literal">modulAdi.fonkAdi</code> ifadesinde
+    <code class="literal">modulAdi</code> bir modül nesnesidir ve
+    <code class="literal">fonkAdi</code> bunun bir özniteliğidir. Bir modülün
+    öznitelikleri ile içinde tanımlı global değişkenler aynı isim alanını
+    paylaşır. <a href="#ftn.idm67019" class="footnote"><sup class="footnote">[31]</sup></a>
+   </p>
+          <p>
+    öznitelikler salt okunur veya yazılabilir olabilir. Yazılabilir
+    oldukları durumda özniteliklere atama yapmak mümkündür. Modül
+    öznitelikleri yazılabilirdir: <code class="literal">modulAdi.sonuc = 42</code>
+    gibi bir ifade kullanabilirsiniz. Yazılabilir öznitelikleri
+    <code class="literal">del</code> deyimini kullanarak silmek de mümkündür.
+    Örneğin <code class="literal">del modulAdi.sonuc</code> ifadesi
+    <code class="literal">modulAdi</code> nesnesinden sonuc isimli özniteliği siler.
+   </p>
+          <p>
+    Farklı anlarda yaratılan isim alanlarının farklı ömürleri olur. Yerleşik
+    isimleri içeren isim alanı Python yorumlayıcısı çalıştırıldığında
+    yaratılır ve asla silinmez. Bir modüle ait global isim alanı modül tanımı
+    okunduğunda yaratılır ve genellikle yorumlayıcı çalıştığı sürece
+    silinmez. Yorumlayıcının bir dosyadan veya etkileşimli olarak
+    çalıştırdığı deyimler de <code class="literal">__main__</code> isimli bir modüle
+    ait kabul edilir ve bunların da kendi global isim alanı vardır. Yerleşik
+    isimler de <code class="literal">__builtin__</code> isimli bir modülde bulunur.
+   </p>
+          <p>
+    Bir işleve ait yerel isim alanı işlev çağırıldığında yaratılır ve işlevden
+    dönüldüğünde veya işlev içinde ele alınmamış bir istisna gerçekleştiğinde
+    silinir. Tabii ki özyinelemeli çağrıların herbiri kendi yerel isim alanına
+    sahiptir.
+   </p>
+          <p>
+    Bir <em class="emphasis">etki alanı</em> bir isim alanının doğrudan erişilebildiği bir
+    metin bölgesidir. Burada “doğrudan erişilebilir” ifadesinin anlamı, yetersiz bir
+    isim atfının isim alanında isim bulmaya teşebbüs etmesidir.
+   </p>
+          <p>
+    Etki alanları statik olarak belirlenmelerine rağmen, dinamik olarak
+    kullanılır. İcranın herhangi bir anında isim alanlarına doğrudan
+    erişilebilen iç içe geçmiş en az üç etki alanı vardır: ilk aranan ve
+    yerel isimleri içeren en iç etki alanı; en yakın olanından başlanarak
+    aranan çevreleyen işlevlerin isim alanları; daha sonra aranan ve o andaki
+    modülün global değişkenlerini içeren orta etki alanı; ve yerleşik
+    isimlerin bulunduğu isim alanı olan en dış etki alanı (en son aranır).
+   </p>
+          <p>
+    Eğer bir isim global olarak tanımlanmış ise tüm atıflar ve atamalar
+    doğrudan modülün global isimlerini barındıran orta etki alanına gider.
+    Zaten, en iç etki alanının dışındaki tüm isimler salt okunurdur.
+   </p>
+          <p>
+    Genellikle yerel etki alanı o an içinde bulunulan (yazılım metninde)
+    işlevin yerel isimlerine atıfta bulunur. İşlevlerin dışında yerel etki
+    alanı global etki alanı ile aynı isim alanıdır: modülün isim alanı. Sınıf
+    tanımlamaları ayrıca yerel etki alanı içerisine bir başka isim alanı daha
+    ekler.
+   </p>
+          <p>
+    Etki alanlarının metne bağlı olarak belirlendiğini anlamak önemlidir. Bir
+    modül içinde tanımlı bir işlevin global etki alanı o modülün isim
+    alanıdır; nereden çağırıldığı ya da hangi farklı isim ile çağırıldığı bir
+    fark yaratmaz. Diğer yandan, asıl isim araması icra anında dinamik olarak
+    yapılır; ancak dilin tanımı “derleme” sırasında yapılan statik isim
+    çözümlemeye doğru değişmektedir ve dinamik isim çözümlemeye
+    güvenmemelisiniz! Örneğin, yerel değişkenler şu anda statik olarak
+    belirlenmektedir.
+   </p>
+          <p>
+    Python'a özgü bir tuhaflık da atamaların her zaman en iç etki alanına
+    gitmesidir. Atamalar veri kopyalamaz; sadece nesnelere isimler bağlar.
+    Aynı şey silme işlemleri için de geçerlidir: <code class="literal">del x </code>
+    ifadesi <code class="literal">x</code>'in yerel etki alanı tarafından atfedilen
+    isim alanındaki bağını kaldırır. Aslında, yeni isimler yaratan tüm
+    işlemler yerel etki alanını kullanır. İşlev tanımları ve
+    <code class="literal">import</code> deyimleri modül veya işlev adını
+    yerel etki alanına bağlar. Bir değişkenin global etki alanında
+    bulunduğunu belirtmek için <code class="literal">global</code> deyimi
+    kullanılabilir.
+  </p>
+        </section>
+        <section class="sect1" id="python-tutorial_siniflar-ilk">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.3. Sınıflara İlk Bakış</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sınıflar ile bir miktar yeni sözdizim ve kavram ile üç yeni nesne türü
+    tanıtacağız.
+   </p>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">9.3.1. Sınıf Tanımlama</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Sınıf tanımlamanın en basit şekli şöyledir:
+    </p>
+            <pre class="screen">
+class SinifAdi:
+    &lt;deyim-1&gt;
+    .
+    .
+    .
+    &lt;deyim-N&gt;
+</pre>
+            <p>
+     Sınıf tanımlamaları, işlev tanımlamalarında (<code class="literal">def</code>
+     deyimleri) olduğu gibi etkin olmaları için önce işletilmeleri gerekir.
+     (Yanlışlıkla sınıf tanımlarını <code class="literal">if</code> deyimleri veya
+     işlev içlerine koymamaya dikkat edin.)
+   </p>
+            <p>
+     Pratikte bir sınıf tanımının içindeki deyimler genellikle
+     işlev tanımları olur; fakat başka deyimler de kullanmak mümkün ve
+     yararlıdır (buna daha sonra yine değineceğiz). Sınıf içindeki işlev
+     tanımlarının bağımsız değişken listesi kendilerine özgü bir şekle
+     sahiptir; ancak buna da daha sonra değineceğiz.
+    </p>
+            <p>
+     Bir sınıf tanımına girildiğinde yeni bir isim alanı (name space)
+     oluşturulur ve bu yerel etki alanı (scope) olarak kullanılır. Yerel
+     değişkenlere yapılan bütün atamalar bu yeni isim alanına gider. Yeni
+     tanımlanan işlevlerin isimleri de buraya eklenir.
+    </p>
+            <p>
+     Bir sınıf tanımı normal olarak tamamlandığında bir <em class="emphasis">sınıf
+     nesnesi</em> yaratılmış olur. Bu, temel olarak, sınıf tanımının
+     oluşturduğu isim alanı etrafında bir örtüdür. Sınıf nesnelerini bir
+     sonraki bölümde daha yakından tanıyacağız. Orjinal etki alanı
+     (sınıf tanımına girilmeden önce etkin olan) yine eski yerini alır ve
+     sınıf nesnesi de buna sınıf tanımında kullanılan isim (örnekteki
+     <code class="literal">SinifAdi</code>) ile dahil olur.
+    </p>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">9.3.2. Sınıf Nesneleri</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Sınıf nesneleri iki tür işlemi destekler: özniteliklere başvuru ve sınıfın örneklenmesi.
+    </p>
+            <p>
+     <em class="emphasis">Özniteliklere başvuru</em> için Python'da bütün
+      özniteliklere erişmek için kullanılan standart sözdizim kullanılır:
+      <code class="literal">nesne.isim</code>. Kullanılabilecek öznitelik isimleri sınıfın nesnesi oluşturulurken sınıfın isim alanında bulunan bütün isimlerdir. Sınıf tanımımız aşağıdaki gibi ise:
+     </p>
+            <pre class="screen">
+class benimSinif:
+    "Basit bir sınıf örneği."
+    i = 12345
+    def f(self):
+        return 'Merhaba'
+</pre>
+            <p>
+     <code class="literal">benimSinif.i</code> ve <code class="literal">benimSinif.f</code>
+     bir tamsayı ve bir yöntem nesnesi geri döndüren geçerli öznitelik
+     başvurularıdır. Sınıf özniteliklerine atama yapmak da mümkündür.
+     Örneğin atama yoluyla <code class="literal">benimSinif.i</code> değeri
+     değiştirilebilir. Ayrıca, <code class="literal">__doc__</code> da geçerli
+     bir öznitelik olup sınıfa ait belgeleme dizgesini geri döndürür:
+     "Basit bir sınıf örneği.".
+    </p>
+            <p>
+     <em class="emphasis">Sınıfın gerçeklenmesi</em>, işlev sözdizimini
+     kullanır. Sınıf nesnesini yeni bir sınıf gerçeklemesi geri döndüren
+     bağımsız değişkeniz bir işlevmiş gibi düşünebilirsiniz. Örneğin yukarıda
+     tanımladığımız sınıf için:
+    </p>
+            <pre class="screen">x = benimSinif()</pre>
+            <p>
+     Yeni bir sınıf gerçeklemesidir ve sınıf <code class="literal">x</code> yerel
+     değişkenine atanarak bir nesne oluşur.
+    </p>
+            <p>
+     Gerçeklenme işlemi (bir sınıf nesnesini ``çağırmak'') boş bir nesne
+     yaratır. Pek çok sınıf nesnesinin bilinen bir ilk durumda oluşturulması
+     istenir. Bu yüzden bir sınıfta <code class="literal">__init__()</code> adlı
+     özel yöntem şu şekilde tanımlanabilir:
+    </p>
+            <pre class="screen">
+def __init__(self):
+    self.data = []
+</pre>
+            <p>
+     Bir sınıfın <code class="literal">__init__()</code> yöntemi tanımlanmış ise sınıf
+     gerçeklenmesi işlemi, yeni sınıf gerçeklemesi sırasında bu yöntemi otomatik olarak çağırır.
+    </p>
+            <p><span class="notfoot"/>
+     Daha fazla esneklik için <code class="literal">__init__()</code> yönteminin
+     bağımsız değişkenleri da olabilir. Bu durumda sınıfın gerçeklenmesinde
+     kullanılan bağımsız değişkenler <code class="literal">__init__()</code> yöntemine aktarılır.<a href="#ftn.idm67083" class="footnote"><sup class="footnote">[32]</sup></a> Örnek:
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> class karmasikSayi:
+<code class="prompt">...</code>     def __init__(self, gercekKsm, sanalKsm):
+<code class="prompt">...</code>         self.g = gercekKsm
+<code class="prompt">...</code>         self.s = sanalKsm
+<code class="prompt">...</code>
+<code class="prompt">&gt;&gt;&gt;</code> x = karmasikSayi(3.0, -4.5)
+<code class="prompt">&gt;&gt;&gt;</code> x.g, x.s
+(3.0, -4.5)
+</pre>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">9.3.3. Örnek Nesneler</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Nesnelerle ne yapabiliriz? Bunlar ile yapabileceğimiz
+     tek şey öznitelikleri ile uğraşmaktır. Nesnelerin iki tür özniteliği
+     vardır. Bunların ilki veri öznitelikleridir. Veri özniteliklerinin
+     tanımlanmış olması gerekmez; yerel değişkenlerde olduğu gibi bunlar
+     da kendilerine ilk atama yapıldığında var olur. Örneğin
+     <code class="literal">x</code>'in yukarıda tanımlanan <code class="literal">benimSinif</code>
+     sınıfının bir örneği olduğunu düşünürsek aşağıdaki yazılım parçası
+     16 değerini geride bir iz bırakmadan yazdırır:
+    </p>
+            <pre class="screen">
+x.sayac = 1
+while x.sayac &lt; 10:
+    x.sayac = x.sayac * 2
+print x.sayac
+del x.sayac
+</pre>
+            <p>
+     Nesnelerin ikinci tür öznitelikleri de yöntemlerdir.
+     Yöntem bir sınıfa “ait olan” bir işlevdir. Python dilinde yöntemler
+     sınıf örneklerine özgü değildir; diğer nesne türlerinin de
+     yöntemleri olabilir. Örneğin liste nesnelerinin append, insert, remove, sort gibi yöntemleri vardır. Aşağıda yöntem terimini,
+     aksi belirtilmediği sürece, sadece sınıflardan örneklenen nesnelerin yöntemleri anlamında kullanacağız.
+    </p>
+            <p>
+     Bir nesneye ilişkin geçerli öznitelik isimleri bunun
+     sınıfına bağlıdır. Tanıma göre işlev olan tüm sınıf öznitelikleri o
+     nesnenin yöntemleri olur. Bu yüzden örnek sınıfımız için
+     <code class="literal">x.f</code> geçerli bir yöntem başvurusudur, çünkü
+     <code class="literal">benimSinif.f</code> bir işlevdir, fakat
+     <code class="literal">x.i</code> bir yöntem değildir, çünkü
+     <code class="literal">benimSinif.i</code> bir işlev değildir.
+     Burada şuna dikkat edelim: <code class="literal">x.f</code> ile
+     <code class="literal">benimSinif.f</code> aynı şey değildir.
+    </p>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">9.3.4. Yöntem Nesneleri</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Genellikle bir yöntem şu şekilde doğrudan çağırılır:
+    </p>
+            <pre class="screen">x.f()</pre>
+            <p>
+     Bizim örneğimizde bu 'Merhaba' dizgesini geri döndürür.
+     Bir yöntemi doğrudan çağırmak şart değildir: <code class="literal">x.f</code>
+     bir yöntemdir ve bir değişkene saklanıp daha sonra çağırılabilir.
+     Örneğin:
+    </p>
+            <pre class="screen">
+xf = x.f
+while 1:
+    print xf()
+</pre>
+            <p>Sonsuza kadar "'Merhaba'" yazdırır.</p>
+            <p>
+     Bir yöntem çağrıldığında tam
+     olarak ne olur? <code class="literal">x.f()</code> çağrılırken bir bağımsız
+     değişken kullanılmadığı halde <code class="literal">f</code> işlev tanımında bir
+     bağımsız değişken kullanıldığını (<code class="literal">self</code>)fark
+     etmişsinizdir. Bağımsız değişkene ne oldu acaba? Şüphesiz Python,
+     bağımsız değişken gerektiren bir işlev bağımsız değişkeniz
+     çağırıldığında bir istisna oluşturur. Cevabı belki de tahmin ettiniz:
+     yöntemler, işlevin ilk bağımsız değişkeni olarak nesneyi alır. Başka bir deyişle
+     Python'da yöntemler, kendi içinde, tanımlı olduğu nesneyi barındıran
+     nesnelerdir. Örneğimizdeki <code class="literal">x.f()</code> çağrısı aslında
+     <code class="literal">benimSinif.f(x)</code> ile aynıdır. Genel olarak, bir
+     yöntemi <code class="literal">n</code> elemanlı bir bağımsız değişken listesi ile
+     çağırmak, aynı işlevi başına nesnenin de eklendiği bir bağımsız değişken
+     listesi kullanarak çağırmak ile aynı şeydir.
+    </p>
+          </section>
+        </section>
+        <section class="sect1" id="python-tutorial_siniflar-aciklamalar">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.4. Bazı Açıklamalar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Veri öznitelikleri aynı isimli yöntem özniteliklerini bastırır. Büyük
+    yazılımlardaki zor fark edilen isim çakışması hatalarından kaçınmak
+    için çakışmaları en aza indirecek bir isimlendirme yöntemi kullanmak
+    akıllıca olur. Yöntem isimlerini büyük harf ile başlatılırken, veri
+    isimleri özel bir karakter (alt çizgi gibi) ile başlatılabilir.
+    Yöntemler için fiil ve veri yapıları için isim olan kelimeler
+    kullanılabilir.
+   </p>
+          <p>
+    Veri özniteliklerine o nesnenin kullanıcıları (“istemcileri”)
+    başvuru yapabileceği gibi, yöntemler de bunlara başvuruda bulunabilir.
+    Başka bir deyişle, sınıflar tamamen soyut veri türleri oluşturmak için
+    kullanılamaz. Aslında, Python'da hiçbir şey veri saklamayı zorlamayı
+    mümkün kılmaz.
+   </p>
+          <p>
+    Kullanıcılar nesnelerin veri özniteliklerini dikkatli kullanmalılar;
+    çünkü istemciler yöntemler tarafından kullanılan önemli değişkenlere
+    atama yaparak istenmeyen hatalara sebep olabilir. İstemcilerin, isim
+    çakışmalarından kaçındıkları sürece, bir nesneye yöntemlerinin
+    geçerliliğini etkilemeden kendi veri özniteliklerini ekleyebileceklerine
+    dikkat edin.
+   </p>
+          <p>
+    Yöntem içinden veri özniteliklerine (ya da diğer yöntemlere!) başvuruda
+    bulunmanın kestirme bir yolu yoktur. Bunun aslında yöntemlerin
+    okunabilirliğini artırdığını düşünüyorum; bir yönteme göz attığınızda
+    yerel değişkenler ile nesne değişkenlerini birbirilerine karıştırma şansı
+    yoktur.
+   </p>
+          <p>
+    Usul olarak yöntemlerin ilk özniteliğine <code class="literal">self</code>
+    adı verilir. Bu tamamen usule dayanır; <code class="literal">self</code> isminin
+    Python için kesinlikle hiç bir özel anlamı yoktur. Bu usule uymazsanız
+    yazılımınız diğer Python yazılımcıları tarafından daha zor okunur ve
+    sınıf tarayıcısı (class browser) yazılımları da bu usule dayanıyor
+    olabilir.
+   </p>
+          <p>
+    Sınıf özniteliği olan her işlev, o sınıfın nesneleri için bir
+    yöntem tanımlar. İşlev tanımının sınıf tanımı içerisinde olması şart
+    değildir; işlevi, sınıf içindeki yerel bir değişkene atamak da mümkündür.
+    Örneğin:
+   </p>
+          <pre class="screen">
+# Sınıf dışında tanımlanmış işlev
+def f1(self, x, y):
+    return min(x, x+y)
+
+class C:
+    f = f1
+    def g(self):
+        return 'Merhaba'
+    h = g
+</pre>
+          <p>
+    Şimdi <code class="literal">f</code>, <code class="literal">g</code> ve
+    <code class="literal">h</code>'nın hepsi <code class="literal">C</code> sınıfının özellikleri
+    oldular ve aynı anda <code class="literal">C</code> sınıfının nesnelerinin de
+    yöntemleridirler (<code class="literal">g</code> ve <code class="literal">h</code> birbirinin
+    tamamen aynısıdır). Bu tür uygulamanın genellikle sadece okuyucunun
+    kafasını karıştırmaya yaradığına dikkat edin. Yöntemler
+    <code class="literal">self</code> öğesinin yöntem özelliğini kullanarak diğer yöntemleri çağırabilir:
+</p>
+          <pre class="screen">
+class Bag:
+    def __init__(self):
+        self.data = []
+    def add(self, x):
+        self.data.append(x)
+    def addtwice(self, x):
+        self.add(x)
+        self.add(x)
+</pre>
+          <p>
+    Yöntemler sıradan işlevlerin yaptığı şekilde global değişkenlere
+    başvuru yapabilir. Bir yönteme ilişkin global etki alanı sınıf
+    tanımının bulunduğu modüldür. Sınıfın kendisi asla global etki alanı
+    olarak kullanılmaz. Bir yöntem içinde global veri kullanmak için ender
+    olarak iyi bir sebep olduğu halde, global etki alanı kullanımın pek çok
+    mantıklı sebebi vardır. Örneğin, global etki alanına yüklenmiş işlev ve
+    modülleri, yöntemler ve bunun içinde tanımlanmış diğer işlev ve sınıflar
+    kullanılabilir. Genellikle yöntemi içeren sınıfın kendisi bu global etki
+    alanı içinde tanımlanmıştır ve bir sonraki kısımda bir yöntemin kendi
+    sınıfına başvurmak istemesi için birkaç iyi sebep bulacağız!
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_miras">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.5. Kalıtım</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Tabii ki, kalıtım desteği olmayan bir “sınıf” adına layık olmaz.
+   Türetilmiş sınıf tanımının sözdizimi aşağıdaki gibidir:
+  </p>
+          <pre class="screen">
+class turemisSinifAdi(TemelSinifAdi):
+    &lt;deyim-1&gt;
+    .
+    .
+    .
+    &lt;deyim-N&gt;
+</pre>
+          <p>,
+    <code class="literal">TemelSinifAdi</code> ismi türetilmiş sınıfın tanımının
+    bulunduğu etki alanında tanımlı olmalıdır. Temel sınıf adı yerine bir
+    ifade kullanmak da mümkündür. Bu temel sınıf adı başka bir modül
+    içinde tanımlı olduğunda yararlıdır:
+   </p>
+          <pre class="screen">class turemisSinifAdi(modulAdi.TemelSinifAdi):</pre>
+          <p>
+    Bir türetilmiş sınıf tanımının işletilmesi bir temel sınıf ile aynıdır.
+    Bir sınıf nesnesi yaratıldığında temel sınıf hatırlanır. Bu özellik
+    başvurularını çözümlemede kullanılır; başvuruda bulunulan öznitelik o
+    sınıfta yok ise temel sınıfta aranır. Bu kural temel sınıfın kendisi
+    de başka bir sınıftan türetildiyse ardışık olarak çağırılır.
+   </p>
+          <p>
+    Türetilmiş sınıftan nesne oluşturmanın özel bir tarafı yoktur:
+    <code class="literal">turetilmisSinifAdi()</code> o sınıfın yeni bir
+    nesnesini yaratır. Yöntem başvuruları şu şekilde çözümlenirler: ilgili
+    sınıf özelliği, gerekirse temel sınıflar zinciri taranarak, aranır ve
+    yöntem başvurusu geçerli ise bu bir işlev verir.
+   </p>
+          <p>
+    Türetilmiş sınıflar
+    temel sınıflarının yöntemlerini bastırabilir. Yöntemler aynı nesnenin
+    diğer yöntemlerini çağırırken özel önceliklere sahip olmadıkları için
+    aynı temel sınıfta tanımlı bir yöntemi çağıran temel sınıf yöntemi bunu
+    bastıran bir türetilmiş sınıf yöntemini çağırmış olabilir.
+    C++ yazılımcıları için not: Tüm Python yöntemleri sanaldır (virtual).
+   </p>
+          <p>
+    Türetilmiş sınıftaki bir bastıran yöntem aslında temel sınıftaki
+    yöntemin yerini almak yerine onu geliştirmek isteyebilir. Temel sınıf
+    yöntemini doğrudan çağırmanın basit bir yolu vardır:
+    <code class="literal">temelSinifadi.yontemAdi(self, argumanlar)</code>. Bu bazen
+    istemciler için de faydalıdır. Bunun sadece, temel sınıf, global etki
+    alanı içine doğrudan yüklendiyse çalıştığına dikkat edin.
+   </p>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">9.5.1. Çoklu Kalıtım</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Python çoklu kalıtımın kısıtlı bir şeklini destekler. Birçok temel
+     sınıfı olan bir sınıf tanımı aşağıdaki gibidir:
+    </p>
+            <pre class="screen">
+class turemisSinifAdi(temel1, temel2, temel3):
+    &lt;ifade-1&gt;
+    .
+    .
+    .
+    &lt;ifade-N&gt;
+</pre>
+            <p>
+     Burada sınıf özniteliği başvurularını çözümlemede kullanılan kuralı
+     açıklamamız gerekiyor. Bir öznitelik <code class="literal">turemisSinifAdi</code>
+     içinde bulunamazsa <code class="literal">temel1</code> içinde sonra
+     <code class="literal">temel1</code>'in temel sınıfları içerisinde ve burada da
+     bulunamazsa <code class="literal">temel2</code> içinde aranır vs.
+    </p>
+            <p>
+     Bazı kişilere
+     <code class="literal">temel1</code>'den önce <code class="literal">temel2</code> ve
+     <code class="literal">temel3</code> içinde arama yapmak daha doğal gelir. Bu
+     <code class="literal">temel1</code>'in herhangi bir özniteliğinin
+     <code class="literal">temel1</code> içinde veya bunun temel sınıflarında
+     tanımlanmış olup olmadığını bilmenizi gerektir ki <code class="literal">temel2</code>
+     içindeki isimler ile çakışmalardan kaçınabilesiniz.
+    </p>
+            <p>
+     Python'un kazara
+     oluşan isim çakışmalarına karşı usule dayanması çoklu kalıtımın rasgele
+     kullanımı yazılımın bakımını yapan için bir kabus olduğu açıktır.
+     Çoklu kalıtımın iyi bilinen bir problemi aynı temel sınıfa sahip iki
+     sınıftan türetme yapmaktır. Bu durumda ne olduğunu anlamak kolaydır;
+     ancak bunun ne işe yarayacağı pek açık değildir.
+    </p>
+          </section>
+        </section>
+        <section class="sect1" id="python-tutorial_ozel-deg">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.6. Özel Değişkenler</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sınıfa özel belirteçler (identifier) için sınırlı destek vardır.
+    <code class="literal">__spam</code> formundaki (en az iki alt çizgilik bir önek ve
+    en fazla bir alt çizgilik sonek) bir belirteç
+    <code class="literal">_sinifadi__spam</code> şeklini alır. Burada
+    <code class="literal">sinifadi</code> o anki sınıf adının sonek alt çizgileri
+    atılmış olan halidir. Bu değişiklik belirtecin sözdizimsel konumuna
+    bakılmaksızın yapılır ki bu sınıf üyesine özel değişkenler yaratılabilsin.
+    Değiştirilen belirteç 255 karakteri aşarsa kırpılabilir. Sınıflar dışında
+    veya sınıf adı sadece alt çizgilerden oluşuyorsa kırpma olmaz.
+   </p>
+          <p>
+    İsim değiştirmenin amacı sınıflara, türemiş sınıflarca tanımlanan nesne
+    değişkenlerini dert etmeden veya sınıf dışındaki nesne değişkenleri ile
+    uğraşmadan, kolayca özel nesne değişkenleri ve yöntemleri tanımlama yolu
+    sağlamaktır. Değiştirme kurallarının genelde kazaları önlemeye yönelik
+    olduğuna dikkat edin; ancak yine de buna niyet eden kişi özel değişkenlere
+    ulaşıp bunları değiştirebilir. Bu bazı özel durumlarda kullanışlı da olabilir.
+  </p>
+          <p>
+    <code class="literal">exec()</code>, <code class="literal">eval()</code> veya <code class="literal">evalfile()</code>
+    işlevlerine aktarılacak kod, çağıran sınıf adının o anki sınıf adı olduğunu düşünmez;
+    bu da “ikilik derlenmiş” kod ile sınırlı global deyiminin etkisine benzer. Aynı
+    kısıtlama <code class="literal">getattr()</code>, <code class="literal">setattr()</code> ve
+    <code class="literal">delattr()</code> işlevleri için ve doğrudan başvurulduğunda
+    <code class="literal">__dict__</code> için de mevcuttur.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_son1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.7. Sona Kalanlar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bazan isimli veri öğelerini bir arada paketlemek, Pascal kayıtları ya da
+    C veri yapılarına benzer bir veri türü oluşturmak kullanışlı olabilir.
+    Bir boş sınıf ile bu yapılabilir:
+   </p>
+          <pre class="screen">
+class Eleman:
+    pass
+
+ali = Eleman() # Boş bir eleman kaydı yarat
+
+# Kaydın alanlarını doldur
+ali.isim = 'Ali Veli'
+ali.bolum = 'Muhasebe'
+ali.maas = 1000000
+</pre>
+          <p>
+    Soyut bir veri türü bekleyen Python koduna o veri türünün yöntemlerini
+    taklit eden bir sınıf geçirilebilir. Örneğin bir dosya nesnesinden bir
+    miktar veriyi biçimleyen bir işleviniz varsa, <code class="literal">read()</code>
+    ve <code class="literal">readline()</code> yöntemleri olan ve veriyi bir dizgeden
+    alan bir sınıfı o işleve bağımsız değişken olarak aktarabilirsiniz.
+   </p>
+          <p>
+    Yöntem nesnelerinin de öznitelikleri vardır: <code class="literal">m.im_self</code>
+    kendinin tanımlı olduğu nesneyi çağıran bir yöntem nesnesidir ve
+    <code class="literal">m.im_func</code> ise kendini oluşturan işlevi çağıran bir
+    yöntem nesnesidir.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_son2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">9.8. İstisnalar Sınıf Olabilir</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Kullanıcı tanımlı istisnalar artık dizge olmakla sınırlı değiller;
+    sınıf da olabilir. Bu mekanizmayı kullanarak genişletilebilir istisna
+    hiyerarşileri yaratılabilir.
+   </p>
+          <p>
+    <code class="literal">raise</code> deyimi için iki yeni biçem mevcut:
+   </p>
+          <pre class="screen">
+raise Sinif, gercekleme
+
+raise gercekleme
+</pre>
+          <p>
+    İlk biçemde <code class="literal">gercekleme Sinif</code>a ait bir gerçekleme
+    olmalıdır. İkinci biçem ise şunun kısaltmasıdır:
+   </p>
+          <pre class="screen">
+raise gercekleme.__class__, gercekleme
+</pre>
+          <p>
+    Bir <code class="literal">except</code> bloğu hem sınıflar hem de dizgeleri
+    içerebilir. Bir <code class="literal">except</code> bloğu içindeki sınıf eğer aynı
+    sınıf veya bir temel sınıf ise istisna ile uyumludur. Türetilmiş sınıf
+    içeren bir <code class="literal">except</code> bloğu temel sınıf ile uyumlu
+    değildir. Örneğin aşağıdaki yazılım <code class="literal">B</code>,
+    <code class="literal">C</code>, <code class="literal">D</code> çıktısını o sırayla verir:
+   </p>
+          <pre class="screen">
+class B:
+    pass
+class C(B):
+    pass
+class D(C):
+    pass
+for c in [B, C, D]:
+    try:
+        raise c()
+    except D:
+        print "D"
+    except C:
+        print "C"
+    except B:
+        print "B"
+</pre>
+          <p>
+    Eğer <code class="literal">except</code> blokları ters sırayla yazılmış olsalardı
+    (<code class="literal">except B </code> başta olacak şekilde) çıktı
+    <code class="literal">B, B, B</code> olacaktı; çünkü uyan ilk
+    <code class="literal">except B </code> bloğu tetiklenecekti.
+   </p>
+          <p>
+    Ele alınmamış sınıf istisnası için bir ileti yazılacağı zaman, önce sınıf
+    adı yazılır, ardından iki nokta üst üste ve bir boşluk ve son olarak da
+    gerçeklemenin yerleşik <code class="literal">str()</code> işlevinden geri
+    döndürülen dizgenin karşılığı yazılır.
+   </p>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm67019" class="footnote">
+            <p><a href="#idm67019" class="para"><sup class="para">[31] </sup></a>
+     Buna bir istisna: modül nesnelerinin, modülün isim alanını oluşturmada
+     kullanılan sözlüğü oluşturan <code class="literal">__dict__</code> isimli salt
+     okunur ve gizli bir özniteliği vardır. <code class="literal">__dict__</code> bir
+     özniteliktir fakat global bir isim değildir.
+    </p>
+          </div>
+          <div id="ftn.idm67083" class="footnote">
+            <p><a href="#idm67083" class="para"><sup class="para">[32] </sup></a>
+      [Ç.N.]: Diğer nesne yönelimli yazılımlama dillerinde bu işleme
+      "nesnenin ilklendirilmesi" denir.
+     </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

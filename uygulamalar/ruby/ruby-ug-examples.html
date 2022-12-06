@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3. Basit Örnekler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-intro.html" title="2. Giriş"/>
+    <link rel="next" href="ruby-ug-strings.html" title="4. Dizgeler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-intro.html')">Önceki</button>
+          <div class="dropdown-content">2. Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-strings.html')">Sonraki</button>
+          <div class="dropdown-content">4. Dizgeler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-examples">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">3. Basit Örnekler</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>3.1. <a href="ruby-ug-examples.html">Girdi/Değerlendirme döngüsü</a></dt>
+          </dl>
+        </div>
+        <p>
+   Şimdi faktöriyel hesabı yapan basit bir işlev yazalım. <span class="command"><strong>Faktöriyel</strong></span>'in matematiksel tanımı şöyledir:
+  </p>
+        <pre class="literallayout monospaced">
+    n! = 1                (n==0 ise)
+       = n * (n-1)!       (aksi taktirde)
+</pre>
+        <p>
+   Ruby'de bunu aşağıdaki gibi yazabiliriz:
+  </p>
+        <pre class="screen">
+def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+</pre>
+        <p>
+   Tekrarlanan <span class="command"><strong>end</strong></span> deyiminin varlığını fark etmiş olmalısınız. Sırf bu yüzden Ruby "Algol benzeri" olarak anılır. (Aslında Ruby'nin sözdizimi Eiffel dilini daha çok andırmaktadır.) Ayrıca <span class="command"><strong>return</strong></span> deyiminin eksikliğini de hissetmiş olmalısınız. Bu deyim Ruby için gereksizdir çünkü bir Ruby işlevde değerlendirdiği en son şeyi döndürür. <span class="command"><strong>return</strong></span> deyimi kullanılabilir ancak gereksizdir.
+   </p>
+        <p>
+   Şimdi faktöriyel işlevimizi deneyelim. Ekleyeceğimiz satır, bize çalışan bir yazılım sunacaktır:
+  </p>
+        <pre class="screen">
+# Sayının faktöriyelini bulan yazılım
+# fact.rb olarak kaydedin
+
+def fact(n)
+  if n == 0
+    1
+  else
+    n * fact(n-1)
+  end
+end
+
+print fact(ARGV[0].to_i), "\n"
+</pre>
+        <p>
+   Burada <span class="command"><strong>ARGV</strong></span> komut satırı girdilerini içeren bir dizidir ve <span class="command"><strong>to_i</strong></span> alınan bir dizgeyi tamsayıya çevirmeye yarar.
+  </p>
+        <pre class="screen">
+<code class="prompt">$</code> <span class="command"><strong>ruby fact.rb 1</strong></span>
+1
+<code class="prompt">$</code> <span class="command"><strong>ruby fact.rb 5</strong></span>
+120
+</pre>
+        <p>
+   Acaba girdi olarak 40 versek çalışır mı? Muhtemelen hesap makineniz taşma hatası verecektir...
+  </p>
+        <pre class="screen">
+<code class="prompt">$</code> <span class="command"><strong>ruby fact.rb 40</strong></span>
+815915283247897734345611269596115894272000000000
+</pre>
+        <p>
+   Bu çalışır, üstelik Ruby makinenizin belleğinin izin verdiği kadar büyük tamsayıyla da çalışabilir. 400 için aşağıdaki gibi bir çıktı alacaksınız:
+  </p>
+        <pre class="screen">
+<code class="prompt">$</code> <span class="command"><strong>ruby fact.rb 400</strong></span>
+64034522846623895262347970319503005850702583026002959458684
+44594280239716918683143627847864746326467629435057503585681
+08482981628835174352289619886468029979373416541508381624264
+61942352307046244325015114448670890662773914918117331955996
+44070954967134529047702032243491121079759328079510154537266
+72516278778900093497637657103263503315339653498683868313393
+52024373788157786791506311858702618270169819740062983025308
+59129834616227230455833952075961150530223608681043329725519
+48526744322324386699484224042325998055516106359423769613992
+31917134063858996537970147827206606320217379472010321356624
+61380907794230459736069956759583609615871512991382228657857
+95493616176544804532220078258184008484364155912294542753848
+03558374518022675900061399560145595206127211192918105032491
+00800000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000
+</pre>
+        <p>
+   Sonucun doğruluğunu sınayamayız ama öyle olması gerekiyor <code class="literal">:)</code>.
+  </p>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">3.1. Girdi/Değerlendirme döngüsü</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Eğer Ruby'yi hiçbir girdi yazmadan çağırırsanız, komutları standart girdiden alır ve girdinin bitiminde komutları çalıştırır:
+   </p>
+          <pre class="screen">
+<code class="prompt">$</code> <span class="command"><strong>ruby</strong></span>
+print "merhaba dunya\n"
+print "hoscakal dunya\n"
+^D
+merhaba dunya
+hoscakal dunya
+</pre>
+          <p>
+    Ruby, <code class="filename">eval.rb</code> adında bir araç ile gelir. Bu, ruby kodunuzu etkileşimli olarak klavyeden alan ve yazdıklarınızı gösteren bir araçtır. Bu öğreticinin devamında sıkça kullanacağız.
+   </p>
+          <p><span class="notfoot"/>
+    Eğer ANSI uyumlu bir uçbirimle çalışıyorsanız<a href="#ftn.idm67394" class="footnote"><sup class="footnote">[33]</sup></a>, ek olarak girintileme yapabilen, kodu renklendirebilen ve uyarılar veren <a class="link" href="http://www.ruby-doc.org/docs/UsersGuide/rg/eval.rb" target="_top">gelişmiş eval.rb</a>'yi kullanmalısınız. Aksi takdirde, ruby dağıtımının <code class="filename">sample</code> dizininde bulunan ve ANSI uyumluluğu gerektirmeyen sürümünü kullanabilirsiniz. Kısa bir <code class="filename">eval.rb</code> oturumu:
+   </p>
+          <pre class="screen eval">
+$ ruby eval.rb
+ruby&gt; <em class="emphasis evalinput">puts "Merhaba dünya.\n"</em>
+Merhaba dünya.
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">exit</em>
+</pre>
+          <p>
+    <code class="literal">Merhaba dünya</code>, <code class="literal">puts</code> ile çıktılandı. Sonraki satırdaki <code class="literal">nil</code> ise son değerlemenin sonucunu göstermektedir; ruby, deyimlerle ifadeler arasında bir ayrım yapmaz, yani kod parçalarının değerlendirilmesi temel olarak kodun icra edilmesidir. Burada <code class="literal">nil</code>, <code class="literal">print</code>'in anlamlı bir değer döndürmediğini ifade etmektedir. Son olarak, <code class="literal">exit</code> yazarak yorumlayıcı döngüsünü sonlandırıyoruz.
+   </p>
+          <p>
+    Bu kılavuzun devamında <code class="prompt">ruby&gt;</code> bir <code class="filename">eval.rb</code> oturumunun girdi istemi olarak kullanılmış olacaktır.
+   </p>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm67394" class="footnote">
+            <p><a href="#idm67394" class="para"><sup class="para">[33] </sup></a>Unix altında çalışıyorsanız zaten uçbirim ANSI uyumludur. Uçbirim artalan rengini siyah seçerseniz <code class="filename">eval.rb</code> renklendirmesi ile sorun yaşamazsınız. DOS altında bunu sağlamak için ANSI.SYS veya ANSI.COM yüklemelisiniz.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

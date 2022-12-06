@@ -23,7 +23,7 @@ body, header, section, footer {
   padding: 0;
 }
 .mainpage, section,
-div.index, div.book,
+div.index, div.book, div.part,
 div.refentry, div.reference {
   box-sizing: border-box;
 }
@@ -41,7 +41,7 @@ div.refentry, div.reference {
   margin: 0 auto 3rem;
   box-shadow: 6px 6px 6px #888;
 }
-section, div.index, div.refentry, div.book, div.reference {
+section, div.index, div.refentry, div.book, div.part, div.reference {
   width: 100%;
   background: #fafcf8;
   float: left;
@@ -50,10 +50,11 @@ section, div.index, div.refentry, div.book, div.reference {
 }
 section.mainpage > section,
 section.mainpage > div.book,
+section.mainpage > div.part,
 section.mainpage > div.index,
 section.mainpage > div.refentry,
 section.mainpage > div.reference{
-  padding: 1rem 2vw;
+  padding: 1rem 2vw 1rem 2vw;
   width:100%;
 }
 [id] {
@@ -61,6 +62,11 @@ section.mainpage > div.reference{
 }
 strong, em, tt {
   text-rendering: optimizeLegibility;
+}
+table {
+  text-align: left;
+  border-spacing: 0;
+  margin-right: 2vw;
 }
 section section pre  {
   max-height: 16rem;
@@ -71,6 +77,11 @@ section section pre  {
   overflow-y: auto;
   border-radius: 4px;
   box-shadow: 1px 1px 2px #888;
+}
+.preservespace {
+  max-height: unset;
+  background-color: white;
+  background: white;
 }
 .refentry pre {
   white-space: pre-wrap;
@@ -95,11 +106,19 @@ td.cmdsynopsis, td.funcdef, td.paramdef {
   font-weight: 700;
   font-style: normal;
 }
-em, em code, p em code, .pdparam,
+em code, p em code, .pdparam,
 .term em code, .glossterm em code {
   font-weight: 500;
   font-style: normal;
 }
+code.literal {
+  font-weight: 400;
+}
+code.prompt {
+  font-weight: 400;
+  color: black;
+}
+
 code, tt, .token,v.type,
 .refsynopsisdiv dt,
 .command,  pre .command,
@@ -131,7 +150,7 @@ h2, h2 code {
 }
 h3, h3 code {
   font-size:1.25rem;
-  margin-top: -0.25rem;
+  margin-top: 1rem;
   margin-bottom: -1rem;
 }
 h3 code {
@@ -150,6 +169,18 @@ h5, h6, h5 code, h6 code {
   margin-top: -0.25rem;
   margin-bottom: -1rem;
 }
+.chapter .title {
+  font-size: 1.75rem;
+}
+.sect1 .title {
+  font-size: 1.5rem;
+  margin-top: .5rem;
+}
+.sect2 .title {
+  font-size: 1.25rem;
+  margin-top: .5rem;
+}
+
 .refentry h2,
 .refentry h3 {
   margin-top: 2rem;
@@ -169,7 +200,7 @@ h5, h6, h5 code, h6 code {
 .variablelist-title {
   font-size: 1.25rem;
 }
-a:link, a:visited {
+a:link, a:visited, a.xref {
   color: #326;
   font: .875rem/2rem;
 }
@@ -193,7 +224,7 @@ h1, h2, h3, h4, h5, h6, .title,
 .surname {
   color: #960;
 }
-em, em code, .pdparam,
+em code, .pdparam,
 .term em code,
 .glossterm em code  {
  color: #080;
@@ -260,7 +291,7 @@ br.example-break {
 .revhistory .formaltitle,
 .abstract-title,
 .example-title,
-.question, dt a, dd a {
+.question, dt a, dd a, a.xref {
   font-weight: 600;
 }
 .caution {
@@ -319,7 +350,7 @@ dd ol, dd ul {
  margin-top: 0;
 }
 ol.qandatoc, ol.qandaset {
-  margin-left: -2%;
+  margin-left: 0;
 }/*
 li.listitem p:not(.linkedpara) {
   margin-top: 0;
@@ -383,20 +414,17 @@ dd .literallayout {
 }
 ol.qandaset dl {
  margin-top: 2rem;
+ margin-left: 0;
 }
 ol.qandaset * p:first-child {
  margin-top: -1rem;
 }
 dl.toc dd dt {
  position: relative;
- margin-top: -.2rem;
+ margin-top: 1rem;
 }
 dl.toc > dt {
   margin-top: .8rem;
-}
-table {
-  text-align: left;
-  border-spacing: 0;
 }
 table.revhistory {
   border: 1px solid #bbb;
@@ -462,6 +490,9 @@ div p.copyright {
 div.literallayout {
   margin-left: 1rem;
 }
+section pre {
+  margin-left: 1rem;
+}
 .refsynopsisdiv .refsect3 >.cmdsynopsis {
  margin-left: 2rem;
 }
@@ -494,7 +525,8 @@ div.literallayout {
 .refsynopsisdiv > .refsect2 > .refsect3 > .simpara {
   margin-left: 4rem;
 }
-.refentry ol, .refentry ul {
+.refentry ol, .refentry ul,
+section ul, section ol {
  margin-left: 1.5rem;
 }
 .refentry .blockquote > p {
@@ -517,6 +549,11 @@ dt pre, li > pre {
 .refentry dd pre {
  margin-left: -1.5rem;
 }
+dd div ol,
+dd div ul,
+dd ul {
+ margin-left: -3rem;
+}
 .refentry dd ol,
 .refentry dd ul {
  margin-left: -3rem;
@@ -529,3 +566,25 @@ li {
  margin-left: -1rem;
 }
 .mheadfoot {background-color: #fff;}
+/* ruby-ug eval screen i/o */
+pre.eval {
+  background-color: black;
+  color: white;
+}
+em.evalinput {
+  color: yellow;
+  font-weight: 600;
+}
+em.evaloutput {
+  color: cyan;
+  font-weight: 600;
+}
+em.regxoutput {
+  color: red;
+  font-weight: 600;
+}
+
+.wordasword {
+  color: maroon;
+  font-weight: 600;
+}

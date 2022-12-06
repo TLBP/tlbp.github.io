@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>15. Erişim Denetimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-redefinemethods.html" title="14. Yöntemleri Yeniden Tanımlama"/>
+    <link rel="next" href="ruby-ug-smethots.html" title="16. Tekil Yöntemler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-redefinemethods.html')">Önceki</button>
+          <div class="dropdown-content">14. Yöntemleri Yeniden Tanımlama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-smethots.html')">Sonraki</button>
+          <div class="dropdown-content">16. Tekil Yöntemler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-accesscontrol">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">15. Erişim Denetimi</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Daha önce Ruby'nin işlevlere değil sadece yöntemlere sahip olduğunu söylemiştik. Ancak sadece tek bir tür yöntem yoktur. Bu bölümde <em class="wordasword">erişim yöntemleri</em>'nden bahsedeceğiz.
+  </p>
+        <p>
+   Yöntemi, sınıf tanımlamasının içinde değil de, en üstte tanımladığımızı farz edelim. Bunun C gibi daha geleneksel bir dildeki <em class="wordasword">işlev</em>lerle aynı işi yapan bir yöntem olduğunu düşünürüz.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">def kare(n)</em>
+    |    <em class="emphasis evalinput">n * n</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:kare</em>
+ruby&gt; <em class="emphasis evalinput">kare (5)</em>
+ <em class="emphasis evaloutput">25</em>
+</pre>
+        <p>
+   Yeni yöntemimiz hiç bir sınıfa bağlı değil gibi gözüküyor, ama aslında Ruby bu yöntemi tüm sınıfların süper sınıfı olan <span class="command"><strong>Object</strong></span> sınıfına verir. Sonuç olarak her nesne bu yöntemi nasıl kullanacağını bilir. Bu durum doğru gibi gözükebilir ama burada küçük bir nokta vardır: bu yöntem her sınıfın <span class="command"><strong>private</strong></span> (özel) yöntemdir. Bunun ne anlama geldiğinden bahsedeceğiz fakat bu durumun sonuçlarından bir tanesi de aşağıdaki gibi sadece işlev tarzında çağırabilmemizdir:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Foo</em>
+    |   <em class="emphasis evalinput">def dördüncü_kuvvet(x)</em>
+    |     <em class="emphasis evalinput">kare(x) * kare(x)</em>
+    |   <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:dördüncü_kuvvet</em>
+ruby&gt; <em class="emphasis evalinput">Foo.new.dördüncü_kuvvet 10</em>
+   <em class="emphasis evaloutput">10000</em>
+</pre>
+        <p>
+   Bir nesnenin, yöntemini açıkça çağırmasına izin verilmez:
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">"Balık".kare(5)</em>
+<em class="emphasis evaloutput">ERR: private method `kare' called for "Balık":String</em>
+</pre>
+        <p>
+   Bu durum daha geleneksel bir dildeki gibi işlev yazmamızı sağlarken, Ruby'nin saf 'nesneye yönelik' yapısını korumasına yardımcı olur (işlevler halen nesnelerin yöntemleridir, sadece alıcı üstü kapalı olarak <span class="command"><strong>self</strong></span>'tir.)
+  </p>
+        <p>
+   Önceki bölümlerde de vurguladığımız gibi nesneye yönelik yazılım geliştirmenin genel mantığı, <em class="emphasis">belirtim</em> ile  <em class="emphasis">gerçeklenimi</em> birbirinden ayırmak ya da bir nesneden hangi görevleri yapması istendiği ve onun bunların nasıl yapabileceğiyle ilgilenmektir.
+  </p>
+        <p>
+   Bir nesnenin dahili işleri genelde kullanıcıdan saklanmalı, kullanıcı yalnızca neyin gidip geldiğiyle ilgilenmeli ve nesnenin kendi içinde neyi nasıl yaptığını bildiğine güvenmelidir.
+  </p>
+        <p>
+   Genelde nesnenin dış dünya tarafından görülmeyen ancak dahili olarak kullandığı yöntemlere sahip olması yararlı bir şeydir (ve bu durum kullacının nesneleri görme biçimi değiştirilmeksizin yazılımcının isteğine göre değiştirebilir).
+  </p>
+        <p>
+   Aşağıdaki basit örnekte <span class="command"><strong>motor</strong></span> sınıfının görünmediğini ama dahili olarak çalıştığını varsayalım.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Deneme</em>
+    |    <em class="emphasis evalinput">def iki_katı(a)</em>
+    |       <em class="emphasis evalinput">print a," kere iki ",motor(a),"\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">def motor(b)</em>
+    |       <em class="emphasis evalinput">b * 2</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">private:motor  # motoru kullanıcılardan saklar</em>
+    | <em class="emphasis evalinput">end</em>
+ <em class="emphasis evalinput">Deneme</em>
+ruby&gt; <em class="emphasis evalinput">deneme = Deneme.new</em>
+   <em class="emphasis evaloutput">#&lt;Deneme:0x000055e097e4f368&gt;</em>
+ruby&gt; <em class="emphasis evalinput">deneme.motor(6)</em>
+<em class="emphasis evaloutput">ERR: private method `motor' called for #&lt;Deneme:0x000055e097e4f368&gt;</em>
+ruby&gt; <em class="emphasis evalinput">deneme.iki_katı(6)</em>
+6 kere iki 12.
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   <span class="command"><strong>deneme.motor(6)</strong></span>'nın 12 değerini döndürmesini umuyorduk ancak bir <span class="command"><strong>Deneme</strong></span> nesnesi gibi davrandığımızda <span class="command"><strong>motor</strong></span>'un erişilemez olduğunu gördük. Yalnızca <span class="command"><strong>iki_katı</strong></span> gibi diğer <span class="command"><strong>Deneme</strong></span> yöntemleri <span class="command"><strong>motor</strong></span>'a ulaşma hakkına sahiptir. Böylece öncelikle <span class="command"><strong>iki_katı</strong></span> yöntemini içeren genel arayüze gitmek zorunda bırakıldık. Yazılımcı, kullancının <span class="command"><strong>Deneme</strong></span> nesnelerinin birbirini nasıl etkilediğine bakmaksızın <span class="command"><strong>motor</strong></span> yöntemini (bu örnekte muhtemelen başarım açısından <code class="literal">b*2</code>'yi <code class="literal">b+b</code> ile) değiştirebilir. Bu örnek erişim denetimlerini anlatmak için tabii ki çok basit bir örnektir ancak daha karmaşık ve ilginç sınıflar üretmeye başlayınca erişim denetiminin ne kadar yararlı bir kavram olduğunu anlayacaksınız.
+  </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

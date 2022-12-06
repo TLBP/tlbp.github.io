@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24. Hata İşleme: rescue deyimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-constants.html" title="23. Sınıf Sabitleri"/>
+    <link rel="next" href="ruby-ug-ensure.html" title="25. Hata İşleme: ensure deyimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-constants.html')">Önceki</button>
+          <div class="dropdown-content">23. Sınıf Sabitleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-ensure.html')">Sonraki</button>
+          <div class="dropdown-content">25. Hata İşleme: <code class="literal">ensure</code> deyimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-rescue">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">24. Hata İşleme: <code class="literal">rescue</code> deyimi</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Çalıştırılan bir yazılım beklenmeyen sorunlar doğurabilir. Okunmaya çalışılan bir dosya mevcut olmayabilir ya da veri kaydetmemek istediğimiz disk dolu olabilir yada kullanıcı beklenmeyen bir girdi yapabilir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">file = open("bir_dosya")</em>
+<em class="emphasis evaloutput">ERR: No such file or directory @ rb_sysopen - bir_dosya</em>
+</pre>
+        <p>
+   Güçlü bir yazılım bu gibi durumları hassasiyetle yakalayacaktır. C yazılımcılarından, hata doğurabilecek her sistem çağrısının sonucunu kontrol etmeleri ve anında ne yapılacağına ilişkin karar vermeleri beklenir:
+  </p>
+        <pre class="screen">
+FILE *file = fopen("bir_dosya", "r");
+if (file == NULL) {
+  fprintf( stderr, "Dosya mevcut değil.\n" );
+  exit(1);
+}
+bytes_read = fread( buf, 1, bytes_desired, file );
+if (bytes_read != bytes_desired ) {
+  /* hata giderme işlemleri... */
+}
+...
+</pre>
+        <p>
+   Bu yazılımcıları dikkatsizliğe ve ihmalciliğe iten, üstelik hataları tam olarak yakalayamayan bir yazılım geliştirmenize yol açan sıkıcı bir uygulamadır. Öte yandan, işi doğru düzgün yapmak, yakalanabilecek bir çok hata olduğu için yazılımın okunabilirliğini oldukça zorlaştıracaktır.
+  </p>
+        <p>
+   Güncel bir çok dilde olduğu gibi Ruby'de de, yazılımcıyı ya da sonradan kodumuzu okuyan kişileri sıkıntıya sokmadan, sürprizleri kod bloklarından soyutlayan bir yolla yakalayabiliriz.
+  </p>
+        <p>
+   <span class="command"><strong>begin</strong></span> ile işaretlenmiş kod bloğu bir istisnayla karşılaşana dek çalıştırılır, hata durumunda denetimi <span class="command"><strong>rescue</strong></span> ile işaretlenmiş kod bloğuna verir. Eğer hiçbir istisnayla karşılaşılmazsa <span class="command"><strong>rescue</strong></span> kodu kullanılmaz. Aşağıdaki yöntem bir metin dosyasının ilk satırını, bir istisna ile karşılaşırsa <span class="command"><strong>nil</strong></span> döndürür:
+  </p>
+        <pre class="screen">
+def first_line( filename )
+  begin
+    file = open("bir_dosya")
+    info = file.gets
+    file.close
+    info  # Değerlendirmeye alınan son şey dönüş değeri
+  rescue
+    nil   # Dosyayı okuyamıyor musunuz? O zaman bir ileti dönmez.
+  end
+end
+</pre>
+        <p>
+   Bir sorunla yaratıcı bir biçimde ilgilenmek istediğimiz zamanlar olacaktır. Örneğin dosyaya erişmek mümkün değilse standart girdi yerine başka bir şey kullanmak isteyebiliriz:
+  </p>
+        <pre class="screen">
+begin
+  file = open("bir_dosya")
+rescue
+  file = STDIN
+end
+
+begin
+  # ... girdiyi değerlendir ...
+rescue
+  # ... burada diğer istisnalarla uğraş.
+end
+</pre>
+        <p>
+   <span class="command"><strong>begin</strong></span> kodunu tekrar çalıştırmak için <span class="command"><strong>rescue</strong></span>'nun içinde <span class="command"><strong>retry</strong></span> kullanabiliriz. Bu bize önceki örneğimizi daha kısa şekilde yazmamıza izin verir:
+  </p>
+        <pre class="screen">
+fname = "bir_dosya"
+begin
+  file = open(fname)
+  # ... girdiyi degerlendir ...
+rescue
+  fname = "STDIN"
+  retry
+end
+</pre>
+        <p>
+   Ancak burada bir kusur bulunmaktadır. Hiç olmayan bir dosya bu kodun sonsuz bir döngüde kendisini tekrar etmesini sağlayacaktır. <span class="command"><strong>retry</strong></span> kullanırken bu tür durumlara dikkat etmelisiniz.
+  </p>
+        <p>
+   Her Ruby kütüphanesi, sizin de kendi kodunuzda yapabileceğiniz gibi, herhangi bir hata karşısında bir istisna oluşturur. Bir istisnayı ortaya çıkarmak için <span class="command"><strong>raise</strong></span> kullanılır. <span class="command"><strong>raise</strong></span> tek değer olarak istisnayı açıklayan bir dizge alır. Bu değer isteğe bağlıdır ancak atlanmaması gereken bir husustur. Özel değişkenlerden olan <span class="command"><strong>$!</strong></span> ile sonradan ulaşılabilir.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">raise "deneme hatası"</em>
+<em class="emphasis evaloutput">ERR: deneme hatası</em>
+ruby&gt; <em class="emphasis evalinput">begin</em>
+    |    <em class="emphasis evalinput">raise "dnm2"</em>
+    | <em class="emphasis evalinput">rescue</em>
+    |    <em class="emphasis evalinput">print "Bir hata meydana geldi: ",$!, "\n"</em>
+    | <em class="emphasis evalinput">end</em>
+Bir hata meydana geldi: dnm2
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

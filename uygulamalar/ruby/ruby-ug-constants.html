@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>23. Sınıf Sabitleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-localvars.html" title="22. Yerel Değişkenler"/>
+    <link rel="next" href="ruby-ug-rescue.html" title="24. Hata İşleme: rescue deyimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-localvars.html')">Önceki</button>
+          <div class="dropdown-content">22. Yerel Değişkenler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-rescue.html')">Sonraki</button>
+          <div class="dropdown-content">24. Hata İşleme: <code class="literal">rescue</code> deyimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-constants">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">23. Sınıf Sabitleri</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir sabit büyük harfle başlayan bir ada sahiptir. Sabitlere bir kere değer ataması yapılmalıdır. Ruby'nin şu anki uygulamasına göre, sabitlere yeniden değer ataması yapmak hata değil uyarı ile sonuçlanır (<code class="filename">eval.rb</code>'nin ANSI olmayan sürümü uyarı değil hata raporlar):
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">fluid=30</em>
+    <em class="emphasis evaloutput">30</em>
+ruby&gt; <em class="emphasis evalinput">fluid=31</em>
+    <em class="emphasis evaloutput">31</em>
+ruby&gt; <em class="emphasis evalinput">Solid=32</em>
+    <em class="emphasis evaloutput">32</em>
+ruby&gt; <em class="emphasis evalinput">Solid=33</em>
+&lt;main&gt;: warning: already initialized constant Solid
+   <em class="emphasis evaloutput">33</em>
+</pre>
+        <p>
+   Sabitler sınıflarla beraber tanımlanabilir ancak örnek değişkenlerin aksine sınıfın dışından da erişilebilir durumdadır.
+  </p>
+        <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class SabitSınıfı</em>
+    |    <em class="emphasis evalinput">C1=101</em>
+    |    <em class="emphasis evalinput">C2=102</em>
+    |    <em class="emphasis evalinput">C3=103</em>
+    |    <em class="emphasis evalinput">def göster</em>
+    |       <em class="emphasis evalinput">print C1," ",C2," ",C3,"\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:göster</em>
+ruby&gt; <em class="emphasis evalinput">C1</em>
+<em class="emphasis evaloutput">ERR: uninitialized constant C1</em>
+ruby&gt; <em class="emphasis evalinput">SabitSınıfı::C1</em>
+   <em class="emphasis evaloutput">101</em>
+ruby&gt; <em class="emphasis evalinput">SabitSınıfı.new.göster</em>
+101 102 103
+   <em class="emphasis evaloutput">nil</em>
+</pre>
+        <p>
+   Sabitler aynı zamanda modül içinde de tanımlanabilirler.
+  </p>
+        <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">module SabitModülü</em>
+    |    <em class="emphasis evalinput">C1=101</em>
+    |    <em class="emphasis evalinput">C2=102</em>
+    |    <em class="emphasis evalinput">C3=103</em>
+    |    <em class="emphasis evalinput">def sabitleriGöster</em>
+    |       <em class="emphasis evalinput">print C1," ",C2," ",C3,"\n"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:sabitleriGöster</em>
+ruby&gt; <em class="emphasis evalinput">C1</em>
+<em class="emphasis evaloutput">ERR: uninitialized constant C1</em>
+ruby&gt; <em class="emphasis evalinput">include SabitModülü</em>
+   <em class="emphasis evaloutput">Object</em>
+ruby&gt; <em class="emphasis evalinput">C1</em>
+   <em class="emphasis evaloutput">101</em>
+ruby&gt; <em class="emphasis evalinput">sabitleriGöster</em>
+101 102 103
+   <em class="emphasis evaloutput">nil</em>
+ruby&gt; <em class="emphasis evalinput">C1=99</em>  # pek iyi bir fikir değil
+   <em class="emphasis evaloutput">99</em>
+ruby&gt; <em class="emphasis evalinput">C1</em>
+   <em class="emphasis evaloutput">99</em>
+ruby&gt; <em class="emphasis evalinput">SabitModülü::C1</em>  # modülün sabiti rahatsız edilmemiş...
+   <em class="emphasis evaloutput">101</em>
+ruby&gt; <em class="emphasis evalinput">SabitModülü::C1=99</em>  # önceki sürümlerde buna izin verilmez
+&lt;main&gt;: warning: already initialized constant SabitModülü::C1
+&lt;main&gt;:1: warning: previous definition of C1 was here
+   <em class="emphasis evaloutput">99</em>
+ruby&gt; <em class="emphasis evalinput">SabitModülü::C1</em>  # sen iste yeter ki...
+   <em class="emphasis evaloutput">99</em>
+</pre>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

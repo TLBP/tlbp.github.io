@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>7. Giriş ve Çıkış</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="python-tutorial_moduller.html" title="6. Modüller"/>
+    <link rel="next" href="python-tutorial_hatalar.html" title="8. Hatalar ve İstisnalar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_moduller.html')">Önceki</button>
+          <div class="dropdown-content">6. Modüller</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('python-tutorial_hatalar.html')">Sonraki</button>
+          <div class="dropdown-content">8. Hatalar ve İstisnalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="python-tutorial_io">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">7. Giriş ve Çıkış</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>7.1. <a href="python-tutorial_io.html#python-tutorial_write">Daha Güzel Çıkış Biçemi</a></dt>
+            <dt>7.2. <a href="python-tutorial_io.html#python-tutorial_dosyalar">Dosya Okuma ve Yazma</a></dt>
+            <dd>
+              <dl>
+                <dt>7.2.1. <a href="python-tutorial_io.html">Dosya Nesnelerinin Yöntemleri</a></dt>
+                <dt>7.2.2. <a href="python-tutorial_io.html"><code class="literal">pickle</code> Modülü</a></dt>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   Bir yazılımın çıktısını sunmanın birkaç yolu vardır; veri yazdırılabilir
+   ya da gelecekte kullanılabilecek şekilde bir dosyaya kaydedilebilir.
+   Bu bölümde giriş ve çıkış ile ilgili olanakların bazılarına değineceğiz.
+  </p>
+        <section class="sect1" id="python-tutorial_write">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.1. Daha Güzel Çıkış Biçemi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Buraya kadar değerleri yazdırmanın iki yolunu gördük: deyim ifadeleri ve
+    print deyimi. Üçüncü bir yol da dosya nesnelerinin <code class="literal">write()</code>
+    yöntemidir. Standart çıktıya <code class="literal">sys.stdout</code> şeklinde atıfta
+    bulunulabilir.
+   </p>
+          <p>
+    Çoğu zaman boşluklar ile birbirinden ayrılmış değerlerden daha iyi
+    biçimlendirilimiş bir çıktıya ihtiyaç duyulur. Çıktınızı biçimlendirmenin
+    iki yolu var. İlki bütün dizge işlemlerini dilimleme ve birleştirme ile
+    yapıp istediğiniz herhangi bir biçimi elde etmek.
+    <code class="literal">string</code> standart modülü dizgelerin istenen sütun
+    genişliğine kadar boşluklar ile doldurulmasını sağlayan, daha sonra
+    değineceğimiz, bazı faydalı işlevlere sahiptir. İkinci yol ise sol
+    bağımsız değişkeni bir dizge olan <code class="literal">%</code> işlecini
+    kullanmaktır. <code class="literal">%</code> işleci sol bağımsız değişkeni sağdaki
+    bağımsız değişkenine uygulanacak <code class="literal">sprintf()</code>
+    tarzı biçim dizgesi olarak yorumlar ve biçimleme işleminden sonra bir
+    dizge geri döndürür.
+   </p>
+          <p>
+    Sayısal değerleri dizgeye çevirmek için ise değer
+    <code class="literal">repr()</code> veya <code class="literal">str()</code> işlevine
+    geçirilebilir ya da ters tırnak işareti (<strong class="userinput"><code>``</code></strong>)
+    içine alınabilir (<code class="literal">repr()</code> ile aynı etkiye sahiptir).
+   </p>
+          <p>
+    <code class="literal">str()</code> işlevi değerlerin insan tarafından okunabilir
+    gösterimini geri döndürürken, <code class="literal">repr()</code> işlevi yorumlayıcı
+    tarafından okunabilir gösterimini geri döndürür (veya uygun sözdizim yok
+    ise <code class="literal">SyntaxError</code> istisnası oluşturur). İnsan için anlam
+    ifade edecek bir gösterimi bulunmayan nesneler için
+    <code class="literal">str()</code> işlevi <code class="literal">repr()</code> ile aynı değeri
+    döndürür. Rakamlar, listeler ve sözlükler gibi yapılar ile daha pek çok
+    değer için her iki işlev de aynı sonucu verir. Dizgeler ve gerçel sayılar
+    ise iki farklı gösterime sahiptir.
+   </p>
+          <p>İşte birkaç örnek:</p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> s = 'Hello, world.'
+<code class="prompt">&gt;&gt;&gt;</code> str(s)
+'Hello, world.'
+<code class="prompt">&gt;&gt;&gt;</code> `s`
+"'Hello, world.'"
+<code class="prompt">&gt;&gt;&gt;</code> str(0.1)
+'0.1'
+<code class="prompt">&gt;&gt;&gt;</code> `0.1`
+'0.10000000000000001'
+<code class="prompt">&gt;&gt;&gt;</code> x = 10 * 3.25
+<code class="prompt">&gt;&gt;&gt;</code> y = 200 * 200
+<code class="prompt">&gt;&gt;&gt;</code> s = 'The value of x is ' + `x` + ', and y is ' + `y` + '...'
+<code class="prompt">&gt;&gt;&gt;</code> print s
+The value of x is 32.5, and y is 40000...
+<code class="prompt">&gt;&gt;&gt;</code> # Ters tırnaklar sayılar dışındaki tipler ile de çalışır:
+<code class="prompt">...</code> p = [x, y]
+<code class="prompt">&gt;&gt;&gt;</code> ps = repr(p)
+<code class="prompt">&gt;&gt;&gt;</code> ps
+'[32.5, 40000]'
+<code class="prompt">&gt;&gt;&gt;</code> # Karakter dizisinde ise tırnaklar ve ters bölü işareti eklenir:
+<code class="prompt">...</code> hello = 'hello, world\n'
+<code class="prompt">&gt;&gt;&gt;</code> hellos = `hello`
+<code class="prompt">&gt;&gt;&gt;</code> print hellos
+'hello, world\n'
+<code class="prompt">&gt;&gt;&gt;</code> # Ters tırnakların bağımsız değişkeni bir demet de olabilir:
+<code class="prompt">...</code> `x, y, ('spam', 'eggs')`
+"(32.5, 40000, ('spam', 'eggs'))"
+</pre>
+          <p>
+    Sayıların kare ve küplerinden oluşan bir tablo yazdırmanın iki yolu
+    vardır:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import string
+<code class="prompt">&gt;&gt;&gt;</code> for x in range(1, 11):
+<code class="prompt">...</code>     print string.rjust(`x`, 2), string.rjust(`x*x`, 3),
+<code class="prompt">...</code>     # Üst satırın sonundaki virgüle dikkat edin.
+<code class="prompt">...</code>     print string.rjust(`x*x*x`, 4)
+<code class="prompt">...</code>
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+<code class="prompt">&gt;&gt;&gt;</code> for x in range(1,11):
+<code class="prompt">...</code>     print '%2d %3d %4d' % (x, x*x, x*x*x)
+<code class="prompt">...</code>
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+</pre>
+          <p>
+    Sütunların arasındaki bir karakterlik boşluk <code class="literal">print</code>
+    tarafından eklenir; bağımsız değişkenlerin arasına daima bir boşluk
+    karakteri eklenir.
+   </p>
+          <p>
+    Bu örnek dizgelerin başını boşluklar ile doldurup bunları sağ tarafa
+    dayayan <code class="literal">string.rjust()</code> işlevini kullanmaktadır.
+    Buna benzer <code class="literal">string.ljust()</code> ve
+    <code class="literal">string.center()</code> işlevleri de vardır. Bunlar bir şey
+    yazdırmaz; sadece yeni bir dizge geri döndürür. Verilen
+    dizge uzun ise kırpılmaz ve aynen geri döndürülür; bu
+    sütunlarınızın bozulmasına sebep olmasına rağmen hatalı bir değer
+    göstermekten iyidir. Büyük bir değeri kırpmayı gerçekten istiyorsanız
+    dilimleme ile bunu yapabilirsiniz
+    (<code class="literal">string.ljust(x, n)[0:n]</code> gibi).
+   </p>
+          <p>
+    <code class="literal">string.zfill()</code> işlevi ise rakamlar içeren dizgelerin
+    başını sıfırlar ile doldurur. Bu işlev artı ve eksi işaretlerini de
+    dikkate alır:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import string
+<code class="prompt">&gt;&gt;&gt;</code> string.zfill('12', 5)
+'00012'
+<code class="prompt">&gt;&gt;&gt;</code> string.zfill('-3.14', 7)
+'-003.14'
+<code class="prompt">&gt;&gt;&gt;</code> string.zfill('3.14159265359', 5)
+'3.14159265359'
+</pre>
+          <p>
+    <code class="literal">%</code> işleçi şu şekilde kullanılır:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> import math
+<code class="prompt">&gt;&gt;&gt;</code> print 'PI sayısının yaklaşık değeri: %5.3f' % math.pi
+PI sayısının yaklaşık değeri: 3.142
+</pre>
+          <p>
+    Dizgenin içinde birden fazla biçem varsa sağ terim olarak bir demet
+    kullanmak gerekir:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
+<code class="prompt">&gt;&gt;&gt;</code> for name, phone in table.items():
+<code class="prompt">...</code>     print '%-10s ==&gt; %10d' % (name, phone)
+<code class="prompt">...</code>
+Jack       ==&gt;       4098
+Dcab       ==&gt;       7678
+Sjoerd     ==&gt;       4127
+</pre>
+          <p>
+    Çoğu biçim aynı C dilindeki gibi çalışır ve doğru veri türünün
+    geçirilmesi gerekir; bu yapılamaz ise bir istisna oluşur.
+    <code class="literal">%s</code> biçiminin kullanımı daha rahattır; verilen
+    bağımsız değişken dizge değilse yerleşik işlev <code class="literal">str()</code> ile
+    dizgeye dönüştürülür. Genişlik ya da hassasiyeti belirtmek için
+    <code class="literal">*</code> ile bir tamsayı bağımsız değişken kullanılabilir. C dilindeki
+    <code class="literal">%n</code> ve <code class="literal">%p</code> biçimler ise
+    desteklenmemektedir.
+   </p>
+          <p>
+    Eğer bölmek istemediğiniz gerçekten uzun bir biçim dizgeniz varsa
+    biçimlendirmek istediğiniz bağımsız değişkenlere konumu yerine ismiyle atıfta
+    bulunabilmeniz güzel olur. Bu aşağıda gösterildiği gibi
+    <code class="literal">%(isim)biçim</code> şeklinde yapılabilir:
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+<code class="prompt">&gt;&gt;&gt;</code> print 'Jack: %(Jack)d; Sjoerd: %(Sjoerd)d; Dcab: %(Dcab)d' % table
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+</pre>
+          <p>
+    Bu özellik bütün yerel değişkenlerin bulunduğu bir sözlük geri döndüren
+    yerleşik işlev <code class="literal">vars()</code> ile beraber kullanıldığında
+    faydalı olur.
+   </p>
+        </section>
+        <section class="sect1" id="python-tutorial_dosyalar">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.2. Dosya Okuma ve Yazma</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <code class="literal">open()</code> işlevi bir dosya nesnesi geri döndürür ve
+    genellikle iki bağımsız değişken ile kullanılır: <code class="literal">open(dosya_adı, kip)</code>
+   </p>
+          <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f=open('/tmp/workfile', 'w')
+<code class="prompt">&gt;&gt;&gt;</code> print f
+&lt;open file '/tmp/workfile', mode 'w' at 80a0960&gt;
+</pre>
+          <p>
+    İlk bağımsız değişken dosya adını içeren bir dizgedir. İkincisi ise
+    dosyanın nasıl kullanılacağını belirten karakterlerden oluşur. Erişim kipi
+    dosyadan sadece okuma yapılacak ise <code class="literal">'r'</code>, sadece yazma
+    için <code class="literal">'w'</code> (aynı isimli bir dosya zaten var ise üzerine
+    yazılır) ve dosyanın sonuna eklemeler yapmak için <code class="literal">'a'</code>
+    olur. <code class="literal">'r+'</code> kipi dosyayı hem okuma hem de yazma yapmak
+    için açar. <code class="literal">kip</code> bağımsız değişkeni seçimliktir; kullanılamaması halinde <code class="literal">'r'</code> olduğu varsayılır.
+  </p>
+          <p>
+    Windows ve Macintosh üzerinde kipe eklenen <code class="literal">'b'</code> harfi
+    dosyayı ikilik kipte açar; yani <code class="literal">'rb'</code>,
+    <code class="literal">'wb'</code> ve <code class="literal">'r+b'</code> gibi kipler de vardır.
+    Windows metin ve ikilik dosyaları arasında ayrım yapmaktadır; metin
+    dosyalarında okuma veya yazma işlemlerinde satır sonu karakterleri
+    otomatik olarak biraz değişir. Bu görünmez değişiklik ASCII metin
+    dosyaları için iyidir; anacak JPEG resimler veya .EXE dosyalar gibi iklik
+    verileri bozar.
+   </p>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">7.2.1. Dosya Nesnelerinin Yöntemleri</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Bundan sonraki örneklerde <code class="literal">f</code> adlı bir dosya nesnesinin
+     önceden oluşturulmuş olduğunu varsayacağız.
+    </p>
+            <p>
+     Dosyanın içeriğini okumak için belirli miktarda veriyi okuyup bunu
+     dizge olarak geri döndüren <code class="literal">f.read(boy)</code>yöntemi
+     kullanılabilir. <code class="literal">boy</code> okunacak bayt sayısını
+     belirleyen seçimlik bir bağımsız değişkendir; kullanılmaması halinde dosyanın
+     tamamı okunur. Dosyanın sonuna gelindiğinde <code class="literal">f.read()</code>
+     boş bir dizge ("") geri döndürür.
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f.read()
+'Dosyanın tamamı bu satırdan oluşuyor.\n'
+<code class="prompt">&gt;&gt;&gt;</code> f.read()
+''
+</pre>
+            <p>
+     <code class="literal">f.readline()</code> dosyadan tek bir satır okur. Satırın
+     sonundaki satırsonu karakteri (<code class="literal">\n</code>) korunur; ancak
+     dosya bir satırsonu karakteri ile bitmiyor ise son satırda bu karakter
+     silinir. Bu özellik geri döndürülen değerin birden fazla anlama gelmesini
+     engeller; <code class="literal">f.readline()</code> boş bir dizge geri
+     döndürdüğünde dosyanın sonuna ulaşılırken boş bir satır tek bir
+     <code class="literal">'\n'</code> karakteri ile ifade edilir.
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f.readline()
+'Bu dosyanın ilk satırı.\n'
+<code class="prompt">&gt;&gt;&gt;</code> f.readline()
+'Dosyanın ikinci satırı\n'
+<code class="prompt">&gt;&gt;&gt;</code> f.readline()
+''
+</pre>
+            <p>
+     <code class="literal">f.readlines()</code> dosya içindeki bütün satırların
+     bulunduğu bir liste geri döndürür. Seçimlik bağımsız değişken
+     <code class="literal">boy_ipucu</code> kullanılması durumunda ise dosyadan
+     <code class="literal">boy_ipucu</code> kadar ve bundan bir satır tamamlamaya
+     yetecek kadar fazla bayt okunur ve bunlar yine satırlar listesi
+     şeklinde geri döndürülür.
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f.readlines()
+['Bu dosyanın ilk satırı.\n', 'Dosyanın ikinci satırı\n']
+</pre>
+            <p>
+     <code class="literal">f.write(dizge)</code> yöntemi <code class="literal">dizge</code>
+     içeriğini dosyaya yazar ve <code class="literal">None</code> geri döndürür.
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f.write('Bu bir deneme satırıdır.\n')
+</pre>
+            <p>
+     <code class="literal">f.tell()</code> dosya nesnesinin dosya içindeki konumunu
+     belirten bir tamsayı geri döndürür (dosyanın başından bayt cinsinden
+     ölçülür). <code class="literal">f.seek(uzaklık, nereden)</code> ile de dosyanın
+     içinde istenen konuma gidilebilir. Konum, <code class="literal">uzaklık</code>
+     ile başvuru noktası <code class="literal">nereden</code> değerlerinin toplanması
+     ile bulunur. <code class="literal">nereden</code> 0 olursa dosyanın başını,
+     1 o andaki konumu, 2 ise dosyanın sonunu belirtir. <code class="literal">nereden</code>
+     kullanılmaz ise 0 olduğu varsayılır ve başvuru noktası olarak dosyanın
+     başı alınır.
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f=open('/tmp/workfile', 'r+')
+<code class="prompt">&gt;&gt;&gt;</code> f.write('0123456789abcdef')
+<code class="prompt">&gt;&gt;&gt;</code> f.seek(5)     # Dosyadaki 5'inci bayta git
+<code class="prompt">&gt;&gt;&gt;</code> f.read(1)
+'5'
+<code class="prompt">&gt;&gt;&gt;</code> f.seek(-3, 2) # Sondan 3'üncü bayta git
+<code class="prompt">&gt;&gt;&gt;</code> f.read(1)
+'d'
+</pre>
+            <p>
+     Dosya ile işiniz bittiğinde <code class="literal">f.close()</code> yöntemini
+     çağırarak dosyayı kapatabilir ve dosyanın işgal ettiği sistem
+     kaynaklarını serbest bırakabilirsiziz. <code class="literal">f.close()</code>
+     çağrıldıktan sonra dosya üzerinde başka işlem yapmaya devam etmek
+     mümkün değildir:
+    </p>
+            <pre class="screen">
+<code class="prompt">&gt;&gt;&gt;</code> f.close()
+<code class="prompt">&gt;&gt;&gt;</code> f.read()
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+ValueError: I/O operation on closed file
+</pre>
+            <p>
+     Dosya nesnelerinin <code class="literal">isatty()</code> ve
+     <code class="literal">truncate()</code> gibi pek sık kullanılmayan başka
+     yöntemleri de vardır.
+    </p>
+          </section>
+          <section class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">7.2.2. <code class="literal">pickle</code> Modülü</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Dizgeler kolayca dosyalara yazılıp dosyalardan okunabilir. Sayılar
+     biraz zahmetlidir; çünkü <code class="literal">read()</code> yöntemi sadece
+     dizgeleri geri döndürür ve bunların '123' gibi bir değeri alıp sayısal
+     değeri 123'ü geri döndüren <code class="literal">string.atoi()</code> işlevinden
+     geçirilmeleri gerekir. Listeler, sözlükler ve sınıf örnekleri gibi daha
+     karmaşık veri türlerini dosyalara kaydetmek isterseniz işler oldukça
+     zorlaşır.
+    </p>
+            <p>
+     Yazılımcıları karmaşık veri türlerini saklamak için kodlamak ve hata
+     ayıklamak ile uğraştırmak yerine Python bu iş için <code class="literal">pickle</code>
+     adlı standart modülü sağlar. Bu hayret verici modül neredeyse herhangi
+     bir Python nesnesini (bazı Python kodu biçimlerini bile!) dizge ile ifade
+     edilebilecek hale getirebilir ve bu halinden geri alabilir. Bu dönüşüm ve
+     geri kazanım işlemleri arasında nesne bir dosyaya kaydedilebilir ya da ağ
+     bağlantısı ile uzaktaki başka bir makineye gönderilebilir.
+   </p>
+            <p>
+     <code class="literal">x</code> gibi bir nesneniz ve yazma işlemi için açılmış
+     <code class="literal">f</code> gibi bir dosya nesneniz varsa bu nesneyi dosyaya
+     aktarmanız için tek satırlık kod yeterli olur:
+    </p>
+            <pre class="screen">
+pickle.dump(x, f)
+</pre>
+            <p>
+     Nesneyi geri almak için ise <code class="literal">f</code> okumak için açılmış
+     bir dosya nesnesi olsun:
+    </p>
+            <pre class="screen">
+x = pickle.load(f)
+</pre>
+            <p>
+     Birden fazla nesnenin dönüştürülmesi gerekiyor ya da dönüştürülmüş
+     olan nesnelerin dosyaya yazılması istenmiyor ise <code class="literal">pickle</code>
+     farklı şekilde kullanılır. Bunları <code class="literal">pickle</code> modülünün
+     belgelerinden öğrenmek mümkündür.
+    </p>
+            <p>
+     <code class="literal">pickle</code> modülü saklanabilen ve başka yazılımlar
+     tarafından ya da aynı yazılımın farklı çalışma zamanlarında
+     kullanılabilecek Python nesneleri yapmanın standart yoludur.
+     <code class="literal">pickle</code> modülü çok yaygın kullanıldığından Python
+     genişletme modülleri yazan çoğu yazılımcı matrisler gibi yeni veri
+     türlerinin doğru olarak dönüştürülebilir ve geri alınabilir olmasına
+     özen gösterir.
+    </p>
+          </section>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

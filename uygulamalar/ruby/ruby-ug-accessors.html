@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26. Erişim Yöntemleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="ruby-ug-ensure.html" title="25. Hata İşleme: ensure deyimi"/>
+    <link rel="next" href="ruby-ug-oinit.html" title="27. Nesnenin İlklendirilmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-ensure.html')">Önceki</button>
+          <div class="dropdown-content">25. Hata İşleme: <code class="literal">ensure</code> deyimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('ruby-ug-oinit.html')">Sonraki</button>
+          <div class="dropdown-content">27. Nesnenin İlklendirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="ruby-ug-accessors">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">26. Erişim Yöntemleri</h1>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>26.1. <a href="ruby-ug-accessors.html#ruby-ug-inspect"><code class="literal">inspect</code> yöntemi</a></dt>
+            <dt>26.2. <a href="ruby-ug-accessors.html">Erişim yöntemlerini kolay hale getirmek</a></dt>
+            <dt>26.3. <a href="ruby-ug-accessors.html">Meyveyle biraz daha eğlence</a></dt>
+          </dl>
+        </div>
+        <p>
+   Geçtiğimiz bölümlerde örnek değişkenlerden kısaca bahsettik ancak henüz işimiz bitmedi. Bir nesnenin örnek değişkenleri onun kendisine ait olan ve aynı sınıfa ait diğer nesnelerden ayıran öznitelikleridir.
+  </p>
+        <p>
+   Bu öznitelikleri okuyabilmek ve yazabilmek önemlidir; bu yüzden <em class="wordasword">özniteliğe erişim yöntemleri</em>ni kullanırız. Bir kaç dakika sonra erişim yöntemlerini her zaman açıkça yazmak zorunda olmadığımızı göreceksiniz ancak şimdilik tüm hareketlere bakalım. Erişim yöntemleri iki çeşittir: <em class="emphasis">yazıcılar</em> ve <em class="emphasis">okuyucular</em>.
+  </p>
+        <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def çesit_ata(k)  # bir yazıcı</em>
+    |       <em class="emphasis evalinput">@çeşidi = k</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">def ne_çesit     # bir okuyucu</em>
+    |       <em class="emphasis evalinput">@çeşidi</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:ne_çesit</em>
+ruby&gt; <em class="emphasis evalinput">f1 = Meyve.new</em>
+   <em class="emphasis evaloutput">#&lt;Meyve:0x000055f8e47a11c8&gt;</em>
+ruby&gt; <em class="emphasis evalinput">f1.çesit_ata("şeftali")</em>  # yazıcıyı kullan
+   <em class="emphasis evaloutput">"şeftali"</em>
+ruby&gt; <em class="emphasis evalinput">f1.ne_çesit</em>           # okuyucuyu kullan
+   <em class="emphasis evaloutput">"seftali"</em>
+ruby&gt; <em class="emphasis evalinput">f1</em>                    # nesneyi yokla
+   <em class="emphasis evaloutput">#&lt;Meyve:0x000055f8e47a11c8 @çeşit="şeftali"&gt;</em>
+</pre>
+        <p>
+   Yeterince basit; baktığımız meyve hakkında istediğimiz bilgiyi yerleştirebilir ya da erişebiliriz. Ama yöntem isimlerimiz biraz uzun. Aşağıdaki daha kısa ve daha bilindik:
+  </p>
+        <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def çeşidi=(k)</em>
+    |       <em class="emphasis evalinput">@çeşidi = k</em>
+    |    <em class="emphasis evalinput">end</em>
+    |    <em class="emphasis evalinput">def çeşidi</em>
+    |       <em class="emphasis evalinput">@çeşidi</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:çeşidi</em>
+ruby&gt; <em class="emphasis evalinput">f2 = Meyve.new</em>
+   <em class="emphasis evaloutput">#&lt;Meyve:0x000055f8e44c28a8&gt;</em>
+ruby&gt; <em class="emphasis evalinput">f2.çeşidi = "üzüm"</em>
+   <em class="emphasis evaloutput">"üzüm"</em>
+ruby&gt; <em class="emphasis evalinput">f2.çeşidi</em>
+   <em class="emphasis evaloutput">"üzüm"</em>
+</pre>
+        <section class="sect1" id="ruby-ug-inspect">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">26.1. <code class="literal">inspect</code> yöntemi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Küçük bir uzlaşma sağlanmıştır. Bir nesneye doğrudan ulaşmak istediğimizde <span class="command"><strong>#&lt;birNesne:0x83678&gt;</strong></span> gibi şifreye benzer birşeyle karşılaştığımıza dikkat edin. Bu öntanımlı bir davranıştır ve istediğiniz gibi değiştirebilirsiniz. Yapmanız gerek tek şey <span class="command"><strong>inspect</strong></span> yöntemini eklemektir. <span class="command"><strong>inspect</strong></span> yöntemi, nesneyi birkaç ya da bütün örnek değişkenleri de içeren ve mantıklı bir şekilde tanıtan bir yöntemdir.
+  </p>
+          <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def inspect</em>
+    |       <em class="emphasis evalinput">@çeşidi + " bir meyve çeşididir"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:inspect</em>
+ruby&gt; <em class="emphasis evalinput">f2</em>
+   <em class="emphasis evaloutput">üzüm bir meyve çeşididir</em>
+</pre>
+          <p>
+   Benzer bir yöntem de ekrana bir nesne yazdıracağımız zaman kullandığımız <span class="command"><strong>to_s</strong></span> (dizgeye dönüştürür) yöntemidir. Genel olarak <span class="command"><strong>inspect</strong></span> yöntemini yazılım geliştirirken ve hata ayıklarken kullandığınız bir araç olarak, <span class="command"><strong>to_s</strong></span>'yi de  yazılımın çıktısını düzeltmek için kullandığımız  bir yol düşünebilirsiniz.
+  </p>
+          <p>
+   <code class="filename">eval.rb</code> sonuçları görüntülemek için her zaman <span class="command"><strong>inspect</strong></span> yöntemini kullanır.
+  </p>
+          <p>
+   <span class="command"><strong>p</strong></span> yöntemini, yazılımlarınızdan hata ayıklama çıktısı almak için kullanabilirsiniz.
+  </p>
+          <pre class="screen">
+# Bu iki satır eşdeğerdir:
+p birNesne
+print birNesne.inspect, "\n"
+</pre>
+        </section>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">26.2. Erişim yöntemlerini kolay hale getirmek</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Her örneğin bir erişim yöntemine ihtiyacı olmasına rağmen, Ruby standart tarzlar için daha elverişli bir yol sunar.
+  </p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col style="width: 40%; "/>
+                <col style="width: 60%; "/>
+              </colgroup>
+              <thead align="left">
+                <tr>
+                  <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">Kısayol</th>
+                  <th style="text-align: left; border-bottom: 1px solid ; ">Etkisi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+       <span class="command"><strong>attr_reader :v</strong></span>
+      </td>
+                  <td style="border-bottom: 1px solid ; ">
+       <span class="command"><strong>def v; @v; end</strong></span>
+      </td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+       <span class="command"><strong>attr_writer :v</strong></span>
+      </td>
+                  <td style="border-bottom: 1px solid ; ">
+       <span class="command"><strong>def v=(value); @v=value; end</strong></span>
+      </td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">
+       <span class="command"><strong>attr_accessor :v</strong></span>
+      </td>
+                  <td style="border-bottom: 1px solid ; ">
+       <span class="command"><strong>attr_reader :v; attr_writer :v</strong></span>
+      </td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; ">
+       <span class="command"><strong>attr_accessor :v, :w</strong></span>
+      </td>
+                  <td>
+       <span class="command"><strong>attr_accessor :v; attr_accessor :w</strong></span>
+      </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+   Şimdi bunun getirilerinden faydalanalım ve bilgimizi tazeleyelim. Öncelikle otomatik olarak oluşturulmuş bir okuyucu ve yazıcı olup olmadığına bakarız ve yeni bilgiyi <span class="command"><strong>inspect</strong></span>'in içine dahil ederiz:
+  </p>
+          <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">attr_accessor :nitelik</em>
+    |    <em class="emphasis evalinput">def inspect</em>
+    |       <em class="emphasis evalinput">"#{@nitelik} #{@çeşidi}"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:inspect</em>
+ruby&gt; <em class="emphasis evalinput">f2.nitelik = "olgun"</em>
+   <em class="emphasis evaloutput">"olgun"</em>
+ruby&gt; <em class="emphasis evalinput">f2</em>
+   <em class="emphasis evaloutput">olgun üzüm</em>
+</pre>
+        </section>
+        <section class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">26.3. Meyveyle biraz daha eğlence</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Eğer kimse olgunlaşmamış meyvemizi yemezse, parasını almak için beklemeliyiz.
+  </p>
+          <pre class="screen eval">
+ruby&gt;<em class="emphasis evalinput">class Meyve</em>
+    |    <em class="emphasis evalinput">def durumu</em>
+    |       <em class="emphasis evalinput">@nitelik = "koruk"</em>
+    |    <em class="emphasis evalinput">end</em>
+    | <em class="emphasis evalinput">end</em>
+   <em class="emphasis evaloutput">:durumu</em>
+ruby&gt; <em class="emphasis evalinput">f2.durumu</em>
+   <em class="emphasis evaloutput">"koruk"</em>
+ruby&gt; <em class="emphasis evalinput">f2</em>
+   <em class="emphasis evaloutput">"koruk üzüm"</em>
+</pre>
+          <p>
+   Ancak buralarda oynarken, küçük bir sorunla karşılaştık. Üçüncü bir meyve yaratmaya çalıştığımızda ne olur? Örnek değişkenlerin onlara değer atanmadan var olmadıklarını hatırlayın.
+  </p>
+          <pre class="screen eval">
+ruby&gt; <em class="emphasis evalinput">f3 = Meyve.new</em>
+
+ruby&gt;
+</pre>
+          <p>
+   Burada yakınılan <span class="command"><strong>inspect</strong></span> yöntemidir ve geçerli bir sebebimiz var. <span class="command"><strong>f3</strong></span>'e özellik atamadan bir meyvenin çeşidi ve niteliği hakkında bir rapor istedik. Eğer istersek,  <span class="command"><strong>inspect</strong></span> yönteminin <span class="command"><strong>defined?</strong></span> yöntemini de kullanarak sadece tanımlanmış meyveleri rapor etmesini sağlayabiliriz ancak bu iş hala kullanışsız olur, çünkü her meyvenin bir çeşidi ve niteliği olduğuna göre bu ikisinin her zaman tanımlı olduğundan emin olmamız gerekir. Bu ileriki bölümün konusudur.
+  </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>
