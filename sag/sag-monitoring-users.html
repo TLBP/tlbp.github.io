@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.3. Kullanıcıların izlenmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag-fs-usage.html" title="6.2. Dosya Sistemi Kullanımı"/>
+    <link rel="next" href="sag_boots-and-shutdowns.html" title="7. Açılışlar ve Kapanışlar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag-fs-usage.html')">Önceki</button>
+          <div class="dropdown-content">6.2. Dosya Sistemi Kullanımı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag-system-monitoring.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_boots-and-shutdowns.html')">Sonraki</button>
+          <div class="dropdown-content">7. Açılışlar ve Kapanışlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag-monitoring-users">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.3. Kullanıcıların izlenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+     "Sırf paranoyaksın diye SANMA ki seni aldatmıyorlar..." - Kaynağı
+     Bilinmiyor
+    </p>
+          </blockquote>
+        </div>
+        <p>
+    Zaman zaman insanların sisteminizde tam olarak ne yaptığını bilmek
+    isteyeceğiniz durumlar olacaktır. Belki çok fazla RAM kullanıldığını
+    veya çok fazla işlemci etkinliği olduğunu fark etmişsinizdir. Sistemde
+    kimlerin olduğunu, neleri çalıştırdıklarını ve ne tür kaynaklar
+    kullandıklarını görmek isteyeceksiniz.
+   </p>
+        <section class="sect2" id="sag-who">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.3.1. <code class="literal">who</code> komutu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Sistemde kimin olduğunu görmenin en kolay yolu <tt><a href="../man/man1/man1-who.html"><b>who</b></a>(1)</tt> veya <tt><a href="../man/man1/man1-w.html"><b>w</b></a>(1)</tt> yapmaktır.  <span class="command"><strong>who</strong></span>, --&gt;sistemde --&gt;kimin oturum açtığını ve hangi port veya uçbirimde oturum açıldığını listeleyen basit bir araçtır.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt;</code> <strong class="userinput"><code> who</code></strong>
+<code class="computeroutput">
+bjones   pts/0        May 23 09:33
+wally    pts/3        May 20 11:35
+aweeks   pts/1        May 22 11:03
+aweeks   pts/2        May 23 15:04
+</code>
+</pre>
+        </section>
+        <section class="sect2" id="sag-ps-u">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.3.2. <code class="literal">ps</code> komutu, tekrar!</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Önceki çıktıda, aweeks kullanıcısının hem <code class="filename">pts/1</code>
+     hem de <code class="filename">pts/2</code>'de oturum açtığını görebiliriz,
+     peki ya ne yaptıklarını görmek istiyorsak?
+     <span class="command"><strong>ps -u aweeks</strong></span> komutunu verebilir ve aşağıdaki
+     çıktıyı alabiliriz:
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt; </code><strong class="userinput"><code>ps -u aweeks</code></strong>
+20876 pts/1    00:00:00 bash
+20904 pts/2    00:00:00 bash
+20951 pts/2    00:00:00 ssh
+21012 pts/1    00:00:00 ps
+</pre>
+          <p>
+     Buradan kullanıcının <span class="command"><strong>ps ssh</strong></span> yaptığını görebiliriz.
+    </p>
+          <p>
+     Bu, evvelce incelediğimiz ps'nin takviyeli kullanımıdır.
+    </p>
+        </section>
+        <section class="sect2" id="sag-w">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.3.3. <code class="literal">w</code> komutu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span class="command"><strong>who</strong></span> ve <span class="command"><strong>ps -u</strong></span> komutlarını kullanmaktan daha da kolayı <tt><a href="../man/man1/man1-w.html"><b>w</b></a>(1)</tt> kullanmaktır. <span class="command"><strong>w</strong></span> sadece sistemde kimin olduğunu değil, çalıştırdıkları komutları da gösterecektir.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt;</code> <strong class="userinput"><code>w</code></strong>
+aweeks   :0        09:32   ?xdm?  30:09   0.02s -:0
+aweeks   pts/0     09:33    5:49m  0.00s  0.82s kdeinit: kded
+aweeks   pts/2     09:35    8.00s  0.55s  0.36s vi sag-0.9.sgml
+aweeks   pts/1     15:03   59.00s  0.03s  0.03s /bin/bash
+</pre>
+          <p>
+     Buradan çalışan bir <span class="command"><strong>kde</strong></span> oturumum olduğunu
+     görebiliriz, bir uçbirim üzerinde bu belgede çalışıyorum :-)
+     ve bash istemiyle boşta duran başka bir uçbirimim daha var.
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.5. Tampon bellek</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_memory-management-swap-allocation.html" title="5.4. Takas alanının ayrılması"/>
+    <link rel="next" href="sag-system-monitoring.html" title="6. Sistemin İzlenmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-swap-allocation.html')">Önceki</button>
+          <div class="dropdown-content">5.4. Takas alanının ayrılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag-system-monitoring.html')">Sonraki</button>
+          <div class="dropdown-content">6. Sistemin İzlenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_memory-management_buffer-cache">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5.5. Tampon bellek</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir diskten okumak gerçek bellekten okumaktan çok daha yavaştır.
+    Ek olarak, nispeten kısa zaman aralıkları ile aynı disk yüzeyi
+    tekrar tekrar okunacaktır.  Örneğin birisi; evvelce gelmiş bir iletiyi
+    okuyabilir, daha sonra cevaplarken metin düzenleyiciden o
+    iletiyi okur ve postalarken, sistemin eposta dizinine bir kopyasının
+    konması için onu okutabilir. Veya <span class="command"><strong>ls</strong></span> komutunun
+    bir sistem üzerinde kullanıcılar tarafından ne kadar sıklıkla
+    kullanıldığını bir düşünün.  Diskten bir kere okutup, bu bilgiyi
+    işi bitince bellekte tutmak yöntemiyle sistem hızını artırabiliriz
+    fakat önce okuyun. Bu işleme <em class="glossterm">disk tamponlanması</em>
+    ve bu iş için kullanılan belleğe <em class="glossterm">tampon bellek</em>
+    denir.
+   </p>
+        <p>
+    Bellek sınırlı ve kıt kaynaklara sahip olduğu için tampon bellek
+    yeterli büyüklükte olamaz (ihtiyaç duyulan tüm bilgileri bir seferde
+    okutmak için). Tampon dolduğu zaman, uzun süre kullanılmayan bilgiler
+    yeni bilgilerin alınabilmesi için silinir.
+   </p>
+        <p>
+    Disk tamponlama tabii ki yazarak çalışır. Bir yanda, sık sık yazılan
+    ve hemen ardından okunan bir bilgiyi (örneğin; bir dosyaya kopyalanan
+    bir kaynak kodu dosyası ve ardından onu okuyan derleyici uygulama)
+    tampon belleğe yerleştirmek iyi bir fikir olabilir.  Diğer yandan,
+    bilgiyi tampona yerleştirerek yazma işleminin bir seferde yapılmasını
+    sağlayamazsınız çünkü yazma işlemi oldukça yavaştır.  Yazma işlemi,
+    diğer uygulamaları yavaşlatmaksızın, artalanda  yapılır.
+   </p>
+        <p>
+    Pek çok işletim sistemi bu isimle anılmasa da bir önbelleğe sahiptir.
+    Fakat çalışma prensipleri farklı olabilir. Bazıları <em class="glossterm">doğrudan
+    yazma</em> (write-through) prensibiyle, bilgiler önbellek içinde
+    saklanırken diske bir seferde yazma işlemini yapar; yazma işlemi daha
+    sonra yapılan önbellekler <em class="glossterm">arkadan yazma</em>
+    (write-back) olarak adlandırılır.  Arkadan yazma, doğrudan yazma
+    işlemine göre daha etkili ama hatalara daha meyillidir. Şayet sistem
+    kilitlenirse, elektrik kesilirse, genellikle önbellek
+    içinde yapılan değişiklikler kaybolur.  Belki de yazılamayan bilgiler
+    çok önemli muhasebe/kayıt bilgileri içermekteydi. Bu yüzden de dosya
+    sistemi tam kapasite kullanıma geçemiyor da olabilir.
+   </p>
+        <p>
+    Bu sebeplerden dolayı sistemi her zaman normal bir şekilde kapatın.
+    (<a class="xref" href="sag_boots-and-shutdowns.html" title="7. Açılışlar ve Kapanışlar"><em>Açılışlar ve Kapanışlar</em></a> bölümüne de bakın.)
+    Bağlı bir çıkarılabilir diski <span class="command"><strong>umount</strong></span> komutu ile sistemden ayırmadan yuvasından çıkarmayın, elektrik akımını sistem açıkken
+    kapatmayın, disk sürücünün işini bitirmesini bekleyin.
+    <span class="command"><strong>sync</strong></span> komutu önbelleğe baskı uygular ve bütün
+    yazılmamış ama yazılması gereken bilgilerin disk üzerine yazılmasını
+    sağlar. Bu komutla işlemin tam yapıldığından emin olabilirsiniz.
+    Geleneksel Unix sistemlerinde her 30 saniyede bir <span class="command"><strong>sync</strong></span>
+    komutunun çalışmasını sağlayan <span class="command"><strong>update</strong></span> isimli
+    bir uygulama bulunur. Bu uygulama arka planda çalışır ve bu sayede
+    <span class="command"><strong>sync</strong></span> komutunu kullanmanıza gerek kalmaz.
+    Linux <span class="command"><strong>sync</strong></span>'in ağır disk G/Ç hatalarına sebep
+    olması nedeniyle meydana gelen ani donmaları önlemek amacıyla
+    daha etkili ve doğru <span class="command"><strong>sync</strong></span> sinyali gönderilmesini
+    sağlayan <span class="command"><strong>bdflush</strong></span>  isimli bir uygulamayı kullanır.
+   </p>
+        <p>
+    Linux altında <span class="command"><strong>bdflush</strong></span>,  <span class="command"><strong>update</strong></span>
+    tarafından başlatılır. Genellikle endişelenecek bir durum olmaz ama
+    her hangi bir sebepten dolayı <span class="command"><strong>bdflush</strong></span> durur ise,
+    çekirdek sizi uyaracaktır. Bunu <span class="command"><strong>/sbin/update</strong></span>
+    kullanarak elle yeniden başlatabilirsiniz.
+   </p>
+        <p>
+    Önbelleğin etkili olamamasının sebebi onun boyutlarına bağlıdır.
+    Çok küçük bir önbellek içinde bulunan bilgiler tekrar kullanılamadan,
+    yeni gelenlere yer açmak için silinecektir. Kritik alan; aynı bilgiye
+    hangi sıklıkla ulaşıldığı, ne kadar bilgi okunup yazıldığıdır.
+   </p>
+        <p>
+    Sabit boyutta bir önbellek alanınız varken onu çok büyük bir hale
+    getirmek iyi olmayabilir. Çünkü bu gerçek belleğin boş alanının
+    kısıtlanmasına ve çok yavaş olan takas işlemine ihtiyaç duyulmasına
+    sebep olabilir.  Gerçek belleğin daha verimli kullanılması için,
+    Linux otomatik olarak boştaki bütün RAM alanını disk önbelleği
+    olarak ayırır ve kullanır. Şayet bir uygulama RAM alanına ihtiyaç
+    duyarsa Linux önbellek alanını otomatik olarak küçültür.
+   </p>
+        <p>
+    Linux altında çalışırken önbelleği kullanmak için özel bir işlem
+    yapmanız gerekmez, her şey otomatik olarak yapılmaktadır. Kapatma
+    ve disk ayırma işlemlerini  düzgün uyguladığınız sürece, hiçbir
+    şey hakkında endişelenmeniz gerekmez.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

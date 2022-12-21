@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>1.3. Bir UNIX sisteminde temel hizmetler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_overview-kernel-parts.html" title="1.2. Çekirdeğin önemli parçaları"/>
+    <link rel="next" href="sag_dir-tree-overview.html" title="2. Dizin Yapısına Genel Bakış"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_overview-kernel-parts.html')">Önceki</button>
+          <div class="dropdown-content">1.2. Çekirdeğin önemli parçaları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_overview.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_dir-tree-overview.html')">Sonraki</button>
+          <div class="dropdown-content">2. Dizin Yapısına Genel Bakış</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_overview-services">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">1.3. Bir UNIX sisteminde temel hizmetler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölüm fazla ayrıntıya girmeden bazı önemli Unix hizmetlerini
+    anlatmaktadır. Daha sonraki bölümlerde daha ayrıntılı
+    açıklanmaktadır.
+   </p>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.1. init</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir Unix işletim sistemindeki en önemli hizmet tek başına
+     <span class="command"><strong>init</strong></span> tarafından sağlanmaktadır. Açılış esnasında
+     ilk başlayan ve önyükleme sonrasında son kapanan hizmet
+     <span class="command"><strong>init</strong></span> hizmetidir.  <span class="command"><strong>init</strong></span> açılışta;
+     artalan süreçlerinin başlatılması, dosya sisteminin bağlanması ve
+     denetlenmesi gibi bazı ufak tefek işlerin yapılmasını sağlar.
+    </p>
+          <p>
+     <span class="command"><strong>init</strong></span>'in yaptığı işlerin tam listesi
+     <span class="command"><strong>init</strong></span>'in açılış kipinde yapılan seçime bağlıdır.
+    </p>
+          <p>
+     <em class="glossterm">Tek kullanıcılı kip</em>: root haricinde hiç
+     kimse bağlanamaz ve root, konsolda bir kabuk kullanır.
+    </p>
+          <p>
+     <em class="glossterm">Çok kullanıcılı kip</em>:aynı anda pek çok
+     kullanıcının bağlanabildiği kiptir. Linux sistemleri genelde bu
+     kipte açılır.
+    </p>
+          <p>
+     Bazı sürümlerde bu iki kip genel konumlar olarak alındıktan sonra
+     X kipi de eklenerek bunlar üçlenmiştir. Bunlara <em class="glossterm">çalışma
+     seviyeleri</em> (runlevel) denir.
+    </p>
+          <p>
+     Linux 0-9 arasında 10 adet çalışma seviyesine izin verir. Ama
+     çoğu dağıtımda bunları bazıları tanımlıdır. Diğerleri kullanılmaz.
+    </p>
+          <div>
+            <ul class="simplelist">
+              <li class="member"><code class="code">0</code>: sistemi kapatır.</li>
+              <li class="member"><code class="code">1</code>: tek kullanıcılı kip</li>
+              <li class="member"><code class="code">2</code>: çok kullanıcılı ancak NFS kapalı</li>
+              <li class="member"><code class="code">3</code>: çok kullanıcılı kip</li>
+              <li class="member"><code class="code">5</code>: çok kullanıcılı kip, açılışta X'e geçiş yapılır.</li>
+              <li class="member"><code class="code">6</code>: sistemi yeniden başlatır.</li>
+            </ul>
+          </div>
+          <p>
+     <code class="filename">/etc/inittab</code> dosyasının içeriği bu seviyeler
+     hakkında bilgi içermektedir ve açılışta hangi kipte çalışmaya
+     başlanılacağı yine bu dosya içinde tanımlanmıştır. Bu dosya
+     sayesinde  dağıtımınızda hangi çalışma seviyelerinin tanımlı
+     olduğunu bulabilirsiniz.
+    </p>
+          <p>
+     Normal bir açılışta <span class="command"><strong>init</strong></span>, <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> sürecinin çalışmasını sağladıktan sonra sistemdeki öksüz
+     süreçleri evlat edinir. (Unix işletim sisteminde bütün süreçler
+     tek bir ağaç altında olmak zorundadır. Bu yüzden bağımsız
+     süreçler <span class="command"><strong>init</strong></span>'e bağlanır.)
+    </p>
+          <p>
+     Sistem kapatıldığı zaman <span class="command"><strong>init</strong></span>, süreçleri öldürür,
+     dosya sistemlerini ayırır, işlemciyi durdurur ve yapılması istenen
+     tanımlı diğer işlevleri yerine getirir. Bir Unix işletim sisteminde
+     ilk gelen ve en son giden her zaman <span class="command"><strong>init</strong></span>'tir.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.2. Uçbirimlerden bağlanmak</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Seri hatlar üzerinden uçbirimden ve X window oturumu kapalı
+     iken konsoldan bağlanmak için <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> kullanılır. <span class="command"><strong>init</strong></span> her uçbirimden ayrı ayrı
+     bağlanabilmek için <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> sürecinin bağımsız
+     örneklerinin oluşturulmasını sağlar. <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+     kullanıcı isimlerini okur ve parolaları okumak üzere
+     <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> uygulamasını çalıştırır. Şayet kullanıcı
+     ismi ve parolası doğru ise <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> kullanıcının
+     çalışması için bir kabuk açar. Her hangi bir sebepten dolayı kabuk
+     kapatılırsa (kullanıcının ayrılması, vb...) veya kullanıcı ismi ile
+     parola uyuşmaz ve <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> uygulaması kapatılırsa,
+     <span class="command"><strong>init</strong></span> bunu fark eder ve yeni bir <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> sürecini devreye sokar. Çekirdeğin kullanıcıların sisteme bağlanması ile bir alakası yoktur. Bunlar tamamen sistem yazılımları tarafından düzenlenir.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.3. Syslog</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Çekirdek ve bir çok sistem yazılımı hata, uyarı ve buna benzer
+     pek çok ileti üretir. Bu iletilerin daha sonra (fazla geç olmadan)
+     incelenmesi çok önemlidir. Bu nedenle bu iletiler bir dosya içerisine
+     yönlendirilmelidir. Bunu <tt><b>syslog</b>(3)</tt> yapar.
+     Şayet istenirse iletilerin içerik ve önemlerine göre ayrı ayrı
+     dosyalama yapmak da, bu uygulamanın ayarları sayesinde mümkündür.
+     Örneğin; çekirdek iletileri içeriklerinin önemli olmasından dolayı
+     ayrı bir dosyaya yönlendirilmekte ve oraya yazılmaktadır.
+     Oluşabilecek sorunların çözümü için bu iletiler düzenli olarak
+     izlenmelidir.
+   </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.4. Süreli komut uygulamaları: cron ve at</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Sistem yöneticileri ve kullanıcılar sık sık belli komutları düzenli
+     olarak kullanmak zorundadır. Örneğin; sistem yöneticisi, geçici
+     dosya ve dizinlerin tutulduğu <code class="filename">/tmp</code> ve
+     <code class="filename">/var/tmp</code>
+     dizinlerinin içerisini, disk üzerinde yer açmak -eski dosyalardan
+     kurtulmak- çalışması bittikten sonra kendini temizleyemeyen
+     dosyalardan kurtulmak amacıyla silmek isteyebilir.
+    </p>
+          <p>
+     <tt><a href="../man/man8/man8-cron.html"><b>cron</b></a>(8)</tt> hizmeti bu tür işleri yapar. Her kullanıcı,
+     kendi istediği zamanda istediği komutların çalışmasını sağlayacak bir
+     <tt><a href="../man/man5/man5-crontab.html"><b>crontab</b></a>(5)</tt> dosyasına sahip olabilir ve içeriğini
+     düzenleyebilir. <tt><a href="../man/man8/man8-cron.html"><b>cron</b></a>(8)</tt> bu tanımlanmış komutların
+     çalıştırılmasından sorumludur.
+    </p>
+          <p>
+     <span class="command"><strong>at</strong></span> hizmeti de <span class="command"><strong>cron</strong></span> hizmetine
+     benzer, ama aralarında temel bir farklılık vardır. <span class="command"><strong>at</strong></span>
+     hizmetinde komutlar verildiği anda sadece bir kez çalıştırılır ve daha
+     sonra tekrar edilmezler.
+    </p>
+          <p>
+     Daha ayrıntılı bilgi için <tt><a href="../man/man8/man8-cron.html"><b>cron</b></a>(8)</tt>, <tt><a href="../man/man1/man1-crontab.html"><b>crontab</b></a>(1)</tt>, <tt><a href="../man/man5/man5-crontab.html"><b>crontab</b></a>(5)</tt>, <tt><b>at</b>(1)</tt> ve <tt><b>atd</b>(8)</tt> man sayfalarına bakabilirsiniz.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.5. Grafik kullanıcı arayüzü</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Unix ve Linux işletim sistemleri kullanıcı arayüzlerini çekirdeğe
+     dahil etmezler onun yerine, bu arayüzlerin kullanıcı seviyesi
+     uygulamalar tarafından yönlendirilmesine izin verir.
+    </p>
+          <p>
+     Bu hem metin hem de grafik arayüzler için geçerlidir. Bu düzen;
+     sisteme geniş bir esneklik sağlamasının yanı sıra, kullanıcı
+     arayüzlerinin eklenmesinin kolaylığından kaynaklanan, sistemi
+     öğrenme zorluğunu da yanında getirmektedir.
+    </p>
+          <p>
+     Linux ile kullanılan bu grafik ortam ilk önceleri X Pencere Sistemi
+     olarak adlandırılmıştır. Kısaca X sistemi de denir. X bir kullanıcı
+     arayüzü eklemez, sadece kullanıcı ara yüzüne geçiş sağlayan
+     araçlardan oluşur.  Bazı popüler pencere yöneticileri şunlardır:
+     fvwm, icewm, blackbox ve windowmaker. KDE ve GNOME ise popüler
+     masaüstü yöneticileri olarak bilinir.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.6. Ağ İşlemleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Ağ, iki ya da daha fazla sayıda bilgisayarı birbirine bağlayarak,
+     onlar arasında iletişim sağlanmasıdır. Bu bağlama ve iletişimin
+     sağlanması biraz karmaşık bir olaydır, ama sonuçlar son derece
+     faydalı ve kullanışlı olmaktadır.
+    </p>
+          <p>
+     Unix işletim sistemi pek çok ağ özelliğine sahiptir. Pek çok basit
+     hizmet (yedekleme, yazıcıya gönderme, dosya sistemleri işlevleri ,vb..)
+     ağ üzerinden yapılabilir. Bu özellikler sistem yönetimi
+     kolaylaştırmaktadır. Hem merkezi hem de yayılmış bir yönetim
+     olanağı sunmasından dolayı; ucuz maliyet ve hatalara karşı
+     dayanıklılık imkanlarını sağlamaktadır.
+    </p>
+          <p>
+     Bu kılavuz, network konusunu kısaca anlatmakta, sadece nasıl
+     çalıştığını açıklamaktadır. Daha ayrıntılı bilgi için
+     Linux Ağ Yöneticisinin Kılavuzu (Linux Network Administrator's
+     Guide) isimli kılavuza
+     <a class="link" href="http://www.tldp.org/LDP/nag2/index.html" target="_top">http://www.tldp.org/LDP/nag2/index.html</a>
+     adresinden ulaşabilirsiniz.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.7. Ağdan sisteme bağlanma</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Ağ bağlantıları, normal kullanıcı bağlantılarından biraz farklıdır.
+     Üzerinden bağlanılması mümkün olan çeşitli fiziksel seri bağlantıları
+     mevcuttur. Ağ üzerinden bağlanan her kişi için ayrı bir sanal
+     ağ bağlantısı mevcuttur ve bu bağlantı sayısı bant genişliğinin
+     elverdiği ölçüde çok çeşitli olabilir. Bu yüzden muhtemel her sanal
+     bağlantıda bağımsız bir <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> çalıştırmak
+     mümkün değildir. Bir ağa bağlanmak için çok çeşitli yollar
+     mevcuttur; TCP/IP ağlarında, <span class="command"><strong>telnet</strong></span> ve
+     <span class="command"><strong>rlogin</strong></span> gibi temel uygulamlar kullanılabilmektedir.
+    </p>
+          <p>
+     Son zamanlarda <span class="command"><strong>ssh</strong></span>  güvenlik gerekçesi ile
+     sistem yöneticileri tarafından daha çok tercih edilir olmaktadır.
+     Ağ bağlantılarında her bağlantı için bağımsız bir artalan süreci
+     mevcuttur (<span class="command"><strong>telnet</strong></span> ve <span class="command"><strong>rlogin</strong></span>
+     ayrı birer artalan sürecine sahiptir). Bir bağlantı istemi
+     geldiğinde; bağımsız bir girişim için kendinin bir örneğini
+     oluşturur ve bu sırada orjinal örnek diğer girişimleri dinlemeye
+     devam eder. Oluşturulan yeni örnek <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+     gibi çalışır.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.8. Ağ Dosya Sistemleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir ağ sistemi üzerinden yapılabilecek en faydalı işlerden birisi
+     <em class="glossterm">Ağ Dosya Sistemi</em> üzerinden yapılacak dosya
+     aktarımları ve dosya paylaşımıdır. Genellikle Sun firması
+     tarafından geliştirilmiş olan ağ dosya sistemi <em class="glossterm">Network
+     File System</em> (NFS) kullanılmaktadır. Bir ağ dosya sistemi
+     ile bir makine üzerinde her hangi bir uygulama tarafından yapılmış
+     olan herhangi bir dosya işlemi ağ üzerinden başka bir makineye
+     gönderilebilir. Bu çalışan uygulamanın, karşı makinedeki dosyaları,
+     sanki kendi çalıştığı makinede bulunan dosyalar olarak görmesinden
+     kaynaklanır ve bu sayede bu işlevler yerine getirilir. Bu sayede
+     bilgi paylaşımı her hangi bir uygulama değişikliğine gerek kalmadan
+     basit bir şekilde sağlanmış olur. Diğer bir popüler dosya paylaşım
+     sistemi ise <a class="link" href="http://www.samba.org/" target="_top">http://www.samba.org/</a> adresinde
+     bulunabilecek olan Samba dosya sistemidir. Bu protokol MS Windows
+     makineleri üzerinden dosya ve yazıcı paylaşımına izin verir (Ağdaki
+     Komşular üzerinden).
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.9. Eposta</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bilgisayarlar üzerinden haberleşmede  en popüler yöntem elektronik
+     postadır. Elektronik mektup özel uygulamalar aracılığıyla dosyalar
+     içine depolanır ve göndermek/almak/okumak için özel uygulamalar
+     kullanılır.
+    </p>
+          <p>
+     Bütün kullanıcılar yeni epostalarının depolandığı, özel bir
+     biçeme sahip olan <em class="glossterm">gelen postalar kutusu</em>
+     olarak adlandırılabilen bir dosyaya sahiptir. Birisi size
+     eposta gönderdiği zaman, eposta uygulaması bunu sizin posta kutunuza
+     yerleştirir ve gelen mektubu gelen postaların tutulduğu dosyaya ekler.
+     Şayet posta kutunuz başka bir makine üzerinde ise posta bu makineye
+     gönderilir ve burada saklanır.
+    </p>
+          <p>
+     Posta sistemleri pek çok uygulama ile kullanılabilir. Kullanıcılar
+     pek çok çeşitteki uygulamaları kullanırken (Eposta istemcisi - Mail
+     User Agent - MUA; örneğin: pine, mutt, elm) postaların yerel ya da
+     uzaktaki makinelerin posta kutularına dağıtımını başka bir uygulama
+     (Eposta Aktarım Aracısı - Mail Transfer Agent - MTA; örneğin:
+     sendmail veya qmail) yapar. Posta kutuları genellikle
+     <code class="literal">/var/spool/mail</code>'de depolanır.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.10. Yazdırma</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Aynı anda bir yazıcıyı sadece bir tek kullanıcı kullanabilir.
+     Yazıcıların paylaşılması oldukça ekonomik bir çözümdür. Bütün yazım
+     işleri bir yazılım olan bir <em class="glossterm">yazdırma kuyruğu</em>
+     tarafından yönetilir. Burada bütün işler sıraya konur ve sırası gelen
+     iş kuyruktan alınıp yazılmak üzere otomatik olarak yazıcıya gönderilir.
+     Bu kullanıcının, bütün bu işleri organize etmek için büyük bir çaba
+     ve zaman harcamasını önler.
+    </p>
+          <p>
+     Bu yazılım çıktı işlemlerini disk üzerinde ayrı bir dosya haline
+     getirir ve bu sayede bir uygulama işleri parçalayarak
+     yazıcıya gönderme şansına sahip olur. Böylece uygulama, çıktı işlemi
+     bitene kadar beklemek zorunda kalmaz. Bu son derece kullanışlı bir
+     olaydır. Çünkü bu sayede birisi bir basım işini bitirmek için,
+     diğerinin bütün işlerinin bitmesini beklemek zorunda kalmaz. Kendi
+     işinin kuyruk sırası gelince, işleri otomatik olarak işleme konur
+     ve yazıcıdan çıktı alınır.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3.11. Dosya Sisteminin Yerleşim Düzeni</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir dosya sistemi kök dosya sisteminin  kolları boyunca çeşitli
+     bölümlere ayrılır: <code class="filename">/bin, /lib, /etc, /dev</code> ve
+     birkaç benzeri; uygulama ve değişmeyen verilerden oluşan
+     <code class="filename">/usr</code> dosya sistemi; değişen verilerden oluşan <code class="filename">/var</code> dosya sistemi; ve herkesin kişisel
+     dosyalarının bulunduğu <code class="filename">/home</code> dosya sistemi.
+     Donanım yapılandırmasına ve sistem yöneticisinin kararlarına göre
+     bu dosya sistemleri farklı olabilir. Hepsi tek bir dosya sistemi
+     halinde de olabilir.
+    </p>
+          <p>
+     <a class="xref" href="sag_dir-tree-overview.html" title="2. Dizin Yapısına Genel Bakış"><em>Dizin Yapısına Genel Bakış</em></a> bölümünde dosya sisteminin
+     yerleşim düzeni daha ayrıntılı bir biçimde anlatılmıştır. En ayrıntılı
+     bilgi <a class="link" href="/fhs/fhs.html" target="_top">Dosya Sistemi Hiyerarşisi
+     Standardı</a>nda bulunabilir.
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

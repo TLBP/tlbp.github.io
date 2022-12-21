@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.7. NTP Araçları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_basic_ntp_confs.html" title="12.6. Temel NTP Ayarları"/>
+    <link rel="next" href="sag_some_npt_servers.html" title="12.8. Bazı NTP sunucuları"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_basic_ntp_confs.html')">Önceki</button>
+          <div class="dropdown-content">12.6. Temel NTP Ayarları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_time.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_some_npt_servers.html')">Sonraki</button>
+          <div class="dropdown-content">12.8. Bazı NTP sunucuları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_ntp_toolkit">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.7. NTP Araçları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    NTP hizmetinin işni düzgün yapıp yapmadığını görmek için birkaç araç
+    vardır. <strong class="userinput"><code>ntpq -p</code></strong> komutu, sisteminizin o anki zaman
+    durumunu gösterecektir.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntpq -p</code></strong>
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*cudns.cit.corne ntp0.usno.navy.  2 u  832 1024  377   43.208    0.361   2.646
+ LOCAL(0)        LOCAL(0)        10 l   13   64  377    0.000    0.000   0.008
+</pre>
+        <p>
+    <strong class="userinput"><code>ntpdc -c loopinfo</code></strong> komutu; uzak sunucuya yapılan
+    en son bağlantıdan beri sistem saatinin ne kadarlık bir hata yaptığını
+    saniye cinsinden gösterir.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntpdc -c loopinfo</code></strong>
+offset:               -0.004479 s
+frequency:            133.625 ppm
+poll adjust:          30
+watchdog timer:       404 s
+</pre>
+        <p>
+    <strong class="userinput"><code>ntpdc -c kerninfo</code></strong> komutu, o anki kalan doğrulamayı
+    gösterir.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntpdc -c kerninfo</code></strong>
+pll offset:           -0.003917 s
+pll frequency:        133.625 ppm
+maximum error:        0.391414 s
+estimated error:      0.003676 s
+status:               0001  pll
+pll time constant:    6
+precision:            1e-06 s
+frequency tolerance:  512 ppm
+pps frequency:        0.000 ppm
+pps stability:        512.000 ppm
+pps jitter:           0.0002 s
+calibration interval: 4 s
+calibration cycles:   0
+jitter exceeded:      0
+stability exceeded:   0
+calibration errors:   0
+</pre>
+        <p>
+    <strong class="userinput"><code>ntpdc -c kerninfo</code></strong> komutunun çok az değişik bir
+    sürümü de <strong class="userinput"><code>ntptime</code></strong> komutudur.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntptime</code></strong>
+ntp_gettime() returns code 0 (OK)
+  time c35e2cc7.879ba000  Thu, Nov 13 2003 11:16:07.529, (.529718),
+  maximum error 425206 us, estimated error 3676 us
+ntp_adjtime() returns code 0 (OK)
+  modes 0x0 (),
+  offset -3854.000 us, frequency 133.625 ppm, interval 4 s,
+  maximum error 425206 us, estimated error 3676 us,
+  status 0x1 (PLL),
+  time constant 6, precision 1.000 us, tolerance 512 ppm,
+  pps frequency 0.000 ppm, stability 512.000 ppm, jitter 200.000 us,
+  intervals 0, jitter exceeded 0, stability exceeded 0, errors 0.
+</pre>
+        <p>
+    NTP'nin nasıl çalıştığını görmenin bir diğer yöntemide
+    <strong class="userinput"><code>ntpdate -d</code></strong> komutudur. Bu komutla sisteminiz bir
+    NTP sunucuya bağlanır ve zaman sapması var ise bunu size gösterir ama
+    sistem saatini ayarlamaz.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntpdate -d 132.236.56.250</code></strong>
+13 Nov 14:43:17 ntpdate[29631]: ntpdate 4.1.1c-rc1@1.836 Thu Feb 13 12:17:20
+transmit(132.236.56.250)
+receive(132.236.56.250)
+transmit(132.236.56.250)
+receive(132.236.56.250)
+transmit(132.236.56.250)
+receive(132.236.56.250)
+transmit(132.236.56.250)
+receive(132.236.56.250)
+transmit(132.236.56.250)
+sunucu 132.236.56.250, port 123
+stratum 2, precision -17, leap 00, trust 000
+refid [192.5.41.209], delay 0.06372, dispersion 0.00044
+transmitted 4, in filter 4
+reference time:    c35e5998.4a46cfc8  Thu, Nov 13 2003 14:27:20.290
+originate timestamp: c35e5d55.d69a6f82  Thu, Nov 13 2003 14:43:17.838
+transmit timestamp:  c35e5d55.d16fc9bc  Thu, Nov 13 2003 14:43:17.818
+filter delay:  0.06522  0.06372  0.06442  0.06442
+         0.00000  0.00000  0.00000  0.00000
+filter offset: 0.000036 0.001020 0.000527 0.000684
+         0.000000 0.000000 0.000000 0.000000
+delay 0.06372, dispersion 0.00044
+ofset 0.001020
+
+13 Nov 14:43:17 ntpdate[29631]: adjust time server 132.236.56.250 ¬
+offset 0.001020 sec
+</pre>
+        <p>
+    Sistem saatinizin ayarlanma sürecini izlemek istiyorsanız
+    <strong class="userinput"><code>ntptrace</code></strong> komutunu kullanın.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntptrace 132.236.56.250</code></strong>
+cudns.cit.cornell.edu: stratum 2, offset -0.003278, synch distance 0.02779
+dtc-truetime.ntp.aol.com: stratum 1, offset -0.014363, synch distance 0.00000, ¬
+refid 'ACTS'
+</pre>
+        <p>
+    Şayet sistem saatinizin acilen ayarlanması gerekiyorsa,
+    <strong class="userinput"><code>ntpdate uzak-sunucu-ismi</code></strong> komutunu
+    kullanabilirsiniz. Ayar için beklemeniz gerekmez!
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>ntpdate 132.236.56.250</code></strong>
+13 Nov 14:56:28 ntpdate[29676]: adjust time server 132.236.56.250 ¬
+offset -0.003151 sec
+</pre>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

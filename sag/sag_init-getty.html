@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2. init'in agetty'yi başlatmak için yapılandırılması: /etc/inittab dosyası</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_init_first.html" title="8.1. İlk önce init gelir"/>
+    <link rel="next" href="sag_init_runlevels.html" title="8.3. Çalışma seviyeleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init_first.html')">Önceki</button>
+          <div class="dropdown-content">8.1. İlk önce <code class="literal">init</code> gelir</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_init.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init_runlevels.html')">Sonraki</button>
+          <div class="dropdown-content">8.3. Çalışma seviyeleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_init-getty">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.2. 
+    <code class="literal">init</code>'in <code class="literal">agetty</code>'yi başlatmak
+    için yapılandırılması:  <code class="literal">/etc/inittab</code> dosyası
+   </h2>
+            </div>
+          </div>
+        </div>
+        <p><span class="notfoot"/>
+    Başladığı zaman, <span class="command"><strong>init</strong></span>
+    <code class="filename">/etc/inittab</code> yapılandırma dosyasını okur.
+    Şayet HUP sinyali gönderirseniz,<a id="idm74731" href="#ftn.idm74731" class="footnote"><sup class="footnote">[69]</sup></a>
+    bu dosyayı tekrar okur. Böylece değişikliklerin etkin olması için
+    sistemin yeniden başlatılması gerekmez.
+   </p>
+        <p>
+    <code class="filename">/etc/inittab</code> dosyası biraz karışık bir yapıdadır.
+    Biz <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> uygulamasının basit yapılandırılması ile başlayalım. <code class="filename">/etc/inittab</code> satırları iki nokta
+    üstüste imleri ile ayrılmış 4 alan içerir:
+   </p>
+        <pre class="screen">
+id:çalışma_seviyeleri:eylem:süreç
+</pre>
+        <p>
+    Bu alanlar aşağıda tanımlanmıştır.  Ek olarak
+    <code class="filename">/etc/inittab</code>, boş satırlar ve
+    <code class="literal">#</code> işaretiyle başlayan satırlar içerebilir.
+    Tüm bunlar göz ardı edilir.
+   </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">id</span>
+            </dt>
+            <dd>
+              <p>
+        Dosya içerisindeki satırı tanımlar. <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+        satırları için, üzerinde çalıştığı uçbirimleri belirtir (aygıt
+        dosya isimlerinde <code class="filename">/dev/tty</code>'den sonra
+        gelen karakterler). Diğer satırlar için bu önemli değildir
+        (uzunluk sınırlamaları dışında), fakat bu eşsiz olmalıdır.
+       </p>
+            </dd>
+            <dt>
+              <span class="term">çalışma_seviyeleri</span>
+            </dt>
+            <dd>
+              <p>
+        Bu satırın hangi çalışma seviyeleri için kullanılacağı belirtilir.
+        Çalışma seviyeleri tek rakamlarla ayraçsız olarak yanyana verilir.
+        Gelecek bölümde bu seviyeler açıklanmıştır.
+       </p>
+            </dd>
+            <dt>
+              <span class="term">eylem</span>
+            </dt>
+            <dd>
+              <p>
+        Satırın ne iş yapacağını belirtir. Örneğin; <code class="literal">respawn</code>
+        ile sonraki alandaki komutun çıkışta tekrar çalıştırılacağını,
+        <code class="literal">once</code> ile ise sadece bir kez çalıştırılacağını
+        tanımlarız.
+       </p>
+            </dd>
+            <dt>
+              <span class="term">süreç</span>
+            </dt>
+            <dd>
+              <p>Çalıştırılacak komut.</p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+    Birinci sanal uçbirim üzerinde (<code class="filename">/dev/tty1</code>),
+    normal çok kullanıcılı seviyelerde (2-5) bir
+    <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> çalıştırmak için şu satırı yazmalıyız:
+   </p>
+        <pre class="screen">
+1:2345:respawn:/sbin/getty 9600 tty1
+</pre>
+        <p>
+    Birinci bölüm bu satırın <code class="filename">/dev/tty1</code> için olduğunu
+    belirtir. İkinci bölüm ise 2,3,4 ve 5. çalışma seviyelerinin
+    kullanılacağını belirtir. Üçüncü bölüm ise, çıkışta bu komutun tekrar
+    çalıştırılması gerektiğini ve böyle bir kullanıcının ayrıldıktan
+    sonra isterse tekrar bağlanabilmesinin sağlanacağını belirtir.
+    Son bölüm ise bu uçbirim üzerinde <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+    komutunun çalıştırılacağını belirtir. <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+    sürümüne göre çalışma şekli değişik olabilir.
+    Kılavuz sayfasına bakmayı unutmayın.
+   </p>
+        <p>
+    Şayet bir sisteme uçbirimler veya aranacak modem hatları eklemek
+    isterseniz, <code class="filename">/etc/inittab</code> dosyasına daha fazla
+    satır eklemeniz gerekecektir.  Her uçbirim veya hat için bir satır
+    yazmak zorundasınız.  Ayrıntılı bilgi için <span class="command"><strong>init</strong></span>,
+    <code class="filename">inittab</code> ve <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> kılavuz
+    sayfasına bakmanız faydalı olacaktır.
+   </p>
+        <p>
+    Bir komut çalıştırılmaya başlarken hata verirse ve <span class="command"><strong>init</strong></span>
+    onu tekrar başlatmak için ayarlanmışsa, bu büyük miktarda sistem
+    kaynağı tüketir: <span class="command"><strong>init</strong></span> komutu başlatır, komut hata
+    verir; <span class="command"><strong>init</strong></span> komutu tekrar başlatır, komut hata verir;
+    init komutu bir daha başlatır, komut yine hata verir ve bu sonsuza
+    kadar devam eder. Bunu önlemek için, <span class="command"><strong>init</strong></span> bir komutu
+    ne sıklıkta tekrar başlatacağının izlerini tutar. Şayet çalıştırma
+    sıklığı artarsa, tekrar başlatmadan önce 5 dakika geçmesini bekler.
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm74731" class="footnote">
+            <p><a href="#idm74731" class="para"><sup class="para">[69] </sup></a>
+     <span class="command"><strong>kill -HUP 1</strong></span> komutunu root olarak çalıştırarak
+     <span class="command"><strong>init</strong></span>'in <code class="filename">/etc/inittab</code>
+     dosyasını yeniden okumasını sağlayabilirsiniz.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

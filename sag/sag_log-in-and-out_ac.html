@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9.4. Erişim denetimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_log-in-and-out_what.html" title="9.3. login ne yapar?"/>
+    <link rel="next" href="sag_log-in-and-out-shell.html" title="9.5. Kabuk başlangıcı"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out_what.html')">Önceki</button>
+          <div class="dropdown-content">9.3. <code class="literal">login</code> ne yapar?</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out-shell.html')">Sonraki</button>
+          <div class="dropdown-content">9.5. Kabuk başlangıcı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_log-in-and-out_ac">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">9.4. Erişim denetimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Kullanıcı veritabanı geleneksel olarak <code class="filename">/etc/passwd</code>
+    dosyası içerisinde saklanır.  Bazı sistemler gölge (shadow) parolalar
+    kullanır ve parolaları <span class="command"><strong>/etc/shadow</strong></span> dosyasına
+    yönlendirir.  NIS kullanan hesapları paylaşan bilgisayarların
+    bulunduğu alanlarda veya kullanıcı veri tabanını saklamak için diğer
+    yöntemleri kullananlar; kullanıcı veritabanını merkezi bir yerden
+    tüm diğer bilgisayarlara otomatik olarak kopyalıyor olabilir.
+   </p>
+        <p>
+    Kullanıcı veritabanları sadece kullanıcı parolalarını değil,
+    kullanıcılar hakkında; ev dizinleri, isimleri ve kullandıkları
+    kabuklar gibi bazı ek bilgileri de içerir. Bu diğer bilgiler
+    topluma açık olmalıdır, böylece herkes okuyabilir. Ama parolalar
+    şifreli bir şekilde depolanır. Bu, sistemde kayıtlı olmayan ama
+    bir şekilde şifrelenmiş parolalara ulaşıp ve onları tahmin etmede
+    çeşitli  kriptografi yöntemleri deneyecek kişilere bir engel oluşturmak
+    üzere gölge parolalar şifreli olarak sadece root kullanıcısının
+    okuyabildiği ayrı bir dosyada saklanır. Bununla birlikte,
+    gölge parolaların desteklenmediği bir sisteme sonradan aktarılması,
+    zorluk çıkarabilir.
+   </p>
+        <p>
+    Şifreli veya değil bütün parolaların güvenilir ve kolay tahmin
+    edilemez olduğundan emin olmalıyız. <span class="command"><strong>crack</strong></span> uygulaması
+    parolaları kırmak için kullanılır; tanımından  bulunabilecek
+    parolalar iyi değildir. <span class="command"><strong>crack</strong></span> izinsiz misafirlerce
+    çalıştırılabileceği gibi, sistem yöneticisi tarafından kötü parolaları
+    bulmak için de çalıştırılabilir. <span class="command"><strong>passwd</strong></span> komutu
+    uygun parolalar kullanmamız için bizi zorlar; bu gerçekte CPU
+    turlarından daha etkilidir. Çünkü bir parolayı kırmak için pek çok
+    hesaplamalar yapmak gerekmektedir.
+   </p>
+        <p>
+    Kullanıcı gruplarının veri tabanları <code class="filename">/etc/group</code>
+    içerisinde tutulur; gölge parolalar kullanan sistemlerde bu
+    <code class="filename">/etc/shadow.group</code> içerisinde olur.
+   </p>
+        <p>
+    Root genellikle pek çok uçbirimden ve ağ üzerinden bağlanamaz,
+    <code class="filename">/etc/securetty</code> dosyası içinde listelenmiş
+    uçbirimleri kullanmak zorundadır. Bu, adı geçen uçbirimlerden birisine
+    fiziksel erişim kurulmasını zorunlu kılar.  Bununla birlikte her
+    hangi bir uçbirim veya ağ üzerinden normal bir kullanıcı gibi
+    bağlanıp, root durumuna geçmek için <span class="command"><strong>su</strong></span> komutunu
+    kullanmakta olasıdır.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

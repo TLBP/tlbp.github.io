@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>7. Açılışlar ve Kapanışlar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag-monitoring-users.html" title="6.3. Kullanıcıların izlenmesi"/>
+    <link rel="next" href="sag_init.html" title="8. init"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag-monitoring-users.html')">Önceki</button>
+          <div class="dropdown-content">6.3. Kullanıcıların izlenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init.html')">Sonraki</button>
+          <div class="dropdown-content">8. <code class="literal">init</code></div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="sag_boots-and-shutdowns">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">7. Açılışlar ve Kapanışlar</h1>
+            </div>
+          </div>
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Ön Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <div class="blockquote">
+            <blockquote class="blockquote">
+              <div class="literallayout">
+                <p><br/>
+Start me up<br/>
+Ah... you've got to... you've got to<br/>
+Never, never never stop<br/>
+Start it up<br/>
+Ah... start it up, never, never, never<br/>
+You make a grown man cry,<br/>
+ you make a grown man cry<br/>
+(Rolling Stones)<br/>
+</p>
+              </div>
+            </blockquote>
+          </div>
+          <p>
+    Bu bölümde açılış ve kapanışlar esnasında Linux içinde neler olduğu
+    ve bu işlemin düzgün bir şekilde nasıl yapılacağı anlatılmaktadır.
+    Şayet süreçleri düzgün bir şekilde izlemezseniz dosyalar kaybolabilir
+    veya bozulabilir.
+   </p>
+        </div>
+        <section class="sect1" id="sag_boots-and-shutdowns_overview">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.1. Açılışlar ve kapanışlara genel bir bakış</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bilgisayar sistemine enerji verilmesi ve işletim sisteminin yüklenmeye
+    başlaması olayına <em class="glossterm">önyükleme</em> (booting) denir.
+    İsim, kendini kendini bir bilgisayardan kendi çabası ile çeken bir
+    bilgisayar resminden gelmektedir, fakat eylemin kendisi biraz daha
+    gerçekçidir.
+   </p>
+          <p>
+    Kendi kendini çekme çabası esnasında ilk önce, işletim sisteminin
+    yüklenmesini ve başlatılmasını sağlayan küçük bir kod parçası
+    yüklenir. Bu kodlara <em class="glossterm">önyükleyici</em> denir.
+    Önyükleyici bir ayrılabilir disk ya da sabit disk üzerinde sabit bir yerde
+    bulunur. Bu iki basamaklı işlemin  sebebi, işletim sisteminin
+    büyük ve karmaşık olması, fakat bilgisayarın yükleyebildiği kodların
+    ilk parçasının küçük olması (birkaç yüz byte) ve donanım
+    yazılımların karmaşık hale gelmemesini sağlamaktır.
+   </p>
+          <p>
+    Bilgisayar mimarilerinde bu önyükleme işlemini farklılık gösterir.
+    PC'ler için; BIOS, sabit diskten <em class="glossterm">önyükleme
+    sektörü</em> diye adlandırılan ilk sektörü okur. Önyükleyici
+    bu sektör içindedir.  Böylece işletim sistemi disk üzerinde her
+    nerede ise önyükleyiciden bu bilgi okunup o bölümden yüklenir.
+   </p>
+          <p>
+    Linux çekirdeği yüklendikten sonra donanım ve aygıt sürücüleri yüklenir
+    ve sonra <span class="command"><strong>init</strong></span> çalıştırılır. Kullanıcıların
+    bağlanması ve diğer işlerin yapılması için gereken süreçler
+    <span class="command"><strong>init</strong></span>  tarafından yüklenir.  Bunun ayrıntıları
+    aşağıda anlatılmıştır.
+   </p>
+          <p>
+    Bir Linux sistemini kapatmak için, ilk önce çalışan süreçlere;
+    işlerini sonlandırıp, kendilerini durdurmaları söylenir. Daha
+    sonra dosya sistemleri ve takas alanı ayrılır ve en sonunda
+    sistemin kapatıldığını söyleyen bir ileti belirir. Şayet bu
+    süreç düzgün bir şekilde takip edilmezse korkunç şeyler olabilir
+    ve genellikle olur; en önemlisi dosya sisteminin tampon belleği
+    içinde bulunan bütün bilgi kaybolmuş ve sistem istikrarsız bir
+    hale dönmüş olabilir. Ve bu nedenle kullanılmaz hale de gelebilir.
+  </p>
+        </section>
+        <section class="sect1" id="sag_boots-and-shutdowns_booting">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.2. Önyükleme sürecine yakından bakalım</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Linux işletim sistemini sabit diskten veya bir CD'den
+    başlatabilirsiniz. "Kurulum ve Başlatma Kılavuzu"nun (Installation
+    and Getting Start Guide) Kurulum bölümü Linux'un nasıl kurulacağını
+    ve nasıl istediğiniz şekilde açılış işlemini gerçekleştirebileceğinizi
+    anlattır.
+   </p>
+          <p><span class="notfoot"/>
+    Bir PC açıldığında BIOS her şeyin sağlıklı bir şekilde çalışıp
+    çalışmadığını anlamak için pek çok test yapar<a id="idm74592" href="#ftn.idm74592" class="footnote"><sup class="footnote">[66]</sup></a> ve daha sonra asıl açılış işlemine
+    geçilir.  Bir disk sürücüsü seçip onun ilk sektörünü okur. Seçim sırası
+    genelde BIOS yapılandırmasına bağlıdır. Tercih edilen yol şu şekildedir:
+    İlk önce sabit diske bakılır, orada önyükleme sektörü yoksa CDROM sürücü
+    ve diğer aygıtlara bakılır. Bu ilk sektöre <em class="glossterm">önyükleme
+    sektörü</em> denir, şayet bu önyükleme sektörü bir sabit disk
+    üzerinde ise buna <em class="glossterm">Ana Önyükleme Sektörü</em>
+    (Master Boot Sector - MBR) adı verilir, "Ana" olmasının sebebi, sabit disk
+    üzerinde pek çok bölüm ve her bölümün kendine ait bir önyükleme sektörü
+    olabilmesidir.
+   </p>
+          <p>
+    Bir sabit diskten açılış yapılırsa önce MBR içindeki kodlar
+    bölümleme tablosunu inceler, açılabilir olarak işaretlenmiş
+    etkin bölümü bulur, o bölümden önyükleme sektörünü okur ve
+    daha sonra bu önyükleme sektörü içindeki kodları çalıştırır.
+    Bu önyükleme sektörü içerisinde bulunan kodlar,
+    bölüm içerisindeki çekirdeği okur ve onu başlatır.
+    Ayrıntılar çeşitli olmakla birlikte; sadece çekirdek için ayrı
+    bir bölüme sahip olmak genellikle pek kullanışlı olmaz.
+    Çekirdek için ayrı bir bölüm açılırsa, önyükleme sektörü içerisindeki
+    kodlar gerekli bilgileri zincirleme bir halde okuyamaz ve dosya
+    sistemi onları hangi sektörlere koydu ise oraları bulmak zorunda
+    kalır. Bu sorunu çözmenin pek çok yöntemi vardır ama en genel
+    kabul göreni grub'dır.  Bunun konumuzla bir alakası yoktur, ama
+    grub belgelerine bakmanız yararlı olabilir.
+   </p>
+          <p>
+    Grub ile açılış işleminde, grub yapılandırmasının bulunduğu disk okunur ve buradan öntanımlı çekirdeğin yeri okunarak çekirdek yüklenir.
+    Grub ile çeşitli yapılandırmalar mümkündür. Çekirdekler arasında
+    seçim yapılabilir, farklı işletim sistemlerini yüklenebilir ve
+    açılış esnasında kullanıcının bu işletim sistemlerinden birisini
+    seçmesi sağlanabilir.
+    </p>
+          <p>
+    Linux çekirdeği belleğe okunduktan sonra ya da adına ne dersin
+    deyin, gerçekte başlatıldıktan sonra, kabaca aşağıdaki olaylar
+    gerçekleşir:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+      Linux çekirdeği diskte sıkıştırılmış olarak tutulur. Bu nedenle
+      ilk önde kendi kendini  çözer. Bu, çekirdeğin başlangıcındaki
+      küçük bir yazılımla yapılır.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Şayet Linux'un tanıdığı ve çeşitli metin kipleri bulunan
+      bir ekran kartınız varsa, Linux size hangi metin kipinde çalışmak
+      istediğinizi sorar. Çekirdek derlemesi sırasında bir video kipi
+      girilebilir ve böylece daima bu kip kullanılır.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Bundan sonra çekirdek diğer donanımları denetler (sabit disk,
+      ağ bağdaştırıcısı, ekran kartı vb) ve bazı donanım sürücülerini
+      uygun bir şekilde yapılandırır ve bunu yaparken buldukları ile
+      ilgili bir çıktı verir.
+     </p>
+                <p>
+      Bu çıktı sistemdeki donanımlara, kullanılan işletim sistemi
+      çeşidine ve yapılmış olan ayarlara göre değişiklik gösterebilir.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Daha sonra çekirdek kök dosya sistemini bağlamayı deneyecektir.
+      Dosya sistemi türü otomatik olarak bulunur. Kök dosya sisteminin
+      bağlanması esnasında bir terslik olursa, örneğin: çekirdek içinde
+      uygun dosya sistemi sürücüsü yoksa, çekirdek PANİKLER ve sistemi
+      kapatır. Aslında yapabileceği başka da bir şey yoktur zaten.
+     </p>
+                <p>
+      Kök dosya sistemi genellikle salt okunur bir şekilde bağlanır.
+      Bu dosya sistemi bağlı durumdayken, dosya sisteminin sınanmasını
+      sağlar. Oku-yaz kipinde bağlanmış bir dosya sistemi üzerinde
+      sınama yapmak hiç de iyi bir fikir değildir. Burada bahsedilen
+      sınama işlemi <span class="command"><strong>fsck</strong></span> ile yapılır.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Bundan sonra çekirdek, <span class="command"><strong>init</strong></span> (<code class="filename">/sbin/init</code>) sürecini başlatır (daima süreç numarası olarak 1'i alır).
+      <span class="command"><strong>init</strong></span> pek çok ufak tefek iş yapar. Aslında
+      yaptıkları ne şekilde ayarlandığına bağlıdır.
+      <a class="xref" href="sag_init.html" title="8. init"><em><code class="literal">init</code></em></a> bölümünde daha ayrıntılı
+      bilgi bulabilirsiniz.  En azından, çok gerekli olan birkaç
+      artalan sürecini çalıştırır.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      <span class="command"><strong>init</strong></span> daha sonra çok kullanıcılı kipe geçer,
+      sanal konsollar ve seri bağlantılar için <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+      uygulamasını çalıştırır. <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>, kişilerin
+      sanal konsollar veya seri hatlar üzerinden sisteme bağlanmasını sağlar.
+      <span class="command"><strong>init</strong></span> ayrıca nasıl ayarlandığına bağlı olarak
+      diğer uygulamaları da çalıştırır.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Bütün bunlardan sonra açılış işlemi bitmiş olur, artık sistem
+      açık ve normal çalışma kipine geçmiş haldedir.
+     </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="sect1" id="sag_boots-and-shutdowns-shuts">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.3. Kapanışla ilgili ayrıntılar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir Linux sistemini kapatırken, doğru süreci izlemek çok önemlidir.
+    Şayet bunu doğru yapmazsanız, dosya sisteminiz değersiz bir çöp
+    yığınına dönebilir. Bunun sebebi, Linux'un bir kerede doğrudan değil de
+    daha sonra yazan (write-back) bir disk önbellekleme sistemine
+    sahip olmasıdır.  Bu performans artışı sağlamakla birlikte bazı
+    sorunları da yanında getirmektedir.  Şayet bir kapris anında
+    enerjiyi keserseniz, önbellekte bulunan ama henüz diske yazılmamış
+    olan bütün bilgiler yok olup gidecektir.
+   </p>
+          <p>
+    Başka bir sebep de, galeyana gelip artalanda çalışan pek çok sürecin
+    olduğu, çok işlevli bir sistemin açma/kapama düğmesine vurursanız, bu
+    tam bir yıkım olabilir.  Sistemi uygun bir şekilde kapatarak, artalanda
+    çalışan bütün uygulamaların verilerini kurtardığından emin olabiliriz.
+   </p>
+          <p><span class="notfoot"/>
+    Bir Linux sistemini kapatmak için gereken komut
+    <span class="command"><strong>shutdown</strong></span>'dır<a id="idm74631" href="#ftn.idm74631" class="footnote"><sup class="footnote">[67]</sup></a>.
+    Genellikle bunu yapmak için iki yoldan birisi kullanılır.
+   </p>
+          <p>
+    Tek kullanıcısı olduğunuz bir sistemde alışılmış yöntem: çalıştığınız
+    bütün uygulamalardan çıkmak, bütün sanal konsollardan çıkıp, root
+    kullanıcı olarak tekrar girmek (şayet hali hazırda root olarak
+    bağlıysanız orada beklemek - ama kök dizininin veya root'un
+    ev dizininin (<code class="filename">/root</code> dizini) dosya sistemlerinin
+    ayrılması sırasında bir sorunla karşılaşmasını önlemek için, o
+    dizinlerden başka dizinlere geçin) ve daha sonra
+    <span class="command"><strong>shutdown -h now</strong></span> komutunu verin (<code class="literal">now</code>
+    parametresi yerine bir artı işaretiyle birlikte dakikaları belirten
+    sayılar da kullanabilirsiniz. Böylece, genellikle çok kullanıcılı
+    bir sistemde kapanma işlemi istenen süre kadar ertelenmiş olur).
+   </p>
+          <p>
+    Ayrıca, <span class="command"><strong>shutdown -h +</strong></span><em class="replaceable"><code>süre
+     uyarı</code></em> komutunu kullanabilirsiniz.
+    <em class="replaceable"><code>süre</code></em> sistemin ne kadarlık bir
+    süre sonra kapatılacağını, <em class="replaceable"><code>uyarı</code></em> ise
+    kapatma sebebini belirten küçük bir uyarı metnidir.
+   </p>
+          <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>shutdown -h +10 'Yeni bir disk ekliyoruz. Sistem 3 saat kapalı kalacak.'</code></strong>
+<code class="prompt">#</code>
+</pre>
+          <p>
+    Bu herkesi, sistemin 10 dakika sonra kapatılacağını ve verilerini
+    kaybedebilecekleri konusunda uyarır. Bu uyarı X uçbirimleri dahil
+    birilerinin bağlı olduğu bütün uçbirimlere gönderilir. Ve birkaç
+    kez daha uyarı gider. Kapanma anı yaklaştıkça uyarılar sıklaşır.
+   </p>
+          <pre class="screen">
+Broadcast message from root (ttyp0) Wed Aug  2 01:03:25 1995...
+
+Yeni bir disk ekliyoruz. Sistem 3 saat kapalı kalacak.
+The system is going DOWN for system halt in 10 minutes !!
+</pre>
+          <p>
+    Erteleme süresi sonunda gerçek kapatma işlemi başlayınca; kök
+    dosya sistemi hariç bütün dosya sistemleri ayrılır, halen bağlı
+    kullanıcı olsa bile bütün kullanıcı süreç ve uygulamaları
+    öldürülür, artalan süreçleri kapatılır, bütün dosya sistemleri
+    ayrılır ve her şey tatlıya bağlanmış olur. Bu yapılırken,
+    <span class="command"><strong>init</strong></span>  makineyi kapatabileceğinizi söyleyen
+    bir ileti yayınlar. Bundan sonra yapmanız gereken tek şey sabit
+    disk ve enerji ışığının sönmesini beklemektir.
+  </p>
+          <p>
+    Bazen, nadiren iyi sistemlerde bile, düzgün bir kapanış yapmak
+    mümkün olmaz.  Örneğin; şayet çekirdek paniklemişse, çöker ve
+    hatalı davranmaya başlar, bu durumda yeni bir komut vermek
+    imkansız olabilir.  Düzgün bir şekilde  kapatmanız mümkün
+    olmayınca yapabileceğiniz tek şey, başınıza kötü bir şey
+    gelmemesini ummak ve sistem enerji düğmesine basmaktır.
+    Şayet sorun biraz daha büyükse (örneğin birisi baltası ile
+    klavyenize vurduysa) ve çekirdekle <span class="command"><strong>update</strong></span> halen
+    düzgün bir şekilde çalışıyorsa, <span class="command"><strong>update</strong></span>'in
+    işlevini yapması ve önbellekte bulunan bilgileri yazılmaya
+    zorlaması için birkaç dakika beklemek daha uygun olacaktır.
+    Ondan sonra enerjiyi kesebilirsiniz.
+   </p>
+          <p>
+    Bazı insanlar <span class="command"><strong>sync</strong></span> komutunu 3 kere ard arda
+    kullanıp disk G/Ç'larının bitmesini bekleyip sistemi kapatmayı
+    tercih eder. Şayet çalışan bir uygulama yok ise bu işlem
+    <span class="command"><strong>shutdown</strong></span> komutu ile aynı işi yapmış olur.
+    Bununla beraber bu işlem sırasında dosya sistemleri ayrılmadığı
+    için ext2fs  "temiz dosya sistemi" bayrağı ile ilgili hatalar
+    ortaya çıkabilir. Bu nedenle üçlü <span class="command"><strong>sync</strong></span> komutu ile
+    sistemi kapatmak <em class="emphasis">tavsiye edilmez</em>.
+   </p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+     Üçlü sync'in sebebi, komutların ayrı ayrı yazıldığı
+     Unix'in ilk zamanlarında disk G/Ç işlemlerinin bitmesi için
+     yeterli zamanı kazanmaktı.
+    </p>
+            </div>
+          </div>
+        </section>
+        <section class="sect1" id="sag_boots-and-shutdowns_reboot">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.4. Sistemin yeniden başlatılması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sistemi yeniden başlatmak için sistemi kapatıp, elektriği kesip,
+    sonra tekrar vererek de yapabilirsiniz. Daha basit bir yol ise,
+    sadece kapatmak yerine, <span class="command"><strong>shutdown</strong></span> komutunun
+    sistemi yeniden başlatmasını sağlamaktır. Bunu <code class="option">-r</code>
+    seçeneğini kullanarak yapabiliriz. Örneğin;
+    <span class="command"><strong>shutdown -r now</strong></span> yazmanız yeterlidir.
+   </p>
+          <p>
+    Pek çok Linux sistemi ctrl+alt+del tuşlarına aynı anda basılmasıyla
+    yeniden başlatma işlemini yapabilmektedir.
+    Bu <span class="command"><strong>shutdown -r now</strong></span> komutunu çalıştırmış olur.
+    Bu <tt><a href="../man/man8/man8-ctrlaltdel.html"><b>ctrlaltdel</b></a>(8)</tt> tuşları yapılandırılabilir.
+    Çok kullanılıcılı bir sistemde bir miktar erteleme vermek uygun
+    olacaktır.  Başkalarının fiziksel olarak ulaşabilecekleri yerlerde
+    bulunan sistemlerde bu tuşların işlevi kapatılabilir.
+   </p>
+        </section>
+        <section class="sect1" id="sag_boots-and-shutdowns_rl3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.5. Tek kullanıcı kipi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span class="command"><strong>shutdown</strong></span> komutu sistemi tek kullanıcılı
+    hale getirmek için de kullanılabilir. Böylece sisteme sadece
+    konsoldan root bağlanır ama başkaları bağlanamaz.  Bu yöntem,
+    sistem normal çalışırken yapılamayan, sistem yöneticisi
+    görevlerini yapmak için yararlı olabilir.
+   </p>
+        </section>
+        <section class="sect1" id="sag_boots-and-shutdowns_bootfloppy">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">7.6. Kurtarma Diskleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    CD'den çalışan sistemlerle açılış yaparak sistem kurtarılabilir.
+    Yapacağınız böyle bir ISO indirip CD'ye yakmaktır.
+   </p>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm74592" class="footnote">
+            <p><a href="#idm74592" class="para"><sup class="para">[66] </sup></a>
+    Buna kısaca POST (Power On Self Test), açılışta kendi kendini sınama
+    adı verilir.</p>
+          </div>
+          <div id="ftn.idm74631" class="footnote">
+            <p><a href="#idm74631" class="para"><sup class="para">[67] </sup></a>Ç.N.: Son çıkan
+    bazı donanımlar açma-kapama düğmesine dokunmadan işletim sistemi
+    tarafından tamamen kapatılabilmektedir. Bunun için kullanılan
+    komut <span class="command"><strong>poweroff</strong></span>'tur</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

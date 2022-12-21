@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.2. Bir takas alanının oluşturulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_memory-management-vm.html" title="5.1. Sanal bellek nedir?"/>
+    <link rel="next" href="sag_memory-management-swapusage.html" title="5.3. Bir takas alanının kullanılması"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-vm.html')">Önceki</button>
+          <div class="dropdown-content">5.1. Sanal bellek nedir?</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-swapusage.html')">Sonraki</button>
+          <div class="dropdown-content">5.3. Bir takas alanının kullanılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_memory-management-swap">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5.2. Bir takas alanının oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir takas dosyası çekirdek ile özel bir bağı olmayan sıradan bir
+    dosyadır. Çekirdeği ilgilendiren tek şey, o dosya içinde oyukların
+    (hole) olmadığı ve  <tt><a href="../man/man8/man8-mkswap.html"><b>mkswap</b></a>(8)</tt>'ın kullanımı için
+    hazırlanmış olduğudur. Ayrıca yerel bir disk üzerinde bulunması
+    zorunludur. Bir NFS sistemi üzerinde bulunması uygulama
+    şartlarından dolayı mümkün değildir.
+   </p>
+        <p>
+    Oyuklar hakkındaki ayrıntı
+    önemlidir. Bir takas dosyası belli bir disk yüzeyini ayırır ve böylece
+    çekirdek hızlı bir şekilde sayfa değiş tokuşunu sağlar. Bunu yaparken
+    normal zamanlarda, bir disk yüzeyinin bir dosya için ayrılması işlemi
+    için gerekli olan bütün işlemleri yerine getirmek zorunda kalmaz.
+    Çekirdek sadece dosyaya ayrılmış sektörleri kullanır. Çünkü bir dosya
+    içindeki oyuklar, ayrılmış bir sektör olmadığı anlamına gelir ve
+    bunları kullanmaya çalışmak çekirdek için hiç de iyi bir fikir değildir.
+   </p>
+        <p>
+    Aşağıdaki komutla içinde oyuklar olmayan bir takas dosyası
+    oluşturabilirsiniz:
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>dd if=/dev/zero of=/ek-takas bs=1024 count=1024</code></strong>
+1024+0 records in
+1024+0 records out
+<code class="prompt">#</code>
+</pre>
+        <p>
+    <code class="filename">/ek-takas</code> takas dosyasının adıdır ve boyutu
+    <code class="literal">count=</code>'dan sonra belirtilmektedir. 4kB'ın
+    katlarından oluşan bir alan ayırmak daha uygundur çünkü çekirdek
+    bu alana 4 Kb lık boyutlar ile yazma yapar. Şayet 4kB'ın katları
+    şeklinde bir alan ayırmazsanız, son bölüm kullanılamayan bir alan
+    haline gelebilir.
+    </p>
+        <p>
+    Aslında bir takas bölümü özel bir bölüm değildir. Onu da diğer
+    bölümleri yaratır gibi yaratırız, tek fark onun içinde işlenememiş
+    bir alan bulunması ve bir dosya sistemi ihtiva etmemesidir. Aslında
+    çekirdek için gerekli olmasa da takas alanını tür 82 (linux takas)
+    olarak işaretlemek iyi olur.  Bu, bölüm listesinin daha temiz ve kolay
+    anlaşılır olmasını sağlayacaktır.
+   </p>
+        <p>
+    Bir swap dosyası veya bölümü oluşturulduktan sonra onun başlangıç
+    bölümüne, çekirdek tarafından kullanılan ve bazı yönetim bilgilerini
+    içeren, bir imza/iz koymalısınız. Bunun için <span class="command"><strong>mkswap</strong></span>
+    komutu kullanılır:
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>mkswap /ek-takas 1024</code></strong>
+Takas alanı sürüm 1, uzunluk = 1044480 bayt olarak ayarlanıyor
+<code class="prompt">#</code>
+</pre>
+        <p>
+    Takas dosyası var olmasına rağmen henüz kullanımda değildir.
+    Çekirdek bu bölümü sanal bellek sağlaması için kullanmamaktadır.
+   </p>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+     <span class="command"><strong>mkswap</strong></span> komutunu kullanırken çok dikkatli olun,
+     çünkü bu komut işlem yapacağı bölüm veya dosyanın herhangi bir
+     şey içermesine önem vermez. Kolaylıkla son derece önemli bilgiler
+     bulunan bir dosya veya bölüm üzerine yazabilirsiniz.  Şans eseri,
+     <span class="command"><strong>mkswap</strong></span> komutuna sadece işletim sistemini
+     kurarken ihtiyaç duyabilirsiniz.
+    </p>
+          </div>
+        </div>
+        <p>
+    Linux bellek yönetimi çeşitli teknik sebeplerden dolayı takas
+    alanı boyutunu 127 MB [( 4096-10) * 8*4096= 139890048 byte] ile
+    sınırlar. Bununla beraber toplam 8 adet takas alanı kullanabilirsiniz.
+   </p>
+        <p>
+    Aslında bu, şu an için doğru değildir. Yeni çıkan çekirdeklerin ve
+    <span class="command"><strong>mkswap</strong></span> komutunun yeni sürümlerinin mimarilerine
+    göre değişiklik göstermektedir. Takas alanları ile ilgili ayrıntılı
+    bilgi <tt><a href="../man/man8/man8-mkswap.html"><b>mkswap</b></a>(8)</tt> kılavuz sayfasında bulunabilir.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

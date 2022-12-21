@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.7. Dosya Sistemleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_disks-partiton.html" title="4.6. Disk Bölümleri"/>
+    <link rel="next" href="sag_fs-wo-fs.html" title="4.8. Dosya sistemleri olmayan diskler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks-partiton.html')">Önceki</button>
+          <div class="dropdown-content">4.6. Disk Bölümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_fs-wo-fs.html')">Sonraki</button>
+          <div class="dropdown-content">4.8. Dosya sistemleri olmayan diskler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_fs">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.7. Dosya Sistemleri</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="sag_fs-whatis">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.1. Dosya sistemleri nedir?</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <em class="glossterm">Dosya sistemi</em> disk üzerindeki dosyaları
+     hiyerarşik bir düzende yerleştirebilmeyi sağlar. Bir işletim sisteminin
+     bir disk veya bölümleri üzerindeki dosyalarının yerlerini bulmak için
+     kullandığı yapıya dosya sistemi (filesystem) denir.
+     Ayrıca dosya sistemi terimi, dosyaların
+     veya dosya sistemlerinin depolandığı  bir disk veya disk üzerindeki
+     bir bölümü tanımlamak için de kullanılabilir. Bu nedenle birisi
+     "ben iki adet dosya sistemine sahibim" derken; aslında disk üzerinde
+     her birinde dosyaların tutulduğu, iki adet bölüme veya ek bir disk
+     bölümüne sahip olduğu anlaşılmalıdır.
+    </p>
+          <p>
+     Bir disk veya disk bölümü ile dosya sistemi arasındaki fark önemlidir.
+     Çok az uygulama işlenmemiş disk veya bölüm yüzeyinde işlem yapabilir.
+     Buna dosya sistem yapabilen uygulamalar da dahildir. Şayet orada bir
+     dosya sistemi var ise bu uygulamaların kullanılması sonucu ya silinir
+     veya büyük ölçüde hasar görür. Pek çok uygulama ise dosya sistemleri
+     üzerinde çalışır; olmayan veya yanlış girdiler içeren bölümler üzerinde
+     çalışamazlar. Genelde dosya sistemi olmayan bir disk yüzeyinde bir
+     uygulama çalışmaz. Uygulamaların çalışması için bir dosya sistemine
+     ihtiyaç vardır; dosya sistemlerinin olabilmesi için de bir disk veya disk
+     bölümüne ihtiyaç duyulur.
+    </p>
+          <p>
+     Bir disk veya disk bölümü dosya sistemi olarak kullanılmadan
+     önce, disk yüzeyi ilk haline döndürülmeli ve gerekli bilgiler diske
+     yazılmalıdır. Bu işlem <em class="glossterm">dosya sistemi oluşturma</em>
+     olarak adlandırılır.
+    </p>
+          <p>
+     Pek çok Unix dosya sistemi küçük farklılıklar dışında benzer bir
+     genel yapıya sahiptir.  Genel kavramlar olarak
+     <em class="glossterm">süper blok</em>, <em class="glossterm">dosya düğümü</em>
+     (inode), <em class="glossterm">veri bloğu</em>  ve
+     <em class="glossterm">dolaylı blok</em> sayılabilir. Süper blok, dosya
+     sisteminin bütünü hakkında bilgi içerir. Aslında bu dosya sistemlerine
+     göre değişiklik gösterebilir. Dosya sisteminin boyutu gibi bilgiler
+     burada yer alır. Dosya düğümü ise bir dosya hakkında, ismi hariç, bütün
+     bilgileri ihtiva eder. Dosya ismi dizin içinde dosya düğümünün numarası
+     ile birlikte yer alır. Bir dizin girişi; dosya ismine ve bu dosyanın yer
+     aldığı dosya düğümünün numarasına bağlıdır. Dosya düğümü; dosyalardaki
+     bilgileri depolamak için kullanılan veri bloklarının numaralarını
+     içerir. Dosya düğümü içinde birkaç tane veri bloğu numarası için yer
+     vardır. Bununla beraber daha fazla yere ihtiyaç olursa dinamik bir
+     yapıyla bu yeni yer ayrılır. Bu dinamik yerleştirilmiş bloklar dolaylı
+     bloklardır. Bu veri bloklarını bulmak için önce dolaylı veri bloklarının
+     numaralarını bulmamız gerekir.
+    </p>
+          <p>
+     Unix dosya sistemleri genellikle <tt><b>lseek</b>(2)</tt>
+     sistem çağrısı vasıtası ile bir dosya içerisinde
+     <em class="glossterm">delik</em> oluşturulmasına izin verir.  Burada
+     dosya sistemi, dosya içerisindeki özel bir alanda sanki sıfır byte
+     varmış gibi davranır.  Aslında dosya içerisinde bunun için ayrılmış
+     bir disk sektörü yoktur (disk üzerinde daha az yer kaplanmış olur).
+     Bu olay genellikle küçük çalıştırılabilir dosyalar, paylaşılmış Linux
+     kütüphaneleri, bazı veri tabanları ve bazı özel durumlarda sık sık
+     ortaya çıkar.  Delikler dolaylı bloklardaki veya dosya düğümü
+     içindeki veri bloklarının adresleri gibi özel değerler verilerek
+     kullanılır. Bu özel adresler, dosyanın bahsi geçen bölümü için
+     her hangi bir veri bloğunun ayrılamamış olduğunu, orada bir delik
+     bulunduğunu gösterir.
+    </p>
+        </section>
+        <section class="sect2" id="sag_fs-types">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.2. Dosya sistemi bolluğu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Linux çok çeşitli dosya sistemlerini desteklemektedir. En
+     önemlileri aşağıda tanıtılmıştır:
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">minix</span>
+              </dt>
+              <dd>
+                <p>
+        En eski, en güvenli olarak kabul edilen ama kısıtlı
+        yeteneklere ve özelliklere sahip olan dosya sistemidir.
+        (En fazla 64 MB lık dosya sistemi, en çok 30 karakterlik
+        dosya isimleri, ara sıra kaybolan tarih zaman damgaları gibi...
+       </p>
+              </dd>
+              <dt>
+                <span class="term">xia</span>
+              </dt>
+              <dd>
+                <p>
+        Dosya isimleri ve dosya sistemi boyutlarının sınırlarını
+        kaldıran ama bundan başka pek bir yenilik getirmeyen, sadece
+        minix dosya sisteminin yenilenmiş halidir. Çok popüler
+        değildir ama oldukça iyi çalıştığı rapor edilmektedir.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">ext3/ext4</span>
+              </dt>
+              <dd>
+                <p>
+        ext3 dosya sistemi, ext2'nin bütün özelliklerine sahip bir dosya sistemidir. Aradaki temel fark, günlükleme özelliğinin eklenmiş olmasıdır. Böylece, herhangi bir sistem çökmesi esnasında, geri kurtarma zamanı kısaltılır ve başarım artışı sağlanır.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">ext2</span>
+              </dt>
+              <dd>
+                <p>
+        En yetenekli Linux dosya sistemidir. İleriye
+        dönük kolay geliştirilebilen bir dosya sistemi olarak
+        tasarlanmıştır.  Dolayısıyla yeni sürümü, dosya sistemi
+        kodlarını, kurulu bir sisteme uygulamak için yeni ayarlar
+        yapmayı gerektirmez.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">ext</span>
+              </dt>
+              <dd>
+                <p>
+        Ext2'nin geliştirilmeye uygun olmayan eski sürümüdür.
+        Pek çok insan ext2 dosya sistemine yönelmiştir.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">reiserfs</span>
+              </dt>
+              <dd>
+                <p>
+        Çok sağlam bir dosya sistemidir. Veri kayıplarını en aza
+        indirmek için günlükleme (journalling) yöntemi kullanılır.
+        Günlükleme; yapılmış veya yapılan  işlemlerin kayıtlarının
+        tutulması mekanizmasıdır. Bu sayede dosya sistemi meydana
+        gelmiş olan hasarları son derece kolay bir biçimde onarabilir.
+       </p>
+                <div class="admon warning">
+                  <h3 class="admon-title">Uyarı</h3>
+                  <div class="admon-contents">
+                    <p>
+         <code class="option">reiserfs</code> dosya sisteminin geliştiricisi kalmadığından Linux 5.18 sürümünden beri kullanımı önerilmemekte
+         olup muhtemelen 2025'te çekirdek desteği sonlandırılacaktır (Kaynak:
+         <a class="link" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/ ?id=eb103a51640ee32ab01c51e13bf8fca211f25f61" target="_top">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/ ?id=eb103a51640ee32ab01c51e13bf8fca211f25f61</a>).
+        </p>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <p>
+     Bunlara ek olarak, çok sayıda yabancı dosya sistemine destek
+     bulunmaktadır. Böylece işletim sistemleri arasında dosyaları
+     değişmek kolaylaştırılmıştır. Bu yabancı dosya sistemleri,
+     makine üzerinde doğal Linux dosya sistemleri gibi çalışabilir.
+     Ama Unix'in bazı özelliklerinden faydalanamazlar, bazı kısıtlamalara
+     tabidir veya bazı acayiplikler sergiler.
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">msdos</span>
+              </dt>
+              <dd>
+                <p>
+       MS-DOS FAT dosya sistemleri (OS/2 ve Windows NT) ile uyumlu
+       bir dosya sistemidir.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">umsdos</span>
+              </dt>
+              <dd>
+                <p>
+       Msdos dosya sistemi sürücülerine, Linux altında daha uzun
+       dosya isimleri, sahipler, izinler, bağlar ve aygıt
+       dosyaları erişimi sağlar. Bu sistem; normal bir MSDOS
+       dosya sisteminin sanki Linux dosya sistemiymiş gibi
+       kullanılmasını sağlar ve böylece Linux için bağımsız
+       bir bölüm oluşturulması zorunluluğunu ortadan kaldırır.
+     </p>
+              </dd>
+              <dt>
+                <span class="term">vfat</span>
+              </dt>
+              <dd>
+                <p>
+       FAT32 olarak bilinen dosya sisteminin bir uzantısıdır.
+       Pek çok MS Windows diski vfat'tır.  FAT'tan daha büyük
+       disk alanlarını destekler.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">iso9660</span>
+              </dt>
+              <dd>
+                <p>
+       CD ROM'lar için standart dosya sistemleridir.
+       Daha uzun dosya isimlerine izin veren Rock Ridge uzantısı
+       otomatik olarak desteklenir.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">nfs</span>
+              </dt>
+              <dd>
+                <p>
+       Bir ağ dosya sistemidir. Dosya sisteminin pek çok
+       bilgisayar tarafından paylaşılmasını sağlar.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">smbfs</span>
+              </dt>
+              <dd>
+                <p>
+       MS Windows bilgisayarlarla paylaşım sağlayan bir ağ dosya
+       sistemidir. Windows dosya paylaşım protokolleri ile
+       uyumludur.
+      </p>
+              </dd>
+              <dt>
+                <span class="term">hpfs</span>
+              </dt>
+              <dd>
+                <p>OS/2 dosya sistemi.</p>
+              </dd>
+              <dt>
+                <span class="term">sysv</span>
+              </dt>
+              <dd>
+                <p>
+       SystemV/386, Coherent ve Xenix dosya sistemleri.
+       </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+    Dosya sistemi seçimi duruma göre değişir. Uyumluluk ve diğer sebepler
+    doğal olmayan dosya sistemlerinin kullanılması mecburiyetini
+    getirebilir.  Şayet özgürce seçebilseydik, en mantıklısı ext3
+    dosya sistemi olurdu çünkü hem ext2'nin bütün özelliklerine sahiptir,
+    hem de günlükleme yapabilmektedir.
+   </p>
+          <p>
+    Ayrıca bir de "proc" dosya sistemi vardır. <code class="filename">/proc</code>
+    dizini altından ulaşılabilen bu dosya sistemi aslında bir dosya
+    sistemi değildir. Proc dosya sistemi bazı çekirdek yapı bilgilerine
+    (süreç listesi gibi) ulaşımı kolaylaştırır. Böylece bu veri
+    yapılarının bir dosya sistemi gibi görünmesini sağlar ve dosya
+    sisteminin sağlamış olduğu bütün olanakları kullanıma açar. Örneğin
+    bütün süreçlerin listesini alabilmek için şu komutu kullanabiliriz.
+  </p>
+          <pre class="screen">
+<code class="prompt">$</code> <strong class="userinput"><code>ls -l /proc</code></strong>
+toplam 525256
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 1
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 11
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 111
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 112
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 14
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 1563
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 21
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 3
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 4
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 5
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 6
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 7
+dr-xr-xr-x    3 xfs      xfs             0 Oca 13 04:41 747
+dr-xr-xr-x    3 apache   apache          0 Oca 13 04:41 766
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 8
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 9
+-r--r--r--    1 root     root            0 Oca 13 04:41 apm
+dr-xr-xr-x    6 root     root            0 Oca 13 04:41 bus
+-r--r--r--    1 root     root            0 Oca 13 04:41 cmdline
+-r--r--r--    1 root     root            0 Oca 13 04:41 cpuinfo
+-r--r--r--    1 root     root            0 Oca 13 04:41 devices
+-r--r--r--    1 root     root            0 Oca 13 04:41 dma
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 driver
+-r--r--r--    1 root     root            0 Oca 13 04:41 execdomains
+-r--r--r--    1 root     root            0 Oca 13 04:41 fb
+-r--r--r--    1 root     root            0 Oca 13 04:41 filesystems
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 fs
+dr-xr-xr-x    4 root     root            0 Oca 13 04:41 ide
+-r--r--r--    1 root     root            0 Oca 13 04:41 interrupts
+-r--r--r--    1 root     root            0 Oca 13 04:41 iomem
+-r--r--r--    1 root     root            0 Oca 13 04:41 ioports
+dr-xr-xr-x   18 root     root            0 Oca 13 04:41 irq
+-rw-r--r--    1 root     root            0 Oca 13 04:41 isapnp
+-r--------    1 root     root     536809472 Oca 13 04:41 kcore
+-r--------    1 root     root            0 Oca 12 14:31 kmsg
+-r--r--r--    1 root     root            0 Oca 13 04:41 ksyms
+-r--r--r--    1 root     root            0 Oca 13 04:41 loadavg
+-r--r--r--    1 root     root            0 Oca 13 04:41 locks
+-r--r--r--    1 root     root            0 Oca 13 04:41 mdstat
+-r--r--r--    1 root     root            0 Oca 13 04:41 meminfo
+-r--r--r--    1 root     root            0 Oca 13 04:41 misc
+-r--r--r--    1 root     root            0 Oca 13 04:41 modules
+-r--r--r--    1 root     root            0 Oca 13 04:41 mounts
+-rw-r--r--    1 root     root          208 Oca 13 04:41 mtrr
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 net
+dr-xr-xr-x    2 root     root            0 Oca 13 04:41 nv
+-r--r--r--    1 root     root            0 Oca 13 04:41 partitions
+-r--r--r--    1 root     root            0 Oca 13 04:41 pci
+lrwxrwxrwx    1 root     root           64 Oca 12 14:31 self -&gt; 1563
+-rw-r--r--    1 root     root            0 Oca 13 04:41 slabinfo
+-r--r--r--    1 root     root            0 Oca 13 04:41 stat
+-r--r--r--    1 root     root            0 Oca 13 04:41 swaps
+dr-xr-xr-x   11 root     root            0 Oca 13 04:41 sys
+dr-xr-xr-x    2 root     root            0 Oca 13 04:41 sysvipc
+dr-xr-xr-x    4 root     root            0 Oca 13 04:41 tty
+-r--r--r--    1 root     root            0 Oca 13 04:41 uptime
+-r--r--r--    1 root     root            0 Oca 13 04:41 version
+dr-xr-xr-x    3 root     root            0 Oca 13 04:41 video
+<code class="prompt">$</code>
+</pre>
+          <p>
+     (Yukarıdaki örnek kısaltılmıştır. Birkaç tane daha süreç ismi
+     listelenebilir.)
+    </p>
+          <p>
+     Her ne kadar bir dosya sistemi diye adlandırılsa bile proc dosya
+     sistemi sadece çekirdeğin bir hayalidir. Diskte yer kaplamaz.
+     Proc dosya sisteminin her hangi bir bölümüne bakmak istediğimiz zaman,
+     çekirdek sanki bu bölüm varmış gibi davranır ki aslında böyle bir
+     bölüm yoktur.  Öyle ki, disk üzerinde yer kaplamayan çok-megabytelık
+     bir <code class="filename">/proc/kcore</code> dosyası vardır.
+    </p>
+        </section>
+        <section class="sect2" id="sag_fs-whose">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.3. Hangi dosya sistemi kullanılmalı?</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Pek çok değişik dosya sistemi arasında genellikle küçük farklılıklar
+     vardır. Kesinlikle ext4 en popüler dosya sistemidir. Çünkü günlükleme
+     yapabilmektedir. Günlüklemenin aşırı yük getiren yapısından,
+     verimlilikten, güvenilirlikten, uyumdan ve pek çok diğer sebeplerden
+     dolayı; başka bir dosya sistemi kullanmak daha uygun olabilir. Dosya
+     sistemi seçimi kişilere ve ihtiyaçlarına göre değişiklik gösterir.
+    </p>
+          <p>
+     Günlükleme yapma yeteneğine sahip dosya sistemleri, aynı zamanda,
+     günlüklü dosya sistemleri diye de adlandırılır. Günlüklemeli bir
+     dosya sistemi, sistemde olan bitenin kaydını veya günlüğünü tutar.
+     Bir sistem çökmesi durumunda ya da benim iki yaşındaki oğlumun yapmayı
+     çok sevdiği gibi, bilgisayarın fişinin aniden çıkarılması durumunda;
+     günlükleme sistemi kaydedilmemiş veya zarar görmüş verilerin
+     kurtarılmasını sağlar. Böylece, veri kayıpları oldukça aşağıya çekilmiş
+     olur. Bu nedenle, muhtemelen gelecek Linux dağıtımlarında, bu özellik
+     standart hale gelecektir. Bununla birlikte, günlüklemenin, sizde boş bir
+     güven duygusu yaratmasına izin vermeyin. Acil durumlarda kullanabilmek
+     için, verilerinizin yedeğini almayı asla ihmal etmeyin.
+    </p>
+        </section>
+        <section class="sect2" id="sag_fs-create">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.4. Bir dosya sisteminin oluşturulması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Dosya sistemleri <tt><a href="../man/man8/man8-mkfs.html"><b>mkfs</b></a>(8)</tt> komutu ile oluşturulurdu.
+     <span class="command"><strong>mkfs</strong></span>, dosya sistemine özel
+     <span class="command"><strong>mkfs</strong></span>.<em class="replaceable"><code>ds-türü</code></em> araçları
+     lehine kullanımdan kaldırılmıştır. Yani her dosya sistemi türü için
+     ayrı bir komut kullanılır. Örneğin <span class="command"><strong>mkfs.ext2</strong></span> (aslında
+     <tt><a href="../man/man8/man8-mke2fs.html"><b>mke2fs</b></a>(8)</tt> çalışır.) için genel ve en önemli
+     seçenekler aşağıda belirtilmiştir. Ayrıntılı bilgi için komutun kılavuz
+     sayfasına bakılabilir.
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">
+                  <code class="option">-c</code>
+                </span>
+              </dt>
+              <dd>
+                <p>
+        Dosya sistemi oluşturulmadan önce aygıtta bozuk bloklar aranır.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">
+       <code class="option">-l</code> <em class="replaceable"><code>DOSYA</code></em>
+      </span>
+              </dt>
+              <dd>
+                <p>
+        İsmi <em class="replaceable"><code>DOSYA</code></em> ile belirtilen bozuk
+        blokların listesini içeren dosyayı okur.
+       </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect2" id="sag_fs_mount-and-umount">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.5. Dosya sistemlerinin bağlanması ve ayrılması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir dosya sistemi kullanılmadan önce mutlaka bağlanmalıdır.
+     Daha sonra işletim sistemi her şeyin doğru bir şekilde
+     çalıştığından emin olmak için çeşitli muhasebe işlemleri
+     yapar. Unix altında bütün dosya sistemleri tek bir dizin
+     ağacı altında gözüktüğü için, işletim sistemi yeni bağlanan
+     dosya sistemlerini eskiden bağlanmış olan dosya sistemlerinin
+     alt dizinleriymiş gibi gösterir ve bu şekilde işlem yapar.
+    </p>
+          <p>
+     Aşağıda <a class="xref" href="sag_fs.html#sag_fs-mount-root" title="Şekil 4.3. Üç ayrı dosya sistemi">Şekil 4.3</a>'de kendi kök dizinleri
+     altında bulunan birbirinden bağımsız üç dosya sistemi gösterilmektedir.
+     Son iki dosya sistemi sırayla, birincinin <code class="filename">/home</code>
+     ve <code class="filename">/usr</code> dizinleri altına bağlanırsa
+     <a class="xref" href="sag_fs.html#sag_fs-mount-all" title="Şekil 4.4. /home ve /usr bağlı.">Şekil 4.4</a>'deki gibi tek bir dizin ağacı
+     elde ederiz.
+    </p>
+          <div class="figure-float">
+            <div class="figure" id="sag_fs-mount-root">
+              <div class="figure-title">Şekil 4.3. Üç ayrı dosya sistemi</div>
+              <div class="figure-contents">
+                <div class="mediaobject">
+                  <img src="images/hd-mount-separate.gif" alt="Üç ayrı dosya sistemi"/>
+                </div>
+              </div>
+            </div>
+            <br class="figure-break"/>
+          </div>
+          <div class="figure-float">
+            <div class="figure" id="sag_fs-mount-all">
+              <div class="figure-title">Şekil 4.4. 
+      <code class="filename">/home</code> ve <code class="filename">/usr</code> bağlı.
+     </div>
+              <div class="figure-contents">
+                <div class="mediaobject">
+                  <img src="images/hd-mount-mounted.gif" alt="/home ve /usr bağlı."/>
+                </div>
+              </div>
+            </div>
+            <br class="figure-break"/>
+          </div>
+          <p>
+     Aşağıdaki örnekte gösterildiği şekilde bu bağlama işlemleri
+     yapılabilir.
+    </p>
+          <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>mount /dev/hda2 /home</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>mount /dev/hda3 /usr</code></strong>
+<code class="prompt">#</code>
+</pre>
+          <p>
+     <span class="command"><strong>mount</strong></span> komutu iki argüman alır. Birincisi diske
+     uygun bir aygıt dosyası veya dosya sistemini içeren bir disk bölümüdür.
+     İkincisi ise  bağlandığı dizindir. Bu işlemler yapıldıktan sonra
+     bu iki aygıtın içerikleri sanki disk üzerindeki <code class="filename">/home</code>
+     ve <code class="filename">/usr</code> dizinlerinin içerikleriymiş gibi
+     kullanılabilir.  Şayet bağlama işlemi başka bir dizin altına
+     yapılmış olsaydı, aygıtların içeriklerini görebilmek için o
+     dizinlerin altına bakmamız gerekecekti. Ayrıca  aygıt dosyası ve
+     bağlanılan dizin arasındaki farkı mutlaka göz önünde bulundurmalıyız.
+     Unutmayın ki aygıt dosyası, (<code class="filename">/dev/hda2</code>)
+     diskin ham içeriğini verir. Bağlandığı dizin ise (<code class="filename">/home</code>)
+     disk üzerindeki dosyalara ulaşım imkanı verir. Disk bölümünün
+     bağlandığı dizine <em class="glossterm">bağlama noktası</em> adı
+     verilir.
+    </p>
+          <p>
+     Linux pek çok dosya sistemini destekler. <span class="command"><strong>mount</strong></span>
+     dosya sisteminin türünü tahmin etmeye çalışır. İsterseniz
+     <code class="option">-t fstype</code> seçeneğini dosya sisteminin türünü
+     belirtmek için kullanabiliriz. Bazı zamanlar bu gerekli olmaktadır,
+     <span class="command"><strong>mount</strong></span> komutu dosya sistemini tanımlayamayabilir.
+    </p>
+          <p>
+     Bağlantı dizini mutlaka sistemde var olmalıdır ve içi boş değilse
+     dosya sistemi bağlı olduğu sürece o içerik erişilmez olacaktır
+     (hali hazırda açılmış dosyalar ve başka bir dizinden sabit bağ verilmiş
+     olan dosyalar hala ulaşılabilir durumdadır). Örneğin; bazı kişiler
+     <code class="filename">/tmp</code> ve <code class="filename">/var/tmp</code> dizinlerini
+     eş anlamlı olarak kullanır ve <code class="filename">/tmp</code> dizinini
+     <code class="filename">/var/tmp</code> dizinine sembolik bağ olarak atar.
+     Sistem açılırken, <code class="filename">/tmp</code> dosya sistemi bağlanmadan
+     önce kök dosya sisteminde bulunan <code class="filename">/var/tmp</code>
+     dizini onun yerine  kullanılır. <code class="filename">/var</code> dizini
+     bağlandığı zaman, bu kök dosya sistemi altındaki
+     <code class="filename">/var/tmp</code> dizinini ulaşılmaz kılar. Şayet
+     <code class="filename">/var/tmp</code> dizini kök dosya sistemde yok ise,
+     <code class="filename">/var</code> dizinini bağlamadan geçici dosyaları
+     kullanmak imkansız olacaktır.
+    </p>
+          <p>
+     Dosya sistemine her hangi bir şey yazmaya niyetiniz yok ise
+     bağlama işlemi sırasında bu bağlantının salt okunur olmasını
+     sağlayacak <code class="option">-r</code> seçeneğini kullanabilirsiniz.
+     Bu çekirdeğin her hangi bir yazım girişiminde bulunmasını ve
+     dosya düğümleri içindeki erişim zamanlarının güncellenmesini
+     engeller. Üzerine yazılamayan ortamları (örn; CDROM) bağlarken
+     bu seçenek gereklidir.
+    </p>
+          <p>
+     Uyanık okuyucular küçük bir mantıksal sorunu fark etmiştir.
+     Birinci dosya sistemi (burada kök dosya sistemi oluyor) nasıl
+     bağlanmıştır? Kök dosya sistemi açılış esnasında sihirli bir
+     şekilde bağlanmıştır ve kullanıcı bunun her açılışta tekrar
+     olacağına güvenmelidir. Şayet kök dosya sistemi bağlanmazsa
+     açılış yapılamaz. Sihirli bir biçimde kök dosya sistemini
+     bağlayan dosya sisteminin adı çekirdek içinde derlenmiştir veya
+     LILO ya da <span class="command"><strong>rdev</strong></span> kullanılarak ayarlanmıştır.
+    </p>
+          <p>
+     Kök dosya sistemi ilk olarak salt okunabilir şekilde bağlanır.
+     Daha sonra başlayan betikler onun geçerliliğini kanıtlamak için
+     <span class="command"><strong>fsck</strong></span> çalıştırır. Şayet bir sorun çıkmaz ise
+     oku-yaz olarak tekrar bağlanır. Böylece yazma işlemlerine olanak
+     sağlanır. <span class="command"><strong>fsck</strong></span>, oku-yaz bağlı bir dosya sistemi
+     üzerinde yapılmamalıdır. Çünkü dosya sisteminde meydana gelen her
+     değişiklik <span class="command"><strong>fsck</strong></span>'nın çalışmasını etkileyecek ve çalışması esnasında sorunlar ortaya çıkmasına sebep olacaktır.
+     Kök dosya sistemi, denetlenirken salt okunur şekilde bağlanmış olduğu
+     için <span class="command"><strong>fsck</strong></span> herhangi bir sorunu sıkıntıya girmeden
+     giderebilir. Dosya sisteminin bellekte tuttuğu bütün bilgiler yeniden
+     bağlama işlemi esnasında silinecektir.
+    </p>
+          <p>
+     Pek çok sistemde açılış esnasında otomatik olarak bağlanması gereken
+     dosya sistemleri mevcuttur.  Bunlar <code class="filename">/etc/fstab</code>
+     dosyası içinde belirtilmişlerdir. Ayrıntılı bilgi <span class="command"><strong>fstab</strong></span>
+     kılavuz sayfasında mevcuttur. Açılış esnasında bağlanılacak dosya
+     sistemlerinin özellikleri çok çeşitli faktörlere dayanır ve bu
+     sistem yöneticisinin şahsi ihtiyaç ve görüşlerine göre değişiklik
+     gösterebilir.  Daha ayrıntılı bilgi <a class="xref" href="sag_boots-and-shutdowns.html" title="7. Açılışlar ve Kapanışlar"><em>Açılışlar ve Kapanışlar</em></a>
+     bölümünde mevcuttur.
+    </p>
+          <p><span class="notfoot"/>
+     Bir dosya sisteminin daha fazla bağlı durumda kalması gerekmiyorsa
+     <span class="command"><strong>umount</strong></span> komutu ile dosya sistemi sistemden
+     ayrılmalıdır.<a id="idm74015" href="#ftn.idm74015" class="footnote"><sup class="footnote">[63]</sup></a> <span class="command"><strong>umount</strong></span>
+     argüman olarak aygıt dosyası ismini veya bağlama noktası dizininin
+     adını kullanır. Bu işlem aşağıdaki  şekillerden birisi ile
+     gerçekleştirilir:
+    </p>
+          <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>umount /dev/hda2</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>umount /usr</code></strong>
+<code class="prompt">#</code>
+</pre>
+          <p>
+     Sadece root kullanıcı dosya istemlerini bağlayabilir ve ayırabilir.
+     Şayet her kullanıcı istediği bir dizine bir disk bağlarsa, sonuçta
+     <code class="filename">/bin/sh</code> dizini gibi görünen bir truva atı
+     yaratmak çok kolay hale gelirdi.  Bununla beraber kullanıcılara
+     disk bağlama izni vermek kaçınılmazdır.  Bunun çeşitli yolları vardır:
+    </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+       Kullanıcılara root parolasını vermek. En kolay fakat en az
+       güvenli seçenektir.  Ağa bağlı olmayan kişisel sistemler
+       için en uygun çözümdür.
+      </p>
+              </li>
+              <li class="listitem">
+                <p><span class="notfoot"/>
+       Kullanıcıların dosya sistemi bağlama işlemlerini yapabilmesine
+       izin vermek için <span class="command"><strong>sudo</strong></span> kullanabilirsiniz.
+       Bu hala az güvenli bir seçenektir,
+       sadece süper kullanıcı yetkileri herkese doğrudan verilmemiş
+       olur.<a id="idm74033" href="#ftn.idm74033" class="footnote"><sup class="footnote">[64]</sup></a>
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       <code class="filename">/etc/fstab</code> dosyası içinde bağlanması olası
+       dizin ve aygıt dosyası adlarını uygun seçeneklerle tanımlayın.
+      </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+     Birinci sütundan itibaren, bağlanacak aygıt dosyası, bağlantı dizini,
+     dosya  sistemi, seçenekler, yedekleme yapma sıklığını
+     (<span class="command"><strong>dump</strong></span> tarafından kullanılır) ve açılış esnasında
+     hangi dosya sistemlerinin <span class="command"><strong>fsck</strong></span> tarafından
+     denetleneceğini belirten numaralar (sıfır = birşey yapma) belirtilir.
+    </p>
+          <p>
+     <code class="option">noauto</code> seçeneği açılış esnasında dosya sisteminin
+     otomatik olarak bağlanmayacağını belirtir. <code class="option">user</code> ve
+     <code class="option">users</code> seçenekleri ise bütün kullanıcılara bu dosya
+     sistemini bağlama izni verir.
+    </p>
+        </section>
+        <section class="sect2" id="sag_fs-fsck">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.6. 
+     <code class="literal">fsck</code> ile dosya sistemi bütünlüğünün sınanması
+    </h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Dosya sistemleri zaman zaman hata vermeye eğilimli olan karmaşık
+     yapılardır. Bir dosya sisteminin doğruluğu ve geçerliliği
+     <span class="command"><strong>fsck</strong></span> komutu ile sınanır. Bulduğu  küçük hataları
+     onarmak ve onaramadığı daha önemli hatalar için kullanıcıyı uyarmak
+     üzere yapılandırılabilir. Şans eseri dosya sistemlerinin kodlarını
+     onarma işleminde oldukça etkilidir. Bununla birlikte çok nadir
+     olarak kullanıcı, donanım veya elektrik kesintilerinden kaynaklanan
+     hatalar meydana gelir.
+    </p>
+          <p>
+     Pek çok sistemde <span class="command"><strong>fsck</strong></span> komutu açılışta çalışmak
+     üzere ayarlanır. Ve bu sayede dosya sisteminde meydana gelmiş olan
+     hataların sistem kullanıma başlanmadan önce düzeltilmesi umulur.
+     Bozulmuş dosya sistemleri işleri yanlış yönlendirir: veri
+     sistemleri karıştıysa, dosya sistemi büyük olasılıkla onları
+     daha fazla karıştıracaktır. Bununla birlikte büyük dosya
+     sistemlerinde <span class="command"><strong>fsck</strong></span> komutunun çalışması biraz
+     vakit alabilir ama sistem düzgün kapatılmış ise dosya sisteminde
+     hata meydana gelme olasılığı hemen hemen hiç yoktur. Böyle
+     durumlarda sınamanın yapılmasını önlemek için bazı hileler vardır.
+     Birincisi: şayet <code class="filename">/etc/fastboot</code> dosyası varsa
+     sınama işlemi yapılmaz. İkincisi ise: süper bloklar içinde sistemin
+     bir önceki kapanışta düzgün kapatılıp kapatılmadığını belirten
+     işaretlerdir.  Şayet sistem düzgün bir şekilde ayrılmışsa
+     <span class="command"><strong>e2fsck</strong></span> (ext2 dosya sistemi için <span class="command"><strong>fsck</strong></span>) komutu işleme girmez. <code class="filename">/etc/fastboot</code>
+     hilesi sizin açılış esnasında kullandığınız betiklere göre çalışır
+     ama ext2 hilesi <span class="command"><strong>e2fsck</strong></span> kullandığınız sürece işe
+     yarar. <span class="command"><strong>e2fsck</strong></span>'den kurtulmak için açık bir
+     şekilde seçenekler belirtilmiş olmalıdır. Güncel bilgiler için
+     <tt><a href="../man/man8/man8-e2fsck.html"><b>e2fsck</b></a>(8)</tt> kılavuz sayfasına bakınız.
+    </p>
+          <p>
+     Otomatik sınama sadece açılış esnasında otomatik bağlanan dosya
+     sistemleri için geçerlidir.
+    </p>
+          <p>
+     Şayet <span class="command"><strong>fsck</strong></span> tamir edemeyeceği sorunlar ile
+     karşılaşırsa; iyi yedekleme, dosya sistemlerinin kullanımı ve
+     bozulmuş dosya sistemlerinin türleri hakkında ayrıntılı ve derin
+     bilgiye sahip olmanız gerekecektir. Daha sonrası kolaydır,
+     genellikle de sıkıcı. Kendi kendinize yetemeyeceğiniz durumda bir
+     arkadaşınızdan, posta listelerinden, haber gruplarından veya
+     bunlara benzer bir yerlerden yardım alınabilir. Size daha
+     fazlasını anlatmak isterdim fakat bu konuda ki eğitimimim ve
+     deneyimlerim eksikliği buna engel olmaktadır. <tt><b>debugfs</b>(8)</tt> kılavuz sayfası bu konuda yardımcı olabilir.
+    </p>
+          <p>
+     <span class="command"><strong>fsck</strong></span> mutlaka bağlı olmayan dosya sistemleri
+     üzerinde yapılmalıdır. Sadece açılış esnasında salt okunur konumdaki
+     kök dosya sistemi bu durum için istisnadır. Bunun sebebi <span class="command"><strong>fsck</strong></span>
+     komutunun  disk yüzeyine doğrudan erişerek dosya sistemi üzerinde
+     yaptığı  bazı değişikliklerin, işletim sistemi tarafından anlaşılamama
+     olasılığı bulunması ve bunun da işletim sistemi üzerinde sorunlar
+     yaratabilecek olmasıdır.
+    </p>
+        </section>
+        <section class="sect2" id="sag_fs-badblocks">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.7. Disk hatalarının <code class="literal">badblocks</code> ile denetlenmesi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bozuk bloklar için periyodik denetimler yapmak iyi bir fikir olabilir.
+     Bu işlem <span class="command"><strong>badblocks</strong></span> komutu ile yapılabilir. Bu komut
+     bulabildiği bütün bozuk bloklar için bir liste verir. Bu liste
+     <span class="command"><strong>fsck</strong></span> için dosya sistemi veri yapısı içinde bulunan
+     kayıtlara yönlendirilebilir, böylece işletim sisteminin bozuk blok
+     hatalarının kaydı tutulmak zorunda kalınmaz. Aşağıdaki örnek bunun
+     nasıl yapılacağını açıklamaktadır.
+    </p>
+          <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>badblocks -o bad-blocks /dev/fd0u1440</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>fsck -t ext2 -l bad-blocks /dev/fd0u1440</code></strong>
+fsck 1.25 (20-Sep-2001)
+e2fsck 1.25 (20-Sep-2001)
+1. geçiş: dosya indeksleri, bloklar ve uzunluklar denetleniyor
+2. geçiş: Dizin yapısı denetleniyor
+3. geçiş: Dizin bağlanabilirliği denetleniyor
+4. geçiş: Başvuru sayısı denetleniyor
+5. geçiş: grup özet bilgileri denetleniyor
+
+/dev/fd0u1440: ***** DOSYA SİSTEMİ DEĞİŞTİRİLDİ *****
+/dev/fd0u1440: 11/184 dosya (0.%0 yanyana olmayan düğüm), 41/1440 blok
+<code class="prompt">#</code>
+</pre>
+          <p>
+    Şayet kullanımdaki bir bloğun hatalı olduğu rapor edilirse
+    <span class="command"><strong>e2fsck</strong></span> bu bloğu başka bir yere taşıyacaktır.
+    Şayet durum gerçekten kötü ise bu blok içindeki dosyaların
+    içeriği bile bozulabilir.
+   </p>
+        </section>
+        <section class="sect2" id="sag_fs-tools-all">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.8. Diğer dosya sistemi araçları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    Dosya sistemlerini yönetmek için başka araçlar da vardır.
+    <span class="command"><strong>df</strong></span> komutu seçeneksiz kullanıldığında
+    bağlı tüm dosya sistemlerinin dolu ve boş alanları hakkında
+    bilgi verir. <span class="command"><strong>du</strong></span> komutu bir dizinin ve
+    içerdiği dosyaların ne kadar disk alanı kullandığını gösterir.
+    Bu araçlar disk alanının kullanımı hakkında bilgi vermesi
+    bakımından olası sorunlarn yakalanmasında yardımcı olabilir.
+    Ayrıntılı bilgi için her ikisinin de kılavuz sayfalarına
+    bakabilirsiniz.
+   </p>
+          <p>
+    <span class="command"><strong>sync</strong></span> komutu diske henüz yazılmamış ve tampon
+    bellekte tutumakta olan bilgilerin diske yazılmasını sağlar.
+    (<a class="xref" href="sag_memory-management_buffer-cache.html" title="5.5. Tampon bellek">Tampon bellek</a> bölümüne
+    bakınız.) Bunu yapmak nadiren gerekli olur. Çünkü bir artalan
+    süreci olan <span class="command"><strong>update</strong></span> bu işlemi otomatik olarak
+    yapar. Genellikle yıkım anlarında faydalı olur; örneğin
+    <span class="command"><strong>update</strong></span> ya da onun yardımcı süreci
+    <span class="command"><strong>bdflush</strong></span> ölmüşse veya <em class="emphasis">now</em>
+    seçeneği ile sistemi kapatmak üzereyken <span class="command"><strong>update</strong></span>'in
+    devreye girmesini bekleyemeyecekseniz... Bu konuda daha ayrıntılı
+    bilgileri kılavuz sayfalarından bulabileceğinizi tekrarlıyorum.
+    <span class="command"><strong>man</strong></span> komutu Linux'da en iyi arkadaşınızdır.
+    Kuzeni olan <span class="command"><strong>apropos</strong></span> komutu da kullanmak istediğiniz
+    komutun ya da konunun adını hatırlayamadığınızda ve bir anahtar sözcük
+    verdiğinizde ilgili kılavuz sayfalarının bir listesini göstererek
+    size yardımcı olacaktır.
+   </p>
+        </section>
+        <section class="sect2" id="sag_fs-tools-ext2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.7.9. Diğer ext2/ext3 dosya sistemi araçları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    Dosya sistemi yaratıcısı <span class="command"><strong>mke2fs</strong></span> ve denetleyicisi
+    <span class="command"><strong>e2fsck</strong></span>'ye ek olarak ext2 dosya sistemi, dosya
+    sisteminden bağımsız olarak ulaşılabilen ve yahut doğrudan
+    kullanılabilen, bazı yararlı  ek araçlara da sahiptir.
+   </p>
+          <p>
+    <span class="command"><strong>tune2fs</strong></span> dosya sistemi parametrelerini ayarlar.
+    Bazı ilginç parametreler şunlardır:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+       Maksimum bağlama sayısı. Dosya sistemleri belirli bir bağlama
+       sayısına ulaşılınca, sistem temiz işaretine rağmen,
+       <span class="command"><strong>e2fsck</strong></span> dosya sistemini denetlemeye kalkışır.
+       Geliştirme veya sınama amacıyla kullanılan bir sistemde bu sayıyı
+       düşürmek iyi bir fikir olabilir.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       Denetimler arasındaki maksimum zaman. Sistem temiz işaretine ve
+       denetim için gerekli bağlama sayısına ulaşılmamış olsa bile; en
+       son denetimden beri geçen süre belli bir değere ulaşınca
+       <span class="command"><strong>e2fsck</strong></span> sistemi denetlemek isteyebilir.
+       Bu seçenek istenirse kapatılabilir.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       root kullanıcı için ayrılmış blok sayısı. Ext2, dosya sistemi
+       dolmuş olsa bile, root kullanıcının her hangi bir şeyi silmeden
+       işlerine devam edebilmesi için bazı bloklar ayrılmıştır. Bunun
+       için ayrılan blokların oranı öntanımlı %5'dir. Bu da pek çok disk
+       için fazla sayılmayacak bir orandır.
+      </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+    Daha fazla bilgi edinmek için <tt><b>tune2fs</b>(8)</tt> kılavuz
+    sayfasına bakınız.
+   </p>
+          <p>
+    <tt><a href="../man/man8/man8-dumpe2fs.html"><b>dumpe2fs</b></a>(8)</tt> ext2 dosya sistemi hakkında, genellikle
+    süper bloktan alınan, bilgileri gösterir. Bu bilgilerden bazıları
+    teknik ayrıntılardır ve dosya sisteminin nasıl çalıştığının
+    bilinmesini gerektirir, fakat pek çoğu kolayca anlaşılabilir
+    açıklamalardır.  Aşağıda böyle bir çıktı vardır:
+   </p>
+          <pre class="screen">
+ <code class="prompt">#</code> <strong class="userinput"><code>dumpe2fs -h /dev/hdb2</code></strong>
+dumpe2fs 1.25 (20-Sep-2001)
+Filesystem volume name:   /b2
+Last mounted on:          &lt;not available&gt;
+Filesystem UUID:          ad9437d2-0e25-490b-8c9d-9a0da50c95df
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal filetype needs_recovery sparse_super
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              366592
+Block count:              2931862
+Reserved block count:     146593
+Free blocks:              780635
+Free inodes:              306325
+First block:              1
+Block size:               1024
+Fragment size:            1024
+Blocks per group:         8192
+Fragments per group:      8192
+Inodes per group:         1024
+Inode blocks per group:   128
+Last mount time:          Mon Jan 13 16:47:05 2003
+Last write time:          Mon Jan 13 16:47:05 2003
+Mount count:              821
+Maximum mount count:      -1
+Last checked:             Thu Oct 25 16:02:44 2001
+Check interval:           0 (&lt;none&gt;)
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:               128
+Journal UUID:             &lt;none&gt;
+Journal inode:            8
+Journal device:           0x0000
+First orphan inode:       0
+
+
+Grup 0: (1 ile 8192 arasındaki bloklar)
+    İlk süperbloğun yeri:  1
+  Grup tanımının yeri:     2-13
+  Blok biteşleminin yeri:  14 (+13)
+  Düğüm biteşleminin yeri: 15 (+14)
+  Düğüm tablosunun yeri:   16-143 (+15)
+  Serbest blok sayısı:     0
+  Serbest düğüm sayısı:    792
+  Dizin sayısı:            19
+  Serbest bloklar:
+  Serbest düğümler:        233-1024
+Grup 1: (8193 ile 16384 arasındaki bloklar)
+  Yedek süperbloğun yeri:  8193
+  Grup tanımının yeri:     8194-8205
+  Blok biteşleminin yeri:  8206 (+13)
+  Düğüm biteşleminin yeri: 8207 (+14)
+  Düğüm tablosunun yeri:   8208-8335 (+15)
+  Serbest blok sayısı:     0
+  Serbest düğüm sayısı:    855
+  Dizin sayısı:            31
+  Serbest bloklar:
+  Serbest düğümler:        1194-2048
+
+<em class="emphasis">[çıktının Grup 1 ile Grup 357 arasında grup bilgileri silindi]</em>
+
+Grup 357: (2924545 ile 2931861 arasındaki bloklar)
+  Blok biteşleminin yeri:  2924545 (+0)
+  Düğüm biteşleminin yeri: 2924546 (+1)
+  Düğüm tablosunun yeri:   2924560-2924687 (+15)
+  Serbest blok sayısı:     5452
+  Serbest düğüm sayısı:    812
+  Dizin sayısı:            25
+  Serbest bloklar:         2924699, 2925104-2925488, 2925495-2925498, 2925525, \
+                           2926801-2931861
+  Serbest düğümler:        365580, 365607, 365783-366592
+<code class="prompt">#</code>
+</pre>
+          <p>
+     <tt><b>debugfs</b>(8)</tt> dosya sistemleri için kullanılan bir
+     hata ayıklama uygulamasıdır. Disk üzerinde bulunan dosya sistemi veri
+     yapısına doğrudan erişim sağlar ve <span class="command"><strong>fsck</strong></span> komutunun
+     onaramadığı hataları düzeltmeye yarar.  Ayrıca silinmiş dosyaları
+     geri almak için kullanıldığı da bilinmektedir. Bununla birlikte
+     <span class="command"><strong>debugfs</strong></span> ne yaptığınızı bilmeniz gereken bir
+     uygulamadır, aksi halde bütün bilgilerinizi yok edebilirsiniz.
+    </p>
+          <p>
+     <span class="command"><strong>dump</strong></span> ve <span class="command"><strong>restore</strong></span> ext2 dosya
+     sisteminin yedekleme işlemlerinde kullanılır. Geleneksel Unix
+     işletim sistemlerinin, ext2 dosya sistemi için geliştirilmiş özel
+     sürümleridir. <a class="xref" href="sag_backups.html" title="11. Yedek Alma"><em>Yedek Alma</em></a> bölümünde yedekleme
+     hakkında daha ayrıntılı bilgi bulabilirsiniz.
+    </p>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm74015" class="footnote">
+            <p><a href="#idm74015" class="para"><sup class="para">[63] </sup></a>Tabii ki <span class="command"><strong>umount</strong></span>
+     komutunun aslı unmount'tur. Fakat 1970'li yıllarsa "n" esrarengiz
+     bir şekilde ortadan kayboldu. Şayet "n" yi görürseniz lütfen Bell
+     Laboratuarlarına haber verin.</p>
+          </div>
+          <div id="ftn.idm74033" class="footnote">
+            <p><a href="#idm74033" class="para"><sup class="para">[64] </sup></a>Yine de bu durum kullanıcının bir kaç
+       saniye düşünmesi ile aşılabilen bir güvenliktir. Ancak,
+       <span class="command"><strong>sudo</strong></span> komutu, kullanıcıların belirli komutları
+       çalıştırabilmesi için sınırlandırılabilir. Bu konu hakkında
+       ayrıntılı bilgi <tt><b>sudo</b>(8)</tt>,
+       <tt><b>sudoers</b>(5)</tt> ve <tt><b>visudo</b>(8)</tt>
+       kılavuz sayfalarında bulunabilir.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.1. Aygıtların iki çeşidi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_disks.html" title="4. Diskler ve Diğer Depolama Ortamları"/>
+    <link rel="next" href="sag_disks-hd.html" title="4.2. Sabit diskler"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks.html')">Önceki</button>
+          <div class="dropdown-content">4. Diskler ve Diğer Depolama Ortamları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks-hd.html')">Sonraki</button>
+          <div class="dropdown-content">4.2. Sabit diskler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_disks-kinds">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.1. Aygıtların iki çeşidi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Linux ve Unix işletim sistemleri aygıtları iki şekilde tanır.
+    Birinci rasgele erişimli blok aygıtları (diskler gibi), diğeri
+    ise karakter aygıtlardır (seri hatlar ve teypler gibi).
+    Sistemdeki bazı aygıtlar seri, bazıları rasgele erişimli olabilir.
+    Her desteklenen aygıt dosya sisteminde bir aygıt dosyası ile temsil
+    edilir. Bir aygıt dosyasına yazdığınız veya okuduğunuz zaman veriler
+    temsil edilen aygıttan gelir ve aynı aygıta gider. Yazıcıya dosya
+    göndermek istiyorsak sadece komut vermemiz yeterli olacaktır.
+   </p>
+        <pre class="screen">
+<code class="prompt">$</code> <strong class="userinput"><code>cat dosya &gt; /dev/lp1</code></strong>
+<code class="prompt">$</code>
+</pre>
+        <p>
+    Tabii ki bu, böyle bir durumda sistemde <code class="filename">dosya"</code>
+    adında bir dosya olmalı ve bu dosyanın içeriği yazıcının
+    anlayabileceği bir yapıda olmalıdır. Bu komut sayesinde yazıcıdan
+    <code class="filename">dosya</code> isimli dosyanın çıktısını alabiliriz.
+    Bununla birlikte, sistem üzerinde pek çok kişi  <span class="command"><strong>cat</strong></span>
+    komutunu kullanarak yazıcıdan çıktı almaya çalışabileceği göz önünde
+    tutularak, birisi de  özel bir uygulama kullanabilir. Bu genellikle
+    <span class="command"><strong>lpr</strong></span>'dir. Bu uygulama aynı anda sadece tek bir
+    dosyanın basılacağını garanti eder ve bu dosya bittikten sonra
+    diğerlerini otomatik olarak yazıcıya yollar. Buna benzer şeyler
+    bütün aygıtlar için gereklidir. Aslında aygıt dosyaları için çok
+    nadiren endişe etmemiz gerekir.
+   </p>
+        <p>
+    Aygıtlar sistemde dosyalar olarak gösterildiği için <span class="command"><strong>ls</strong></span>
+    veya başka bir komut yardımı ile sistemde bulunan aygıtları
+    (<code class="filename">/dev</code> dizininde ) görebiliriz. <span class="command"><strong>ls -l</strong></span>
+    komutunun çıktısında satırın en başında aygıt türünü ve erişim
+    izinlerini görmek mümkündür.  Örneğin seri bir aleti inceleyecek
+    olursak;
+   </p>
+        <pre class="screen"><code class="prompt">$</code><strong class="userinput"><code>ls -l /dev/ttyS0</code></strong>
+crw-rw-r--    1 root     dialout    4,  64 Aug 19 18:56 /dev/ttyS0
+<code class="prompt">$</code>
+</pre>
+        <p>
+    Birinci satırın ilk karakteri, yani <code class="literal">crw-rw-rw-</code>
+    harflerinin en başındaki `<code class="literal">c</code>' harfi bu aygıtın
+    türünü bize gösterir. Bu aygıt bir karakter aygıtıdır. Normal dosyalar
+    için ilk karakter `<code class="literal">-</code>', dizinler için
+    `<code class="literal">d</code>', blok aygıtları için `<code class="literal">b</code>',
+    bağ dosyaları için ise `<code class="literal">l</code>'dir. Daha ayrıntılı bilgiyi
+    <tt><a href="../man/man1/man1-ls.html"><b>ls</b></a>(1)</tt> komutunın kılavuz sayfasında bulabilirsiniz.
+   </p>
+        <p>
+    Unutmayın ki sistemde olsun olmasın bütün aygıt dosyaları sistem
+    içerisinde mevcuttur. Sisteminizde <code class="filename">/dev/sda</code>
+    olması sizin SCSI sabit diske sahip olduğunuz anlamına gelmez.
+    Bütün aygıt dosyalarına sahip olmak ilerde ekleyeceğiniz donanımlar
+    için  doğru parametreleri bulmak ve aygıt dosyası yapmak zahmetinden
+    sizi kurtarır. Aynı zamanda yükleme uygulamalarını daha basit hale
+    getirir. Bu sayede sistemi yüklerken her donanım aygıtınız için tek
+    tek uğraşmak zorunda kalmazsınız.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

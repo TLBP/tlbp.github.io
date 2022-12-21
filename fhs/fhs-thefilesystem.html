@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2. Dosya Sistemi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="fhs-introduction.html" title="1. Giriş"/>
+    <link rel="next" href="fhs-root.html" title="3. Kök Dosya Sistemi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('fhs-introduction.html')">Önceki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('fhs.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('fhs-root.html')">Sonraki</button>
+          <div class="dropdown-content">3. Kök Dosya Sistemi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="fhs-thefilesystem">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">2. Dosya Sistemi</h1>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu standart, FHS uyumlu dosya sistemini temel alan bir işletim sisteminin,
+   çoğu UNIX dosya sisteminde bulunan aynı temel güvenlik özelliklerini
+   desteklediğini varsayar.
+  </p>
+        <p>
+   Dosyalar arasında birbirinden bağımsız iki ayrım tanımlamak mümkündür:
+   paylaşımlıya karşın paylaşımsız ve değişkene karşın durağan. Genel olarak,
+   bu yönleriyle farklılık gösteren dosyaların farklı dizinlerde bulunması
+   gerekir.  Bu ayrımın yapılması, farklı kullanım özelliklerine sahip
+   dosyaların farklı dosya sistemlerinde saklanmasını kolaylaştırır.
+  </p>
+        <p>
+   "Paylaşımlı" dosyalar, bir konakta saklanabilen ve diğerlerinde
+   kullanılabilen dosyalardır. "Paylaşımsız" dosyalar, paylaşılamayan
+   dosyalardır. Örneğin, kullanıcı ev dizinlerindeki dosyalar
+   paylaşılabilirken aygıt kilit dosyaları paylaşılamaz.
+  </p>
+        <p>
+   "Durağan" dosyalar, sistem yöneticisi müdahalesi olmadan değişmeyen
+   ikil dosyalar, kütüphaneler, belge dosyaları ve diğer dosyaları içerir.
+   "Değişken" dosyalar durağan olmayan dosyalardır.
+  </p>
+        <div class="admon tip">
+          <h3 class="admon-title">Gerekçe</h3>
+          <div class="admon-contents">
+            <p>
+    Paylaşımlı dosyalar bir konakta depolanabilir ve birkaç başka konakta
+    kullanılabilir. Ancak genel olarak, dosya sistemi hiyerarşisindeki tüm
+    dosyalar paylaşılabilir değildir ve bu nedenle her sistemin en azından
+    paylaşılamayan dosyaları içeren yerel bir deposu vardır. Bir sistemin
+    ihtiyaç duyduğu ve yabancı bir konakta depolanan dosyaların, yabancı
+    konaktaki bir veya birkaç dizini bağlayarak kullanılabilir hale
+    getirilmesi uygundur.
+   </p>
+            <p>
+    Durağan ve değişken dosyaların ayrılması gerekir çünkü durağan dosyalar,
+    değişken dosyalardan farklı olarak salt okunur ortamda depolanabilir ve
+    değişken dosyalarla aynı zamanlamaya göre yedeklenmeleri gerekmez.
+   </p>
+            <p>
+    Tarihsel olarak UNIX benzeri dosya sistemi hiyerarşileri, hem
+    <code class="filename">/usr</code> hem de <code class="filename">/etc</code> altında hem
+    durağan hem de değişken dosyaları içeriyordu. Yukarıda bahsedilen
+    getirileri gerçekleştirmek için <code class="filename">/var</code> hiyerarşisi
+    oluşturulmuş ve tüm değişken dosyalar <code class="filename">/usr</code>'den
+    <code class="filename">/var</code>'a aktarılmıştır. Sonuç olarak
+    <code class="filename">/usr</code> artık salt okunur olarak bağlanabilir olmuştur
+    (eğer ayrı bir dosya sistemiyse). Değişken dosyalar, teknolojinin izin
+    verdiği ölçüde uzun bir süre boyunca <code class="filename">/etc</code>'den
+    <code class="filename">/var</code>'a aktarılmaya devam etmiştir.
+   </p>
+            <p>
+    Burada FHS uyumlu bir sistem örneği yer almaktadır.
+    (Diğer FHS uyumlu düzenler de mümkündür.)
+   </p>
+            <div class="informaltable">
+              <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+                <colgroup>
+                  <col/>
+                  <col/>
+                  <col/>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; "> </th>
+                    <th style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">paylaşımlı</th>
+                    <th style="text-align: left; border-bottom: 1px solid ; ">paylaşımsız</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: left; border-right: 1px solid ; ">durağan</td>
+                    <td style="text-align: left; border-right: 1px solid ; ">
+        <code class="filename">/usr</code>
+       </td>
+                    <td style="text-align: left; ">
+        <code class="filename">/etc</code>
+       </td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid ; ">
+                    <td style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; "> </td>
+                    <td style="text-align: left; border-right: 1px solid ; border-bottom: 1px solid ; ">
+        <code class="filename">/opt</code>
+       </td>
+                    <td style="text-align: left; border-bottom: 1px solid ; ">
+        <code class="filename">/boot</code>
+       </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left; border-right: 1px solid ; ">değişken</td>
+                    <td style="text-align: left; border-right: 1px solid ; ">
+        <code class="filename">/var/mail</code>
+       </td>
+                    <td style="text-align: left; ">
+        <code class="filename">/var/run</code>
+       </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left; border-right: 1px solid ; "> </td>
+                    <td style="text-align: left; border-right: 1px solid ; ">
+        <code class="filename">/var/spool/news</code>
+       </td>
+                    <td style="text-align: left; ">
+        <code class="filename">/var/lock</code>
+       </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

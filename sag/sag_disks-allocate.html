@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.9. Disk Alanının Ayarlanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_fs-wo-fs.html" title="4.8. Dosya sistemleri olmayan diskler"/>
+    <link rel="next" href="sag_memory-management.html" title="5. Bellek Yönetimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_fs-wo-fs.html')">Önceki</button>
+          <div class="dropdown-content">4.8. Dosya sistemleri olmayan diskler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management.html')">Sonraki</button>
+          <div class="dropdown-content">5. Bellek Yönetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_disks-allocate">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.9. Disk Alanının Ayarlanması</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="sag_disks-allocate-partioning">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.9.1. Diski dosya sistemine uygun bölümlemek</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir diski bölümlere ayırmanın hem en iyi hem de en kolay bir
+     yolu yoktur. Daha kötüsü bunu yapmanın genelleşmiş bir yolu da yoktur.
+     Çünkü bölümleme kararınızı etkileyecek pek çok faktör vardır.
+    </p>
+          <p>
+     Geleneksel yöntem; küçük bir kök dosya sistemi yaratmak ve bunun
+     içinde  <code class="filename">/bin</code>, <code class="filename">/etc</code>,
+     <code class="filename">/dev</code>, <code class="filename">/lib</code>, <code class="filename">/tmp</code>,
+     gibi sistemin çalıştırılması ve yönetilmesi için ihtiyaç duyulan
+     dosya  sistemlerinin yerleştirilmiş olmasıdır.  Bu yolla, kök dosya
+     sistemi sistemin açılması ve çalışması için gerekli her şeyi ihtiva
+     etmiş olur. Kök dosya sisteminin küçük tutulmasındaki ve daha az
+     iş yüküne sahip olmasındaki ana sebep, sistem çökmeleri esnasında
+     kök dosya sisteminde daha az hasar meydana gelmesini ve kolayca tamir
+     edilebilmesini sağlamaktır. Daha sonra başka bölümler ya da başka
+     diskler kullanarak dizin ağacına <code class="filename">/usr</code> dosya
+     sistemini, kullanıcılar için ayrı bir <code class="filename">/home</code>
+     dizini ve bağımsız bir takas bölümü oluşturabilirsiniz. Ev dizinlerini
+     bağımsız  bölümler içinde yerleştirmek yedekleme işleminde büyük
+     kolaylıklar sağlar. Bir ağ ortamında <code class="filename">/usr</code>
+     dizinini çeşitli makineler arasında paylaştırmak da mümkündür.
+     Böylece her makinenin ihtiyaç duyduğu yüzlerce megabytelık alanlara
+     olan ihtiyaç azaltılmış olur.
+    </p>
+          <p>
+     Pek çok disk bölümüne sahip olmak, boş disk yüzeyinin parçalar
+     halinde ayrılmış olması sorununu yanında getirir. Günümüzde,
+     işletim sistemlerinin ve disklerin daha güvenli olması ile,
+     kullanıcılar bütün dizinleri kapsayan tek bir dizine doğru
+     yönelmektedir. Bununla birlikte küçük bir ikinci bölüm yedekleme
+     işleminin daha kolay yapılmasını sağlayabilir.
+    </p>
+          <p>
+     Küçük bir sabit diske sahipseniz (çekirdek geliştirmesi
+     yapmayacağınız varsayılarak) tek bir bölüme sahip olmanız daha
+     uygun olacaktır. Büyük bir diske sahipseniz, herhangi bir şeyin
+     ters gidebileceği ihtimalini göz önüne alarak, birkaç adet büyük
+     disk bölümüne sahip olmanız daha mantıklı olacaktır. (Buradaki
+     büyük ve küçük kelimeleri tamamen öznel kavramlardır. Disk
+     bölümlerinin büyüklüğünü tamamen sizin kullanım amaç ve
+     gereksinimlerinize göre ayarlamalısınız.)
+    </p>
+          <p>
+     Şayet birkaç tane sabit diske sahipseniz; birine <code class="filename">/usr</code>
+     dizinini de içeren bir kök dizini, diğerinde ise
+     <code class="filename">/home</code> dizini yarleştirebilirsiniz.
+    </p>
+          <p>
+     Çeşitli bölümleme tabloları için değişik deneyler yapmanız iyi
+     olabilir. Bu biraz iş yükü getirmektedir. Çünkü her seferinde
+     çeşitli kereler işletim sistemini yeniden kurmanız gerekecektir.
+     Ama bu da yaptığınız işin doğruluğundan emin olmanın tek yoludur.
+    </p>
+        </section>
+        <section class="sect2" id="sag_disks-allocate-space">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.9.2. Alan gereksinimleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Kuracağınız Linux dağıtımı, size değişik yapılandırmalara göre ne
+     kadarlık bir disk alanına ihtiyacınız olduğunu bildirir.
+     Bağımsız olarak kurulan uygulamalar da bunu yapar.  Bu sayede
+     disk alanının kullanımı için planlarınızı yapabilirsiniz, ama
+     ilerisi için hazırlıklı olmalı ve ilerde duyabileceğiniz ihtiyaçları
+     göz önünde bulundurarak fazladan disk alanı ayırmalısınız.
+    </p>
+          <p>
+     Kullanıcı dosyaları için ayıracağınız bölümün hacmi, kullanıcıların
+     ne yapmak istediklerine göre değişir. Pek çok insanın, dosyaları için
+     daha fazla alana ihtiyaçları varmış gibi görünmektedir, fakat ihtiyaç
+     duyulan alan kişiden kişiye değişiklik gösterir. Bazı kişiler hafif
+     yazım işleri ile uğraşır ve onlar için birkaç gigabyte alan yeterli
+     olabilir. Bazıları ise onlarca gigabyte gerektirecek grafik işleri
+     ile uğraşır.
+    </p>
+          <p>
+     Sırası gelmişken, kB veya MB cinsinden belirtilen dosya boyutları ile,
+     MB cinsinden belirtilen disk boyutunu karşılaştırırken, her iki
+     birimin farklılıklar içerebileceğini unutmayın. Bazı üreticiler bir
+     kilobyte'ı 1000 byte, bir megabyte'ı 1000 kilobyte olarak ayarlamışken,
+     bazıları 1024 ve katlarını birimler olarak kullanır. Bu nedenle
+     benim  345 MB'lık hard diskim aslında 330Mb'dır.
+    </p>
+          <p>
+     Takas alanının ayrılması
+     <a class="xref" href="sag_memory-management-swap-allocation.html" title="5.4. Takas alanının ayrılması">Takas alanının ayrılması</a>
+     bölümünde anlatılmıştır.
+    </p>
+        </section>
+        <section class="sect2" id="sag_disks-allocate-sample">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.9.3. Bölümleme örnekleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Daha önce 109 Mb lık bir sabit diskim vardı. Şu an ise 330 MB lık
+     bir disk kullanıyorum. Bu diskleri nasıl ve niçin bölümlediğimi
+     anlatacağım.
+    </p>
+          <p>
+     Kullandığım işletim sistemleri ve ihtiyaçlarım değiştiği için pek çok
+     defalar 109 Mb lık sabit diski bölümledim. İlk önceleri Linux ile
+     birlikte MS-DOS kullandım.  Bunun için 20 MB lık bir diske
+     ihtiyacım vardı veya klostrofobiye kapılmadan MS-DOS, bir C derleyici,
+     çeşitli yararlı araçlar, bir metin düzenleyici ve üzerinde çalıştığım
+     yazılım için ancak yeten bir yere sahip olduğumu söylemeliyim.
+     Linux takas alanı için 10 Mb ayırmıştım, geri kalan 79 MB ise Linux
+     için ayrılmış tek bir dizin idi.  Kök, <code class="filename">/usr</code>,
+     ve <code class="filename">/home</code> dizinlerini bağımsız bir şekilde
+     yerleştirmek için çeşitli teşebbüslerde bulundum fakat bu olayı
+     ilginç ve gerekli kılacak kadar disk alanım maalesef yoktu.
+    </p>
+          <p>
+     MS DOS'a daha fazla ihtiyacım kalmadığı zaman diski 12 MB takas alanı
+     ve geri kalanını tek bir dizin halinde Linux olarak tekrar
+     biçimlendirdim.
+    </p>
+          <p>
+     330 MB'lik disk ise şu şekilde çeşitli bölümlere ayrıldı.
+    </p>
+          <div class="informaltable">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">5 MB</td>
+                  <td style="border-bottom: 1px solid ; ">kök dosya sistemi</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; "> 10 MB</td>
+                  <td style="border-bottom: 1px solid ; ">takas alanı</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">180 MB</td>
+                  <td style="border-bottom: 1px solid ; "><code class="filename">/usr</code> dosya sistemi</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">120 MB</td>
+                  <td style="border-bottom: 1px solid ; "><code class="filename">/home</code> dosya sistemi</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; "> 15 MB</td>
+                  <td>karalama bölümü</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+     Karalama bölümü üzerinde oynanmak için kendilerine ayrı bir bölüm
+     isteyen şeyler içindir. Örneğin çeşitli dosya sistemlerinin
+     karşılaştırılması veya çeşitli dosya sistemlerinin hızlarının
+     karşılaştırılması gibi... başka bir şeye ihtiyaç kalmayınca bu
+     bölümü takas alanı olarak kullanırdım. (günümüzde karalama bölümü
+     tarih olmuş sayılabilir. Artık pek çok kullanıcın gigabytelar ile
+     ölçülen disk alanları var.)
+    </p>
+        </section>
+        <section class="sect2" id="sag_disks-allocate-more">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.9.4. Linux için daha fazla disk alanı eklemek</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Donanımınız doğru bir şekilde yüklenmiş ise Linux'e fazladan yer
+     vermek çok kolay bir iştir.  Yukarıda tanımlandığı şekilde
+     gerekiyorsa diski biçemleyin, disk bölümlerini ayırın ve dosya
+     sistemlerini kurun. <code class="filename">/etc/fstab</code> dosyasına
+     otomatik bağlama işlemi için gerekli satırları ekleyin.
+    </p>
+        </section>
+        <section class="sect2" id="sag_disks-allocate-tips">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.9.5. Disk alanını kazanmak için ipuçları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     En iyi tavsiye gereksiz paketleri kurmamanızı söylemek olacaktır.
+     Pek çok Linux dağıtımı içerdikleri paketlerin belirli bölümlerini
+     kurmanız için gereken kurulum seçeneklerine sahiptir.  Dikkatle
+     seçim yaparsanız pek çok pakete ihtiyacınız olmadığını
+     görebilirsiniz. Bazı paketler çok büyük olduğu için bu yolla geniş
+     bir disk alanını kazanabilirsiniz.  Bir paket ya da uygulamanın bir
+     bölümüne ihtiyacınız olsa bile hepsine ihtiyacınız olmayabilir.
+     Örneğin: bazı belgeler gereksiz olabilir,  GNU Emacs için bazı Elisp
+     dosyaları gereksiz olabilir, X11 için bazı yazıtipleri gereksiz
+     olabilir veya yazılım kütüphaneleri gereksiz olabilir.
+    </p>
+          <p>
+     Paketleri kaldıramıyorsanız, en azından sıkıştırın.
+     <tt><a href="../man/man1/man1-gzip.html"><b>gzip</b></a>(1)</tt> veya <span class="command"><strong>zip</strong></span> gibi sıkıştırma
+     uygulamaları kişisel veya grup dosyalarınızı sıkıştıracaklardır.
+     <span class="command"><strong>gzexe</strong></span> sıkıştırma ve açma işlemlerini
+     kullanıcıya hissettirmeden yapar (kullanılmayan dosyaları sıkıştırır
+     ve ihtiyaç olunca geri açar).  Daha gelişmiş DouBle sistemi bir dosya
+     sistemindeki bütün dosyaları onları kullanan uygulamalara hissettirmeden
+     sıkıştırır (windows'taki drivespace veya msdos'taki stacker gibi
+     uygulamalar hakkında bilgi sahibiyseniz, bu uygulamanın mantığını daha
+     iyi anlayabilirsiniz. Temel çalışma mantıkları benzerlik gösterir).
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

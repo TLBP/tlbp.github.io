@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.3. Zaman gösterimi ve ayarlanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_time-hwclock.html" title="12.2. Yazılım ve donanım saatleri"/>
+    <link rel="next" href="sag_time-wrong.html" title="12.4. Saat yanlışsa"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_time-hwclock.html')">Önceki</button>
+          <div class="dropdown-content">12.2. Yazılım ve donanım saatleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_time.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_time-wrong.html')">Sonraki</button>
+          <div class="dropdown-content">12.4. Saat yanlışsa</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_time-showing">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.3. Zaman gösterimi ve ayarlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Linux Sistemlerinde, sistem zaman dilimi ayarı
+    <code class="filename">/etc/localtime</code> sembolik bağı ile ayarlanır. Bu bağ
+    yerel zaman dilimini gösteren bir zaman bölge bilgi dosyasını işaret eder.
+    Zaman dilimi bilgi dosyaları, kullandığınız dağıtıma bağlı olarak ya
+    <code class="filename">/usr/lib/zoneinfo</code> ya da
+    <code class="filename">/usr/share/zoneinfo</code> içerisinde saklanır.
+   </p>
+        <p>
+    Örneğin New Jersey'de bulunan bir SUSE sisteminde
+    <code class="filename">/etc/localtime</code> bağı
+    <code class="filename">/usr/share/zoneinfo/US/Eastern</code> dosyasını işaret
+    eder. Bir Debian sisteminde ise <code class="filename">/etc/localtime</code> bağı
+    <code class="filename">/usr/lib/zoneinfo/US/Eastern</code> dosyasını işaret eder.
+   </p>
+        <p>
+    Eğer <code class="filename">zoneinfo</code> dizinini ne
+    <code class="filename">/usr/lib</code> nede <code class="filename">/usr/share</code>
+    dizinleri altında bulamıyorsanız; ya <strong class="userinput"><code>find /usr -print | grep
+    zoneinfo</code></strong> komutunu kullanın ya da dağıtımınızın belgelerine
+    bakın.
+   </p>
+        <p>
+    Farklı bir zaman diliminde yerleşik bir kullanıcınız varsa ne olur? Bir
+    kullanıcı kendi zaman dilimi ayarını <code class="envar">TZ</code> ortam değişkeninde
+    belirterek  değiştirebilir. <code class="envar">TZ</code> ortam değişkeni
+    ayaranmamışsa, sistem zaman dilimi geçerli olur. <code class="envar">TZ</code>
+    değişkeninin sözdizimi <tt><b>tzset</b>(3)</tt> kılavuz sayfasında
+    açıklanmıştır.
+   </p>
+        <p><span class="notfoot"/>
+    <tt><a href="../man/man1/man1-date.html"><b>date</b></a>(1)</tt> komutu o anki tarih ve saati gösterir.<a id="idm75436" href="#ftn.idm75436" class="footnote"><sup class="footnote">[70]</sup></a> Örneğin:
+   </p>
+        <pre class="screen">
+<code class="prompt">$</code><strong class="userinput"><code>date +%c</code></strong>
+Prş 16 Oca 2003 18:10:26 EET
+<code class="prompt">$</code>
+</pre>
+        <p>
+    Günlerden Perşembe, 2003 yılının 16 Ocağı, akşam 6'yı 10 geçiyor
+    (Saat EET yani Doğu Avrupa zaman dilimine göre ayarlı,
+    <code class="option">+%c</code> seçeneği tarih ve saati yerel biçemde göstermek
+    içindir). <span class="command"><strong>date</strong></span> aynı zamanda evrensel zamanı da
+    gösterebilir:
+   </p>
+        <pre class="screen">
+<code class="prompt">$</code><strong class="userinput"><code>date -u +%c</code></strong>
+Prş 16 Oca 2003 16:10:26 UTC
+<code class="prompt">$</code>
+</pre>
+        <p>
+    Ayrıca <span class="command"><strong>date</strong></span> çekirdeğin yazılım saatini
+    ayarlamak için de kullanılabilir:
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>date 1042734297</code></strong>
+Prş Oca 16 18:24:57 EET 2003
+<code class="prompt">#</code> <strong class="userinput"><code>date +%c</code></strong>
+Prş 16 Oca 2003 18:25:10 EET
+<code class="prompt">#</code>
+</pre>
+        <p>
+    Ayrıntılı bilgi için <span class="command"><strong>date</strong></span> kılavuz sayfasına
+    bakabilirsiniz.  Sözdizimleri biraz esrarlı olabilir. Sadece
+    root saat ayarı yapabilir. Her kullanıcı kendi için zaman dilimi
+    ayarı yapabilirken, saat herkes için aynıdır.
+   </p>
+        <p>
+    <span class="command"><strong>date</strong></span> sadece yazılım saatini gösterir veya ayarlar.
+    <span class="command"><strong>clock</strong></span> komutu yazılım ve donanım saatleri arasındaki
+    uyumu sağlar. Sistem açılış esnasında donanım saatini okumak ve
+    yazılım saatini ayarlamak için kullanılır. Şayet her iki saati de
+    ayarlamanız gerekirse önce yazılım saatini <span class="command"><strong>date</strong></span>
+    ile ayarlayın ve daha sonra <span class="command"><strong>clock -w</strong></span> ile bunu
+    donanım saatine yazın.
+   </p>
+        <p>
+    <span class="command"><strong>clock</strong></span> ile kullanılan <code class="option">-u</code> seçeneği,
+    donanım saatine evrensel zaman içinde olmasını söyler.
+    <code class="option">-u</code> deçeneğini doğru bir şekilde kullanmalısınız.
+    Aksi taktirde zaman konusunda, bilgisayarınızın kafası biraz karışabilir.
+   </p>
+        <p>
+    Saat dikkatli bir şekilde değiştirilmelidir. Unix sisteminin pek çok
+    parçası, saatin düzgün bir şekilde çalışmasına bağlıdır.  Örneğin:
+    <span class="command"><strong>cron</strong></span> süreçleri komutları periyodik olarak
+    çalıştırır.  Şayet saati değiştirirseniz, komutları çalıştırıp
+    çalıştırmama konusunda karışıklık ortaya çıkabilir. Daha eski bir
+    Unix sisteminde,  birileri saati geleceğe, yirmi yıl sonraki bir zamana
+    ayarladı ve  cron  bu yirmi yıllık periyodik komutların hepsini
+    birden yapmaya kalktı. <span class="command"><strong>cron</strong></span>'un şu anki sürümü
+    bunu yapabiliyor ama siz yine de çok dikkatli olmalısınız.
+    İleri veya geriye doğru sıçrayışlar, küçüklerden ve ileri doğru
+    sıçramalardan daha tehlikelidir.
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm75436" class="footnote">
+            <p><a href="#idm75436" class="para"><sup class="para">[70] </sup></a>
+     Dikkat, <span class="command"><strong>time</strong></span> komutu o an ki zamanı göstermez.
+    </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

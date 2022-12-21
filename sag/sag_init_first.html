@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.1. İlk önce init gelir</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_init.html" title="8. init"/>
+    <link rel="next" href="sag_init-getty.html" title="8.2. init'in agetty'yi başlatmak için yapılandırılması: /etc/inittab dosyası"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init.html')">Önceki</button>
+          <div class="dropdown-content">8. <code class="literal">init</code></div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_init.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init-getty.html')">Sonraki</button>
+          <div class="dropdown-content">8.2. 
+    <code class="literal">init</code>'in <code class="literal">agetty</code>'yi başlatmak
+    için yapılandırılması:  <code class="literal">/etc/inittab</code> dosyası
+   </div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_init_first">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.1. İlk önce <code class="literal">init</code> gelir</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span class="command"><strong>init</strong></span> bir Linux işletim sistemi için kesinlikle
+    gerekli olan uygulamalardan birisidir. Fakat siz bunu halen önemsemiyor
+    olabilirsiniz. İyi bir Linux dağıtımı, pek çok sistem altında
+    çalışabilecek şekilde ayarlı bir <span class="command"><strong>init</strong></span> ile
+    birlikte gelir; ve bu sistemler altında <span class="command"><strong>init</strong></span>
+    ayarları ile uğraşmanız gerekmez. Genellikle, çalışma seviyesini
+    değiştirmek istediğiniz zamanlarda, seri uçbirimler üzerinden veya
+    modemler üzerinden bağlanmaya çalıştığınız zamanlarda
+    <span class="command"><strong>init</strong></span> ile ilgilenmeniz gerekir.
+   </p>
+        <p>
+    Çekirdek kendini başlattığı (belleğe yüklendiği, çalışmaya başladığı
+    ve aygıt dosyaları, veri yapıları ve benzeri şeyleri başlattığı zaman)
+    ve kullanıcı seviyeli bir uygulama olan <span class="command"><strong>init</strong></span>
+    sürecini başlattığında, kendi üstüne düşen açılış işlemlerini
+    bitirmiş olur.  Bundan dolayı <span class="command"><strong>init</strong></span> her zaman için
+    ilk süreçtir ve süreç numarası da daima 1'dir.
+   </p>
+        <p>
+    Çekirdek, <span class="command"><strong>init</strong></span> için daha önceden de kullanılmış
+    olan birkaç yere bakar ama genellikle bir Linux sistemi altındaki
+    en uygun yer <code class="filename">/sbin/init</code>'dir. Şayet çekirdek
+    <span class="command"><strong>init</strong></span>'i bulamazsa <code class="filename">/bin/sh</code>'yi
+    çalıştırmayı dener, eğer bunu da beceremezse sistem hatasını başlatır.
+   </p>
+        <p>
+    <span class="command"><strong>init</strong></span> başladığı zaman, idari görevlerce
+    gerçekleştirilen; sistemlerinin denetlenmesi,
+    <code class="filename">/tmp</code>'nin boşaltılması, çeşitli hizmetlerin
+    başlatılması ve kullanıcıların bağlanabileceği her uçbirim ve sanal
+    konsol için <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>'nin
+    başlatılması vb. işlemlerin başlatılması ile açılış işlemi
+    bitirilmiş olur (<a class="xref" href="sag_log-in-and-out.html" title="9. Kullanıcı Giriş ve Çıkışları"><em>Kullanıcı Giriş ve Çıkışları</em></a> bölümüne bakınız).
+   </p>
+        <p><span class="notfoot"/>
+    Sistem düzgünce açıldıktan sonra, <span class="command"><strong>init</strong></span> kullanıcı
+    tarafından terk edilen her uçbirim için ayrı ayrı bir <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>
+    süreci başlatılır. Böylece bir sonraki kullanıcı buraya bağlantı
+    yapabilir.  <span class="command"><strong>init</strong></span> ayrıca her öksüz süreci evlat
+    edinir: bir süreç yavru bir süreç başlatır ve bu yavru süreçten önce
+    ölürse, bu öksüz yavru süreç  <span class="command"><strong>init</strong></span>'in yavrusu olur.
+    Bu pek çok teknik sebepten kaynaklanır; bunun böyle olduğunu bilmek
+    süreç listesi ve süreç yapı ağacını anlamayı kolaylaştırması açısından
+    faydalıdır.
+    <a id="idm74714" href="#ftn.idm74714" class="footnote"><sup class="footnote">[68]</sup></a>
+    <span class="command"><strong>init</strong></span>'in kullanılabilir birkaç çeşidi
+    vardır. Pek çok Linux dağıtımı, System V <span class="command"><strong>init</strong></span>
+    tabanlı <span class="command"><strong>sysvinit</strong></span> (Miquel van Smoorenborg tarafından
+    yazılmıştır) kullanır.  Unix'in BSD versiyonu farklı bir
+    <span class="command"><strong>init</strong></span> kullanır. Birinci fark çalışma
+    seviyelerindedir:  çalışam seviyeleri System V'de bulunurken,
+    BSD'de bulunmazlar (en azından geleneksel olanlarında). Bu temel
+    farklılık değildir. Biz sadece <span class="command"><strong>sysvinit</strong></span>'e bakacağız.
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm74714" class="footnote">
+            <p><a href="#idm74714" class="para"><sup class="para">[68] </sup></a><span class="command"><strong>init</strong></span> kendisinin öldürülmesine
+    izin vermez. SIGKILL bile gönderseniz <span class="command"><strong>init</strong></span>'i
+    öldüremezsiniz.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

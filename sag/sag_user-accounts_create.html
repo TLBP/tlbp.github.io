@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.2. Bir kullanıcının oluşturulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_user-accounts_what.html" title="10.1. Hesap nedir?"/>
+    <link rel="next" href="sag_user-accounts_change.html" title="10.3. Kullanıcı özelliklerinin değiştirilmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_user-accounts_what.html')">Önceki</button>
+          <div class="dropdown-content">10.1. Hesap nedir?</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_user-accounts.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_user-accounts_change.html')">Sonraki</button>
+          <div class="dropdown-content">10.3. Kullanıcı özelliklerinin değiştirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_user-accounts_create">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">10.2. Bir kullanıcının oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Linux çekirdeği, kullanıcıları sadece basit sayılar olarak algılar.
+    Her kullanıcı için tam sayılardan oluşan benzersiz bir tanımlama
+    yapılmıştır, çünkü bir bilgisayar için  sayılarla uğraşmak
+    harflerden oluşan isimler ile uğraşmaktan daha kolaydır. Bunlara
+    <em class="glossterm">kullanıcı kimliği</em> (uid) ve <em class="glossterm">grup
+    kimliği</em> (gid) denir. Çekirdek dışında ayrı oluşturulmuş
+    veritabanlarında her bir kimlik için <em class="glossterm">kullanıcı ismi</em>
+    olarak tanımlanan metinsel adlar tutulur. Ve tabii ki bu veritabanı
+    bazı ek bilgileri de içerir.
+   </p>
+        <p>
+    Bir kullanıcı oluşturmak için, kullanıcı veritabanına bir kullanıcı
+    hakkında bilgiler eklemelisiniz ve bu kullanıcı için bir ev dizini
+    yaratmalısınız.  Ayrıca kullanıcıyı eğitmek ve ona başlangıç için
+    uygun bir ortam hazırlamak da gerekebilir.
+   </p>
+        <p>
+    Pek çok Linux dağıtımı kullanıcı hesapları oluşturmak için gereken
+    araçlar ile gelir. Bu araçların kullanışlı sürüm ve
+    çeşitleri bulunur. Bunlardan komut satırı uygulaması olan ikisi
+    <span class="command"><strong>adduser</strong></span> ve <span class="command"><strong>useradd</strong></span> dışında
+    bir GUI araç da bulunabilir. Hangisi olursa olsun sonuçta,
+    geriye el ile yapılması gereken pek az iş kalır. Ayrıntılar pek çok
+    ve karmaşık olsa da bu araçlar önemsiz görünen her şeyi yapar.
+    Bununla birlikte <a class="xref" href="sag_user-accounts_create.html#sag_manual-adduser" title="10.2.4. Kullanıcıların elle oluşturulması">Kullanıcıların elle oluşturulması</a> bölümünde
+    bütün bu ıvır zıvır şeylerin el ile nasıl yapılacağı açıklanmaktadır.
+   </p>
+        <section class="sect2" id="sag_user-accounts_passwdfile">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.2.1. <code class="literal">/etc/passwd</code> ve diğer bilgi dosyaları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir Unix işletim sistemindeki en basit veri tabanı; geçerli
+     kullanıcıların ve onların birleştirilmiş bilgilerinin listelendiği
+     <code class="filename">/etc/passwd</code> bir metin dosyasıdır. Bu dosya
+     parola dosyası olarak anılır. Bu dosyada her kullanıcı için bir
+     satır ve her satırda iki nokta üstüste işaretleri ile ayrılmış
+     7 sütun bulunur:
+    </p>
+          <div>
+            <ul class="simplelist">
+              <li class="member">Kullanıcı ismi.</li>
+              <li class="member">Şifrelenmiş olarak parola.</li>
+              <li class="member">Kullanıcı kimliği (bir numara).</li>
+              <li class="member">Grup kimliği (bir numara).</li>
+              <li class="member">Kullanıcının gerçek ismi ve heapla ilgili diğer açklamalar</li>
+              <li class="member">Ev dizini.</li>
+              <li class="member">Bağlantı kabuğu (başlangıçta çalışacak kabuk)</li>
+            </ul>
+          </div>
+          <p>
+     <code class="filename">passwd</code> kılavuz sayfasında bu dosya biçemi
+     hakkında daha ayrıntılı bilgi bulunmaktadır.
+    </p>
+          <p>
+     Sistemdeki her hangi bir kullanıcı bu parola dosyasını okuyabilir ve
+     böylece diğer kullanıcıların adlarını öğrenebilir. Bunun anlamı,
+     ikinci bölümde bulunan parolaların da herkes tarafından görülebileceğidir.
+     Bu parolalar şifreli olduğu için, teorik olarak ortada bir sorun yoktur.
+     Bununla beraber bu şifreler kırılabilir, özelliklede bir sözlükte
+     bulunabilecek bir şeyse veya çok kısaysa. Bu nedenle, parolaları bir
+     parola dosyasında saklamak iyi bir fikir sayılmaz.
+    </p>
+          <p>
+     Pek çok Linux sistemi <em class="glossterm">gölge parolalar</em>
+     kullanır. Bu parola saklamanın güveni bir yoludur: bu sistemde
+     parolalar şifrelenmiş bir şekilde, sadece root tarafından okunabilen,
+     <code class="filename">/etc/shadow</code> dosyasında tutulur.
+     <code class="filename">/etc/shadow</code> dosyası ikinci alanda sadece özel
+     bir işaret ihtiva eder.  Kullanıcı kimliğini kanıtlaması gereken
+     herhangi bir uygulama setuid'dir ve bu nedenle gölge parola
+     dosyasına erişimi vardır.  Normal uygulamalar diğer alanları
+     kullanır ve parolalara erişemez.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.2.2. Sayısal kullanıcı ve grup kimliklerinin seçilmesi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Pek çok sistemde sayısal kullanıcı ve grup kimliklerinin ne olduğu
+     pek de önemli değildir, fakat şayet bir ağ dosya sistemi (NFS)
+     kullanıyorsanız, bütün sistemlerde aynı uid ve gid'ye sahip
+     olmanız gerekmektedir. (uid=user id - kullanıcı kimliği,
+     gid=group id - grup kimliği). Bu NFS'nin kullanıcıları sayısal
+     kullanıcı kimlikleri ile tanımlamasından kaynaklanır. Şayet NFS
+     kullanmıyorsanız, hesap oluşturma araçlarının bunları otomatik
+     olarak sizin yerinize seçmesine izin verebilirsiniz.
+    </p>
+          <p>
+     Şayet NFS kullanıyorsanız, kullanıcı bilgilerinin birbirine
+     uyması için bir mekanizma bulmak zorundasınız.  Alternatif yollardan
+     birisi NIS sistemidir (XXX network-admin-guide'a  bakabilirsiniz).
+    </p>
+          <p>
+     Bunun yanında, sayısal kullanıcı kimliklerinin tekrar kullanılmasını
+     önlemeyi denemelisiniz, çünkü kullanıcı kimliğinin yeni sahibi,
+     eski sahibinin dosyalarına, postalarına veya her neyse onlara
+     ulaşabilir.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.2.3. Ortamın hazırlanması: <code class="literal">/etc/skel</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Yeni bir kullanıcı için ev dizini bu <code class="filename">/etc/skel</code>
+     dizinin içindeki dosyalarla oluşturulur.  Sistem yöneticisi,
+     kullanıcılar için daha hoş öntanımlı ortamlar sağlamak için,
+     <code class="filename">/etc/skel</code> içinde dosyalar oluşturabilir.
+     Örneğin <code class="filename">/etc/skel/.profile</code> dosyasını oluşturup,
+     içinde, yeni kullanıcılar için <code class="envar">EDITOR</code> ortam
+     değişkenininde daha kullanıcı dostu metin düzenleyiciler belirtebilir.
+   </p>
+          <p>
+     Bununla beraber, <code class="filename">/etc/skel</code> dizinini mümkün
+     olduğunca küçük tutmak daha iyidir, çünkü mevcut kullanıcıların
+     dosyalarını güncellemesi imkansızlaşabilir. Örneğin kullanıcı dostu
+     metin düzenleyicinin adı değiştirilirse, bütün mevcut kullanıcılar
+     kendi <code class="filename">.profile</code> dosyalarını düzenlemek zorunda
+     kalacaktır. Sistem yöneticisi bir betik kullanarak bunu otomatik
+     olarak yapmayı deneyebilir, fakat bu yöntemle birilerinin dosyalarının
+     bozulması neredeyse kesindir.
+    </p>
+          <p>
+     Mümkün olduğunca, genel ayarları genel dosyalarda yapmak daha iyi
+     olacaktır, örneğin <code class="filename">/etc/profile</code> dosyası gibi.
+     Bu yolla, hiç kimsenin dosyalarına ve ayarlarına  zarar vermeden
+     güncelleme yapmak mümkün olacaktır.
+    </p>
+        </section>
+        <section class="sect2" id="sag_manual-adduser">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.2.4. Kullanıcıların elle oluşturulması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Kullanıcıları elle oluşturmak için aşağıdaki adımları izleyin
+    </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+        <code class="filename">/etc/passwd</code> dosyasını
+        <tt><a href="../man/man8/man8-vipw.html"><b>vipw</b></a>(8)</tt> ile düzenleyin ve yeni bir hesap için
+        yeni bir satır ekleyin. Sözdizimleri konusunda dikkatli olun.
+        <em class="emphasis">BİR SATIRI BİR METİN DÜZENLEYİCİ İLE DOĞRUDAN DOĞRUYA
+        ASLA DÜZENLEMEYİN!</em> <span class="command"><strong>vipw</strong></span> dosyayı
+        kilitleyeceği için diğer komutlar aynı anda güncelleme yapmayı
+        deneyemezler. Parola alanını `<code class="literal">*</code>' yapmalısınız,
+        böylece sisteme bağlanmak imkansız olur.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+        Şayet yeni bir grup oluşturmanız gerekiyorsa, aynı yöntemle
+        <code class="filename">/etc/group</code> dosyasını
+        <tt><b>vigr</b>(8)</tt> ile düzenleyin.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+        Kullanıcı ev dizinini <tt><a href="../man/man1/man1-mkdir.html"><b>mkdir</b></a>(1)</tt> kullanarak oluşturun.
+       </p>
+              </li>
+              <li class="listitem">
+                <p>
+        <code class="filename">/etc/skel</code> dizininin içeriğini yeni ev
+        dizinine kopyalayın.
+       </p>
+              </li>
+              <li class="listitem">
+                <p>
+        <tt><a href="../man/man1/man1-chown.html"><b>chown</b></a>(1)</tt> ve <tt><a href="../man/man1/man1-chmod.html"><b>chmod</b></a>(1)</tt> ile
+        sahipleri ve izinleri sabitleyin. <code class="option">-R</code> seçeneği
+        oldukça kullanışlıdır. Doğru izinler durumdan duruma farklılık
+        gösterir fakat  genellikle aşağıdaki komutlar doğru işlemleri yapar:
+       </p>
+                <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>cd /home/</code></strong><em class="replaceable"><code>kullanıcı</code></em>
+<code class="prompt">#</code> <strong class="userinput"><code>chown -R</code></strong> <em class="replaceable"><code>kullanıcı.grup</code></em> .
+<code class="prompt">#</code> <strong class="userinput"><code>chmod -R go=u,go-w .</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>chmod go= .</code></strong>
+</pre>
+              </li>
+              <li class="listitem">
+                <p>
+        <tt><a href="../man/man1/man1-passwd.html"><b>passwd</b></a>(1)</tt> ile parolayı belirleyin.
+       </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+     Son adımda parolayı düzenledikten sonra kullanıcı hesabı çalışmaya
+     başlar. Her şey bitmeden parolayı düzenlemeyin; yoksa kullanıcı
+     bir dikkatsizlik sonucu, siz hala dosyaları kopyalarken, sisteme
+     bağlanabilir.
+    </p>
+          <p>
+     Bazen hiç kimse tarafından kullanılmayan "aptal" hesaplar
+     oluşturmak gerekebilir. Örneğin; anonim bir FTP sunucusunu
+     düzenleyebilmek için <code class="literal">ftp</code> adında bir kullanıcı hesabı
+     açmanız gerekir (böylece herkes,bir kullanıcı hesabı açmadan buradan
+     dosya indirebilir).  Bu gibi durumlarda, genellikle parola ayarlamak
+     gerekmez. Gerçekte, bunu yapmamak daha iyidir, böylece bu hesabı, root
+     herhangi bir kullanıcı haline gelebildiğinden root dışında hiç kimse
+     kullanamaz.
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

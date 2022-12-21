@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.4. Takas alanının ayrılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_memory-management-swapusage.html" title="5.3. Bir takas alanının kullanılması"/>
+    <link rel="next" href="sag_memory-management_buffer-cache.html" title="5.5. Tampon bellek"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-swapusage.html')">Önceki</button>
+          <div class="dropdown-content">5.3. Bir takas alanının kullanılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management_buffer-cache.html')">Sonraki</button>
+          <div class="dropdown-content">5.5. Tampon bellek</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_memory-management-swap-allocation">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5.4. Takas alanının ayrılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bazı insanlar size, sahip olduğunuz RAM miktarının iki katı kadar bir
+    takas alanı ayırmanızı söyleyebilir. Bu tamamen geçersiz/sahte bir
+    kuraldır.  Bunun doğru bir şekilde nasıl yapılacağı aşağıda
+    anlatılmaktadır.
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Yaklaşık bellek ihtiyacınızı belirleyin. Bu genellikle bir seferde
+      çalıştıracağınız uygulamaların ihtiyaç duyacağı toplam RAM
+      miktarıdır. Yani bir seferde en fazla ne kadar belleğe ihtiyacınız
+      olduğunu bulun. Bunu aynı anda çalıştırmak istediğiniz uygulamaları
+      çalıştırarak öğrenebilirsiniz.
+     </p>
+              <p>
+      Şayet X oturumunu çalıştırmak istiyorsanız 8MB, gcc için, bazı
+      zamanlar 10 MB civarı belleğe ihtiyaç duysa da,  genellikle 4 MB.
+      Çekidek 1MB alanı kendine ayırır. Kabuklar ve diğer birkaç araç
+      yüzlerce KB yer ister - bunu da 1 Mb olarak kabul edebiliriz.
+      Bunu tam olarak tahmin etmek gereksizdir, kabaca ne kadarlık bir
+      belleğe ihtiyaç duyduğumuzu  bulmak yeterli olacaktır. Fakat siz
+      kötümserlerin yanında yer almak isteyebilirsiniz.
+     </p>
+              <p>
+      Aklınızdan çıkarmayın ki; sistemde birden fazla kullanıcı aynı anda
+      yer alacaksa, hepsi ayrı ayrı bellek tüketeceklerdir. Bununla beraber,
+      iki kişi aynı anda aynı uygulamayı kullanıyorsa; aynı veri ve
+      kütüphaneleri kullanıyor olacaklarından bellek tüketimi iki kat
+      olmayacaktır.
+     </p>
+              <p>
+      Bellek ihtiyaçlarını değerlendirmek için <span class="command"><strong>free</strong></span> ve
+      <span class="command"><strong>ps</strong></span> komutları oldukça uygundur.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Birinci adımda anlatılan değerlendirmeler için bir parça yanılma
+      payı ekleyin. Büyük ihtimalle kullanmak istediğiniz bazı
+      uygulamaları bu hesaplama sırasında unutabilirsiniz, bazılarının
+      gereksinimlerini yanlış hesaplayabilirsiniz veya ileride daha fazla
+      alan ihtiyacı duyabilirsiniz.  Birkaç MB disk alanını fazladan
+      ayırmak her zaman iyi olur. Çok küçük bir takas alanı yapmaktansa,
+      biraz büyük bir alan yaratmak her zaman daha iyidir. Ama bunu da
+      fazla abartıp bütün diski takas alanı olarak ayırmayın. Unutmayın ki
+      kullanılmayan alan boşa gitmiş sayılır. Daha sonradan da takas
+      alanına ekleme yapılabileceğini göz önünde bulundurun. Tam sayılarla
+      uğraşmak daha kolay olacağından ihtiyaç duyulan alan hesaplamasını
+      yuvarlayabilir, bir MB büyük alabilirsiniz.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Yukarıdaki karşılaştırmalar ve hesaplamalar sonucu şu an ne kadarlık
+      bir belleğe ihtiyaç duyabileceğinizi biliyor olmalısınız.
+      Yerleştireceğiniz takas alanını hesaplamak için, toplam ihtiyaç
+      duyulan alandan fiziksel belleği çıkarın. Kalan sonuç takas alanının
+      boyutunu belirtir. Bazı Unix sürümlerinde bu alanı RAM'in bir
+      yansıması gibi yerleştirmeniz gerekeceğinden, ikinci basamakta
+      hesaplanan alan sizin ihtiyacınızı gösterecek ve çıkartma işlemine
+      gerek kalmayacaktır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Şayet hesaplarınız sonucu ortaya çıkan takas alanı, fiziksel
+      belleğinizin bir kaç katıysa, yeni bir RAM eklemenin zamanı
+      gelmiş demektir. Aksi taktirde performansta çok büyük bir düşüş
+      yaşayabilirsiniz.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Hiç ihtiyacınız olmasa bile bir parça takas alanına sahip olmak iyi
+    olur. Linux, takas alanını oldukça tasarruflu bir biçimde kullanır ve
+    bu size mümkün mertebe boş bir fiziksel bellek sağlar. Takas ihtiyacı
+    olmasa bile, Linux kullanılmayan bellek sayfalarını takas alanına
+    gönderir. Bu sayede, disk pasif halde iken takas yapılarak takasa
+    ihtiyaç duyulduğu anlarda bekleme yapılması önlenir.
+   </p>
+        <p><span class="notfoot"/>
+    Takas alanı çeşitli diskler arasında bölünebilir. Bazı zamanlarda,
+    disklerin hızları ve erişim durumlarına göre,  bu performans artışı
+    sağlayabilir. Birkaç değişik alternatif alan tablosu ile uğraşmak
+    isteyebilirsiniz ama bunun oldukça zor bir iş olduğunu ve aslında
+    hiç birinin diğerine karşı büyük bir üstünlüğünün olmadığını unutmayın.
+    Asla tam doğruyu bulamazsınız.<a id="idm74312" href="#ftn.idm74312" class="footnote"><sup class="footnote">[65]</sup></a>
+   </p>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm74312" class="footnote">
+            <p><a href="#idm74312" class="para"><sup class="para">[65] </sup></a>
+    Ç.N.: Dizüstü/masaüstü kullanıcısıysanız, gün gelir kış uykusunu
+    (hibernation) keşfedersiniz ve çalışması için takas alanının belleğinizin
+    2 katı olması gerektiğini öğrenirsiniz ve eski bildikleriniz uçar gider.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

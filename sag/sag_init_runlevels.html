@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.3. Çalışma seviyeleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_init-getty.html" title="8.2. init'in agetty'yi başlatmak için yapılandırılması: /etc/inittab dosyası"/>
+    <link rel="next" href="sag_init_inittab.html" title="8.4. /etc/inittab içinde özel ayarlamalar"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init-getty.html')">Önceki</button>
+          <div class="dropdown-content">8.2. 
+    <code class="literal">init</code>'in <code class="literal">agetty</code>'yi başlatmak
+    için yapılandırılması:  <code class="literal">/etc/inittab</code> dosyası
+   </div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_init.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_init_inittab.html')">Sonraki</button>
+          <div class="dropdown-content">8.4. <code class="literal">/etc/inittab</code> içinde özel ayarlamalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_init_runlevels">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.3. Çalışma seviyeleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir <em class="glossterm">çalışma seviyesi</em> <span class="command"><strong>init</strong></span>'in
+    durumunu ve sistem hizmetlerinin ne tür işlevler gerçekleştirdiğini
+    tanımlayan bir göstergedir. Çalışma seviyeleri
+    <a class="xref" href="sag_init_runlevels.html#sag_run-levels" title="Tablo 8.1. Çalışma seviyesi numaraları">Tablo 8.1, “Çalışma seviyesi numaraları”</a> de açıklanmıştır. 2 ile 5 arasındaki
+    kullanıcı tanımlı seviyelerin nasıl kullanılacağına dair ortak bir
+    karar yoktur.  Bazı sistem yöneticileri, çalışma seviyelerini hangi
+    alt sistemlerin çalıştığını göstermek için ayarlar. Örneğin;
+    X çalışıyor, ağ etkin, vb. Başkaları bütün alt sistemlerin çalıştığını
+    veya  teker teker başlatılıp durdurulduklarını (çalışma seviyesi
+    değişmeden) göstermek üzere ayarlayabilir. Buna kendiniz için karar
+    vermelisiniz. Ama Linux sisteminizin tanımladığı seviyeleri kullanmak daha
+    kolay olabilir.
+   </p>
+        <div class="table" id="sag_run-levels">
+          <div class="table-title">Tablo 8.1. Çalışma seviyesi numaraları</div>
+          <div class="table-contents">
+            <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+              <colgroup>
+                <col/>
+                <col/>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">0</td>
+                  <td style="border-bottom: 1px solid ; ">Sistemi kapatır.</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">1</td>
+                  <td style="border-bottom: 1px solid ; ">Tek kullanıcılı kip (sistem yöneticisine özel).</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">2-5</td>
+                  <td style="border-bottom: 1px solid ; ">Kullanıcı tanımlı normal işlev</td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid ; ">6</td>
+                  <td>Sistemi yeniden başlatır.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br class="table-break"/>
+        <p>
+    Çalışma seviyeleri <code class="filename">/etc/inittab</code> içinde aşağıdaki
+    satıra benzer şekilde ayarlanır:
+   </p>
+        <pre class="screen">
+l2:2:wait:/etc/init.d/rc 2
+</pre>
+        <p>
+    İlk bölüm isteğe göre verilmiş bir etikettir, ikinci alan 2.çalışma
+    seviyesinin uygulanacağını söyler. Üçüncü bölüm ise <span class="command"><strong>init</strong></span>'in
+    dördüncü bölümde yer alan komutu bir sefer çalıştırmasını ve çalışma
+    seviyesine girildiğinde <span class="command"><strong>init</strong></span>'in işlemin
+    tamamlanmasını beklemesi söylenir. <code class="filename">/etc/init.d/rc</code>
+    komutu ise 2. çalışma seviyesine girmek için gerekli olan hizmetlerin
+   </p>
+        <p>
+    Dördüncü alandaki komut, bir çalışma seviyesinin başlaması için
+    gerekli olan bütün tatsız işleri yapar. Hali hazırda çalışmayan
+    hizmetleri çalıştırır ve yeni seviyede daha fazla çalışmasına
+    ihtiyaç duyulmayan hizmetleri kapatır. Tam olarak komutun ne
+    olduğu ve çalışma seviyelerinin nasıl ayarlandığı Linux dağıtımına
+    bağlıdır.
+   </p>
+        <p>
+    <span class="command"><strong>init</strong></span> başladığı zaman <code class="filename">/etc/inittab</code>
+    dosyası içinde geçerli çalışma seviyesinin tanımlandığı satırı arar:
+   </p>
+        <pre class="screen">
+id:2:initdefault:
+</pre>
+        <p>
+    <code class="literal">single</code> veya <code class="literal">emergency</code>
+    gibi bir çekirdek komutu vererek, <span class="command"><strong>init</strong></span>'ten
+    geçerli olarak tanımlanmış çalışma seviyesinden başka bir
+    seviyede başlamasını isteyebilirsiniz. Örneğin,  çekirdek komut
+    satırı LILO üzerinden de verilebilir. Bu size 1. çalışma seviyesini
+    (tek kullanıcılı çalışma seviyesini) seçme şansı verir.
+   </p>
+        <p>
+    Sistem çalışırken <span class="command"><strong>telinit</strong></span> komutu ile çalışma
+    seviyesini değiştirebilirsiniz. Çalışma seviyesi değiştiğinde,
+    <span class="command"><strong>init</strong></span>  <code class="filename">/etc/inittab</code> dosyası
+    içinde konuyla ilgili satırı çalıştırır.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

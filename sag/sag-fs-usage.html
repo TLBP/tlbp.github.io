@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.2. Dosya Sistemi Kullanımı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag-system-resources.html" title="6.1. Sistem Kaynakları"/>
+    <link rel="next" href="sag-monitoring-users.html" title="6.3. Kullanıcıların izlenmesi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag-system-resources.html')">Önceki</button>
+          <div class="dropdown-content">6.1. Sistem Kaynakları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag-system-monitoring.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag-monitoring-users.html')">Sonraki</button>
+          <div class="dropdown-content">6.3. Kullanıcıların izlenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag-fs-usage">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.2. Dosya Sistemi Kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Şu anda çoğu yerde, depolamanın ne kadar ucuzladığından bahsediliyor,
+    ancak bizim gibiler için yeterince ucuz değil, çoğumuzun sınırlı bir
+    alanı var ve onu izleyebilmemiz, nasıl kullanıldığını denetleyebilmemiz
+    gerekiyor.
+   </p>
+        <section class="sect2" id="sag-df">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.2.1. <code class="literal">df</code> komutu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <tt><a href="../man/man1/man1-df.html"><b>df</b></a>(1)</tt>, disk kullanımını görüntülemek için en basit araçlardan biridir. Basitçe  <span class="command"><strong>df</strong></span> yazın ve tüm bağlı dosya sistemleriniz için 1K bloklar halinde disk kullanımı gösterilsin:
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt;</code> <strong class="userinput"><code>df</code></strong>
+Dosyasistemi     1K-blok     Dolu      Boş Kull% Bağlanılan yer
+/dev/hda3        5242904   759692  4483212   15% /
+tmpfs             127876        8   127868    1% /dev/shm
+/dev/hda1         127351    33047    87729   28% /boot
+/dev/hda9       10485816    33508 10452308    1% /home
+/dev/hda8        5242904   932468  4310436   18% /srv
+/dev/hda7        3145816    32964  3112852    2% /tmp
+/dev/hda5        5160416   474336  4423928   10% /usr
+/dev/hda6        3145816   412132  2733684   14% /var
+</pre>
+          <p>
+     Çıktıyı "daha anlaşılır" biçimde görmek için <code class="option">-h</code>'yı
+     kullanabilirsiniz. Değerler dosya sisteminin boyutuna bağlı olarak
+     K, M veya G birimleri ile gösterilecektir. Ayrıca, blok boyutunu
+     belirtmek için <code class="option">-B</code>'yi de kullanabilirsiniz.
+    </p>
+          <p>
+     Alan kullanımına ek olarak, kullanılabilir ve kullanılmış dosya indisi
+     düğümlerinin sayısını da görüntülemek için <code class="option">-i</code>
+     seçeneğini kullanabilirsiniz.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt;</code> <strong class="userinput"><code>df -i</code></strong>
+Dosyasistemi   Dosyaindisi   Dolu     Boş IKull% Bağlanılan yer
+/dev/hda3                0      0       0     -  /
+tmpfs                31969      5   31964     1% /dev/shm
+/dev/hda1            32912     47   32865     1% /boot
+/dev/hda9                0      0       0     -  /home
+/dev/hda8                0      0       0     -  /srv
+/dev/hda7                0      0       0     -  /tmp
+/dev/hda5           656640  26651  629989     5% /usr
+/dev/hda6                0      0       0     -  /var
+</pre>
+        </section>
+        <section class="sect2" id="sag-du">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.2.2. <code class="literal">du</code> komutu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Artık dosya sisteminde ne kadar alan kullanıldığını bildiğinize göre,
+     bu verilerin nerede olduğunu nasıl öğrenebilirsiniz? Bir dizine veya
+     dosyaya göre kullanımı görüntülemek için <tt><a href="../man/man1/man1-du.html"><b>du</b></a>(1)</tt> kullanabilirsiniz. Bir dosya adı belirtmediğiniz sürece,
+     <tt><a href="../man/man1/man1-du.html"><b>du</b></a>(1)</tt> ardışık olarak hareket edecektir. Örneğin:
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt; </code><strong class="userinput"><code>du file.txt</code></strong>
+1300    file.txt
+</pre>
+          <p>
+     Veya <span class="command"><strong>df</strong></span>'de olguğu gibi  <code class="option">-h</code>'yı kullanabilir ve aynı çıktıyı "daha anlaşılır" biçimde alabilirsiniz.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt; </code><strong class="userinput"><code>du -h file.txt</code></strong>
+1.3M     file.txt
+</pre>
+          <p>
+     Bir dosya adı belirtilmezse <span class="command"><strong>du</strong></span> dosyaları ardışık olarak listeler.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt; </code><strong class="userinput"><code>du -h /usr/local</code></strong>
+4.0K    /usr/local/games
+16K     /usr/local/include/nessus/net
+180K    /usr/local/include/nessus
+208K    /usr/local/include
+62M     /usr/local/lib/nessus/plugins/.desc
+97M     /usr/local/lib/nessus/plugins
+164K    /usr/local/lib/nessus/plugins_factory
+97M     /usr/local/lib/nessus
+12K     /usr/local/lib/pkgconfig
+2.7M    /usr/local/lib/ladspa
+104M    /usr/local/lib
+112K    /usr/local/man/man1
+4.0K    /usr/local/man/man2
+4.0K    /usr/local/man/man3
+4.0K    /usr/local/man/man4
+16K     /usr/local/man/man5
+4.0K    /usr/local/man/man
+</pre>
+          <p>
+     Bu dizinin sadece ne kadar yer kapladığını öğrenmek istiyorsanız,
+     <span class="command"><strong>-s</strong></span> seçeneğini kullanabilirsiniz.
+    </p>
+          <pre class="screen">
+<code class="prompt">user@server:~&gt; </code><strong class="userinput"><code>du -hs /usr/local</code></strong>
+210M    /usr/local
+</pre>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

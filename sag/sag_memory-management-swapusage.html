@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.3. Bir takas alanının kullanılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_memory-management-swap.html" title="5.2. Bir takas alanının oluşturulması"/>
+    <link rel="next" href="sag_memory-management-swap-allocation.html" title="5.4. Takas alanının ayrılması"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-swap.html')">Önceki</button>
+          <div class="dropdown-content">5.2. Bir takas alanının oluşturulması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_memory-management-swap-allocation.html')">Sonraki</button>
+          <div class="dropdown-content">5.4. Takas alanının ayrılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_memory-management-swapusage">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5.3. Bir takas alanının kullanılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Hazırlanmış bir takas alanı <tt><a href="../man/man8/man8-swapon.html"><b>swapon</b></a>(8)</tt> ile kullanıma
+    sunulur. Bu komutla çekirdeğe takas alanını kullanabileceğini iletiriz.
+    Bir fikir olarak, takas alanını yolu da belirtilebilir. Bu komutla geçici
+    bir takas dosyası üzerine yazılmaya başlanır.
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>swapon /ek-takas</code></strong>
+<code class="prompt">#</code>
+</pre>
+        <p>
+    Takas alanları <code class="filename">/etc/fstab</code> dosyası içinde
+    listelenerek otomatik olarak kullanılabilir.
+   </p>
+        <pre class="screen">
+/dev/hda8        none        swap        sw     0     0
+/swapfile        none        swap        sw     0     0
+</pre>
+        <p>
+    Başlangıç betikleri <span class="command"><strong>swapon -a</strong></span> komutunu çalıştıracak
+    ve böylece <code class="filename">/etc/fstab</code> dosyasında listelenmiş bütün
+    takas alanları kullanıma açılacaktır. Bununla beraber, <span class="command"><strong>swapon</strong></span>
+    komutu genellikle ek takas alanına ihtiyaç duyulduğu zamanlarda
+    kullanılır.
+   </p>
+        <p>
+    Takas alanı kullanımını <span class="command"><strong>free</strong></span> komutu ile
+    görüntüleyebilirsiniz.
+   </p>
+        <pre class="screen">
+<code class="prompt">$</code> <strong class="userinput"><code>free</code></strong>
+             total       used       free     shared    buffers     cached
+Mem:        512368     453692      58676      40144      35568     201236
+-/+ buffers/cache:     216888     295480
+Swap:      1951856          0    1951856
+<code class="prompt">$</code>
+</pre>
+        <p>
+    Çıktının birinci satırı (<code class="literal">Mem:</code>) fiziksel belleği
+    gösterir. 1 Mb civarı, çekirdek tarafından kullanılan bellek,
+    burada gösterilmez.  <code class="literal">used</code> sütunu kullanılan
+    bellek miktarını gösterir (ikinci sıradaki <code class="literal">-/+ buffers/cache:</code>
+    sayılmaz). <code class="literal">free</code> sütunu  tamamen boş olan alanı
+    gösterir. <code class="literal">shared</code> sütunu çeşitli uygulamalar
+    tarafından paylaşılan alanı gösterir. <code class="literal">buffers</code>
+    sütunu ise diskin tampon bellek alanını gösterir.
+   </p>
+        <p>
+    Son satır (<code class="literal">Swap:</code>) ise takas alanları için
+    benzer bilgileri gösterir. Bu alan tamamen sıfır ise bu takas
+    alanınızın etkinleştirilmediğini gösterir.
+   </p>
+        <p>
+    Aynı bilgiler <span class="command"><strong>top</strong></span> komutu ile veya proc dosya
+    sistemindeki <code class="filename">/proc/meminfo</code> sayesinde de
+    elde edilebilir.  Belirli bir takas alanının kullanımı hakkında
+    bilgi almak oldukça zordur.
+   </p>
+        <p>
+    Bir takas alanı <span class="command"><strong>swapoff</strong></span> ile kullanımdan
+    kaldırılabilir. Bu normal olarak gerekli değildir, sadece geçici
+    takas alanlarını kaldırmak için kullanılır.  Takas alanı içinde
+    öncelikle kullanımdaki sayfalar takas edilir. Bunları tutacak
+    yeterli fiziksel bellek yok ise bir diğer takas alanına gönderilir.
+    Şayet bu sayfaları tutacak yeterli sanal bellek yok ise Linux
+    kıvranmaya başlar. Uzun bir süre sonra kendine gelir fakat bu
+    arada sistemi kullanamazsınız.  Kullanımdaki bir takas alanını
+    kaldırmadan önce <span class="command"><strong>free</strong></span> komutu ile yeterli
+    miktarda boş bellek bulunup bulunmadığına bakmalısınız.
+   </p>
+        <p>
+    <span class="command"><strong>swapon -a</strong></span> ile otomatik bağlanan bütün takas
+    alanları <span class="command"><strong>swapoff -a</strong></span> ile kaldırılabilir.
+    Sistem neyi kaldıracağını bulmak için <code class="filename">/etc/fstab</code>
+    dosyasının içine bakar. El ile açılmış takas alanları ise kullanılmaya
+    devam eder.
+   </p>
+        <p>
+    Bazı zamanlar büyük miktarda  boş fiziksel bellek olmasına rağmen,
+    pek çok takas alanı kullanımda olabilir.  Bu olabilir, örneğin: bir
+    yerde takas işlemine ihtiyaç vardır ama daha sonra bellekte çok yer
+    kaplayan bir süreç  öldürülür ve bellek boşaltılır. Dışarıya takas
+    edilmiş bilgi ihtiyaç duyulana kadar geri alınmaz. Bunun için boş
+    yere endişe duymaya gerek yoktur fakat ne olup bittiğini bilmek
+    rahatlatıcı olabilmektedir.
+   </p>
+        <section class="sect2" id="sag_memory-management-swapshare">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.3.1. Takas alanının başka işletim sistemleriyle paylaşılması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Pek çok işletim sisteminde sanal bellek vardır. Bu alana sadece
+     çalıştıkları vakit ihtiyaç duydukları için, çalışmayan işletim
+     sistemleri için ayrılmış olan alan boşa israftır. Hepsinin tek bir
+     takas alanını paylaşması daha etkili bir çözüm olacaktır. Bu mümkün
+     fakat biraz beceri ister.  Bunun nasıl yapılacağına dair bir HOWTO
+     (NASIL) belgesi vardır.
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

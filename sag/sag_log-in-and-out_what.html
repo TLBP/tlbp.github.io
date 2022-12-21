@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9.3. login ne yapar?</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_log-in-and-out-via-net.html" title="9.2. Ağ üzerinden giriş"/>
+    <link rel="next" href="sag_log-in-and-out_ac.html" title="9.4. Erişim denetimi"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out-via-net.html')">Önceki</button>
+          <div class="dropdown-content">9.2. Ağ üzerinden giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out_ac.html')">Sonraki</button>
+          <div class="dropdown-content">9.4. Erişim denetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_log-in-and-out_what">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">9.3. <code class="literal">login</code> ne yapar?</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> kullanıcı adı ile parolanın
+    uyuşup uyuşmadığına bakar ve kabuğun başlatılması, seri
+    hatlara izin verilmesi gibi ayarların yapılmasını sağlayarak
+    kullanıcıya gerekli ortamı hazırlar.
+   </p>
+        <p>
+    Başlangıç ayarlarının bir parçası da <code class="filename">/etc/motd</code>
+    içindeki günün iletisinin ve elektronik posta kutusunun denetim
+    sonuçlarının ekrana yansıtılmasıdır. Bunlar kullanıcının
+    ev dizini içerisinde <code class="filename">.hushlogin</code> isimli bir
+    dosya oluşturularak engellenebilir.
+   </p>
+        <p>
+    Şayet <code class="filename">/etc/nologin</code> isimli bir dosya mevcutsa
+    kullanıcı girişleri engellenir. Bu dosya genellikle
+    <tt><a href="../man/man8/man8-shutdown.html"><b>shutdown</b></a>(8)</tt> benzeri komutlar tarafından oluşturulur.
+    <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> süreci önce bu dosyaya bakar ve şayet
+    bulursa kullanıcıların giriş isteklerini reddeder.  Şayet bu dosya var
+    ise,  <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> kapanmadan önce, bu dosyanın
+    içeriğini uçbirime çıktılar.
+   </p>
+        <p>
+    <tt><a href="../man/man1/man1-login.html"><b>login</b></a>(1)</tt> bütün hatalı bağlantı girişimlerini bir
+    sistem günlük kayıt dosyasında tutar (<span class="command"><strong>syslog</strong></span>
+    üzerinden). Ayrıca root kullanıcı tarafından yapılan bütün bağlantıların
+    kayıtlarını tutar.  Bunlar, davetsiz misafirlerin izini sürmek açısından
+    oldukça faydalı olabilir.
+   </p>
+        <p>
+    Sisteme giriş yapmış olan (ve halen sistemde bulunan)  herkes
+    <code class="filename">/var/run/utmp</code> içinde listelenir. Bu dosya
+    sistem kapatılana veya yeniden başlatılana kadar geçerlidir; sistem
+    tekrar açıldığında bu dosyanın içeriği silinmiş olacaktır.
+    Bu dosya her kullanıcı ve uçbirimini (veya ağ bağlantısını) ve bazı
+    yararlı bilgileri listeler.<span class="command"><strong>who</strong></span>, <span class="command"><strong>w</strong></span>
+    ve diğer benzeri komutlar sistemde bağlı bulunan kullanıcıları
+    listelemek için <code class="filename">utmp</code> içine bakar.
+   </p>
+        <p>
+    Bütün başarılı bağlantılar <code class="filename">/var/log/wtmp</code> içinde
+    kayıtlıdır. Bu dosya sınırsızca büyüyecektir. Bu nedenle düzenli
+    olarak temizlenmesi gerekir. Bunun için haftalık temizlik yapacak bir
+    <span class="command"><strong>cron</strong></span> işi düzenleyebilirsiniz. <span class="command"><strong>last</strong></span>
+    komutu <code class="filename">wtmp</code>içerisini tarar.
+   </p>
+        <p>
+    Hem <code class="filename">utmp</code> hem de <code class="filename">wtmp</code>
+    ikilik biçemdedir ve ne yazık ki özel araçlar olmadan incelemeye
+    uygun değillerdir. (Daha ayrıntılı bilgi için <code class="filename">utmp</code>
+    kılavuz sayfasına bakınız.)
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.15. /run</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="fhs-rootHome.html" title="3.14. /root"/>
+    <link rel="next" href="fhs-sbin.html" title="3.16. /sbin"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('fhs-rootHome.html')">Önceki</button>
+          <div class="dropdown-content">3.14. <code class="filename">/root</code></div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('fhs.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('fhs-root.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('fhs-sbin.html')">Sonraki</button>
+          <div class="dropdown-content">3.16. <code class="filename">/sbin</code></div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="fhs-run">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.15. <code class="filename">/run</code></h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="fhs-run-purpose">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.15.1. Amaç</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bu dizin, önyüklemeden itibaren sistemi açıklayan sistem bilgisi
+     verilerini içerir. Bu dizin altındaki dosyalar, önyükleme işleminin
+     başlangıcında temizlenmelidir (uygun şekilde kaldırılmalı veya
+     kırpılmalıdır).
+    </p>
+          <p>
+     Bu dizinin amaçlarını bir zamanlar <code class="filename">/var/run</code> yerine
+     getiriyordu. Genel olarak uygulamalar, geriye dönük uyumluluk amacıyla
+     <code class="filename">/run</code> için belirtilen gereksinimleri karşılamak üzere
+     <code class="filename">/var/run</code> dizinini kullanmaya devam edebilir.
+     <code class="filename">/run</code> dizinini kullanmak üzere taşınan uygulamalar,
+     <a class="link" href="fhs-varrun.html" title="5.13. /var/run"><code class="filename">/var/run</code> ile ilgili
+     bölümde</a> belirtilen durumlar dışında, <code class="filename">/var/run</code>
+     kullanımını durdurmalıdır.
+    </p>
+          <p><span class="notfoot"/>
+     Uygulamaların bir <code class="filename">/run</code> alt dizini olabilir; bu,
+     birden fazla çalışma zamanı dosyası kullanan uygulamalar için teşvik
+     edilir. Kullanıcılar da ayrıca bir <code class="filename">/run</code> alt
+     dizinine sahip olabilir, ancak <code class="filename">/run</code> dizininin
+     kendisinin ve alt dizinlerinin yetkisiz kullanımını önlemek için erişim
+     haklarının uygun şekilde sınırlanmasına özen gösterilmelidir.<a id="idm65927" href="#ftn.idm65927" class="footnote"><sup class="footnote">[18]</sup></a>
+    </p>
+        </section>
+        <section class="sect2" id="fhs-run-req">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.15.2. Gereksinimler</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Başlangıçta <code class="filename">/etc</code> dizinine yerleştirilmiş olan
+     süreç kimliği (PID) dosyalarının <code class="filename">/run</code> dizinine
+     yerleştirilmesi gerekir. PID dosyaları için adlandırma kuralı <code class="filename"><em class="replaceable"><code>&lt;uygulama-adı&gt;</code></em>.pid</code>'dir.
+     Örneğin, <span class="command"><strong>crond</strong></span> PID dosyası
+     <code class="filename">/run/crond.pid</code> olarak adlandırılır.
+    </p>
+          <p>
+     PID dosyalarının dahili biçemi değişmeden kalır. Dosya, süreç
+     kimliğinin ASCII kodlu ondalık değeri ve bir satır sonu karakterinden
+     oluşmalıdır. Örneğin, <span class="command"><strong>crond</strong></span> süreç numarası 25 ise,
+     <code class="filename">/run/crond.pid</code> dosyası üç karakter içerecektir:
+     iki, beş ve satır sonu.
+    </p>
+          <p>
+     PID dosyalarını okuyan uygulamalar, kabul ettikleri değerlerde biraz
+     esnek olmalıdır; yani, PID dosyasındaki fazladan boşlukları, baştaki
+     sıfırları, sonda satır sonu karakterinin olmamasını veya ek satırları
+     göz ardı etmelidir. PID dosyalarını oluşturan uygulamalar, yukarıdaki
+     paragrafta açıklanan basit belirtimi kullanmalıdır.
+    </p>
+          <p>
+     Geçici UNIX etki alanı soketlerini oluşturan sistem uygulamaları,
+     bunları yukarıda belirtildiği gibi bu dizine veya uygun bir alt
+     dizine yerleştirmelidir.
+    </p>
+        </section>
+        <div class="footnotes">
+          <br/>
+          <hr class="footnote-hr"/>
+          <div id="ftn.idm65927" class="footnote">
+            <p><a href="#idm65927" class="para"><sup class="para">[18] </sup></a>
+       <code class="filename">/run</code> ayrıcalıksız kullanıcılar için yazılabilir
+       olmamalıdır; herhangi bir kullanıcının bu dizine yazabilmesi büyük
+       bir güvenlik sorunudur. Kullanıcıya özel alt dizinler, yalnızca o
+       dizinlerin sahibi tarafından yazılabilir olmalıdır.
+      </p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

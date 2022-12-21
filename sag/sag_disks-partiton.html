@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.6. Disk Bölümleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_disks-format.html" title="4.5. Biçemleme"/>
+    <link rel="next" href="sag_fs.html" title="4.7. Dosya Sistemleri"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks-format.html')">Önceki</button>
+          <div class="dropdown-content">4.5. Biçemleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_disks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_fs.html')">Sonraki</button>
+          <div class="dropdown-content">4.7. Dosya Sistemleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_disks-partiton">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">4.6. Disk Bölümleri</h2>
+            </div>
+          </div>
+        </div>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+     UEFI-GPT bu kılavuzun konusu değildir. Bu kılavuzdan yararlanmak için
+     makinenizin BIOS ayarlarında "UEFI Mode" değil "legacy BIOS Mode"
+     seçilmiş olmalıdır. "UEFI Mode" seçili ise bu bölümde anlatılanlar
+     size uygun değildir, bu bölümü atlayabilirsiniz.
+    </p>
+          </div>
+        </div>
+        <p>
+    Bir sabit disk çeşitli <em class="glossterm">bölüm</em>lere ayrılabilir.
+    Her bölüm ayrı bir sabit diskmiş gibi faaliyet gösterebilir. Diyelim ki;
+    bir sabit diskiniz var ve siz iki adet işletim sistemine sahip olmak
+    istiyorsunuz. Bu durumda sabit diski ikiye bölmeniz gerekecektir.
+    Her işletim sistemi kendi bölümünü kullanır ve diğerininkine dokunmaz.
+    Bu yöntemle iki ayrı işletim sistemi aynı disk üzerinde kardeşçe
+    yaşayabilir. Bölümleme olmasa idi her kurmak istediğimiz işletim
+    sistemi için ayrı bir sabit disk almamız gerekecekti.
+   </p>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.6.1. MBR, önyükleme sektörleri ve bölümleme tablosu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir sabit diskin nasıl bölümlendiğine ait bilgi, birinci plakanın
+     birinci izinin içindeki birinci sektörde yer alır. Makine ilk
+     açıldığı anda BIOS'un okuyup çalıştırdığı bu ilk sektöre
+     Ana Önyükleme Kaydı (MBR - Master Boot Record) adı verilir.
+     MBR içerisinde bölümleme tablolarının ve hangi bölümüm etkin
+     olduğunu belirten küçük bir yazılım vardır. Ayrıca bu etkin
+     bölümün açılış sektörü de burada belirtilir.(MBR aynı zamanda
+     bir önyükleme sektörü olmasına rağmen özel durumundan dolayı
+     ayrı bir adla anılır.) Önyükleme sektörü içinde de işletim
+     sisteminin başlamasını sağlayan küçük bir yazılım vardır.
+     Bu yazılım işletim sisteminin ilk bölümünü okur ve sistemi
+     başlatır.
+    </p>
+          <p>
+     Bölümleme işlemi donanımla ya da BIOS ile doğrudan
+     alakalı bir şey değildir. Bu işletim sistemlerinin geleneksel
+     olarak kabul ettikleri ve uyguladıkları bir işlemdir. Pek çok
+     işletim sistemi disk bölümlenmesine olanak verir. Bazıları ise
+     istisnadır ve disk bölümlemesine izin vermezler. Bazı işletim
+     sistemleri bölümlemeyi destekler fakat, sabit disk üzerindeki
+     bir bölümü işgal edip orada bulunan bölümleme yöntemi ile diski
+     böler. Diğerleri ise, Linux dahil, başka bir işletim sistemi
+     ile aynı disk üzerinde hiçbir sorun çıkarmadan yaşayabilir.
+     Özel bir şey yapmamıza gerek kalmaz. Ama disk bölümlemeyi
+     desteklemeyen bir işletim sistemi ile aynı disk üzerinde başka
+     bir işletim sistemi kuramazsınız.
+   </p>
+          <p>
+     Bir güvenlik önlemi olarak bölümleme tablosunu bir kağıda yazmak
+     akıllıca olacaktır. Şayet bir arıza olursa bu yolla düzeltme
+     imkanınız olur. Bozulmuş bir bölümleme tablosu <span class="command"><strong>fdisk</strong></span>
+     ile düzeltilebilir.  <span class="command"><strong>sfdisk -l</strong></span>  komutu ile
+     sisteminizdeki tüm sabit disklerin bölümleme tablolarını
+     görebilirsiniz.
+    </p>
+          <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>sfdisk -l</code></strong>
+Disk /dev/hda: 4870 silindir, 255 kafa, 63 sektör/iz
+birimler = 8225280 baytlık silindir, 1024 baytlık blok, 0'dan başlayarak
+
+   Aygıt Önykl Başlangıç Bitiş silindir blok   Kiml Sistem
+                                sayısı sayısı
+/dev/hda1   *      0+     65      66-   530113+   b  Win95 FAT32
+/dev/hda2         66    4869    4804  38588130    f  Win95 Ext'd (LBA)
+/dev/hda3          0       -       0         0    0  Boş
+/dev/hda4          0       -       0         0    0  Boş
+/dev/hda5         66+   1266    1201-  9647001   83  Linux
+/dev/hda6       1267+   2467    1201-  9647001    b  Win95 FAT32
+/dev/hda7       2468+   3646    1179-  9470286   83  Linux
+/dev/hda8       3647+   4869    1223-  9823716   83  Linux
+<code class="prompt">#</code>
+</pre>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.6.2. Ek ve Mantıksal Bölümler</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     PC sabit disklerinin orijinal bölümleme planı sadece dört
+     bölüme izin verir. Gerçek hayatta bu sınırlama bazı insanlar
+     için hiç hoş bir olay olmamaktadır. Çünkü onlar bilgisayarlarında
+     dört taneden fazla işletim sistemi (Linux, MS DOS, OS/2, FreeBSD,
+     NetBSD, Windows NT, vb.) kurmak istemektedir. Aslında bir
+     işletim sistemi bulunan diskleri de bölümlemek oldukça iyi bir
+     fikirdir. Örneğin hızdan feragat etmemek için takas alanını,
+     Linux'un kendi bölümüne değil de, takasın kendine ayrılmış olan
+     bölüme kurmak daha akıllıcadır (disk üzerinde Linux ve Linux takas
+     olarak iki bölüm yapabilirsiniz - yukarıdaki /dev/hdd gibi).
+    </p>
+          <p>
+     Bu sorunu aşmak için <em class="glossterm">ek</em> bölümler
+     kullanılmaktadır. Bu hile <em class="glossterm">birincil bölüm</em>ü alt
+     bölümlere ayırmaya izin verir. Birincil bölüm
+     <em class="glossterm">ek bölümler</em> adıyla alt bölümlere ayrılır.
+     Bu alt bölümler <em class="glossterm">mantıksal bölümler</em>dir.
+     Bu bölümler birincil bölüm gibi davranır fakat yaratılma biçimleri
+     farklıdır. Bu bölümler ile birincil bölümler arasında bir hız farkı
+     yoktur.
+   </p>
+          <p>
+     Bir sabit diskin bölümlemesi <a class="xref" href="sag_disks-partiton.html#sag_disks-hd-layout" title="Şekil 4.2. Bir sabit diskin MBR bölümlemesi örneği">Şekil 4.2</a>'ye
+     benzetilebilir. Disk üç adet birincil bölüme, bunlardan ikincisi ise iki
+     adet mantıksal bölüme ayrılmıştır. Disk tamamen bölümlenmemiştir. Her
+     birincil bölümün kendine ait bir önyükleme sektörü vardır.
+    </p>
+          <div class="figure-float">
+            <div class="figure" id="sag_disks-hd-layout">
+              <div class="figure-title">Şekil 4.2. Bir sabit diskin MBR bölümlemesi örneği</div>
+              <div class="figure-contents">
+                <div class="mediaobject">
+                  <img src="images/hd-layout-tr.gif" alt="Bir sabit diskin MBR bölümlemesi örneği"/>
+                </div>
+              </div>
+            </div>
+            <br class="figure-break"/>
+          </div>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.6.3. Bölüm türleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bölümleme tabloları (biri MBR'da diğeri ek bölümde) her bölüm için
+     bölüm türünü tanımlayan birer baytlık bilgi içerir. Bu sayede
+     bölümü kullanan işletim sistemine neyi kullandığı bildirilir.
+     Buradaki amaç büyük ihtimal ile iki ayrı işletim sisteminin tek
+     bir bölümü kullanmasını engellemektir. Bununla beraber ,özellikle
+     Linux; gerçekte bölüm türü baytları ile ilgilenmez. Daha da kötüsü
+     bazı işletim sistemleri bu bilgileri yanlış kullanır. DR DOS'un bazı
+     sürümleri  iletilen bayt sinyallerini  önemsemezler ve yok sayar.
+    </p>
+          <p>
+     Baytların anlamları standartlaşmamıştır fakat genel kabul gören
+     bazıları aşağıda sıralanmıştır. Tam bir listesi Linux
+     <span class="command"><strong>cfdisk</strong></span> uygulamasında bulunabilir.
+    </p>
+          <div class="table" id="sag_disks-partition-ids">
+            <div class="table-title">Tablo 4.1. Bölüm türleri</div>
+            <div class="table-contents">
+              <table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; ">
+                <colgroup>
+                  <col/>
+                  <col/>
+                  <col/>
+                  <col/>
+                  <col/>
+                  <col/>
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">0</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Boş</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">40</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Venix 80286</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">94</td>
+                    <td style="border-bottom: 1px solid ; ">Amoeba BBT</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">1</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">DOS 12-bit FAT</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">51</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Novell?</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">a5</td>
+                    <td style="border-bottom: 1px solid ; ">BSD/386</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">2</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">XENIX kök</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">52</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Microport</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">b7</td>
+                    <td style="border-bottom: 1px solid ; ">BSDI fs</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">3</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">XENIX usr</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">63</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">GNU HURD</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">b8</td>
+                    <td style="border-bottom: 1px solid ; ">BSDI takas</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">4</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">DOS 16-bit FAT &lt;32M</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">64</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Novell</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">c7</td>
+                    <td style="border-bottom: 1px solid ; ">Syrinx</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">5</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Linux Ek</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">75</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">PC/IX</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">db</td>
+                    <td style="border-bottom: 1px solid ; ">CP/M</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">6</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">DOS 16-bit &gt;=32M</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">80</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Old MINIX</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">e1</td>
+                    <td style="border-bottom: 1px solid ; ">DOS erişimi</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">7</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">OS/2 HPFS</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">81</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Linux/MINIX</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">e3</td>
+                    <td style="border-bottom: 1px solid ; ">DOS R/O</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">8</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">AIX</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">82</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Linux takas</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">f2</td>
+                    <td style="border-bottom: 1px solid ; ">DOS ikincil</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">9</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">AIX önyüklenebilir</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">83</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">Linux</td>
+                    <td style="border-right: 1px solid ; border-bottom: 1px solid ; ">ff</td>
+                    <td style="border-bottom: 1px solid ; ">BBT</td>
+                  </tr>
+                  <tr>
+                    <td style="border-right: 1px solid ; ">f</td>
+                    <td style="border-right: 1px solid ; ">Win95 Ek (LBA)</td>
+                    <td style="border-right: 1px solid ; ">93</td>
+                    <td style="border-right: 1px solid ; ">Amoeba</td>
+                    <td style="border-right: 1px solid ; "> </td>
+                    <td> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br class="table-break"/>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.6.4. Bir sabit diskin bölümlenmesi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bölüm oluşturmak ve kaldırmak için pek çok uygulama kullanılabilir.
+     Pek çok işletim sistemi kendine ait bir uygulama kullanır. Disk
+     bölümlemek için bu uygulamayı kullanmak daha akıllıca olur, çünkü
+     işletim sistemi ile alakalı bazı işleri diğer uygulamalar yapamazken,
+     bu uygulama alışılmadık şeyleri de yapabilir.  Bu uygulamaların pek
+     çoğu  <tt><b>fdisk</b>(8)</tt> olarak adlandırılır.  Linux
+     <tt><b>fdisk</b>(8)</tt>  hakkında ayrıntılı bilgiyi kılavuz
+     sayfasında bulabilirsiniz.  <tt><a href="../man/man8/man8-cfdisk.html"><b>cfdisk</b></a>(8)</tt> komutu
+     <span class="command"><strong>fdisk</strong></span>  ile aynı işi yapar ama daha hoş bir
+     tam ekran arayüze sahiptir.
+    </p>
+          <p>
+     Bir bölümün boyutunu değiştirirken ilk önce kurtarmak istediğiniz
+     bilgileri yedekleyin, sonra bölümü silip yeni bölümü oluşturun ve
+     yedeklenmiş bilgileri geri yükleyin. Şayet bölüm boyutunu
+     değiştiriyorsanız ve bunu diğer bölümlerden alan alarak yapıyorsanız
+     bu işlemleri (yedekle-sil-oluştur-yükle) onlara da yapmak
+     zorundasınız.
+    </p>
+          <p>
+     Bölümlerin boyutlarını değiştirmek çok sancılı ve sıkıntılı bir
+     işlem olduğundan, bunu en başta bir kere yapmak, sağlam ve
+     kullanışlı bir yedekleme uygulaması kullanmak daha mantıklıdır.
+     Eğer dışarıdan pek fazla müdahaleye ihtiyaç duymadan bir araçtan
+     yükleme yapıyorsanız (CD ROM gibi) en başta kolaylıkla çeşitli
+     yapılandırmalar deneyebilirsiniz. Elimizde yedeklenmiş ve tekrar
+     yüklenilmesi gereken bir bilgi yığını olmadığı, daha doğrusu boş
+     bir diske sahip  olduğumuz için, çeşitli defalar yükleme yapmak,
+     yedeklenmiş bilgileri geri yüklemek kadar zor değildir.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">4.6.5. Aygıt dosyaları ve disk bölümleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Her bölüm ve ek bölüm kendi aygıt dosyasına sahiptir. Geleneksel
+     isimlendirme yöntemine göre aygıt isminden sonra bir numara
+     gelmektedir.  Yine geleneksel olarak 1-4 arası numaralar kaç adet
+     olduğuna bakılmaksınız birincil bölümlere ayrılır. 5 ve daha
+     sonrakiler ise mantıksal bölümlere aittir. Buradaki önemli nokta
+     sistemde kaç adet birincil veya mantıksal bölüm olduğunun
+     ÖNEMLİ OLMADIĞIDIR. Örneğin <code class="filename">/dev/hda1</code> birinci
+     IDE sabit diskteki ilk birincil bölümdür.  <code class="filename">/dev/sdb7</code>
+     ikinci SCSI sabit diskteki üçüncü ek bölümdür.
+    </p>
+        </section>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.5. Bir kullanıcı hesabının geçici olarak kapatılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_user-accounts_remove.html" title="10.4. Bir kullanıcının silinmesi"/>
+    <link rel="next" href="sag_backups.html" title="11. Yedek Alma"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_user-accounts_remove.html')">Önceki</button>
+          <div class="dropdown-content">10.4. Bir kullanıcının silinmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_user-accounts.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_backups.html')">Sonraki</button>
+          <div class="dropdown-content">11. Yedek Alma</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_user-accounts_tmp-disable">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">10.5. Bir kullanıcı hesabının geçici olarak kapatılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bazı zamanlar kimi kullanıcı hesaplarını, silmeden kapatmak gerekir.
+    Örneğin; kullanıcı aidatını ödememiş olabilir veya sistem yöneticisi
+    bir yabancının bu hesaba ait parolayı ele geçirdiğinden şüpheleniyor
+    olabilir.
+   </p>
+        <p>
+    Bir hesabı kapatmanın en iyi yolu, o hesaba ait kabuğu, sadece bir
+    ileti veren özel bir uygulama ile değiştirmektir. Böylece, hesaba
+    bağlanmak isteyen her hangi birisinin bu eylemi durdurulacak ve
+    nedeni kendisine bildirilecektir.  İleti, kullanıcıya sorunu
+    çözmek üzere sistem yöneticisine başvurmasını söyleyebilir.
+   </p>
+        <p>
+    Kullanıcı ismi veya parolanın değiştirilmesi de mümkündür ama bu
+    durumda  kullanıcı neler olup bittiğini anlayamayacaktır. Kafası
+    karışan kullanıcı daha çok uğraşacaktır.
+   </p>
+        <p>
+    Özel bir betik oluşturmanın en basit yolu bir "tail betiği" yazmaktır:
+   </p>
+        <pre class="screen">
+#!/usr/bin/tail +2
+Bu hesap güvenlik nedeniyle askıya alınmıştır.
+Hesabınızı açtırmak için lütfen müşteri hizmetleriyle görüşünüz.
+</pre>
+        <p>
+    İlk iki karakter (`<code class="literal">#!</code>') çekirdeğe bu satırın
+    devamın bir komut olduğunu ve bu komutun  bu dosyayı yorumlamak
+    için çalıştırılması gerektiğini söyler. Bu durumdaki
+    <tt><a href="../man/man1/man1-tail.html"><b>tail</b></a>(1)</tt> komutu ilk satır hariç her şeyi standart
+    çıktıya gönderir.
+   </p>
+        <p>
+    Şayet <code class="literal">aliveli</code> isimli kullanıcısının hesabında bir
+    güvenlik açığından şüpheleniliyorsa sistem yöneticisi şuna benzer bir
+    şeyler yapmalıdır:
+   </p>
+        <pre class="screen">
+<code class="prompt">#</code> <strong class="userinput"><code>chsh -s /usr/local/lib/no-login/security aliveli</code></strong>
+<code class="prompt">#</code><strong class="userinput"><code>su - tester</code></strong>
+Bu hesap güvenlik nedeniyle askıya alınmıştır.
+Hesabınızı açtırmak için lütfen müşteri hizmetleriyle görüşünüz.
+<code class="prompt">#</code>
+</pre>
+        <p>
+    Burada <tt><a href="../man/man1/man1-su.html"><b>su</b></a>(1)</tt> komutunun kullanılmasındaki amaç;
+    değişikliklerin düzgün bir şekilde çalışıp çalışmadığını görmektir.
+   </p>
+        <p>
+    Tail betikleri ayrı bir dizinde tutulmalıdır, böylece normal kullanıcı
+    komutları ile karışması önlenebilir.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>

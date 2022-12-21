@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9.2. Ağ üzerinden giriş</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)"/>
+    <link rel="prev" href="sag_log-in-and-out-w-term.html" title="9.1. Uçbirim üzerinden giriş"/>
+    <link rel="next" href="sag_log-in-and-out_what.html" title="9.3. login ne yapar?"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/nav.css"/>
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png"/>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out-w-term.html')">Önceki</button>
+          <div class="dropdown-content">9.1. Uçbirim üzerinden giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('sag_log-in-and-out_what.html')">Sonraki</button>
+          <div class="dropdown-content">9.3. <code class="literal">login</code> ne yapar?</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="sag_log-in-and-out-via-net">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">9.2. Ağ üzerinden giriş</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Aynı ağ üzerindeki iki ayrı bilgisayar, genellikle tek bir fiziksel
+    kablo üzerinden bağlanmıştır. Bu bilgisayarlar ağ üzerinden
+    haberleşirken, bu haberleşme işleminde kullanılan ve her bir
+    bilgisayarda ayrı ayrı bulunan uygulamalar, bir sanal bağlantı
+    üzerinden birbirlerine bağlanmıştır.  Bu bir çeşit hayali
+    kablodur.  Bu sanal bağlantı üzerinde bulunan her hangi bir
+    bilgisayardaki uygulamalar etkin durumda kaldığı sürece kendi kablosu
+    üzerinde tekel konumuna sahip olur.  Bununla beraber bu bağlantılar
+    hayali olduğu  için her iki bilgisayarın işletim sistemleri pek çok
+    sanal bağlantıyı aynı fiziksel kablo üzerinde paylaştırabilir.
+   </p>
+        <p>
+    Bu yolla çeşitli uygulamalar, diğer iletişimler ile uğraşmak zorunda
+    kalmadan, tek bir kablo üzerinden iletişim sağlayabilir. Aynı
+    kablo üzerinde çeşitli bilgisayarlara sahip olmak mümkün olmasına
+    rağmen, bu iki bilgisayarın kurduğu sanal hat dışında kalan
+    bilgisayarlar, parçası olmadıkları bu iletişim işini yok sayar.
+   </p>
+        <p>
+    Bu gerçeğin oldukça karmaşık ve soyut ötesi bir açıklamasıdır. Belki de
+    öyledir, ama bununla birlikte, ağ bağlantılarının normal bağlantılardan
+    neden değişik olduğunu, daha kolay anlaşılır olmasını sağlamaktadır.
+    Değişik bilgisayarlar üzerindeki süreçler birbirleri ile iletişime
+    geçmek istedikleri zaman sanal bağlantılar kurulur. Bir ağ üzerindeki
+    her hangi bir bilgisayardan diğerine bağlanabilmek yöntem olarak mümkün
+    olduğu için çok fazla sayıda olası sanal iletişim mevcuttur.
+    Bu nedenledir ki her olası bağlantı için ayrı bir
+    <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt> başlatmak hiç de uygun olmayacaktır.
+   </p>
+        <p>
+    Bütün ağ bağlantılarını denetleyen (ve <tt><a href="../man/man8/man8-agetty.html"><b>agetty</b></a>(8)</tt>'ye
+    karşılık gelen) <span class="command"><strong>inetd</strong></span> isimli tek bir süreç vardır.
+    Gelen bir ağ bağlantı sinyali aldığı zaman, bu tek bağlantıyı denetim
+    altında tutmak için yeni bir süreç başlatır. Orjinal süreç bekler ve
+    olası yeni bağlantıları dinlemeye devam eder.
+   </p>
+        <p>
+    Ağ bağlantıları için  birden fazla iletişim protokolü olduğundan dolayı
+    bu iş biraz karışıktır. En önemli iki tanesi <span class="command"><strong>telnet</strong></span> ve
+    <span class="command"><strong>rlogin</strong></span>'dir.  Bu bağlantılara ek olarak, FTP,
+    Gopher, http gibi, yapılması muhtemel diğer bağlantılar da mevcuttur.
+    Belirli bir bağlantı türü için ayrı bir süreç yaratmak etkisiz olacaktır.
+    Bu nedenle, bağlantı türlerini tanımlayabilecek ve doğru hizmetlerin
+    çalışması için doğru uygulamaları yükleyebilecek tek bir dinleyici
+    kullanılır. Bu dinleyici <span class="command"><strong>inetd</strong></span> olarak adlandırılır.
+    Daha ayrıntılı bilgiyi  <a class="link" href="http://www.linux.doc.org/LDP/nag2/index.html" target="_top">Linux Ağ
+    Yöntecisinin Kılavuzu</a> isimli e-kitapta bulabilirsiniz.
+   </p>
+      </section>
+    </section>
+    <footer/>
+  </body>
+</html>
