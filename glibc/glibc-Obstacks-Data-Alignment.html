@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.6.9. Yığınaktaki Verinin Hizalanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Status-of-an-Obstack.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.8. Bir Yığınağın Durumu</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstack-Chunks.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.6.10. Yığınak Öbekleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Obstacks-Data-Alignment">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.6.9. Yığınaktaki Verinin Hizalanması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm87595" class="indexterm"></span>
+     Her yığınak bir <em class="wordasword">hizalama genişliği</em>’ne sahiptir. Yığınakta tahsis edilen her nesne özdevimli olarak belirtilen genişliğin katlarındaki adreslere yerleştirilir. Öntanımlı olarak bu genişlik nesnenin her türlü veriyi tutabileceği değere hizalanır.
+    </p>
+        <p>
+     Bir yığınağın hizalama genişliğine erişmek için, <a href="glibc-Obstacks-Data-Alignment.html#glibc-fn-obstack_alignment_mask"><strong class="function"><code>obstack_alignment_mask</code></strong></a> makrosu kullanılır. Makronun işlev bildirimi şuna benzer:
+    </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-fn-obstack_alignment_mask" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">obstack_alignment_mask</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Değer bit maskesidir; değeri 1 olan her bit, nesne adresinin ilgili bitinin 0 olması gerektiğini belirtir. Maske değeri, nesnelerin ikinin kuvvetlerindeki adreslere hizalanması için ikinin kuvveti eksi birdir. Öntanımlı maske değeri hizalı nesnelerin her veri türünü tutmasını mümkün kılar: Örneğin, maske değeri 3 ise adresleri 4'ün katlarında olabilen her veri türü saklanabilir. Maske değeri sıfırsa adresleme birer baytlıktır, yani hizalama gerekmez.
+     </p>
+     <p>
+      <code class="code">obstack_alignment_mask</code> makrosu bir sol taraf değeri olarak yorumlanır, yani maske belirtilerek hizalama değiştirilebilir. Örneğin:
+     </p>
+     <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">obstack_alignment_mask (obstack_ptr) = 0;
+</pre></div></div><br class="example-break" />
+     <p>
+      ifadesiyle belirtilen yığınak hizalama işlemine kapatılmıştır.
+     </p>
+    </div>
+        <p>
+      Hizalama maskesindeki değişikliğin yığınakta nesne tahsis edilene kadar veya nesne bitirilene kadar etkili olmayacağı unutulmamalıdır. Nesne büyütülmüyorsa nesne <a href="glibc-Growing-Objects.html#glibc-fn-obstack_finish"><strong class="function"><code>obstack_finish</code></strong></a> ile bitirilip yeni hizalama maskesinin etkili olması sağlanabilir. Yani, nesne sıfır uzunlukta bitirilip sonraki nesneye uygun adresleme yapılabilir.
+     </p>
+      </section>
+    </section>
+  </body>
+</html>

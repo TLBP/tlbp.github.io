@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>1.4.2. Makro Olarak Tanımlanmış İşlevler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Header-Files.html')">Önceki</button>
+          <div class="dropdown-content">1.4.1. Başlık Dosyaları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Using-the-Library.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Reserved-Names.html')">Sonraki</button>
+          <div class="dropdown-content">1.4.3. Anahtar Sözcükler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Macro-Definitions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">1.4.2. Makro Olarak Tanımlanmış İşlevler</h2>
+            </div>
+          </div>
+        </div>
+        <span id="glibc-cp-ghostdef" class="indexterm"></span>
+        <span id="glibc-cp-ghostdel" class="indexterm"></span>
+        <span id="glibc-cp-ghostrm" class="indexterm"></span>
+        <p>
+    Bu kılavuzda bir işlev olarak bahsettiğimiz bazı şeyler aslında bir makro tanımı olabilir.  Makro tanımı da işlevin yaptığını yaptığından bu durum yazılımın çalışması açısından bir sorun teşkil etmez. Kütüphane işlevlerinin makro eşdeğerlerinin bağımsız değişkenleri işlev çağrılarındaki gibi değerlendirilir. İşlev tanımları yerine bu makro tanımlarının yapılmasının sebebi, makrolar sembolik dile özgü yorumlar şeklinde tek bir satır olarak üretebildiğinden, işlevlerden daha hızlı çalışabilmeleridir.
+   </p>
+        <p>
+    Bir kütüphane işlevinin adresini almak, bu bir makro olarak tanımlanmış olsa bile  çalışır. Bu bağlam içerisinde çalışmasının sebebi, işlevin adından sonra, bir  makro çağrısını tanımak için gereken sol yaylı ayracın olmamasıdır.
+   </p>
+        <p>
+    Kimi zaman bir makro tanımının bir işlev olarak kullanılmasını istemeyebilirsiniz. Bu, yazılımınızda hata ayıklamayı kolaylaştırır.  Bunu yapmanın iki yolu vardır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      
+      
+      Makro çağrılarına özel olarak, işlev ismini parantez içine alarak bir makro  tanımından kurtulabilirsiniz.  Bunun çalışmasının sebebi işlev isminin sözdizimsel olarak artık bir makro çağrısı olarak algılanmamasıdır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Makro tanımını kaynak kodunuzun içinde <span class="command"><strong>#undef</strong></span> önişlemci deyimi ile (oluşumun açıklamasında aksi belirtilmediği sürece) devre dışı bırakabilirsiniz.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Örneğin, <code class="filename">stdlib.h</code> başlık dosyasında <strong class="function"><code>abs</code></strong> isimli işlevin bildirimi olduğunu kabul edelim:
+   </p>
+        <pre class="screen">extern int abs (int);</pre>
+        <p>
+    Ve, <strong class="function"><code>abs</code></strong> için bir makro tanımı olsun:
+   </p>
+        <pre class="screen">
+#include stdlib.h
+int f (int *i) { return abs (++*i); }
+</pre>
+        <p>
+    Burada <strong class="function"><code>abs</code></strong>, hem makro hem de işlevdir. Aşağıdaki örneklerde ise <strong class="function"><code>abs</code></strong> sadece işlevdir, makro değildir.
+   </p>
+        <pre class="screen">
+#include stdlib.h
+int g (int *i) { return (abs) (++*i); }
+</pre>
+        <p></p>
+        <pre class="screen">
+#undef abs
+int h (int *i) { return abs (++*i); }
+</pre>
+        <p>
+    Makro tanımları, asıl işlevin yaptığını yapmaktan başka makroyu da tanımladığından bu yöntemlere gerçekte hiç ihtiyaç yoktur. Ayrıca, bir makro tanımının kaldırılması yazılımınızın daha yavaş çalışmasına sebep olacaktır.
+   </p>
+      </section>
+    </section>
+  </body>
+</html>

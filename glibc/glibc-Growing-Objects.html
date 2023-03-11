@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.6.6. Büyüyen Nesneler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstack-Functions.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.5. Yığınak İşlevleri ve Makroları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Extra-Fast-Growing.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.6.7. Çok Hızlı Büyüyen Nesneler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Growing-Objects">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.6.6. Büyüyen Nesneler</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm87146" class="indexterm"></span>
+     <span id="idm87149" class="indexterm"></span>
+     <span id="idm87152" class="indexterm"></span>
+     Yığınak öbekleri içindeki bellek sıralı erişimle kullanıldığından, bir bellek nesnesini, nesnenin sonuna bir veya daha fazla bayt ekleyerek adım adım oluşturmak mümkündür. Bu teknikle, bir nesneye veri aktarırken acaba yer kaldı mı diye düşünmek gerekmez. Bu tekniğe <em class="wordasword">Nesnelerin Büyütülmesi</em> adı verilir. Bu bölümde nesneleri sonuna veri ekleyerek büyütmekte kullanılan özel işlevlere yer verilmiştir.
+    </p>
+        <p>
+     Bu işlevlerden birini kullanarak nesneye veri eklendiğinde nesnenin büyütülmesi özdevinimli olarak gerçekleştiğinden, bir nesneyi büyütmeye başlarken özel olarak hiçbir şey yapmak gerekmez. Ancak büyütme işlemi bittiğinde, bittiğinin belirtilmesi gerekir. Bunun için <a href="glibc-Growing-Objects.html#glibc-fn-obstack_finish"><strong class="function"><code>obstack_finish</code></strong></a> işlevi kullanılır.
+    </p>
+        <p>
+     Bu şekilde oluşturulan nesnenin gerçek adresi, nesne bitene kadar bilinmez. O zamana kadar, nesnenin yeni bir öbeğe kopyalanmasını gerektirecek kadar çok veri eklemek her zaman mümkündür.
+    </p>
+        <p>
+     Bir yığınak bir nesneyi büyütmek için kullanıldığında, o yığına bir başka nesne yerleştirilemez. Bu denenirse, eklenen nesneye ayrı bir nesne olarak erişilemez; büyütülen nesneye bir alan eklenmiş olur ve eklenen nesne büyütülen nesnenin bir parçası haline gelir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_blank" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_blank</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Büyüyen bir nesneye ekleme yapmak için en temel işlev, ilklendirilmemiş alan ekleyen <code class="code">obstack_blank</code> işlevidir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_grow" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_grow</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      İlklendirilmiş bir blok eklemekte kullanılır. <code class="code">obstack_grow</code> işlevi nesne büyüten bir <a href="glibc-Allocation-in-an-Obstack.html#glibc-fn-obstack_copy"><strong class="function"><code>obstack_copy</code></strong></a> işlevi gibi düşünülebilir. Büyüyen nesneye <em class="parameter"><code>size</code></em> baytlık <em class="parameter"><code>data</code></em> ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_grow0" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_grow0</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Nesne büyüten bir <a href="glibc-Allocation-in-an-Obstack.html#glibc-fn-obstack_copy0"><strong class="function"><code>obstack_copy0</code></strong></a> işlevi gibi düşünülenilir. Büyüyen nesneye <em class="parameter"><code>size</code></em> baytlık <em class="parameter"><code>data</code></em>  sonuna boş bir bayt getirilerek eklenir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_1grow" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_1grow</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">char </code> <strong><code class="parameter">c</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">obstack_1grow</code> işlevi büyüyen nesneye bir defada sadece bir bayt eklemek için kullanılır. Büyüyen nesneye ASCII <em class="parameter"><code>c</code></em> karakterini içeren tek bir bayt ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_ptr_grow" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_ptr_grow</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Gösterici değerine bir eklemek için kullanılır. Büyüyen nesneye <em class="parameter"><code>data</code></em> değerini içeren <code class="code">sizeof (void *)</code> bayt ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_int_grow" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_int_grow</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">data</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Büyüyen nesneye <code class="type">int</code> türünde tek bir değer eklemek için kullanılır. Büyüyen nesneye <code class="code">sizeof (int)</code> bayt ekler ve <em class="parameter"><code>data</code></em> değeri ile ilklendirir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_finish" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_finish</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      Büyüyen nesneyle çalışma bitince nesneyi kapatıp nesne adresini döndürmek için <code class="code">obstack_finish</code> kullanılır.
+     </p>
+     <p>
+      Büyüyen nesneyle çalışma bitince, yığınak, normal bellek tahsisinde ya da yeni bir büyüyen nesne oluşturmakta kullanılabilir.
+     </p>
+     <p>
+      Bu işlev <a href="glibc-Allocation-in-an-Obstack.html#glibc-fn-obstack_alloc"><strong class="function"><code>obstack_alloc</code></strong></a> işlevi gibi aynı koşullar altında boş gösterici ile de dönebilir. Bkz. <a class="xref" href="glibc-Allocation-in-an-Obstack.html" title="3.2.6.3. Bir Yığınağa Nesne Eklenmesi">Bir Yığınağa Nesne Eklenmesi</a>.
+     </p>
+    </div>
+        <p>
+     Büyüyen nesne ile çalışırken ne büyüklüğe ulaştığını bilmek gerekebilir. Büyüyen nesneyi bitirmeden <a href="glibc-Growing-Objects.html#glibc-fn-obstack_object_size"><strong class="function"><code>obstack_object_size</code></strong></a> işlevi kullanılarak yığınağın eriştiği boyut öğrenilebilir:
+     </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_object_size" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">obstack_object_size</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Bu işlev, büyüyen nesnenin o andaki bayt cinsinden uzunluğu ile döner. Bu işlevin yalnızca <a href="glibc-Growing-Objects.html#glibc-fn-obstack_finish"><strong class="function"><code>obstack_finish</code></strong></a> çağrısı ile nesne bitirilmeden önce çağrılırsa yararlı olduğu unutulmamalıdır. Nesneyi bitirdikten sonra <code class="code">obstack_object_size</code> işlevi <code class="code">0</code> döndürür.
+     </p>
+    </div>
+        <p>
+     Büyüyen nesne oluşturduktan sonra iptal edilmesi gerekirse, önce nesnenin bitirilmesi sonra da serbest bırakılması gerekir. Örnek:
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: Büyüyen nesneyi iptal etmek</div>
+          <div class="example-contents">
+            <pre class="screen">obstack_free (obstack_ptr, obstack_finish (obstack_ptr));
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Nesne büyüyen bir nesne değilse bu etkisizdir.
+    </p>
+        <p>
+     <span id="idm87388" class="indexterm"></span>
+     Bir nesneyi küçültmek için <span class="command"><strong>obstack_blank</strong></span> işlevi negatif boyutla çağrılabilir. Ancak nesneyi küçültürken boyunun sıfırın altına düşmemesine dikkat edilmelidir, aksi takdirde neler olacağı bilinemez.
+    </p>
+      </section>
+    </section>
+  </body>
+</html>

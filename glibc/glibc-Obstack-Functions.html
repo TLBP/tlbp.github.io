@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.6.5. Yığınak İşlevleri ve Makroları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Freeing-Obstack-Objects.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.4. Yığınaktan Nesne Çıkarılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Growing-Objects.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.6.6. Büyüyen Nesneler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Obstack-Functions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.6.5. Yığınak İşlevleri ve Makroları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm87122" class="indexterm"></span>
+     Derleyiciye bağlı olarak, yığınakların kullanılmasını sağlayan arayüzler işlev ya da makro olarak tanımlanabilir. Yığınak oluşumu, ISO C ve geleneksel C dahil, tüm C derleyicileri ile çalışır, ancak GNU C derleyicisi dışındaki derleyiciler kullanılacaksa alınması gereken bazı önlemler vardır.
+    </p>
+        <p>
+     Eski moda, ISO C olmayan bir derleyicinin kullanılması durumunda, tüm yığınak işlevleri aslında birer makro olarak tanımlanmalıdır. Bu makrolar birer işlev gibi çağrılabilir ama bir işlevin sağladığı diğer kolaylıklardan (işlev adresini almak gibi) yararlanılamaz.
+    </p>
+        <p>
+     Makroların çağrılması özel bir önlem almayı gerektirir: İsim olarak, ilk terim (yığınak göstericisi) herhangi bir yan etki barındırmamalıdır.
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">obstack_alloc (get_obstack (), 4);
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     yazılırsa, <strong class="function"><code>get_obstack</code></strong> defalarca çağrılacaktır. Ya da yığınak göstericisi bağımsız değişkeni olarak <code class="code">*obstack_list_ptr++</code> kullanılırsa, defalarca artırım uygulanacağından çok tuhaf sonuçlar ortaya çıkabilir.
+    </p>
+        <p>
+     ISO C'de, her işlevin bir makro bir de işlev olarak tanımı vardır. Bir işlevi çağırmadan sadece adresi alınmak istenirse işlev tanımı kullanılır. Normal bir işlev çağrısında ise öntanımlı olarak makro tanımı kullanılır, ancak istenirse işlev ismi yaylı ayraç içinde kullanılarak işlev tanımı da kullanılabilir. Örnek:
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">char *x;
+void *(*funcp) ();
+/* <em class="replaceable"><code>Makro kullanımı</code></em>. */
+x = (char *) obstack_alloc (obptr, size);
+/* <em class="replaceable"><code>İşlev çağrısı</code></em>. */
+x = (char *) (obstack_alloc) (obptr, size);
+/* <em class="replaceable"><code>İşlev adresinin alınması</code></em>. */
+funcp = obstack_alloc;
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Aynı durum ISO C'deki standart kütüphane işlevleri için de geçerlidir. Bkz. <a class="xref" href="glibc-Macro-Definitions.html" title="1.4.2. Makro Olarak Tanımlanmış İşlevler">Makro Olarak Tanımlanmış İşlevler</a>.
+    </p>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+      ISO C'de bile, makroları kullanırken ilk terimin yan etkiler oluşturmasına karşı önlem almak gerekir.
+     </p>
+          </div>
+        </div>
+        <p>
+     GNU C derleyicisi kullanılıyorsa, bu önlem gereksizdir, çünkü GNU C'deki çeşitli dil oluşumları, makroların, her bağımsız değişkeninin bir kere hesaplanmasını sağlayacak şekilde tanımlanmasına izin verir.
+    </p>
+      </section>
+    </section>
+  </body>
+</html>

@@ -3,8 +3,6 @@
   <head>
     <title>4.4. Pencere İşlevleri</title>
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
-    <link rel="prev" href="pgsql-tutorial-transactions.html" title="4.3. Hareketler" />
-    <link rel="next" href="pgsql-tutorial-inheritance.html" title="4.5. Kalıtım" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
@@ -71,7 +69,7 @@ SELECT depname, empno, salary, avg(salary) OVER (PARTITION BY depname) FROM emps
 (10 satır)
 </pre>
         <p>
-    Çıktının ilk üç sütunu doğrudan <code><span class="structname"><strong>empsalary</strong></span></code> tablosundan gelir ve tablodaki her satır için bir çıktı satırı vardır. Dördüncü sütun, geçerli satırla aynı <tt>depname</tt> değerine sahip tüm satırlardan elde edilen ortalamayı temsil eder. (Bu aslında, pencere olmayan <code class="function">avg</code> toplamı ile aynı işlevdir, ancak <code class="literal">OVER</code> deyimi, bunun bir pencere işlevi olarak ele alınmasına ve pencere çerçevesi boyunca hesaplanmasına neden olur.)
+    Çıktının ilk üç sütunu doğrudan <strong class="structname"><code>empsalary</code></strong> tablosundan gelir ve tablodaki her satır için bir çıktı satırı vardır. Dördüncü sütun, geçerli satırla aynı <tt>depname</tt> değerine sahip tüm satırlardan elde edilen ortalamayı temsil eder. (Bu aslında, pencere olmayan <strong class="function"><code>avg</code></strong> toplamı ile aynı işlevdir, ancak <code class="literal">OVER</code> deyimi, bunun bir pencere işlevi olarak ele alınmasına ve pencere çerçevesi boyunca hesaplanmasına neden olur.)
    </p>
         <p>
     Bir pencere işlevi çağrısı her zaman pencere işlevinin adını ve bağımsız değişkenlerini izleyen bir <code class="literal">OVER</code> deyimi içerir. Bu, onu normal bir işlevden veya pencere olmayan bir toplamdan sözdizimsel olarak ayıran şeydir. <code class="literal">OVER</code> deyimi, sorgu satırlarının pencere işlevi tarafından işlenmek üzere tam olarak nasıl bölüneceğini belirler. <code class="literal">OVER</code> içindeki <code class="literal">PARTITION BY</code> deyimi, satırları, <code class="literal">PARTITION BY</code> ifade(ler)iyle aynı değerlerini paylaşan gruplara veya bölümlere ayırır. Her satır için pencere işlevi, geçerli satırla aynı bölüme düşen satırlar arasında hesaplanır.
@@ -101,7 +99,7 @@ FROM empsalary;
 (10 satır)
 </pre>
         <p>
-    Burada gösterildiği gibi, <code class="function">rank</code>() işlevi, <code class="literal">ORDER BY</code> deyimi tarafından tanımlanan sırayı kullanarak, geçerli satırın bölümündeki her farklı <code class="literal">ORDER BY</code> değeri için sayısal bir sıra üretir. <code class="function">rank</code>() işlevinin bağımsız değişkenleri yoktur, çünkü davranışı tamamen <code class="literal">OVER</code> deyimi tarafından belirlenir.
+    Burada gösterildiği gibi, <strong class="function"><code>rank</code></strong>() işlevi, <code class="literal">ORDER BY</code> deyimi tarafından tanımlanan sırayı kullanarak, geçerli satırın bölümündeki her farklı <code class="literal">ORDER BY</code> değeri için sayısal bir sıra üretir. <strong class="function"><code>rank</code></strong>() işlevinin bağımsız değişkenleri yoktur, çünkü davranışı tamamen <code class="literal">OVER</code> deyimi tarafından belirlenir.
    </p>
         <p>
     Bir pencere işlevi tarafından dikkate alınan satırlar, sorgunun <code class="literal">FROM</code> deyimi tarafından <code class="literal">WHERE</code>, <code class="literal">GROUP BY</code> ve varsa <code class="literal">HAVING</code> deyimleri ile elde edilen "hayali" bir tablonun satırlarıdır. Örneğin, <code class="literal">WHERE</code> koşulunu karşılamadığı için kaldırılan bir satırı herhangi bir pencere işlevi göremez. Bir sorgu, farklı <code class="literal">OVER</code> deyimleri kullanarak verileri farklı şekillerde dilimleyen birden çok pencere işlevi içerebilir, ancak bunların tümü bu "hayali" tablo tarafından tanımlanan aynı satır kümesinde hareket eder.
@@ -112,7 +110,7 @@ FROM empsalary;
    </p>
         <p><span class="notfoot"></span>
     Pencere işlevleriyle ilişkili önemli kavram daha vardır: her satır için, kendi bölümünde <em class="firstterm">pencere çerçevesi</em> adı verilen bir dizi satır vardır. Bazı pencere işlevleri, tüm bölme yerine yalnızca pencere çerçevesinin satırları üzerinde hareket eder. Öntanımlı olarak, <code class="literal">ORDER BY</code> belirtilirse, pencere çerçevesi bölümün başlangıcından geçerli satıra kadar olan tüm satırlardan ve takip eden satırlardan <code class="literal">ORDER BY</code> deyimine göre geçerli satırla eşleşen satırlardan oluşur. <code class="literal">ORDER BY</code> atlandığında, öntanımlı pencere çerçevesi bölümdeki tüm satırlardan oluşur.<a id="idm77077" href="#ftn.idm77077" class="footnote"><sup class="footnote">[67]</sup></a>
-    İşte <code class="function">sum</code>() işlevini kullanan bir örnek:
+    İşte <strong class="function"><code>sum</code></strong>() işlevini kullanan bir örnek:
    </p>
         <pre class="screen">
 SELECT salary, sum(salary) OVER () FROM empsalary;

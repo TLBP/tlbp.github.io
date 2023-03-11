@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.3.7. malloc Ayarlanabilirleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Aligned-Memory-Blocks.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.6. Bellek Dilimlerinin Hizalanarak Tahsisi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Heap-Consistency-Checking.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.3.8. Yığın Bellek Tutarlılık Denetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Malloc-Tunable-Parameters">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.3.7. <code class="code">malloc</code> Ayarlanabilirleri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm85903" class="indexterm"></span>
+     Özdevimli bellek tahsisi ile ilgili bazı ayarlanabilir değişkenlere  <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> ile değer atanabilir. Bu işlev genel SVID/XPG arayüzü olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/malloc.h;hb=HEAD" target="_top">malloc.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-mallopt" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">mallopt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">param</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">value</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a> <a class="link" href="glibc-POSIX.html#glibc-safety-const">const</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:mallopt</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+     </div>
+      <p>
+      <code class="code">mallopt</code> işlevi çağrılırken tanımlanacak ayarlanabilir değişken <em class="parameter"><code>param</code></em> ile, değeri ise <em class="parameter"><code>value</code></em> ile belirtilir. <em class="parameter"><code>param</code></em> için <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/malloc.h;hb=HEAD" target="_top">malloc.h</a></code> başlık dosyasında tanımlı  ayarlanabilir değişkenler:
+     </p>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_MMAP_MAX" class="indexterm"></span>
+      <span id="glibc-cp-M_MMAP_MAX" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_MMAP_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       <strong class="function"><code>mmap</code></strong> ile ayrılabilecek olası en fazla dilim sayısı. Bu makroya sıfır değeri atanarak <strong class="function"><code>mmap</code></strong> kullanımı tamamen devre dışı bırakılabilir.
+      </p>
+      <p>
+       <code class="code">65536</code> değeri öntanımlıdır.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_MMAP_MAX_"><strong class="varname"><code>MALLOC_MMAP_MAX_</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_MMAP_THRESHOLD" class="indexterm"></span>
+      <span id="glibc-cp-M_MMAP_THRESHOLD" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_MMAP_THRESHOLD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Bu değerden daha büyük dilimler <strong class="function"><code>mmap</code></strong> sistem çağrısı kullanılarak normal yığın belleğin dışında ayrılır.  Bu yol, bu parçaların <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> üzerinden sisteme döndürülebilirliğini garanti eder. Bu eşik değerden daha küçük istekler hala <strong class="function"><code>mmap</code></strong> üzerinden tahsis edilebilir.
+      </p>
+      <p>
+       Eşik değer olarak 128 KiB öntanımlıdır ve eşik, yazılımın tahsis şablonlarına uyacak şekilde özdevimli olarak atanır. Değer elle atanırsa, özdevimli atama devre dışı bırakılır ve girilen değer duruk olarak atanır.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_MMAP_THRESHOLD_"><strong class="varname"><code>MALLOC_MMAP_THRESHOLD_</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_PERTURB" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_PERTURB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Eğer sıfır değilse, bellek dilimleri tahsis edildiğinde (<a href="glibc-Allocating-Cleared-Space.html#glibc-fn-calloc"><strong class="function"><code>calloc</code></strong></a> tarafından tahsis edilmediği sürece) ve serbest bırakıldığında bellek dilimi bu değerin bazı düşük seviyeli bitlerine bağlı değerlerle doldurulur. Bu, ilklendirilmemiş veya serbest bırakılmış yığın bellek kullanımında hata ayıklamak için kullanılabilir. Bu seçeneğin, serbest bırakılan dilimin belirli değerlere sahip olacağını garanti etmediği unutulmamalıdır. Yalnızca dilimin serbest bırakılmadan önceki içeriğinin üzerine yazılacağı garanti edilir.
+      </p>
+      <p>
+       <code class="code">0</code> öntanımlı değerdir.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_PERTURB_"><strong class="varname"><code>MALLOC_PERTURB_</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_TOP_PAD" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_TOP_PAD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Sahanın genişletilmesi gerektiğinde sistemden alınacak ek bellek miktarını belirler. Ayrıca, bir sahayı küçültürken alıkonacak bayt sayısını da belirtir. Bu, yığın boyutunda gerekli gecikmeyi de sağlar, böylece aşırı miktarda sistem çağrısı önlenebilir.
+      </p>
+      <p>
+       <code class="code">0</code> öntanımlı değerdir.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_TOP_PAD_"><strong class="varname"><code>MALLOC_TOP_PAD_</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_TRIM_THRESHOLD" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_TRIM_THRESHOLD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Belleği sisteme döndürmek için bir sistem çağrısını tetikleyecek en üstteki serbest bırakılabilir tomarın asgari boyutudur (bayt olarak).
+      </p>
+      <p>
+       Eşik değer olarak 128 KiB öntanımlıdır ve eşik, yazılımın tahsis şablonlarına uyacak şekilde özdevimli olarak atanır. Değer elle atanırsa, özdevimli atama devre dışı bırakılır ve girilen değer duruk olarak atanır.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_TRIM_THRESHOLD_"><strong class="varname"><code>MALLOC_TRIM_THRESHOLD_</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_ARENA_TEST" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_ARENA_TEST</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Saha sayısı sınırı sınanmadan önce oluşturulabilecek saha sayısını belirler. <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_ARENA_MAX"><strong class="varname"><code>M_ARENA_MAX</code></strong></a> tanımlıysa bu değer yok sayılır.
+      </p>
+      <p>
+       32 bitlik sistemlerde 2, 64 bitlik sistemlerde 8 öntanımlı değerdir.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_ARENA_TEST"><strong class="varname"><code>MALLOC_ARENA_TEST</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      makro</div>
+      <span id="glibc-vr-M_ARENA_MAX" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">M_ARENA_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Sistemdeki işlemci çekirdeği sayısından bağımsız olarak kullanılacak saha sayısını belirler.
+      </p>
+      <p>
+       Öntanımlı değeri <code class="code">0</code>'dır, yani saha sayısındaki sınır çevrim içi işlemci çekirdeği sayısına göre belirlenir. 32 bit sistemler için sınır, çevrimiçi işlemci çekirdeği sayısının iki katıdır ve 64 bit sistemlerde ise sekiz katıdır. Öntanımlı değerin <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_ARENA_TEST"><strong class="varname"><code>M_ARENA_TEST</code></strong></a>'in öntanımlı değerinden türetilmediğine ve bağımsız olarak hesaplandığına dikkat edilmelidir.
+      </p>
+      <p>
+       Süreç başlatılırken <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_ARENA_MAX"><strong class="varname"><code>MALLOC_ARENA_MAX</code></strong></a> ortam değişkenine istenen değer atanarak bu ayarlanabilirin değeri belirlenebilir.
+      </p>
+     </div>
+    </div>
+        <p>
+     <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkeninde belirtilen ayarlanabilirlerin yerine eşdeğeri olan ortam değişkenleri tanımlanabilir. Bu değişkenleri kullanmanın getirisi, yazılımın kaynak kodunun değiştirilmesine gerek kalmamasıdır. Etkili olmaları için, bu değişkenlerin bir bellek ayırma işlevine yapılan ilk çağrıdan önce tanımlanması gerekir. <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> ile yapılan değişiklikler ortam değişkenlerine göre önceliklidir. Güvenlikle ilgili nedenlerden dolayı, bu değişkenlerin kullanımı SUID ve SGID'li çalıştırılabilirler için öntanımlı olarak iptal edilmiştir.
+    </p>
+        <p>
+     Malloc ayarlanabilirleri yerine kullanılabilecek ortam değişkenleri (Bazı isimlerin sonundaki alt çizgi imine dikkat edilmelidir):
+    </p>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_ARENA_MAX" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_ARENA_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_ARENA_MAX"><strong class="varname"><code>M_ARENA_MAX</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_ARENA_TEST" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_ARENA_TEST</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_ARENA_TEST"><strong class="varname"><code>M_ARENA_TEST</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_CHECK_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_CHECK_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Ayrıntılar <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> işlevinin açıklamasında bulunabilir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_MMAP_MAX_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_MMAP_MAX_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_MMAP_MAX"><strong class="varname"><code>M_MMAP_MAX</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_MMAP_THRESHOLD_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_MMAP_THRESHOLD_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_MMAP_THRESHOLD"><strong class="varname"><code>M_MMAP_THRESHOLD</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_PERTURB_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_PERTURB_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_PERTURB"><strong class="varname"><code>M_PERTURB</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_TRIM_THRESHOLD_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_TRIM_THRESHOLD_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_TRIM_THRESHOLD"><strong class="varname"><code>M_TRIM_THRESHOLD</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-MALLOC_TOP_PAD_" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MALLOC_TOP_PAD_</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevinin <em class="parameter"><code>param</code></em> bağımsız değişkenine <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_TOP_PAD"><strong class="varname"><code>M_TOP_PAD</code></strong></a> belirtmeye eşdeğerdir.
+     </p>
+    </div>
+      </section>
+    </section>
+  </body>
+</html>

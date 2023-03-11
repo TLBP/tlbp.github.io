@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.4. Bellek Tahsisinde Hata Ayıklama</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Summary-of-Malloc.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.10. <code class="code">malloc</code> ve İlgili İşlevlerin Özeti</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Replacing-malloc.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.5. <code class="code">malloc</code> İkamesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Allocation-Debugging">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.2.4. Bellek Tahsisinde Hata Ayıklama</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm86572" class="indexterm"></span>
+    <span id="idm86576" class="indexterm"></span>
+    Özdevimli bellek tahsisinde bellek artıklarını bulmak çöp toplayıcı kullanılmayan dillerle yazılım geliştirirken oldukça karmaşık bir iştir. Uzun süre çalışan yazılımlar özdevimli olarak ayırdıkları nesnelerin işleri bittiğinde serbest bırakılmalarını sağlamalıdır. Aksi takdirde er veya geç sistem belleği tükenebilir.
+   </p>
+        <p>
+    GNU C kütüphanesindeki <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi bu tür artıkların saptanması ve konumlarının bulunmasıyla ilgili bazı bilgiler sağlar. Bunu yapacak uygulama bir ortam değişkeni ile etkinleştirilen özel bir kipte başlatılmalıdır. Hata ayıklama kipi etkinleştirilirse yazılım için hiçbir hız cezası kesilmez.
+   </p>
+        <section class="sect2" id="glibc-Tracing-malloc">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.4.1. İzleme işlevselliğinin kurulması</h3>
+              </div>
+            </div>
+          </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-mtrace" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">mtrace</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-env">env</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:mtrace</a></code> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-init">init</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">mtrace</code> işlevi, çağrıldığı yazılımdaki bellek tahsis olaylarını izlemek için bir yol sağlar. Kütüphanede öntanımlı olarak devre dışıdır ve <strong class="varname"><code>LD_PRELOAD</code></strong> ortam değişkeni kullanılarak <code class="filename">libc_malloc_debug</code> hata ayıklama kitaplığı önyüklenerek etkinleştirilebilir.
+     </p>
+     <p>
+      <code class="code">mtrace</code> işlevi çağrıldığında <strong class="varname"><code>MALLOC_TRACE</code></strong> isimli ortam değişkenine bakar. Bu değişkenin geçerli bir dosya ismi içereceği kabul edilir. Kullanıcının dosyaya yazma izni olmalıdır. Dosya zaten mevcutsa içeriği silinir. Ortam değişkeni yoksa ya da değeri yazmak için açılabilir geçerli bir dosya ismi değilse hiçbir şey yapılmaz. <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ve benzerlerinin davranışı değiştirilmez. Belli sebeplerle SUID veya SGID'li uygulamalar için de bu durum geçerlidir.
+     </p>
+     <p>
+      Değişkende ismi belirtilen dosya başarıyla açılırsa, <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> işlevi <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevleri için özel işleyiciler oluşturur. Bundan sonra bu işlevlerin tüm kullanımları izlenir ve dosyaya listelenir. İzlenen işlevlere yapılan tüm çağrılar için artık bir hız cezası vardır. Yani normal kullanım için izleme etkinleştirilmemelidir.
+     </p>
+     <p>
+      Bu işlev bir GNU genişletmesidir ve genelde diğer sistemler için kullanılabilir değildir. İşlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code> başlık dosyasında bildirilmiştir.
+     </p>
+    </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-muntrace" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">muntrace</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:mtrace</a></code> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">muntrace</code> işlevi <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılarının izlenmesini etkinleştiren <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrısından sonra çağrılabilir. Başarılı bir <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrısı yoksa <code class="code">muntrace</code> hiçbir şey yapmaz.
+     </p>
+     <p>
+      Aksi takdirde <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevleri için oluşturulan işleyicileri devre dışı bırakır ve izleme dosyasını kapatır. İzlenen bir çağrı kalmadığından yazılım tam hızıyla çalışır.
+     </p>
+     <p>
+      Bu işlev bir GNU genişletmesidir ve genelde diğer sistemler için kullanılabilir değildir. İşlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code> başlık dosyasında bildirilmiştir.
+     </p>
+    </div>
+        </section>
+        <section class="sect2" id="glibc-Using-the-Memory-Debugger">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.4.2. Örnek Yazılım Parçaları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     İzleme işlevselliği yazılımın çalışma anı davranışını açıklamasa bile tüm yazılımlarda <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrısı yapmak iyi fikir değildir. <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> kullanarak bir yazılımda hata ayıklandığını ve hata ayıklama oturumunda kullanılan diğer tüm yazılımların da <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılarını izlediği varsayılırsa çıktı dosyası tüm yazılımlar için ortak olacağından hata ayıklamak kullanışsız olacaktır. Bu nedenle, derleme işlemi yalnızca hata ayıklamak için yapılmışsa <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrılmalı, dolayısıyla yazılım şöyle başlamalıdır:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">#include &lt;mcheck.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+#ifdef DEBUGGING
+  mtrace ();
+#endif
+  …
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Yazılımın çalışması sırasında çağrıları izlemek için gereken tek şey budur. Ayrıca, izleme herhangi bir bir anda <a href="glibc-Allocation-Debugging.html#glibc-fn-muntrace"><strong class="function"><code>muntrace</code></strong></a> ile durdurulabilir ve yeni bir <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrısı ile izleme yeniden başlatılabilir. Ancak, çağrılmamış işlev çağrıları olabileceğinden bu istenmeyen sonuçlara yol açabilir.
+    </p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+      İzlenen işlevleri yalnızca yazılımın kullanmadığı kütüphanelerin de (C kütüphanesinin kendisi dahil) kullandığı unutulmamalıdır.
+     </p>
+            </div>
+          </div>
+          <p>
+     Bu durum, yazılım sonlanmadan önce <a href="glibc-Allocation-Debugging.html#glibc-fn-muntrace"><strong class="function"><code>muntrace</code></strong></a> çağrısı yapmanın neden iyi bir fikir olmadığı hakkında da bir fikir verir. Kütüphaneler sadece yazılımın  <strong class="function"><code>main</code></strong> işlevinin dönüşü veya bir <strong class="function"><code>exit</code></strong> çağrısından sonra yazılımın sonlandırıldığı hakkında bilgilendirilir. Dolayısıyla bu olmadan kütüphaneler kullandıkları belleği serbest bırakamaz.
+    </p>
+          <p>
+     En iyisi, yazılımın hemen başlarında bir kere <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> çağrısı yapmak ve hiç <a href="glibc-Allocation-Debugging.html#glibc-fn-muntrace"><strong class="function"><code>muntrace</code></strong></a> çağrısı yapmamaktır. Bu durumda yazılımın hemen hemen tüm <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevlerinin (yazılımın yapılandırıcıları tarafından çalıştırılanlar ile kütüphanelerin kullandıkları hariç) kullanımları izlenir.
+    </p>
+        </section>
+        <section class="sect2" id="glibc-Tips-for-the-Memory-Debugger">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.4.3. Bellek Hata Ayıklaması için İpuçları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Durum biliniyor. Yazılım hata ayıklama için hazırlandı ve tüm hata ayıklama oturumları iyi çalışmakta. Ancak hata ayıklaması olmaksızın başlattınca hata oluştu. Bir örnek olarak, hata ayıklama kapatıldında bir bellek artığı görülmüş olsun. Böyle durumlar sezilebilirse kazanma şansı olabilir. Aşağıdaki küçük yazılımda bazı şeylerin eşdeğerleri basitçe kullanılmaktadır:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">#include &lt;mcheck.h&gt;
+#include &lt;signal.h&gt;
+
+static void
+enable (int sig)
+{
+  mtrace ();
+  signal (SIGUSR1, enable);
+}
+
+static void
+disable (int sig)
+{
+  muntrace ();
+  signal (SIGUSR2, disable);
+}
+
+int
+main (int argc, char *argv[])
+{
+  …
+
+  signal (SIGUSR1, enable);
+  signal (SIGUSR2, disable);
+
+  …
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Vs., yazılımcı ortamda <strong class="varname"><code>MALLOC_TRACE</code></strong> atamasıyla yazılımda bellek hata ayıklamasını her zaman başlatabilir. Çıktı şüphesiz ilk sinyalden önce oluşan ayırmaları göstermez ama bir bellek artığı varsa yine de gösterilecektir.
+    </p>
+        </section>
+        <section class="sect2" id="glibc-Interpreting-the-traces">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.4.4. İzlerin Yorumlanması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Çıktıya bakarsanız şuna benzeyecektir:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">= Start
+ [0x8048209] - 0x8064cc8
+ [0x8048209] - 0x8064ce0
+ [0x8048209] - 0x8064cf8
+ [0x80481eb] + 0x8064c48 0x14
+ [0x80481eb] + 0x8064c60 0x14
+ [0x80481eb] + 0x8064c78 0x14
+ [0x80481eb] + 0x8064c90 0x14
+= End
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     İzleme dosyası bir insan tarafından okunup anlamlandırılmayacağı için bu satırların ne anlama geldiğinin bir önemi yoktur. Bu nedenle, okunabilirliğe dikkat edilmemiştir. Bu iş için GNU C kütüphanesi ile birlikte bu izleri yorumlayan ve kullanıcı dostu bir yolla özetleyen  bir uygulama gelir. Bu uygulamanın ismi <tt><b>mtrace</b>(1)</tt>'dir (aslında bir Perl betiğidir) ve bir ya da iki girdi alır. İzleme çıktısını içerecek dosyanın ismi <em class="emphasis">mutlaka</em> belirtilmelidir. İzleme dosyasının adından önce isteğe bağlı bir girdi verilebiliyorsa, bu, izi üreten yazılımın adı olmalıdır.
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">$ mtrace tst-mtrace log
+No memory leaks.
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Burada <code class="filename">tst-mtrace</code> isimli yazılım çalıştırılmış ve <code class="filename">log</code> isimli bir izleme dosyası üretilmiştir. <tt><b>mtrace</b>(1)</tt> uygulaması tarafından basılan ileti kodla ilgili bir sorun olmadığını göstermiş ve ardından tahsis edilen tüm bellek serbest bırakılmıştır.
+    </p>
+          <p>
+     <tt><b>mtrace</b>(1)</tt> uygulaması yukardaki örnek izleme dosyası için çalıştırılırsa farklı bir çıktı elde edilir:
+</p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">$ mtrace errlog
+- 0x08064cc8 Free 2 was never alloc'd 0x8048209
+- 0x08064ce0 Free 3 was never alloc'd 0x8048209
+- 0x08064cf8 Free 4 was never alloc'd 0x8048209
+
+Memory not freed:
+   Address     Size     Caller
+0x08064c48     0x14  at 0x80481eb
+0x08064c60     0x14  at 0x80481eb
+0x08064c78     0x14  at 0x80481eb
+0x08064c90     0x14  at 0x80481eb
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     <span class="command"><strong>mtrace</strong></span> uygulaması tek girdi ile çağrıldı ve bu durumda betik izlerde verilen adresleri anlamlandıramadı. Daha anlamlı bir çıktı için şöyle bir çağrı yapılabilir:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">$ mtrace tst errlog
+- 0x08064cc8 Free 2 was never alloc'd /home/drepper/tst.c:39
+- 0x08064ce0 Free 3 was never alloc'd /home/drepper/tst.c:39
+- 0x08064cf8 Free 4 was never alloc'd /home/drepper/tst.c:39
+
+Memory not freed:
+   Address     Size     Caller
+0x08064c48     0x14  at /home/drepper/tst.c:33
+0x08064c60     0x14  at /home/drepper/tst.c:33
+0x08064c78     0x14  at /home/drepper/tst.c:33
+0x08064c90     0x14  at /home/drepper/tst.c:33
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Ansızın, çıktı daha ayrıntılı oluverdi. Yazılımcı artık hangi işlev çağrısının bozukluğa sebep olduğunu hemen görebilir.
+    </p>
+          <p>
+     Bu çıktının yorumlanması karmaşık değildir. En fazla iki farklı durum saptanmıştır. İlkinde, ayırma işlevlerinden döndürülmemiş göstericiler için <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> çağrılmış. Bu genelde çok kötü bir sorundur ve çıktının ilk üç satırında benzer bir durum gösterilmiştir. Bu gibi durumlar az görülür, çünkü sorun kendini çok dramatik olarak gösterir: yazılım normal olarak çöker.
+    </p>
+          <p>
+     Diğer durum saptanması daha zor olan bellek artıklarıdır. Çıktıda görüldüğü gibi <a href="glibc-Allocation-Debugging.html#glibc-fn-mtrace"><strong class="function"><code>mtrace</code></strong></a> işlevi tüm bu bilgiyi toplamıştır. Bu çıktıya bakarak şu söylenebilir: Yazılım <span class="command"><strong>/home/drepper/tst-mtrace.c</strong></span> kaynak dosyasının 33. satırındaki tahsis işlevini dört kere çağırmış ve yazılım sonlandırılmadan önce bu bellek serbest bırakılmamış. Acaba bu araştırılmayı bekleyen gerçek bir sorun mudur?
+    </p>
+        </section>
+      </section>
+    </section>
+  </body>
+</html>

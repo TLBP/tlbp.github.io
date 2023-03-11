@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.6.7. Çok Hızlı Büyüyen Nesneler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Growing-Objects.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.6. Büyüyen Nesneler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Status-of-an-Obstack.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.6.8. Bir Yığınağın Durumu</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Extra-Fast-Growing">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.6.7. Çok Hızlı Büyüyen Nesneler</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm87396" class="indexterm"></span>
+     Büyüyen nesneleri büyütürken o anki tomarın yeterli yere sahip olup olmadığını denetleyen işlevler içinde yapılan işlemler ek yüke sebep olur. Üstelik bu nesneler küçük adımlarla ve sıklıkla büyütülürse bu israf kaydadeğer olmaya başlar.
+    </p>
+        <p>
+     Bu masraf, bu denetimlerin yapılmadığı özel "hızlı büyütme" işlevleri kullanılarak düşürülebilir. Sağlam bir yazılım isteniyorsa bu denetimlerin yazılımcı tarafından yapılması gerekir. Bu denetim en basit yolla, nesneye veri eklemeye hazırlanırken yapılırsa hiçbir şeyin saklnması gerekmez, zaten normal büyütme işlevleri de bunu böyle yapar. Bu denetimin sıklığı ne kadar azaltılır ve verimi ne kadar artırılırsa yazılım o kadar hızlı olur.
+    </p>
+        <p>
+     <a href="glibc-Extra-Fast-Growing.html#glibc-fn-obstack_room"><strong class="function"><code>obstack_room</code></strong></a> işlevi, geçerli öbekte kullanılabilir oda miktarını döndürür. Aşağıdaki gibi bildirilir:
+     </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_room" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">obstack_room</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Bu işlev, kullanılmakta olan (ya da yeni oluşturulan) <em class="parameter"><code>obstack-ptr</code></em> büyüyen nesnesine hızlı büyütme işlevleri kullanılarak eklenebilecek baytların sayısı ile döner.
+     </p>
+    </div>
+        <p>
+     Ne kadar oda olduğu bilindiğinde aşağıdaki hızlı büyütme işlevleri kullanılarak büyüyen nesneye güvenle veri eklenebilir:
+     </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_1grow_fast" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_1grow_fast</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">char </code> <strong><code class="parameter">c</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Yığınaktaki <em class="parameter"><code>obstack-ptr</code></em> büyüyen nesnesine <strong class="varname"><code>c</code></strong> karakterini içeren tek bir bayt ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_ptr_grow_fast" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_ptr_grow_fast</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Yığınaktaki <em class="parameter"><code>obstack-ptr</code></em> büyüyen nesnesine <em class="parameter"><code>data</code></em> değerini içeren <code class="code">sizeof (void *)</code> bayt ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_int_grow_fast" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_int_grow_fast</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">data</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Yığınaktaki <em class="parameter"><code>obstack-ptr</code></em> büyüyen nesnesine <em class="parameter"><code>data</code></em> değerini içeren <code class="code">sizeof (int)</code> bayt ekler.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-obstack_blank_fast" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">obstack_blank_fast</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Yığınaktaki <em class="parameter"><code>obstack-ptr</code></em> büyüyen nesnesine ilklendirmeksizin <em class="parameter"><code>size</code></em> bayt ekler.
+     </p>
+    </div>
+        <p>
+     <a href="glibc-Extra-Fast-Growing.html#glibc-fn-obstack_room"><strong class="function"><code>obstack_room</code></strong></a> işlevi kullanılarak yer kalmadığı tespit edilirse hızlı büyütme işlevlerini kullanmak artık güvenilir olmaz. Bu durumda, basitçe normal büyütme işlevlerine geçmek gerekir. Sonuç olarak, az yer kalmışsa normal büyütme işlevleri ile yeni bir öbek tahsis etmek gerekir, böylece hızlı büyütme işlevleri tekrar güvenle kullanılabilir olur.
+    </p>
+        <p>
+     Sonuç olarak, <a href="glibc-Extra-Fast-Growing.html#glibc-fn-obstack_room"><strong class="function"><code>obstack_room</code></strong></a> ile yeterli yer kalmadığı anlaşıldığı anda normal büyütme işlevleri kullanabilecek ve nesne yeni bir öbeğe kopyalandığında tekrar hızlı büyütme işlevlerinin kullanılabileceği güvenilir bir alana sahip olunabilecek demektir.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">void
+add_string (struct obstack *obek, const char *ptr, int boyut)
+{
+  while (boyut &gt; 0)
+    {
+      int oda = obstack_room (obek);
+      if (oda == 0)
+        {
+          /* <em class="replaceable"><code>Yeterli boş oda yok. Bir karakter eklenirse nesne,</code></em>
+             <em class="replaceable"><code>yeni bir öbeğe kopyalacak ve boş oda olacak.</code></em>  */
+          obstack_1grow (obek, *ptr++);
+          boyut--;
+        }
+      else
+        {
+          if (oda &gt; boyut)
+            oda = boyut;
+          /* <em class="replaceable"><code>Boş oda olduğuna göre hızla ekleme yapılabilir.</code></em> */
+          boyut -= oda;
+          while (oda-- &gt; 0)
+            obstack_1grow_fast (obek, *ptr++);
+        }
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+    </section>
+  </body>
+</html>

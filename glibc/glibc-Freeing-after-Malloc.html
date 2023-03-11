@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.3.3. malloc ile Ayrılan Belleğin Serbest Bırakılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Malloc-Examples.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.2. <code class="code">malloc</code> Örnekleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Changing-Block-Size.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Freeing-after-Malloc">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.3.3. <code class="code">malloc</code> ile Ayrılan Belleğin Serbest Bırakılması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm85443" class="indexterm"></span>
+     <span id="idm85448" class="indexterm"></span>
+     <span id="idm85451" class="indexterm"></span>
+     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ayrılan bir dilime ihtiyaç kalmadığında, ayrılan dilimin tekrar kullanılabilmesi için <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gerekir. <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-free" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">free</code> işlevi <em class="parameter"><code>ptr</code></em> ile erişilen bellek dilimini serbest bırakır.
+     </p>
+    </div>
+        <p>
+     Bir bellek diliminin serbest bırakılması dilimin içeriğini değiştirir. <em class="wordasword">Bir dilim serbest bırakıldıktan sonra dilimin içindeki bir veriye ulaşılabileceği (örneğin bir dilim zincirindeki sonraki dilime gösterici belirterek) beklenmemelidir.</em> Bir bellek dilimi serbest bırakmadan önce içinde kullanılacak bir bilgi varsa kopyalanmadır. Aşağıdaki örnekte bir zincirdeki dilimlerin tümü ve içerdikleri dizgeler sırayla serbest bırakılmaktadır:
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">struct zincir
+  {
+    struct zincir *sonraki;
+    char *dizge;
+  }
+
+void
+zinciri_sal (struct zincir *zincir)
+{
+  while (zincir != 0)
+    {
+      struct zincir *sonraki = zincir-&gt;sonraki;
+      free (zincir-&gt;dizge);
+      free (zincir);
+      zincir = sonraki;
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Durum uygun olduğunda, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi bellek alanını işletim sistemine döndürür ve süreci küçültür. Genellikle yapılan tek şey, daha sonraki <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılarında bellek alanını yeniden kullanılır kılmaktır. Bu arada serbest bırakılan alan, süreç dahilinde <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> tarafından kullanılmak üzere serbest bırakılanlar listesinin parçası olarak yazılımda kalır.
+    </p>
+        <p>
+     <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'nun değerini korur, böylece temizleme kodunun, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a>'ye yapılan bir çağrı çerçevesinde <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu kaydetmesi ve geri yüklemesi gerekmez. Ne ISO C ne de POSIX.1-2017 <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevinin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu korumasını gerektirse de  POSIX'in gelecekteki bir sürümünde bunun gerektirilmesi planlanmıştır.
+    </p>
+        <p>
+     Yazılımın çalışması sona erdiğinde ayrılan dilimlerin serbest bırakılması gerekmez. Çünkü süreç sonlandığında sürece ayrılan tüm alan sisteme geri verilir.
+    </p>
+      </section>
+    </section>
+  </body>
+</html>

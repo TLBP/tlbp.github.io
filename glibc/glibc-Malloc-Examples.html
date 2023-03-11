@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.3.2. malloc Örnekleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3. Kısıtlanmamış Bellek Tahsisi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Freeing-after-Malloc.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.3.3. <code class="code">malloc</code> ile Ayrılan Belleğin Serbest Bırakılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Malloc-Examples">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.3.2. <code class="code">malloc</code> Örnekleri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm85391" class="indexterm"></span>
+     Ayrılabilecek bellek yoksa <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> boş gösterici ile döner. <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevinin her çağrılışında dönen değere bakılmalıdır. <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'u çağıran, boş gösterici döndüğünde hatayı bildiren ve sadece dönen sıfırdan farklı değerleri döndüren yardımcı bir işlev yazılabilir. Bu yöntem geleneksel olarak <code class="code">xmalloc</code> olarak bilinir ve aşağıdaki gibi gerçeklenebilir:
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: <code class="code">xmalloc</code> örneği</div>
+          <div class="example-contents">
+            <pre class="screen">
+void * xmalloc (size_t size)
+{
+  register void *value = malloc (size);
+  if (value == 0)
+    fatal ("sanal bellek tükendi");
+  return value;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Aşağıda ise <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılan (<code class="code">xmalloc</code> yoluyla) gerçek bir örnek vardır. <code class="code">savestring</code> işlevi belirtilen karakter dizisini yeni ayrılan boş karakter sonlandırmalı dizgeye kopyalamaktadır:
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">char *
+savestring (const char *ptr, size_t len)
+{
+  char *value = xmalloc (len + 1);
+  value[len] = '\0';
+  return memcpy (value, ptr, len);
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'un ayırdığı bellek dilimi her türden veriyi tutabilir. GNU sistemlerinde adres her zaman, 32 bitlik sistemlerde sekizin, 64 bitlik sistemlerde ise onaltının katlarıdır. Nadiren daha yüksek sınırlar (sayfa mertebesinde) gerekir ve bu durumlarda <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-aligned_alloc"><strong class="function"><code>aligned_alloc</code></strong></a> veya <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-posix_memalign"><strong class="function"><code>posix_memalign</code></strong></a> kullanılır (Bkz. <a class="xref" href="glibc-Aligned-Memory-Blocks.html" title="3.2.3.6. Bellek Dilimlerinin Hizalanarak Tahsisi">Bellek Dilimlerinin Hizalanarak Tahsisi</a>).
+    </p>
+        <p>
+     Bir <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısı ile ayrılan dilimin sonuna başka şeyler için kullanmak üzere bellek eklenmesi gerekebilir. Daha önce ayrılmış bir dilimi büyütmek için <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılmaya çalışılırsa ya önceki ayrılan dilimin ya da yenisinin bozulması mümkündür. Ayrılmış bellek dilimi sonradan büyütülmek istenirse <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> işlevi kullanılmalıdır (Bkz. <a class="xref" href="glibc-Changing-Block-Size.html" title="3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi">Bellek Diliminin Boyutunun Değiştirilmesi</a>).
+    </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <div class="itemizedlist">
+              <ul style="list-style-type: disc; " class="itemizedlist">
+                <li class="listitem">
+                  <p>
+        GNU C Kütüphanesinde, başarılı bir <code class="code">malloc (0)</code> çağrısı, yeni tahsis edilmiş sıfır boyutlu bellek dilimi için boş olmayan gösterici döndürebilir. Diğer gerçeklenimler bunun yerine NULL döndürebilir. POSIX ve ISO C standartları her iki davranışa da izin vermektedir.
+       </p>
+                </li>
+                <li class="listitem">
+                  <p>
+        GNU C Kütüphanesinde, başarısız bir <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısında hata <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır, ancak ISO C bunu gerektirmez ve POSIX uyumlu olmayan gerçeklenimlerin başarısızlık durumunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> ataması yapmasına gerek yoktur.
+       </p>
+                </li>
+                <li class="listitem">
+                  <p>
+        GNU C Kütüphanesinde <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <em class="parameter"><code>size</code></em> değeri <code class="code">PTRDIFF_MAX</code>'tan büyük olduğunda, göstericiler üzerinde eksiltme yapan veya işaretli indisler kullanan yazılımlarla ilgili sorunlardan kaçınmak için her zaman başarısız olur. Diğer gerçeklenimler bu durumda başarılı olabilir ve daha sonra tanımsız davranışa yol açabilir.
+       </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>

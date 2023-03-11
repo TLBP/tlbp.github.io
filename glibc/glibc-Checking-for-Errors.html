@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2.1. Hata Denetimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Reporting.html')">Önceki</button>
+          <div class="dropdown-content">2. Hata Bildirme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Reporting.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Codes.html')">Sonraki</button>
+          <div class="dropdown-content">2.2. Hata Kodları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Checking-for-Errors">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">2.1. Hata Denetimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm82634" class="indexterm"></span>
+    
+    
+    Kütüphane işlevlerinin çoğu başarısız olduğu durumlarda özel bir değer döndürür. Bu özel değer genellikle ya <code class="literal">-1</code> veya boş gösterici ya da bu amaç için tanımlanmış <code class="constant">EOF</code> gibi bir sabittir. Bu geri dönen değer sadece bir hatanın oluştuğu bilgisini verir.  Hatanın çeşidini bulmak için <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde saklanan hata koduna bakılması gerekir. Bu değişken <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-errno" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">volatile int </code> <strong><code class="varname">errno</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeni sistem hata numarasını içerir. <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değeri yazılımcı tarafından değiştirebilir.
+    </p>
+    <p>
+     
+     
+     <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeni <code class="type">volatile</code> olarak bildirildiğinden bir sinyal işleyici tarafından herhangi bir anda değiştirilebilir. Doğru yazılmış bir sinyal işleyici <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değerini saklayabildiğinden ya da eski değerine döndürebildiğinden, sinyal işleyici yazmak dışında bu olasılık için kaygılanmak gerekmez.
+    </p>
+    <p>
+     <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeni başlangıçta sıfır değerine sahiptir. Birçok kütüphane işlevi bir hata oluştuğunda sıfırdan farklı bir değerle dönmeyi garanti eder. Bu hata durumları her işlev için listelenmiştir. Kütüphane işlevlerinin bazıları bu mekanizmayı kullanmak yerine, doğrudan hata kodu döndürür.
+    </p>
+    <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+      Çoğu kütüphane işlevi başarılı olduğunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değerini değiştirmez, bazıları anlamsız bir değer atayabilir, bazıları da hata olduştuğunda hata kodunu doğrudan kendisi döndürür. Bu nedenle, bir işlev çağrısının başarılı olup olmadığı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değerine bakılarak saptanmaya çalışılmamalıdır. Hatayı saptamanın doğru yolu her işlev için belgelenmiştir.
+     </p></div></div>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+      
+      
+      ISO C, makro olarak gerçekleştirilebileceğinden <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'nun bir değişken değil bir "değiştirilebilir sol taraf değeri" olduğunu belirtir. Örneğin, <strong class="function"><code>*__errno_location ()</code></strong> benzeri bir işlev çağrısı ile ilişkilendirilmiş olabilir. Aslında, GNU/Linux ve GNU/Hurd sistemlerinde böyledir. GNU kütüphanesi, her sistemde doğru olanı yapar.
+     </p></div></div>
+    <p>
+     Bir hata durumunda tamamen meşru bir değer döndüren <strong class="function"><code>sqrt</code></strong> ve <strong class="function"><code>atan</code></strong> gibi bazı kütüphane işlevleri hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine de tanımlar. Bu işlevler için, önerilen yöntem, işlev çağrısından önce <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine sıfır değeri atanması ve çağrı sonrasında <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değerine bakılmasıdır.
+    </p>
+   </div>
+        <p>
+    Tüm hata kodları için <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında birer makro olarak tanımlanmış birer sembolik isim vardır. Bu isimler daima bir <span class="command"><strong>E</strong></span> harfi ile başlar ve bir rakam ya da büyük harf ile devam eder. Bu isimler birer <a class="link" href="glibc-Reserved-Names.html" title="1.4.3. Anahtar Sözcükler">anahtar sözcük</a> gibi ele alınmalıdır.
+   </p>
+        <p>
+    
+    Hata kodu değerlerinin hepsi pozitif tamsayıdır ve tamamı farklı değerlere sahiptir; bu ikisi dışında: <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="function"><code>EWOULDBLOCK</code></strong></a> ve <a href="glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="function"><code>EAGAIN</code></strong></a> aynı değere sahiptir. Değerleri farklı olduğundan bu sabitlerin isimlerini <strong class="statement"><code>switch</code></strong> deyiminde etiket olarak kullanabilirsiniz; ama <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="function"><code>EWOULDBLOCK</code></strong></a> ve <a href="glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="function"><code>EAGAIN</code></strong></a> isimlerinden sadece biri kullanılmalıdır. Geliştirilen yazılımda bu sembolik sabitlerin özel değerleri dışında bir kabulde bulunulmamalıdır.
+   </p>
+        <p>
+    <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri bu makroların herhangi birinin karşılığı olmak zorunda değildir; bazı kütüphane işlevleri kendi özel durumlarına özgü hata kodları döndürebilir. Belirli bir kütüphane işlevi için anlamlı olması garanti edilen değerler, bu kılavuzda o işlev için listelenen değerlerdir.
+   </p>
+        <p>
+    
+    GNU/Hurd dışında sistemlerin hemen hepsinde, bir sistem çağrısı, bağımsız değişken olarak geçersiz gösterici ile çağrılmışsa <a href="glibc-Error-Codes.html#glibc-vr-EFAULT"><strong class="function"><code>EFAULT</code></strong></a> ile dönebilir. Bu sadece yazılımınızdaki bir yazılım hatasının sonucu olarak görülebileceğinden ve "GNU/Hurd sistemlerinde asla bu hatayı göremeyeceğinizden" işlevlerin açıklamalarında <a href="glibc-Error-Codes.html#glibc-vr-EFAULT"><strong class="function"><code>EFAULT</code></strong></a> hatasına hiç yer verilmemiş ama bu değer kütüphaneye konmuştur.
+   </p>
+        <p>
+    
+    
+    
+    
+    
+    Bazı Unix sistemlerinde birçok sistem çağrısı, bağımsız değişken olarak verilmiş yığıt içindeki bir göstericiden dolayı, çekirdeğin yığıtı genişletmeye çalışırken anlaşılmaz bir sebeple başarısız olması durumunda <a href="glibc-Error-Codes.html#glibc-vr-EFAULT"><strong class="function"><code>EFAULT</code></strong></a> döndürebilir. Bu gibi durumların oluşmaması için sistemdeki yığıt (stack) belleği kullanmak yerine yığın (heap) bellekten duruk olarak ya da özdevimli ayrılmış bellek kullanılmaya çalışılmalıdır.
+   </p>
+      </section>
+    </section>
+  </body>
+</html>

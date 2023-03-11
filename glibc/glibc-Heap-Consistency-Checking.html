@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.3.8. Yığın Bellek Tutarlılık Denetimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Malloc-Tunable-Parameters.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.7. <code class="code">malloc</code> Ayarlanabilirleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Statistics-of-Malloc.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.3.9. <code class="code">malloc</code> ile Bellek Tahsis İstatistikleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Heap-Consistency-Checking">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.3.8. Yığın Bellek Tutarlılık Denetimi</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm86115" class="indexterm"></span>
+     <span id="idm86119" class="indexterm"></span>
+     <strong class="varname"><code>LD_PRELOAD</code></strong> ortam değişkenini kullanarak <code class="filename">libc_malloc_debug</code> hata ayıklama kütüphanesini önyükleyerek ve <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> işlevini kullanarak özdevimli ayrılan belleğin tutarlılığının <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> tarafından denetlenmesi istenebilir.
+     <span class="command"><strong>mcheck</strong></span> işlevini kullanarak özdevimli ayrılan belleğin tutarlılığının <span class="command"><strong>malloc</strong></span> tarafından denetlenmesini isteyebilirsiniz. Bu işlev GNU genişletmesidir ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-mcheck" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">mcheck</code></strong></td><td style="vertical-align: text-top;"><code>(<code class="type">void</code>(*<em class="parameter"><code>abortfn</code></em>) (<code class="type">enum mcheck_status</code> <em class="parameter"><code>status</code></em>))</code></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:mcheck</a></code> <a class="link" href="glibc-POSIX.html#glibc-safety-const">const</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:malloc_hooks</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      <code class="code">mcheck</code> işlevinin çağrılması <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'a arasıra tutarlılık denetimi yapmasını söyler. Bunlar, <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ayrılan dilimin sonunu aşan yazma işlemleri gibi şeyleri yakalayacaktır.
+     </p>
+     <p>
+      Bir tutarsızlık bulunduğunda <em class="parameter"><code>abortfn</code></em> ile belirtilen işlev çağrılır. <em class="parameter"><code>abortfn</code></em> boş gösterici içeriyorsa <code class="code">mcheck</code> bir ileti çıktılayıp <strong class="function"><code>abort</code></strong> çağrısı (bkz. ???) yapan öntanımlı işlevi kullanır. Belirtilen işlev, ne tür bir tutarsızlık tespit edildiğini bildiren bağımsız değişkenle çağrılır; türü aşağıda açıklanmıştır.
+     </p>
+     <p>
+      <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis sonrası tahsis denetimine başlamak için çok geç kalınmış olur. Yani <code class="code">mcheck</code> bu durumda hiçbir şey yapmaz. İşlev, çok geç çağırırsanız  <code class="code">-1</code>, aksi takdirde (başarılı olduğunda) <code class="code">0</code> döndürür.
+      </p>
+      <p>
+       <code class="code">mcheck</code> işlevini yeterince erken çağırmanın en kolay yolu, yazılımı derlerken ‘<code class="option">-lmcheck</code>’ seçeneğini kullanmaktır, o zaman yazılım kodunda değişiklik gerekmez. Ya da bunun yerine, yazılımın her çalıştırılışında <code class="code">mcheck</code> çağrısı eklemek için hata ayıklayıcı kullanılabilir, örneğin aşağıdaki <tt><b>gdb</b>(1)</tt> komutları, yazılımın her çalıştırılışında özdevinimli olarak <code class="code">mcheck</code> işlevini çağırır:
+      </p>
+      <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">(gdb) break main
+Breakpoint 1, main (argc=2, argv=0xbffff964) at nehaltsa.c:10
+(gdb) command 1
+Type commands for when breakpoint 1 is hit, one per line.
+End with a line saying just "end".
+&gt;call mcheck(0)
+&gt;continue
+&gt;end
+(gdb) …
+</pre></div></div><br class="example-break" />
+      <p>
+       Bununla birlikte, <code class="code">mcheck</code> çağrısının <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevlerinden önce yapılması gerektiğinden, bu yalnızca ilgili herhangi bir nesneyi ilklendiren bir işlevin <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevlerinden herhangi birine çağrı yapmadığı durumda çalışır.
+      </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-mprobe" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">enum mcheck_status </code> <strong><code class="function">mprobe</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">pointer</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:mcheck</a></code> <a class="link" href="glibc-POSIX.html#glibc-safety-const">const</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:malloc_hooks</a></code>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      <code class="code">mprobe</code> işlevi tahsis edilmiş belirli bir dilimdeki tutarsızlıkların doğrudan denetlenmesini sağlar. Zaten yazılımın başında, arasıra denetim yapması için <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> çağrısı yapılması gerektiğinden <code class="code">mprobe</code> çağrısı, çağrı sırasında ek bir tutarlılık denetimi yapılmasını sağlar.
+     </p>
+     <p>
+      <em class="parameter"><code>pointer</code></em> bağımsız değişkeni <code class="code">malloc</code> veya <code class="code">realloc</code> tarafından döndürülmüş bir gösterici içermelidir.  <code class="code">mprobe</code> bir tutarsızlık varsa bu tutarsızlığı açıklayan bir değer döndürür. Olası değerler aşağıda açıklanmıştır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+     <span id="glibc-tp-mprobe" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">enum mcheck_status</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bu sayılama türü, tahsis edilmiş bir bellek diliminde tutarsızlık varsa saptanan tutarsızlıkları açıklar. Olası değerler:
+     </p>
+     <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-MCHECK_DISABLED" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MCHECK_DISABLED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> ilk tahsisten önce çağrılmamış. Tutarsızlık denetimleri yapılamadı.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-MCHECK_OK" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MCHECK_OK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Herhangi bir tutarsızlık yok.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-MCHECK_HEAD" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MCHECK_HEAD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Bellek diliminin hemen öncesindeki veri değiştirildi. Bu genellikle bir dizi indisi veya göstericisi çok fazla eksiltildiğinde olur.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-MCHECK_TAIL" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MCHECK_TAIL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Bellek diliminin hemen sonrasındaki veri değiştirildi. Bu genellikle bir dizi indisi veya göstericisi çok fazla artırıldığında olur.
+      </p>
+     </div>
+     <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-MCHECK_FREE" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">MCHECK_FREE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       Bellek dilimi zaten serbest bırakılmış.
+      </p>
+     </div>
+    </div>
+        <p>
+     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> kullanımındaki hataları denetlemek ve bunlara karşı korunmak için başka bir olasılık da <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> ortam değişkenini tanımlamaktır. <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a>, 4'ten küçük sıfırdan farklı bir değerle tanımlandığında, aynı bağımsız değişkenle çift <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> çağrısı veya tek baytlık taşma gibi basit hatalara karşı toleranslı olacak şekilde tasarlanmış özel (ama daha az verimli) bir uygulama kullanılır. Bununla birlikte, bu tür hataların tümüne karşı korunulamaz ve sonuçta bellek sızıntıları olabilir. <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> durumunda olduğu gibi, <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> işlevselliğini etkinleştirmek için <code class="filename">libc_malloc_debug</code> kütüphanesinin önceden yüklenmiş olması gerekir. Kütüphane önceden yüklenmemişse <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> etkisiz olacaktır.
+    </p>
+        <p>
+     Yığın bellekte herhangi bir bozulmanın saptanması sürecin anında sonlandırılmasıyla sonuçlanır.
+    </p>
+        <div class="admon warning">
+          <h3 class="admon-title"><code class="code">MALLOC_CHECK_</code> ile ilgili bir sorun  vardır:</h3>
+          <div class="admon-contents">
+            <p>
+      Normal davranışından saparak standart hata tanıtıcısına bir şeyler yazdığı için SUID veya SGID'li çalıştırılabilirlerin istismarı sözkonusu olabilir.  Bu nedenle, <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> kullanımı SUID ve SGID'li  çalıştırılabilirler için öntanımlı olarak iptal edilmiştir. Ancak sistem yöneticisi tarafından <code class="filename">/etc/suid-debug</code> dosyası eklenerek etkinleştirilebilir (bu dosyanın içeriği önemli değildir, dosya boş olabilir).
+     </p>
+          </div>
+        </div>
+        <p>
+     Öyleyse <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> kullanımı ve <code class="option">-lmcheck</code> seçeneğiyle ilintileme arasında ne fark vardır? <code class="option">-lmcheck</code> geriye uyumluluk adına vardır. Her ikisi de aynı yazılım hataları için kullanılırsa da <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> kullanıldığında yazılımı yeniden derlemek gerekmez.
+    </p>
+      </section>
+    </section>
+  </body>
+</html>

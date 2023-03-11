@@ -7,7 +7,7 @@ html {
 }
 body {
   color: #222;
-  font: normal medium/1.5rem sans-serif, serif, monospace;
+  font: normal medium/1.5rem   Arial, Tahoma, "Noto Sans", "Dejavu Sans", Ubuntu, sans, sans-serif, serif, monospace;
   background-color: #ffffee;
   width: 100%;
   overflow-y: scroll;
@@ -90,25 +90,33 @@ pre, pre em, pre .command {
 img { max-width: 32rem; }
 @media (max-width:720px) {
  img { max-width: 18rem; }
-.table,
+.table, .csproto,
 .informaltable,
 .revhistory { overflow-x: auto; }
 }
 
-code,  tt, em code, p em code, .token, .type,
+code,  tt, em code, p em code, .token,
 .pdparam, .command, .constant, .fsfunc,
-td.cmdsynopsis, td.funcdef, td.paramdef {
-  font: 500 .93rem/1.5rem "Noto Sans Mono", monospace;
+td.cmdsynopsis, td.funcdef, td.paramdef,
+.parameter, .type, .cstype, span.indexterm {
+  font: 500 1rem/1.5rem "Noto Sans Mono", hack, monospace;
 }
 .toc-title {
- font: 500 1.65rem/2rem Arial, Tahoma;
+ font: 500 1.5rem/2rem Arial, Tahoma;
  font-stretch: expanded;
 }
 .envar, strong, .command, strong code, b,
-.term code, .glossterm code, .type, .fsfunc,
-.constant, .operator, .statement {
+.term code, .glossterm code, .fsfunc,
+.constant, .operator, .statement, .function {
   font-weight: 700;
   font-style: normal;
+}
+.parameter {
+  font-weight: 600;
+  font-style: normal;
+}
+span.indexterm {
+  color: #711;
 }
 em code, p em code, .pdparam,
 .term em code, .glossterm em code {
@@ -122,12 +130,12 @@ code.prompt {
   font-weight: 400;
   color: black;
 }
-code, tt, .token,v.type,
+code, tt, .token, .type,
 .refsynopsisdiv dt,
 .command,  pre .command,
 .glossterm, .glossterm code,
 .term, .fsfunc, .term code,
-td.funcdef, td.paramdef {
+td.funcdef, td.paramdef, span.dict {
   color: #720;
 }
 em.warn {
@@ -160,7 +168,6 @@ h3 code {
   font-size:1.1rem;
   font-stretch: condensed;
 }
-
 h3.subtitle {margin-bottom: 1rem;}
 h4, h4 code {
   font-size:1.125rem;
@@ -223,7 +230,7 @@ h1, h2, h3, h4, h5, h6, .title,
 .glosslist-title,
 .variablelist-title,
 .question,
-.qandaset dt{
+.qandaset dt {
   color: #754;
 }
 .subtitle,
@@ -232,8 +239,8 @@ h1, h2, h3, h4, h5, h6, .title,
   color: #960;
 }
 em code, .pdparam,
-.term em code,
-.glossterm em code  {
+.term em code, .parameter,
+.glossterm em code, .cstype  {
  color: #080;
 }
 a:hover, a:focus {
@@ -292,8 +299,8 @@ div.footnote {
   margin-top: 1rem;
   margin-left: 1rem;
 }
-.qandaset .admon-contents {
-
+.admon ul, .admon ol {
+  margin-left: -0.5rem;
 }
 .example {
   padding: .25rem 1rem .5rem 1rem;
@@ -359,7 +366,7 @@ ol dd {
 }
 dt, dd {
   margin-top: 0;
-  margin-bottom: .5rem
+  margin-bottom: .25rem
 }
 dd ol, dd ul {
   margin-left: -2rem;
@@ -438,13 +445,6 @@ ol.qandaset dl {
 ol.qandaset * p:first-child {
  margin-top: -1rem;
 }
-dl.toc dd dt {
- position: relative;
- margin-top: 1rem;
-}
-dl.toc > dt {
-  margin-top: .8rem;
-}
 table.revhistory {
   border: 1px solid #bbb;
 }
@@ -455,10 +455,59 @@ th {
   text-align: center;
   vertical-align: middle;
 }
-tr:nth-of-type(odd) { background:#ffffef; }
-tr:nth-of-type(even) {background:#ddddcd; }
+tr:nth-of-type(odd) { background: #ffffef; }
+tr:nth-of-type(even) { background: #ddddcd; }
+.csynopsis {
+  display: block;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 1px 1px 2px #888;
+  margin-top: 1rem;
+  background-color: #effafa/*#f0fff0;*/
+}
+.csproto {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #d7e0e0;
+  margin-top: -1.5rem;
+  padding: 0 0.25rem 0 0.25rem;
+}
+.csproto + .csproto {
+  margin-top: 0.5rem;
+}
+.cstype {
+  display: inline-block;
+  position: relative;
+  top: 2.5rem;
+  left: -4.3rem;
+  width: auto;
+  height: 1.5rem;
+  transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  background-color: transparent;
+}
+.csprototab {
+ margin-bottom: 0.25rem;
+}
+.csproto tr, td.csname, td.type, td.parameter {
+  background-color: #d7e0e0;
+  padding: 0;
+}
+.safety {
+ margin-top: 0.5rem;
+}
 .revhistory tr {
   background: #fffff0;
+}
+.csynopsis .glosslist .simplelist  {
+  margin-top: -0.5rem;
+}
+.csynopsis .glosslist .member {
+  margin-left: 1rem;
 }
 td.revremark-blank {
  background:#fffff0;
@@ -597,4 +646,8 @@ em.regxoutput {
 .preliminary .title {
  display: none;
 }
+.dedication .title {
+ margin-bottom: -1rem;
+}
+
 section > .informaltable { margin-top: 1rem; }

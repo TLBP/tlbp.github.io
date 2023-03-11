@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.5. malloc İkamesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Allocation-Debugging.html')">Önceki</button>
+          <div class="dropdown-content">3.2.4. Bellek Tahsisinde Hata Ayıklama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.6. Yığınaklar (Obstacks)</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Replacing-malloc">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.2.5. <code class="code">malloc</code> İkamesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm86728" class="indexterm"></span>
+    <span id="idm86732" class="indexterm"></span>
+    <span id="idm86736" class="indexterm"></span>
+    <span id="idm86740" class="indexterm"></span>
+   <span id="idm86744" class="indexterm"></span>
+    <span id="idm86748" class="indexterm"></span>
+    <span id="idm86753" class="indexterm"></span>
+    GNU C Kütüphanesi, yerleşik <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçekleniminin aynı arayüze sahip farklı bir tahsisçi ile değiştirilmesini destekler. Özdevimi olarak ilintilenmiş yazılımlar için bu, paylaşımlı nesne bağımlılıkları veya <strong class="varname"><code>LD_PRELOAD</code></strong> kullanılarak araya ELF sembolünün yerleştirilmesi yoluyla gerçekleşir. Duruk ilintileme için <code class="code">malloc</code> ikame kütüphanesinin ilintilenmesi, <code class="filename">libc.a</code> ilintilemesinden önce (doğrudan veya dolaylı olarak) olmalıdır.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+     İkame işlevlerin eksiksiz sağlanmasındaki başarısızlık (yani, uygulama, GNU C Kütüphanesi ve  ilintilenmiş diğer kütüphaneler tarafından kullanılan tüm işlevler), duruk ilintileme hataları, çalışma zamanında yığın bellek bozulmaları ve uygulama çökmeleri ile sonuçlanabilir. İkame işlevler, GNU C Kütüphanesindeki benzerleri için belgelenen davranışı gerçeklemelidir; örneğin, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ikamesi <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu da korumalıdır.
+    </p>
+          </div>
+        </div>
+        <p>
+    Bir <code class="code">malloc</code> özelleştirmesi için en azından aşağıdaki işlevlerin yenileriyle değiştirilmesi gerekir:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+              <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc">
+                <strong class="function">
+                  <code>malloc</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free">
+                <strong class="function">
+                  <code>free</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <a href="glibc-Allocating-Cleared-Space.html#glibc-fn-calloc">
+                <strong class="function">
+                  <code>calloc</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc">
+                <strong class="function">
+                  <code>realloc</code>
+                </strong>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <p><span class="notfoot"></span>
+    <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ilgili bu işlevler, GNU C Kütüphanesinin düzgün çalışması için gereklidir.<a id="idm86776" href="#ftn.idm86776" class="footnote"><sup class="footnote">[74]</sup></a>
+   </p>
+        <p>
+    GNU C Kütüphanesindeki <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi, kütüphanenin kendisi tarafından kullanılmayan, ancak genellikle diğer sistem  kütüphaneleri ve uygulamaları tarafından kullanılan ek bir işlevsellik sağlar. Genel amaçlı bir ikame <code class="code">malloc</code> gerçeklenimi bu işlevlerin de tanımlarını sağlamalıdır. İsimleri aşağıda listelenmiştir:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+              <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-aligned_alloc">
+                <strong class="function">
+                  <code>aligned_alloc</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <strong class="function">
+                <code>malloc_usable_size</code>
+              </strong>
+            </li>
+            <li class="member">
+              <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-memalign">
+                <strong class="function">
+                  <code>memalign</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-posix_memalign">
+                <strong class="function">
+                  <code>posix_memalign</code>
+                </strong>
+              </a>
+            </li>
+            <li class="member">
+              <strong class="function">
+                <code>pvalloc</code>
+              </strong>
+            </li>
+            <li class="member">
+              <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-valloc">
+                <strong class="function">
+                  <code>valloc</code>
+                </strong>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Ek olarak, çok eski uygulamalar eski <strong class="function"><code>cfree</code></strong> işlevini de kullanabilir.
+   </p>
+        <p>
+    <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> veya <a href="glibc-Statistics-of-Malloc.html#glibc-fn-mallinfo2"><strong class="function"><code>mallinfo2</code></strong></a> gibi <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ilgili diğer işlevlerin ya herhangi bir etkisi olmaz ya da ikame <code class="code">malloc</code> kullanımdayken yanlış istatistikler döndürür. Ancak, bu işlevlerin değiştirilmemesi genellikle çökmelere veya diğer hatalı uygulama davranışlarına neden olmaz, ancak duruk ilintileme bozukluklarına neden olabilir.
+   </p>
+        <p>
+    GNU C Kütüphanesinde yukarıda listelenmeyen ancak çağrıcıya yeniden tahsis edilen belleği döndüren başka işlevler de (<a href="glibc-Changing-Block-Size.html#glibc-fn-reallocarray"><strong class="function"><code>reallocarray</code></strong></a>, <strong class="function"><code>strdup</code></strong>, vb.) vardır. Bu işlevlerin değiştirilmesi desteklenmez ve hatalı sonuçlara neden olabilir. Bu işlevlerin GNU C Kütüphanesi gerçeklenimleri, kullanılabilir olduğunda ikame tahsis işlevlerini de çağıracaktır, böylece bunlar <code class="code">malloc</code> ikameleri ile doğru şekilde çalışacaktır.
+   </p>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm86776" class="footnote">
+            <p><a href="#idm86776" class="para"><sup class="para">[74] </sup></a>GNU C Kütüphanesinin 2.25 öncesi sürümleri, özel <code class="code">malloc</code>'un <code class="code">__libc_memalign</code>'ı tanımlamasını gerektiriyordu (aynı <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-memalign"><strong class="function"><code>memalign</code></strong></a> arayüzüyle).</p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>

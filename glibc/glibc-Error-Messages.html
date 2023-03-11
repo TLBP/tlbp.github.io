@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2.3. Hata İletileri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Codes.html')">Önceki</button>
+          <div class="dropdown-content">2.2. Hata Kodları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Reporting.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory.html')">Sonraki</button>
+          <div class="dropdown-content">3. Sanal Belleğin Tahsisi ve Sayfalama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Error-Messages">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">2.3. Hata İletileri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Kütüphane, bir kütüphane çağrısının başarısız olması durumunda yazılımınızda özelleştirilebilir biçimde bilgilendirici hata iletileri oluşturabilmenizi kolaylaştıran işlevler ve değişkenler içerir. <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> ve <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevleri belirtilen bir hata kodu için standart hata iletisini verir. <a href="glibc-Error-Messages.html#glibc-vr-program_invocation_short_name"><strong class="varname"><code>program_invocation_short_name</code></strong></a> değişkeni ise hatanın saptandığı yazılımın ismine erişebilmeyi sağlar.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strerror" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strerror</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a>:strerror
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">strerror</code> işlevi <strong class="varname"><code>errnum</code></strong> ile belirtilen <a class="link" href="glibc-Error-Codes.html" title="2.2. Hata Kodları">hata kodunu</a> açıklayıcı bir hata iletisi dizgesi ile eşleştirir ve bu dizgeye bir gösterici döndürür.
+   </p>
+   <p>
+    <strong class="varname"><code>errnum</code></strong> normalde <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code><a class="varname" href="glibc-Checking-for-Errors.html#glibc-vr-errno">errno</a></code></strong></a> değişkeninden alınır.
+   </p>
+   <p>
+    <code class="code">strerror</code> işlevi ile döndürülen dizge değiştirmemelidir. Ayrıca, <code class="code">strerror</code> işlevine daha sonra yapılacak çağrılar, dizgenin üzerine yazılması ile de sonuçlanabilir. (Ancak hiçbir kütüphane işlevinin arkanızdan <code class="code">strerror</code> çağrısı yapmayacağı garanti edilir.)
+   </p>
+   <p>
+    <span id="idm84381" class="indexterm"></span>
+    <code class="code">strerror</code> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strerrorr" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strerror_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a>
+   </div>
+   <p>
+    
+    <code class="code">strerror_r</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> işlevindeki gibi hata iletisini süreçteki tüm evreler tarafından paylaşılan, süreç için duruk olarak ayrılmış bir tampon içinde döndürmek yerine hata iletisinin evreye özel kopyasını döndürür. Dönen hata iletisi kalıcı küresel bir veri olabileceği gibi kullanıcı tarafından sağlanmış tamponda <em class="parameter"><code>buf</code></em> ile başlayan <em class="parameter"><code>n</code></em> bayt uzunlukta bir ileti dizgesi de olabilir.
+   </p>
+   <p>
+    Bu tampona NULL karakteri de dahil olmak üzere en fazla <em class="parameter"><code>n</code></em> bayt yazılabileceğinden yazılımcı bu alanın büyüklüğünü yeterince büyük seçmelidir.
+   </p>
+   <p>
+    
+    <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> tarafından döndürülen dizgenin gerçekten o anki evrenin son çağrısına karşılık olacağının hiçbir garantisi olmadığından çok evreli  yazılımlarda daima <code class="code">strerror_r</code> işlevi kullanılmalıdır.
+   </p>
+   <p>
+    <span id="idm84426" class="indexterm"></span>
+    <code class="code">strerror_r</code> işlevi bir GNU genişletmesi olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-perror" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">perror</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">message</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a>:stderr
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev standart hataya (<code class="filename">stderr</code>) bir hata iletisi basar. Standart hatanın yönünü değiştirmez.
+   </p>
+   <p>
+    
+    <code class="code">perror</code> işlevi <em class="parameter"><code>message</code></em> bağımsız değişkenine değer  olarak bir boş gösterici ya da boş dizge belirtilerek çağrılırsa o andaki  <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerine karşılık gelen hata iletisini sonuna bir  satırsonu karakteri ekleyerek basar.
+   </p>
+   <p>
+    <em class="parameter"><code>message</code></em> bağımsız değişkeni boş değilse, <code class="code">perror</code> bu dizgeyi çıktısına önek olarak alır ve arkasına bir iki nokta imi ile boşluk ekledikten sonra <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerine karşılık gelen hata iletisini sonuna bir satırsonu karakteri ekleyerek basar.
+   </p>
+   <p>
+    <span id="idm84470" class="indexterm"></span>
+    <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strerrorname-np" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">const char </code><strong class="type">*</strong><strong><code class="function">strerrorname_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>errnum</code></em> değerine sahip bilinen bir sabit yoksa <em class="parameter"><code>errnum</code></em> veya NULL hatasını açıklayan ismi döndürür (örn, <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> için "EINVAL").
+   </p>
+   <p>
+    <span id="idm84496" class="indexterm"></span>
+    <a href="glibc-Error-Messages.html#glibc-fn-strerrorname-np"><strong class="function"><code>strerrorname_np</code></strong></a> işlevi bir GNU genişletmesi olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strerrordesc-np" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">const char </code><strong class="type">*</strong><strong><code class="function">strerrordesc_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>errnum</code></em> değerine sahip bilinen bir sabit yoksa <em class="parameter"><code>errnum</code></em> veya NULL hatasını açıklayan iletiyi döndürür (örn, <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> için "Invalid argument"). <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> işlevinden farkı dönen iletinin çevrilmemesidir.
+   </p>
+   <p>
+    <span id="idm84523" class="indexterm"></span>
+    <a href="glibc-Error-Messages.html#glibc-fn-strerrordesc-np"><strong class="function"><code>strerrordesc_np</code></strong></a> işlevi bir GNU genişletmesi olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> ve <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevleri belirtilen hata kodu için tamamen aynı hata iletisini üretir, ancak üretilen ileti sistemden sisteme farklı olabilir. GNU C kütüphanesinde iletiler oldukça kısadır; çok satırlı hata iletileri veya gömülü satır sonu karakterleri yoktur (Ç.N: çeviriler bu kurala uymayabilir). Her hata iletisi büyük harfle başlar ve sonunda herhangi bir noktalama imi bulunmaz.
+  </p>
+        <p>
+   <span id="idm84531" class="indexterm"></span>
+   <span id="idm84533" class="indexterm"></span>
+   Uçbirimden girdi okumayan yazılımların çoğu bir sistem çağrısı başarısız olduğunda kendini sonlandıracak şekilde tasarlanır. Teamül olarak, böyle bir yazılımın verdiği hata iletileri dizin ismi içermeden yazılımın ismi ile başlamalıdır. Bu isim <a href="glibc-Error-Messages.html#glibc-vr-program_invocation_short_name"><strong class="varname"><code>program_invocation_short_name</code></strong></a> değişkeninde bulunur. Dizini de içeren tam dosya ismi ise <a href="glibc-Error-Messages.html#glibc-vr-program_invocation_name"><strong class="varname"><code>program_invocation_name</code></strong></a> değişkeninde saklanır.
+   <span id="idm84537" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-program_invocation_name" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="varname">program_invocation_name</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    Bu değişkenin değeri o anda çalışmakta olan sürecin çağrıldığı yazılımın ismidir. <em class="parameter"><code>argv[0]</code></em> ile aynıdır. Bu bir dosya ismi olmak zorunda da değildir. Çoğunlukla da dizin bilgisi içermez.
+   </p>
+   <p>
+    <span id="idm84549" class="indexterm"></span>
+    Bu değişken bir GNU genişletmesi olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-program_invocation_short_name" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="varname">program_invocation_short_name</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    Bu değişkenin değeri, dizin isimleri kaldırıldığında o anda çalışmakta olan süreci çağırmakta kullanılan isimdir. (Yani <a href="glibc-Error-Messages.html#glibc-vr-program_invocation_name"><strong class="varname"><code>program_invocation_name</code></strong></a> değişkenin değeri olan dizgedeki son bölü çizgisi ve onun solundaki herşey kaldırıldığında kalan isim bu değişkenin değeridir.)
+   </p>
+   <p>
+    <span id="idm84562" class="indexterm"></span>
+    Bu değişken bir GNU genişletmesi olup <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <p>
+   
+   Kütüphane ilklendirme kodu <strong class="function"><code>main</code></strong> işlevi çağrılmadan önce bu değişkenlerin her ikisine de değerlerini atar.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi:</h3>
+          <div class="admon-contents">
+            <p>
+     Yazılımın GNU dışı kütüphanelerle çalışması isteniyorsa, yazılım isminin <strong class="function"><code>main</code></strong> işlevinin <em class="parameter"><code>argv[0]</code></em> bağımsız değişkeninin  değerinden dizin isimleri ayıklanarak elde edilmesi gerekir. <strong class="function"><code>main</code></strong> işlevi ile hiç etkileşime girmeden hata bildirme yordamlarında yazılım ismi içeren iletileri kolayca üretmek için bu genişletmeler kütüphaneye eklenmiştir.
+    </p>
+          </div>
+        </div>
+        <div class="example">
+          <div class="example-title">Örnek: Hatanın yazdırılması</div>
+          <div class="example-contents">
+            <p>
+     Aşağıdaki bir dosya açılamadığında hatayı gösteren bir kod örneği yer almaktadır. <strong class="function"><code>acil_susam_acil</code></strong> işlevi <em class="parameter"><code>isim</code></em> adlı dosyayı okumak için açmayı dener, dosya sorunsuz olarak açılırsa <em class="parameter"><code>akim</code></em> ile döner. <strong class="function"><code>fopen</code></strong> kütüphane işlevi bir sebeple dosyayı açamazsa  boş gösterici döndürür. Bu durumda <strong class="function"><code>acil_susam_acil</code></strong> işlevi <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> işlevini kullanarak bir hata iletisi oluşturur ve süreci sonlandırır. Hata kodunu <a href="glibc-Error-Messages.html#glibc-fn-strerror"><strong class="function"><code>strerror</code></strong></a> işlevine aktarmadan önce başka kütüphane çağrıları yapılacaksa, hata kodu bir değişkene kaydedilmelidir, çünkü yazılımcı tarafından sonradan yapılan kütüphane çağrıları <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerini değiştirebilir.
+    </p>
+            <pre class="screen">#define _GNU_SOURCE
+
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+FILE *
+acil_susam_acil (char *isim)
+{
+  FILE *akim;
+
+  errno = 0;
+  stream = fopen (isim, "r");
+  if (stream == NULL)
+    {
+      fprintf (stderr, "%s: %s dosyası açılamadı; %s\n";,
+               program_invocation_short_name, isim, strerror (errno));
+      exit (EXIT_FAILURE);
+    }
+  else
+    return akim;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    <span id="idm84589" class="indexterm"></span>
+    <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevi ISO C standardı ile uyumlu tüm sistemlerde geçerli olduğundan daha taşınabilirdir. Ancak <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevinin ürettiği hata iletisi tam isteneni sağlamaz ve yaptığı işlemi değiştirmek ya da geliştirmek için bir yol yoktur. Örneğin, GNU kodlama standardı, hata iletilerinin yazılımın ismi ile başlamasını ve bazı girdi dosyalarını okuyan yazılımların girdi dosyasının ismi ile dosya okunurken hata oluşturan satırın numarası gibi bilgilerinde hata iletisinde içerilmesini gerektirir. Bu gibi durumlar için GNU projelerinde geniş çapta kullanılan iki işlev vardır. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-error" class="indexterm"></span>
+   <span id="idm84597" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">error</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    
+    
+    <code class="code">error</code> işlevi yazılımın çalışması sırasında oluşan genel sorunları bildirmek amacıyla kullanılır. <em class="parameter"><code>format</code></em> bağımsız değişkeni, <strong class="function"><code>printf</code></strong> ailesi işlevlerde olduğu gibi dizgeyi biçimlemekte kullanılır. <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> gibi <code class="code">error</code> işlevi de  hata iletisini göstermek için kullanılabilir. <a href="glibc-Error-Messages.html#glibc-fn-perror"><strong class="function"><code>perror</code></strong></a> işlevinden farklı olarak hata numarası işleve <em class="parameter"><code>errnum</code></em> bağımsız değişkeni ile   doğrudan aktarılabilir. İşlevin bu özelliği, yukarıda bahsedilen, sonradan çağrılan başka işlevlerin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerini değiştirebilmesi sorununu ortadan kaldırır.
+   </p>
+   <p>
+    <code class="code">error</code> işlevi önce yazılımın ismini basar.  Eğer yazılım, <a href="glibc-Error-Messages.html#glibc-vr-error_print_progname"><strong class="varname"><code>error_print_progname</code></strong></a> genel değişkenini tanımlamış ve değişkenin bir işlevi göstermesi sağlamışsa, yazılımın ismini basmak için bu işlev çağrılır. Aksi takdirde, <a href="glibc-Error-Messages.html#glibc-vr-program_invocation_short_name"><strong class="varname"><code>program_invocation_short_name</code></strong></a> genel değişkenindeki dizge kullanılır. Yazılımın isminden sonra iki nokta üst üste imi ve bir boşluk gelir. Onun ardına da <em class="parameter"><code>format</code></em> bağımsız değişkeni ile hazırlanan dizge basılır. <em class="parameter"><code>errnum</code></em> bağımsız değişkeni sıfırdan farklı bir değere sahipse, biçem dizgesinden sonra iki nokta imi ve bir boşluk konduktan sonra bu değere karşılık olan hata iletisi basılır. Her durumda çıktı bir satır sonu karakteri ile sonlandırılır.
+   </p>
+   <p>
+    
+    
+    
+    Çıktı standart hataya (<code class="filename">stderr</code> akışına) yönlendirilir. Eğer standart çıktı çağrı öncesi yönlenimsizse çağrı sonrası dar karakter (<code class="type">char</code>) yönlenimli olacaktır.
+   </p>
+   <p>
+    <em class="parameter"><code>status</code></em> bağımsız değişkeni sıfırdan farklı bir değere sahip ise <code class="code">error</code> işlevi <strong class="function"><code>exit</code></strong> işlevine bağımsız değişken olarak <em class="parameter"><code>status</code></em> değerini aktararak işlevi çağıracak ve bu durumda asla dönmeyecektir. Aksi takdirde <code class="code">error</code> işlevi bir dönüş değerine sahip olacak ve bu <a href="glibc-Error-Messages.html#glibc-vr-error_message_count"><strong class="varname"><code>error_message_count</code></strong></a> genel değişkeninin değerinin bir arttırılması ile elde edilen o ana kadar bildirilmiş hata iletilerinin  sayısına karşılık gelen bir sayı olacaktır. Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-error_at_line" class="indexterm"></span>
+   <span id="idm84667" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">error_at_line</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">errnum</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">fname</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code> <strong><code class="parameter">lineno</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code">:error_at_line/error_one_per_line</code> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a><code class="code">/error_one_per_line</code> 
+   </div>
+   <p>
+    <code class="code">error_at_line</code> işlevi <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevine çok benzer. Ek olarak <em class="parameter"><code>fname</code></em> ve <em class="parameter"><code>lineno</code></em>  bağımsız değişkenlerini içerir. <em class="parameter"><code>format</code></em> kullanılarak üretilen dizge ile yazılım isminin arasına ek metin eklenmesi dışında diğer bağımsız değişkenlerin yorumlanması  <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevindeki gibidir.
+   </p>
+   <p>
+    Yazılımın isminden sonraki iki nokta üst üste iminden sonra <em class="parameter"><code>fname</code></em> ile verilen dosya ismi tekrar bir iki nokta üst üste imi ve ardından <em class="parameter"><code>lineno</code></em> ile verilen satır numarası basılır.
+   </p>
+   <p>
+    Bu ek çıktı, bir girdi dosyasındaki hatanın yerini belirtmekte kullanılır.
+   </p>
+   <p>
+    <a href="glibc-Error-Messages.html#glibc-vr-error_one_per_line"><strong class="varname"><code>error_one_per_line</code></strong></a> genel değişkenine sıfırdan farklı bir değer verilirse <code class="code">error_at_line</code>, aynı dosya ve satır için başka hatalar varsa onları basmayacaktır. Hata tekrarlanıyorsa ardışık olmayan tekrarlar yakalanmaz.
+   </p>
+   <p>
+    <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevi gibi bu işlev de <em class="parameter"><code>status</code></em> sıfır olduğunda döner. Sıfırdan faklı ise <strong class="function"><code>exit</code></strong> çağrılır. İşlev bir geridönüş değerine sahipse, bu <a href="glibc-Error-Messages.html#glibc-vr-error_message_count"><strong class="varname"><code>error_message_count</code></strong></a> kütüphane değişkeninin değerinin bir arttırılması ile elde edilen o ana kadar bildirilmiş hata iletilerinin sayısına karşılık gelen bir sayı olacaktır. <code class="code">error_at_line</code> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <p>
+   Yukarıda değinildiği gibi <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> ve <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevlerinin davranışları <a href="glibc-Error-Messages.html#glibc-vr-error_print_progname"><strong class="varname"><code>error_print_progname</code></strong></a> isimli değişkene bir işlev veya yazılım tanımlanarak özelleştirilebilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-error_print_progname" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code>( <strong><code class="varname">*error_print_progname</code></strong>) ( <strong><code class="varname">void</code></strong>)</td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    <a href="glibc-Error-Messages.html#glibc-vr-error_print_progname"><strong class="varname"><code>error_print_progname</code></strong></a> değişkenine sıfırdan farklı bir değer atanmışsa, bu değerin gösterdiği yazılım veya işlev <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> veya <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevleri tarafından çağrılır ve yazılımın ismini basacağı veya buna benzer yararlı şeyler yapacağı beklenir.
+   </p>
+   <p>
+    İşlevin hatayı standart hataya (<code class="filename">stderr</code>) basacağı ve akışın karakter yönelimini belirleyebileceği umulur.
+   </p>
+   <p>
+    Değişken geneldir ve tüm evreler tarafından paylaşılır. <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-error_message_count" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">unsigned int </code> <strong><code class="varname">error_message_count</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    <code class="code">error_message_count</code> değişkeninin değeri <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a>  veya <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevlerinin her geri dönüşünde bir arttırılır. Değişken geneldir ve tüm evreler tarafından paylaşılır. <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-error_one_per_line" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="varname">error_one_per_line</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    <code class="code">error_one_per_line</code> değişkeni sadece <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevi ile etkilidir. Normalde <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevi her çağrı için bir çıktı oluşturur. <code class="code">error_one_per_line</code> değişkenine sıfırdan farklı bir değer atanırsa, <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevi hatanın bildirildiği son dosya adını ve satır numarasını tutarak aynı dosyanın aynı satırındaki diğer hataların iletilerini basmaz. Değişken geneldir ve tüm evreler tarafından paylaşılır. <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/error.h;hb=HEAD" target="_top">error.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: Hataların okunup bildirilmesi</div>
+          <div class="example-contents">
+            <p>
+     Bir girdi dosyasını okuyan ve hataları bildiren bir yazılım şuna benzer:
+</p>
+            <pre class="screen">{
+  char *satir = NULL;
+  size_t boyu = 0;
+  unsigned int satirnum = 0;
+
+  error_message_count = 0; /* her hatada değeri 1 artan genel değişken */
+  while (! feof_unlocked (fp))
+    {
+      ssize_t n = getline (&amp;satir, &amp;boyu, fp);
+      if (n &lt;= 0)
+        /* <em class="replaceable"><code> Dosya sonu ya da hata.</code></em>  */
+        break;
+      ++satirnum;
+
+      /* <em class="replaceable"><code>Satır işlemleri.</code></em>  */
+      …
+
+      if (<em class="replaceable"><code>Satırdaki hata saptandı</code></em>)
+        error_at_line (0, hatanum, dosyaismi, satirnum,
+                       "%s hata iletisinin metni", bir_degisken);
+    }
+
+  if (error_message_count != 0)
+    error (EXIT_FAILURE, 0, "%u hata bulundu", error_message_count);
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   <span id="idm84778" class="indexterm"></span>
+   GNU kodlama standardına göre uygulama geliştirmek isteyen yazılımcıların seçimi <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> ve <a href="glibc-Error-Messages.html#glibc-fn-error_at_line"><strong class="function"><code>error_at_line</code></strong></a> işlevleri olmalıdır. GNU C Kütüphanesi aynı amaçlar için BSD'de kullanılan işlevleri de içerir. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/err.h;hb=HEAD" target="_top">err.h</a></code> başlık dosyasında bildirilmiştir. Genelde kullanılmamaları önerilir. Bunlar uyumluluk amacıyla kütüphaneye dahil edilmiştir.
+</p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-warn" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">warn</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">warn</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevinin birlikte çalıştığı genel değişkenleri kullanmaması dışında
+   </p>
+<pre class="screen">error (0, errno, format, <em class="replaceable"><code>bağımsız değişkenler</code></em>)
+</pre>
+   <p>
+    çağrısına eşdeğerdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-vwarn" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">vwarn</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">va_list </code> <strong><code class="parameter">ap</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">vwarn</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-warn"><strong class="function"><code>warn</code></strong></a> işlevine benzer, farklı olarak <em class="parameter"><code>format</code></em> ile belirtilen biçem dizgesinin <code class="type">va_list</code> türünde verilen bağımsız değişkenlerle düzenlenmesini sağlar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-warnx" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">warnx</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">warnx</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevinin birlikte çalıştığı genel değişkenleri kullanmaması dışında
+   </p>
+<pre class="screen">error (0, 0, format, <em class="replaceable"><code>bağımsız değişkenler</code></em>)
+</pre>
+   <p>
+    çağrısına eşdeğerdir. <a href="glibc-Error-Messages.html#glibc-fn-warn"><strong class="function"><code>warn</code></strong></a> işlevinden farkı ise, hata numarası dizgesinin basılmamasıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-vwarnx" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">vwarnx</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">va_list </code> <strong><code class="parameter">ap</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">vwarnx</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-warnx"><strong class="function"><code>warnx</code></strong></a> işlevine benzer, farklı  olarak <em class="parameter"><code>format</code></em> ile belirtilen biçem dizgesinin  <code class="type">va_list</code> türünde verilen bağımsız değişkenlerle düzenlenmesini sağlar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-err" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">err</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">err</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevinin birlikte çalıştığı genel değişkenleri kullanmaması ve <em class="parameter"><code>status</code></em> değişkenine sıfır verildiğinde bile yazılımın çıkması dışında
+   </p>
+<pre class="screen">error (status, errno, format, <em class="replaceable"><code>bağımsız değişkenler</code></em>)
+</pre>
+   <p>
+    çağrısı ile aynıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-verr" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">verr</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">va_list </code> <strong><code class="parameter">ap</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-POSIX.html#glibc-safety-i18n">i18n</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">verr</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-err"><strong class="function"><code>err</code></strong></a> işlevine benzer, farklı olarak <em class="parameter"><code>format</code></em> ile belirtilen biçem dizgesinin <code class="type">va_list</code> türünde verilen bağımsız değişkenlerle düzenlenmesini sağlar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-errx" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">errx</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">errx</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-error"><strong class="function"><code>error</code></strong></a> işlevinin birlikte çalıştığı genel değişkenleri kullanmaması ve <em class="parameter"><code>status</code></em> değişkenine sıfır verildiğinde bile yazılımın çıkması dışında
+   </p>
+<pre class="screen">error (status, 0, format, <em class="replaceable"><code>bağımsız değişkenler</code></em>)
+</pre>
+   <p>
+    çağrısı ile aynıdır. <a href="glibc-Error-Messages.html#glibc-fn-err"><strong class="function"><code>err</code></strong></a> işlevinden farkı ise, hata numarası dizgesinin basılmamasıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-verrx" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">verrx</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">va_list </code> <strong><code class="parameter">ap</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+    <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">verrx</code> işlevi, <a href="glibc-Error-Messages.html#glibc-fn-err"><strong class="function"><code>err</code></strong></a> işlevine benzer, farklı olarak <em class="parameter"><code>format</code></em> ile belirtilen biçem dizgesinin <code class="type">va_list</code> türünde verilen bağımsız değişkenlerle düzenlenmesini sağlar.
+   </p>
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

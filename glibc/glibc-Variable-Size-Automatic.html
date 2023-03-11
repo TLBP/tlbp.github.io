@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.7. Değişken Boyutlu Özdevinimli Saklama</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Summary-of-Obstacks.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.11. Yığınak İşlevlerinin Listesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resizing-the-Data-Segment.html')">Sonraki</button>
+          <div class="dropdown-content">3.3. Veri Bölütünün Boyunun Değiştirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Variable-Size-Automatic">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3.2.7. Değişken Boyutlu Özdevinimli Saklama</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm87990" class="indexterm"></span>
+    <span id="idm87994" class="indexterm"></span>
+    <span id="idm87997" class="indexterm"></span>
+    <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevi, özdevimli ayrılan ama özdevinimli serbest bırakılan dilimlerin yarı özdevimli bir bellek tahsis çeşidini destekler.
+   </p>
+        <p>
+    <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ile bir bloğun ayrılması doğrudan uygulanan bir eylemdir; istendiği kadar dilim tahsis edilebilir ve çalışma anında boyutu hesaplanabilir. Ancak serbest bırakma işlemi <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevinin çağrıldığı işlevden çıkıldığında özdevinimli olarak gerçekleşir. Tahsis edilen alanı doğrudan serbest bırakmanın yolu yoktur.
+   </p>
+        <p>
+    <span id="idm88004" class="indexterm"></span>
+    <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir ve bir BSD oluşumudur.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-alloca" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">alloca</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Çağrıldığı işlevin yığıt çerçevesinde tahsis edilen <em class="parameter"><code>size</code></em> baytlık bloğun adresi ile döner.
+    </p>
+   </div>
+        <p>
+    <code class="code">alloca</code> işlevi bir işlev çağrısının bağımsız değişkeni olarak kullanılmamalıdır, yoksa istenmeyen sonuçlar ortaya çıkabilir. Çünkü  <code class="code">alloca</code> için ayrılan yığıt alanı işlev bağımsız değişkenlerine ayrılan alanın ortasındaki yığıtta görünecektir. Örneğin, <code class="code">foo (x, alloca (4), y)</code> gibi bir çağrı yapılmamalıdır.
+   </p>
+        <div class="example" id="glibc-Alloca-Example">
+          <div class="example-title">Örnek: <code class="code">alloca</code> Örneği</div>
+          <div class="example-contents">
+            <p>
+     İlk örnek, iki dizge bağımsız değişkeni alıp bunları birleşiminden bir dosya ismi elde eden ve bu dosyayı açtığında bu dosyaya bir tanıtıcı döndüren, dosyayı açamazsa açamadığını belirtmek üzere <code class="code">-1</code> döndüren bir işlev:
+    </p>
+            <pre class="screen">int
+open2 (char *str1, char *str2, int flags, int mode)
+{
+  char *name = (char *) alloca (strlen (str1) + strlen (str2) + 1);
+  stpcpy (stpcpy (name, str1), str2);
+  return open (name, flags, mode);
+}
+</pre>
+            <p>
+     İkinci örnekte ise aynı sonuç <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevleri ile elde edilmektedir:
+    </p>
+            <pre class="screen">int
+open2 (char *str1, char *str2, int flags, int mode)
+{
+  char *name = malloc (strlen (str1) + strlen (str2) + 1);
+  int desc;
+  if (name == 0)
+    fatal ("virtual memory exceeded");
+  stpcpy (stpcpy (name, str1), str2);
+  desc = open (name, flags, mode);
+  free (name);
+  return desc;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    Görüldüğü üzere <code class="code">alloca</code> ile işlem daha basittir. Ancak <code class="code">alloca</code> işlevinin getirileri kadar götürüleri de vardır.
+   </p>
+        <section class="sect2" id="glibc-Advantages-of-Alloca">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.7.1. <code class="code">alloca</code> İşlevinin Getirileri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevinin <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevine tercih edilmesindeki sebepler:
+    </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+       <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> kullanılarak çok küçük bir alan işe yaramaz hale gelir ve işlev çok hızlıdır. (GNU C derleyicisi içinde açık kodludur.)
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> farklı dilim boyları için ayrı havuzlar oluşturmadığından, kullanılan farklı boylardaki dilimler başka boylarda dilimler oluşturmak için yeniden kullanılabilir. <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> bellek saçılımına sebep olmaz.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       <span id="idm88062" class="indexterm"></span>
+       <strong class="function"><code>longjmp</code></strong> ile <a class="xref" href="glibc-Non-Local-Exits.html" title="23. Yerel Olmayan Çıkışlar">Yerel Olmayan Çıkışlar</a> <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevini çağıran işlevden de çıkılmasına sebep olacağından <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ile ayrılan alan özdevinimli olarak serbest bırakılır. Bu, <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevinin kullanımı için en önemli sebeptir.
+      </p>
+                <p>
+       Bunu görselleştirmek için, <strong class="function"><code>open</code></strong> gibi başarılı olduğunda bir dosya tanıtıcısı döndüren ama başarısız olduğunda dönmeyen  <em class="replaceable"><code>open_or_report_error</code></em> isimli bir işlev olsun. Dosya açılamazsa bir hata iletisi bassın ve <strong class="function"><code>longjmp</code></strong> kullanarak yazılımın komut seviyesine geçsin. <a class="link" href="glibc-Variable-Size-Automatic.html#glibc-Alloca-Example" title="Örnek: alloca Örneği">Önceki örnekteki</a> <strong class="function"><code>open2</code></strong> işlevi aşağıdaki örnekte bu işlevi kullanacak şekilde değiştirilmiştir:
+      </p>
+                <div class="example">
+                  <div class="example-title">Örnek: </div>
+                  <div class="example-contents">
+                    <pre class="screen">int
+open2 (char *str1, char *str2, int flags, int mode)
+{
+  char *name = (char *) alloca (strlen (str1) + strlen (str2) + 1);
+  stpcpy (stpcpy (name, str1), str2);
+  return <em class="replaceable"><code>open_or_report_error</code></em> (name, flags, mode);
+}
+</pre>
+                  </div>
+                </div>
+                <br class="example-break" />
+                <p>
+       <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevi, çalışma şeklinden dolayı tahsis ettiği belleği hata oluşsa bile serbest bırakır ve bunun için ek bir çaba sarfetmek gerekmez.
+      </p>
+                <p>
+       Aksine, <strong class="function"><code>open2</code></strong> işlevinin önceki tanımı (<a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> kullanılan tanımı) bu amaç için değiştirildiğinde bir bellek artığı oluşacaktı. Bunu düzeltmek için her değişikliği yapmaya razı olunsa bile, bunu yapmanın daha kolay bir yolu yoktur.
+      </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="sect2" id="glibc-Disadvantages-of-Alloca">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.7.2. <code class="code">alloca</code> İşlevinin Götürüleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span id="idm88090" class="indexterm"></span>
+     <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevinin <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile karşılaştırıldığında bazı götürüleri vardır:
+    </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+       Makinenin sağladığından daha fazla bellek tahsis edilmeye çalışılırsa temiz bir hata iletisi gelmez. Bunun yerine bir sonsuz döngünün oluşturduğu gibi, olası bir bölütleme bozulmasından dolayı ölümcül bir sinyal alınır.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       Bazı GNU dışı sistemlerde daha az taşınabilir olduğundan <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> desteği bulunmayabilir. Bununla birlikte, bu eksikliğin olduğu sistemlerde kullanmak için C ile yazılmış daha yavaş bir <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> taklidi mevcuttur.
+      </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="sect2" id="glibc-GNU-C-Variable-Size-Arrays">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2.7.3. GNU C Değişken Boyutlu Dizileri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span id="idm88107" class="indexterm"></span>
+     GNU C'de <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> kullanımı yerine çoğu durumda değişken boyutlu diziler kullanılabilir. Önceki örneklerdeki <strong class="function"><code>open2</code></strong> işlevi şöyle değiştirilmiş olsun:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">int open2 (char *str1, char *str2, int flags, int mode)
+{
+  char name[strlen (str1) + strlen (str2) + 1];
+  stpcpy (stpcpy (name, str1), str2);
+  return open (name, flags, mode);
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Ancak çeşitli sebeplerle, <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> daima değişken boyutlu bir diziye eşdeğer değildir:
+    </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+       Bir değişken boyutlu dizinin bellek alanı, dizi isminin etki alanının sonunda serbest bırakılır. <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ile ayrılan alan ise işlev sonuna kadar kalır.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> işlevi her yinelemede ek bir dilim tahsis etmek üzere bir döngü içinde kullanılabilir. Değişken boyutlu dizilerle bu mümkün değildir.
+      </p>
+              </li>
+            </ul>
+          </div>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+      Bir işlev içinde <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ve değişken boyutlu diziler birlikte kullanılırsa, değişken boyutlu dizinin bildirildiği etki alanından çıkılması, o etki alanının yürütülmesi sırasında <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ile tahsis edilen tüm bellek dilimlerinin serbest bırakılmasına yol açar.
+     </p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </body>
+</html>

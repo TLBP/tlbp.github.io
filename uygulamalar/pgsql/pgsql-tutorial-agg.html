@@ -3,8 +3,6 @@
   <head>
     <title>3.6. Ortak Değer İşlevleri</title>
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
-    <link rel="prev" href="pgsql-tutorial-join.html" title="3.5. Tablolar Arası Katılım" />
-    <link rel="next" href="pgsql-tutorial-update.html" title="3.7. Verilerin Güncellenmesi" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
@@ -46,7 +44,7 @@
           </div>
         </div>
         <p>
-    Çoğu ilişkisel veritabanı ürünü gibi PostgreSQL'de ortak değer işlevlerini destekler. Bir ortak değer işlevi çok sayıda satırı girdi olarak alır ve bunlardan tek bir sonuç elde eder. Belli bir satır grubu üzerinde işlem yaparak, bunların sayısını bulan <code class="function">count</code>, değerlerin toplamını bulan <code class="function">sum</code>, değerlerin ortalamasını hesaplayan <code class="function">avg</code>, en büyük ve en küçük değerleri bulan <code class="function">max</code> ve <code class="function">min</code> işlevleri bunlara birer örnektir.
+    Çoğu ilişkisel veritabanı ürünü gibi PostgreSQL'de ortak değer işlevlerini destekler. Bir ortak değer işlevi çok sayıda satırı girdi olarak alır ve bunlardan tek bir sonuç elde eder. Belli bir satır grubu üzerinde işlem yaparak, bunların sayısını bulan <strong class="function"><code>count</code></strong>, değerlerin toplamını bulan <strong class="function"><code>sum</code></strong>, değerlerin ortalamasını hesaplayan <strong class="function"><code>avg</code></strong>, en büyük ve en küçük değerleri bulan <strong class="function"><code>max</code></strong> ve <strong class="function"><code>min</code></strong> işlevleri bunlara birer örnektir.
    </p>
         <p>
     Örnek olarak, düşük sıcaklık değerlerinin en yükseğini bulalım:
@@ -65,7 +63,7 @@
         <pre class="screen">SELECT il FROM hava_durumu WHERE asg_sck = max(asg_sck);     <em class="lineannotation"><span class="lineannotation">YANLIŞ</span></em>
 </pre>
         <p>
-    bu çalışmaz, çünkü <code class="function">max</code> işlevi <code class="literal">WHERE</code> deyiminde kullanılamaz. (Böyle bir sınırlamanın olmasının sebebi, <code class="literal">WHERE</code> deyiminin ortak değeri bulunacak satırların belirlenmesinde kullanılmak zorunda olmasıdır; yani, deyim, işlevden önce değerlendirilmiş olmalıdır.) Bu durumda böyle bir sorunu gidermek için sorgunun yeniden durumlanabilmesini sağlayan aşağıdaki gibi bir <em class="wordasword">altsorgu</em> (subquery) kullanılır:
+    bu çalışmaz, çünkü <strong class="function"><code>max</code></strong> işlevi <code class="literal">WHERE</code> deyiminde kullanılamaz. (Böyle bir sınırlamanın olmasının sebebi, <code class="literal">WHERE</code> deyiminin ortak değeri bulunacak satırların belirlenmesinde kullanılmak zorunda olmasıdır; yani, deyim, işlevden önce değerlendirilmiş olmalıdır.) Bu durumda böyle bir sorunu gidermek için sorgunun yeniden durumlanabilmesini sağlayan aşağıdaki gibi bir <em class="wordasword">altsorgu</em> (subquery) kullanılır:
    </p>
         <pre class="screen">SELECT il FROM hava_durumu
     WHERE asg_sck = (SELECT max(asg_sck) FROM hava_durumu);

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Freeing-after-Malloc.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.3. <code class="code">malloc</code> ile Ayrılan Belleğin Serbest Bırakılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Allocating-Cleared-Space.html')">Sonraki</button>
+          <div class="dropdown-content">3.2.3.5. Temizlenmiş Bellek Tahsisi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Changing-Block-Size">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm85502" class="indexterm"></span>
+     Çoğunlukla bir bellek dilimini kullanmaya başlarken gerekecek bellek miktarı bilinemez ve dilim yaklaşık bir boyut ile ayrılır. Örneğin, dilim bir dosyadan okunan satırı tutan bir tampon olabilir ve bir satır için yeterli olan tampon başka bir satır için yetersiz kalabilir.
+    </p>
+        <p>
+     <span id="idm85507" class="indexterm"></span>
+     <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> veya <a href="glibc-Changing-Block-Size.html#glibc-fn-reallocarray"><strong class="function"><code>reallocarray</code></strong></a> işlevi çağrılarak dilim uzatılabilir. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-realloc" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">realloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">newsize</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">realloc</code> işlevi <em class="parameter"><code>ptr</code></em> ile erişilen dilimin boyunu <em class="parameter"><code>newsize</code></em> olacak şekilde değiştirir.
+     </p>
+     <p>
+      Dilimin sonundan sonra gelen alan kullanımda olabileceğinden <code class="code">realloc</code> işlevinin, dilimi daha fazla serbest alanın bulunduğu yeni bir adrese kopyalaması gerekebilir. <code class="code">realloc</code> işlevi dilimin yeni adresi ile döner. Dilimin taşınması gerekirse, <code class="code">realloc</code> eski içeriği yeni dilime kopyalar.
+     </p>
+     <p>
+      <code class="code">realloc</code> işlevine <em class="parameter"><code>ptr</code></em> için boş gösterici belirtilirse, işlev, <code class="code">malloc (<em class="parameter"><code>newsize</code></em>)</code> çağrılmış gibi davranır. Aksi takdirde, <em class="parameter"><code>newsize</code></em> sıfır ise <code class="code">realloc</code> dilimi serbest bırakır ve NULL ile döner. Aksi takdirde, <code class="code">realloc</code> istenen boyutu yeniden ayıramazsa özgün dilime dokunmaz, NULL ile döner ve hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'ya kaydeder.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-reallocarray" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">reallocarray</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">nmemb</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">reallocarray</code> işlevi, <em class="parameter"><code>ptr</code></em> adresinde başlayan dilimi, <em class="parameter"><code>size</code></em> baytlık <em class="parameter"><code>nmemb</code></em> dilim içerecek şekilde değiştirir.  <code class="code">reallocarray</code> işlevinin çarpma işlemi taşarsa güvenli bir şekilde başarısız olması, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'ya <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> ataması ve özgün dilimi dokunmadan bırakıp boş gösterici döndürmesi dışında ‘<code class="code">realloc (<em class="parameter"><code>ptr</code></em>, <em class="parameter"><code>nmemb</code></em> * <em class="parameter"><code>size</code></em>)</code>’ çağrısına eşdeğerdir.
+     </p>
+     <p>
+      Ayrılan dilimin yeni boyutu elde edilirken çarpım sonucunun taşma ile sonuçlanabileceği durumlarda <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> yerine <code class="code">reallocarray</code> kullanılmalıdır.
+     </p>
+     <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+       Bu işlev herhangi bir standardın parçası değildir. İlk olarak, OpenBSD 5.6'da görülmüştür.
+      </p></div></div>
+    </div>
+        <p>
+     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevine benzer şekilde, dilimi genişletmek için boş bellek kalmadığı durumda <code class="code">realloc</code> ve <code class="code">reallocarray</code> boş gösterici döndürebilir. Bu olduğunda özgün dilime dokunulmaz (boyutu değiştirilmez veya başka yere taşınmaz).
+    </p>
+        <p>
+     Çoğu durumda, <code class="code">realloc</code> başarısız olduğunda uygulama yazılımı yetersiz bellekle devam edemeyeceğinden özgün dilime ne olduğunun bir önemi kalmaz. Yapılacak tek şey ölümcül hata iletisiyle yazılımı sonlandırmaktır. Genellikle <code class="code">xmalloc</code>'un <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> için yaptığı gibi hata iletisiyle ilgilenen, geleneksel olarak <code class="code">xrealloc</code> ve <code class="code">xreallocarray</code> olarak adlandırılan alt yordamları yazmak ve kullanmak daha uygundur:
+     <span id="idm85608" class="indexterm"></span>
+     <span id="idm85613" class="indexterm"></span>
+     <span id="idm85618" class="indexterm"></span>
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: <code class="code">xrealloc</code> ve <code class="code">xreallocarray</code> işlevleri</div>
+          <div class="example-contents">
+            <pre class="screen">void *
+xreallocarray (void *ptr, size_t nmemb, size_t size)
+{
+  void *value = reallocarray (ptr, nmemb, size);
+  if (value == 0)
+    fatal ("Sanal bellek tükendi");
+  return value;
+}
+
+void *
+xrealloc (void *ptr, size_t size)
+{
+  return xreallocarray (ptr, 1, size);
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Ayrıca, <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> ve <a href="glibc-Changing-Block-Size.html#glibc-fn-reallocarray"><strong class="function"><code>reallocarray</code></strong></a> bir dilimi küçültmek için de kullanılabilir. Bunu yapma nedeni, yalnızca azına ihtiyaç varken çoğunu bağlamaktan kaçınmaktır. Çeşitli bellek ayırma gerçeklenimlerinde, bir dilimin küçültülmesi bellek yetersizliğinde işlem başarısız olacağından içeriğinin kopyalanmasını gerektirebilir.
+    </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <div class="itemizedlist">
+              <ul style="list-style-type: disc; " class="itemizedlist">
+                <li class="listitem">
+                  <p>
+        Taşınabilir yazılımlar, sıfır boyutlu bellek dilimleri tahsis etmeye çalışmamalıdır. Diğer gerçeklenimler üzerinde, <em class="parameter"><code>ptr</code></em> olarak boş gösterici belirtilmemişse <code class="code">realloc (<em class="parameter"><code>ptr</code></em>, 0)</code> dilimi serbest bırakıp sıfır boyutlu dilime gösterici döndürebilir veya dilimi serbest bırakmaksızın boş gösterici döndürerek başarısız olabilir. ISO C17 standardı bu çeşitliliğe izin vermektedir.
+       </p>
+                </li>
+                <li class="listitem">
+                  <p>
+        GNU C Kütüphanesinde, ortaya çıkan dilimin boyutu <strong class="varname"><code>PTRDIFF_MAX</code></strong>'tan büyük olduğunda, göstericiler üzerinde eksiltme yapan veya işaretli indisler kullanan yazılımlarla ilgili sorunlardan kaçınmak için yeniden tahsis başarısız olur. Diğer gerçeklenimler bu durumda başarılı olabilir ve daha sonra tanımsız davranışa yol açabilir.
+       </p>
+                </li>
+                <li class="listitem">
+                  <p>
+        GNU C Kütüphanesinde, yeni boyut eskisi ile aynı ise, <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> ve <a href="glibc-Changing-Block-Size.html#glibc-fn-reallocarray"><strong class="function"><code>reallocarray</code></strong></a> hiçbir değişiklik olmayacağını garanti eder ve belirtilen adresle döner. Ancak POSIX ve ISO C bu durumda işlevlerin dilimi yeniden ayırmasına veya başarısız olmasına izin verir.
+       </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>
