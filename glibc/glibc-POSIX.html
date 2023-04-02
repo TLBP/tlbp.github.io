@@ -88,81 +88,98 @@
           <p>
      Özellikler, <code class="literal">Thread-</code>, <code class="literal">Async-Signal-</code> ve <code class="literal">Async-Cancel- -Safety</code> gibi güvenlik bağlamları için POSIX standardında belirtilen kurallara göre değerlendirilir. Bunu standart tanımların anlamını yakalamaya çalışan, bu özelliklerin sezgisel tanımları izler.
     </p>
-          <div class="itemizedlist">
-            <ul class="itemizedlist" style="list-style-type: disc; ">
-              <li class="listitem">
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><code class="code">MT-Safe</code>, <code class="code">Thread-Safe</code></span>
                 <span id="glibc-cp-mtsafe" class="indexterm"></span>
                 <span id="glibc-cp-tsafe" class="indexterm"></span>
+              </dt>
+              <dd class="glossdef">
                 <p>
-       <code class="code">MT-Safe</code> (Çok Evreli Güvenilir) veya <code class="code">Thread-Safe</code> (Evreli Güvenilir) işlevlerin başka evreler varken çağrılması güvenlidir. <code class="code">MT-Safe</code> içindeki MT, "Çok Evreli" anlamında bir kısaltmadır.
-      </p>
+        <code class="code">MT-Safe</code> (Çok Evreli Güvenilir) veya <code class="code">Thread-Safe</code> (Evreli Güvenilir) işlevlerin başka evreler varken çağrılması güvenlidir. <code class="code">MT-Safe</code> içindeki MT, "Çok Evreli" anlamında bir kısaltmadır.
+       </p>
                 <p>
-       <code class="code">MT-Safe</code> olmak, o işlevin bölünmez bütünlükte olduğu veya POSIX'in kullanıcılara sunduğu eşzamanlı bellek ayırma mekanizmalarından birinin kullanıldığı anlamına gelmez. İşlem sırasında  <code class="code">MT-Safe</code> işlevlerin çağrılmasının bir  <code class="code">MT-Safe</code> birleşimi vermemesi bile mümkündür. Örneğin, iki  <code class="code">MT-Safe</code> işlevin peşpeşe evresel çağrı yapması, diğer evrelerdeki eşzamanlı çağrılarla yıkıcı şekilde etkileşime gireceğinden, bunların tek bir bölünmez bütün olarak yürütülmesini garanti etmez.
-      </p>
+        <code class="code">MT-Safe</code> olmak, o işlevin bölünmez bütünlükte olduğu veya POSIX'in kullanıcılara sunduğu eşzamanlı bellek tahsis mekanizmalarından birinin kullanıldığı anlamına gelmez. İşlem sırasında  <code class="code">MT-Safe</code> işlevlerin çağrılmasının bir  <code class="code">MT-Safe</code> birleşimi vermemesi bile mümkündür. Örneğin, iki  <code class="code">MT-Safe</code> işlevin peşpeşe evresel çağrı yapması, diğer evrelerdeki eşzamanlı çağrılarla yıkıcı şekilde etkileşime gireceğinden, bunların tek bir bölünmez bütün olarak yürütülmesini garanti etmez.
+       </p>
                 <p>
-       
-       Kütüphane arayüzleri genelinde işlevlerde satırlaştırma yapabilen tüm en iyilemeler, güvenli olmayan yeniden sıralamaya neden olabileceğinden GNU C Kitaplığı arayüzü genelinde satırlaştırma (inlining) yapılması önerilmez. Belgelenmiş  <code class="code">MT-Safe</code> durumu, yazılımın tamamının en iyilenmesi durumunda garanti edilmez. Ancak, kullanıcıya görünür başlık dosyalarında tanımlanan işlevler, satırlaştırma için güvenilir olacak şekilde tasarlanmıştır.
-      </p>
-              </li>
-              <li class="listitem">
+        
+        Kütüphane arayüzleri genelinde işlevlerde satırlaştırma yapabilen tüm en iyilemeler, güvenli olmayan yeniden sıralamaya neden olabileceğinden GNU C Kitaplığı arayüzü genelinde satırlaştırma (inlining) yapılması önerilmez. Belgelenmiş  <code class="code">MT-Safe</code> durumu, yazılımın tamamının en iyilenmesi durumunda garanti edilmez. Ancak, kullanıcıya görünür başlık dosyalarında tanımlanan işlevler, satırlaştırma için güvenilir olacak şekilde tasarlanmıştır.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">AS-Safe</code>, <code class="code">Async-Signal-Safe</code></span>
                 <span id="glibc-cp-assafe" class="indexterm"></span>
                 <span id="glibc-cp-as-safe" class="indexterm"></span>
+              </dt>
+              <dd class="glossdef">
                 <p>
-       <code class="code">AS-Safe</code> (Önalanda Sinyal Güvenilir) veya <code class="code">Async-Signal-Safe</code> (Önalan-Sinyal-Güvenilir) işlevlerin önalanda sinyal işleyiciler varken çağrılması güvenlidir.  <code class="code">AS-Safe</code> içindeki AS, "Önalanda Sinyal" anlamında bir kısaltmadır.
-      </p>
+        <code class="code">AS-Safe</code> (Önalanda Sinyal Güvenilir) veya <code class="code">Async-Signal-Safe</code> (Önalan-Sinyal-Güvenilir) işlevlerin önalanda sinyal işleyiciler varken çağrılması güvenlidir.  <code class="code">AS-Safe</code> içindeki AS, "Önalanda Sinyal" anlamında bir kısaltmadır.
+       </p>
                 <p>
-       <code class="code">AS-Safe</code> olan pek çok işlev, <code class="code">errno</code> değeri atayabilir veya kayan- noktalı sayı ortamını değiştirebilir, çünkü bunu yapmaları onları sinyal işleyicilerde kullanılamaz duruma getirmez. Ancak, önalandaki sinyal işleyicileri bu evreye-özgülük durumunu değiştirirse uygulamalar yanlış çalışabilir ve sinyal işleme mekanizmasının bunu koruyacağına güvenilemez. Bu nedenle,<code class="code">errno</code> değeri atayabilecek veya  kayan- noktalı sayı ortamını değiştirebilecek işlevleri çağıran sinyal işleyicileri özgün değerlerini kaydetmeli ve geri dönmeden önce bu özgün değerleri yerine koymalıdır.
-      </p>
-              </li>
-              <li class="listitem">
+        <code class="code">AS-Safe</code> olan pek çok işlev, <code class="code">errno</code> değeri atayabilir veya kayan- noktalı sayı ortamını değiştirebilir, çünkü bunu yapmaları onları sinyal işleyicilerde kullanılamaz duruma getirmez. Ancak, önalandaki sinyal işleyicileri bu evreye-özgülük durumunu değiştirirse uygulamalar yanlış çalışabilir ve sinyal işleme mekanizmasının bunu koruyacağına güvenilemez. Bu nedenle,<code class="code">errno</code> değeri atayabilecek veya  kayan- noktalı sayı ortamını değiştirebilecek işlevleri çağıran sinyal işleyicileri özgün değerlerini kaydetmeli ve geri dönmeden önce bu özgün değerleri yerine koymalıdır.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">AC-Safe</code>, <code class="code">Async-Cancel-Safe</code></span>
                 <span id="glibc-cp-acsafe" class="indexterm"></span>
                 <span id="glibc-cp-ac-safe" class="indexterm"></span>
+              </dt>
+              <dd class="glossdef">
                 <p>
-       <code class="code">AC-Safe</code> (Önalanda İptal Güvenilir) veya <code class="code">Async-Cancel-Safe</code> (Önalanda-İptal-Güvenilir) işlevlerin çağrılması önalanda iptal etkin olduğunda güvenlidir.  <code class="code">AC-Safe</code> içindeki AC, "Önalanda İptal" anlamında bir kısaltmadır.
-      </p>
+        <code class="code">AC-Safe</code> (Önalanda İptal Güvenilir) veya <code class="code">Async-Cancel-Safe</code> (Önalanda-İptal-Güvenilir) işlevlerin çağrılması önalanda iptal etkin olduğunda güvenlidir.  <code class="code">AC-Safe</code> içindeki AC, "Önalanda İptal" anlamında bir kısaltmadır.
+       </p>
                 <p>
-       POSIX standardı yalnızca üç <code class="code">AC-Safe</code> işlev tanımlar:  <strong class="function"><code>pthread_cancel</code></strong>, <strong class="function"><code>pthread_setcancelstate</code></strong> ve <strong class="function"><code>pthread_setcanceltype</code></strong>. Günümüzde GNU C Kütüphanesi bu üç işlevle ilgili hiçbir garanti vermez, yalnızca hangi işlevlerin halihazırda <code class="code">AC-Safe</code> olduğunu belgelendirir. Bu belgelendirme GNU C Kütüphanesi geliştiricilerinin kullanımına ayrılmıştır.
-      </p>
+        POSIX standardı yalnızca üç <code class="code">AC-Safe</code> işlev tanımlar:  <strong class="function"><code>pthread_cancel</code></strong>, <strong class="function"><code>pthread_setcancelstate</code></strong> ve <strong class="function"><code>pthread_setcanceltype</code></strong>. Günümüzde GNU C Kütüphanesi bu üç işlevle ilgili hiçbir garanti vermez, yalnızca hangi işlevlerin halihazırda <code class="code">AC-Safe</code> olduğunu belgelendirir. Bu belgelendirme GNU C Kütüphanesi geliştiricilerinin kullanımına ayrılmıştır.
+       </p>
                 <p>
-       Tıpkı sinyal işleyiciler gibi, iptal temizleme yordamları da ihtiyaç duydukları kayan-noktalı ortamı yapılandırmalıdır. Bu yordamlar, özellikle önalanda iptal etkin olduğunda, bir kayan-noktalı ortam olduğunu varsayamaz. Kayan-noktalı ortamının yapılandırması atomik olarak (bölünmez bütünlükte) gerçekleştirilemezse, karşılaşılan ortamın kendi içinde tutarsız olması da mümkündür.
-      </p>
-              </li>
-              <li class="listitem">
+        Tıpkı sinyal işleyiciler gibi, iptal temizleme yordamları da ihtiyaç duydukları kayan-noktalı ortamı yapılandırmalıdır. Bu yordamlar, özellikle önalanda iptal etkin olduğunda, bir kayan-noktalı ortam olduğunu varsayamaz. Kayan-noktalı ortamının yapılandırması atomik olarak (bölünmez bütünlükte) gerçekleştirilemezse, karşılaşılan ortamın kendi içinde tutarsız olması da mümkündür.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">MT-Unsafe</code>, <code class="code">AS-Unsafe</code>, <code class="code">AC-Unsafe</code></span>
                 <span id="glibc-cp-mtunsafe" class="indexterm"></span>
                 <span id="glibc-cp-tunsafe" class="indexterm"></span>
                 <span id="glibc-cp-asunsafe" class="indexterm"></span>
                 <span id="glibc-cp-as-unsafe" class="indexterm"></span>
                 <span id="glibc-cp-acunsafe" class="indexterm"></span>
                 <span id="glibc-safety-ac-unsafe" class="indexterm"></span>
+              </dt>
+              <dd class="glossdef">
                 <p>
-       <code class="code">MT-Unsafe</code> (Çok Evreli Güvenilmez), <code class="code">AS-Unsafe</code> (Önalanda Sinyal Güvenilmez), <code class="code">AC-Unsafe</code> (Önalanda İptal Güvenilmez) özellikli işlevlerin çağrılması yukarıda açıklanan güvenlik bağlamları içinde güvenli değildir. Böyle bağlamlar içinde çağrılmaları tanımsız davranışa yol açar.
-      </p>
+        <code class="code">MT-Unsafe</code> (Çok Evreli Güvenilmez), <code class="code">AS-Unsafe</code> (Önalanda Sinyal Güvenilmez), <code class="code">AC-Unsafe</code> (Önalanda İptal Güvenilmez) özellikli işlevlerin çağrılması yukarıda açıklanan güvenlik bağlamları içinde güvenli değildir. Böyle bağlamlar içinde çağrılmaları tanımsız davranışa yol açar.
+       </p>
                 <p>
-       Güvenilir bağlamda açıkça "Güvenilir" olarak belgelenmemiş işlevler "Güvenilmez" olarak kabul edilmelidir.
-      </p>
-              </li>
-              <li class="listitem">
+        Güvenilir bağlamda açıkça "Güvenilir" olarak belgelenmemiş işlevler "Güvenilmez" olarak kabul edilmelidir.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+                  <code class="code">Preliminary</code>
+                </span>
                 <span id="glibc-cp-preliminary" class="indexterm"></span>
+              </dt>
+              <dd class="glossdef">
                 <p>
-       <code class="code">Preliminary</code> güvenilirlik (Evresel Güvenilirlik) özellikleri, bu özelliklerin GNU C Kitaplığının <em class="emphasis">gelecekteki sürümlerinde hesaba katılmayabileceği varsayımıyla</em> belgelenmiştir.
-      </p>
+        <code class="code">Preliminary</code> güvenilirlik (Evresel Güvenilirlik) özellikleri, bu özelliklerin GNU C Kitaplığının <em class="emphasis">gelecekteki sürümlerinde hesaba katılmayabileceği varsayımıyla</em> belgelenmiştir.
+       </p>
                 <p>
-       Bu belgeye konu evresel güvenilirlik özellikleri, mevcut ve gelecekteki standartlar tarafından zorunlu kılınan ve izin verilen özelliklerin değil, mevcut GNU C Kütüphanesi gerçekleniminin özelliklerinin değerlendirilmesinin sonucudur.
-      </p>
+        Bu belgeye konu evresel güvenilirlik özellikleri, mevcut ve gelecekteki standartlar tarafından zorunlu kılınan ve izin verilen özelliklerin değil, mevcut GNU C Kütüphanesi gerçekleniminin özelliklerinin değerlendirilmesinin sonucudur.
+       </p>
                 <p>
-       Standartlara uymaya çalışmamıza rağmen bazı durumlarda, standart tarafından talep edilmese bile, gerçeklenimimiz güvenilirdir ve diğer durumlarda gerçeklenimimiz standart güvenilirlik gereksinimlerini karşılamamaktadır. İkinci durum büyük olasılıkla gerçeklenimdeki hatalardır; İlki, "Evresel Güvenilirlik" bağlamında ele alınmamalıdır: Gelecekteki standartlar, mevcut gerçeklenimin sağladığı ek güvenlik özellikleriyle uyumlu olmayan değişiklikler gerektirebilir.
-      </p>
+        Standartlara uymaya çalışmamıza rağmen bazı durumlarda, standart tarafından talep edilmese bile, gerçeklenimimiz güvenilirdir ve diğer durumlarda gerçeklenimimiz standart güvenilirlik gereksinimlerini karşılamamaktadır. İkinci durum büyük olasılıkla gerçeklenimdeki hatalardır; İlki, "Evresel Güvenilirlik" bağlamında ele alınmamalıdır: Gelecekteki standartlar, mevcut gerçeklenimin sağladığı ek güvenlik özellikleriyle uyumlu olmayan değişiklikler gerektirebilir.
+       </p>
                 <p>
-       Ayrıca, POSIX standardı ayrıntılı bir güvenilirlik tanımı da sunmamaktadır. POSIX'in "çağırmak için güvenilir" ile, yazılım tanımsız davranış başlatmadığı sürece, "çağırmak için güvenilir" işlevin belirtildiği gibi davrandığını ve diğer işlevlerin belirtilen davranışlarından sapmasına neden olmadığını kastettiğini varsayıyoruz. Gevşek güvenilirlik tanımlarını, kullanılacak en iyi tanımlar oldukları için değil, ancak bu kılavuzu POSIX ile uyumlu hale getirdiği için kullanmayı seçtik.
-      </p>
+        Ayrıca, POSIX standardı ayrıntılı bir güvenilirlik tanımı da sunmamaktadır. POSIX'in "çağırmak için güvenilir" ile, yazılım tanımsız davranış başlatmadığı sürece, "çağırmak için güvenilir" işlevin belirtildiği gibi davrandığını ve diğer işlevlerin belirtilen davranışlarından sapmasına neden olmadığını kastettiğini varsayıyoruz. Gevşek güvenilirlik tanımlarını, kullanılacak en iyi tanımlar oldukları için değil, ancak bu kılavuzu POSIX ile uyumlu hale getirdiği için kullanmayı seçtik.
+       </p>
                 <p>
-       Bunların ön tanımlar ve ek açıklamalar olduğu, tanımların belirli yönlerinin hala tartışıldığı, açıklanmaya veya değişikliğe konu olabileceği unutulmamalıdır.
-      </p>
+        Bunların ön tanımlar ve ek açıklamalar olduğu, tanımların belirli yönlerinin hala tartışıldığı, açıklanmaya veya değişikliğe konu olabileceği unutulmamalıdır.
+       </p>
                 <p>
-       Zamanla, "Evresel Güvenilirlik" bilgilerini, arayüzlerimiz kadar istikrarlı, kararlı taahhütlere dönüştürmeyi düşünüyoruz. Yaptığımızda görüleceği gibi, <code class="code">Preliminary</code> anahtar sözcüğünü (bu çeviride "Evresel Güvenilirlik" karşılığını) güvenilirlik bilgilerinden kaldıracağız. Bununla birlikte, anahtar sözcük olarak kaldığı sürece, gelecekteki davranışımızın teminatı olarak görülmemelidir.
-      </p>
-              </li>
-            </ul>
+        Zamanla, "Evresel Güvenilirlik" bilgilerini, arayüzlerimiz kadar istikrarlı, kararlı taahhütlere dönüştürmeyi düşünüyoruz. Yaptığımızda görüleceği gibi, <code class="code">Preliminary</code> anahtar sözcüğünü (bu çeviride "Evresel Güvenilirlik" karşılığını) güvenilirlik bilgilerinden kaldıracağız. Bununla birlikte, anahtar sözcük olarak kaldığı sürece, gelecekteki davranışımızın teminatı olarak görülmemelidir.
+       </p>
+              </dd>
+            </dl>
           </div>
           <p>
      "Evresel Güvenilirlik" bilgilerinde görünen diğer anahtar sözcükler sonraki bölümlerde tanımlanmıştır.
@@ -232,7 +249,7 @@
               </dt>
               <dd class="glossdef">
                 <p>
-       <code class="code">dlopen</code> ile belirtilen işlevler, paylaşımlı kütüphaneleri geçerli yürütme imgesine yüklemek için özdevimli yükleyiciyi kullanır. Bu, dahili özdevimli yükleyicinin kilitleri tutulurken dosyalar açılabilir, bunlar belleğe eşlenebilir, ek bellek ayrılabilir, semboller çözümlenebilir, yer değiştirmeler uygulanabilir ve daha pek çok şey yapılabilir.
+       <code class="code">dlopen</code> ile belirtilen işlevler, paylaşımlı kütüphaneleri geçerli yürütme imgesine yüklemek için özdevimli yükleyiciyi kullanır. Bu, dahili özdevimli yükleyicinin kilitleri tutulurken dosyalar açılabilir, bunlar belleğe eşlenebilir, ek bellek tahsis edilebilir, semboller çözümlenebilir, yer değiştirmeler uygulanabilir ve daha pek çok şey yapılabilir.
        </p>
                 <p>
         Kilitler, bu işlevlerin <code class="code">AS-Unsafe</code> ve <code class="code">AC-Unsafe</code>  olması için yeterlidir, ancak başka sorunlar ortaya çıkabilir. Şu anda <code class="code">dlopen</code>, kendi üzerinden gündeme getirilen tüm olası güvenilirlik sorunları için bir yer tutucudur.
@@ -489,10 +506,10 @@
         <code class="code">AC-Safe</code> özellik olarak <code class="code">fd</code> ile imlenmiş işlevler, önalanda evre iptali yürütülmelerini kesintiye uğratırsa dosya tanıtıcılarında kaçak olabilir.
        </p>
                 <p>
-        Dosya tanıtıcıları ayıran ve serbest bırakan işlevler genelde böyle imlenir. Dosya tanıtıcı ayırma ve yeniden ayırma işlemleri, temizlik işlevleri ile korunmaya çalışılsa bile, yeni bir tanıtıcı ayırmak ve numarasını temizlik işlevlerinin serbest bırakabileceği bir yerde saklamak, tek bir bölünmez işlem olarak gerçekleştirilemez. Benzer şekilde tanıtıcının serbest bırakılması ve normalde serbest bırakılmasından sorumlu olan veri yapısından çıkarılması da tek bir bölünmez işlem olarak gerçekleştirilemez. Henüz temizleme işleyici bağımsız değişkeninde saklanmadığı veya serbest bırakılmadan önce zaten çıkarıldığı için tanıtıcının serbest bırakılamadığı bir pencere her zaman olacaktır. Tanıtıcı serbest bırakıldıktan sonra çıkarılamaz: Açık bir tanıtıcı, tanıtıcının hala kapatılması gerektiği veya zaten kapalı olduğu ancak tanıtıcının başka bir evre veya sinyal işleyici tarafından yeniden tahsis edildiği anlamına da gelebilir.
+        Dosya tanıtıcıları ayıran ve serbest bırakan işlevler genelde böyle imlenir. Dosya tanıtıcı tahsisi ve yeniden tahsis işlemleri, temizlik işlevleri ile korunmaya çalışılsa bile, yeni bir tanıtıcı tahisis ve numarasını temizlik işlevlerinin serbest bırakabileceği bir yerde saklamak, tek bir bölünmez işlem olarak gerçekleştirilemez. Benzer şekilde tanıtıcının serbest bırakılması ve normalde serbest bırakılmasından sorumlu olan veri yapısından çıkarılması da tek bir bölünmez işlem olarak gerçekleştirilemez. Henüz temizleme işleyici bağımsız değişkeninde saklanmadığı veya serbest bırakılmadan önce zaten çıkarıldığı için tanıtıcının serbest bırakılamadığı bir pencere her zaman olacaktır. Tanıtıcı serbest bırakıldıktan sonra çıkarılamaz: Açık bir tanıtıcı, tanıtıcının hala kapatılması gerektiği veya zaten kapalı olduğu ancak tanıtıcının başka bir evre veya sinyal işleyici tarafından yeniden tahsis edildiği anlamına da gelebilir.
        </p>
                 <p>
-        Bu tür kaçaklar, önalanda evre iptalini geçici olarak devre dışı bırakarak, bir miktar başarım düşüşüyle dahili olarak önlenebilir. Bununla birlikte, ayırma veya yeniden ayırma işlev çağrılarının yapıldığı katmanda aynı türden bir kaçağı önlemek için bunun çağrıcı tarafından yapılması gerekeceğinden, üst katmanlarda sorun çözüldüğünde gereksiz, çözülmediğinde yetersiz bir başarım cezası vermektense sorunla kütüphanenin ilgilendiğinin varsayılması daha mantıklıdır.
+        Bu tür kaçaklar, önalanda evre iptalini geçici olarak devre dışı bırakarak, bir miktar başarım düşüşüyle dahili olarak önlenebilir. Bununla birlikte, tahsis veya yeniden tahsis işlev çağrılarının yapıldığı katmanda aynı türden bir kaçağı önlemek için bunun çağrıcı tarafından yapılması gerekeceğinden, üst katmanlarda sorun çözüldüğünde gereksiz, çözülmediğinde yetersiz bir başarım cezası vermektense sorunla kütüphanenin ilgilendiğinin varsayılması daha mantıklıdır.
        </p>
                 <p>
         Bu açıklama tek başına bir işlevin <code class="code">AC-Unsafe</code> olarak değerlendirilmesine neden olmaz. Ancak bu tür kaçakların birikerek artan etkileri bazı uygulamalar için sorun teşkil edebilir. Bu durumda, bu tür işlevlere yapılan çağrıların yürütülmesi sırasında önalanda iptalin askıya alınması önerilir.

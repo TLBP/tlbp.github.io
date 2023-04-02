@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.10. Dizgeciklere Bölme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Search-Functions-Compatibility.html')">Önceki</button>
+          <div class="dropdown-content">5.9.1. Uyumlu Dizge Arama İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Erasing-Sensitive-Data.html')">Sonraki</button>
+          <div class="dropdown-content">5.11. Hassas Bilgilerin Silinmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Finding-Tokens-in-a-String">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.10. Dizgeciklere Bölme</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Hemen her uygulamada, bir komut dizgesini dizgeciklere ayırmak gibi bazı basit ayrıştırma işlemlerine ihtiyaç  duyulur. Bunun için  <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiş olan <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> işlevi ile kullanılabilir.
+   <span id="idm93822" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strtok" class="indexterm"></span>
+   <span id="glibc-cp-strtok" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strtok</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">newstring</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">delimiters</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:strtok</a></code>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bir dizge <code class="code">strtok</code> işlevi peşpeşe çağrılarak dizgeciklerine bölünebilir.
+   </p>
+   <p>
+    Bölünecek dizge yalnızca ilk çağrıda <em class="parameter"><code>newstring</code></em> bağımsız değişkeni ile işleve aktarılır. <code class="code">strtok</code> işlevi bunu bazı dahili durum bilgilerini ayarlamakta kullanır. Sonraki çağrılarda, <em class="parameter"><code>newstring</code></em> bağımsız değişkeni ile boş gösterici aktarılması aynı dizgeden başka dizgeciklerin alınacağını belirtir. <em class="parameter"><code>newstring</code></em> bağımsız değişkenine boş gösterici olmayan bir gösterici belirterek yapılan her <code class="code">strtok</code> çağrısı, durum bilgilerini yeniden ilklendirir. Hiçbir kütüphane işlevinin yazılımcının bilgisi dahilinde olmayan (bu dahili durum bilgisini karıştıran) <code class="code">strtok</code> çağrısı yapmayacağı garanti edilmiştir.
+   </p>
+   <p>
+    <em class="parameter"><code>delimiters</code></em> bağımsız değişkeni çıkarılacak dizgecikleri belirlemede kullanılan ayraçlardan oluşan bir dizgedir. Bu ayraçlardan birine rastlandığında bu karakter boş bayt ile değiştirilir ve dizgenin başlangıcı <em class="parameter"><code>newstring</code></em> bağımsız değişkeninde döndürülür. Dizgecikler daima dizgeciğin sonunda bulunan bir ayracın varlığına göre ayrıştırılır.
+   </p>
+   <p>
+    Sonraki <code class="code">strtok</code> çağrılarında arama önceki dizgeciği sonlandıran boş bayttan sonraki karakterden başlar. Sonraki <code class="code">strtok</code> çağrılarında hep aynı <em class="parameter"><code>delimiters</code></em> dizgesini kullanmak zorunluluğu yoktur.
+   </p>
+   <p>
+    <em class="parameter"><code>newstring</code></em> dizgesinin sonuna gelindiğinde ya da kalan dizge sadece ayraç karakterlerinden oluşuyorsa işlev boş gösterici ile döner.
+   </p>
+   <p>
+    Çok baytlı dizgelerde birden fazla bayttan oluşan karakterlerin baytları ayrı ayrı ele alınmaz. Bu işlevde baytlar ayrı ayrı ele alınır. İşlev yerelden bağımsızdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcstok" class="indexterm"></span>
+   <span id="glibc-cp-wcstok" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="function">wcstok</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="parameter">newstring</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">delimiters</code></strong><strong><code>, </code></strong><code class="type">wchar_t </code><strong class="type">**</strong><strong><code class="parameter">save_ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bir dizge <code class="code">wcstok</code> işlevi peşpeşe çağrılarak dizgeciklerine bölünebilir.
+   </p>
+   <p>
+    Bölünecek dizge yalnızca ilk çağrıda <em class="parameter"><code>newstring</code></em> bağımsız değişkeni ile işleve aktarılır. <code class="code">wcstok</code> işlevi bunu bazı dahili durum bilgilerini ayarlamakta kullanır. Sonraki çağrılarda, <em class="parameter"><code>newstring</code></em> bağımsız değişkeni ile boş gösterici aktarılması aynı dizgeden başka dizgeciklerin alınacağını belirtir. Bölünecek dizgenin başlangıcı olarak daha önce <em class="parameter"><code>save_ptr</code></em> dizisine kaydedilen gösterici kullanılır.
+   </p>
+   <p>
+    <em class="parameter"><code>delimiters</code></em> bağımsız değişkeni çıkarılacak dizgecikleri belirlemede kullanılan ayraçlardan oluşan geniş dizgedir. Bu ayraçlardan birine rastlandığında bu karakter boş geniş karakter ile değiştirilir. <em class="parameter"><code>delimiters</code></em> üyesi olmayan ilk geniş karakter, yeni dizgeciğin başlangıcını işaretler. Yeni dizgeciğin sonu, <em class="parameter"><code>delimiters</code></em> üyesi olan bir sonraki geniş karakter aranarak bulunur. <em class="parameter"><code>newstring</code></em> dizgesindeki <em class="parameter"><code>delimiters</code></em> üyesi geniş karakterin üzerine boş geniş karakter yazılır, üzerine yazılan geniş karakteri geçen gösterici (bir sonraki aramanın başlangıcı)  <em class="parameter"><code>save_ptr</code></em> ile ve dizgeciğin başlangıcına gösterici <em class="parameter"><code>newstring</code></em> bağımsız değişkeninde döndürülür.
+   </p>
+   <p>
+    Sonraki <code class="code">wcstok</code> çağrısında arama, önceki dizgeciği sonlandıran boş geniş karakterden sonraki geniş karakterde başlar. Sonraki <code class="code">wcstok</code> çağrılarında hep aynı <em class="parameter"><code>delimiters</code></em> dizgesini kullanmak zorunlu değildir.
+   </p>
+   <p>
+    <em class="parameter"><code>newstring</code></em> dizgesinin sonuna gelindiğinde ya da kalan dizge sadece ayraç karakterlerinden oluşuyorsa işlev boş gösterici ile döner.
+   </p>
+   
+  </div>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+    <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> ve <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevleri ayrıştırma sırasında dizgeyi değiştirdiğinden,  <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a>/<a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> çağrısından önce dizge daima geçici bir tampona kaydedilmelidir (Bkz. <a class="xref" href="glibc-Copying-Strings-and-Arrays.html" title="5.4. Dizilerin ve Dizgelerin Kopyalanması"><em>Dizilerin ve Dizgelerin Kopyalanması</em></a>). <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> veya <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevinin yazılımın başka bir parçasından gelen bir dizgeyi değiştirmesine izin verilirse, <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> veya <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> çağrısından sonra dizge değişmiş olacağından dizgenin başka amaçlar için kullanılması gerektiğinde beklenen değerde olmaması sorunlara sebep olabilir.
+   </p>
+          </div>
+        </div>
+        <p>
+   Üzerinde işlem yapılan dizge bir sabit olduğu takdirde, <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> veya <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevi sabiti değiştirmeye kalktığında yazılım salt-okunur belleğe yazacağından bir ölümcül hata oluşacaktır Bkz. ???. <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> veya <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevinin yaptığı işlem dizgeyi değiştirmeyeceği  varsayılsa bile (örneğin, yalnızca bir dizgecik vardır) dizge değiştirilebilir (GNU C Kütüphanesi değiştirecektir).
+  </p>
+        <p>
+   Bu, genel bir kuralın özel bir durumudur: Eğer bir yazılım parçası belli bir veri yapısını güncelleme ile görevlendirilmemişse sözkonusu veri yapısının bu yazılım tarafından geçici olarak güncellenmesi hatalara yol açabilir.
+  </p>
+        <p>
+   <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevinin tersine <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> işlevi çok evreliliğe uygun değildir. Çok evreliliğe uygunluğun niçin ve nerede önemli olduğu ??? bölümünde incelenmiştir.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: <code class="code">strtok</code> kullanımı</div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;string.h&gt;
+#include &lt;stddef.h&gt;
+
+…
+
+const char string[] = "words separated by spaces - and, punctuation!";
+const char delimiters[] = " .,;:!-";
+char *token, *cp;
+
+…
+
+cp = strdupa (string);                /* yazılabilir bir kopya oluştur.  */
+token = strtok (cp, delimiters);      /* token =&gt; "words" */
+token = strtok (NULL, delimiters);    /* token =&gt; "separated" */
+token = strtok (NULL, delimiters);    /* token =&gt; "by" */
+token = strtok (NULL, delimiters);    /* token =&gt; "spaces" */
+token = strtok (NULL, delimiters);    /* token =&gt; "and" */
+token = strtok (NULL, delimiters);    /* token =&gt; "punctuation" */
+token = strtok (NULL, delimiters);    /* token =&gt; NULL */
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   GNU C kütüphanesi bir dizgeyi dizgeciklerine bölmek için, çok evreliliğe uygun olmamaktan kaynaklanan sınırlamaları aşan iki işlev daha içerir. Bu işlevler geniş dizgeler üzerinde kullanılmaz.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strtok_r" class="indexterm"></span>
+   <span id="glibc-cp-strtok_r" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strtok_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">newstring</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">delimiters</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">**</strong><strong><code class="parameter">save_ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok"><strong class="function"><code>strtok</code></strong></a> gibi, ardışık olarak çağrılarak bir dizgeyi dizgeciklerine ayırmakta kullanılır. Farkı, sonraki dizgecik hakkındaki bilgilerin, <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-wcstok"><strong class="function"><code>wcstok</code></strong></a> işlevindeki gibi bir dizge göstericisine gösterici olan <em class="parameter"><code>save_ptr</code></em> bağımsız değişkeni ile gösterilen alanda saklanmasıdır. İşlevin, <em class="parameter"><code>newstring</code></em> bağımsız değişkeninin boş gösterici ile çağrılması ve çağrılar arasında <em class="parameter"><code>save_ptr</code></em> bağımsız değişkeninin değişmeden bırakılması, çok evreliliği aksatmaksızın işlemin yapılmasını sağlar.
+   </p>
+   <p>
+    Bu işlev POSIX.1 içinde tanımlıdır ve çok evreliliği destekleyen çoğu sistemde bulunur.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strsep" class="indexterm"></span>
+   <span id="glibc-cp-strsep" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strsep</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">**</strong><strong><code class="parameter">string_ptr</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">delimiter</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok_r"><strong class="function"><code>strtok_r</code></strong></a> işlevindeki <em class="parameter"><code>newstring</code></em> bağımsız değişkeninin yerini <em class="parameter"><code>string_ptr</code></em> bağımsız değişkeninin alması dışında <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok_r"><strong class="function"><code>strtok_r</code></strong></a> işlevine benzer. Taşıyıcı göstericinin ilklendirilmesi yazılımcı tarafından yapılır. <code class="code">strsep</code> işlevine art arda yapılan çağrılar, göstericiyi <em class="parameter"><code>delimiter</code></em> ile tahsis edilmiş dizgecikler boyunca hareket ettirerek bir sonraki dizgeciğin adresini döndürürken <em class="parameter"><code>string_ptr</code></em> bağımsız değişkenini bir sonraki dizgeciğin başlangıcını gösterecek şekilde günceller.
+   </p>
+   <p>
+    <code class="code">strsep</code> ile <a href="glibc-Finding-Tokens-in-a-String.html#glibc-fn-strtok_r"><strong class="function"><code>strtok_r</code></strong></a> arasındaki bir diğer fark da, eğer girdi dizgesi içinde <em class="parameter"><code>delimiter</code></em> karakterlerinden biri birden fazla içeriliyorsa, her <em class="parameter"><code>delimiter</code></em> karakteri çifti için bir boş dizge döndürmesidir. Yani, yazılımın normalde işlevi çalıştırmadan önce işlevin boş dizge döndürüp döndürmeyeceğini sınaması gerekir.
+   </p>
+   <p>
+    Bu işlev 4.3 BSD içinde tanımlıdır ve genişçe bir kullanım alanı vardır.
+   </p>
+   
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: Önceki örneğin <code class="code">strsep</code> sürümü</div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;string.h&gt;
+#include &lt;stddef.h&gt;
+
+…
+
+const char string[] = "words separated by spaces - and, punctuation!";
+const char delimiters[] = " .,;:!-";
+char *running;
+char *token;
+
+…
+
+running = strdupa (string);
+token = strsep (&amp;running, delimiters);    /* token =&gt; "words" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "separated" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "by" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "spaces" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "and" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "punctuation" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; "" */
+token = strsep (&amp;running, delimiters);    /* token =&gt; NULL */
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-basename-gnu" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">basename</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">basename</code> işlevinin GNU sürümü, <em class="parameter"><code>filename</code></em> ile belirtilen dosya yolunun son elemanı ile döner. <em class="parameter"><code>filename</code></em> bağımsız değişkenini içerdiği ters eğik çizgiler bakımından değiştirmediğinden kullanımı tercih edilir. İşlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.  <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/libgen.h;hb=HEAD" target="_top">libgen.h</a></code> başlık dosyası da içerildiğinde bu işlevin XPG sürümü ile değiştirileceği unutulmamalıdır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: GNU <code class="code">basename</code> kullanımı</div><div class="example-contents"><pre class="screen">#include &lt;string.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  char *prog = basename (argv[0]);
+
+  if (argc &lt; 2)
+    {
+      fprintf (stderr, "Kullanımı: %s &lt;arg&gt;\n", prog);
+      exit (1);
+    }
+
+  …
+}
+</pre></div></div><br class="example-break" />
+   <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+     Bu işlev, farklı sistemlerde farklı sonuçlar üretebilir.
+    </p></div></div>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-basename-xpg" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/libgen.h;hb=HEAD" target="_top">libgen.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">basename</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">path</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">basename</code> işlevinin XPG sürümüdür ve ruhen GNU sürümüne benzer. Fakat, <em class="parameter"><code>path</code></em>  içindeki '/' karakterleri silinerek değişikliğe uğratılır. Eğer bağımsız değişken sadece '/' karakterinden oluşuyorsa '/' karakteri döner. Ayrıca, <code class="code">NULL</code> ise ya da boş dizge ise "." döner. İşlevin XPG sürümü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/libgen.h;hb=HEAD" target="_top">libgen.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+   <div class="example"><div class="example-title">Örnek: XPG <code class="code">basename</code> kullanımı</div><div class="example-contents"><pre class="screen">#include &lt;libgen.h&gt;
+
+int
+main (int argc, char *argv[])
+{
+  char *prog;
+  char *path = strdupa (argv[0]);
+
+  prog = basename (path);
+
+  if (argc &lt; 2)
+    {
+      fprintf (stderr, "Kullanımı: %s &lt;arg&gt;\n", prog);
+      exit (1);
+    }
+
+  …
+
+}
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-dirname" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/libgen.h;hb=HEAD" target="_top">libgen.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">dirname</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">path</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">dirname</code> işlevi, <strong class="function"><code>basename</code></strong> işlevinin XPG sürümünün tümleyenidir. <em class="parameter"><code>path</code></em> ile belirtilen dosyayı içeren dizin ile döner. Bağımsız değişkenin değeri  <code class="code">NULL</code> ise veya boş dizge ise ya da hiç '/' karakteri içermiyorsa, "." döner.
+   </p>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

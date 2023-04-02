@@ -52,20 +52,20 @@
             </div>
           </div>
           <p>
-    <span id="idm85313" class="indexterm"></span>
-    <span id="idm85316" class="indexterm"></span>
-    En çok kullanılan özdevimli bellek tahsis oluşumu <span class="command"><strong>malloc</strong></span> işlevidir. Bu işlev kullanılarak her zaman her boyutta bellek dilimi ayrılabilir, istendiğinde büyütülebilir, küçültülebilir ve ihtiyaç kalmadığında serbest bırakılabilir ya da hiç serbest bırakılmayabilir.
+    <span id="idm85669" class="indexterm"></span>
+    <span id="idm85672" class="indexterm"></span>
+    En çok kullanılan özdevimli bellek tahsis oluşumu <span class="command"><strong>malloc</strong></span> işlevidir. Bu işlev kullanılarak her zaman her boyutta bellek dilimi tahsis edilebilir, istendiğinde büyütülebilir, küçültülebilir ve ihtiyaç kalmadığında serbest bırakılabilir ya da hiç serbest bırakılmayabilir.
    </p>
         </div>
         <div class="toc-title">İçindekiler</div>
         <div class="toc">
           <dl class="toc">
             <dt>3.2.3.2. <a href="glibc-Malloc-Examples.html"><code class="code">malloc</code> Örnekleri</a>  -  <code class="code">malloc</code> ve <code class="code">xmalloc</code> örnekleri.</dt>
-            <dt>3.2.3.3. <a href="glibc-Freeing-after-Malloc.html"><code class="code">malloc</code> ile Ayrılan Belleğin Serbest Bırakılması</a>  -  <code class="code">malloc</code> ile ayrılmış bir dilim <code class="code">free</code> ile serbest bırakılabilir.</dt>
+            <dt>3.2.3.3. <a href="glibc-Freeing-after-Malloc.html"><code class="code">malloc</code> ile Ayrılan Belleğin Serbest Bırakılması</a>  -  <code class="code">malloc</code> ile tahsis edilmiş bir dilim <code class="code">free</code> ile serbest bırakılabilir.</dt>
             <dt>3.2.3.4. <a href="glibc-Changing-Block-Size.html">Bellek Diliminin Boyutunun Değiştirilmesi</a>  -  <code class="code">realloc</code> kullanarak bir dilim büyütülebilir ve küçültülebilir.</dt>
-            <dt>3.2.3.5. <a href="glibc-Allocating-Cleared-Space.html">Temizlenmiş Bellek Tahsisi</a>  -  <code class="code">calloc</code> bellek dilimini hem ayırmak hem de temizlemek için kullanılabilir.</dt>
+            <dt>3.2.3.5. <a href="glibc-Allocating-Cleared-Space.html">Temizlenmiş Bellek Tahsisi</a>  -  <code class="code">calloc</code> bellek dilimini hem tahsis etmek hem de temizlemek için kullanılabilir.</dt>
             <dt>3.2.3.6. <a href="glibc-Aligned-Memory-Blocks.html">Bellek Dilimlerinin Hizalanarak Tahsisi</a>  -  Dilimleri özellikle adımlarını ayarlayarak adreslemek.</dt>
-            <dt>3.2.3.7. <a href="glibc-Malloc-Tunable-Parameters.html"><code class="code">malloc</code> Ayarlanabilirleri</a>  -  Bellek ayırma ayarlanabilir değişkenlerinin değerleri <code class="code">mallopt</code> ile atanır.</dt>
+            <dt>3.2.3.7. <a href="glibc-Malloc-Tunable-Parameters.html"><code class="code">malloc</code> Ayarlanabilirleri</a>  -  Bellek tahsisi ayarlanabilir değişkenlerinin değerleri <code class="code">mallopt</code> ile atanır.</dt>
             <dt>3.2.3.8. <a href="glibc-Heap-Consistency-Checking.html">Yığın Bellek Tutarlılık Denetimi</a>  -  Yığın belleğin hatalara karşı özdevinimli denetlenmesi.</dt>
             <dt>3.2.3.9. <a href="glibc-Statistics-of-Malloc.html"><code class="code">malloc</code> ile Bellek Tahsis İstatistikleri</a>  -  Yazılımın kullandığı bellek miktarı hakkında bilgi alma.</dt>
             <dt>3.2.3.10. <a href="glibc-Summary-of-Malloc.html"><code class="code">malloc</code> ve İlgili İşlevlerin Özeti</a></dt>
@@ -83,27 +83,28 @@
      
      
      
-     <span id="idm85334" class="indexterm"></span>
-     <span id="idm85339" class="indexterm"></span>
-     Bellek dilimi ayırmak için <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılır. Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+     <span id="idm85690" class="indexterm"></span>
+     <span id="idm85695" class="indexterm"></span>
+     Bellek dilimi tahsisi için <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılır.
     </p>
           <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-malloc" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">malloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">malloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
      </div>
      <p>
       Bu işlev <em class="parameter"><code>size</code></em> bayt uzunlukta yeni bir bellek dilimi ayırabilirse bu dilime gösterici, aksi takdirde hata kodunu <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atayıp boş gösterici döndürür.
      </p>
+     
     </div>
           <p>
      Bellek diliminin içeriği tanımsızdır; içeriğin ilklendirilmesi gerekir (ya da bu işlev yerine <a href="glibc-Allocating-Cleared-Space.html#glibc-fn-calloc"><strong class="function"><code>calloc</code></strong></a> kullanılabilir). Bkz. <a class="xref" href="glibc-Allocating-Cleared-Space.html" title="3.2.3.5. Temizlenmiş Bellek Tahsisi">Temizlenmiş Bellek Tahsisi</a>.
     </p>
           <p>
-     Normalde değerin dilim içinde saklanmak istenen nesnenin türüne göstericiye dönüştürülmesi gerekir. Aşağıda bu yönteme ilişkin bir örnek vardır. Burada dilim, <strong class="function"><code>memset</code></strong> kütüphane işlevi kullanılarak sıfırlarla ilklendirilmektedir (Bkz. ???):
+     Normalde değerin dilim içinde saklanmak istenen nesnenin türüne göstericiye dönüştürülmesi gerekir. Aşağıda bu yönteme ilişkin bir örnek vardır. Burada dilim, <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-memset"><strong class="function"><code>memset</code></strong></a> kütüphane işlevi kullanılarak sıfırlarla ilklendirilmektedir (Bkz. ???):
     </p>
           <div class="example">
             <div class="example-title">Örnek: </div>
@@ -130,7 +131,7 @@ memset (ptr, 0, sizeof (struct foo));
           </div>
           <br class="example-break" />
           <p>
-     Bu konu hakkında daha ayrıntılı bilgi edinmek için bkz. ???
+     Bu konu hakkında daha ayrıntılı bilgi edinmek için bkz. <a class="xref" href="glibc-Representation-of-Strings.html" title="5.1. Dizgelerle İlgili Kavramlar"><em>Dizgelerle İlgili Kavramlar</em></a>
     </p>
         </section>
       </section>

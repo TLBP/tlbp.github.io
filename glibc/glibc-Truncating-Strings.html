@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.6. Dizgelerin Kırpılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Concatenating-Strings.html')">Önceki</button>
+          <div class="dropdown-content">5.5. Dizgelerin Birleştirilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-Array-Comparison.html')">Sonraki</button>
+          <div class="dropdown-content">5.7. Dizi/Dizge Karşılaştırması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Truncating-Strings">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.6. Dizgelerin Kırpılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm91878" class="indexterm"></span>
+   <span id="idm91881" class="indexterm"></span>
+   Bu bölümde açıklanan işlevler, bir dizinin, dizgenin veya geniş dizgenin muhtemelen kırpılmış içeriğini diğerine kopyalar veya ekler. Başlık dosyaları ile ilgili uzlaşımlar bunlara da uygulanır (Bkz. <a class="xref" href="glibc-Copying-Strings-and-Arrays.html" title="5.4. Dizilerin ve Dizgelerin Kopyalanması"><em>Dizilerin ve Dizgelerin Kopyalanması</em></a>). ‘<code class="code">str</code>’ işlevleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code>, ‘<code class="code">wc</code>’ işlevleri ise <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code> başlık dosyasına bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strncpy" class="indexterm"></span>
+   <span id="glibc-cp-strncpy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strncpy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">to</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">from</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>size</code></em> sayıda karakteri <em class="parameter"><code>to</code></em> dizgesine kopyalaması dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strcpy"><strong class="function"><code>strcpy</code></strong></a> işlevi gibidir.
+   </p>
+   <p>
+    <em class="parameter"><code>from</code></em> dizgesinin ilk <em class="parameter"><code>size</code></em> baytı boş bayt içermiyorsa ve <em class="parameter"><code>from</code></em> uzunluğu <em class="parameter"><code>size</code></em> bayttan uzunsa işlev, ilk <em class="parameter"><code>size</code></em> baytı kopyalar. Bu durumda <em class="parameter"><code>to</code></em> dizgesi sonlandırıcı boş baytı içermez.
+   </p>
+   <p>
+    <em class="parameter"><code>from</code></em> dizgesinin uzunluğu <em class="parameter"><code>size</code></em> bayttan kısaysa <em class="parameter"><code>from</code></em> dizgesi ile boş bayttan sonraki <em class="parameter"><code>size</code></em> bayta kadar olan baytlar boş baytlarla doldurularak <em class="parameter"><code>to</code></em> dizgesine kopyalanır.
+   </p>
+   <p>
+    Üst üste binme durumunda <code class="code">strncpy</code> işlevinin davranışı tanımsızdır.
+   </p>
+   <p>
+    Bu işlev, boş olmayan baytlardan oluşan ve ardından sıfır veya daha fazla boş bayt gelen, artık nadiren kullanılan diziler için tasarlanmıştır. <em class="parameter"><code>size</code></em>, <em class="parameter"><code>from</code></em> dizgesinin uzunluğundan çok daha büyük olsa bile, hedefin boyut baytının tamamına yazılması gerekir. <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">Aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcsncpy" class="indexterm"></span>
+   <span id="glibc-cp-wcsncpy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="function">wcsncpy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">wto</code></strong><strong><code>, </code></strong><code class="type">const wchar_t *restrict </code> <strong><code class="parameter">wfrom</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>size</code></em> sayıda geniş karakteri <em class="parameter"><code>to</code></em> dizgesine kopyalaması dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-wcscpy"><strong class="function"><code>wcscpy</code></strong></a> işlevi gibidir.
+   </p>
+   <p>
+    <em class="parameter"><code>wfrom</code></em> geniş dizgesinin ilk <em class="parameter"><code>size</code></em> geniş karakteri arasında boş geniş karakter yoksa ve <em class="parameter"><code>wfrom</code></em> geniş dizgesinin uzunluğu <em class="parameter"><code>size</code></em> geniş karakterden uzunsa işlev, ilk <em class="parameter"><code>size</code></em> geniş karakteri kopyalar. Bu durumda <em class="parameter"><code>wto</code></em> dizgesi sonlandırıcı boş geniş karakteri içermez.
+   </p>
+   <p>
+    <em class="parameter"><code>wfrom</code></em> geniş dizgesinin uzunluğu <em class="parameter"><code>size</code></em> geniş karakterden kısaysa <em class="parameter"><code>wfrom</code></em> geniş dizgesi ile boş geniş karakterden sonraki <em class="parameter"><code>size</code></em> geniş karaktere kadar olan baytlar boş geniş karakterlerle doldurularak <em class="parameter"><code>wto</code></em> geniş dizgesine kopyalanır.
+   </p>
+   <p>
+    Üst üste binme durumunda <code class="code">wcsncpy</code> işlevinin davranışı tanımsızdır.
+   </p>
+   <p>
+    Bu işlev <a href="glibc-Truncating-Strings.html#glibc-fn-strncpy"><strong class="function"><code>strncpy</code></strong></a> işlevinin geniş karakter karşılığıdır ve <a href="glibc-Truncating-Strings.html#glibc-fn-strncpy"><strong class="function"><code>strncpy</code></strong></a> işlevi ile ilgili sorunların çoğu bu işlev için de geçerlidir. <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">Aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strndup" class="indexterm"></span>
+   <span id="glibc-cp-strndup" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strndup</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev en fazla <em class="parameter"><code>size</code></em> baytı kopyalamak dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strdup"><strong class="function"><code>strdup</code></strong></a> işlevi gibidir.
+   </p>
+   <p>
+    <em class="parameter"><code>s</code></em> dizgesinin uzunluğu <em class="parameter"><code>size</code></em> bayttan uzun ise işlev ilk <em class="parameter"><code>size</code></em> baytı kopyalar ve sonuna boş baytı ekler, aksi takdirde tüm karakterler kopyalanır ve dizge sonlandırılır.
+   </p>
+   <p>
+    Bu işlev hedef dizgeyi daima boş bayt ile sonlandırması bakımından <a href="glibc-Truncating-Strings.html#glibc-fn-strncpy"><strong class="function"><code>strncpy</code></strong></a> işlevinden de farklıdır.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur ve <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-strndupa" class="indexterm"></span>
+   <span id="glibc-cp-strndupa" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strndupa</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, yeni dizge için belleği <a href="glibc-Variable-Size-Automatic.html#glibc-fn-alloca"><strong class="function"><code>alloca</code></strong></a> ile tahsis etmesi dışında <a href="glibc-Truncating-Strings.html#glibc-fn-strndup"><strong class="function"><code>strndup</code></strong></a> gibidir. <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strdupa"><strong class="function"><code>strdupa</code></strong></a> için geçerli olan yararlar ve sınırlamalar, <code class="code">strndupa</code> için de geçerlidir.
+   </p>
+   <p>
+    Bu işlev de <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strdupa"><strong class="function"><code>strdupa</code></strong></a> gibi sadece makro olarak gerçeklenmiştir. <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strdupa"><strong class="function"><code>strdupa</code></strong></a> gibi bu makro da bir işlev çağrısının bağımsız değişken listesinde kullanılamaz.
+   </p>
+   <p>
+    Bu işlev sadece GNU C derleyicisi ile kullanılabilir ve <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-stpncpy" class="indexterm"></span>
+   <span id="glibc-cp-stpncpy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">stpncpy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">to</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">from</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>to</code></em>’ya ilk <em class="parameter"><code>size</code></em> baytı kopyalaması dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-stpcpy"><strong class="function"><code>stpcpy</code></strong></a> gibidir.
+   </p>
+   <p>
+    <em class="parameter"><code>from</code></em> dizgesinin uzunluğu <em class="parameter"><code>size</code></em> bayttan uzunsa işlev, ilk <em class="parameter"><code>size</code></em> baytı kopyalar ve kopyalanan son bayttan sonraki baytın adresi ile döner. Bu durumda <em class="parameter"><code>to</code></em> dizgesi boş karakteri içermez.
+   </p>
+   <p>
+    <em class="parameter"><code>from</code></em> dizgesinin uzunluğu <em class="parameter"><code>size</code></em> bayttan kısaysa <em class="parameter"><code>from</code></em> dizgesinin boş baytından sonraki <em class="parameter"><code>size</code></em> bayta kadar olan baytlar boş baytlarla doldurularak <em class="parameter"><code>from</code></em> dizgesi <em class="parameter"><code>to</code></em> dizgesine kopyalanır ve yazılan <em class="emphasis">ilk</em> boş baytın adresi ile döner.  Bu işlev az kullanışlıdır ama  <a href="glibc-Truncating-Strings.html#glibc-fn-strncpy"><strong class="function"><code>strncpy</code></strong></a> işlevinin davranışı kullanışlı bulunduğundan gerçeklenmiştir.
+   </p>
+   <p>
+    Bu işlev bir ISO veya POSIX oluşumu değildir, ancak GNU C kütüphanesi geliştirilirken kullanışlı bulunmuştur. Ancak, <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   <p>
+    Dizgelerin üst üste binmesi durumundaki davranış tanımsızdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcpncpy" class="indexterm"></span>
+   <span id="glibc-cp-wcpncpy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="function">wcpncpy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">wto</code></strong><strong><code>, </code></strong><code class="type">const wchar_t *restrict </code> <strong><code class="parameter">wfrom</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>wto</code></em>’ya ilk <em class="parameter"><code>size</code></em> geniş karakteri kopyalaması dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-wcpcpy"><strong class="function"><code>wcpcpy</code></strong></a> gibidir.
+   </p>
+   <p>
+    <em class="parameter"><code>wfrom</code></em> dizgesinin uzunluğu <em class="parameter"><code>size</code></em> bayttan uzunsa işlev, ilk <em class="parameter"><code>size</code></em> baytı kopyalar ve kopyalanan son bayttan sonraki baytın adresi ile döner. Bu durumda <em class="parameter"><code>wto</code></em> dizgesi boş karakteri içermez.
+   </p>
+   <p>
+    <em class="parameter"><code>wfrom</code></em> geniş dizgesinin uzunluğu <em class="parameter"><code>size</code></em> geniş karakterden kısaysa <em class="parameter"><code>wfrom</code></em> dizgesinin boş geniş karakterinden sonraki <em class="parameter"><code>size</code></em> geniş karaktere kadar olan baytlar boş geniş karakterlerle doldurularak <em class="parameter"><code>wfrom</code></em> geniş dizgesi <em class="parameter"><code>wto</code></em> geniş dizgesine kopyalanır ve yazılan <em class="emphasis">ilk</em> boş geniş karakaterin adresi ile döner.  Bu işlev az kullanışlıdır ama  <a href="glibc-Truncating-Strings.html#glibc-fn-wcsncpy"><strong class="function"><code>wcsncpy</code></strong></a> işlevinin davranışı kullanışlı bulunduğundan gerçeklenmiştir.
+   </p>
+   <p>
+    Bu işlev bir ISO veya POSIX oluşumu değildir, ancak GNU C kütüphanesi geliştirilirken kullanışlı bulunmuştur. Ancak, <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir.
+   </p>
+   <p>
+    Dizgelerin üst üste binmesi durumundaki davranış tanımsızdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strncat" class="indexterm"></span>
+   <span id="glibc-cp-strncat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strncat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">to</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">from</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>from</code></em> dizgesinin ilk <em class="parameter"><code>size</code></em> baytını <em class="parameter"><code>to</code></em> dizgesinin sonuna eklemesi dışında <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a> gibidir. <em class="parameter"><code>to</code></em> dizgesinin sonuna daima boş bayt eklendiğinden <em class="parameter"><code>to</code></em> için tahsis edilmiş yer en azından <em class="parameter"><code>from</code></em><code class="code"> + 1</code> bayt olmalıdır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+     Bu işlev aşağıdaki gibi de gerçeklenebilirdi:
+    </p><pre class="screen">char *
+strncat (char *<em class="parameter"><code>to</code></em>, const char *<em class="parameter"><code>from</code></em>, size_t <em class="parameter"><code>size</code></em>)
+{
+  <em class="parameter"><code>to</code></em>[strlen (<em class="parameter"><code>to</code></em>) + <em class="parameter"><code>size</code></em>] = '\0';
+  strncpy (<em class="parameter"><code>to</code></em> + strlen (<em class="parameter"><code>to</code></em>), <em class="parameter"><code>from</code></em>, <em class="parameter"><code>size</code></em>);
+  return <em class="parameter"><code>to</code></em>;
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Dizgelerin üst üste binmesi durumu için bu işlevin davranışı tanımlanmamıştır.
+   </p>
+   <p>
+    <a href="glibc-Truncating-Strings.html#glibc-fn-strncpy"><strong class="function"><code>strncpy</code></strong></a>'nin tamamlayıcısı olarak, <code class="code">strncat</code>, boş olmayan baytlardan oluşan ve ardından sıfır veya daha fazla boş bayt gelen, nadiren kullanılan diziler için tasarlanmıştır. <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">Aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir. <a class="link" href="glibc-Concatenating-Strings.html#glibc-strcat-performance-issues" title="strcat/wcscat işlevleri ile ilgili başarım sorunları">Ayrıca, evvelce belirtildiği gibi</a>, bu işlevin önemli başarım sorunları vardır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcsncat" class="indexterm"></span>
+   <span id="glibc-cp-wcsncat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="function">wcsncat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">wto</code></strong><strong><code>, </code></strong><code class="type">const wchar_t *restrict </code> <strong><code class="parameter">wfrom</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>wfrom</code></em> geniş dizgesinin ilk <em class="parameter"><code>size</code></em> geniş karakterini <em class="parameter"><code>wto</code></em> geniş dizgesinin sonuna eklemesi dışında <a href="glibc-Concatenating-Strings.html#glibc-fn-wcscat"><strong class="function"><code>wcscat</code></strong></a> gibidir. <em class="parameter"><code>wto</code></em> geniş dizgesinin sonuna daima boş geniş karakter eklendiğinden <em class="parameter"><code>wto</code></em> için tahsis edilmiş yer en azından <code class="code">wcsnlen (<em class="parameter"><code>wfrom</code></em>, <em class="parameter"><code>size</code></em>) + 1</code> geniş karakter olmalıdır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+     Bu işlev aşağıdaki gibi de gerçeklenebilirdi:
+    </p><pre class="screen">wchar_t *
+wcsncat (wchar_t *restrict <em class="parameter"><code>wto</code></em>, const wchar_t *restrict <em class="parameter"><code>wfrom</code></em>,
+         size_t <em class="parameter"><code>size</code></em>)
+{
+  size_t len = wcslen (<em class="parameter"><code>wto</code></em>);
+  memcpy (<em class="parameter"><code>wto</code></em> + len, <em class="parameter"><code>wfrom</code></em>, wcsnlen (<em class="parameter"><code>wfrom</code></em>, <em class="parameter"><code>size</code></em>) * sizeof (wchar_t));
+  <em class="parameter"><code>wto</code></em>[len + wcsnlen (<em class="parameter"><code>wfrom</code></em>, <em class="parameter"><code>size</code></em>)] = L'\0';
+  return <em class="parameter"><code>wto</code></em>;
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Dizgelerin üst üste binmesi durumu için bu işlevin davranışı tanımlanmamıştır.
+   </p>
+   <p>
+    <a class="link" href="glibc-Truncating-Strings.html#glibc-poor-choice-for-text" title="Kırpıcı metin işlevleri olarak kötü seçimler">Aşağıda da belirtildiği gibi</a>, bu işlev genellikle metin işlemleri için kötü seçimdir. <a class="link" href="glibc-Concatenating-Strings.html#glibc-strcat-performance-issues" title="strcat/wcscat işlevleri ile ilgili başarım sorunları">Ayrıca, evvelce belirtildiği gibi</a>, bu işlevin önemli başarım sorunları vardır.
+   </p>
+   
+  </div>
+        <div class="admon note" id="glibc-poor-choice-for-text">
+          <h3 class="admon-title">Kırpıcı metin işlevleri olarak kötü seçimler</h3>
+          <div class="admon-contents">
+            <p>
+    Bu işlevler dizgeleri veya geniş dizgeleri sonlandırmadan kesebildiğinden, metin işlemek için genellikle yetersiz seçimlerdir. Bu işlevler çok baytlı dizgeleri kopyalarken veya birleştirirken, çok baytlı bir karakteri baytları arasından kesip geçersiz çok baytlı bir dizge döndürebilir. Çok baytlı veya geniş dizgeler birleştirilirken veya kırpılırken, dizgenin bir birleşik veya geniş karakterin ilk baytından sonra kesilmesiyle çıktı bozuk bir karakter içerebilir. Bu işlevler,tek baytlı karakter dizgeleri işlenirken bile hatalara neden olabilir: örneğin, ASCII kullanıcı adını elde etmeye çalışırken, kesik bir ad başka bir kullanıcının adıyla sonuçlanabilir.
+   </p>
+            <p>
+    Bazı tampon taşmaları, kopyalama işlevlerine yapılan çağrılar, kesme işlevlerine yapılan çağrılarla değiştirilerek önlenebilse bile, tampon taşmalarında bir yazılımın güvenle sonlandırmasını sağlayan GCC'nin <code class="option">-fcheck-pointer-bounds</code> ve <code class="option">-fsanitize=</code><em class="replaceable"><code>adres</code></em> komut satırı seçenekleri gibi genellikle daha kolay ve daha güvenli özdevinimli teknikler de vardır. Bkz.  [<span class="citation">GCC Kullanımı</span>] - <a class="link" href="https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html#Debugging-Options" target="_top">Yazılımlarda veya GCC'de Hata Ayıklamak için Seçenekler</a>.  Kesme işlevleri, normalde özdevinimli tekniklerle yakalanacak uygulama hatalarını maskeleyebileceğinden, bu işlevler yalnızca uygulama, kesme işlemini gerektirdiğinde kullanılmalıdır.
+   </p>
+          </div>
+        </div>
+        <div class="admon note">
+          <h3 class="admon-title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+    GNU yazılımları normal dizgeleri ve geniş dizgeleri gelişigüzel boyutlardan kesmemelidir. Bkz.[<span class="citation">GNU Kodlama Standartları</span>] - <a class="link" href="https://www.gnu.org/prep/standards/standards.html#Semantics" target="_top">Güçlü Uygulamalar Yazmak</a>. Özdevimli bellek tahsisi kullanımı dizge kırpma işlevlerini kullanmaktan çok daha güvenlidir (bkz. <a class="xref" href="glibc-Unconstrained-Allocation.html" title="3.2.3. Kısıtlanmamış Bellek Tahsisi">Kısıtlanmamış Bellek Tahsisi</a> ve dizge oluşturmakta kullanılan <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strdup"><strong class="function"><code>strdup</code></strong></a> ve <strong class="function"><code>asprintf</code></strong> gibi işlevler.
+   </p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>

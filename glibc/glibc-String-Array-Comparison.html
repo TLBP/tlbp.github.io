@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.7. Dizi/Dizge Karşılaştırması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Truncating-Strings.html')">Önceki</button>
+          <div class="dropdown-content">5.6. Dizgelerin Kırpılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Collation-Functions.html')">Sonraki</button>
+          <div class="dropdown-content">5.8. Dizgeleri Yerele Özgü Karşılaştırma İşlevleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-String-Array-Comparison">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.7. Dizi/Dizge Karşılaştırması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm92295" class="indexterm"></span>
+   <span id="idm92297" class="indexterm"></span>
+   <span id="idm92299" class="indexterm"></span>
+   <span id="idm92301" class="indexterm"></span>
+   <span id="idm92303" class="indexterm"></span>
+   Bu kısımdaki işlevler dizi ve dizge içerikleri üzerinde karşılaştırmalar yapmak için kullanılabilir. Eşitliğin denetlenmesi kadar, ayrıca sıralama işlevleri olarak da kullanılabilir. Bunun bir örneği olarak <a class="xref" href="glibc-Searching-and-Sorting.html" title="9. Arama ve Sıralama">Arama ve Sıralama</a> bölümüne bakılabilir.
+  </p>
+        <p>
+   C'deki çoğu karşılaştırma işleminin aksine, dizge karşılaştırma işlevleri dizgelerin eşitliğinin varlığında değil <em class="replaceable"><code>yokluğunda</code></em> sıfırdan farklı bir değer ile döner. İmin değeri eşdeğer olmayan dizgelerin ilk bölümünün göreli sırasına bağlıdır: Bir negatif değer ilk dizgenin ikincisinden "küçük", pozitif bir değer ise "büyük" olduğunu gösterir.
+  </p>
+        <p>
+   Bu işlevler çoğunlukla sadece eşitlik denetiminde kullanılırlar. Bu, ifade yazım kurallarına uygun olarak <code class="code">! strcmp (s1, s2)</code> gibi bir ifade ile yapılır.
+   <span id="idm92310" class="indexterm"></span>
+  </p>
+        <p>
+   Bu işlevlerin tümü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-memcmp" class="indexterm"></span>
+   <span id="glibc-cp-memcmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">memcmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">a1</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">a2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">memcmp</code>  işlevi belleğin <em class="parameter"><code>a1</code></em>'de başlayan <em class="parameter"><code>size</code></em> baytı ile <em class="parameter"><code>a2</code></em>'de başlayan <em class="parameter"><code>size</code></em> baytını karşılaştırır. Dönen değer, ilk farklı bayt çifti arasındaki farkın işaretine bağlıdır (önce <code class="type">unsigned char</code> türünden nesneler olarak yorumlanır, sonra da <code class="type">int</code> türüne terfi ettirilir).
+   </p>
+   <p>
+    <em class="parameter"><code>size</code></em> baytlık iki içerik aynı ise işlev <code class="code">0</code> ile döner.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wmemcmp" class="indexterm"></span>
+   <span id="glibc-cp-wmemcmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wmemcmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">a1</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">a2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">wmemcmp</code> işlevi <em class="parameter"><code>a1</code></em>'de başlayan <em class="parameter"><code>size</code></em> geniş karakter ile <em class="parameter"><code>a2</code></em>'de başlayan <em class="parameter"><code>size</code></em> geniş karakteri karşılaştırır. <em class="parameter"><code>a1</code></em>’deki <em class="parameter"><code>a2</code></em>’dekinden farklı ilk geniş karakterin <em class="parameter"><code>a2</code></em>’dekinden küçük ya da büyük olmasına bağlı olarak sıfırdan küçük ya da büyük bir değerle döner.
+   </p>
+   <p>
+    <em class="parameter"><code>size</code></em> geniş karakterlik iki içerik aynı ise işlev <code class="code">0</code> ile döner.
+   </p>
+   
+  </div>
+        <p>
+   Keyfi değerli dizilerde <a href="glibc-String-Array-Comparison.html#glibc-fn-memcmp"><strong class="function"><code>memcmp</code></strong></a> işlevi çoğunlukla eşitlik denetiminde kullanılır. Genellikle, bayt dizileri dışındaki dizilerde bayt seviyesinde bir karşılaştırma anlamı değildir. Örneğin gerçek sayılardan oluşan dizilerin bayt seviyesinde karşılaştırılması gerçek sayıların değerleri arasındaki ilişki hakkında hiçbir şey söyleyemez.
+  </p>
+        <p>
+   <a href="glibc-String-Array-Comparison.html#glibc-fn-wmemcmp"><strong class="function"><code>wmemcmp</code></strong></a> işlevi, bir defada <code class="code">sizeof (wchar_t)</code> bayta baktığından ve bunların sayısı sisteme bağımlı olduğundan aslında sadece <code class="type">wchar_t</code> türünde dizileri karşılaştırmakta yararlıdır.
+  </p>
+        <p>
+   Ayrıca <a href="glibc-String-Array-Comparison.html#glibc-fn-memcmp"><strong class="function"><code>memcmp</code></strong></a> işlevini, hizalama gereksinimlerinden dolayı aralarında boşluk bırakılmış yapı nesneleri, sonlarında fazladan boşluk bulunan birleşik yapılar ve tahsis edilmiş yere göre küçük olduklarından sonunda fazladan boşluk bulunan dizgeler gibi "delikler" içeren nesneleri karşılaştırırken dikkatli olunmalıdır. Bu "delikler"in içerikleri düzensizdir ve bayt seviyesinden karşılaştırmalar tuhaf sonuçlara sebep olabilir. Daha öngörülebilir sonuçlar için doğrudan öğe bazında karşılaştırma yapılmalıdır.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Aşağıdaki gibi bir yapı türü tanımında:
+   </p>
+            <pre class="screen">struct foo
+  {
+    unsigned char tag;
+    union
+      {
+        double f;
+        long i;
+        char *p;
+      } value;
+  };
+</pre>
+            <p>
+    <code class="code">struct foo</code> türündeki gibi nesneleri <a href="glibc-String-Array-Comparison.html#glibc-fn-memcmp"><strong class="function"><code>memcmp</code></strong></a> ile karşılaştırmak yerine özelleştirilmiş karşılaştırma işlevlerinin yazılması tercih edilmelidir.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strcmp" class="indexterm"></span>
+   <span id="glibc-cp-strcmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">strcmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s2</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">strcmp</code> işlevi <em class="parameter"><code>s1</code></em> ve <em class="parameter"><code>s2</code></em> dizgelerini karşılaştırır. Dönen değer, ilk farklı karakter çifti arasındaki farkın işaretine bağlıdır (önce <code class="type">unsigned char</code> türünden nesneler olarak yorumlanır, sonra da <code class="type">int</code> türüne terfi ettirilir).
+   </p>
+   <p>
+    İki dizgenin içeriği aynı ise <code class="code">strcmp</code> <code class="code">0</code> ile döner.
+   </p>
+   <p>
+    <code class="code">strcmp</code> işlevi tarafından kullanılan sıralamanın bir sonucu olarak, <em class="parameter"><code>s1</code></em> dizgesi <em class="parameter"><code>s2</code></em> dizgesinin ilk alt dizgesi ise <em class="parameter"><code>s1</code></em> dizgesi, <em class="parameter"><code>s2</code></em>’den "küçük" kabul edilir.
+   </p>
+   <p>
+    <code class="code">strcmp</code> işlevi dizgelerin yazıldığı dilin sıralama kurallarını dikkate almaz. Bunların dikkate alınması için <a href="glibc-Collation-Functions.html#glibc-fn-strcoll"><strong class="function"><code>strcoll</code></strong></a> kullanılmalıdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcscmp" class="indexterm"></span>
+   <span id="glibc-cp-wcscmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wcscmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws1</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws2</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">wcscmp</code> işlevi <em class="parameter"><code>ws1</code></em> geniş dizgesi ile <em class="parameter"><code>ws2</code></em> geniş dizgesini karşılaştırır. <em class="parameter"><code>ws1</code></em>’deki <em class="parameter"><code>ws2</code></em>’dekinden farklı ilk geniş karakterin <em class="parameter"><code>ws2</code></em>’dekinden küçük ya da büyük olmasına bağlı olarak sıfırdan küçük ya da büyük bir değerle döner.
+   </p>
+   <p>
+    İki içerik aynı ise işlev <code class="code">0</code> ile döner.
+   </p>
+   <p>
+    <code class="code">wcscmp</code> işlevi tarafından kullanılan sıralamanın bir sonucu olarak, <em class="parameter"><code>ws1</code></em> dizgesi <em class="parameter"><code>ws2</code></em> dizgesinin ilk alt dizgesi ise <em class="parameter"><code>ws1</code></em> dizgesi, <em class="parameter"><code>ws2</code></em>’den "küçük" kabul edilir.
+   </p>
+   <p>
+    <code class="code">wcscmp</code> işlevi dizgelerin yazıldığı dilin sıralama kurallarını dikkate almaz. Bunların dikkate alınması için <a href="glibc-Collation-Functions.html#glibc-fn-wcscoll"><strong class="function"><code>wcscoll</code></strong></a> kullanılmalıdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strcasecmp" class="indexterm"></span>
+   <span id="glibc-cp-strcasecmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">strcasecmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s2</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev harf büyüklükleri arasındaki farkları yok sayması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-strcmp"><strong class="function"><code>strcmp</code></strong></a> gibidir. Küçük ve büyük harfler arasındaki ilişki o an seçilmiş olan yerele bağlıdır. Standart <code class="code">"C"</code> yerelinde Ä ve ä karakterleri eşleşmez ama, bu karakterleri alfabelerinde kullanan yerellerde eşleşir.
+   </p>
+   <p>
+    <code class="code">strcasecmp</code> BSD'den alınmıştır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcscasecmp" class="indexterm"></span>
+   <span id="glibc-cp-wcscasecmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wcscasecmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws1</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws2</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev harf büyüklükleri arasındaki farkları yok sayması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-wcscmp"><strong class="function"><code>wcscmp</code></strong></a> gibidir. Küçük ve büyük harfler arasındaki ilişki o an seçilmiş olan yerele bağlıdır. Standart <code class="code">"C"</code> yerelinde Ä ve ä karakterleri eşleşmez ama, bu karakterleri alfabelerinde kullanan yerellerde eşleşir.
+   </p>
+   <p>
+    <code class="code">strcasecmp</code> GNU oluşumudur.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strncmp" class="indexterm"></span>
+   <span id="glibc-cp-strncmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">strncmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev ilk <em class="parameter"><code>size</code></em> baytın karşılaştırılması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-strcmp"><strong class="function"><code>strcmp</code></strong></a> gibidir. Başka bir deyişle, iki dizgenin ilk <em class="parameter"><code>size</code></em> baytı aynıysa işlev sıfırla döner.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcsncmp" class="indexterm"></span>
+   <span id="glibc-cp-wcsncmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wcsncmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws1</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev ilk <em class="parameter"><code>size</code></em> geniş karakterin karşılaştırılması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-wcscmp"><strong class="function"><code>wcscmp</code></strong></a> gibidir. Başka bir deyişle, iki dizgenin ilk <em class="parameter"><code>size</code></em> geniş karakteri aynıysa işlev sıfırla döner.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strncasecmp" class="indexterm"></span>
+   <span id="glibc-cp-strncasecmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">strncasecmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev harf büyüklükleri arasındaki farkları yok sayması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-strncmp"><strong class="function"><code>strncmp</code></strong></a> gibidir. <a href="glibc-String-Array-Comparison.html#glibc-fn-strcasecmp"><strong class="function"><code>strcasecmp</code></strong></a> gibi küçük ve büyük harfler arasındaki ilişki o an seçili olan yerele bağlıdır.
+   </p>
+   <p>
+    <a href="glibc-String-Array-Comparison.html#glibc-fn-strncasecmp"><strong class="function"><code>strncasecmp</code></strong></a> işlevi GNU oluşumudur.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcsncasecmp" class="indexterm"></span>
+   <span id="glibc-cp-wcsncasecmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wcsncasecmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws1</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev harf büyüklükleri arasındaki farkları yok sayması dışında <a href="glibc-String-Array-Comparison.html#glibc-fn-wcsncmp"><strong class="function"><code>wcsncmp</code></strong></a> gibidir. <a href="glibc-String-Array-Comparison.html#glibc-fn-wcscasecmp"><strong class="function"><code>wcscasecmp</code></strong></a> gibi küçük ve büyük harfler arasındaki ilişki o an seçili olan yerele bağlıdır.
+   </p>
+   <p>
+    <a href="glibc-String-Array-Comparison.html#glibc-fn-wcsncasecmp"><strong class="function"><code>wcsncasecmp</code></strong></a> işlevi GNU oluşumudur.
+   </p>
+   
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Aşağıdaki örnkelerde  <a href="glibc-String-Array-Comparison.html#glibc-fn-strcmp"><strong class="function"><code>strcmp</code></strong></a> ve <a href="glibc-String-Array-Comparison.html#glibc-fn-strncmp"><strong class="function"><code>strncmp</code></strong></a> kullanımı gösterilmiştir. Bu örneklerin benzerleri geniş karakterler için de yazılabilir. Bu örneklerde ASCII karakter kümesinin kullanıldığı varsayılmıştır. (Diğer karakter kümeleri -- örn, EBCDIC -- kullanılırsa, harfler farklı sayısal değerlerle ilişkilendirileceğinden dönen değerler ve sıralama farklı olacaktır.)
+   </p>
+            <pre class="screen">strcmp ("hello", "hello")
+    ⇒ 0    /* <em class="replaceable"><code>Bu iki dizge aynı.</code></em> */
+strcmp ("hello", "Hello")
+    ⇒ 32   /* <em class="replaceable"><code>Karşılaştırma harf büyüklüğüne duyarlıdır.</code></em> */
+strcmp ("hello", "world")
+    ⇒ -15  /* <code class="code">'h'</code><em class="replaceable"><code> baytı </code></em><code class="code">'w'</code><em class="replaceable"><code> baytından öncedir.</code></em> */
+strcmp ("hello", "hello, world")
+    ⇒ -44  /* <em class="replaceable"><code>Boş karaktere karşılık virgül.</code></em> */
+strncmp ("hello", "hello, world", 5)
+    ⇒ 0    /* <em class="replaceable"><code>İlk 5 bayt aynı</code></em> */
+strncmp ("hello, world", "hello, stupid world!!!", 5)
+    ⇒ 0    /* <em class="replaceable"><code>İlk 5 bayt aynı.</code></em> */
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strverscmp" class="indexterm"></span>
+   <span id="glibc-cp-strverscmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">strverscmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s2</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">strverscmp</code> işlevi <em class="parameter"><code>s1</code></em> ve <em class="parameter"><code>s2</code></em> dizgelerini indis/sürüm numarası içerdiğini varsayarak karşılaştırır. Dönen değer <a href="glibc-String-Array-Comparison.html#glibc-fn-strcmp"><strong class="function"><code>strcmp</code></strong></a> işlevindeki gibidir. Aslında, dizgeler herhangi bir rakam içermiyorsa işlev, <a href="glibc-String-Array-Comparison.html#glibc-fn-strcmp"><strong class="function"><code>strcmp</code></strong></a> işlevi gibi davranır (sonucun aynı işaretli olması anlamında).
+   </p>
+   <p>
+    <code class="code">strverscmp</code> işlevinin uyguladığı karşılaştırma algoritması, diğer sürüm karşılaştırma algoritmalarından biraz farklıdır. Gerçeklenim, davranışı aşağıda yaklaşık olarak açıklanan sonlu durum makinesine dayanmaktadır.
+   </p>
+   <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+      Girdi dizgelerinin her biri, rakamlar ve rakam olmayanlar diye iki diziye bölünmüştür. Bu dizilerde, dizgenin başı ve sonu boş olabilir. Rakamlar <a href="glibc-Classification-of-Characters.html#glibc-fn-isdigit"><strong class="function"><code>isdigit</code></strong></a> işlevi tarafından belirlenir ve bu nedenle geçerli yerele bağlıdır.
+     </p></li><li class="listitem"><p>
+      Karşılaştırma (muhtemelen boş) rakam içermeyen bir dizi karakter ile başlar. Rakamlardan veya rakam olmayanlardan ilk eşleşmeyen çift, karşılaştırmanın sonucunu belirler.
+     </p></li><li class="listitem"><p>
+      Her iki dizgede karşılaştırılan rakam içermeyen bölümler, uzunlukları eşitse sözlüksel olarak karşılaştırılır. Uzunluklar farklıysa, rakam içermeyen kısa dizge, hemen ardından gelen girdi dizgesi karakteriyle genişletilir (bu, boş sonlandırıcı olabilir), diğer dizge uzatılmış dizge ile aynı uzunlukta olacak şekilde kesilir ve bu iki dizi abecesel olarak karşılaştırılır. Abecesel karşılaştırma işlevin sonucunu belirler çünkü uzatma karakteri (veya ondan önceki karakterler) diğer girdi dizgesindeki aynı konumdaki karakterden ister istemez farklı olacaktır.
+     </p></li><li class="listitem"><p>
+      İki rakam dizgesi için baştaki sıfırlar sayılır (sıfır olabilir). Sonuçlar farklıysa, başında daha fazla sıfır olan dizge diğer dizgeden küçük kabul edilir.
+     </p></li><li class="listitem"><p>
+      İki rakam dizgesinin başında sıfır yoksa, dizge uzunlukları karşılaştırılır. Uzunluklar farklıysa uzun dizge daha büyük kabul edilir, uzunluklar aynıysa bunlar abecesayısal olarak karşılaştırılır.
+     </p></li><li class="listitem"><p>
+      Her iki rakam dizgesi de sıfırla başlıyorsa ve eşit sayıda sıfıra sahipse, uzunlukları da aynıysa bunlar abecesayısal olarak karşılaştırılır. Uzunluklar farklıysa, kısa dizi, girdi dizesinin sonundaki karakterle uzatılır, diğer dizge aynı uzunlukta kesilir ve her iki dizge abecesayısal olarak karşılaştırılır (yukarıdaki rakamsız dizgede olduğu gibi).
+     </p></li></ul></div>
+   <p>
+    Baştaki sıfırların ve eşitliği bozan (aslında rakam olmayan/rakam dizgesi boyunca yayılan) uzatma karakterlerinin işlenmesi, diğer sürüm karşılaştırma algoritmalarından farklıdır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">strverscmp ("rakam yok", "rakam yok")
+    ⇒ 0    /* <em class="replaceable"><code>davranış strcmp ile aynı.</code></em> */
+strverscmp ("item#99", "item#100")
+    ⇒ &lt;0   /* <em class="replaceable"><code>önekler aynı, ama 99 &lt; 100.</code></em> */
+strverscmp ("alpha1", "alpha001")
+    ⇒ &gt;0   /* <em class="replaceable"><code>baştaki sıfırların sayısı farklı (0 ve 2).</code></em> */
+strverscmp ("part1_f012", "part1_f01")
+    ⇒ &gt;0   /* <em class="replaceable"><code>baştaki sıfırlarla abecesayısal karşılaştırma.</code></em> */
+strverscmp ("foo.009", "foo.0")
+    ⇒ &lt;0   /* <em class="replaceable"><code>baştaki sıfırların sayısı farklı (2 ve 1).</code></em> */
+</pre></div></div><br class="example-break" />
+   <p>
+    <code class="code">strverscmp</code> GNU oluşumudur.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-bcmp" class="indexterm"></span>
+   <span id="glibc-cp-bcmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">bcmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">a1</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">a2</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev BSD'den alınmıştır ve <a href="glibc-String-Array-Comparison.html#glibc-fn-memcmp"><strong class="function"><code>memcmp</code></strong></a> işlevinin artık kullanımı önerilmeyen takma adıdır.
+   </p>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

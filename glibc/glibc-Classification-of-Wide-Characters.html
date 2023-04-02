@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.3. Geniş Karakterlerin Sınıflandırılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Case-Conversion.html')">Önceki</button>
+          <div class="dropdown-content">4.2. Büyük-Küçük Harf Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Character-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Using-Wide-Char-Classes.html')">Sonraki</button>
+          <div class="dropdown-content">4.4. Geniş Karakter Sınıflarının Kullanılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Classification-of-Wide-Characters">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">4.3. Geniş Karakterlerin Sınıflandırılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm90056" class="indexterm"></span>
+   <span id="idm90059" class="indexterm"></span>
+   <span id="idm90062" class="indexterm"></span>
+   <span id="idm90065" class="indexterm"></span>
+   <span id="idm90068" class="indexterm"></span>
+   ISO C90 standardının 1. düzeltmesi, geniş karakterleri sınıflandıran işlevler  tanımlar. Özgün ISO C90 standardında <code class="type">wchar_t</code> türü tanımlanmışsa da bu tür ile çalışan hiçbir işlev tanımlanmamıştı.
+  </p>
+        <p>
+   Geniş karakterler için sınıflandırma işlevlerinin genel tasarımı daha geneldir. Daima kullanılabilir olanların haricinde kullanılabilir sınıflandırmalar kümesi oluşumlarını mümkün kılar. POSIX standardı oluşumların nasıl yapılacağını belirtir ve bu zaten bir GNU C kütüphanesinde <tt><b>localedef</b>(1)</tt> komutu ile gerçeklenmiştir.
+  </p>
+        <p>
+   Karakter sınıfı işlevleri normalde her karakter için bir bit kümesi olmak üzere bit kümeleri ile gerçeklenir. Belirtilen karakterin bit kümesi bir tablodan okunur ve anlamlı bitlerin bir olup olmadığına bakılır. Sınanacak bitler sınıf tarafından belirlenir.
+  </p>
+        <p>
+   Geniş karakter sınıflandırma işlevleri için bu görünür yapılır. Sınıflandırma türü için tanımlanmış bir veri türü, belirli bir sınıf için bu değeri alan bir işlev ve sınıflandırma değerini kullanarak belirli bir karakterin bu sınıfa ait olup olmadığını sınayan bir işlev vardır. Bunun da ötesinde, <code class="type">char</code> türünden nesneler için kullanılan normal karakter sınıflandırma işlevleri tanımlanabilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-wctype_t" class="indexterm"></span>
+   <span id="glibc-cp-wctype_t" class="indexterm"></span>
+   <span id="glibc-cp-wctype_ta" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wctype_t </code></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    <code class="type">wctype_t</code> veri türü bir karakter sınıfına karşılık gelen değeri tutabilir. Böyle bir değeri üretmenin tanımlanmış tek yolu <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-wctype"><strong class="function"><code>wctype</code></strong></a> işlevini kullanmaktır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wctype" class="indexterm"></span>
+   <span id="glibc-cp-wctype" class="indexterm"></span>
+   <span id="glibc-cp-wctypea" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wctype_t </code> <strong><code class="function">wctype</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">property</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">wctype</code> işlevi <em class="parameter"><code>property</code></em> dizgesi ile belirtilen geniş karakter sınıfını ifade eden bir değer ile döner. Bazı standart özelliklerin yanı sıra her yerel ayar kendi özelliklerini tanımlayabilir. <em class="parameter"><code>property</code></em> dizgesi <strong class="varname"><code>LC_CTYPE</code></strong> sınıfı için seçilen geçerli yerelde tanımlanmış özelliklerden biri değilse işlev sıfır değeriyle döner.
+   </p>
+   <p>
+    <span id="glibc-cp-wctypeb" class="indexterm"></span>
+    Her yerelde tanımlanabilen standart özellikler:
+   </p>
+   <pre class="literallayout monospaced">"alnum"	"alpha"	"cntrl"	"digit"
+"graph"	"lower"	"print"	"punct"
+"space"	"upper"	"xdigit"
+</pre>
+   
+  </div>
+        <p>
+   <span id="glibc-cp-wctypec" class="indexterm"></span>
+   Bir karakterin standart dışı sınıflardan birine üyeliğini sınamak için ISO C standardı tamamen yeni bir işlev tanımlar.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswctype" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswctype</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>, </code></strong><code class="type">wctype_t </code> <strong><code class="parameter">desc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>wc</code></em> karakteri <em class="parameter"><code>desc</code></em> ile belirtilen sınıfa ait ise sıfırdan farklı bir değerle döner. <em class="parameter"><code>desc</code></em> önceki başarılı bir <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-wctype"><strong class="function"><code>wctype</code></strong></a> çağrısından döndürülmüş olmalıdır.
+   </p>
+   
+  </div>
+        <p>
+   <span id="glibc-cp-iswctype" class="indexterm"></span>
+   Çok kullanılan sınıflandırma işlevleri, kullanımı kolaylaştırmak için C kütüphanesinde tanımlanmıştır. <em class="parameter"><code>property</code></em> dizgesi bilinen karakter sınıflarından biriyse bu işlevler için <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-wctype"><strong class="function"><code>wctype</code></strong></a> işlevini kullanmaya gerek yoktur. Ancak bazı durumlarda <em class="parameter"><code>property</code></em> dizgelerini oluşturup bunlardan standart sınıfları elde etmek de önem kazanır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswalnum" class="indexterm"></span>
+   <span id="glibc-cp-iswalnum" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswalnum</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir abecesayısal karakter (bir harf ya da rakam) ise sıfırdan  farklı bir  değerle döner. Başka bir ifade ile, <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-iswalpha"><strong class="function"><code>iswalpha</code></strong></a> ya da <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-iswdigit"><strong class="function"><code>iswdigit</code></strong></a> karakter için doğru ise <code class="code">iswalnum</code>'da doğrudur.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("alnum"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswalpha" class="indexterm"></span>
+   <span id="glibc-cp-iswalpha" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswalpha</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir alfabetik karakter (bir harf) ise sıfırdan farklı bir değerle döner. <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-iswlower"><strong class="function"><code>iswlower</code></strong></a> veya <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-iswupper"><strong class="function"><code>iswupper</code></strong></a> işlevi doğru ile dönüyorsa <code class="code">iswalpha</code> işlevi de doğru ile döner.
+   </p>
+   <p>
+    Bazı yereller ne büyük ne de küçük harf olan ve <code class="code">iswalpha</code> işlevinin doğru ile döndüğü ek karakterler içerir. Standart <em class="wordasword">"C"</em> yerelinde böyle bir karakter yoktur.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("alpha"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswcntrl" class="indexterm"></span>
+   <span id="glibc-cp-iswcntrl" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswcntrl</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir denetim karakteri ise (görsel bir karakter değilse) sıfırdan farklı bir değerle döner.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("cntrl"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswdigit" class="indexterm"></span>
+   <span id="glibc-cp-iswdigit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswdigit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> değişkeninin değeri <code class="code">0</code> ile <code class="code">9</code> arasında bir rakam karakteri ise sıfırdan farklı bir değerle döner.
+   </p>
+   <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+     Bu işlev sadece onluk sistemdeki rakamlar için değil, tüm rakam çeşitleri için sıfırdan farklı bir değerle döner. Bu bakımdan aşağıdaki gibi bir kod koşulsuz olarak <em class="emphasis">çalışmayacaktır</em>:
+    </p><pre class="screen">n = 0;
+while (iswdigit (*wc))
+  {
+    n *= 10;
+    n += *wc++ - L'0';
+  }
+</pre></div></div>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("digit"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswgraph" class="indexterm"></span>
+   <span id="glibc-cp-iswgraph" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswgraph</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir çizgesel karakter ise sıfırdan farklı bir değerle döner. Çizgesel karakterler, metin ekranında pencere çizmek amacıyla kullanılan karakterlerin benzeri karakterlerdir. Boşluk karakterleri çizgesel karakter değildir.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("graph"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswlower" class="indexterm"></span>
+   <span id="glibc-cp-iswlower" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswlower</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> küçük harf ise sıfırdan farklı bir değerle döner. Harfin Latin abecesinden olması şart değildir, herhangi bir abeceden olabilir.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("lower"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswprint" class="indexterm"></span>
+   <span id="glibc-cp-iswprint" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswprint</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> görsel karakterlerden biri ise, başka bir deyişle çizgesel karakterlerinden biri veya boşluk (‘ ’) ise doğru ile döner.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("print"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswpunct" class="indexterm"></span>
+   <span id="glibc-cp-iswpunct" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswpunct</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir noktalama imi ise sıfırdan farklı bir  değerle döner. Noktalama imleri, 'abecesayısal ve boşluk' olmayan görsel karakterlerdir.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("punct"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswspace" class="indexterm"></span>
+   <span id="glibc-cp-iswspace" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswspace</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir boşluk karakteri ise doğru ile döner. <em class="wordasword">"C"</em> yerelinde yalnızca aşağıdaki karakterler için doğru döner:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">' '</code>  (boşluk)
+<code class="code">'\f'</code> (sayfa ileri)
+<code class="code">'\n'</code> (satır sonu)
+<code class="code">'\r'</code> (satır başı)
+<code class="code">'\t'</code> (yatay sekme)
+<code class="code">'\v'</code> (düşey sekme)
+</pre>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("space"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswupper" class="indexterm"></span>
+   <span id="glibc-cp-iswupper" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswupper</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> büyük harf ise sıfırdan farklı bir değerle döner. Harfin Latin alfabesinden olması şart değildir, herhangi bir alfabeden olabilir.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("upper"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswxdigit" class="indexterm"></span>
+   <span id="glibc-cp-iswxdigit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswxdigit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> oaltılık tabanda bir rakam ise doğru döner. Onaltılık rakamlar <code class="code">0</code>'dan <code class="code">9</code>'a kadar normal onluk rakamlardan ve <code class="code">A</code>'dan <code class="code">F</code>'ye kadar veya <code class="code">a</code>'dan <code class="code">f</code>'ye kadar harflerden oluşur.
+   </p>
+   <p>
+    Bu işlev şöyle de gerçeklenebilir:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">iswctype (<em class="parameter"><code>wc</code></em>, wctype ("xdigit"))
+</pre></div></div><br class="example-break" />
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-iswblank" class="indexterm"></span>
+   <span id="glibc-cp-iswblank" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iswblank</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wctype_t </code> <strong><code class="parameter">wc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wc</code></em> bir boşluk ya da sekme karakteri ise sıfırdan farklı bir değerle döner. Bu işlev bir GNU oluşumudur, fakat ISO C99'a da eklenmiştir.
+   </p>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.14. İkil Verinin Kodlanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obfuscating-Data.html')">Önceki</button>
+          <div class="dropdown-content">5.13. Verilerin Karartılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Argz-and-Envz-Vectors.html')">Sonraki</button>
+          <div class="dropdown-content">5.15. Argz ve Envz Gösterici Dizileri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Encode-Binary-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.14. İkil Verinin Kodlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Sadece metin türü verilerin saklanabildiği ya da aktarılabildiği ortamlarda saklama ya da aktarma öncesi ikil veri baytlarının karakterlere dönüştürülmesi gerekir. SVID sistemleri (ve günümüzde XPG uyumlu sistemler) bu işlem için çok az destek sağlar.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-l64a" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">l64a</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">long int </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:l64a</a></code>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, temel karakter kümesindeki baytları kullanarak  32 bitlik girdiyi kodlar. İşlev <em class="parameter"><code>n</code></em> sayısının kodlanmış halini içeren 7 baytlık tampona gösterici ile döner. Yazılımcı bir sayı dizisini kodlamak istiyorsa, ikinci bir tampona dönen veriyi kopyalamalıdır. <em class="parameter"><code>n</code></em> sıfırsa boş dizge döner, biraz tuhaf ama standart böyle.
+   </p>
+   <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+     Tamponu duruk olduğundan işlev çok evreli yazılımlarda kullanılmamalıdır. Bu işlevin evreli yazılımlarca kullanılabilecek bir eşdeğeri C kütüphanesinde yoktur.
+    </p></div></div>
+   <div class="admon note"><h3 class="admon-title">Uyumluluk Bilgisi</h3><div class="admon-contents"><p>
+     XPG standardında negatif <em class="parameter"><code>n</code></em> değerleri için <code class="code">l64a</code> işlevinin dönüş değeri anlamlı değildir. GNU gerçekleniminde, işlev bağımsız değişkeni işaretsiz olarak ele alınır, böylece sıfırdan farklı <em class="parameter"><code>n</code></em> değerleri negatif olsalar bile anlamlı bir değer döner. Taşınabilir bir yazılım geliştiriliyorsa bu durum dikkate alınmalıdır.
+    </p></div></div>
+   <p>
+    Büyük bir tamponu kodlamak için, her seferinde 32 bitlik tampon dönüştürecek bir döngü kullanılmalıdır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">char *
+encode (const void *buf, size_t len)
+{
+  /* <em class="replaceable"><code>Gereken tampon uzunluğu biliniyor</code></em> */
+  unsigned char *in = (unsigned char *) buf;
+  char *out = malloc (6 + ((len + 3) / 4) * 6 + 1);
+  char *cp = out, *p;
+
+  /* <em class="replaceable"><code>Uzunluğu kodla.</code></em> */
+  /* <em class="replaceable"><code>Farklı bayt sıralaması kullanan makinelerde bile doğru
+      çözümleme yapılmasını garanti etmek için `htonl' kullan.
+      `l64a' 6 bayttan daha kısa dizge döndürebilir,
+      bu durumda genişliği tamamlamak için sondaki boşluğu
+      0 ('.') kodlamasıyla doldur.</code></em> */
+
+  p = stpcpy (cp, l64a (htonl (len)));
+  cp = mempcpy (p, "......", 6 - (p - cp));
+
+  while (len &gt; 3)
+    {
+      unsigned long int n = *in++;
+      n = (n &lt;&lt; 8) | *in++;
+      n = (n &lt;&lt; 8) | *in++;
+      n = (n &lt;&lt; 8) | *in++;
+      len -= 4;
+      p = stpcpy (cp, l64a (htonl (n)));
+      cp = mempcpy (p, "......", 6 - (p - cp));
+    }
+  if (len &gt; 0)
+    {
+      unsigned long int n = *in++;
+      if (- -len &gt; 0)
+        {
+          n = (n &lt;&lt; 8) | *in++;
+          if (- -len &gt; 0)
+            n = (n &lt;&lt; 8) | *in;
+        }
+      cp = stpcpy (cp, l64a (htonl (n)));
+    }
+  *cp = '\0';
+  return out;
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Kütüphanenin gereken tam işlevselliği sağlamaması tuhaf ama elden ne gelir.
+   </p>
+   
+  </div>
+        <p>
+   <code class="code">l64a</code> işleviyle kodlanmış veri aşağıdaki işlev kullanılarak eski haline getirilebilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-a64l" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code> <strong><code class="function">a64l</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">string</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>string</code></em> bağımsız değişkeni, <a href="glibc-Encode-Binary-Data.html#glibc-fn-l64a"><strong class="function"><code>l64a</code></strong></a> çağrısı ile elde edilmiş bir dizge olmalıdır. İşlev dizgenin  en az 6 karakterini işleme alır ve bulduğu baytları aşağıdaki tabloya göre çözümler. Tabloda bulunmayan bir karaktere rastlanırsa işlev, <strong class="function"><code>atoi</code></strong> işlevinin tersine çözümlemeyi durdurur. Satırlara ayrılmış bir tampon kullanılıyorsa, satır sonu karakterleri dikkatle atlanmalıdır.
+   </p>
+   <p>
+    Kodu çözülen sayı bir <span class="command"><strong>long int</strong></span> değer olarak döndürülür.
+   </p>
+   
+  </div>
+        <p>
+   <a href="glibc-Encode-Binary-Data.html#glibc-fn-l64a"><strong class="function"><code>l64a</code></strong></a> ve <a href="glibc-Encode-Binary-Data.html#glibc-fn-a64l"><strong class="function"><code>a64l</code></strong></a> işlevleri base 64 kodlaması kullanır. Yani kodlanmış dizgenin her karakteri bir girdi sözcüğünün altı biti ile ifade edilir. 64'lük tabandaki sayılar için kullanılan rakamlar:
+  </p>
+        <pre class="literallayout monospaced">
+<em class="replaceable"><code>    0  1  2  3  4  5  6  7</code></em>
+<em class="replaceable"><code> 0</code></em><code class="literal">  .  /  0  1  2  3  4  5</code>
+<em class="replaceable"><code> 8</code></em><code class="literal">  6  7  8  9  A  B  C  D</code>
+<em class="replaceable"><code>16</code></em><code class="literal">  E  F  G  H  I  J  K  L</code>
+<em class="replaceable"><code>24</code></em><code class="literal">  M  N  O  P  Q  R  S  T</code>
+<em class="replaceable"><code>32</code></em><code class="literal">  U  V  W  X  Y  Z  a  b</code>
+<em class="replaceable"><code>40</code></em><code class="literal">  c  d  e  f  g  h  i  j</code>
+<em class="replaceable"><code>48</code></em><code class="literal">  k  l  m  n  o  p  q  r</code>
+<em class="replaceable"><code>56</code></em><code class="literal">  s  t  u  v  w  x  y  z</code>
+</pre>
+        <p>
+   Bu kodlama şeması standart değildir. Daha geniş çapta kullanılan başka kodlama yöntemleri de (UU kodlaması, MIME kodlaması gibi) vardır. Genelde bu kodlamalardan birini kullanmak daha iyidir.
+  </p>
+      </section>
+    </section>
+  </body>
+</html>

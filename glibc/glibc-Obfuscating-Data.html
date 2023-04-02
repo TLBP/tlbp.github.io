@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.13. Verilerin Karartılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Shuffling-Bytes.html')">Önceki</button>
+          <div class="dropdown-content">5.12. Baytların Karılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Encode-Binary-Data.html')">Sonraki</button>
+          <div class="dropdown-content">5.14. İkil Verinin Kodlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Obfuscating-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.13. Verilerin Karartılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <code class="code">memfrob</code> işlevi bir ikil veri dizisini tanınmayacak hale getirmek daha sonra tekrar eski haline getirmek için kullanılır. Şifrelenmiş veri herkes tarafından kolayca normal veriye dönüştürülebildiğinden tam bir şifreleme sayılmaz. Dönüşüm, rahatsız edici şakaları, konu ipuçlarını ve benzerlerini gizlemek için kullanılan Usenet'in "Rot13" şifreleme yöntemine eşdeğerdir. Rot13'ün aksine <code class="code">memfrob</code> işlevi sadece metin üzerinde değil ikil verilerle de çalışır.
+  </p>
+        <p>
+   Özgün veriyi tamamen gizleyen ve gizli anahtar bilgisi olmadan geri alınamayan bir dönüşüm olan gerçek şifrelemeye ihtiyaç duyulan yazılımlarda, <a class="link" href="https://www.gnu.org/software/libgcrypt/" target="_top">libgcrypt</a> gibi özel bir şifreleme kütüphanesi kullanmalıdır.
+  </p>
+        <p>
+   Verinin tamamen yok edilmesine ihtiyaç duyulan yazılımlarda ise <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> (bkz. <a class="xref" href="glibc-Erasing-Sensitive-Data.html" title="5.11. Hassas Bilgilerin Silinmesi"><em>Hassas Bilgilerin Silinmesi</em></a>) veya <a href="glibc-Shuffling-Bytes.html#glibc-fn-strfry"><strong class="function"><code>strfry</code></strong></a> (bkz. <a class="xref" href="glibc-Shuffling-Bytes.html" title="5.12. Baytların Karılması"><em>Baytların Karılması</em></a>) kullanılmalıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-memfrob" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">memfrob</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">mem</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">memfrob</code> işlevi, <em class="parameter"><code>mem</code></em> adresinden başlayan <em class="parameter"><code>length</code></em> baytlık belleği yerinde karartır. Karartma işlemi her baytın ikil 00101010 kalıbı (onaltılık 0x2A) ile bitsel olarak ayrıcalıklı VEYAlanmasından ibarettir. İşlev, daima <em class="parameter"><code>mem</code></em> ile döner.
+   </p>
+   <p>
+    <code class="code">memfrob</code> işlevi aynı veri ile tekrar çağrıldığında özgün veri elde edilir.
+   </p>
+   <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+     İşlev GNU C kütüphanesine özeldir.
+    </p></div></div>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

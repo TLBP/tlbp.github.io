@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.11. Hassas Bilgilerin Silinmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Finding-Tokens-in-a-String.html')">Önceki</button>
+          <div class="dropdown-content">5.10. Dizgeciklere Bölme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Shuffling-Bytes.html')">Sonraki</button>
+          <div class="dropdown-content">5.12. Baytların Karılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Erasing-Sensitive-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.11. Hassas Bilgilerin Silinmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Şifreleme anahtarları gibi hassas veriler, bir yazılım hatasının dış dünyaya ifşa olma riskini azaltmak için kullanımdan sonra bellekten silinmelidir. Bununla birlikte, derleyici en iyileme yaparken bu silme işlemini "gereksiz" olarak belirleyebilir ve bu işlemi üretilen koddan kaldırabilir, çünkü hiçbir doğru uygulama, yeniden bellek tahsisinden sonra hassas verileri içeren değişkene veya yığın nesnesine erişemez. Silme, yazılım hatalarına karşı bir önlem olduğundan, bu en iyileme uygun değildir.
+  </p>
+        <p>
+   <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> işlevi bir bellek dilimini siler ve derleyicinin silmeyi "gereksiz" bularak kaldırmayacağını garanti eder.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;string.h&gt;
+
+extern void encrypt (const char *key, const char *in,
+                     char *out, size_t n);
+extern void genkey (const char *phrase, char *key);
+
+void encrypt_with_phrase (const char *phrase, const char *in,
+                          char *out, size_t n)
+{
+  char key[16];
+  genkey (phrase, key);
+  encrypt (key, in, out, n);
+  explicit_bzero (key, 16);
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   Bu örnekte, <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-memset"><strong class="function"><code>memset</code></strong></a>, <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-bzero"><strong class="function"><code>bzero</code></strong></a> veya elle yazılmış bir döngü kullanılsaydı, derleyici bunları "gereksiz" bularak kaldırabilirdi.
+  </p>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+    <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> işlevi hassas verilerin bellekten "tamamen" silinmesini garanti etmez. Yazmaçlar ve "karalama" yığıt alanı gibi geçici depolama alanlarında kopyalar olabilir; bunlar kaynak kodu tarafından görülmediğinden, kütüphane işlevi bunları silemez.
+   </p>
+          </div>
+        </div>
+        <p>
+   Ayrıca, <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> yalnızca RAM üzerinde çalışır. Hassas veri nesnesi, <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a>'yu çağırmak dışında hiçbir zaman adresinin alınması gerekmiyorsa, <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> "çağrılana kadar" tamamen işlemci yazmaçlarında kalabilir. Çağrıldıktan sonra RAM'e kopyalanacak, kopya silinecek ve özgün veri bozulmadan kalacaktır. RAM'deki verilerin bir yazılım hatasından dolayı açığa çıkma olasılığı, yazmaçlardaki verilerin açığa çıkma olasılığından daha yüksektir, bu nedenle yazılımın silmeye çalışmadığı duruma göre verilerin açığa çıkma riskinin daha fazla olduğu küçük bir pencere oluşur.
+  </p>
+        <p>
+   Hassas değişkenlerin <code class="type">volatile</code> olarak bildirilmesi, yukarıdaki sorunların her ikisini de <em class="emphasis">daha kötü</em> hale getirecektir. <code class="type">volatile</code> bir değişken, tüm ömrü boyunca bellekte saklanacağından derleyici normalden daha fazla kopya yapacaktır. Normal bir değişkeni, <code class="type">volatile</code> nitelikli bir gösterici aracılığıyla "elle" silmeye çalışmak hiç işe yaramaz çünkü değişkenin kendisi <code class="type">volatile</code> değildir. Bazı derleyiciler göstericideki niteliği yok sayacak ve silme işlemini yine de kaldıracaktır.
+  </p>
+        <p>
+   Tüm bunlardan sonra, çoğu durumda <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> kullanmak, kullanmamaktan daha iyidir. Şu anda, daha kapsamlı bir iş yapmanın tek yolu, hassas işlemin tamamını makine dilinde yazmaktır. Gelecekte, derleyicilerin <a href="glibc-Erasing-Sensitive-Data.html#glibc-fn-explicit_bzero"><strong class="function"><code>explicit_bzero</code></strong></a> çağrılarını tanıyacağını ve nerede olursa olsun etkilenen verilerin tüm kopyalarını silmek için uygun adımları atacağını tahmin ediyoruz.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-explicit_bzero" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">explicit_bzero</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">block</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">len</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">explicit_bzero</code> işlevi <code class="code">bzero</code> işlevinin yaptığı gibi <em class="parameter"><code>block</code></em> adresinden başlayan <em class="parameter"><code>len</code></em> baytlık belleğe sıfır yazar. Hiçbir doğru yazılım sıfırları geri okumayacağı için derleyici bunun "gereksiz" olduğuna karar verse bile sıfırlar daima yazılır.
+   </p>
+   <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+     <code class="code">explicit_bzero</code> işlevinin devre dışı bıraktığı <em class="emphasis">tek</em> en iyileme, belleğe "gereksiz" yazmaların kaldırılmasıdır. Derleyici, bir <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-memset"><strong class="function"><code>memset</code></strong></a> çağrısı için yapabileceği diğer tüm iyileştirmeleri gerçekleştirebilir. Örneğin, işlev çağrısını satırlaştırılmış bellek yazmalarıyla değiştirebilir ve bloğun bir boş gösterici olamayacağını varsayabilir.
+    </p></div></div>
+   <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+     Bu işlev ilk defa OpenBSD 5.5'te görülmüş ve standart durumuna getirilmemiştir. Diğer sistemler aynı işlevselliği, <strong class="function"><code>explicit_memset</code></strong>, <strong class="function"><code>memset_s</code></strong> veya <strong class="function"><code>SecureZeroMemory</code></strong> gibi başka isimler altında gerçekleyebilir.
+    </p></div></div>
+   <p>
+    GNU C Kütüphanesi bu işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirmiştir, ama başka sistemler bunun yerine <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/strings.h;hb=HEAD" target="_top">strings.h</a></code> başlık dosyasında bildirmiş olabilir.
+   </p>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

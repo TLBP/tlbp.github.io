@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.2. Dizi ve Dizge Uzlaşımları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Representation-of-Strings.html')">Önceki</button>
+          <div class="dropdown-content">5.1. Dizgelerle İlgili Kavramlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-Length.html')">Sonraki</button>
+          <div class="dropdown-content">5.3. Dizge Uzunluğu</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-String-Array-Conventions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.2. Dizi ve Dizge Uzlaşımları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu kısımda hem sıradan diziler veya bellek dilimleri üzerinde çalışan işlevler hem de tek baytlı karakter dizileri ve geniş dizgelere özgü işlevler açıklanmıştır.
+  </p>
+        <p>
+   Bellek dilimleri üzerinde işlem yapan işlevlerin isimleri <code class="code">mem</code> ve  <code class="code">wmem</code> ile başlar (<a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-memcpy"><strong class="function"><code>memcpy</code></strong></a> ve <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-wmemcpy"><strong class="function"><code>wmemcpy</code></strong></a> gibi) ve üzerinde çalışacağı bellek diliminin boyutunu (sırasıyla bayt ve geniş karakter sayısı olarak) belirleyen bir bağımsız değişken alır. Bu işlevlerin dizi bağımsız değişkenleri ve dönüş değerleri <code class="type">void *</code> veya <code class="type">wchar_t *</code> türündendir. İsimleri <code class="code">mem</code> ile başlayan işlevler ile kullanılan dizi elemanları birer bayttan oluştuğundan bu işlevlere her çeşit gösterici aktarılabileceği gibi, <em class="parameter"><code>size</code></em> (boyut) bağımsız değişkeninin değeri hesaplanırken <strong class="operator"><code>sizeof</code></strong> işleci kullanılabilir. İsimleri  <code class="code">wmem</code>  ile başlayan işlevlerin bağımsız değişkenleri ise <code class="type">wchar_t *</code> türünde olmalıdır. Bu işlevler yalnızca bu türden diziler için kullanışlıdır.
+  </p>
+        <p>
+   Özellikle dizgeler ve geniş dizgelerle çalışan işlevlerin isimleri ise sırasıyla <code class="code">str</code> ve <code class="code">wcs</code> ile başlar (<a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strcpy"><strong class="function"><code>strcpy</code></strong></a> ve <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-wcscpy"><strong class="function"><code>wcscpy</code></strong></a> gibi) ve bir uzunluk bağımsız değişkeni almak yerine dizgeyi sonlandıran "boş bayt"a veya "boş geniş karakter"e bakar. (Bu işlevlerin bazıları bir azami uzunluk değeri alır ve ayrıca "boş bayt"la veya "boş geniş karakter"le vaktinden önce sonlandırma olup olmadığını da sınar.) Bu işlevlerin dizi bağımsız değişkenleri ve dönüş değerleri <code class="type">char *</code> ve <code class="type">wchar_t *</code> türünde olmalı ve dizi elemanları sırasıyla "baytlar"dan veya "geniş karakterler"den oluşmalıdır.
+  </p>
+        <p>
+   Çoğu durumda bir işlevin hem <code class="code">mem</code> hem de <code class="code">str</code>/<code class="code">wcs</code> sürümleri vardır. Duruma bağlı olarak her birinin kullanılması gerekebilir. Bir yazılım dizileri veya bellek dilimlerini değiştiriyorsa daima <code class="code">mem</code> işlevleri kullanılmalıdır. Diğer taraftan, dizgeler üzerinde işlem yaparken dizgenin uzunluğu bilinmiyorsa, <code class="code">str</code>/<code class="code">wcs</code> işlevlerini kullanmak daha uygun olur. Boyutları bilinen geniş karakter dizilerinde <code class="code">wmem</code> işlevleri kullanılmalıdır.
+  </p>
+        <p>
+   <span id="idm90863" class="indexterm"></span>
+   <span id="idm90865" class="indexterm"></span>
+   Bellek ve dizge işlevlerinin bazıları bağımsız değişken olarak tek karakter alır. İşlevdeki bağımsız değişken <code class="type">int</code> türünde bildirildiğinde, <code class="type">char</code> türünden bir değer bağımsız değişken olarak kullanıldığında özdevinimli olarak <code class="type">int</code> türünden bir değere dönüştürülür. Geniş karakter işlevleri için de benzer bir durum sözkonusudur; tek geniş karakter için bağımsız değişken <code class="type">wchar_t</code> değil <code class="type">wint_t</code> türündedir. Ancak bir çok gerçekleme <code class="type">wchar_t</code> türü yeterince geniş olduğundan özdevinimli dönüşüme gerek duymaz. ISO C standardı belli türün seçilmesini gerektirmediğinden <code class="type">wint_t</code> türü kullanılmıştır.
+  </p>
+      </section>
+    </section>
+  </body>
+</html>

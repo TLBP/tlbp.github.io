@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.3. Dizge Uzunluğu</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-Array-Conventions.html')">Önceki</button>
+          <div class="dropdown-content">5.2. Dizi ve Dizge Uzlaşımları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Copying-Strings-and-Arrays.html')">Sonraki</button>
+          <div class="dropdown-content">5.4. Dizilerin ve Dizgelerin Kopyalanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-String-Length">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.3. Dizge Uzunluğu</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm90878" class="indexterm"></span>
+   Dizgenin (tek baytlı karakter dizisinin) uzunluğu <a href="glibc-String-Length.html#glibc-fn-strlen"><strong class="function"><code>strlen</code></strong></a> işlevi kullanılarak alınabilir. Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strlen" class="indexterm"></span>
+   <span id="glibc-cp-strlen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">strlen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">strlen</code>  işlevi boş bayt sonlandırmalı <em class="parameter"><code>s</code></em> dizgesinin bayt cinsinden uzunluğu ile döner. (Başka bir deyişle dizi içindeki boş baytın konumu ile döner.)
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">strlen ("hello, world")
+    ⇒ 12
+</pre><p>
+     Bir diziye uygulandığında <code class="code">strlen</code> işlevi burada saklanan dizgenin uzunluğu ile döner, diziye tahsis edilen boyutla değil. Diziye tahsis edilen boyut <strong class="operator"><code>sizeof</code></strong> işleci ile öğrenilebilir:
+    </p><pre class="screen">char string[32] = "hello, world";
+sizeof (string)
+    ⇒ 32
+strlen (string)
+    ⇒ 12
+</pre><p>
+     Yalnız dikkatli olunmalıdır, <em class="parameter"><code>string</code></em> bir gösterici değil tek baytlı karakter dizisi olmalıdır. Yoksa karakter dizisinin değil göstericinin uzunluğu döner:
+    </p><pre class="screen">char string[32] = "hello, world";
+char *ptr = string;
+sizeof (string)
+    ⇒ 32
+sizeof (ptr)
+    ⇒ 4  /* <em class="replaceable"><code>(göstericilerin 4 bayt olduğu bir makine üzerinde)</code></em> */
+</pre></div></div><br class="example-break" />
+    <p>
+     Dizge bağımsız değişken alan işlevlerle çalışırken bu yanlışı yapmak çok kolaydır; çünkü bu işlevlerin bağımsız değişkenleri daima göstericidir, dizi değildir.
+    </p>
+    <p>
+     Ayrıca, tek baytlı karakterlerle çalışan bu işlevin çok baytlı karakter dizileri ile kullanıldığında dönen değerin dizgedeki karakterlerin sayısı olmadığına da dikkat etmek gerekir. Bu değer alınmak istenirse dizge önce geniş dizgeye dönüştürülmeli, ardından ya <a href="glibc-String-Length.html#glibc-fn-wcslen"><strong class="function"><code>wcslen</code></strong></a> işlevi ya da aşağıdakine benzer bir kod kullanılmalıdır:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">/* <em class="replaceable"><code>Girdi</code></em> <code class="code">string</code> <em class="replaceable"><code>içinde.
+   Uzunluk ise</code></em> <code class="code">n</code> <em class="replaceable"><code>bayt umuluyor.</code></em>  */
+{
+  mbstate_t t;
+  char *scopy = string;
+  /* <em class="replaceable"><code>İlklendir.</code></em>  */
+  memset (&amp;t, '\0', sizeof (t));
+  /* <em class="replaceable"><code>Karakter sayısını belirle.</code></em>  */
+  n = mbsrtowcs (NULL, &amp;scopy, strlen (scopy), &amp;t);
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Bu zahmetli bir işlemdir. Karakter sayısına (bayt sayısı değil) ihtiyaç varsa geniş karakterlerle çalışmak daha iyidir.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcslen" class="indexterm"></span>
+   <span id="glibc-cp-wcslen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">wcslen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">wcslen</code> işlevi, <a href="glibc-String-Length.html#glibc-fn-strlen"><strong class="function"><code>strlen</code></strong></a> işlevinin geniş karakterlerle çalışan karşılığıdır. Dönen değer, göstericisi <em class="parameter"><code>ws</code></em> olan geniş karakter dizgesinin geniş karakter sayısıdır. (Bu değer aynı zamanda boş geniş karakter sonlandırmalı <em class="parameter"><code>ws</code></em> dizisinin boş geniş karakteri içeren elemanının konumudur).
+   </p>
+   <p>
+    Bir geniş karakter, çok baytlı karakter dizisi olmadığından dönen değer sadece dizideki bir konum değil, ayrıca geniş karakterlerin de sayısıdır.
+   </p>
+   <p>
+    Bu işlev ISO C90 standardının 1. düzeltmesinde tanımlıdır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strnlen" class="indexterm"></span>
+   <span id="glibc-cp-strnlen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">strnlen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">maxlen</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>maxlen</code></em> baytlık <em class="parameter"><code>s</code></em> dizgesi bir boş bayt içeriyorsa işlev <em class="parameter"><code>s</code></em> dizgesinin uzunluğu ile döner, içermiyorsa <em class="parameter"><code>maxlen</code></em> ile döner. Bu bakımdan bu işlev
+    <code class="code">(strlen (<em class="parameter"><code>s</code></em>) &lt; <em class="parameter"><code>maxlen</code></em> ? strlen (<em class="parameter"><code>s</code></em>) : <em class="parameter"><code>maxlen</code></em>)</code> ifadesine eşdeğer olsa da işlev daha verimlidir, çünkü <em class="parameter"><code>maxlen</code></em> ile belirtilen uzunluk <em class="parameter"><code>s</code></em> dizisinin uzunluğundan fazla olmadığı sürece <em class="parameter"><code>s</code></em> boş bayt ile sonlandırılmamış olsa bile işlev çalışır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">char string[32] = "hello, world";
+strnlen (string, 32)
+    ⇒ 12
+strnlen (string, 5)
+    ⇒ 5
+</pre></div></div><br class="example-break" />
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcsnlen" class="indexterm"></span>
+   <span id="glibc-cp-wcsnlen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">wcsnlen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">maxlen</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">wcsnlen</code> işlevi <a href="glibc-String-Length.html#glibc-fn-strnlen"><strong class="function"><code>strnlen</code></strong></a> işlevinin geniş karakter karşılığıdır.  <em class="parameter"><code>maxlen</code></em> geniş karakterlerin azami sayısıdır (azami bayt sayısı değildir).
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+   
+  </div>
+      </section>
+    </section>
+  </body>
+</html>

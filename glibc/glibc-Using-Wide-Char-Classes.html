@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.4. Geniş Karakter Sınıflarının Kullanılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Classification-of-Wide-Characters.html')">Önceki</button>
+          <div class="dropdown-content">4.3. Geniş Karakterlerin Sınıflandırılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Character-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Wide-Character-Case-Conversion.html')">Sonraki</button>
+          <div class="dropdown-content">4.5. Geniş Karakterlerde Büyük-küçük Harf Dönüşümleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Using-Wide-Char-Classes">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">4.4. Geniş Karakter Sınıflarının Kullanılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   İlk uyarı, şüphesiz şaşırtıcı değil ama hala arasıra sorun çıkarmaktadır. <code class="code">isw<em class="replaceable"><code>XXX</code></em></code> işlevleri makrolarla gerçeklenebilir ve GNU  C kütüphanesi böyle yapar. Gerçek işlev olarak kullanılabilir olsalar bile <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wctype.h;hb=HEAD" target="_top">wctype.h</a></code> başlık dosyası içerildiğinde makroları kullanılacaktır. Bu durum, bu işlevlerin <code class="type">char</code> türünde olanları için de aynıdır.
+  </p>
+        <p>
+   İkincisi daha yeni bir bilgidir. En iyisi bir örnekle açıklamak. Kodun ilk parçası özgün koddan (biraz kısaltarak) şöyle seçilmiş olsun.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">int
+is_in_class (int c, const char *class)
+{
+  if (strcmp (class, "alnum") == 0)
+    return isalnum (c);
+  if (strcmp (class, "alpha") == 0)
+    return isalpha (c);
+  if (strcmp (class, "cntrl") == 0)
+    return iscntrl (c);
+  …
+  return 0;
+}
+</pre>
+            <p>
+    <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-wctype"><strong class="function"><code>wctype</code></strong></a> ve <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-iswctype"><strong class="function"><code>iswctype</code></strong></a> ile <code class="code">if</code> merdiveni artık gerekmeyecek, ancak aşağıdaki gibi bir kod yanlış olacaktır:
+   </p>
+            <pre class="screen">int
+is_in_class (int c, const char *class)
+{
+  wctype_t desc = wctype (class);
+  return desc ? iswctype ((wint_t) c, desc) : 0;
+}
+</pre>
+            <p>
+    Burada sorun, tek baytlık bir karakterin geniş karakter karşılığının tür dönüşümü ile elde edilebilirliğinin garantili olmayışıdır. Doğru çözüm, kodu aşağıdaki gibi yazmaktır:
+   </p>
+            <pre class="screen">int
+is_in_class (int c, const char *class)
+{
+  wctype_t desc = wctype (class);
+  return desc ? iswctype (btowc (c), desc) : 0;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   <strong class="function"><code>btowc</code></strong> işlevi hakkında ??? bölümünde daha fazla bilgi bulunabilir. Burada, <a href="glibc-Classification-of-Wide-Characters.html#glibc-fn-wctype"><strong class="function"><code>wctype</code></strong></a> işlevi hala bir dizge karşılaştırması yaptığından yazılımın başarımı arttırılmış olmayacaktır. <code class="code">is_in_class</code> işlevi aynı sınıf ismi için defalarca çağrılırsa durum gerçekten ilginç olur. Bu durumda, <strong class="varname"><code>desc</code></strong> değişkeninin bir kere hesaplanıp tüm çağrılarda kullanılması gerekirdi. Bu nedenle işlevin yukardaki tanımının işlevin son hali olmayacağı açıktır.
+  </p>
+      </section>
+    </section>
+  </body>
+</html>

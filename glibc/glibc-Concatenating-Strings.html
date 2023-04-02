@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5.5. Dizgelerin Birleştirilmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Copying-Strings-and-Arrays.html')">Önceki</button>
+          <div class="dropdown-content">5.4. Dizilerin ve Dizgelerin Kopyalanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-and-Array-Utilities.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Truncating-Strings.html')">Sonraki</button>
+          <div class="dropdown-content">5.6. Dizgelerin Kırpılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Concatenating-Strings">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">5.5. Dizgelerin Birleştirilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm91746" class="indexterm"></span>
+   <span id="idm91748" class="indexterm"></span>
+   <span id="idm91750" class="indexterm"></span>
+   <span id="idm91753" class="indexterm"></span>
+   Bu bölümde açıklanan işlevler, bir dizgenin veya geniş dizgenin içeriğini diğerine birleştirir. Dizge kopyalama işlevleri ile ilgili uzlaşımlar bunlara da uygulanır (Bkz. <a class="xref" href="glibc-Copying-Strings-and-Arrays.html" title="5.4. Dizilerin ve Dizgelerin Kopyalanması"><em>Dizilerin ve Dizgelerin Kopyalanması</em></a>). ‘<a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a>’ işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code>, ‘<a href="glibc-Concatenating-Strings.html#glibc-fn-wcscat"><strong class="function"><code>wcscat</code></strong></a>’ işlevi ise <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code> başlık dosyasına bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strcat" class="indexterm"></span>
+   <span id="glibc-cp-strcat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">strcat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">to</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">from</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>from</code></em> dizgesini <em class="parameter"><code>to</code></em> dizgesinin üzerine yazmak yerine <em class="parameter"><code>to</code></em> dizgesinin sonuna ekleyerek onunla birleştirmesi dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-strcpy"><strong class="function"><code>strcpy</code></strong></a> işlevine benzer. <em class="parameter"><code>from</code></em> dizgesinin ilk baytı <em class="parameter"><code>to</code></em> dizgesini sonlandıran boş baytın üzerine yazılır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+    <code class="code">strcat</code> işlevinin tanımı aşağıdakine eşdeğerdir:
+   </p><pre class="screen">char *
+strcat (char *restrict <em class="parameter"><code>to</code></em>, const char *restrict <em class="parameter"><code>from</code></em>)
+{
+  strcpy (<em class="parameter"><code>to</code></em> + strlen (<em class="parameter"><code>to</code></em>), <em class="parameter"><code>from</code></em>);
+  return <em class="parameter"><code>to</code></em>;
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Dizgelerin üst üste binmesi durumu için bu işlevin davranışı tanımlanmamıştır.
+   </p>
+   <p>
+    <a class="link" href="glibc-Concatenating-Strings.html#glibc-strcat-performance-issues" title="strcat/wcscat işlevleri ile ilgili başarım sorunları">Aşağıda belirtildiği gibi</a>, bu işlevin önemli başarım sorunları vardır.
+   </p>
+   
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wcscat" class="indexterm"></span>
+   <span id="glibc-cp-wcscat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="function">wcscat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">wto</code></strong><strong><code>, </code></strong><code class="type">const wchar_t *restrict </code> <strong><code class="parameter">wfrom</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>wfrom</code></em> geniş dizgesini <em class="parameter"><code>to</code></em> geniş dizgesinin üzerine yazmak yerine <em class="parameter"><code>to</code></em> geniş dizgesinin sonuna ekleyerek onunla birleştirmesi dışında <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-wcscpy"><strong class="function"><code>wcscpy</code></strong></a> işlevine benzer. <em class="parameter"><code>wfrom</code></em> dizgesinin ilk geniş karakteri <em class="parameter"><code>wto</code></em> geniş dizgesini sonlandıran boş geniş karakterin üzerine yazılır.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+     <code class="code">wcscat</code> işlevinin tanımı aşağıdakine eşdeğerdir:
+    </p><pre class="screen">wchar_t *
+wcscat (wchar_t *wto, const wchar_t *wfrom)
+{
+  wcscpy (wto + wcslen (wto), wfrom);
+  return wto;
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Dizgelerin üst üste binmesi durumu için bu işlevin davranışı tanımlanmamıştır.
+   </p>
+   <p>
+    Aşağıda belirtildiği gibi, bu işlevin önemli başarım sorunları vardır.
+   </p>
+   
+  </div>
+        <div class="admon note" id="glibc-strcat-performance-issues">
+          <h3 class="admon-title"><code class="code">strcat/wcscat</code> işlevleri ile ilgili başarım sorunları</h3>
+          <div class="admon-contents">
+            <p>
+    <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a> ya da <a href="glibc-Concatenating-Strings.html#glibc-fn-wcscat"><strong class="function"><code>wcscat</code></strong></a> (veya sonraki bölüme tanımlanmış olan <a href="glibc-Truncating-Strings.html#glibc-fn-strncat"><strong class="function"><code>strncat</code></strong></a> ya da <a href="glibc-Truncating-Strings.html#glibc-fn-wcsncat"><strong class="function"><code>wcsncat</code></strong></a>) işlevlerini kullanan yazılımcılar kolayca ihtiyatsız ve hatta çılgın olarak tanımlanabilir. Hemen hemen her durumda, eklemlenecek dizge uzunlukları bilinir (tampon boyutunun yeterli olup olmayacağı bilinemeyeceğine göre, öyle olmalı). Ya da en azından, çeşitli işlev çağrılarının sonuçları izlenerek bilinir. Ama yine de <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a>/<a href="glibc-Concatenating-Strings.html#glibc-fn-wcscat"><strong class="function"><code>wcscat</code></strong></a> işlevleri yetersizdir. Kopyalama başladığında hedef dizgenin sonunu bulmak için gereksiz zaman harcanacaktır. Aşağıdaki örneğe bakınız:
+    <span id="idm91853" class="indexterm"></span>
+   </p>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <pre class="screen">/* <em class="replaceable"><code>Bu işlev birçok dizgeyi birleştirir.</code></em>
+   <em class="replaceable"><code>Son bağımsız değişken NULL olmalı.</code></em>  */
+char *
+concat (const char *str, …)
+{
+  va_list ap, ap2;
+  size_t total = 1;
+
+  va_start (ap, str);
+  va_copy (ap2, ap);
+
+  /* <em class="replaceable"><code>Ne kadar yer lazım ?</code></em>  */
+  for (const char *s = str; s != NULL; s = va_arg (ap, const char *))
+    total += strlen (s);
+
+  va_end (ap);
+
+  char *result = malloc (total);
+  if (result != NULL)
+    {
+      result[0] = '\0';
+
+      /* <em class="replaceable"><code>Dizgeleri kopyala.</code></em>  */
+      for (s = str; s != NULL; s = va_arg (ap2, const char *))
+        strcat (result, s);
+    }
+
+  va_end (ap2);
+
+  return result;
+}
+</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+            <p>
+    Basit gibi görünüyor, özellikle dizgelerin kopyalandığı ikinci döngü. Ancak bu masum satırlar, büyük bir başarım kaybını gizliyor. Her birinin 100 baytlık on dizgeyi birleştirdiği varsayılsın. Aranan ikinci dizge için dizgenin sonunda zaten 100 bayt tahsis edildiğinden sonraki dizge eklenebilir. Toplamda tüm dizgeler için ara sonuçlarla birlikte uzunluk 5500! olur. Bellek tahsisi için yapılan arama ile kopyalama birleştirilirse bu işlev daha verimli kılınabilir:
+   </p>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <pre class="screen">char *
+concat (const char *str, …)
+{
+  size_t allocated = 100;
+  char *result = malloc (allocated);
+
+  if (result != NULL)
+    {
+      va_list ap;
+      size_t resultlen = 0;
+      char *newp;
+
+      va_start (ap, str);
+
+      for (const char *s = str; s != NULL; s = va_arg (ap, const char *))
+        {
+          size_t len = strlen (s);
+
+          /* <em class="replaceable"><code>Gerekirse, tutulan belleği arttır</code></em>  */
+          if (resultlen + len + 1 &gt; allocated)
+            {
+              allocated += len;
+              newp = reallocarray (result, allocated, 2);
+              allocated *= 2;
+              if (newp == NULL)
+                {
+                  free (result);
+                  return NULL;
+                }
+              result = newp;
+            }
+
+          memcpy (result + resultlen, s, len);
+          resultlen += len;
+        }
+
+      /* <em class="replaceable"><code>Sonuçlanan dizgeyi sonlandır.</code></em>  */
+      result[resultlen++] = '\0';
+
+      /* <em class="replaceable"><code>Belleği tam istenen boyuta ayarla.</code></em>  */
+      newp = realloc (result, resultlen);
+      if (newp != NULL)
+        result = newp;
+
+      va_end (ap);
+    }
+
+  return result;
+}
+</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+            <p>
+    Girdi dizgeleri hakkına biraz daha fazla bilgi birikimi kullanarak bellek tahsis işlemi daha hassas yapılabilirdi. Burada farklı olarak <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a> işlevi hiç kullanılmadı. Ara sonuçların izi sürülerek dizge sonlarının bulunması güvenceye alındı ve <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-mempcpy"><strong class="function"><code>mempcpy</code></strong></a> işlevi kullanıldı. Ayrıca, dizgeleri elde etmek bakımından daha doğal görünen <a href="glibc-Copying-Strings-and-Arrays.html#glibc-fn-stpcpy"><strong class="function"><code>stpcpy</code></strong></a> işlevi de kullanılmadı. Ama zaten, dizge uzunluğu bilindiğine göre bu gerekli değildi ve bu sebeple daha hızlı bellek kopyalaması yapılabildi. Bu örnek, geniş karakterler için de aynı şekilde çalışırdı.
+   </p>
+            <p>
+    Bir yazılımcı <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a> kullanmaya karar vermeden önce iki kere düşünmeli ve hesaplanmış sonuçların getirilerinden yararlanmak için kod tekrar yazılamaz mı acaba diye bakmalıdır. Tekrar:  <a href="glibc-Concatenating-Strings.html#glibc-fn-strcat"><strong class="function"><code>strcat</code></strong></a> işlevinin kullanılması hemen hemen daima gereksizdir.
+   </p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>

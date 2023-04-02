@@ -13,8 +13,8 @@
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Malloc-Examples.html')">Önceki</button>
-          <div class="dropdown-content">3.2.3.2. <code class="code">malloc</code> Örnekleri</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3. Kısıtlanmamış Bellek Tahsisi</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -44,22 +44,23 @@
           </div>
         </div>
         <p>
-     <span id="idm85443" class="indexterm"></span>
-     <span id="idm85448" class="indexterm"></span>
-     <span id="idm85451" class="indexterm"></span>
-     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ayrılan bir dilime ihtiyaç kalmadığında, ayrılan dilimin tekrar kullanılabilmesi için <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gerekir. <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+     <span id="idm85800" class="indexterm"></span>
+     <span id="idm85805" class="indexterm"></span>
+     <span id="idm85808" class="indexterm"></span>
+     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilmiş bir dilime ihtiyaç kalmadığında, dilime tahsis edilmiş belleğin tekrar kullanılabilmesi için dilimin <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gerekir.
     </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-free" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
-      <br /> | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
      </div>
      <p>
       <code class="code">free</code> işlevi <em class="parameter"><code>ptr</code></em> ile erişilen bellek dilimini serbest bırakır.
      </p>
+     
     </div>
         <p>
      Bir bellek diliminin serbest bırakılması dilimin içeriğini değiştirir. <em class="wordasword">Bir dilim serbest bırakıldıktan sonra dilimin içindeki bir veriye ulaşılabileceği (örneğin bir dilim zincirindeki sonraki dilime gösterici belirterek) beklenmemelidir.</em> Bir bellek dilimi serbest bırakmadan önce içinde kullanılacak bir bilgi varsa kopyalanmadır. Aşağıdaki örnekte bir zincirdeki dilimlerin tümü ve içerdikleri dizgeler sırayla serbest bırakılmaktadır:
@@ -95,7 +96,7 @@ zinciri_sal (struct zincir *zincir)
      <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'nun değerini korur, böylece temizleme kodunun, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a>'ye yapılan bir çağrı çerçevesinde <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu kaydetmesi ve geri yüklemesi gerekmez. Ne ISO C ne de POSIX.1-2017 <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevinin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu korumasını gerektirse de  POSIX'in gelecekteki bir sürümünde bunun gerektirilmesi planlanmıştır.
     </p>
         <p>
-     Yazılımın çalışması sona erdiğinde ayrılan dilimlerin serbest bırakılması gerekmez. Çünkü süreç sonlandığında sürece ayrılan tüm alan sisteme geri verilir.
+     Yazılımın çalışması sona erdiğinde tahsis edilmiş dilimlerin serbest bırakılması gerekmez. Çünkü süreç sonlandığında sürece tahsis edilmiş tüm alan sisteme geri verilir.
     </p>
       </section>
     </section>
