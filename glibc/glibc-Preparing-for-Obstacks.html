@@ -13,8 +13,8 @@
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Obstacks.html')">Önceki</button>
-          <div class="dropdown-content">3.2.6. Yığınaklar (Obstacks)</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Creating-Obstacks.html')">Önceki</button>
+          <div class="dropdown-content">3.2.6.1. Yığınak Oluşturma</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -68,7 +68,7 @@
       Bu makrolar kaynak dosyaları içinde yığınaklar kullanılmadan önce tanımlanmış olmalıdır.
      </p>
      <p>
-      Normalde bunlar <strong class="function"><code>xmalloc</code></strong> (<a class="xref" href="glibc-Unconstrained-Allocation.html" title="3.2.3. Kısıtlanmamış Bellek Tahsisi">Kısıtlanmamış Bellek Tahsisi</a>) aracılığıyla <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanacak şekilde tanımlanır. Bu tanımlama aşağıdaki makro tanım çifti ile yapılır:
+      Normalde bunlar <strong class="function"><code>xmalloc</code></strong> (<a class="xref" href="glibc-Unconstrained-Allocation.html" title="3.2.3. Kısıtlanmamış Bellek Tahsisi">Kısıtlanmamış Bellek Tahsisi</a>) aracılığıyla <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanacak şekilde tanımlanır. Bu tanımlama aşağıdaki makro tanım çifti ile yapılır:
      </p>
      <div class="example"><div class="example-title">Örnek: Yazılımın başlık dosyasını yığınak kullanımına hazırlamak</div><div class="example-contents"><pre class="screen">#define <code class="code">obstack_chunk_alloc</code> <strong class="function"><code>xmalloc</code></strong>
 #define <code class="code">obstack_chunk_free</code> <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a>
@@ -76,7 +76,7 @@
      
     </div>
         <p>
-     Yığınak kullanarak tahsis edilmiş bellek gerçekte <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'dan gelmesine karşın, yığınakların kullanımı daha hızlıdır çünkü bellek dilimleri daha büyük olduğundan <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> daha az sıklıkta çağrılır. Daha ayrıntılı bilgi <a class="xref" href="glibc-Obstack-Chunks.html" title="3.2.6.10. Yığınak Öbekleri">Yığınak Öbekleri</a> bölümünde bulunabilir.
+     Yığınak kullanarak tahsis edilmiş bellek gerçekte <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'dan gelmesine karşın, yığınakların kullanımı daha hızlıdır çünkü bellek dilimleri daha büyük olduğundan <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> daha az sıklıkta çağrılır. Daha ayrıntılı bilgi <a class="xref" href="glibc-Obstack-Chunks.html" title="3.2.6.10. Yığınak Öbekleri">Yığınak Öbekleri</a> bölümünde bulunabilir.
     </p>
         <p>
      Çalışma anında yazılım, yığınak olarak <code class="type">struct obstack</code> yapısını kullanmaya başlamadan önce bir <a href="glibc-Preparing-for-Obstacks.html#glibc-fn-obstack_init"><strong class="function"><code>obstack_init</code></strong></a> çağrısı ile yığını ilklendirmelidir.
@@ -85,9 +85,9 @@
      <span id="glibc-fn-obstack_init" class="indexterm"></span>
      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">obstack_init</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-POSIX.html#glibc-safety-identifier">:obstack-ptr</a></code>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-assafe">AS-Safe</a>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:obstack-ptr</a></code>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
      </div>
      <p>
       Nesnelerin tahsis edileceği <em class="parameter"><code>obstack-ptr</code></em> yığınağını ilklendirir. Bu işlev yığınağın <a href="glibc-Preparing-for-Obstacks.html#glibc-fn-obstack_chunk_alloc"><strong class="function"><code>obstack_chunk_alloc</code></strong></a> makrosunu çağırır. Eğer bellek tahsis işlemi başarısız olursa <a href="glibc-Preparing-for-Obstacks.html#glibc-vr-obstack_alloc_failed_handler"><strong class="function"><code>obstack_alloc_failed_handler</code></strong></a> tarafından gösterilen işlev çağrılır. <code class="code">obstack_init</code> işlevi daima <code class="code">1</code> ile döndürür.

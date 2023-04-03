@@ -13,8 +13,8 @@
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Önceki</button>
-          <div class="dropdown-content">3.2.3. Kısıtlanmamış Bellek Tahsisi</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Basic-Allocation.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.1. Özdevimli Olarak Basit Bellek Tahsisi</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -45,7 +45,7 @@
         </div>
         <p>
      <span id="idm85748" class="indexterm"></span>
-     Ayrılabilecek bellek yoksa <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> boş gösterici ile döner. <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevinin her çağrılışında dönen değere bakılmalıdır. <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'u çağıran, boş gösterici döndüğünde hatayı bildiren ve sadece dönen sıfırdan farklı değerleri döndüren yardımcı bir işlev yazılabilir. Bu yöntem geleneksel olarak <code class="code">xmalloc</code> olarak bilinir ve aşağıdaki gibi gerçeklenebilir:
+     Ayrılabilecek bellek yoksa <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> boş gösterici ile döner. <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevinin her çağrılışında dönen değere bakılmalıdır. <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'u çağıran, boş gösterici döndüğünde hatayı bildiren ve sadece dönen sıfırdan farklı değerleri döndüren yardımcı bir işlev yazılabilir. Bu yöntem geleneksel olarak <code class="code">xmalloc</code> olarak bilinir ve aşağıdaki gibi gerçeklenebilir:
     </p>
         <div class="example">
           <div class="example-title">Örnek: <code class="code">xmalloc</code> örneği</div>
@@ -63,7 +63,7 @@ void * xmalloc (size_t size)
         </div>
         <br class="example-break" />
         <p>
-     Aşağıda ise <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılan (<code class="code">xmalloc</code> yoluyla) gerçek bir örnek vardır. <code class="code">savestring</code> işlevi belirtilen karakter dizisini yeni tahsis edilen boş karakter sonlandırmalı dizgeye kopyalamaktadır:
+     Aşağıda ise <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılan (<code class="code">xmalloc</code> yoluyla) gerçek bir örnek vardır. <code class="code">savestring</code> işlevi belirtilen karakter dizisini yeni tahsis edilen boş karakter sonlandırmalı dizgeye kopyalamaktadır:
     </p>
         <div class="example">
           <div class="example-title">Örnek: </div>
@@ -80,10 +80,10 @@ savestring (const char *ptr, size_t len)
         </div>
         <br class="example-break" />
         <p>
-     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'un ayırdığı bellek dilimi her türden veriyi tutabilir. GNU sistemlerinde adres her zaman, 32 bitlik sistemlerde sekizin, 64 bitlik sistemlerde ise onaltının katlarıdır. Nadiren daha yüksek sınırlar (sayfa mertebesinde) gerekir ve bu durumlarda <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-aligned_alloc"><strong class="function"><code>aligned_alloc</code></strong></a> veya <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-posix_memalign"><strong class="function"><code>posix_memalign</code></strong></a> kullanılır (Bkz. <a class="xref" href="glibc-Aligned-Memory-Blocks.html" title="3.2.3.6. Bellek Dilimlerinin Hizalanarak Tahsisi">Bellek Dilimlerinin Hizalanarak Tahsisi</a>).
+     <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'un ayırdığı bellek dilimi her türden veriyi tutabilir. GNU sistemlerinde adres her zaman, 32 bitlik sistemlerde sekizin, 64 bitlik sistemlerde ise onaltının katlarıdır. Nadiren daha yüksek sınırlar (sayfa mertebesinde) gerekir ve bu durumlarda <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-aligned_alloc"><strong class="function"><code>aligned_alloc</code></strong></a> veya <a href="glibc-Aligned-Memory-Blocks.html#glibc-fn-posix_memalign"><strong class="function"><code>posix_memalign</code></strong></a> kullanılır (Bkz. <a class="xref" href="glibc-Aligned-Memory-Blocks.html" title="3.2.3.6. Bellek Dilimlerinin Hizalanarak Tahsisi">Bellek Dilimlerinin Hizalanarak Tahsisi</a>).
     </p>
         <p>
-     Bir <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısı ile tahsis edilen dilimin sonuna başka şeyler için kullanmak üzere bellek eklenmesi gerekebilir. Daha önce tahsis edilmiş bir dilimi büyütmek için <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılmaya çalışılırsa ya önceki dilimin ya da yenisinin bozulması mümkündür. Tahsis edilmiş bellek dilimi sonradan büyütülmek istenirse <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> işlevi kullanılmalıdır (Bkz. <a class="xref" href="glibc-Changing-Block-Size.html" title="3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi">Bellek Diliminin Boyutunun Değiştirilmesi</a>).
+     Bir <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısı ile tahsis edilen dilimin sonuna başka şeyler için kullanmak üzere bellek eklenmesi gerekebilir. Daha önce tahsis edilmiş bir dilimi büyütmek için <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanılmaya çalışılırsa ya önceki dilimin ya da yenisinin bozulması mümkündür. Tahsis edilmiş bellek dilimi sonradan büyütülmek istenirse <a href="glibc-Changing-Block-Size.html#glibc-fn-realloc"><strong class="function"><code>realloc</code></strong></a> işlevi kullanılmalıdır (Bkz. <a class="xref" href="glibc-Changing-Block-Size.html" title="3.2.3.4. Bellek Diliminin Boyutunun Değiştirilmesi">Bellek Diliminin Boyutunun Değiştirilmesi</a>).
     </p>
         <div class="admon note">
           <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
@@ -97,12 +97,12 @@ savestring (const char *ptr, size_t len)
                 </li>
                 <li class="listitem">
                   <p>
-        GNU C Kütüphanesinde, başarısız bir <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısında hata <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır, ancak ISO C bunu gerektirmez ve POSIX uyumlu olmayan gerçeklenimlerin başarısızlık durumunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> ataması yapmasına gerek yoktur.
+        GNU C Kütüphanesinde, başarısız bir <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrısında hata <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır, ancak ISO C bunu gerektirmez ve POSIX uyumlu olmayan gerçeklenimlerin başarısızlık durumunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> ataması yapmasına gerek yoktur.
        </p>
                 </li>
                 <li class="listitem">
                   <p>
-        GNU C Kütüphanesinde <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <em class="parameter"><code>size</code></em> değeri <code class="code">PTRDIFF_MAX</code>'tan büyük olduğunda, göstericiler üzerinde eksiltme yapan veya işaretli indisler kullanan yazılımlarla ilgili sorunlardan kaçınmak için her zaman başarısız olur. Diğer gerçeklenimler bu durumda başarılı olabilir ve daha sonra tanımsız davranışa yol açabilir.
+        GNU C Kütüphanesinde <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <em class="parameter"><code>size</code></em> değeri <code class="code">PTRDIFF_MAX</code>'tan büyük olduğunda, göstericiler üzerinde eksiltme yapan veya işaretli indisler kullanan yazılımlarla ilgili sorunlardan kaçınmak için her zaman başarısız olur. Diğer gerçeklenimler bu durumda başarılı olabilir ve daha sonra tanımsız davranışa yol açabilir.
        </p>
                 </li>
               </ul>

@@ -13,8 +13,8 @@
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unconstrained-Allocation.html')">Önceki</button>
-          <div class="dropdown-content">3.2.3. Kısıtlanmamış Bellek Tahsisi</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Malloc-Examples.html')">Önceki</button>
+          <div class="dropdown-content">3.2.3.2. <code class="code">malloc</code> Örnekleri</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -47,15 +47,15 @@
      <span id="idm85800" class="indexterm"></span>
      <span id="idm85805" class="indexterm"></span>
      <span id="idm85808" class="indexterm"></span>
-     <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilmiş bir dilime ihtiyaç kalmadığında, dilime tahsis edilmiş belleğin tekrar kullanılabilmesi için dilimin <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gerekir.
+     <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilmiş bir dilime ihtiyaç kalmadığında, dilime tahsis edilmiş belleğin tekrar kullanılabilmesi için dilimin <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gerekir.
     </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-free" class="indexterm"></span>
      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-mtsafe">MT-Safe</a>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a>
-       | <a class="link" href="glibc-POSIX.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-POSIX.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-POSIX.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-POSIX.html#glibc-safety-mem">mem</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
      </div>
      <p>
       <code class="code">free</code> işlevi <em class="parameter"><code>ptr</code></em> ile erişilen bellek dilimini serbest bırakır.
@@ -90,7 +90,7 @@ zinciri_sal (struct zincir *zincir)
         </div>
         <br class="example-break" />
         <p>
-     Durum uygun olduğunda, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi bellek alanını işletim sistemine döndürür ve süreci küçültür. Genellikle yapılan tek şey, daha sonraki <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılarında bellek alanını yeniden kullanılır kılmaktır. Bu arada serbest bırakılan alan, süreç dahilinde <a href="glibc-Unconstrained-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> tarafından kullanılmak üzere serbest bırakılanlar listesinin parçası olarak yazılımda kalır.
+     Durum uygun olduğunda, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi bellek alanını işletim sistemine döndürür ve süreci küçültür. Genellikle yapılan tek şey, daha sonraki <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağrılarında bellek alanını yeniden kullanılır kılmaktır. Bu arada serbest bırakılan alan, süreç dahilinde <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> tarafından kullanılmak üzere serbest bırakılanlar listesinin parçası olarak yazılımda kalır.
     </p>
         <p>
      <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevi, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'nun değerini korur, böylece temizleme kodunun, <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a>'ye yapılan bir çağrı çerçevesinde <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu kaydetmesi ve geri yüklemesi gerekmez. Ne ISO C ne de POSIX.1-2017 <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> işlevinin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a>'yu korumasını gerektirse de  POSIX'in gelecekteki bir sürümünde bunun gerektirilmesi planlanmıştır.
