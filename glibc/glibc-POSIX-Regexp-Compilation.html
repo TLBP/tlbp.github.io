@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.3.1. POSIX Düzenli İfadelerinin Derlenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regular-Expressions.html')">Önceki</button>
+          <div class="dropdown-content">10.3. Düzenli İfade Eşleştirme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regular-Expressions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Flags-for-POSIX-Regexps.html')">Sonraki</button>
+          <div class="dropdown-content">10.3.2. POSIX Düzenli İfade Seçenekleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-POSIX-Regexp-Compilation">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">10.3.1. POSIX Düzenli İfadelerinin Derlenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir düzenli ifadeyi eşleştirme amacıyla kulanmadan önce düzenli ifadenin <em class="emphasis">derlenmesi</em> gerekir. Bu tam anlamıyla bir derleme işlemi değildir. Derleme sonucunda bir takım makine kodları değil, özel bir veri yapısı üretilir. Fakat derlemenin amacı aynı kalır, amaç daha hızlı işlem yapmaktır. (Derlenmiş düzenli ifadelerin nasıl eşleştirildiği <a class="xref" href="glibc-Matching-POSIX-Regexps.html" title="10.3.3. Derlenmiş POSIX Düzenli İfadelerinin Eşleştirilmesi">Derlenmiş POSIX Düzenli İfadelerinin Eşleştirilmesi</a> bölümünde anlatılmıştır.)
+   </p>
+        <p>
+    Derlenmiş düzenli ifadeler için özel bir veri türü vardır:
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="idm102335" class="indexterm"></span>
+    <span id="glibc-tp-regex_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/regex.h;hb=HEAD" target="_top">regex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">regex_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bir derlenmiş düzenli ifadeyi barındıran nesnenin türüdür. Aslında veri yapısıdır. Bakılacak tek alan vardır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="type">size_t</code> <strong class="structfield"><code>re_nsub</code></strong></span></dt><dd><p>
+        Derlenmiş düzenli ifadenin yaylı ayraçlar içindeki alt ifadelerinin sayısıdır.
+       </p></dd></dl></div>
+    <p>
+     Yapının başka alanları da vardır, yalnızca kütüphane içindeki işlevler tarafından kullanıldığından onlardan burada bahsedilmeyecektir.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-POSIX-Regexp-Compilation.html#glibc-tp-regex_t"><strong class="type"><code>regex_t</code></strong></a> nesnesi oluşturulduktan sonra düzenli ifade  <a href="glibc-POSIX-Regexp-Compilation.html#glibc-fn-regcomp"><strong class="function"><code>regcomp</code></strong></a> çağrısı ile derlenmelidir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-regcomp" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/regex.h;hb=HEAD" target="_top">regex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">regcomp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">regex_t *restrict </code> <strong><code class="parameter">compiled</code></strong><strong><code>, </code></strong><code class="type">const char *restrict </code> <strong><code class="parameter">pattern</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">cflags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">regcomp</code> işlevi, bir dizgeyle eşleştirmek üzere <a href="glibc-Matching-POSIX-Regexps.html#glibc-fn-regexec"><strong class="function"><code>regexec</code></strong></a> işlevinde kullanmak için bir düzenli ifadeyi veri yapısına derler. Derlenmiş düzenli ifadenin biçimi verimli bir eşleştirmeyi mümkün kılacak şekilde tasarlanmıştır. Derlenen düzenli ifadeyi işlev <code class="code">*</code><em class="parameter"><code>compiled</code></em> nesnesine yerleştirir.
+    </p>
+    <p>
+     <a href="glibc-POSIX-Regexp-Compilation.html#glibc-tp-regex_t"><strong class="type"><code>regex_t</code></strong></a> türünde bir nesne için yer tahsis edip bunun adresini işleve aktarmak yazılımcının görevidir.
+    </p>
+    <p>
+     <em class="parameter"><code>cflags</code></em> bağımsız değişkeni düzenli ifadelerin sözdizimini ve anlamsal bütünlüğünü denetleyen bazı seçenekleri belirtmek için kullanılır. Bkz. <a class="xref" href="glibc-Flags-for-POSIX-Regexps.html" title="10.3.2. POSIX Düzenli İfade Seçenekleri">POSIX Düzenli İfade Seçenekleri</a>.
+    </p>
+    <p>
+     <a href="glibc-Flags-for-POSIX-Regexps.html#glibc-vr-REG_NOSUB"><strong class="varname"><code>REG_NOSUB</code></strong></a> seçeneği belirtilmişse, <code class="code">regcomp</code> işlevi derlenen düzenli ifadeye alt ifadelerin nasıl eşleştirileceği bilgisini yerleştirmez. Bu durumda,  <a href="glibc-Matching-POSIX-Regexps.html#glibc-fn-regexec"><strong class="function"><code>regexec</code></strong></a> çağrısında <em class="parameter"><code>matchptr</code></em> ve <em class="parameter"><code>nmatch</code></em> bağımsız değişkenlerine <code class="code">0</code> değeri aktarılmalıdır.
+    </p>
+    <p>
+     <a href="glibc-Flags-for-POSIX-Regexps.html#glibc-vr-REG_NOSUB"><strong class="varname"><code>REG_NOSUB</code></strong></a> seçeneği belirtilmezse, derlenen düzenli ifade alt ifadelerin nasıl eşleştirileceği bilgisini de içerir. Ayrıca,  <code class="code">regcomp</code> işlevi <em class="parameter"><code>pattern</code></em> ifadesinin kaç alt ifade içerdiğini <em class="parameter"><code>compiled</code></em><strong class="structfield"><code>-&gt;re_nsub</code></strong> üyesine yazar. Bu bilgi alt ifade eşleştirmesinde tutulacak bilgi için ayrılacak dizinin uzunluğuna karar vermek için kullanılabilir.
+    </p>
+    <p>
+     <code class="code">regcomp</code> işlevi düzenli ifadeyi başarıyla derleyebilmişse <code class="code">0</code> ile döner; aksi takdirde, sıfırdan farklı bir hata kodu ile döner (aşağıya bakınız). Dönen hata kodundan hata dizgesini üretmek için  <a href="glibc-Regexp-Cleanup.html#glibc-fn-regerror"><strong class="function"><code>regerror</code></strong></a> işlevi kullanılabilir; bkz. <a class="xref" href="glibc-Regexp-Cleanup.html" title="10.3.6. POSIX Şablonunun Temizlenmesi">POSIX Şablonunun Temizlenmesi</a>.
+    </p>
+    <p>
+     <code class="code">regcomp</code> işlevinin döndürdüğü sıfırdan farklı değerler:
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_BADBR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_BADBR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade içinde geçersiz bir <code class="code">\{…\}</code> yapısı var. Geçerli bir <code class="code">\{…\}</code> yapısı ya tek bir sayı ya da virgülle ayrılmış iki sayı içermelidir.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_BADPAT" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_BADPAT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade içinde sözdizimi hatası var.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_BADRPT" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_BADRPT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      ‘<code class="filename">?</code>’ veya ‘<code class="filename">*</code>’ gibi yineleme işleçleri yanlış yerde (bu işleçlerden önce üzerinde işlem yapılacak bir alt ifade olmalıdır).
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_ECOLLATE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_ECOLLATE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade geçersiz bir karakter karşılaştırma elemanı içeriyor (geçerli yerelde tanımlı olanlardan biri değil). Bkz.  <a class="xref" href="glibc-Locale-Categories.html" title="7.3. Yerellerin Etkilediği Eylemlerin Sınıflandırılması"><em>Yerellerin Etkilediği Eylemlerin Sınıflandırılması</em></a>.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_ECTYPE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_ECTYPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade geçersiz bir karakter sınıfı ismi içeriyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_EESCAPE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_EESCAPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade ‘<code class="filename">\</code>’ ile bitiyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_ESUBREG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_ESUBREG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Geçersiz sayıda <code class="code">\</code><em class="replaceable"><code>rakam</code></em> yapısı var.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_EBRACK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_EBRACK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade eşleşmeyen köşeli ayraçlar içeriyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_EPAREN" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_EPAREN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifade eşleşmeyen yaylı ayraçlar içeriyor ya da ‘<code class="filename">\(</code>’ ve ‘<code class="filename">\)</code>’ sarmalayıcılarından biri eksik.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_EBRACE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_EBRACE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Düzenli ifadede <span class="command"><strong>\{</strong></span> ve <span class="command"><strong>\}</strong></span> sarmalayıcılardan biri eksik.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_ERANGE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_ERANGE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bir aralık ifadesindeki sonlandırıcılardan biri geçersiz.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-REG_ESPACE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">REG_ESPACE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <code class="code">regcomp</code> için bellek yetersiz.
+     </p>
+    </div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

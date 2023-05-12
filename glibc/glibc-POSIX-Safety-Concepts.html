@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>1.3.2.1. POSIX Güvenlik Kavramları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -45,7 +44,7 @@
         </div>
         <span id="glibc-cp-safety" class="indexterm"></span>
         <p>
-     Bu kılavuz, GNU C Kütüphanesi işlevlerinin çeşitli güvenilirlik özelliklerini, işlevlerin gösterimlerinin ardından gelen ve şuna benzer satırlarda belgelemektedir:
+     Bu kılavuz, GNU C Kütüphanesi işlevlerinin çeşitli güvenilirlik özelliklerini, işlevlerin gösterimlerinin ardından gelen ve şuna benzer satırlarda belgelemektedir:
     </p>
         <p>Evresel Güvenilirlik: | MT-Safe | AS-Safe | AC-Safe |</p>
         <p>
@@ -77,10 +76,10 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">AS-Safe</code> (Önalanda Sinyal Güvenilir) veya <code class="code">Async-Signal-Safe</code> (Önalan-Sinyal-Güvenilir) işlevlerin önalanda sinyal işleyiciler varken çağrılması güvenlidir.  <code class="code">AS-Safe</code> içindeki AS, "Önalanda Sinyal" anlamında bir kısaltmadır.
+        <code class="code">AS-Safe</code> (Eşzamansız Sinyal Güvenilir) veya <code class="code">Async-Signal-Safe</code> (Eşzamansız-Sinyal-Güvenilir) işlevlerin eşzamansız sinyal işleyiciler varken çağrılması güvenlidir.  <code class="code">AS-Safe</code> içindeki AS, "Eşzamansız Sinyal" anlamında bir kısaltmadır.
        </p>
               <p>
-        <code class="code">AS-Safe</code> olan pek çok işlev, <code class="code">errno</code> değeri atayabilir veya kayan- noktalı sayı ortamını değiştirebilir, çünkü bunu yapmaları onları sinyal işleyicilerde kullanılamaz duruma getirmez. Ancak, önalandaki sinyal işleyicileri bu evreye-özgülük durumunu değiştirirse uygulamalar yanlış çalışabilir ve sinyal işleme mekanizmasının bunu koruyacağına güvenilemez. Bu nedenle,<code class="code">errno</code> değeri atayabilecek veya  kayan- noktalı sayı ortamını değiştirebilecek işlevleri çağıran sinyal işleyicileri özgün değerlerini kaydetmeli ve geri dönmeden önce bu özgün değerleri yerine koymalıdır.
+        <code class="code">AS-Safe</code> olan pek çok işlev, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri atayabilir veya kayan noktalı sayı ortamını değiştirebilir, çünkü bunu yapmaları onları sinyal işleyicilerde kullanılamaz duruma getirmez. Ancak, eşzamansız sinyal işleyicileri bu evreye-özgülük durumunu değiştirirse uygulamalar yanlış çalışabilir ve sinyal işleme mekanizmasının bunu koruyacağına güvenilemez. Bu nedenle,<a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri atayabilecek veya  kayan noktalı sayı ortamını değiştirebilecek işlevleri çağıran sinyal işleyicileri özgün değerlerini kaydetmeli ve geri dönmeden önce bu özgün değerleri yerine koymalıdır.
        </p>
             </dd>
             <dt>
@@ -90,13 +89,13 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">AC-Safe</code> (Önalanda İptal Güvenilir) veya <code class="code">Async-Cancel-Safe</code> (Önalanda-İptal-Güvenilir) işlevlerin çağrılması önalanda iptal etkin olduğunda güvenlidir.  <code class="code">AC-Safe</code> içindeki AC, "Önalanda İptal" anlamında bir kısaltmadır.
+        <code class="code">AC-Safe</code> (Eşzamansız İptal Güvenilir) veya <code class="code">Async-Cancel-Safe</code> (Eşzamansız-İptal-Güvenilir) işlevlerin çağrılması eşzamansız iptal etkin olduğunda güvenlidir.  <code class="code">AC-Safe</code> içindeki AC, "Eşzamansız İptal" anlamında bir kısaltmadır.
        </p>
               <p>
-        POSIX standardı yalnızca üç <code class="code">AC-Safe</code> işlev tanımlar:  <strong class="function"><code>pthread_cancel</code></strong>, <strong class="function"><code>pthread_setcancelstate</code></strong> ve <strong class="function"><code>pthread_setcanceltype</code></strong>. Günümüzde GNU C Kütüphanesi bu üç işlevle ilgili hiçbir garanti vermez, yalnızca hangi işlevlerin halihazırda <code class="code">AC-Safe</code> olduğunu belgelendirir. Bu belgelendirme GNU C Kütüphanesi geliştiricilerinin kullanımına ayrılmıştır.
+        POSIX standardı yalnızca üç <code class="code">AC-Safe</code> işlev tanımlar:  <strong class="function"><code>pthread_cancel</code></strong>, <strong class="function"><code>pthread_setcancelstate</code></strong> ve <strong class="function"><code>pthread_setcanceltype</code></strong>. Günümüzde GNU C Kütüphanesi bu üç işlevle ilgili hiçbir garanti vermez, yalnızca hangi işlevlerin halihazırda <code class="code">AC-Safe</code> olduğunu belgelendirir. Bu belgelendirme GNU C Kütüphanesi geliştiricilerinin kullanımına ayrılmıştır.
        </p>
               <p>
-        Tıpkı sinyal işleyiciler gibi, iptal temizleme yordamları da ihtiyaç duydukları kayan-noktalı ortamı yapılandırmalıdır. Bu yordamlar, özellikle önalanda iptal etkin olduğunda, bir kayan-noktalı ortam olduğunu varsayamaz. Kayan-noktalı ortamının yapılandırması atomik olarak (bölünmez bütünlükte) gerçekleştirilemezse, karşılaşılan ortamın kendi içinde tutarsız olması da mümkündür.
+        Tıpkı sinyal işleyiciler gibi, iptal temizleme yordamları da ihtiyaç duydukları kayan noktalı ortamı yapılandırmalıdır. Bu yordamlar, özellikle eşzamansız iptal etkin olduğunda, bir kayan-noktalı ortam olduğunu varsayamaz. Kayan noktalı ortamının yapılandırması atomik olarak (bölünmez bütünlükte) gerçekleştirilemezse, karşılaşılan ortamın kendi içinde tutarsız olması da mümkündür.
        </p>
             </dd>
             <dt>
@@ -110,7 +109,7 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">MT-Unsafe</code> (Çok Evreli Güvenilmez), <code class="code">AS-Unsafe</code> (Önalanda Sinyal Güvenilmez), <code class="code">AC-Unsafe</code> (Önalanda İptal Güvenilmez) özellikli işlevlerin çağrılması yukarıda açıklanan güvenlik bağlamları içinde güvenli değildir. Böyle bağlamlar içinde çağrılmaları tanımsız davranışa yol açar.
+        <code class="code">MT-Unsafe</code> (Çok Evreli Güvenilmez), <code class="code">AS-Unsafe</code> (Eşzamansız Sinyal Güvenilmez), <code class="code">AC-Unsafe</code> (Eşzamansız İptal Güvenilmez) özellikli işlevlerin çağrılması yukarıda açıklanan güvenlik bağlamları içinde güvenli değildir. Böyle bağlamlar içinde çağrılmaları tanımsız davranışa yol açar.
        </p>
               <p>
         Güvenilir bağlamda açıkça "Güvenilir" olarak belgelenmemiş işlevler "Güvenilmez" olarak kabul edilmelidir.
@@ -124,10 +123,10 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">Preliminary</code> güvenilirlik (Evresel Güvenilirlik) özellikleri, bu özelliklerin GNU C Kitaplığının <em class="emphasis">gelecekteki sürümlerinde hesaba katılmayabileceği varsayımıyla</em> belgelenmiştir.
+        <code class="code">Preliminary</code> (Evresel Güvenilirlik) güvenilirlik özellikleri, bu özelliklerin GNU C Kitaplığının <em class="emphasis">gelecekteki sürümlerinde hesaba katılmayabileceği varsayımıyla</em> belgelenmiştir.
        </p>
               <p>
-        Bu belgeye konu evresel güvenilirlik özellikleri, mevcut ve gelecekteki standartlar tarafından zorunlu kılınan ve izin verilen özelliklerin değil, mevcut GNU C Kütüphanesi gerçekleniminin özelliklerinin değerlendirilmesinin sonucudur.
+        Bu belgeye konu evresel güvenilirlik özellikleri, mevcut ve gelecekteki standartlar tarafından zorunlu kılınan ve izin verilen özelliklerin değil, mevcut GNU C Kütüphanesi gerçekleniminin özelliklerinin değerlendirilmesinin sonucudur.
        </p>
               <p>
         Standartlara uymaya çalışmamıza rağmen bazı durumlarda, standart tarafından talep edilmese bile, gerçeklenimimiz güvenilirdir ve diğer durumlarda gerçeklenimimiz standart güvenilirlik gereksinimlerini karşılamamaktadır. İkinci durum büyük olasılıkla gerçeklenimdeki hatalardır; İlki, "Evresel Güvenilirlik" bağlamında ele alınmamalıdır: Gelecekteki standartlar, mevcut gerçeklenimin sağladığı ek güvenlik özellikleriyle uyumlu olmayan değişiklikler gerektirebilir.
@@ -148,6 +147,11 @@
      "Evresel Güvenilirlik" bilgilerinde görünen diğer anahtar sözcükler sonraki bölümlerde tanımlanmıştır.
     </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

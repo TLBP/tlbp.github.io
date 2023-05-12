@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>11.1. Girdi/Çıktı Kavramları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Overview.html')">Önceki</button>
+          <div class="dropdown-content">11. Girdi/Çıktı İşlemlerine Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Overview.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Names.html')">Sonraki</button>
+          <div class="dropdown-content">11.2. Dosya İsimleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-I-O-Concepts">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">11.1. Girdi/Çıktı Kavramları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm103393" class="indexterm"></span>
+   Bir dosyayı okumak ya da bir dosyaya yazmak için, önce dosyaya bir iletişim veya bir bağlantı kanalı oluşturulmalıdır. Bu işleme  <em class="wordasword">dosyanın açılması</em> denir. Bir dosya okumak veya yazmak için açılabileceği gibi her iki işlem için de açılabilir.
+  </p>
+        <p>
+   Bir açık dosyaya bağlantı için ya bir akım ya da bir dosya tanıtıcı kullanılır. Bunu dosya okuma ve yazma işlevlerine bağımsız değişken olarak aktararak işleve iletişim için bunu kullanmasını belirtirsiniz. Bir işlev hem akımlarla hem de dosya tanıtıcılarla çalışamaz, bunlar farklı işlemlerdir.
+  </p>
+        <p>
+   Bir dosya üzerinde okuma veya yazma işlemi bittiğinde dosyanın kapatılarak bağlantının sonlandırılması gerekir. Bir dosya tanıtıcıyı veya akımı kapattıktan sonra dosya üzerinde artık bir okuma veya yazma işlemi yapılamaz.
+  </p>
+        <section class="sect1" id="glibc-Streams-and-File-Descriptors">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">11.1.1. Akımlar ve Dosya Tanıtıcılar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir dosya üzerinde giriş ve çıkış işlemleri yapmak için, yazılım ile dosya arasında bağlantıyı temsil eden şu iki temel mekanizmadan biri kullanılmalıdır: Dosya tanıtıcılar ve akımlar. Dosya tanımlayıcılar <code class="type">int</code> türünden nesneler olduğu halde akımlar <code class="type">FILE *</code> türünden nesnelerdir.
+   </p>
+          <p>
+    Dosya tanıtıcılar girdi ve çıktı işlemleri için daha ilkel ve düşük  seviyeli bir arayüzdür. Bir dosya tanıtıcısı veya bir akım  normal bir dosya ile bağlantı kurmaktan başka, başka bir süreç ile iletişim kurmak için bir aygıt (örneğin, uçbirim), bir soket veya ardışık komutları da temsil edebilir. Ancak, belli bir aygıta özel işlemler denetlenmek istenirse bir dosya tanıtıcı kullanılmalıdır, akımların bu tür bir işlem için  kullanılmasını sağlayacak bir oluşum yoktur. Ayrıca, örneğin, engellenmeyen girdiler (???) gibi özel kiplerde girdi ve çıktı işlemlerine ihtiyaç olduğunda da dosya tanıtıcıları kullanılmalıdır.
+   </p>
+          <p>
+    Akımlar, dosya tanıtıcılara göre daha üst seviyede bir arayüzdür. Akımlar, bütün dosya çeşitleri için üç farklı tamponlama tarzı (???) seçilebilmesi dışında hemen hemen aynıdır.
+   </p>
+          <p>
+    Akımları kullanmanın en büyük getirisi, dosya tanıtıcılar için sağlanan işlevlerden daha güçlü ve daha zengin girdi ve çıktı işlemi türününün (denetim işlemlerinin aksine) uygulanabilmesidir. Dosya tanıtıcılar, karakter dizilerini aktarmak için basit işlevler içerirken akım arayüzü, daha güçlü biçimli girdi ve çıktı işlevlerinin (<strong class="function"><code>printf</code></strong> ve <strong class="function"><code>scanf</code></strong>) yanında karakter ve satır yönlenimli girdi ve çıktı işlevlerini de içerir.
+   </p>
+          <p>
+    Akımlar dosya tanıtıcıları üzerine kurulduklarından bir akımdaki dosya tanıtıcı çıkarılıp düşük seviyeli işlemler dosya tanıtıcılar üzerinden uygulanabilir. Ayrıca, dahili olarak bir bağlantıyı dosya tanıtıcı olarak açılabilir ve akım bu dosya tanıtıcı ile ilişkilendirilebilir.
+   </p>
+          <p>
+    Genelde, sadece dosya tanıtıcılarla yapılabilen işlemleri yapmak dışında akımların kullanımı tercih edilmemelidir. Hangi işlevi kullanacağına karar veremeyen başlangıç seviyesinde bir yazılımcıya, biçimli girdi ve çıktı (??? ve  ???) işlevlerine yoğunlaşması önerilir.
+   </p>
+          <p>
+    Yazılımın GNU dışındaki sistemlere taşınabilirliği sözkonusu olduğunda, akımlar kadar taşınabilir olmayan dosya tanıtıcı işlevlerinden uzak durulmalıdır. ISO C ile çalışan her sistemde akımlara destek olduğu umulabilir, ama GNU dışı sistemler dosya tanıtıcıların tamamını desteklemeyebilir veya dosya tanıtıcılarla çalışan GNU işlevlerinin bir alt kümesini destekliyor olabilir. GNU kütüphanesindeki dosya tanıtıcı işlevlerin çoğu yine de POSIX.1 standardındadır.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-File-Position">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">11.1.2. Dosyada Konumlama</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm103421" class="indexterm"></span>
+    <span id="idm103424" class="indexterm"></span>
+    <span id="idm103427" class="indexterm"></span>
+    <span id="idm103430" class="indexterm"></span>
+    Açık bir dosyanın niteliklerinden biri, okunacak ya da yazılacak bir baytın yerini belirten <em class="wordasword">dosya konumu</em>’dur. GNU sisteminde ve tüm POSIX sistemlerinde dosya konumu, dosya başlangıcından itibaren ilgili baytın bulunduğu yeri belirten bir tamsayıdır.
+   </p>
+          <p>
+    Dosya konumu, dosya ilk açıldığında dosyanın başlangıcına ayarlanır ve her okuma veya yazma işleminde ilerletilir. Yani bir dosyaya erişim normalde <em class="wordasword">sıralı</em>dır.
+   </p>
+          <p>
+    Sıradan dosyalar için dosyanın herhangi bir yerine yazmak ya da okumak mümkündür. Bu, bazı dosya çeşitlerinde de mümkündür. Bunun mümkün olduğu dosyalara kimi zaman <em class="wordasword">rasgele erişimli</em> dosyalar denir. Dosya konumu akımlarda <strong class="function"><code>fseek</code></strong> işlevi kullanılarak (???), dosya tanıtıcılarda  <strong class="function"><code>lseek</code></strong> işlevi kullanılarak (???) değiştirilebilir. Sıralı erişimi desteklemeyen dosyalar üzerinde dosya konumunu değiştirmeye çalışmak <a href="glibc-Error-Codes.html#glibc-vr-ESPIPE"><strong class="varname"><code>ESPIPE</code></strong></a> hatası ile sonuçlanır.
+   </p>
+          <p>
+    <em class="wordasword">Ekleme erişimli</em> açılmış akım ya da tanıtıcılar özellikle çıktılama amacıyla kullanılır: Bu tür dosyalara çıktılama <em class="emphasis">daima</em> dosya konumuna bakılmaksızın, <em class="emphasis">dosya sonuna sıralı ekleme</em> olarak yapılır. Aynı dosya üzerinde okuma yapıldığında dosya konumu hala kullanılabilir durumda kalır, çıktılama bunu etkilemez.
+   </p>
+          <p>
+    Bir dosya üzerinde birden fazla uygulama çalıştığında ne olur? Her uygulama kendi çalışma bölgesinde çalışır, her uygulamanın kendi dosya göstericisi olduğundan diğer uygulamanın yaptıklarından etkilenmez.
+   </p>
+          <p>
+    Fiili olarak, her dosya açılışında ayrı bir dosya konumu oluşturulur. Dolayısıyla, aynı yazılım içinde bir dosya iki kere açılırsa, iki akım veya dosya tanıtıcı için birbirinden bağımsız dosya konumlayıcılar olur.
+   </p>
+          <p>
+    Aksine, bir tanıtıcı açıp bu tanıtıcıı kopyalanarak bir tanıtıcı daha elde edilirse, iki dosya konumlayıcı daima aynı dosya konumunu gösterir, birinin değiştirilmesi diğerinde de aynı etkiyi oluşturur
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

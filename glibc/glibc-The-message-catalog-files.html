@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.1.2. İleti Kataloğu Dosyalarının Biçimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-catgets-Functions.html')">Önceki</button>
+          <div class="dropdown-content">8.1.1. <code class="code">catgets</code> İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-a-la-X-Open.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-gencat-program.html')">Sonraki</button>
+          <div class="dropdown-content">8.1.3. İleti Kataloğu Dosyalarının Üretilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-The-message-catalog-files">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.1.2. İleti Kataloğu Dosyalarının Biçimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir yazılımın tüm iletilerinin çevrilmesinin kabul edilebilir tek yolu, iletileri bir ileti kataloğu dosyasında toplamak ve bunu bir çevirmenin çevirmesini sağlamaktır. Yani, belli bir çeviri ile <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> çiftini ilişkilendiren girdilerden oluşan bir dosya olmalıdır. Bu dosyanın biçimi X/Open standardında şöyle belirlenmiştir:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Boş satırlar ve sadece boşluk karakterleri içeren satırlar yoksayılır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Satırın başında bir <code class="code">$</code> karakterinden sonra boşluk geldiğinde satırın kalanının bir açıklama içerdiği varsayılır ve bu satırlar da yoksayılır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Satır <code class="code">$set</code> ile başlıyorsa bunu bir boşluk karakteri ile bir bağımsız değişken izlemelidir. Bu bağımsız değişken şunlardan biri olabilir:
+     </p>
+              <div>
+                <ul class="simplelist">
+                  <li class="member">
+       Bir sayı.  Bu sayının değeri altındaki iletiler bir küme oluşturur.
+      </li>
+                  <li class="member">
+       Abecesayısal karakterlerle alt çizgi karakterinden oluşabilen bir belirteç. Bu durumda ileti kümesinin numarası özdevinimli olarak atanır. Bu değer o kümeye kadar belirtilenlerden büyük bir sayı olmalıdır.
+      </li>
+                </ul>
+              </div>
+              <p>
+      Simgesel isimlerin nasıl kullanıldığı <a class="xref" href="glibc-Common-Usage.html" title="8.1.4. catgets Kullanımı"><code class="code">catgets</code> Kullanımı</a> bölümünde açıklanmıştır.
+     </p>
+              <p>
+      Bir simge ismi birden fazla varsa bu bir hatadır. Bir kümenin içerdiği tüm iletiler bu numara altında toplanır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Satır <code class="code">$delset</code> ile başlıyorsa bunu bir boşluk karakteri ile bir bağımsız değişken izlemelidir. Bu bağımsız değişken şunlardan biri olabilir:
+     </p>
+              <div>
+                <ul class="simplelist">
+                  <li class="member">
+       Bir sayı.  Bu sayının değeri hangi <code class="code">set</code>'in silineceğini belirler.
+      </li>
+                  <li class="member">
+       Abecesayısal karakterlerle alt çizgi karakterinden oluşabilen bir belirteç. Bu simgesel belirteç evvelce tanımlanmış bir küme ismi olmalıdır. İsim bilinmiyorsa bu bir hatadır.
+      </li>
+                </ul>
+              </div>
+              <p>
+      Her iki durumda da belirtilen kümelerdeki tüm iletiler silinir ve çıktıda görünmez. Fakat bu küme daha sonra tekrar <code class="code">$set</code> komutu ile seçilerek içerdiği iletilerin tekrar çıktılanması sağlanabilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Satır <code class="code">$quote</code> ile başlıyorsa bunu bir boşluk karakteri ile girdi dosyasında tırnak karakteri olarak kullanılacak karakter izlemelidir. Satır boşluktan farklı bir karakter ile bitmiyorsa dosyada tırnaklar iptal edilir.
+     </p>
+              <p>
+      Öntanımlı olarak bir tırnak karakteri yoktur. Bu kipte dizgeler öncelenmemiş ilk satır sonu karakterinde biter. Eğer bir <code class="code">$quote</code> belirtimi varsa satır sonu karakterlerinin öncelenmesi gerekmez. Bu durumda dizge öncelenmemiş ilk tırnak karakterinde biter.
+     </p>
+              <p>
+      Bu özelliğin çok kullanılan bir kullanımı tırnak karakteri olarak <code class="code">"</code> belirtmektir.  Dizge içinde bir <code class="code">"</code> karakteri kullanmak gerekirse <code class="code">\"</code>  şeklinde tırnak imi ters eğik çizgi ile öncelenmelidir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Bunların dışında satırlar bir sayı veya abecesayısal bir sözcük (alt çizgi dahil) ile başlayabilir. İlk boşluk karakterinden hemen sonra ileti dizgesi gelir. Satırın başındaki sözcük ya da sayı iletinin numarasını ifade eder.
+     </p>
+              <p>
+      Eğer satır bir sayı ile başlıyorsa bu açıkça iletinin numarasıdır. İleti kümesi içinde aynı numaralı ileti birden fazla varsa bu bir hatadır.
+     </p>
+              <p>
+      Eğer satır bir sözcük ile başlıyorsa ileti numarası özdevinimli olarak atanır. Değeri iletiyi içeren kümedeki en büyük numaralı iletinin numararasının bir fazlasıdır. Bir ileti kümesi içinde aynı sözcük birden fazla ileti için kullanılmışsa bu bir hatadır. Ama aynı sözcük başka bir küme içinde kullanılabilir. Simgesel belirteçlerin nasıl kullanıldığı <a class="xref" href="glibc-Common-Usage.html" title="8.1.4. catgets Kullanımı"><code class="code">catgets</code> Kullanımı</a> bölümünde anlatılmıştır.  Belirteç ile ilgili bir sınırlama vardır: Belirteç <code class="code">Set</code> olmamalıdır.  Bunun sebebi ilerde açıklanacaktır.
+     </p>
+              <p>
+      İleti metni öncelenmiş karakterler içerebilir. Bunlar ISO C dilinde tanınan karakterlerdir (<code class="code">\n</code>, <code class="code">\t</code>, <code class="code">\v</code>, <code class="code">\b</code>, <code class="code">\r</code>, <code class="code">\f</code>, <code class="code">\\</code> ve <code class="code">\</code><em class="replaceable"><code>nnn</code></em>, burada <em class="replaceable"><code>nnn</code></em> karakterin sekizlik kodudur).
+     </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon important">
+          <h3 class="admon-title">Önemli</h3>
+          <div class="admon-contents">
+            <p>
+     <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> için sayılar yerine belirteçlerin belirtilebilmesi bir GNU oluşumudur. X/Open standardına sıkı sıkıya bağlı sistemlerde bu özellik yoktur. Bir ileti kataloğu dosyası örneği:
+    </p>
+            <pre class="screen"> 1|  $ Bu bir açıklamadır.
+ 2|  $quote "
+ 3|
+ 4|  $set SetOne
+ 5|  1 Numarası 1 olan ileti.
+ 6|  two "   Kimliği \"two\" olan ileti, buna 2 değeri atanacaktır"
+ 7|
+ 8|  $set SetTwo
+ 9|  $ Önceki Set'in numarası 1 oldu, bununki 2 olacaktır.
+10|  4000 "Numaralar keyfidir, 1'den başlamaları gerekmez."
+</pre>
+            <p>
+     Bu küçük örnekte görünenler:
+    </p>
+            <div>
+              <ul class="simplelist">
+                <li class="member">
+      1. ve 9. satır <code class="code">$</code> işaretinden sonra bir boşluk içerdiğinden birer açıklamadır.
+     </li>
+                <li class="member">
+      Tırnak karakteri olarak <code class="code">"</code> atanmıştır.  Aksi takdirde ileti tırnak içine alınamayacağından <code class="code">two</code> kimlikli iletinin başındaki boşluklar gösterilemeyecekti.
+     </li>
+                <li class="member">
+      Numaralı iletilerle isimli iletilerin karışık kullanılması bir sorun oluşturmaz, numaralama özdevinimli olarak yapılacaktır.
+     </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu dosya biçimi çok kolay görünmesine rağmen çalışan bir yazılımda kullanmak için yeterli değildir. <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> işlevi dosyayı çözümlemeli ve sözdizimsel hataları en iyi şekilde elde etmelidir. Bu öyle kolay değildir ve işlem oldukça yavaştır. Bu bakımdan <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevleri verinin daha bütünleşik ve kullanıma hazır bir dosya biçiminde olmasını umar. Bunun için ayrıntıları sonraki bölümde açıklanacak olan özel bir uygulama, <tt><b>gencat</b>(1)</tt> vardır.
+   </p>
+        <p>
+    Bu biçimdeki dosyalar insanlarca okunabilir değildir. Yazılımlar tarafından kolayca kullanılabilmeleri için ikilik biçimdedir. Fakat biçimin bayt sıralaması dosyaların bulunduğu sisteme bağlıdır.
+   </p>
+        <p>
+    İkilik dosyanın biçimi hakkında ayrıntıya girilmeyecektir, çünkü bu dosyalar daima <tt><b>gencat</b>(1)</tt> uygulaması tarafından oluşturulur. GNU C Kütüphanesinin kaynak kodunda <tt><b>gencat</b>(1)</tt> uygulamasının kaynak kodu da bulunduğundan, dosyanın biçimi hakkında fikir edinmek için kaynak kodu incelenebilir.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.1.4. catgets Kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-gencat-program.html')">Önceki</button>
+          <div class="dropdown-content">8.1.3. İleti Kataloğu Dosyalarının Üretilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-a-la-X-Open.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-Uniforum-approach.html')">Sonraki</button>
+          <div class="dropdown-content">8.2. İleti Çevirilerinde Uniforum Yaklaşımı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Common-Usage">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.1.4. <code class="code">catgets</code> Kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevleri iki farklı yolla kullanılabilir: X/Open belirtiminden hiç sapmadan ve GNU oluşumlarını kullanarak. Önce ilk yöntemin nasıl kullanıldığına bakılacak, böylece ikinci yöntemin yani GNU oluşumlarının getirileri daha iyi anlaşılabilecektir.
+   </p>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">8.1.4.1. Simgesel İsimler Kullanılmadan</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     X/Open biçimi katalog dosyalarında sembolik isimlere izin vermediğinden bu seferlik sadece numaralarla çalışılacak. Yazılım geliştirmeye başlanırken çevrilebilir dizgelerin hepsi şu biçimde bir kodla değiştirilmelidir:
+    </p>
+          <pre class="literallayout monospaced">catgets (catdesc, set, message, "string")
+</pre>
+          <p>
+     <em class="parameter"><code>catdesc</code></em> bağımsız değişkeni, yazılım başında normalde bir kere yapılan bir <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> çağrısından alınır. "<em class="parameter"><code>string</code></em>" çevrilecek dizgedir. <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> numaraları ile sorunlar başlar.
+    </p>
+          <p>
+     Büyükçe bir yazılımda aynı anda çok sayıda geliştirici çalışırsa numara ayırma işleminin eşgüdümü önem kazanır. Aynı numara demetiyle ile iki farklı dizge indislenemediğinden, birbirinin aynı dizgeler ile birbirinin aynı çeviriler için numaraların yeniden kullanılması tercih edilir. (Bir dilde aynı olan dizgeler başka bir dilde bağlama bağlı olarak farklı dizgeler olabilir; bir de bu var...)
+    </p>
+          <p>
+     Numara ayırma işlemi yazılımın farklı parçalarında farklı set/message numaraları kullanılarak biraz olsun rahatlatılabilir. Böylece eşgüdümlenecek geliştirici sayısı düşürülebilir. Yine de ayırma ile ilgili listeler tutulabilir ve hataların giderilmesi kolaylaştırılabilir. Bu hatalar derleyici ya da <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevleri tarafından saptanamaz. Sadece yazılımın kullanıcısı yanlış iletinin basıldığını görür. En kötü durumda, yanlış olarak tanımlanamayan iletiler çok sinir bozucu olabilir. Doğrularla yanlışlar birbirine karışır ve bu bir felaketle sonuçlanır.
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">8.1.4.2. Simgesel İsimler Kullanılarak</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Önceki bölümde bahsedilen sorunlardan şu sonuçlar çıkarılabilir:
+    </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>
+       Numaralar bir kere ayrıldıktan sonra onları değiştirmek gerekirse bu çok zor olur.
+      </p>
+              </li>
+              <li class="listitem">
+                <p>
+       Numaralar dizgenin içeriği hakkında hiçbir fikir vermediğinden karışıklıklar olabilir.
+      </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+     Sürekli olarak simgesel isimleri kullanarak ve dizge içeriğini simgesel bir isimle eşleyen bir yöntem sağlanarak bu iki sorundan kurtulmak mümkündür. Bu yöntemin yazılımcıya maliyeti yazılımı geliştirirken bir yandan da ileti kataloğunun yazılmasıdır.
+    </p>
+          <p>
+     Yazılım derlenmeden önce simgesel isimlerin numaralarla eşleştirilmesi gerektiğinden bunun böyle olması gerekir. Önceki bölümde <tt><b>gencat</b>(1)</tt> uygulaması tanıtılırken isimlerle eşleşmeleri içeren bir başlık dosyasının nasıl üretileceğinden bahsedilmişti. Örneğin, önceki örnekteki katalog dosyasının isminin <code class="filename">ex.msg</code> olduğu kabul edilerek,
+    </p>
+          <pre class="screen">gencat -H ex.h -o ex.cat ex.msg
+</pre>
+          <p>
+     komutuyla şu içeriğe sahip bir başlık dosyası üretilir:
+    </p>
+          <pre class="screen">#define SetTwoSet 0x2   /* ex.msg:8 */
+
+#define SetOneSet 0x1   /* ex.msg:4 */
+#define SetOnetwo 0x2   /* ex.msg:6 */
+</pre>
+          <p>
+     Görüldüğü gibi, kaynak dosyasında verilen simgelerden eşsiz belirteçler üretmek için yeni simgeler elde edilmiş ve bunlar numaralara atanmıştır. Kaynak dosyayı okuyarak ve kuralları bilerek başlık dosyasının içeriğini tahmin etmek mümkündür ama bu gerekli değildir. <tt><b>gencat</b>(1)</tt> uygulaması herşeyi dikkatlice yapabilir. Bütün geliştiriciler, projenin kaynak dosyalarının bağımlılık listesine üretilen başlık dosyasını koymalı ve girdi dosyaları değiştiğinde başlığı üretecek kuralları eklemelidir.
+    </p>
+          <p>
+     Simgelerden makroların elde edilmesinden de biraz bahsetmek gerekir. Her simge iki parçadan oluşur: İleti kümesinin ismi artı iletinin ismi ya da özel bir dizge olarak <code class="code">Set</code>. Yani, <code class="code">SetOnetwo</code> ile ileti katalog dosyasındaki <code class="code">SetOne</code> ileti kümesinin <code class="code">two</code> isimli iletisine erişilir.
+    </p>
+          <p>
+     Diğer isimler ileti kümelerinin isimlerini belirtir. Özel <code class="code">Set</code> dizgesi ileti belirtecinin yerine kullanılır.
+    </p>
+          <p>
+     Koddaki <code class="code">SetOne</code> kümesinin ikinci dizgesi C kodunda kullanılmak istenirse şöyle yapılırdı:
+    </p>
+          <pre class="screen">catgets (catdesc, SetOneSet, SetOnetwo,
+        "   Kimliği \"two\" olan ileti, buna 2 değeri atanacaktır")
+</pre>
+          <p>
+     İşlevin bu yöntemle yazılması C kaynak kodunda herhangi bir değişiklik gerekmeksizin ileti numarasını hatta <code class="code">Set</code> numarasını değiştirmek mümkün olacaktır. (Dizgenin metni normalde aynı görünür; bu sadece bu örnek içindir.)
+    </p>
+        </section>
+        <section class="sect2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">8.1.4.3. Bunlar Yazılım Geliştirirken Nasıl Kullanılır?</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Simgesel sürüm numaraları ile çalışma yöntemini göstermek için burada küçük bir örneğe yer verilmiştir. Çok karmaşık ve ünlü selamlama yazılımını geliştirmek için koda şöyle başlanabilirdi:
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">#include &lt;stdio.h&gt;
+int
+main (void)
+{
+  printf ("Hello, world!\n");
+  return 0;
+}
+</pre>
+              <p>
+      İletinin kullanıcının diline çevrilebilir duruma getirilmesi:
+     </p>
+              <pre class="screen">#include &lt;nl_types.h&gt;
+#include &lt;stdio.h&gt;
+#include "msgnrs.h"
+int
+main (void)
+{
+  nl_catd catdesc = catopen ("hello.cat", NL_CAT_LOCALE);
+  printf (catgets (catdesc, SetMainSet, SetMainHello,
+                   "Hello, world!\n"));
+  catclose (catdesc);
+  return 0;
+}
+</pre>
+              <p>
+      Burada, katalog nesnesinin nasıl açıldığı ve diğer işlev çağrılarında kullanılacak tanımlayıcının nasıl döndürüldüğü görülmektedir. Buradaki işlevler makul davranacağından işlevlerde herhangi bir başarısızlık sınaması yapılması gerekmiyor. Basitçe tek bir çeviri döndürülecek.
+     </p>
+              <p>
+      Burada <code class="code">SetMainSet</code> ve <code class="code">SetMainHello</code> sabitleri belirsiz kaldı. Bunlar iletiyi tanımlayan simgesel isimlerdir. Katalog dosyasındaki bilgiyle eşleşen gerçek tanımları elde etmek için ileti kataloğu oluşturulup <tt><b>gencat</b>(1)</tt> uygulaması ile işlenmesi gerekir.
+     </p>
+              <pre class="screen">$ Turkish messages for the famous greeting program.
+$quote "
+
+$set Main
+Hello "Merhaba Dünyalı!\n"
+</pre>
+              <p>
+      Yazılım artık derlenebilir. Katalog kaynak dosyasının isminin <code class="filename">hello.msg</code> ve yazılım kaynak dosyası isminin <code class="filename">hello.c</code> olduğu varsayılıyor:
+     </p>
+              <pre class="screen">$ <span class="command"><strong>gencat -H msgnrs.h -o hello.cat hello.msg</strong></span>
+$ <span class="command"><strong>cat msgnrs.h</strong></span>
+#define MainSet 0x1     /* hello.msg:4 */
+#define MainHello 0x1   /* hello.msg:5 */
+$ <span class="command"><strong>gcc -o hello hello.c -I.</strong></span>
+$ <span class="command"><strong>cp hello.cat /usr/share/locale/tr/LC_MESSAGES</strong></span>
+$ <span class="command"><strong>echo $LC_ALL</strong></span>
+tr
+$ <span class="command"><strong>./hello</strong></span>
+Merhaba Dünyalı!
+$
+</pre>
+              <p>
+      <tt><b>gencat</b>(1)</tt> komutuyla ileti kataloğunun ikilik biçimi ile birlikte <code class="filename">msgnrs.h</code> başlık dosyası da elde edildi. İlk olarak <code class="filename">hello.c</code> derlendi, sonra da <code class="filename">hello.cat</code> <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> işlevinin bulabileceği yere yerleştirildi. Katalog dosyasının doğru yere yerleştirip yerleştirilmediği <a href="glibc-Locale-Categories.html#glibc-vr-LC_ALL"><strong class="varname"><code>LC_ALL</code></strong></a> ortam değişkeninin değerine bakılarak sınanabileceği unutulmamalıdır.
+     </p>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.5. Akımlar ve Evreler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Closing-Streams.html')">Önceki</button>
+          <div class="dropdown-content">12.4. Akımların Kapatılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13. Düşük Seviyeli Girdi ve Çıktı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Streams-and-Threads">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.5. Akımlar ve Evreler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm104272" class="indexterm"></span>
+   <span id="idm104274" class="indexterm"></span>
+   Akımlar çok evreli yazılımlarda tek evreli yazılımlardaki gibi kullanılır. Ancak yazılımcı olası karışıklıkların farkında olmalıdır. Birçok akım işlevinin tasarımı ve gerçeklenmesi çok evreli yazılım geliştirmeyle ilgili ek gereksinimlerden oldukça etkileneceğinden yazılımda evrelerin asla kullanılamayabileceğinin bilinmesi ayrıca önemlidir.
+  </p>
+        <p>
+   POSIX standardı öntanımlı olarak akım işlemlerinin bölünmez olmasını gerektirir. Örneğin iki akım işleminin iki evre halinde aynı anda bir akıma uygulanması işlemlerin sırayla yapılıyormuş gibi yapılmasına sebep olacaktır. Okuma ve yazma sırasında uygulanan tampon işlemleri aynı akımı kullanan diğerlerinden korunur. Bu, her akımın yapılacak bir çalışma öncesi (dolaylı olarak) elde edilen bir dahili kilitleme nesnesine sahip olması ile sağlanır.
+  </p>
+        <p>
+   Ancak bunun yeterli olmadığı ya da istenmediği durumlar da vardır. Eğer yazılım birden fazla akım işlevi çağrısının teker teker yapılmasını gerektiriyorsa dolaylı kilitleme mekanizması yetersiz kalır. Bir yazılımın üretmek istediği bir satırı çeşitli işlev çağrılarıyla oluşturması buna bir örnek olarak verilebilir. Evrelere ayırma işi tüm işlev çağrıları üzerinde değil, işlevlerin kendileri tarafından kendi işlemlerini evrelere ayırarak yapılmalıdır. Bunun olabilmesi için de akım kilitleme işleminin yazılım kodunda yapılması gerekir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-flockfile" class="indexterm"></span>
+   <span id="glibc-cp-flockfile" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">flockfile</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">flockfile</code> işlevi <em class="parameter"><code>stream</code></em> akımı ile ilişkili dahili kilitleme nesnesini elde etmekte kullanılır. İşlev, başka hiçbir evrenin doğrudan <code class="code">flockfile</code>/<a href="glibc-Streams-and-Threads.html#glibc-fn-ftrylockfile"><strong class="function"><code>ftrylockfile</code></strong></a> üzerinden veya dolaylı olarak bir akım işlevi çağrısıyla akımı kilitleyememesini garanti eder. Kilit elde edilinceye kadar evre engellenir. <strong class="function"><code>funlockfile</code></strong> işlevine yapılacak bir doğrudan çağrı kilit nesnesini serbest bırakacaktır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-ftrylockfile" class="indexterm"></span>
+   <span id="glibc-cp-ftrylockfile" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">ftrylockfile</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">ftrylockfile</code> işlevi <a href="glibc-Streams-and-Threads.html#glibc-fn-flockfile"><strong class="function"><code>flockfile</code></strong></a>  işlevi gibi <em class="parameter"><code>stream</code></em> akımı ile ilişkili dahili kilitleme nesnesini elde etmeye çalışır. <a href="glibc-Streams-and-Threads.html#glibc-fn-flockfile"><strong class="function"><code>flockfile</code></strong></a> işlevinin aksine bu işlev kilit kullanılabilir değilse engelleme yapmaz. Kilit başarıyla elde edilirse işlev sıfırla döner, aksi takdirde akımı başka bir evre kilitlemiş demektir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

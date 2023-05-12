@@ -2,12 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>dash</title>
+    <link rel="stylesheet" type="text/css" href="../../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, belgeler, kabuk, komut, kullanıcı, yardım, kılavuz, dash, ash, sh, yorumlayıcı. bellek, kullanılan, boş, fiziksel" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -98,7 +97,7 @@
     Burada, “<code class="filename">.shinit</code>” yerine uygun herhangi bir dosya adı kullanılabilir.
    </p>
             <p>
-    Seçeneklerin yanı sıra başka komut satırı girdileri de belirtilmişse, kabuk ilk girdiyi komutların okunacağı dosyanın adı (bir kabuk betiği) olarak kabul eder ve geri kalan girdiler kabuğun konumsal değişkenleri (<strong class="varname"><code>$1</code></strong>, <strong class="varname"><code>$2</code></strong>, vb.) olarak ayarlanır. Aksi takdirde kabuk, komutları standart girdisinden okur.
+    Seçeneklerin yanı sıra başka komut satırı girdileri de belirtilmişse, kabuk ilk girdiyi komutların okunacağı dosyanın adı (bir kabuk betiği) olarak kabul eder ve geri kalan girdiler kabuğun konumsal değişkenleri (<code class="varname">$1</code>, <code class="varname">$2</code>, vb.) olarak ayarlanır. Aksi takdirde kabuk, komutları standart girdisinden okur.
    </p>
           </div>
           <div class="refsect2" id="man1-dash-arglistproc">
@@ -128,7 +127,7 @@
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Komutlar, standart girdi yerine <em class="replaceable"><code>KOMUT_DİZGESİ</code></em> teriminden okunur. Konumsal değişkenlerin ilki <em class="replaceable"><code>KOMUT_ADI</code></em> teriminden diğerleri (<strong class="varname"><code>$1</code></strong>, <strong class="varname"><code>$2</code></strong>, vb.) kalan girdilerden (<em class="replaceable"><code>KOMUT_GİRDİSİ</code></em>) elde edilir.
+       Komutlar, standart girdi yerine <em class="replaceable"><code>KOMUT_DİZGESİ</code></em> teriminden okunur. Konumsal değişkenlerin ilki <em class="replaceable"><code>KOMUT_ADI</code></em> teriminden diğerleri (<code class="varname">$1</code>, <code class="varname">$2</code>, vb.) kalan girdilerden (<em class="replaceable"><code>KOMUT_GİRDİSİ</code></em>) elde edilir.
       </p>
                 </dd>
                 <dt id="man1-dash-opt-C">
@@ -490,13 +489,13 @@ do      done    until   if      esac
     Üç tür komut vardır: <a class="link" href="man1-dash.html#man1-dash-functions" title="İşlevler">kabuk işlevleri</a>, <a class="link" href="man1-dash.html#man1-dash-builtins" title="Yerleşikler">yerleşik komutlar</a> ve normal uygulamalar -- ve komut (ada göre) bu sırayla aranır. Her biri farklı bir şekilde yürütülür.
    </p>
             <p>
-    Bir kabuk işlevi yürütüldüğünde, tüm konumsal değişkenler (değişmeden kalan <strong class="varname"><code>$0</code></strong> hariç) kabuk işlevinin girdileri haline gelir. Açıkça komutun ortamına yerleştirilen değişkenler (işlev adından önce bunlara atamalar yapılarak) değerleri ile birlikte işlevin yerel değişkenleri haline gelir. Daha sonra işlev tanımında verilen komut yürütülür. Konumsal değişkenlere, komut tamamlandığında ilk değerleri geri atanır. Bunların hepsi aynı kabuk içinde gerçekleşir.
+    Bir kabuk işlevi yürütüldüğünde, tüm konumsal değişkenler (değişmeden kalan <code class="varname">$0</code> hariç) kabuk işlevinin girdileri haline gelir. Açıkça komutun ortamına yerleştirilen değişkenler (işlev adından önce bunlara atamalar yapılarak) değerleri ile birlikte işlevin yerel değişkenleri haline gelir. Daha sonra işlev tanımında verilen komut yürütülür. Konumsal değişkenlere, komut tamamlandığında ilk değerleri geri atanır. Bunların hepsi aynı kabuk içinde gerçekleşir.
    </p>
             <p>
     Kabuk yerleşikleri, yeni bir süreç oluşturmadan dahili olarak kabukta yürütülür.
    </p>
             <p>
-    Komut adı bir işlev veya yerleşikle eşleşmiyorsa, komut dosya sisteminde normal bir uygulama olarak aranır (sonraki bölümde açıklandığı gibi). Normal bir uygulama yürütüldüğünde, kabuk girdileri ve ortam değişkenleri uygulamaya aktarılarak uygulama yürütülür. Uygulama normal bir yürütülebilir dosya değilse (yani, ASCII gösterimi "<code class="literal">#!</code>" olan "sihirli numara" ile başlamıyorsa, dolayısıyla <tt><b>execve</b>(2)</tt> çağrısı <code class="constant">ENOEXEC</code> döndürüyorsa) kabuk uygulamayı bir alt kabukta yorumlayacaktır. Alt kabuk bu durumda kendisini yeniden ilklendirecek ve böylece etki, bu özel kabuk betiğini yürütmek için yeni bir kabuk çağrılmış gibi olacaktır, ancak ana kabukta bulunan komutların konumu alt kabuk tarafından hatırlanacaktır.
+    Komut adı bir işlev veya yerleşikle eşleşmiyorsa, komut dosya sisteminde normal bir uygulama olarak aranır (sonraki bölümde açıklandığı gibi). Normal bir uygulama yürütüldüğünde, kabuk girdileri ve ortam değişkenleri uygulamaya aktarılarak uygulama yürütülür. Uygulama normal bir yürütülebilir dosya değilse (yani, ASCII gösterimi "<code class="literal">#!</code>" olan "sihirli numara" ile başlamıyorsa, dolayısıyla <tt><b>execve</b>(2)</tt> çağrısı <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOEXEC"><strong class="constant"><code>ENOEXEC</code></strong></a> döndürüyorsa) kabuk uygulamayı bir alt kabukta yorumlayacaktır. Alt kabuk bu durumda kendisini yeniden ilklendirecek ve böylece etki, bu özel kabuk betiğini yürütmek için yeni bir kabuk çağrılmış gibi olacaktır, ancak ana kabukta bulunan komutların konumu alt kabuk tarafından hatırlanacaktır.
    </p>
           </div>
           <div class="refsect2" id="man1-dash-pathsearch">
@@ -645,7 +644,7 @@ do      done    until   if      esac
 <strong class="statement"><code>done</code></strong>
 </pre>
             <p>
-    <strong class="statement"><code>in</code></strong> deyimindeki <em class="replaceable"><code>sözcük</code></em>ler genişletilir ve <em class="replaceable"><code>liste</code></em>, değer olarak her defasında bir <em class="replaceable"><code>sözcük</code></em> atanan <em class="replaceable"><code>değişken</code></em>le yürütülür. <strong class="statement"><code>in</code></strong> <em class="replaceable"><code>sözcük</code></em> ... ile "<strong class="varname"><code>$@</code></strong>" eşdeğerdir. Değişkenden sonra <strong class="statement"><code>in</code></strong> olduğu halde hiçbir <em class="replaceable"><code>sözcük</code></em> belirtilmemişse <em class="replaceable"><code>liste</code></em> yürütülmez ve çıkış durumu sıfır olur.
+    <strong class="statement"><code>in</code></strong> deyimindeki <em class="replaceable"><code>sözcük</code></em>ler genişletilir ve <em class="replaceable"><code>liste</code></em>, değer olarak her defasında bir <em class="replaceable"><code>sözcük</code></em> atanan <em class="replaceable"><code>değişken</code></em>le yürütülür. <strong class="statement"><code>in</code></strong> <em class="replaceable"><code>sözcük</code></em> ... ile "<code class="varname">$@</code>" eşdeğerdir. Değişkenden sonra <strong class="statement"><code>in</code></strong> olduğu halde hiçbir <em class="replaceable"><code>sözcük</code></em> belirtilmemişse <em class="replaceable"><code>liste</code></em> yürütülmez ve çıkış durumu sıfır olur.
    </p>
             <p>
     <strong class="statement"><code>break</code></strong> and <strong class="statement"><code>continue</code></strong> deyiminin sözdizimi:
@@ -765,7 +764,7 @@ do      done    until   if      esac
                   </dt>
                   <dd class="glossdef">
                     <p>
-       <code class="literal">1</code>'den itibaren konumsal değişkenlere genişletilir. Genişletme çift tırnaklı bir dizge içinde gerçekleştiğinde her değişkenin değeri, <strong class="varname"><code>IFS</code></strong> değişkeninin ilk karakteriyle veya <strong class="varname"><code>IFS</code></strong> atanmamışsa bir boşluk ile ayrılmış tek bir alana genişletilir.
+       <code class="literal">1</code>'den itibaren konumsal değişkenlere genişletilir. Genişletme çift tırnaklı bir dizge içinde gerçekleştiğinde her değişkenin değeri, <code class="varname">IFS</code> değişkeninin ilk karakteriyle veya <code class="varname">IFS</code> atanmamışsa bir boşluk ile ayrılmış tek bir alana genişletilir.
       </p>
                   </dd>
                   <dt>
@@ -775,7 +774,7 @@ do      done    until   if      esac
                   </dt>
                   <dd class="glossdef">
                     <p>
-       <code class="literal">1</code>'den itibaren konumsal değişkenlere genişletilen bir dizidir. Genişletme çift tırnak içinde gerçekleştiğinde, her bir konumsal değişken ayrı bir elemana genişler. Konumsal değişken yoksa, <code class="option">@</code> çift tırnaklı olsa bile <code class="option">@</code> genişletmesi sıfır eleman üretir. Bunun anlamı, temel olarak, örneğin, <strong class="varname"><code>$1</code></strong> "<code class="code">abc</code>" ve <strong class="varname"><code>$2</code></strong> "<code class="code">def ghi</code>" ise, "<strong class="varname"><code>$@</code></strong>" iki elemana genişleyecektir:
+       <code class="literal">1</code>'den itibaren konumsal değişkenlere genişletilen bir dizidir. Genişletme çift tırnak içinde gerçekleştiğinde, her bir konumsal değişken ayrı bir elemana genişler. Konumsal değişken yoksa, <code class="option">@</code> çift tırnaklı olsa bile <code class="option">@</code> genişletmesi sıfır eleman üretir. Bunun anlamı, temel olarak, örneğin, <code class="varname">$1</code> "<code class="code">abc</code>" ve <code class="varname">$2</code> "<code class="code">def ghi</code>" ise, "<code class="varname">$@</code>" iki elemana genişleyecektir:
       </p>
                     <pre class="screen">"abc" "def ghi"
 </pre>
@@ -854,7 +853,7 @@ do      done    until   if      esac
                 </li>
                 <li class="listitem">
                   <p>
-      <a class="xref" href="man1-dash.html#man1-dash-whitesplit" title="Boşluk Ayıklama (Alanlara Ayırma)"> “Boşluk Ayıklama (Alanlara Ayırma)”</a>, <strong class="varname"><code>IFS</code></strong> değişkeni boş değilse <tt><b>step</b>(1)</tt> tarafından üretilen alanlara uygulanır.
+      <a class="xref" href="man1-dash.html#man1-dash-whitesplit" title="Boşluk Ayıklama (Alanlara Ayırma)"> “Boşluk Ayıklama (Alanlara Ayırma)”</a>, <code class="varname">IFS</code> değişkeni boş değilse <tt><b>step</b>(1)</tt> tarafından üretilen alanlara uygulanır.
      </p>
                 </li>
                 <li class="listitem">
@@ -1041,7 +1040,7 @@ do      done    until   if      esac
      biçeminde ters tek tırnaklarla sarmalandığında gerçekleşir.
     </p>
               <p>
-     Kabuk, bir alt kabuk ortamında komutu yürüterek ve komut ikamesini komutun standart çıktısıyla değiştirerek, ikamenin sonundan bir veya daha fazla satır sonu karakterini kaldırarak komut ikamesini genişletir. (Çıktının bitiminden önceki gömülü satırsonu karakterleri kaldırılmaz; ancak, alan ayırma sırasında bunlar, <strong class="varname"><code>IFS</code></strong>'nin değerine ve etkin olan tırnaklamaya bağlı olarak boşluklara dönüştürülebilir.)
+     Kabuk, bir alt kabuk ortamında komutu yürüterek ve komut ikamesini komutun standart çıktısıyla değiştirerek, ikamenin sonundan bir veya daha fazla satır sonu karakterini kaldırarak komut ikamesini genişletir. (Çıktının bitiminden önceki gömülü satırsonu karakterleri kaldırılmaz; ancak, alan ayırma sırasında bunlar, <code class="varname">IFS</code>'nin değerine ve etkin olan tırnaklamaya bağlı olarak boşluklara dönüştürülebilir.)
     </p>
             </div>
             <div class="refsect3" id="man1-dash-mathexp">
@@ -1064,7 +1063,7 @@ do      done    until   if      esac
      Kabuk, <a class="link" href="man1-dash.html#man1-dash-varexp">değişken genişletmesi</a>, <a class="xref" href="man1-dash.html#man1-dash-substitution" title="Komut İkamesi"> “Komut İkamesi”</a> ve <a class="xref" href="man1-dash.html#man1-dash-mathexp" title="Aritmetik İfade Genişletmesi"> “Aritmetik İfade Genişletmesi”</a> sonra, alanlarına ayırmak için çift tırnak içinde olmayan genişletme ve ikame sonuçlarını tarar.
     </p>
               <p>
-     Kabuk <strong class="varname"><code>IFS</code></strong> değişkenindeki her karakteri bir ayraç olarak ele alır. Bunları <a class="link" href="man1-dash.html#man1-dash-varexp">değişken genişletmesi</a> ve komut ikamesinin sonuçlarını alanlara ayırmak için kullanır.
+     Kabuk <code class="varname">IFS</code> değişkenindeki her karakteri bir ayraç olarak ele alır. Bunları <a class="link" href="man1-dash.html#man1-dash-varexp">değişken genişletmesi</a> ve komut ikamesinin sonuçlarını alanlara ayırmak için kullanır.
     </p>
             </div>
             <div class="refsect3" id="man1-dash-pathexp">
@@ -1544,10 +1543,10 @@ başlık
        <span class="command"><strong>getopts</strong></span> yerleşik komutu, boşluk içeren girdileri işlemesi nedeniyle kullanımı önerilmeyen eski <tt><b>getopt</b>(1)</tt> yardımcı komutunun yerini alır.
       </p>
                   <p>
-       <span class="command"><strong>getopts</strong></span> yerleşiği, bir komutun girdi listesinden seçenekleri ve seçenek girdilerini ayıklamak için kullanılabilir. <span class="command"><strong>getopts</strong></span> çağrıldığında, <em class="replaceable"><code>seçenekler</code></em> dizgesinde belirtilen seçeneklerden komut satırında belirtileni <em class="replaceable"><code>değişken</code></em>e ve seçenek sayısı <strong class="varname"><code>OPTIND</code></strong>e, girdisini <strong class="varname"><code>OPTARG</code></strong> kabuk değişkenine yerleştirir. Kabuk çağrıldığında, <strong class="varname"><code>OPTIND</code></strong> <code class="literal">1</code> ile ilklendirilir. Bir girdi gerektiren her seçenek için, girdi <strong class="varname"><code>OPTARG</code></strong> kabuk değişkenine yerleştirilir. Girdisiz seçenekler için <strong class="varname"><code>OPTARG</code></strong> tanımsızdır.
+       <span class="command"><strong>getopts</strong></span> yerleşiği, bir komutun girdi listesinden seçenekleri ve seçenek girdilerini ayıklamak için kullanılabilir. <span class="command"><strong>getopts</strong></span> çağrıldığında, <em class="replaceable"><code>seçenekler</code></em> dizgesinde belirtilen seçeneklerden komut satırında belirtileni <em class="replaceable"><code>değişken</code></em>e ve seçenek sayısı <code class="varname">OPTIND</code>e, girdisini <code class="varname">OPTARG</code> kabuk değişkenine yerleştirir. Kabuk çağrıldığında, <code class="varname">OPTIND</code> <code class="literal">1</code> ile ilklendirilir. Bir girdi gerektiren her seçenek için, girdi <code class="varname">OPTARG</code> kabuk değişkenine yerleştirilir. Girdisiz seçenekler için <code class="varname">OPTARG</code> tanımsızdır.
       </p>
                   <p>
-       <em class="replaceable"><code>seçenekler</code></em> seçenek harflerinden (bkz. <tt><b>getopt</b>(3)</tt> oluşan bir dizgedir. Bir harfin ardından iki nokta üst üste geliyorsa, seçeneğin kendisinden boşlukla ayrılabilen veya kendine bitişik bir girdisi var demektir. Komut satırında belirtilmiş bir seçenek <em class="replaceable"><code>seçenekler</code></em> arasında yoksa, <em class="replaceable"><code>değişken</code></em>e  “<code class="literal">?</code>” atanır, <strong class="varname"><code>OPTARG</code></strong> tanımsız olur ve çıktı standart hataya yazılır. <em class="replaceable"><code>seçenekler</code></em> dizgesinin ilk karakteri iki nokta üst üste ise, tüm hatalar yok sayılır.
+       <em class="replaceable"><code>seçenekler</code></em> seçenek harflerinden (bkz. <tt><b>getopt</b>(3)</tt> oluşan bir dizgedir. Bir harfin ardından iki nokta üst üste geliyorsa, seçeneğin kendisinden boşlukla ayrılabilen veya kendine bitişik bir girdisi var demektir. Komut satırında belirtilmiş bir seçenek <em class="replaceable"><code>seçenekler</code></em> arasında yoksa, <em class="replaceable"><code>değişken</code></em>e  “<code class="literal">?</code>” atanır, <code class="varname">OPTARG</code> tanımsız olur ve çıktı standart hataya yazılır. <em class="replaceable"><code>seçenekler</code></em> dizgesinin ilk karakteri iki nokta üst üste ise, tüm hatalar yok sayılır.
       </p>
                   <p>
        Son seçeneğin ardından <em class="replaceable"><code>değişken</code></em>e  “<code class="literal">?</code>” atanır ve <span class="command"><strong>getopts</strong></span> sıfırdan farklı bir değerle çıkar.
@@ -2937,6 +2936,11 @@ betikadı -a -cterim -- dosya dosya
           </table>
         </div>
       </div>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

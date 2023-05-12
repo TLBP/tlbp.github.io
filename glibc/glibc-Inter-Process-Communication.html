@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>27. Süreçler Arası İletişim</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Önceki</button>
+          <div class="dropdown-content">26. Süreçler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Job-Control.html')">Sonraki</button>
+          <div class="dropdown-content">28. İş Denetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="part" id="glibc-Inter-Process-Communication">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h1 class="title">27. Süreçler Arası İletişim</h1>
+            </div>
+          </div>
+        </div>
+        <section class="partintro">
+          <div></div>
+          <p>
+   Bu oylumda GNU C Kütüphanesi süreçler arası iletişim ilkelleri açıklanmıştır.
+  </p>
+          <section class="sect1" id="glibc-Semaphores">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h2 class="title" style="clear: both">1. Semaforlar</h2>
+                </div>
+              </div>
+            </div>
+            <p>
+    <span id="idm104520" class="indexterm"></span>
+    GNU C Kütüphanesi semafor arayüzlerini POSIX ve System V'te tanımlandığı şekilde gerçekler. Semaforlar, paylaşılan kaynakları eşgüdümlemek için birden çok süreç tarafından kullanılabilir. GNU C Kütüphanesi tarafından sağlanan semafor işlevlerinin tam listesi aşağıdadır.
+   </p>
+            <section class="sect2" id="glibc-System-V-Semaphores">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h3 class="title">1.1. System V Semaforları</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-semctl" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/types.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/ipc.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/sem.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">semctl</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">semid</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">semnum</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">cmd</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+     
+     
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/linux</a></code>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>semctl</b>(2)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+      <span id="glibc-fn-semget" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/types.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/ipc.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/sem.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">semget</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">key_t </code> <strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">nsems</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">semflg</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+       Ayrıntılı bilgi <tt><b>semget</b>(2)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-semop" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/types.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/ipc.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/sem.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">semop</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">semid</code></strong><strong><code>, </code></strong><code class="type">struct sembuf </code><strong class="type">*</strong><strong><code class="parameter">sops</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">nsops</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>semop</b>(2)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-semtimedop" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/types.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/ipc.h</code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">sys/sem.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">semtimedop</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">semid</code></strong><strong><code>, </code></strong><code class="type">struct sembuf </code><strong class="type">*</strong><strong><code class="parameter">sops</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">nsops</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">timeout</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>semtimedop</b>(2)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+            </section>
+            <section class="sect2" id="glibc-POSIX-Semaphores">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h3 class="title">1.2. POSIX Semaforları</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_init" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_init</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">pshared</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code> <strong><code class="parameter">value</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_init</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_destroy" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_destroy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_destroy</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_open" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="function">sem_open</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">oflag</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+     
+     
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_open</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_close" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_close</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_close</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_unlink" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_unlink</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_unlink</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_wait" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_wait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_wait</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_timedwait" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_timedwait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_timedwait</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_trywait" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_trywait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_trywait</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_post" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_post</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_post</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+              <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_getvalue" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename">semaphore.h</code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_getvalue</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">sval</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     </div>
+     <p>
+      Ayrıntılı bilgi <tt><b>sem_getvalue</b>(3)</tt> kılavuz sayfasından edinilebilir.
+     </p>
+    </div>
+            </section>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

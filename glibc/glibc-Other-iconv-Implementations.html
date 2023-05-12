@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.5.3. Diğer iconv Gerçeklenimleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-iconv-Examples.html')">Önceki</button>
+          <div class="dropdown-content">6.5.2. <code class="code">iconv</code> Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Charset-Conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-iconv-Implementation.html')">Sonraki</button>
+          <div class="dropdown-content">6.5.4. Glibc <code class="code">iconv</code> Gerçeklenimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Other-iconv-Implementations">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.5.3. Diğer <code class="code">iconv</code> Gerçeklenimleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Burada diğer sistemlerdeki <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> gerçeklenimleri tartışılmayacaktır, ancak taşınabilir uygulamalar yazılırken onlar hakkında biraz birşeyler bilmek gerekir. Önceki bölümlerde <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinin belirtimi ile ilgili olarak taşınabilirlik sorunlarından bahsedilmişti.
+   </p>
+        <p>
+    İlk uyarı, kullanılabilecek karakter kümesi sayısının çokluğu ile ilgilidir. Dönüşümlerin doğrudan C kütüphanesinde kodlanması elbette uygulanabilir değildir. Bu nedenle, dönüşüm bilgisi C kütüphanesi dışından bazı dosyalarla sağlanmalıdır. Bu, aşağıdaki yöntemlerden biri ya da her ikisi birden kullanılarak yapılır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      C kütüphanesi gerekli dönüşüm tablolarını ve diğer bilgileri veri dosyalarından okuyabilen işlevler ailesi içerir. Bu dosyalar gerektikçe yüklenir.
+     </p>
+              <p>
+      Bu çözüm tüm karakter kümelerine (teorik olarak sonsuz sayıda) uygulanması büyük bir çaba gerektirdiğinden oldukça sorunludur. Farklı karakter kümelerinin yapısal farkları çok çeşitli tablo işleme işlevlerinin geliştirilmesini gerektirir.Bu işlevler doğaları gereğince gerçekleştirilmiş işlevlerden özellikle daha yavaştır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      C kütüphanesi özdevimli yüklenebilen nesne dosyaları içerir ve dönüşüm işlevleri bu nesnelerin içeriğini icra eder.
+     </p>
+              <p>
+      Bu çözüm çok büyük esneklik sağlar. C kütüphanesinin kendisi çok az kod içerir ve bu nedenle genel bellek ihtiyacı çok azalır. Ayrıca, C kütüphanesi ile yüklenebilir modüller arasındaki belgelemesi yapılmış bir arayüz ile kullanılabilecek dönüşüm modüllerinin üçüncü parti modüllerle genişletilebilmesi mümkündür. Bu çözümün uygulanabilir olması için özdevimli yükleme mümkün olmalıdır.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Ticari Unix'lerdeki bazı gerçeklenimler bu yöntemlerin bir karışımını kullanırken çoğunluğu ikinci çözümü kullanır. Yüklenebilir modüllerin kullanımı kodu kütüphanenin dışına taşır, genişletmeler ve eklentiler için kapıyı açık tutar. Ancak, durağan olarak ilintilenmiş yazılımlarda özdevimli yükleme desteği olmayan bazı sistemlerde bu tasarım bir sınırlama haline gelebilmektedir. Bu yeteneği olmayan sistemlerde bu arayüzün durağan olarak ilintilenmiş yazılımlarda kullanılması bu nedenle mümkün değildir. GNU C Kütüphanesinin, ELF sistemlerinde, bu gibi durumlarda özdevimli yükleme ile ilgili sorunları yoktur; bu nedenle bu konu tartışma götürür. Tehlikeli olan, bu durumla ilgili bilgi sahibi olunduğu halde diğer sistemlerin sınırlamalarını unutmaktır.
+   </p>
+        <p>
+    Diğer <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> gerçeklemeleri hakkında bilmemiz gereken ikinci şey kullanılabilecek dönüşümlerin genellikle çok sınırlı kalmasıyla ilgilidir. Bazı gerçeklemeler standart dağıtımlarında (geliştirici ve özel uluslararası dağıtımlar değil) en fazla 100 bilemedin 200 dönüşüm olasılığı sağlar. Bu 200 farklı karakter kümesinin desteklendiği anlamına gelse iyi; örneğin, bir karakter kümesinin 10 farklı karakter kümesine dönüşümü 10 sayılır. Bununla birlikte bu karakter kümesinin diğer yöndeki dönüşümü de eklenerek bu sayı 20 yapılır. Bu sistemlerde yapılan ince hesabın sınırları tasavvur edilemez. Bazı Unix şirketleri ise sadece bir dönüşümü diğer dönüşümleri kullanışsız olsa bile türetmek için kullanır.
+   </p>
+        <p>
+    Bu doğrudan üçüncü ve oldukça büyük bir soruna yol açar. Bu yolla gerçeklenmiş <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> dönüşüm işlevlerini kullanan Unix sistemlerinde <code class="code">A</code> kümesinden <code class="code">B</code> kümesine ve <code class="code">B</code> kümesinden <code class="code">C</code> kümesine dönüşüm yapılabilmesi <code class="code">A</code> kümesinden <code class="code">C</code> kümesine dönüşüm yapılabileceği anlamına gelmez.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     İlk bakışta bir sorun yokmuş gibi görünse de basit bir uygulama sorunun farkedilmesini sağlar. Sorunu göstermek için A karakter kümesinden C karakter kümesine dönüşüm yapacak bir kod şöyle olurdu:
+    </p>
+            <pre class="screen">cd = iconv_open ("<code class="code">C</code>", "<code class="code">A</code>");
+</pre>
+            <p>
+     çağrısı yukarıda belirtilen nedenle başarısız olacaktır. Şimdi yazılımın geleceği ne olacak? Bu dönüşüm gerekli...
+    </p>
+            <p>
+     Tam baş belası. <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevi bunu yapmalıydı. Kodu nasıl yazmalı? Önce B karakter kümesine dönüşüm yapılabilir:
+    </p>
+            <pre class="screen">cd1 = iconv_open ("<code class="code">B</code>", "<code class="code">A</code>");
+</pre>
+            <p>sonra da C</p>
+            <pre class="screen">cd2 = iconv_open ("<code class="code">C</code>", "<code class="code">B</code>");
+</pre>
+            <p>
+     Bu çalışacaktır, ama <code class="code">B</code>'nin hangi karakter kümesi olacağı nasıl bilinecek?
+    </p>
+            <p>
+     Yanıtı ne yazık ki, genel bir çözümün olmadığıdır. Yine de bazı sistemler bize yardımcı olabilir. Bu sistemlerde çoğu karakter kümesi UTF-8 kodlu ISO-10646 veya Unicode metinlere ve tersine dönüştürülebilir. Bundan başka sisteme çok bağlı bir yöntem de yardımcı olabilir. Bu sistemlerde, dönüşüm işlevleri yüklenebilir modüllerde gelir ve bu modüller dosya sisteminde belirli bir yerde bulunur. Bu dosyalara bakarak <code class="code">A</code> kümesinden <code class="code">C</code> kümesine dönüşüm yaparken kullanılacak ortak ara dönüşüm kümesi saptanabilir.
+    </p>
+            <p>
+     Bu örnek, yukarıda bahsedilen <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> tasarım hatalarından birinin örneğidir. Kullanılabilecek dönüşümlerin listesini yazılımsal olarak elde etmek en azından mümkün olmalıdır. <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> işlevi böyle bir dönüşümün olamayacağını söylerse bu yolla bu liste bulunabilir.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.5. gettext'te Karakter Kümesi Dönüşümü</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-gettext-plural-forms.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.4. Çoğul Biçimler Sorunu</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-GUI-program-problems.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.1.6. Görsel Arayüzlü Yazılımlarının Sorunları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Charset-conversion-in-gettext">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.5. <code class="code">gettext</code>'te Karakter Kümesi Dönüşümü</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> sadece bir ileti kataloğunda çeviri aramaz, ayrıca çeviriyi çıktı karakter kümesine anında dönüştürür. Kullanıcı, ileti kataloğunda kullanılan karakter kümesinden farklı bir karakter kümesi kullanıyorsa, bu faydalı bir özelliktir.
+    </p>
+        <p>
+     Çıktı karakter kümesi öntanımlı olarak, geçerli yerelin <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> sınıfına bağımlı <code class="code">nl_langinfo (CODESET)</code> değeridir. Ancak, bir yazılımın iletileri yerelden bağımsız bir kodlama (UTF-8) ile saklanıyorsa, <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> ailesindeki işlevler çevirinin kodlamasını <a href="glibc-Charset-conversion-in-gettext.html#glibc-fn-bind_textdomain_codeset"><strong class="function"><code>bind_textdomain_codeset</code></strong></a> işlevini kullanarak bu kodlamaya dönüştürür.
+    </p>
+        <p>
+     <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevinin <em class="parameter"><code>msgid</code></em> bağımsız değişkeninde verilen dizgenin karakter dönüşümüne konu olmadığını unutmayın. Eğer <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a>, <em class="parameter"><code>msgid</code></em>'nin karşılığı olan çeviriyi bulamazsa <em class="parameter"><code>msgid</code></em> dizgesini dönüştürmeksizin döndürür. Bu bakımdan tüm <em class="parameter"><code>msgid</code></em> dizgelerinin US-ASCII dizgeler olması önerilir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-bind_textdomain_codeset" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">bind_textdomain_codeset</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domainname</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">codeset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">bind_textdomain_codeset</code> işlevi <em class="parameter"><code>domainname</code></em> ileti kataloglarının çıktı karakter kümesini belirtmek için kullanılabilir. <em class="parameter"><code>codeset</code></em> bağımsız değişkeni ya <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> işlevinde kullanılabilen geçerli bir karakter kümesi dizgesine gösterici ya da boş gösterici olmalıdır.
+     </p>
+     <p>
+      <em class="parameter"><code>codeset</code></em> olarak boş gösterici belirtilmişse, işlev <em class="parameter"><code>domainname</code></em> isimli alanın o an seçilmiş karakter kümesi ile döner. <code class="varname">NULL</code> dönmüşse, henüz seçilmiş bir karakter kümesi yok demektir.
+     </p>
+     <p>
+      <code class="code">bind_textdomain_codeset</code> işlevi defalarca kullanılabilir. Aynı <em class="parameter"><code>domainname</code></em> ile yapılan her çağrı bir önceki kodlamayı değiştirir.
+     </p>
+     <p>
+      <code class="code">bind_textdomain_codeset</code> işlevi seçilen karakter kümesininin ismini içeren dizgeye gösterici döndürür. Dizge işlev tarafından dahili olarak ayrıldığından yazılımcı tarafından değiştirilmemelidir. Eğer sistem <code class="code">bind_textdomain_codeset</code> çalışırken bellek dökümü (core dosyası) çıktılarsa, işlev <code class="varname">NULL</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine ilgili hata durumu atanır.
+     </p>
+    </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

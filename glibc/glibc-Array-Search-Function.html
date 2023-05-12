@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9.2. Dizi Arama İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Comparison-Functions.html')">Önceki</button>
+          <div class="dropdown-content">9.1. Karşılaştırma İşlevinin Tanımlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Searching-and-Sorting.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Array-Sort-Function.html')">Sonraki</button>
+          <div class="dropdown-content">9.3. Dizi Sıralama İşlevi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Array-Search-Function">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">9.2. Dizi Arama İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm100549" class="indexterm"></span>
+   <span id="idm100552" class="indexterm"></span>
+   <span id="idm100555" class="indexterm"></span>
+   Genel olarak bir dizi içindeki belli bir elemanın aranması, hemen hemen tüm elemenlara bakılmasını gerektirir. GNU C Kütüphanesi düzgün doğrusal arama yapan işlevler içerir. Aşağıdaki iki işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-lfind" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">lfind</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">base</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong class="type">*</strong><strong><code class="parameter">nmemb</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compar</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">lfind</code> işlevi, <em class="parameter"><code>size</code></em> baytlık <em class="parameter"><code>nmemb</code></em> elemanlı dizide <em class="parameter"><code>key</code></em> ile gösterilen elemanla eşleşen elemanı <em class="parameter"><code>base</code></em> ile gösterilen elemandan başlayarak arar. <em class="parameter"><code>compar</code></em> ile gösterilen işlev iki elemanın karşılaştırılması için kullanılır.
+   </p>
+   <p>
+    İşlev, dizide <em class="parameter"><code>base</code></em> ile gösterilen elemandan başlayan aramada eşleşen elemana gösterici ile döner, eşleşen eleman yoksa <code class="varname">NULL</code> döner.
+   </p>
+   <p>
+    İşlevin ortalama çalışma süresi <code class="code">*<em class="replaceable"><code>nmemb</code></em>/2</code> dir. İşlev, arama başlamadan önce sıkça eleman eklenmesi veya silinmesi gibi işlemlerin dizinin sıralanması açısından pek kullanışlı olmayabileceği durumda kullanılmalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-lsearch" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">lsearch</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">base</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong class="type">*</strong><strong><code class="parameter">nmemb</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compar</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">lsearch</code> işlevi <a href="glibc-Array-Search-Function.html#glibc-fn-lfind"><strong class="function"><code>lfind</code></strong></a> işlevine benzer. Verilen dizide bir elemanı arar ve bulduğunda bu elemanla döner. Farklı olarak, bir eşleşme bulunamazsa, <em class="parameter"><code>key</code></em> ile gösterilen <em class="parameter"><code>size</code></em> baytlık elemanı dizinin sonuna ekler ve bu eklemeyi belirtmek için <code class="code">*</code><em class="parameter"><code>nmemb</code></em> değerini bir arttırır.
+   </p>
+   <p>
+    Bunun işlevi çağıran açısından anlamı, dizinin elemanı içerdiğinden emin olunamadığı durumda, <em class="parameter"><code>base</code></em> göstericisinde başlayan dizi için ayrılan bellekte kullanılmamış en azından <em class="parameter"><code>size</code></em> baytlık bir alanın daha bulunmasının gerekliliğidir. <code class="code">lsearch</code> işlevi çağrılırken daima bellekte yeterli yerin bulunması gerektiğinden, dizinin  aranan elemanı içerdiğinden emin olunduğu durumlarda <a href="glibc-Array-Search-Function.html#glibc-fn-lfind"><strong class="function"><code>lfind</code></strong></a> işlevini kullanmak daha iyidir.
+   </p>
+  </div>
+        <p>
+   Anahtarla eşleşen bir elemanı "sıralanmış" bir dizide aramak için <a href="glibc-Array-Search-Function.html#glibc-fn-bsearch"><strong class="function"><code>bsearch</code></strong></a> işlevi kullanılmalıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-bsearch" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">bsearch</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">array</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">count</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compare</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">bsearch</code> işlevi, <em class="parameter"><code>size</code></em> baytlık <em class="parameter"><code>count</code></em> eleman içeren önceden sıralanmış <em class="parameter"><code>array</code></em> dizisinde <em class="parameter"><code>key</code></em> ile eşleşen elemanı arar.
+   </p>
+   <p>
+    <em class="parameter"><code>compare</code></em> işlevi, karşılaştırma yapmak için kullanılır. Bu işlev iki bağımsız değişken ile çağrılabilmeli ve birinci bağımsız değişkenin ikinci bağımsız değişkenden küçük, büyük ya da ona eşit olması durumlarına bağlı olarak sırasıyla sıfırdan küçük, büyük bir değerle ya da sıfır ile dönmelidir. <code class="varname">array</code> dizisinin elamanları bu karşılaştırma işlevine uygun olarak artan sırada sıralanmış olmalıdır.
+   </p>
+   <p>
+    Eşleşme bulunursa dönen değer eşleşen dizi elemanına bir göstericidir, aksi takdirde boş gösterici döner. Dizi birden fazla eşleşme içeriyorsa, dönen elemanın hangisi olacağı belirlenmemiştir.
+   </p>
+   <p>
+    İşlev ikil arama (binary search) algoritması kullanılarak gerçeklendiğinden işlevin ismi bu algortimanın isminden türetilmiştir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

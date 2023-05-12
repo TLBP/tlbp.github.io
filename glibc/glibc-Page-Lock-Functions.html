@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.5.3. Sayfaları Kilitleyen ve Açan İşlevler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -50,7 +49,7 @@
           <h3 class="admon-title">Taşınabilirlik Bilgisi:</h3>
           <div class="admon-contents">
             <p>
-     POSIX.1b gereğince, <a href="glibc-Page-Lock-Functions.html#glibc-fn-mlock"><strong class="function"><code>mlock</code></strong></a> ve <a href="glibc-Page-Lock-Functions.html#glibc-fn-munlock"><strong class="function"><code>munlock</code></strong></a> işlevleri kullanılabilir olduğunda, bellek sayfasının bayt cinsinden boyunun <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> dosyasında <strong class="varname"><code>_POSIX_MEMLOCK_RANGE</code></strong> makrosu ile ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/limits.h;hb=HEAD" target="_top">limits.h</a></code> dosyasında ise <strong class="varname"><code>PAGESIZE</code></strong> makrosu ile tanımlanması gerekir.  Ayrıca, <a href="glibc-Page-Lock-Functions.html#glibc-fn-mlockall"><strong class="function"><code>mlockall</code></strong></a> ve <a href="glibc-Page-Lock-Functions.html#glibc-fn-munlockall"><strong class="function"><code>munlockall</code></strong></a> işlevleri de kullanılabilir olduğunda, <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> dosyasında <strong class="varname"><code>_POSIX_MEMLOCK</code></strong> makrosunun da tanımlanmasını gerektirir. GNU C kütüphanesi bu gereksinimleri karşılar.
+     POSIX.1b gereğince, <a href="glibc-Page-Lock-Functions.html#glibc-fn-mlock"><strong class="function"><code>mlock</code></strong></a> ve <a href="glibc-Page-Lock-Functions.html#glibc-fn-munlock"><strong class="function"><code>munlock</code></strong></a> işlevleri kullanılabilir olduğunda, bellek sayfasının bayt cinsinden boyunun <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> dosyasında <code class="varname">_POSIX_MEMLOCK_RANGE</code> makrosu ile ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/limits.h;hb=HEAD" target="_top">limits.h</a></code> dosyasında ise <code class="varname">PAGESIZE</code> makrosu ile tanımlanması gerekir.  Ayrıca, <a href="glibc-Page-Lock-Functions.html#glibc-fn-mlockall"><strong class="function"><code>mlockall</code></strong></a> ve <a href="glibc-Page-Lock-Functions.html#glibc-fn-munlockall"><strong class="function"><code>munlockall</code></strong></a> işlevleri de kullanılabilir olduğunda, <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> dosyasında <code class="varname">_POSIX_MEMLOCK</code> makrosunun da tanımlanmasını gerektirir. GNU C Kütüphanesi bu gereksinimleri karşılar.
     </p>
           </div>
         </div>
@@ -176,7 +175,7 @@
      <a href="glibc-Page-Lock-Functions.html#glibc-vr-MCL_CURRENT"><strong class="varname"><code>MCL_CURRENT</code></strong></a> bayrağının belirtildiği işlev başarılı olarak dönerse, işlevi çağıran sürecin sayfalarının her biri bir gerçek bellek çerçevesi tarafından (yerleşik olarak) desteklenir (bağlanır) ve bu şekilde kalması için imlenir.  Bu, işlevin içe (gerçek belleğe) sayfalamalara sebep olması ve bunun gerçekleşmesini beklemek zorunda olması anlamına gelir.
     </p>
     <p>
-     Süreç <a href="glibc-Page-Lock-Functions.html#glibc-vr-MCL_FUTURE"><strong class="varname"><code>MCL_FUTURE</code></strong></a> kipindeyse bu işlev başarılı olduğundan dolayıdır ve <a href="glibc-Page-Lock-Functions.html#glibc-vr-MCL_CURRENT"><strong class="varname"><code>MCL_CURRENT</code></strong></a> belirtildiğinde, alanın süreç tarafından sanal bellek alanına eklenmesini gerektiren bir sistem çağrısıyla ek alanın kilitlenmesi, sürecin kilitli sayfa sınırını aşmasına sebep oluyorsa işlev <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> = <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> hatasıyla başarısız olur. Bu durumda yığıt genişlemesi ile bağdaştırılamayan adres alanı eklemesindan dolayı yığıt genişlemesi başarısız olur, bunun sonucunda da çekirdek sürece bir <strong class="varname"><code>SIGSEGV</code></strong> sinyali gönderir.
+     Süreç <a href="glibc-Page-Lock-Functions.html#glibc-vr-MCL_FUTURE"><strong class="varname"><code>MCL_FUTURE</code></strong></a> kipindeyse bu işlev başarılı olduğundan dolayıdır ve <a href="glibc-Page-Lock-Functions.html#glibc-vr-MCL_CURRENT"><strong class="varname"><code>MCL_CURRENT</code></strong></a> belirtildiğinde, alanın süreç tarafından sanal bellek alanına eklenmesini gerektiren bir sistem çağrısıyla ek alanın kilitlenmesi, sürecin kilitli sayfa sınırını aşmasına sebep oluyorsa işlev <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> = <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> hatasıyla başarısız olur. Bu durumda yığıt genişlemesi ile bağdaştırılamayan adres alanı eklemesindan dolayı yığıt genişlemesi başarısız olur, bunun sonucunda da çekirdek sürece bir <code class="varname">SIGSEGV</code> sinyali gönderir.
     </p>
     <p>
      İşlev başarısız olduğunda, kilitli sayfaların durumu veya gelecektekileri kilitleme kipi bundan etkilenmez.
@@ -217,6 +216,11 @@
     
    </div>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

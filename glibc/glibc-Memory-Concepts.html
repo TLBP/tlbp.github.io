@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.1. Süreç Belleği Kavramları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -51,15 +50,15 @@
         <p>
    
    Sanal bellek sayfalara bölünmüştür (genellikle 4 kilobaytlık). Sanal bellekteki her sayfa aslında, ya gerçek bellek sayfasıdır (buna <em class="wordasword">çerçeve</em> de denir) ya da ikincil bir saklama alanı olarak çoğunlukla disk alanıdır. Disk alanı, takas alanı olabileceği gibi sıradan bir disk dosyası da olabilir. Gerçekte, bir sayfa tamamen sıfırlardan oluşabilir ve içinde hiçbir şey bulunmayabilir –  yalnızca sayfanın sıfırlardan oluştuğunu belirten bir bayrak vardır.
-   <span id="idm85429" class="indexterm"></span>
-   <span id="idm85431" class="indexterm"></span>
-   <span id="idm85434" class="indexterm"></span>
-   <span id="idm85436" class="indexterm"></span>
    <span id="idm85439" class="indexterm"></span>
+   <span id="idm85441" class="indexterm"></span>
+   <span id="idm85444" class="indexterm"></span>
+   <span id="idm85446" class="indexterm"></span>
+   <span id="idm85449" class="indexterm"></span>
    
   </p>
         <p>
-   Gerçek belleğin veya yedekleme alanının aynı çerçevesi çok sayıda sürecin çok sayıda sanal sayfasını destekleyebilir. Bu normal bir durumdur. Örneğin, sanal bellek GNU C Kütüphanesi kodu tarafından işgal edilebilir. Bu durumda <span class="command"><strong>printf</strong></span> işlevini içeren aynı gerçek bellek çerçevesi, işlevi kullanan çok sayıda sürecin her birinde bir sanal bellek sayfasını destekler.
+   Gerçek belleğin veya yedekleme alanının aynı çerçevesi çok sayıda sürecin çok sayıda sanal sayfasını destekleyebilir. Bu normal bir durumdur. Örneğin, sanal bellek GNU C Kütüphanesi kodu tarafından işgal edilebilir. Bu durumda <span class="command"><strong>printf</strong></span> işlevini içeren aynı gerçek bellek çerçevesi, işlevi kullanan çok sayıda sürecin her birinde bir sanal bellek sayfasını destekler.
   </p>
         <p>
    Bir yazılımın bir sanal sayfanın herhangi bir parçasına erişebilmesi için sayfanın o anda ("ilintili") bir gerçek çerçeve tarafından yedeklenmesi gerekir. Ancak gerçekte sanal bellek gerçek bellekten daha büyük olduğundan, sayfaların düzenli olarak, gerçek bellek ile yedekleme deposu arasında ileri ve geri taşınması, bir sürecin onlara erişmesi gerektiğinde gerçek belleğe alınması ve gerek kalmadığında da yedekleme deposuna geri taşınması gerekir. Bu devinime <em class="wordasword">sayfalama</em> denir.
@@ -69,8 +68,9 @@
    
    
    
-   <span id="idm85461" class="indexterm"></span>
-   <span id="idm85463" class="indexterm"></span>
+   
+   <span id="idm85474" class="indexterm"></span>
+   <span id="idm85476" class="indexterm"></span>
    Bir süreç bir sayfaya erişmeye çalışır ve sayfa gerçek belleğe geri taşınamazsa bu olaya <em class="wordasword">sayfa hatası</em> ("page fault") denir.  Bir sayfa hatası oluştuğunda çekirdek süreci askıya alır ve sayfayı bir gerçek sayfa çerçevesine yerleştirir. Bu işleme <em class="wordasword">içe sayfalama</em> ("paging in" veya "faulting in") denir. Bu işlemin ardından artık sayfa gerçek bellekte erişilebilir olduğundan çekirdek tarafından askıya alınan süreç işlemine kaldığı yerden devam ettirilir. Aslında, tüm sayfalar sürece daima gerçek bellekteymiş gibi görünür. Bir şey dışında: bir makine dili komutun yürütme süresi normalde bir kaç nano saniye iken birdenbire çok, çok daha uzun hale gelir, çünkü çekirdek sayfalamayla ilgilenmeyi tamamlamak için G/Ç işlemleri yapmak zorundadır. Bu işleme duyarlı yazılımlar için kullanılan denetim işlevleri <a class="xref" href="glibc-Locking-Pages.html" title="3.5. Sayfaların Kilitlenmesi"><em>Sayfaların Kilitlenmesi</em></a> bölümünde açıklanmıştır.
   </p>
         <p>
@@ -83,25 +83,25 @@
   </p>
         <p>
    İşletim (exec), süreç için sanal adres alanının oluşturulması, ana yazılımın bu alana yüklenmesi ve yazılımın çalıştırması işlemidir. Bu, "exec" ailesi işlevlerle (örn, <strong class="function"><code>execl</code></strong>) yapılır. İşlem bir yazılım dosyası (işletilebilir dosya) alır, dosya içindeki tüm verinin yükleneceği bellek alanını ayırıp veriyi yükledikten sonra denetimi yazılıma aktarır. Bu veri çoğunlukla yazılımın (<em class="wordasword">metin</em>) komutlarından  oluşmakla birlikte yazılımdaki sayıllar, sabitler ve hatta bazı değişkenleri de içerir: Duruk depolama sınıfı C değişkenleri. Bkz. <a class="xref" href="glibc-Memory-Allocation-and-C.html" title="3.2.1. C Yazılımlarında Belleğin Tahsisi">C Yazılımlarında Belleğin Tahsisi</a>.
-   <span id="idm85483" class="indexterm"></span>
-   <span id="idm85485" class="indexterm"></span>
-   <span id="idm85487" class="indexterm"></span>
+   <span id="idm85496" class="indexterm"></span>
+   <span id="idm85498" class="indexterm"></span>
+   <span id="idm85500" class="indexterm"></span>
   </p>
         <p>
-   Yazılım işletilmeye başladıktan sonra ek bellek kazanmak için yazılımsal bellek tahsisi  yapar. GNU C kütüphanesi kullanan bir C yazılımında, iki çeşit yazılımsal bellek tahsisi yapılabilir: özdevinimli (otomatik) ve özdevimli (dinamik). Bkz. <a class="xref" href="glibc-Memory-Allocation-and-C.html" title="3.2.1. C Yazılımlarında Belleğin Tahsisi">C Yazılımlarında Belleğin Tahsisi</a>.
+   Yazılım işletilmeye başladıktan sonra ek bellek kazanmak için yazılımsal bellek tahsisi  yapar. GNU C Kütüphanesi kullanan bir C yazılımında, iki çeşit yazılımsal bellek tahsisi yapılabilir: özdevinimli (otomatik) ve özdevimli (dinamik). Bkz. <a class="xref" href="glibc-Memory-Allocation-and-C.html" title="3.2.1. C Yazılımlarında Belleğin Tahsisi">C Yazılımlarında Belleğin Tahsisi</a>.
   </p>
         <p>
    Bellek eşlemli G/Ç diğer bir özdevimli sanal bellek tahsis çeşididir.  Belleğin bir dosyaya eşlenmesi, bir sürecin belli bir adres aralığındaki içeriğinin belirtilen normal bir dosyanın içeriği ile eşdeğerde olacağının  bildirilmesidir. Sistem sanal belleğin dosyanın içeriğini içermesini sağlar ve eğer yazılımcı bellekte değişiklik yaparsa sistem aynı değişiklikleri dosyaya yazar. Sanal belleğin sihiri ve sayfa hatalarının sonuçlarından dolayı, yazılım sanal belleğe erişinceye kadar, sistemin dosyayı okumak için G/Ç işlemleri yapmasına ve dosya içeriği için gerçek belleği tahsis etmesine sebep yoktur. Bkz. ???.
-   <span id="idm85493" class="indexterm"></span>
-   <span id="idm85495" class="indexterm"></span>
-   <span id="idm85497" class="indexterm"></span>
+   <span id="idm85506" class="indexterm"></span>
+   <span id="idm85508" class="indexterm"></span>
+   <span id="idm85510" class="indexterm"></span>
   </p>
         <p>
    Belleği yazılımsal olarak tahsis edebilen yazılım, belleği yazılımsal olarak serbest de bırakabilir. İşletim (exec) ile tahsis edilen belleği yazılımcı serbest bırakamaz. Ancak yazılımın çalışması sonlandırılır (exit) veya yeniden başlatılırsa (exec) tahsis edilen tüm belleğin serbest kaldığından söz edilebilir, ancak her iki durumda da adres alanının varlığı sona erdiğinden bu konu gerçekten tartışmalıdır. Bkz. ???.
-   <span id="idm85502" class="indexterm"></span>
-   <span id="idm85505" class="indexterm"></span>
-   <span id="idm85508" class="indexterm"></span>
-   <span id="idm85511" class="indexterm"></span>
+   <span id="idm85515" class="indexterm"></span>
+   <span id="idm85518" class="indexterm"></span>
+   <span id="idm85521" class="indexterm"></span>
+   <span id="idm85524" class="indexterm"></span>
   </p>
         <p>
    
@@ -141,6 +141,11 @@
           </dl>
         </div>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.3. Gelişkin gettext İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Locating-gettext-catalog.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.2. <code class="code">gettext</code> Kataloğunun Yeri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-gettext-plural-forms.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.1.4. Çoğul Biçimler Sorunu</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Advanced-gettext-functions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.3. Gelişkin <code class="code">gettext</code> İşlevleri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     Şimdiye kadar bahsedilen <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevleriyle ilgili tüm mevcut yaklaşımlarda (ve <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevlerinin de tamamında) tamamen göz ardı edilmiş gerçek dünyaya özgü bir sorun vardır. Burada çoğul biçimlerin nasıl elde edildiğinden bahsedilecektir.
+    </p>
+        <p>
+     Kimsenin uluslararasılaştırma ile fazla ilgilenmediği zamanlarda (hatta, sonrasında da) Unix kaynak koduna baktığınızda şuna benzer kodlar görürdünüz:
+    </p>
+        <pre class="screen">printf ("%d file%s deleted", n, n == 1 ? "" : "s");
+</pre>
+        <p>
+     Kodu uluslararsılaştırmaya çalışan kişlerden gelen ilk tepkilerden sonra ya böyle kodlamalardan vazgeçildi ya da şöyle dizgeler kullanılmaya başlandı:
+    </p>
+        <pre class="screen">if (n == 1)
+  printf ("%d file deleted", n);
+else
+  printf ("%d files deleted", n);
+</pre>
+        <p>
+     Ancak bu da soruna çözüm olmadı. Miktarlı nesne isimlerine sadece `s' gibi tek bir ek alan dillere çözüm olurken, tamamına bir çözüm sağlayamadı. Çünkü çoğul biçimlerin elde edilmesi her dil ailesinde farklıydı. Bunların arasında (hatta dil ailesindeki diller içinde bile) farklı olabilen iki şey vardır:
+    </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+       Çoğul biçimlerin kurgulanışı farklıdır. Bu bazı düzensizlikler içeren dillerle ilgili bir sorundur. Örneğin, Almanca'da bu çok belirgindir. İngilizce ve Almanca aynı dil ailesine (Germen) mensup oldukları halde çoğul isim biçiminin (`s' ekleme) kurgulanışında farklılıklar vardır.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Çoğul biçimlerin sayısı farklıdır. Bir tekil, bir de çoğul biçim bulunan Romen ve Germen dillerine aşina olanlar için bu biraz şaşırtıcıdır.
+      </p>
+              <p>
+       Ancak, diğer dil ailelerine bir biçimden çok sayıda biçime kadar değişik biçimler sözkonusudur. Bu konuda daha ayrıntılı bilgi ayrı bir bölümde verilmiştir.
+      </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+     Bunun sonucu olarak, uygulama yazarları kodlarında bu sorunu çözümlemekle uğraşmak istemez. Bu sadece kendi dillerinde yerelleştirme yapanların sorunu gibi görünse de <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a>'in genişletilmiş arayüzü buna bir çözüm içerir.
+    </p>
+        <p>
+     Bu ek işlevler bir anahtar dizge yerine iki anahtar dizge ve bir sayısal bağımsız değişken alır. Sayısal bağımsız değişkeni ve ilk dizgeyi bir anahtar olarak kullanarak, gerçeklenim, çevirmen tarafından belirlenen doğru çoğul biçim kurallarını seçer. Normal <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> davranışına benzer şekilde, bir ileti kataloğu bulunamadığı zaman bu iki dizge dönüş değerini oluştururlar. Germen dili kuralları gereğince, ilk dizgenin tekil biçimde, ikinci dizgenin çoğul biçimde olduğu varsayılır.
+    </p>
+        <p>
+     Bunun sonucu olarak, dil katalogları olmayan yazılımlar iletileri Germen dili kullanılıyormuş gibi basar. Bu bir sınırlama olarak görülebilir ancak, GNU C Kütüphanesi (keza GNU <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a>) GNU paketinin bir parçası olarak yazılmıştır ve GNU projelerinin kodlama standartları yazılımın İngilizce yazılmasını gerektirdiğinden, kaçınılmaz olarak bu böyle olacaktır.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-ngettext" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">ngettext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid2</code></strong><strong><code>, </code></strong><code class="type">unsigned long int </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">ngettext</code> işlevi ileti kataloğunun bulunması bakımından <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibidir. Ancak, iki ek bağımsız değişken alır. <em class="parameter"><code>msgid1</code></em> ile belirtilen dizge tekil biçimli ileti üretir. Ayrıca katalogdaki iletiyi aramak için anahtar olarak kullanılır. <em class="parameter"><code>msgid2</code></em> ile belirtilen dizge ise çoğul biçimli girdi/girdiler üretir. <em class="parameter"><code>n</code></em> bağımsız değişkeni çoğul biçimlerin sayısını belirler. Bir ileti kataloğu bulunamamışsa, işlev, <code class="code">n == 1</code> ise <em class="parameter"><code>msgid1</code></em> ile, aksi takdirde <em class="parameter"><code>msgid2</code></em> ile döner.
+     </p>
+     <div class="example"><div class="example-title">Örnek: Kullanım örneği</div><div class="example-contents"><pre class="screen">printf (ngettext ("%d file removed", "%d files removed", n), n);
+</pre><p>
+       <em class="parameter"><code>n</code></em> değerinin <strong class="function"><code>printf</code></strong> işlevinde de kullanıldığına dikkat edilmelidir. Sadece <code class="code">ngettext</code> işlevinin bağımsız değişkeni olması yeterli değildir.
+      </p></div></div><br class="example-break" />
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-dngettext" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">dngettext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domain</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid2</code></strong><strong><code>, </code></strong><code class="type">unsigned long int </code> <strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">dngettext</code> işlevi ileti kataloğunun seçilmesi bakımından <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibidir. Ancak, iki ek bağımsız değişken alır. Tekil/Çoğul dizgelerin elde edilmesi bakımından da <a href="glibc-Advanced-gettext-functions.html#glibc-fn-ngettext"><strong class="function"><code>ngettext</code></strong></a> işlevi gibidir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-dcngettext" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">dcngettext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domain</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid1</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid2</code></strong><strong><code>, </code></strong><code class="type">unsigned long int </code> <strong><code class="parameter">n</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">category</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">dcngettext</code> işlevi ileti kataloğunun seçilmesi bakımından <a href="glibc-Translation-with-gettext.html#glibc-fn-dcgettext"><strong class="function"><code>dcgettext</code></strong></a> işlevi gibidir. Ancak, iki ek bağımsız değişken alır. Tekil/Çoğul dizgelerin elde edilmesi bakımından da <a href="glibc-Advanced-gettext-functions.html#glibc-fn-ngettext"><strong class="function"><code>ngettext</code></strong></a> işlevi gibidir.
+     </p>
+    </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.4. Akımların Kapatılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Opening-Streams.html')">Önceki</button>
+          <div class="dropdown-content">12.3. Akımların Açılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Streams-and-Threads.html')">Sonraki</button>
+          <div class="dropdown-content">12.5. Akımlar ve Evreler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Closing-Streams">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.4. Akımların Kapatılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir akım <a href="glibc-Closing-Streams.html#glibc-fn-fclose"><strong class="function"><code>fclose</code></strong></a> ile kapatıldığında akım ile dosya arasındaki bağlantı kesilir. Bir akım kapatıldıktan sonra artık onun üzerinde işlem yapılamaz.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fclose" class="indexterm"></span>
+   <span id="glibc-cp-fclose" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">fclose</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>stream</code></em> akımının kapatılmasına ve dosya ile bağlantısının kesilmesine sebep olur. Tamponlanmış çıktılar yazılır, tamponlanmış girdiler ise iptal edilir. Dosya başarıyla kapatılırsa işlev sıfırla döner, aksi takdirde <code class="varname">EOF</code> ile döner.
+   </p>
+   <p>
+    Bir çıkış akımını kapatmak için <code class="code">fclose</code> çağrısı yapıldığında hataların saptanması önem kazanır, çünkü gerçek hayatta her gün aldığınız hatalar bu sırada da oluşabilir. Örneğin, <code class="code">fclose</code> tampondaki çıktıyı yazarken disk doluverirse bir hata alınabilir. Hatta tamponun boş olduğu bilinse bile eğer NFS kullanılıyorsa dosya kapatılırken hata alınabilir.
+   </p>
+  </div>
+        <p>
+   GNU C Kütüphanesinde tüm akımları kapatmak için ayrı bir işlev vardır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fcloseall" class="indexterm"></span>
+   <span id="glibc-cp-fcloseall" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">fcloseall</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:streams</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev sürecin açık olan tüm akımlarını kapatır ve bunlarla bağlantılı dosyalara olan bağlantılar kesilir. Tüm tamponlanmış veri yazılır, tamponlanmış girdiler ise iptal edilir. İşlev, tüm dosyalar hatasız kapatılırsa sıfır ile, hata oluşursa <code class="varname">EOF</code> ile döner.
+   </p>
+   <p>
+    Bu işlev çok özel durumlarda örneğin bir hata oluşup sürecin sonlandırılması  gerektiğinde kullanılmalıdır. Normalde her akım sorunlarının tanımlanabilmesi için ayrı ayrı kapatılmalıdır. Ayrıca bu işlev <a class="link" href="glibc-Standard-Streams.html" title="12.2. Standart Akımlar">standart akımları</a> da kapatacağından sorunlar çıkarır.
+   </p>
+  </div>
+        <p>
+   Yazılımı <strong class="function"><code>main</code></strong> işlevinden normal çıkış yaparsa ya da bir <strong class="function"><code>exit</code></strong> çağrısı ile çıkarsa (bkz. ??? tüm açık akımlar özdevinimli olarak düzgünce kapatılır. Yazılım başka bir şekilde (örneğin bir  <strong class="function"><code>abort</code></strong> çağrısı ile (bkz. ???) ya da bir <a class="link" href="glibc-Signal-Handling.html" title="24. Sinyal İşleme">ölümcül sinyal</a> ile) sonlandırılırsa açık akımlar düzgünce kapatılamayabilir. Tamponlanmış çıktılar dosyalara yazılamayabilir ve dosyalar eksik ya da boş kalabilir. Akımların tamponlanması ile ilgili daha ayrıntılı bilgi ??? bölümünde bulunabilir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

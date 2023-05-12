@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.4. Kabuk Usulü Sözcük Yorumlama</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regexp-Cleanup.html')">Önceki</button>
+          <div class="dropdown-content">10.3.6. POSIX Şablonunun Temizlenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pattern-Matching.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Overview.html')">Sonraki</button>
+          <div class="dropdown-content">11. Girdi/Çıktı İşlemlerine Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Word-Expansion">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">10.4. Kabuk Usulü Sözcük Yorumlama</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm102855" class="indexterm"></span>
+   <span id="idm102857" class="indexterm"></span>
+   <em class="wordasword">Sözcük yorumlama</em>, kabuğun yaptığı gibi değişkenleri, komutları ve dosya ismi kalıplarını sözcüklerine ayırma ve bunların yerine bazı ikameler yapma işlemlerini ifade eder.
+  </p>
+        <p>
+   Örneğin, kabuğa <span class="command"><strong>ls -l foo.c</strong></span> yazılırsa bu dizgeyi kabuk üç sözcüğe ayırır: <span class="command"><strong>ls</strong></span>, <code class="option">-l</code> ve <code class="filename">foo.c</code>. Bu sözcük yorumlamanın en temel işlemidir.
+  </p>
+        <p>
+   <span class="command"><strong>ls *.c</strong></span> yazılırsa, bu dizge çok sayıda sözcüğe ayrışır, çünkü <code class="filename">*.c</code> sözcüğü çok sayıda dosya ismiyle değiştirilecektir. Bu işleme <em class="wordasword">dosya ismi yorumlaması</em> denir ve sözcük yorumlamanın bir parçasıdır.
+  </p>
+        <p>
+   <span class="command"><strong>echo $PATH</strong></span> yazılırsa, dosya yolu basılır. Burada sözcük yorumlamanın başka bir parçası olan <em class="wordasword">değişken ikamesi</em>'nden yararlanılır.
+  </p>
+        <p>
+   Sıradan yazılımlar kabuğun uyguladığı gibi sözcük yorumlaması uygulamak için bir kütüphane işlevi olan <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> işlevini kullanabilir.
+  </p>
+        <section class="sect1" id="glibc-Expansion-Stages">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.1. Sözcük Yorumlama Katmanları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir sözcük dizilimine sözcük yorumlaması uygulandığında, sırayla aşağıdaki dönüşümler yapılır:
+   </p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>
+      <span id="idm102881" class="indexterm"></span>
+      <em class="wordasword">Yaklaşık yorumlaması</em>: ‘<code class="filename">~foo</code>’ dizgesinin ‘<code class="filename">foo</code>’ kullanıcısının ev dizini ismi ile değiştirilmesi.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Bundan sonra, aynı adımda soldan sağa 3 adımda şu dönüşümler uygulanır:
+     </p>
+                <div class="itemizedlist">
+                  <ul class="itemizedlist" style="list-style-type: disc; ">
+                    <li class="listitem">
+                      <p>
+        <span id="idm102891" class="indexterm"></span>
+        <span id="idm102893" class="indexterm"></span>
+        <em class="wordasword">Değişken ikamesi</em>: ‘<code class="filename">$foo</code>’ gibi başvurular için ortam değişkenleri ikame edilir.
+       </p>
+                    </li>
+                    <li class="listitem">
+                      <p>
+        <span id="idm102899" class="indexterm"></span>
+        <em class="wordasword">Komut İkamesi</em>: <span class="command"><strong>`cat foo`</strong></span> gibi bir dizge ya da eşdeğeri olan <span class="command"><strong>$(cat foo)</strong></span> dizgesi kullanıldığında kabuk içteki dizgeyi komut olarak çalıştırır ve bu dizgeyi komutun çıktısı ile değiştirir.
+       </p>
+                    </li>
+                    <li class="listitem">
+                      <p>
+        <span id="idm102906" class="indexterm"></span>
+        <em class="wordasword">Aritmetik yorumlama</em>: <code class="code">$(($x-1))</code> gibi bir dizge, ifadenin sonucu ile değiştirilir.
+       </p>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="listitem">
+                <p>
+      <span id="idm102912" class="indexterm"></span>
+      <em class="wordasword">Sözcüklere ayırma</em>: Dizgenin sözcüklerine ayrılması.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      <span id="idm102917" class="indexterm"></span>
+      <em class="wordasword">Dosya ismi yorumlaması</em>: ‘<code class="filename">*.c</code>’ gibi bir sözcük, uzantısı ‘<code class="filename">.c</code>’ olan dosyaların listesi ile değiştirilir. Dosya ismi yorumlaması sözcüğün tamamına bir defada uygulanır ve sözcük kendisiyle eşleşen sıfır ya da daha fazla dosya ismiyle değiştirilir.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      <span id="idm102924" class="indexterm"></span>
+      <em class="wordasword">Tırnak kaldırma</em>: Dizgeyi sarmalayan tırnakları kaldırılması; yukarıdaki yorumlamalar uygulandıktan sonra yukarıdaki yorumlamaların sonucu olmayan ve öncelenmemiş tüm <code class="code">\</code>, <code class="code">'</code> ve <code class="code">"</code> karakterleri kaldırılır.
+     </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+    Bu dönüşümler hakkında daha ayrıntılı bilgi GNU Bash Başvuru Kılavuzunun ??? kısmında bulunabilir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Calling-Wordexp">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.2. <code class="literal">wordexp</code> çağrısı</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sözcük yorumlaması ile ilgili tüm işlevler, sabitler ve veri türleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/wordexp.h;hb=HEAD" target="_top">wordexp.h</a></code> başlık dosyasında bulunur.
+   </p>
+          <p>
+    Sözcük yorumlaması sonuç olarak bir dizge göstericileri dizisi üretir. Bu dizgeyi döndürmek için <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> işlevi bir yapı olan özel bir veri türü, <a href="glibc-Word-Expansion.html#glibc-tp-wordexp_t"><strong class="type"><code>wordexp_t</code></strong></a> kullanır.  <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> işlevine bu yapının adresi aktarılırsa, işlev sonuç hakkında bilgiyi, bu yapının elemanlarına kaydederek döndürür.
+   </p>
+          <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-wordexp_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/wordexp.h;hb=HEAD" target="_top">wordexp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">wordexp_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu veri türü, sözcük göstericileri dizisine gösterici tutar. Daha açık ifade etmek gerekirse, sözcük göstericileri dizisinin adresini ve eleman sayısının kaydını tutar.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">size_t </code><strong class="structfield"><code>we_wordc</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisinin eleman sayısı.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">char **</code><strong class="structfield"><code>we_wordv</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisinin adresi.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">size_t </code><strong class="structfield"><code>we_offs</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisindeki ilk gerçek elemanın konumu veya ilk gerçek elemana erişmek için <strong class="structfield"><code>we_wordv</code></strong> alanındaki adrese eklenecek sayı. Diğer alanların aksine bu alan işlev için bir girdidir; işlev diğer alanları çıktıyı döndürmek için kullanır.
+       </p><p>
+        Konum olarak sıfırdan farklı bir değer belirtilirse, dizinin bu elemanından önceki elemanları boş kalır (işlev, bu konumları boş göstericilerle doldurur).
+       </p><p>
+        <strong class="structfield"><code>we_offs</code></strong> alanı sadece <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_DOOFFS"><strong class="varname"><code>WRDE_DOOFFS</code></strong></a> seçeneği etkinse anlamlıdır. Aksi takdirde bu alanın içerdiği değere bakılmaksızın gösterici dizisinin ilk elemanının sıfırıncı eleman olduğu varsayılır.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-wordexp" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/wordexp.h;hb=HEAD" target="_top">wordexp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">wordexp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">words</code></strong><strong><code>, </code></strong><code class="type">wordexp_t </code><strong class="type">*</strong><strong><code class="parameter">word-vector-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:utent</a></code> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-const">const</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:env</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-sig">sig</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ALRM</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-timer">timer</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-i18n">i18n</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     İşlev, <em class="parameter"><code>words</code></em> dizgesine sözcük yorumlaması uygular ve sonucu ayırdığı bir gösterici dizisinde saklayarak bu dizinin adresini ve eleman sayısını <em class="parameter"><code>word-vector-ptr</code></em> içinde döndürür.  <em class="parameter"><code>flags</code></em> bağımsız değişkeni bit değerli seçenekleri belirtmek için kullanılabilir; bu seçenekler <a class="xref" href="glibc-Word-Expansion.html#glibc-Flags-for-Wordexp" title="10.4.3. Sözcük Yorumlama Seçenekleri">Sözcük Yorumlama Seçenekleri</a> bölümünde bulunabilir.
+    </p>
+    <p>
+     <em class="parameter"><code>words</code></em> dizgesinde ‘<code class="filename">|&amp;;&lt;&gt;</code>’ karakterleri ters eğik çizgi ile öncelemeden kullanılmamalıdır. Aksi takdirde <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_BADCHAR"><strong class="varname"><code>WRDE_BADCHAR</code></strong></a> hata kodu alınır. Bir sözcük yorumlama oluşumunu sarmalamak dışında yaylı ve kaşlı ayraç kullanılmamalıdır. Eğer tırnak karakteri olarak ‘<code class="filename">'"`</code>’ karakterlerinden biri kullanılırsa, bir ikincisi ile kapatılmalıdır.
+    </p>
+    <p>
+     Sözcük yorumlamasının sonucu bir sözcük dizisidir. <code class="code">wordexp</code> işlevi sonuçlanan her sözcük için bir dizge ve bu dizgelerin göstericilerinden oluşan <code class="type">char **</code> türünde bir dizi ayırır. Gösterici dizisinin son elemanı boş göstericidir. Bu diziye <em class="firstterm">dizge göstericileri dizisi</em> denir.
+    </p>
+    <p>
+     <code class="code">wordexp</code> dizinin adresini ve eleman sayısını (sonlandırıcı boş gösterici hariç) *<em class="parameter"><code>word-vector-ptr</code></em> ile gösterilen yapı içinde döndürür.
+    </p>
+    <p>
+     <code class="code">wordexp</code> başarılı olduğu takdirde <code class="code">0</code> ile aksi takdirde şu hata kodlarından biri ile döner:
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-WRDE_BADCHAR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_BADCHAR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <em class="parameter"><code>words</code></em> girdi dizgesi ‘<code class="filename">|</code>’ benzeri öncelenmemiş geçersiz karakter içeriyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-WRDE_BADVAL" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_BADVAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Girdi dizgesi tanımlanmamış bir kabuk değişkenini ifade ediyor ve bu tür ifadeleri yasaklayan <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_UNDEF"><strong class="varname"><code>WRDE_UNDEF</code></strong></a> seçeneği belirtilmiş.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-WRDE_CMDSUB" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_CMDSUB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Girdi dizgesi komut ikamesi içeriyor ve bunların kullanımı  <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_NOCMD"><strong class="varname"><code>WRDE_NOCMD</code></strong></a> seçeneği kullanılarak yasaklanmış.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-WRDE_NOSPACE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_NOSPACE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Sonucu yerleştirmek için bellek tahsis edilemiyor. Bu durumda işlev tahsis edilebilen alana yerleştirebildiği kadar sonuçla döner.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-WRDE_SYNTAX" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_SYNTAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Girdi dizgesinde sözdizimi hatası var. Örneğin, tırnak karakterinin eşi yoksa bu bir sözdizimi hatasıdır. Bu hata kodu ayrıca aritmetik genişletmede sıfıra bölme ve taşma sinyalini vermek için de kullanılır.
+     </p>
+    </div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-wordfree" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/wordexp.h;hb=HEAD" target="_top">wordexp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">wordfree</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wordexp_t </code><strong class="type">*</strong><strong><code class="parameter">word-vector-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     *<em class="parameter"><code>word-vector-ptr</code></em> yapısında adresi belirtilen gösterici dizisini serbest bırakır. İşlev *<em class="parameter"><code>word-vector-ptr</code></em> yapısını değil yapının gösterdiği veriyi serbest bırakır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Flags-for-Wordexp">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.3. Sözcük Yorumlama Seçenekleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu bölümde <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> işlevinin <em class="parameter"><code>flags</code></em> bağımsız değişkeninde belirtilebilecek seçenekler açıklanacaktır. Seçilen seçenekler bir C işleci olan <code class="code">|</code> ile birleştirerek kullanılabilir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_APPEND" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_APPEND</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Önceki bir <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> çağrısı ile üretilmiş sözcük göstericileri dizisine bu yorumlamadan sözcükler eklenir. Bu yolla bir dizgenin sonuna aralarında boşluk bırakarak sözcük ekler gibi diziye sözcük eklenebilir.
+    </p>
+    <p>
+     Ekleme işlemi sırasında, <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> çağrıları arasında sözcük göstericileri dizisinde değişiklik yapılmamalıdır. Ayrıca ilk <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> çağrısında <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_DOOFFS"><strong class="varname"><code>WRDE_DOOFFS</code></strong></a> seçeneği belirtilmişse, ekleme işlemi için yapılan çağrıda da bu seçenek belirtilmelidir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_DOOFFS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_DOOFFS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sözcük gösterici dizisinin başlangıcındaki elemanların boş kalmasını sağlar. Kaç elemanın boş kalacağı <strong class="structfield"><code>we_offs</code></strong> üyesinde belirtilir. Boş elemanlar boş gösterici içerir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_NOCMD" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_NOCMD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Komut ikamesi yapılmaz; eğer girdi komut ikamesini gerektiriyorsa, bir hata bildirilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_REUSE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_REUSE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Önceki bir <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> çağrısı ile üretilmiş sözcük göstericileri dizisini yeniden kullanılabilir yapar. Bu seçeneğin kullanıldığı bir <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> çağrısında yeni bir gösterici dizisi ayrılmaz, mevcut olan (gerekirse genişletilerek) kullanılır.
+    </p>
+    <p>
+     Bu işlem sırasında dizi başka bir bellek bölgesine taşınabileceğinden eski gösterici saklanıp bu çağrıdan sonra kullanılmamamalıdır. Her çağrıdan sonra  gösterici <strong class="structfield"><code>we_pathv</code></strong> üyesinden alınabilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_SHOWERR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_SHOWERR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Komut ikamesinde çalıştırılan komutlardan dönen hata iletileri gösterilir. Yani, bu komutların sürecin standart hata akımını kullanması sağlanır. Öntanımlı olarak, <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> bu komutlara hata iletilerinin gösterilmediği standart hata akımını atar.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WRDE_UNDEF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">WRDE_UNDEF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Eğer girdi tanımsız bir kabuk değişkeni içeriyorsa bir hata bildirilir.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Wordexp-Example">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.4. <code class="code">wordexp</code> Örneği</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu örnekte <a href="glibc-Word-Expansion.html#glibc-fn-wordexp"><strong class="function"><code>wordexp</code></strong></a> işlevi muhtelif dizgeleri yorumlayıp sonuçlarını birer kabuk komutu olarak kullanmaktadır. Ayrıca, <a href="glibc-Word-Expansion.html#glibc-vr-WRDE_APPEND"><strong class="varname"><code>WRDE_APPEND</code></strong></a> seçeneği ile <a href="glibc-Word-Expansion.html#glibc-fn-wordfree"><strong class="function"><code>wordfree</code></strong></a> işlevinin kullanımı da gösterilmiştir.
+   </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">int
+expand_and_execute (const char *program, const char **options)
+{
+  wordexp_t sonuc;
+  pid_t pid
+  int status, i;
+
+  /* <em class="replaceable"><code>Çalıştırılacak komut için dizgeyi yorumla.</code></em>  */
+  switch (wordexp (program, &amp;sonuc, 0))
+    {
+    case 0:			/* <em class="replaceable"><code>Başarılı</code></em>.  */
+      break;
+    case WRDE_NOSPACE:
+      /* <em class="replaceable"><code>WRDE_NOSPACE hatası varsa, sonuc kısmen de olsa
+         tahsis edilmiştir. Onu serbest bırak.</code></em>  */
+      wordfree (&amp;sonuc);
+    default:                    /* <em class="replaceable"><code>Başka hatalar.</code></em>  */
+      return -1;
+    }
+
+  /* <em class="replaceable"><code>Bağımsız değişkenleri elde etmek için dizgeyi yorumla.</code></em>  */
+  for (i = 0; options[i] != NULL; i++)
+    {
+      if (wordexp (options[i], &amp;sonuc, WRDE_APPEND))
+        {
+          wordfree (&amp;sonuc);
+          return -1;
+        }
+    }
+
+  pid = fork ();
+  if (pid == 0)
+    {
+      /* <em class="replaceable"><code>Burada bir alt süreç oluşturup komutu çalıştır.</code></em> */
+      execv (sonuc.we_wordv[0], sonuc.we_wordv);
+      exit (EXIT_FAILURE);
+    }
+  else if (pid &lt; 0)
+    /* <em class="replaceable"><code>Çatallama başarısız oldu, durumu raporla.</code></em>  */
+    status = -1;
+  else
+    /* <em class="replaceable"><code>Bu üst süreç, alt sürecin bitmesini bekleyecek.</code></em>  */
+    if (waitpid (pid, &amp;status, 0) != pid)
+      status = -1;
+
+  wordfree (&amp;sonuc);
+  return status;
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect1" id="glibc-Tilde-Expansion">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.5. Yaklaşık (~) Yorumlaması Hakkında</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Kendi ev dizininizi belirtmek için bir dosya isminin başında kullandığınız ‘<code class="filename">~</code>’ imi kabuk sözdiziminin standart parçalarından biridir. Bir <em class="replaceable"><code>kullanıcı</code></em>'nın ev dizinini belirtmek için ise  <code class="code">~</code><em class="replaceable"><code>kullanıcı</code></em> yazılabilir.
+   </p>
+          <p>
+    <em class="wordasword">Yaklaşık (~) yorumlaması</em>, ‘<code class="filename">~</code>’ imini ev dizini ismine dönüştürme işlemidir.
+   </p>
+          <p>
+    Yaklaşık (~) yorumlaması ‘<code class="filename">~</code>’ imi ile başlayan, ilk boşluk ya da eğik çizgi karakterine kadar tüm karakterlere uygulanır. <span class="command"><strong>~</strong></span> imi sadece bir sözcüğün başındaysa anlamlıdır; tek başına olsa bile yorumlama yapılır.
+   </p>
+          <p>
+    Tek başına ‘<code class="filename">~</code>’ imi için <code class="varname">HOME</code> ortam değişkeninin değeri kullanılır. ‘<code class="filename">~</code>’ karakterinden sonra gelen sözcük kullanıcı veritabanında <strong class="function"><code>getpwname</code></strong> ile aranır ve veritabanında kayıtlı ev dizini kullanılır. Bu durumda, ‘<code class="filename">~</code>’ iminden sonra kendi kullanıcı isminizi yazarsanız ve <code class="varname">HOME</code> ortam değişkenindeki değer, veritabanında kayıtlı değerden farklıysa, tek başına ‘<code class="filename">~</code>’ kullanarak yapılan yorumlamadan farklı bir sonuç dönebilir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Variable-Substitution">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.4.6. Değişken İkamesi Hakkında</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Kabuk sözdiziminin bir parçası da bir kabuk değişkeninin değerini bir komutta kullanırken <code class="code">$</code><em class="replaceable"><code>değişken</code></em> şeklinde kullanmaktır. Buna <em class="wordasword">değişken ikamesi</em> denir ve yapılan işlem sözcük yorumlamanın bir parçasıdır.
+   </p>
+          <p>
+    Bir ikame yapmak için bir değişken iki yöntemle kullanılabilir:
+   </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+      <code class="code">${<em class="replaceable"><code>değişken</code></em>}</code>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       Eğer değişken ismi kaşlı ayraçlar içine alınırsa, değişken isminin bittiği yerin belirsizliği tamamen ortadan kalkar. Böylece değişken ismine sözcük eklenebilir. Örneğin, ‘<code class="filename">${foo}</code>’ değişkeninin değeri ‘<code class="filename">traktör</code>’ ise ‘<code class="filename">${foo}ler</code>’ifadesinin sonucu ‘<code class="filename">traktörler</code>’ olur.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <code class="code">$</code><em class="replaceable"><code>değişken</code></em>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       Değişken ismi kaşlı ayraçlar içine alınmazsa, değişken ismi <code class="code">$</code> karakteri ile başlar ve abecesayısal karakterler ve alt çizgi karakterinden oluşabilir. İsimden sonra gelen herhangi bir noktalama işareti değişken ismini sonlandırır. Örneğin, ‘<code class="filename">$foo-pulluk</code>’ ifadesinin sonucu ‘<code class="filename">traktör-pulluk</code>’ olur.
+      </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+    Kaşlı ayraçlar kullanıldığında değeri değiştirmek için çeşitli oluşumları kullanmak ya da bazı sınamalar yapmak mümkün olur.
+   </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>:-</code></strong><em class="replaceable"><code>öntanımlı</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'e değer atanmamışsa ya da tanımsızsa değer olarak <em class="replaceable"><code>öntanımlı</code></em> kullanılır, aksi takdirde <em class="replaceable"><code>değişken</code></em>'in değeri kullanılır.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>:=</code></strong><em class="replaceable"><code>öntanımlı</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'e değer atanmamışsa ya da tanımsızsa değer olarak <em class="replaceable"><code>öntanımlı</code></em> kullanılır ve <em class="replaceable"><code>değişken</code></em>'e <em class="replaceable"><code>öntanımlı</code></em> değeri atanır.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>:?</code></strong><code class="literal"><em class="replaceable"><code>ileti</code></em></code><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'e değer atanmışsa ya da tanımlıysa, değeri kullanılır. Aksi takdirde, sözcük ikamesinin başarısız olduğu kabulüyle standart hata akımına hata <em class="replaceable"><code>ileti</code></em>si basılır.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>:+</code></strong><em class="replaceable"><code>sözcük</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       Sadece, <em class="replaceable"><code>değişken</code></em>'e değer atanmışsa ya da tanımlıysa, <em class="replaceable"><code>sözcük</code></em> kullanılır. Aksi takdirde sonuç hiçbir şey olur.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${#</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       Bu ifadenin değeri, <em class="replaceable"><code>değişken</code></em>in değerindeki karakter sayısıdır. Sonuç onluk tabandadır. Örneğin, <code class="code">${#foo}</code> ifadesinin sonucu 7'dir, çünkü <code class="code">traktör</code> 7 karakter uzunluktadır.
+      </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+    Aşağıdaki değişken ikamelerinde, değişkene bir değer ikame etmeden önce değeri kısmen kaldırılır. <em class="replaceable"><code>önek</code></em> ve <em class="replaceable"><code>sonek</code></em> basitçe birer dizge olmayabilir; dosya ismi kalıpları kullanılabilir. Ancak bu bağlamda bu kalıplar dosya isimleri ile değil, değişkenin değerinin parçaları ile eşleştirilir.
+   </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>%%</code></strong><em class="replaceable"><code>sonek</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'in değeri, değerin sonunda <em class="replaceable"><code>sonek</code></em> kalıbı ile eşleşen kısmı iptal edilerek kullanılır.
+      </p>
+                <p>
+       <em class="replaceable"><code>sonek</code></em> ile eşleşen çok sayıda parça varsa en uzun eşleşme iptal edilir.
+      </p>
+                <p>
+       Örneğin, <code class="code">${foo%%r*}</code> ifadesinin sonucu <code class="code">t</code> olur, çünkü <code class="code">r*</code> kalıbı ile değerin sonunda eşleşen en uzun parça <code class="code">raktör</code>'dür.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>%</code></strong><em class="replaceable"><code>sonek</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'in değeri, değerin sonunda <em class="replaceable"><code>sonek</code></em> kalıbı ile eşleşen kısmı iptal edilerek kullanılır.
+      </p>
+                <p>
+       <em class="replaceable"><code>sonek</code></em> ile eşleşen çok sayıda parça varsa en kısa eşleşme iptal edilir.
+      </p>
+                <p>
+       Örneğin, <code class="code">${foo%r*}</code> ifadesinin sonucu <code class="code">traktö</code> olur, çünkü <code class="code">r*</code> kalıbı ile değerin sonunda eşleşen en kısa parça <code class="code">r</code>'dir.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>##</code></strong><em class="replaceable"><code>önek</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'in değeri, değerin başlangıcında <em class="replaceable"><code>önek</code></em> kalıbı ile eşleşen kısmı iptal edilerek kullanılır.
+      </p>
+                <p>
+       <em class="replaceable"><code>önek</code></em> ile eşleşen çok sayıda parça varsa en uzun eşleşme iptal edilir.
+      </p>
+                <p>
+       Örneğin, <code class="code">${foo##*t}</code> ifadesinin sonucu <code class="code">ör</code> olur, çünkü <code class="code">*t</code> kalıbı ile değerin başlangıcında eşleşen en uzun parça <code class="code">trakt</code>'tır.
+      </p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <strong class="operator"><code>${</code></strong><em class="replaceable"><code>değişken</code></em><strong class="operator"><code>#</code></strong><em class="replaceable"><code>önek</code></em><strong class="operator"><code>}</code></strong>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+       <em class="replaceable"><code>değişken</code></em>'in değeri, değerin başlangıcında <em class="replaceable"><code>önek</code></em> kalıbı ile eşleşen kısmı iptal edilerek kullanılır.
+      </p>
+                <p>
+       <em class="replaceable"><code>önek</code></em> ile eşleşen çok sayıda parça varsa en kısa eşleşme iptal edilir.
+      </p>
+                <p>
+       Örneğin, <code class="code">${foo#*t}</code> ifadesinin sonucu <code class="code">raktör</code> olur, çünkü <code class="code">*t</code> kalıbı ile değerin başlangıcında eşleşen en kısa parça <code class="code">t</code>'dir.
+      </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>9.6. Ağaç Arama İşlevi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Hash-Search-Function.html')">Önceki</button>
+          <div class="dropdown-content">9.5. İsim-Değer Çiftleri ile Arama İşlevi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Searching-and-Sorting.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pattern-Matching.html')">Sonraki</button>
+          <div class="dropdown-content">10. Şablon Eşleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Tree-Search-Function">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">9.6. Ağaç Arama İşlevi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Verimli bir arama yapmak için verileri düzenlemenin bir yolu da ağaçları kullanmaktır. <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlev ailesi büyük boyutlardaki verileri eleman sayısının logaritmasından daha kısa bir sürede bulmayı garantileyen  hoş bir arayüz sağlar. GNU C Kütüphanesinin gerçeklemesi bu sınırın, basit ikil ağaç gerçeklenimlerin veri girdilerinin sebep olduğu sorunlarda bile aşılmamasını garanti eder.
+  </p>
+        <p>
+   Bu bölümde açıklanan işlevlerin tümü System V ve X/Open belirtimlerinde açıklanmıştır ve dolayısıyla taşınabilirdir.
+  </p>
+        <p>
+   <a href="glibc-Hash-Search-Function.html#glibc-fn-hsearch"><strong class="function"><code>hsearch</code></strong></a> işlevlerinin aksine <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevleri sadece boş karakter sonlandırmalı dizgelerle değil her türlü veri ile kullanılabilir.
+  </p>
+        <p>
+   <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevleri ayrıca veri yapılarının ilklendirilmesini gerektiren işlevleri içermemek gibi bir ayrıcalığa da sahiptir. <code class="varname">NULL</code> ile ilklendirilmiş <code class="type">void *</code> türünde bir gösterici geçerli bir ağaçtır ve genişletilebilir ya da aranabilirdir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tsearch" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">tsearch</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">rootp</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compar</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:rootp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">tsearch</code> işlevi *<em class="parameter"><code>rootp</code></em> ile gösterilen ağaç içinde <em class="parameter"><code>key</code></em> ile eşleşen elemanı arar. <em class="parameter"><code>compar</code></em> ile belirtilen işlev iki elemanın karşılaştırılmasında kullanılır. <em class="parameter"><code>compar</code></em> ile belirtilen işlevlerin özellikleri için <a class="xref" href="glibc-Comparison-Functions.html" title="9.1. Karşılaştırma İşlevinin Tanımlanması"><em>Karşılaştırma İşlevinin Tanımlanması</em></a> bölümüne bakılabilir.
+   </p>
+   <p>
+    Ağaç içinde <em class="parameter"><code>key</code></em> ile eşleşen bir girdi bulunamazsa değer ağaca eklenir. <code class="code">tsearch</code> işlevi <em class="parameter"><code>key</code></em> ile gösterilen nesnenin bir kopyasını oluşturmaz (boyutu bilinmediğinden). Bunun yerine ağacın yapısı içinde olduğunu belirtmek için ona bir başvuru ekler.
+   </p>
+   <p>
+    Ağacın kök düğümünü kimi zaman değiştirmek gerekebileceğinden ağaç, göstericiye gösterici olarak belirtilmiştir. Bu nedenle çağrıdan sonra <em class="parameter"><code>rootp</code></em> tarafından gösterilen değişkenin aynı değerde olmayacağı varsayılmalıdır. Bu da <code class="code">tsearch</code> işlevinin aynı ağaç için peşpeşe çağrılamayacağı anlamına gelir. Ancak işlevi peşpeşe farklı ağaçlarla çağırmak bir sorun oluşturmaz.
+   </p>
+   <p>
+    Dönen değer ağaçta eşleşen elemanın göstericisidir. Yeni bir eleman oluşturulmuşsa dönen değer yeni oluşturulan elemanın göstericisidir. Bir girdi oluşturulmuş ama bellek yetmemişse <code class="varname">NULL</code> döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tfind" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">tfind</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">void *const </code><strong class="type">*</strong><strong><code class="parameter">rootp</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compar</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:rootp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">tfind</code> işlevi <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevine benzer. <em class="parameter"><code>key</code></em> ile eşleşen elemana bir gösterici ile döner. Eşleşen  eleman bulunamazsa ağaca yeni bir eleman girilmez ve işlev <code class="varname">NULL</code> ile döner (Dikkat: <em class="parameter"><code>rootp</code></em> sabit göstericiye göstericidir).
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevlerinin bir özelliği de <a href="glibc-Hash-Search-Function.html#glibc-fn-hsearch"><strong class="function"><code>hsearch</code></strong></a> işlevlerinin aksine elemanların silinebilmesidir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tdelete" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">tdelete</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">rootp</code></strong><strong><code>, </code></strong><code class="type">comparison_fn_t </code> <strong><code class="parameter">compar</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:rootp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <em class="parameter"><code>key</code></em> ile eşleşen belli bir elemanı ağaçtan kaldırmak için <code class="code">tdelete</code> işlevi kullanılabilir. Eleman silindikten sonra silinen düğümün ata düğümüne bir gösterici döner. Ağaçta silinecek bir eleman bulunamazsa işlev <code class="varname">NULL</code> ile döner. İşlev ağacın kökünü silerse dönen değer <code class="varname">NULL</code> olmayan anlamsız bir değer olabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tdestroy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">tdestroy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">vroot</code></strong><strong><code>, </code></strong><code class="type">__free_fn_t </code> <strong><code class="parameter">freefct</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Arama ağacı tamamen silinmek istenirse <code class="code">tdestroy</code> işlevi kullanılabilir. <a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevi tarafından oluşturulan ve <em class="parameter"><code>vroot</code></em> ile kökü belirtilen ağaca ayrılan tüm kaynakları serbest bırakır.
+   </p>
+   <p>
+    Ağacın her düğümü için  <em class="parameter"><code>freefct</code></em> işlevi çağrılır. Veri göstericisi bağımsız değişken olarak işleve aktarılır. Böyle bir işlem gerekli değilse <em class="parameter"><code>freefct</code></em> hiçbir şey yapmayan bir işlevi göstermelidir. İşlev ne olursa olsun çağrılır.
+   </p>
+   <p>
+    Bu işlev bir GNU oluşumudur. System V veya X/Open belirtimlerinde yoktur.
+   </p>
+  </div>
+        <p>
+   Ağaç veri yapısını oluşturan ve yok eden işlevlere ek olarak, ağacın her elemanına uygulanan bir işlev daha vardır. İşlev aşağıdaki türde olmalıdır:
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-__action_fn_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">__action_fn_t</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">nodep</code></strong><strong><code>, </code></strong><code class="type">VISIT </code> <strong><code class="parameter">value</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">level</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    <em class="parameter"><code>nodep</code></em>, düğümün veri değeridir (<a href="glibc-Tree-Search-Function.html#glibc-fn-tsearch"><strong class="function"><code>tsearch</code></strong></a> işlevine verilen <em class="parameter"><code>key</code></em> bağımsız değişkeni). <em class="parameter"><code>level</code></em> düğümün ağaçtaki derinliğine karşı düşen sayısal bir değerdir. Kök düğümün derinliği 0’dır, sonraki düğüm 1, sonraki 2 diye gider. <a href="glibc-Tree-Search-Function.html#glibc-tp-VISIT"><strong class="type"><code>VISIT</code></strong></a> sayılama türüdür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-VISIT" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum </code> <strong><code class="function">VISIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">VISIT</code> değeri düğümün ağaçtaki durumunu ve işlevin nasıl çağrıldığını belirtir. Düğümün durumu ya sonuncu ya da dahili düğümdür. Her sonuncu düğüm için işlev yalnız ve yalnız bir kere çağrılır. Her dahili düğüm için ise üç kere çağrılır: İlk çocuk işlenmeden önce, ilk çocuk işlendikten sonra ve her iki çocuk işlendikten sonra. Böylece ağacın üç yöntemini geçişli (hatta hepsini birlikte) kullanmak mümkün olur.
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">preorder</code></span></dt><dd><p>
+       Düğüm, dahili bir düğümdür ve işlev ilk çocuk düğüm işlenmeden önce çağrılır.
+      </p></dd><dt><span class="term"><code class="code">postorder</code></span></dt><dd><p>
+       Düğüm, dahili bir düğümdür ve işlev ilk çocuk düğüm işlendikten sonra çağrılır.
+      </p></dd><dt><span class="term"><code class="code">endorder</code></span></dt><dd><p>
+       Düğüm, dahili bir düğümdür ve işlev ikinci çocuk düğüm işlendikten sonra çağrılır.
+      </p></dd><dt><span class="term"><code class="code">leaf</code></span></dt><dd><p>
+       Düğüm sonuncu düğümdür (yaprak).
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-twalk" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">twalk</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">root</code></strong><strong><code>, </code></strong><code class="type">__action_fn_t </code> <strong><code class="parameter">action</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:root</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>root</code></em> ile gösterilen ağacın her düğümü için <em class="parameter"><code>action</code></em> ile belirtilen işlevi çağırır. Sonuncu düğümler için işlev <em class="parameter"><code>value</code></em> bağımsız değişkenine <em class="parameter"><code>leaf</code></em> belirtilerek sadece bir kere çağrılır. İç düğümler için işlev <em class="parameter"><code>value</code></em> bağımsız değişkeninde ilgili değer belirtilerek üç kere çağrılır. <em class="parameter"><code>action</code></em> işlevinin <em class="parameter"><code>level</code></em> bağımsız değişkeni ağacın kökünden çocuklara inildikçe artan değerler alır. Kökün seviyesi 0’dır.
+   </p>
+   <p>
+    <code class="code">twalk</code> işlevinin <em class="parameter"><code>action</code></em> bağımsız değişkeni için kullanılan işlevler ağaç verisini değiştirmemelidir çünkü aynı ağaç üzerinde aynı anda birden fazla evrede <code class="code">twalk</code> çalıştırılabilir. Ayrıca aynı anda paralel olarak <a href="glibc-Tree-Search-Function.html#glibc-fn-tfind"><strong class="function"><code>tfind</code></strong></a> de çağrılabilir. Ağaçta değişiklik yapan işlevler kullanılmamalıdır, aksi takdirde davranış tanımsızdır. Ancak, genel değişkenlere (ve evresel güvenilirlik sorunlarına) başvurmadan <em class="parameter"><code>action</code></em> işlevine ağacın dışındaki verileri aktarmak zordur. Bunun için aşağıdaki <a href="glibc-Tree-Search-Function.html#glibc-fn-twalk_r"><strong class="function"><code>twalk_r</code></strong></a> işlevi çözüm olabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-twalk_r" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">twalk_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">root</code></strong><strong><code>, </code></strong><code>void (*<em class="parameter"><code>action</code></em>)</code> <code>(const void *<em class="parameter"><code>key</code></em>, VISIT <em class="parameter"><code>which</code></em>, void *<em class="parameter"><code>closure</code></em>)</code><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">closure</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:root</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>root</code></em> ile gösterilen düğüme sahip ağaçtaki her düğüm için, <code class="code">twalk_r</code> işlevi <em class="parameter"><code>action</code></em> ile belirtilen işlevi çağırır. En uçtaki düğümler için işlev  <em class="parameter"><code>which</code></em>'e <em class="parameter"><code>leaf</code></em> atanarak yalnızca bir kez çağrılır. Dahili düğümler için işlev, <em class="parameter"><code>action</code></em> işlevinin <em class="parameter"><code>which</code></em> bağımsız değişkenine uygun değer atanarak üç kez çağrılır. <em class="parameter"><code>closure</code></em> değeri <em class="parameter"><code>action</code></em> işlevinin her çağrısına değiştirilmeden iletilir.
+   </p>
+   <p>
+    <a href="glibc-Tree-Search-Function.html#glibc-fn-twalk"><strong class="function"><code>twalk</code></strong></a> işlevini <code class="code">twalk_r</code> işlevinin öncesinde uygulamak mümkündür, bu nedenle ayrı bir <em class="parameter"><code>level</code></em> bağımsız değişkeni yoktur.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">#include &lt;search.h&gt;
+
+struct twalk_with_twalk_r_closure
+{
+  void (*action) (const void *, VISIT, int);
+  int depth;
+};
+
+static void
+twalk_with_twalk_r_action (const void *nodep, VISIT which, void *closure0)
+{
+  struct twalk_with_twalk_r_closure *closure = closure0;
+
+  switch (which)
+    {
+    case leaf:
+      closure-&gt;action (nodep, which, closure-&gt;depth);
+      break;
+    case preorder:
+      closure-&gt;action (nodep, which, closure-&gt;depth);
+      ++closure-&gt;depth;
+      break;
+    case postorder:
+      /* <em class="replaceable"><code>preorder eylemi derinliği artırdı.</code></em> */
+      closure-&gt;action (nodep, which, closure-&gt;depth - 1);
+      break;
+    case endorder:
+      - -closure-&gt;depth;
+      closure-&gt;action (nodep, which, closure-&gt;depth);
+      break;
+    }
+}
+
+void
+twalk (const void *root, void (*action) (const void *, VISIT, int))
+{
+  struct twalk_with_twalk_r_closure closure = { action, 0 };
+  twalk_r (root, twalk_with_twalk_r_action, &amp;closure);
+}
+</pre></div></div><br class="example-break" />
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

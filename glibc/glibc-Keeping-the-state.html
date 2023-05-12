@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.3.2. Durumun saklanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Selecting-the-Conversion.html')">Önceki</button>
+          <div class="dropdown-content">6.3.1. Dönüşüm Seçimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Restartable-multibyte-conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Converting-a-Character.html')">Sonraki</button>
+          <div class="dropdown-content">6.3.3. Karakterlerin Dönüştürülmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Keeping-the-state">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.3.2. Durumun saklanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm95377" class="indexterm"></span>
+    Bu kısmın başlarında <em class="wordasword">durumsal</em> kodlama kullanılan karakter kümelerinden bahsedilmişti. Bunların metnin içindeki kodlanmış değerleri öncekilere bir şekilde bağımlıdır.
+   </p>
+        <p>
+    Dönüşüm işlevleri bir metni birden fazla adımda dönüştürebildiğinden bu bilginin işlevlerin bir çağrısından diğerine aktarılması gerekir.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="idm95382" class="indexterm"></span>
+    <span id="glibc-tp-mbstate_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">mbstate_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">mbstate_t</code> türünde bir değişken bir dönüşüm işlevi çağrısından diğerine aktarılması gerekli olan <em class="wordasword">öteleme durumu</em> hakkında tüm bilgiyi içerir.
+    </p>
+    <p>
+     <code class="code">mbstate_t</code> türü ISO C90 standardının 1. düzeltmesinde bulunur.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Keeping-the-state.html#glibc-tp-mbstate_t"><strong class="type"><code>mbstate_t</code></strong></a> türünde nesneleri kullanırken yazılımcı bu nesneleri tanımlamalı (normalde yığıt üzerinde yerel değişkenler olarak) ve dönüşüm işlevine göstericisi ile aktarmalıdır. Çok baytlı karakter durumsal ise dönüşüm işlevi bu yolla nesneyi güncelleyebilir.
+   </p>
+        <p>
+    Durum nesnesini belirli bir duruma koyacak bir ilklendirici ya da bu işleme özel bir işlev yoktur. Kurallar gereğince nesne daima ilk kullanımdan önce ilk durumu göstermeli ve bu, aşağıdaki gibi bir kodla değişkeni tamamen temizleyerek yapılmalıdır:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">{
+  mbstate_t durum;
+  memset (&amp;durum, '\0', sizeof (durum));
+  /* <em class="replaceable"><code>bundan sonra <code class="code">durum</code> kullanılabilir.</code></em>  */
+  …
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    Çıktıyı üretecek dönüşüm işlevlerini kullanırken çoğunlukla o anki durumun ilk durum olup olmadığına bakılması gerekir. Örneğin, dizilimin bir noktasında durumu ilk duruma ayarlayacak önceleme dizilimlerinin kullanılıp kullanılmayacağına karar vermek için bu gereklidir. İletişim protokolleri genellikle bunu gerektirir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-mbsinit" class="indexterm"></span>
+    <span id="glibc-cp-mbsinit" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">mbsinit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const mbstate_t </code><strong class="type">*</strong><strong><code class="parameter">ps</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">mbsinit</code> işlevi göstericisi <em class="parameter"><code>ps</code></em> olan nesnenin ilk durumda olup olmadığını saptamakta kullanılır. <em class="parameter"><code>ps</code></em> bir boş göstericiyse ya da nesne ilk durumdaysa dönen değer sıfırdan farklı olur. Aksi takdirde sıfır döner.
+    </p>
+    <p>
+     <code class="code">mbsinit</code> işlevi ISO C90 standardının 1. düzeltmesinde bulunur.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Keeping-the-state.html#glibc-fn-mbsinit"><strong class="function"><code>mbsinit</code></strong></a> kullanılan bir kod çoğunlukla aşağıdakine benzer:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">{
+  mbstate_t durum;
+  memset (&amp;durum, '\0', sizeof (durum));
+  /* <em class="replaceable"><code><code class="code">durum</code> burada kullanılıyor.</code></em>  */
+  …
+  if (! mbsinit (&amp;durum))
+    {
+      /* <em class="replaceable"><code>ilk duruma döndürecek kod</code></em>  */
+      const wchar_t bos[] = L"";
+      const wchar_t *kaynak = bos;
+      wcsrtombs (outbuf, &amp;kaynak, outbuflen, &amp;durum);
+    }
+  …
+}
+</pre>
+            <p>
+     
+     İlk duruma geri dönmeyi sağlayacak olan önceleme dizilimini çıktılayacak kod ilginçtir. <a href="glibc-Converting-Strings.html#glibc-fn-wcsrtombs"><strong class="function"><code>wcsrtombs</code></strong></a> işlevi gerekli çıktılama kodunu (bkz. <a class="xref" href="glibc-Converting-Strings.html" title="6.3.4. Dizge Dönüşümleri">Dizge Dönüşümleri</a>) saptamakta kullanılabilir.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="admon note">
+          <h3 class="admon-title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+     Geniş karakterli kodlama durumsal olmadığından GNU sistemlerinde çok baytlı metni geniş karakterli metne dönüştürmek için bu ek eylemin uygulanması gerekli değildir. Ancak bir durumsal kodlama kullanarak <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> yapılmasının yasaklanmasına hiçbir standartta değinilmemiştir.
+    </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.2.6.3. Bir Yığınağa Nesne Eklenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -44,19 +43,19 @@
           </div>
         </div>
         <p>
-     <span id="idm87368" class="indexterm"></span>
+     <span id="idm87398" class="indexterm"></span>
      Bir bellek nesnesi için bir yığınakta yer tahsisinin en kestirme yolu, <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> çağırır gibi <a href="glibc-Allocation-in-an-Obstack.html#glibc-fn-obstack_alloc"><strong class="function"><code>obstack_alloc</code></strong></a> çağrısı yapmaktır.
      </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-obstack_alloc" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_alloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_alloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:obstack-ptr</a></code>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
      </div>
      <p>
-      İşlev, bir yığınakta <em class="parameter"><code>size</code></em> baytlık ilkendirilmemiş bir dilim ayırır ve adresi ile döner. Burada <em class="parameter"><code>obstack-ptr</code></em>, içinde dilimlerin tahsis edileceği yığınağı belirten <span class="command"><strong>struct obstack</strong></span> yapısının adresidir. Her yığınak işlevi ya da makrosu ilk bağımsız değişken olarak daima bir <em class="parameter"><code>obstack-ptr</code></em> belirtmeyi gerektirir.
+      İşlev, bir yığınakta <em class="parameter"><code>size</code></em> baytlık ilkendirilmemiş bir dilim ayırır ve adresi ile döner. Burada <em class="parameter"><code>obstack-ptr</code></em>, içinde dilimlerin tahsis edileceği yığınağı belirten <a href="glibc-Creating-Obstacks.html#glibc-tp-mtrace"><strong class="type"><code>struct obstack</code></strong></a> yapısının adresidir. Her yığınak işlevi ya da makrosu ilk bağımsız değişken olarak daima bir <em class="parameter"><code>obstack-ptr</code></em> belirtmeyi gerektirir.
      </p>
      <p>
       Bellekte yeni bir öbek tahsis edilmesi gerekirse bu işlev yığınağın <a href="glibc-Preparing-for-Obstacks.html#glibc-fn-obstack_chunk_alloc"><strong class="function"><code>obstack_chunk_alloc</code></strong></a> makrosunu çağırır. <a href="glibc-Preparing-for-Obstacks.html#glibc-fn-obstack_chunk_alloc"><strong class="function"><code>obstack_chunk_alloc</code></strong></a> makrosunda belirtilen işlev bellek tahsisinde başarısız  olursa <a href="glibc-Preparing-for-Obstacks.html#glibc-vr-obstack_alloc_failed_handler"><strong class="function"><code>obstack_alloc_failed_handler</code></strong></a> işlevi çağrılır.
@@ -88,7 +87,7 @@ dizge_kopyala (char *<em class="parameter"><code>dizge</code></em>)
     </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-obstack_copy" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_copy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_copy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:obstack-ptr</a></code>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -101,7 +100,7 @@ dizge_kopyala (char *<em class="parameter"><code>dizge</code></em>)
     </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-obstack_copy0" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_copy0</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">obstack_copy0</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct obstack </code><strong class="type">*</strong><strong><code class="parameter">obstack-ptr</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:obstack-ptr</a></code>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -131,6 +130,11 @@ ygnaka_dizge_kopyala (char *adres, int boyut)
      Önceki örnekte aynı işi boş karakterle sonlandırmadan yapan <code class="code">dizge_kopyala</code> işlevi için <a href="glibc-Allocation-in-an-Obstack.html#glibc-fn-obstack_alloc"><strong class="function"><code>obstack_alloc</code></strong></a> kullanılmıştı.
     </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

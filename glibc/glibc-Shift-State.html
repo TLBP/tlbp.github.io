@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.4.3. Öteleme Durumu</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-reentrant-String-Conversion.html')">Önceki</button>
+          <div class="dropdown-content">6.4.2. Evresel Olmayan Dizge Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-reentrant-Conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Charset-Conversion.html')">Sonraki</button>
+          <div class="dropdown-content">6.5. Karakter Kümesi Dönüşümü</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Shift-State">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.4.3. Öteleme Durumu</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm96418" class="indexterm"></span>
+    <span id="idm96420" class="indexterm"></span>
+    Bazı çok baytlı karakterlerin bayt dizilimleri tek başlarına anlamlı değildir; dizge içindeki kendilerinden önce gelen karakterlere bağlı olarak değerlendirilir. Kendinden sonraki dizilimlerin anlamını değiştiren belli başlı birkaç dizilim vardır. Bu dizilimlere <em class="wordasword">öteleme dizilimleri</em> ve bunların hepsine birden <em class="wordasword">öteleme durumu</em> denir.
+   </p>
+        <p>
+    Öteleme dizilimlerini ve öteleme durumu şöyle bir örnekle açıklanabilir: <code class="code">0200</code> diziliminin (bir baytlık) Japonca kipini başlattığı varsayılsın. Bu dizilimden sonra gelen <code class="code">0240</code> ile <code class="code">0377</code> arasındaki bayt çiftleri birer karakter olarak yorumlanır. Aynı şekilde, <code class="code">0201</code> ile Latin-1 kipine girilirse <code class="code">0240</code> ile <code class="code">0377</code> arasındaki tek karakterler Latin-1 karakter kümesindeki karakterler olarak yorumlanır.  Burada iki öteleme durumu (Japonca ve Latin-1 kipi) olan çok baytlı kod ile belli öteleme durumlarını belirten iki öteleme diziliminden bahsedilmiş oldu.
+   </p>
+        <p>
+    Kullanımdaki çok baytlı karakter kodu için öteleme durumları varsa, <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-mblen"><strong class="function"><code>mblen</code></strong></a>, <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-mbtowc"><strong class="function"><code>mbtowc</code></strong></a> ve <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-wctomb"><strong class="function"><code>wctomb</code></strong></a> işlevleri taradıkları dizgenin mevcut öteleme durumlarını düzenlemeli ve güncellemelidir. Bunun olması için şu kurallara uyulmalıdır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Bir dizgeyi taramaya başlamadan önce, çok baytlı karakter adresi için işlev <code class="code">mblen (NULL, 0)</code> gibi bir boş gösterici ile çağrılmalıdır. Böylece öteleme durumu işlevin kendi standart ilk değeriyle ilklendirilecektir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Dizge sırayla bir defada bir karakter işlenecek şekilde taranmalıdır. Taranan karakterler yedeklenmemeli, yeniden taranmamalı ve bu arada başka dizgeler işleme sokulmamalıdır.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-mblen"><strong class="function"><code>mblen</code></strong></a> işlevinin bu kurallara uygun olarak kullanımına bir örnek:
+    </p>
+            <pre class="screen">void
+scan_string (char *s)
+{
+  int length = strlen (s);
+
+  /* <em class="replaceable"><code>Öteleme durumunu ilklendir.</code></em>  */
+  mblen (NULL, 0);
+
+  while (1)
+    {
+      int thischar = mblen (s, length);
+      /* <em class="replaceable"><code>Dizge sonunu ve geçersiz karakteri yakala.</code></em>  */
+      if (thischar == 0)
+        break;
+      if (thischar == -1)
+        {
+          error ("cok baytli karakter gecersiz");
+          break;
+        }
+      /* <em class="replaceable"><code>Sonraki karaktere geç.</code></em>  */
+      s += thischar;
+      length -= thischar;
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-mblen"><strong class="function"><code>mblen</code></strong></a>, <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-mbtowc"><strong class="function"><code>mbtowc</code></strong></a> ve <a href="glibc-Non-reentrant-Character-Conversion.html#glibc-fn-wctomb"><strong class="function"><code>wctomb</code></strong></a> işlevleri öteleme durumu kullanan çok baytlı kod için evresel değildir. Bununla birlikte, bu işlevleri çağıran herhangi bir kütüphane işlevi olmadığından öteleme durumunun yazılımcının bilgisi dışında değişmesi mümkün değildir.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

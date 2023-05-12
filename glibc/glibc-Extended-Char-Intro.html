@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>6.1. Genişletilmiş Karakterlere Giriş</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -26,8 +25,8 @@
           </div>
         </div>
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Locales.html')">Sonraki</button>
-          <div class="dropdown-content">7. Yereller ve Uluslararasılaştırma</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Charset-Function-Overview.html')">Sonraki</button>
+          <div class="dropdown-content">6.2. Karakter Kümesi İşlevlerine Bakış</div>
         </div>
       </div>
     </header>
@@ -48,7 +47,7 @@
    oranlarına kadar ilişki olan karakter kümeleri arasındaki farkları giderecek çok çeşitli çözümler vardır. Bu bölümün devamında, C kütüphanesinin bu işlevselliğini geliştirirken verilen tasarım kararlarını anlamaya yardımcı olacak bir kaç örneğe de yer verilmiştir.
   </p>
         <p>
-   <span id="idm95102" class="indexterm"></span>
+   <span id="idm95130" class="indexterm"></span>
    Önce dahili ve harici gösterimler arasında bir ayrım yapılması gerekir. <em class="wordasword">Dahili gösterim</em> bir yazılım tarafından bellekte tutulan metnin gösterimidir. <em class="wordasword">Harici gösterim</em> ise bazı iletişim kanalları üzerinden aktarımda ya da bunlar üzerinde saklanacak metinlerin gösterimleridir. Harici gösterime örnek olarak, bir dizinde bulunan ve okunacak ya da ayrıştırılacak dosyalar gösterilebilir.
   </p>
         <p>
@@ -58,10 +57,194 @@
    Dahili gösterimle ilgili aşılacak sorunlardan biri farklı karakter kümeleriyle harici olarak kodlanmış metinlerin elde edilmesidir. İki metni okuyup bazı ölçütleri kullanarak karşılaştıran bir yazılım varsa, karşılaştırma sadece metinler dahili olarak ortak bir biçemde tutulabiliyorsa yapılabilir.
   </p>
         <p>
-   <span id="idm95109" class="indexterm"></span>
+   <span id="idm95137" class="indexterm"></span>
    Böyle bir ortak biçim (= karakter kümesi) için sekiz bit elbette artık yeterli değildir. Öyleyse en küçük öğe büyütülmelidir: <em class="wordasword">geniş karakterler</em> kullanılmalıdır. Karakter başına bir bayt yerine iki veya dört bayt kullanılması sözkonusu olacaktır. (Üç, bellek adreslemesi açısından iyi bir değer değildir ve dört bayttan fazlası da gerekmemektedir).
   </p>
+        <p>
+   <span id="idm95141" class="indexterm"></span>
+   <span id="idm95143" class="indexterm"></span>
+   Bu kılavuzun bazı bölümlerinde görüleceği gibi bellekte geniş karakterli metinlerle çalışabilen işlevlerle tamamen yeni bir işlev ailesi oluşturulmuştur. Bu tür geniş karakter gösterimleri için kullanılan karakter kümelerinin çoğu Unicode ve ISO 10646 (UCS olarak da bilinir. UCS: Universal Character Set - Evrensel Karakter Kümesi) kullanır. Unicode (yunikod diye okunur) bir 16 bitlik karakter kümesi olarak tasarlandı; ISO 10646 ise 31 bitlik dev bir kod uzayı olarak tasarlandı. Uygulamada her iki standart eşdeğerdir. İkisi de aynı karakter listesini ve aynı kod tablosunu kullanır. Fakat Unicode ek anlamsallık belirtir. Bu noktada, sadece ilk <code class="code">0x10000</code> koda karakter atanmıştır (BMP: Basic Multilingual Plane - "Temel Çokdilli Seviye" olarak da bilinir). Unicode ve ISO 10646 karakterleri için tanımlanmış kodlamalar:
+   <span id="idm95146" class="indexterm"></span>
+   <span id="idm95148" class="indexterm"></span>
+   <span id="idm95150" class="indexterm"></span>
+   <span id="idm95152" class="indexterm"></span>
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+    CS-2 16 bitliktir ve sadece BMP'deki karakterleri içerir.
+   </li>
+            <li class="member">
+    UCS-4 32 bitliktir ve Unicode ve ISO 10646 karakterlerini içerir.
+   </li>
+            <li class="member">
+    UTF-8 tek baytla gösterilen ASCII karakter kümesine ek olarak  ASCII olmayan 2 ilâ 6 baytlık dizilimlerle ifade edilen karakterleri içerir.
+   </li>
+            <li class="member">
+    UTF-16, UCS-2'nin içerdiklerine ek olarak <code class="code">0x10ffff</code>'ye kadar BMP olmayan karakterleri içerir.
+   </li>
+          </ul>
+        </div>
+        <p>
+   Geniş karakterleri göstermek için <code class="type">char</code> türü yeterli değildir. Bu sebeple ISO C standardı geniş karakterli dizge karakterlerini tutmak için tasarlanmış yeni bir veri türünden bahseder. Benzerliği sağlamak için tek bir geniş karakter alan işlevlerde kullanılan ve <code class="type">int</code> türüne karşı düşen bir tür de vardır.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="idm95164" class="indexterm"></span>
+   <span id="glibc-tp-wchar_t" class="indexterm"></span>
+   <span id="glibc-cp-wchar_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/ginclude/stddef.h;hb=HEAD" target="_top">stddef.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">wchar_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri türü geniş karakterli dizgelerin temel türü olarak kullanılır. Başka bir deyişle, bu türden nesne dizileri, çok baytlı dizgeler için <code class="code">char[]</code> dizisine eşdeğerdir.
+   </p>
+   <p>
+    ISO C90 standardı, <code class="code">wchar_t</code>'den bahsederken gösterimi hakkında belirgin hiçbir şey söylemez. Sadece temel karakter kümesinin tüm elemanlarını saklama yeteneğinde olması gerektiğini belirtir. Diğer taraftan, gömülü sistemlere uyarlanabilirlik bakımından <code class="code">wchar_t</code> türünün <code class="type">char</code> olarak tanımlanması meşru olurdu.
+   </p>
+   <p>
+    Fakat GNU sistemleri için <code class="code">wchar_t</code> daima 32 bit genişliktedir ve tüm USC-4 değerleri gösterebilme yeteneğine sahiptir, böylece ISO 10646'nın tümü kapsama dahil olur. Bazı Unix sistemlerinde <code class="code">wchar_t</code> 16 bitlik olarak tanımlanır ve sadece Unicode'u kapsar. Bu tanımlama standart açısından geçerli olmakla birlikte ISO 10646 ve UCS-2 deki karakterlerinin tümü ile UTF-16'nın 16 biti aşan karakterlerini fiilen çoklu geniş karakter kodlaması olarak gösterebilir. Fakat çoklu geniş karakterli kodlamaya başvurulması <code class="code">wchar_t</code> türünün kullanım amacıyla çelişir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="idm95187" class="indexterm"></span>
+   <span id="glibc-tp-wint_t" class="indexterm"></span>
+   <span id="glibc-cp-wint_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">wint_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">wint_t</code> tek bir geniş karakter içeren değişkenler ve bağımsız değişkenler için kullanılan bir veri türüdür. Normal <code class="type">char</code> dizgeler kullanılırken isim olarak <code class="type">int</code> türüne eşdeğer olan bu türün kullanılması önerilir. <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> ve <code class="code">wint_t</code> türleri 32 bit genişlikte olduklarında çoğunlukla aynı gösterime sahiptir ancak, <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> <code class="type">char</code> olarak tanımlanmışsa, bağımsız değişken terfilerinden dolayı <code class="code">wint_t</code> de <code class="type">int</code> olarak tanımlanmalıdır.
+   </p>
+   <p>
+    Bu veri türü ISO C90'ın 1. düzeltmesinde bulunur.
+   </p>
+  </div>
+        <p>
+   <code class="type">char</code> veri türü için var olan makrolar gibi <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> türünden bir nesnenin gösterebileceği azami ve asgari değerleri belirten makrolar da vardır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="idm95214" class="indexterm"></span>
+   <span id="glibc-vr-WCHAR_MIN" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/stdint.h;hb=HEAD" target="_top">stdint.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code> <strong><code class="function">WCHAR_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="type">wint_t</code> türünde bir nesne tarafından tutulabilecek en küçük değerdir.
+   </p>
+   <p>
+    Bu makro ISO C90 standardının 1. düzeltmesinde bulunur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-WCHAR_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code> <strong><code class="function">WCHAR_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="type">wint_t</code> türünde bir nesne tarafından tutulabilecek en büyük değerdir.
+   </p>
+   <p>
+    Bu makro ISO C90 standardının 1. düzeltmesinde bulunur.
+   </p>
+  </div>
+        <p>
+   Diğer bir geniş karakterlere özel değer <code class="varname">EOF</code>'a eşdeğer olan <a href="glibc-Extended-Char-Intro.html#glibc-vr-WEOF"><strong class="varname"><code>WEOF</code></strong></a>'tur.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-WEOF" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code> <strong><code class="function">WEOF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">WEOF</code> makrosu genişletilmiş karakter kümesindeki herhangi bir üyeden farklı olan <code class="type">wint_t</code> türünde bir sabit ifadesi olarak değerlendirilir.
+   </p>
+   <p>
+    <code class="code">WEOF</code>, <code class="varname">EOF</code> ile aynı değerde olmakla birlikte onun aksine negatif olamaz.  Başka bir deyişle, aşağıdaki küçük kod,
+   </p>
+   <pre class="screen">{
+  int c;
+  …
+  while ((c = getc (fp)) &lt; 0)
+    …
+}
+</pre>
+   <p>
+    geniş karakterler için doğrudan <code class="code">WEOF</code>  kullanılarak aşağıdaki gibi yazılır:
+   </p>
+   <pre class="screen">{
+  wint_t c;
+  …
+  while ((c = getwc (fp)) != WEOF)
+    …
+}
+</pre>
+   <p>
+    Bu makro ISO C90 standardının 1. düzeltmesinde bulunur.
+   </p>
+  </div>
+        <p>
+   
+   Bu dahili gösterimler saklama ve aktarım sırasına sorunlara yol açar. Çünkü her geniş karakter çok sayıda bayttan oluşur ve bunlar bayt sıralamasından etkilenir. Makinelerin farklı bayt sıralamasına (endianess) sahip olmaları aynı verinin farklı değerlendirilmesine sebep olur. Bu bayt sıralaması ayrıca tamamı bayt temelli olan iletişim protokollerinden de etkilenir. Çoğunlukla gönderici geniş karakterleri baytlarına ayırmak konusunda bir karar vermek durumunda kalır. Bir son (ama en az önemli) husus da geniş karaktelerin, özelleştirilmiş tek baytlı karakter kümelerine göre daha fazla saklama alanı gerektirmesidir.
+  </p>
+        <p>
+   <span id="idm95267" class="indexterm"></span>
+   <span id="idm95269" class="indexterm"></span>
+   Yukarıdaki sebeplerden dolayı, dahili kodlama UCS-2 ya da UCS-4 ise çoğunlukla harici kodlama dahili kodlamadan farklı olur. Harici kodlama bayt temellidir ve ortama ve elde edilecek metine uygun olarak seçilebilir. Bu harici kodlama için farklı karakter kümeleri kullanılabilir. ASCII temelli tüm karakter kümeleri bir gereksinimi tamamen karşılar: Dosya sistemi bakımından yeterlilik (filesystem safe); yani <code class="code">'/'</code> karakteri kodlama içinde sadece <em class="emphasis">kendi</em> olarak kullanılır. Bazı şeyler EBCDIC (Extended Binary Coded Decimal Interchange Code - Genişletilmiş İkil Kodlu Ondalık Değişim Kodu; IBM tarafından kullanılan bir karakter kümesi ailesidir) gibi karakter setleri için biraz farklıdır, ama işletim sistemi EBCDIC'i doğrudan anlayamıyorsa sistem çağrılarının bağımsız değişkenlerinde kullanmadan önce işletim sisteminin anlayabileceği kodlamaya dönüştürülmüş olmalıdır.
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     En basit karakter kümeleri tek baytlık karakter kümeleridir. Sadece 256 karakter içerebilir ve tüm dilleri kapsamak açısından yetersizdir. 8 bitlik karakter kümeleri ile çalışmak basittir. Daha sonra gösterileceği gibi bu doğru değildir, uygulamalar 8 bitlik karakter kümelerini kullanmaları gerektiği için kullanır.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     <span id="idm95278" class="indexterm"></span>
+     ISO 2022 standardı, bir baytttan daha fazla baytla gösterilebilen karakterlerin olduğu genişletilmiş karakter kümeleri için bir mekanizma tanımlar. Bu, bir metni bir durumla ilişkilendirerek yapılır.  Karakterler, metin içinde bulunabildikleri durumu değiştirmekte kullanılabilir. Metindeki her bayt, her durum için farklı yorumlanmalıdır. Bir baytın kendisi olarak mı yoksa bir karakteri oluşturan çok sayıda bayttan biri olarak mı yorumlanacağı duruma bağlıdır.
+    </p>
+              <p>
+     <span id="idm95281" class="indexterm"></span>
+     <span id="idm95283" class="indexterm"></span>
+     <span id="idm95285" class="indexterm"></span>
+     ISO 2022'nin çoğu kullanımında tanımlı karakter kümeleri bir sonraki karakterden fazlasını kapsayan durum değişikliklerine izin vermez. Bir karakterin bayt sırasının başlangıcı bulunduktan sonra metin doğru olarak yorumlanabildiğinden bu büyük yarar sağlar. Bu kuralı kullanan karakter kümelerine örnek olarak çeşitli EUC karakter kümeleri (Sun'ın işletim sistemlerinde kullanılan, EUC-JP, EUC-KR, EUC-TW ve EUC-CN) veya Shift_JIS (SJIS, bir Japonca kodlama) verilebilir.
+    </p>
+              <p>
+     Ancak bir karakterden daha fazlası için geçerli olan ve diğer bir bayt sıralaması tarafından değiştirilen bir durumu kullanan karakter kümeleri de vardır. Bunlara örnek olarak  ISO-2022-JP, ISO-2022-KR ve ISO-2022-CN verilebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     <span id="idm95290" class="indexterm"></span>
+     Latin abecesini kullanan dillerin 8 bitlik karakter kümelerini düzeltmek için başlatılan çalışmalar ISO 6937 benzeri karakter kümeleri ile sonuçlandı. Burada vurgulu aksan gibi karakterleri oluşturan baytlar kendileri olarak bir çıktı üretmez: İstenen sonucu üretmek için bir takım karakterler birlikte kullanılır. Örneğin, "vurgulu küçük a" karakterini elde etmek için <code class="code">0xc2 0x61</code> bayt dizisi (basılmayan vurgu, ardından küçük harf 'a' gelir). Vurgulu aksan karakterinin tek başına kendisini elde etmek için, <code class="code">0xc2 0x20</code> (basılmayan vurgu ve ardından boşluk) yazılmalıdır.
+    </p>
+              <p>
+     ISO 6937 benzeri karakter kümeleri teletex gibi bazı gömülü sistemlerde kullanılır.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     <span id="idm95297" class="indexterm"></span>
+     Dahili olarak kullanılan Unicode veya ISO 10646 metinlerini dönüştürmek yerine UCS-2/UCS-4 den farklı bir kodlamanın kullanılması çoğunlukla yeterli olur. Unicode ve ISO 10646'nın her ikisi de böyle bir kodlamayı belirtir: UTF-8. Bu kodlama, 1 bayttan 6 bayta kadar uzunluklarda bayt dizgelerini 31 bit genişlikle, ISO 10646'daki tüm karakterleri gösterebilmektedir.
+    </p>
+              <p>
+     <span id="idm95300" class="indexterm"></span>
+     ISO 10646'yı UTF-7 olarak kodlamak üzere bazı çalışmalarda yapılmıştır, ancak günümüzde kullanılması gereken tek kodlama UTF-8 dir. Aslında, UTF-8 gelecekte desteklenen tek harici kodlama olacaktır. Evrensel olarak kullanılabilirliği anlaşılmıştır. Tek olumsuz yanı, bazı dillerin karakterlerini oluştururken kullanılan bayt dizgelerinin uzunluğu bu diller (Kril, Yunan, Asya dilleri) için kullanılan özel kodlamalara  göre daha büyük yer harcanmasına sebep olmasıdır. Ancak Unicode sıkıştırma şeması gibi yöntemlerle bu sorunlar da giderilebilir.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Sona kalan soru şudur: Kullanılacak kodlama ya da karakter kümesi nasıl seçilecektir?
+   Yanıt: Buna siz kendi kendinize karar veremezsiniz, bunu sistem geliştiricileri ile kullanıcıların çoğunluğunun yaptığı tercih belirler. Amaç birlikte çalışabilirlik olunca birinin kullandığını bir diğeri birlikte çalışabilmek için kullanacaktır. Bir kısıtlama yoksa seçim kullanıcıların ortak gereksinimlerine göre şekillenecektir. Başka bir deyişle örneğin, bir projenin sadece Rusya'da kullanılacağı düşünülüyorsa KOI8-R ya da benzeri bir karakter kümesi kullanmak gerekir. Ama aynı proje örneğin Yunanistan'da da kullanılabilecekse, karakter kümesi seçimi herkesin gereksinimlerine yanıt verebilecek şekilde seçilmelidir.
+  </p>
+        <p>
+   En geniş çözümü sağlayan, en genel karakter kümesi hangisi diye baktığımızda bunun ISO 10646 olduğunu görürüz.  Harici kodlama olarak UTF-8 kullanılır ve geçmişte kendi dillerini kullanmakta sorunları olan kullanıcıların sorunları kalmaz.
+  </p>
+        <p>
+   Geniş karakter gösteriminin seçilmesi ile ilgili olarak son bir açıklama daha yapmak gerekir. Yukarıdaki açıklamaların ışığında doğal seçim Unicode veya ISO 10646 kullanmaktır dedik. Bu gerekli değildir ama en azından ISO C standardı tarafından cesaretlendiriliyoruz. Standart en azından <code class="varname">__STDC_ISO_10646__</code> diye bir makro tanımlar ve bu makro sadece <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> türünün kodladığı ISO 10646 karakterlerinin kullanıldığı sistemlerde tanımlıdır. Bu sembolü tanımlamayarak geniş karakterli gösterimlerle ilgili kabuller yapılmasından kaçınılmalıdır. Yazılımcılar sadece C kütüphanesi tarafından sağlanan bu işlevleri kullandıklarında geniş karakterle ilgili olarak diğer sistemlerle bir uyumluluk sorunu yaşamaz.
+  </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

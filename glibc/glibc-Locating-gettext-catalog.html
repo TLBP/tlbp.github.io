@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.2. gettext Kataloğunun Yeri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Translation-with-gettext.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.1. <code class="code">gettext</code> ile Çeviri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Advanced-gettext-functions.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.1.3. Gelişkin <code class="code">gettext</code> İşlevleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Locating-gettext-catalog">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.2. <code class="code">gettext</code> Kataloğunun Yeri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     Belirtilen bir iletinin çevirisini elde eden işlevler olağanüstü basit bir arayüze sahiptir. Fakat yazılımın kullanıcısına istediği çeviriyi seçme fırsatı vermek ve yazılımcıya da katalog dosyalarının aranacağı yerler bakımından biraz hakimiyet sağlamak gerekir. Tüm bunları denetim altına alacak kod oldukça karmaşıktır ama kullanımı kolaydır.
+    </p>
+        <p>
+     <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevleri tarafından da uygulanan iki temel görevin yerine getirilmesi gerekir:
+    </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+       İleti kataloglarının yeri. Hepsi aynı pakete karşılık gelen farklı dillerde bir miktar dosya vardır. Genellikle, bunlar dosya sistemi üzerinde belli bir dizin altında bulunurlar.
+      </p>
+              <p>
+       Kurulmuş çok sayıda keyfi paket olabilir ve bunlar dosyalarını bulmak için farklı kuralları izleyebilir.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Kullanıcının isteklerine uyarlanmış çeviri dosyalarının aranması paket tarafından belirtilen konuma göreli olmalıdır. Yani, kullanıcı paketi seçerek her dil ile ilgili dosyayı konumlayabilmelidir.
+      </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+     Bu, <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> belirtimi tarafından gerek duyulan işlevsellik olduğu kadar <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevlerinin de yapabildiği bir şeydir. Ancak, çözümlenmesi gereken bazı sorunlar vardır:
+    </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+       Kullanılacak dil farklı yollarla belirtilebilir. Bunun için genel bir standart kabul edilmiş değildir ve kullanıcı yazılımdan ne anlatmak istediğini anlamasını bekler. Örneğin, Almanca çeviriyi seçmek için kullanıcı <code class="code">de</code>, <code class="code">german</code> ya da <code class="code">deutsch</code> yazabilir ve yazılımın daima buna bir tepki vermesini bekler.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Kimi zaman kullanıcının belirtimi çok ayrıntılı olabilir. Eğer kullanıcı kendini, Almanya'da, Almanca konuşan ve ISO 8859-1 karakter kodlamasını kullanan biri olarak tarif etmek için <code class="code">de_DE.ISO-8859-1</code> belirtimini kullanırsa bu belirtimle tam olarak eşleşen bir ileti kataloğu bulamayacaktır. Ama <code class="code">de</code> ile eşleşen bir katalog olabilir. Ayrıca, makinede kullanılan karakter kümesi daima ISO 8859-1 ise, ileti kataloğunun bunu kullanmaması için bir sebep yoktur. (Buna <em class="firstterm">ileti kalıtımı</em> adı verilir.)
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Eğer istenen dilde bir katalog yoksa, son çare yazılımcının dili olmamalıdır. Kullanıcının iletileri daha iyi anlayacağı başka diller olabilir ve bunları öncelik sırasıyla belirtebilmesi gerekir.
+      </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+     Yapılandırma eylemleri iki parçaya ayrılmaktadır: Biri yazılımcı tarafından uygulanan, diğeri kullanıcı tarafından uygulanan. Kullanıcının eylemlerine temel teşkil edeceğinden burada önce yazılımcının kullanabileceği işlevlerden bahsedilecektir
+    </p>
+        <p>
+     Önceki bölümde açıklanan işlevlerde iletilerin bir <em class="firstterm">alan adı</em>na göre seçilebildiğini görmüştük. Bu, ayrı bir alan kullanan her yazılım parçası için eşsiz olması gereken basit bir dizgedir. Bu isim sayesinde aynı anda çok sayıda keyfi alana sahip bir yazılım kullanmak mümkün olur. Örneğin, C kütüphanesini kullanan bir yazılım <code class="code">foo</code> alan adını kullanırken, GNU C Kütüphanesinin kendisi <code class="code">libc</code> alan adını kullanır. Burada önemli olan aynı anda sadece bir alanın etkin olduğudur. Bu aşağıdaki işlevle denetlenir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-textdomain" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">textdomain</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domainname</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">textdomain</code> işlevi ileride <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> çağrılarında öntanımlı alan olarak kullanılacak <em class="parameter"><code>domainname</code></em> alanını etkinleştirir. <a href="glibc-Translation-with-gettext.html#glibc-fn-dgettext"><strong class="function"><code>dgettext</code></strong></a> ve <a href="glibc-Translation-with-gettext.html#glibc-fn-dcgettext"><strong class="function"><code>dcgettext</code></strong></a> çağrılarında <em class="parameter"><code>domainname</code></em> bağımsız değişkeni ile boş gösterici belirtilmedikçe bu alanın etkin olmayacağı unutulmamalıdır.
+     </p>
+     <p>
+      İlk <code class="code">textdomain</code> çağrısından önceki öntanımlı alan adı <code class="varname">messages</code>'dir.  Bu, <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> arayüzünün belirtiminde belirtilen isimdir. Herhangi bir başka isimden çok daha iyidir. Sorunlarla karşılaşmak istenmiyorsa, hiçbir yazılım bu ismi kullanmamalıdır.
+     </p>
+     <p>
+      İşlev etkinleştirilen öntanımlı alan adı ile döner. Eğer işlev dönüş değeri için yer ayıramamışsa <code class="varname">NULL</code> döndürür ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> değerini atar. İşlevin dönüş türü <code class="type">char *</code> olduğundan dönen dizge değiştirilmemelidir.  Dönüş değeri için yer ayırma işlemi işlev tarafından dahili olarak yapılır.
+     </p>
+     <p>
+      Eğer <em class="parameter"><code>domainname</code></em> boş gösterici ise hiçbir alan adı etkinleştirilmez. Sadece geçerli öntanımlı alan adı döner.
+     </p>
+     <p>
+      Eğer <em class="parameter"><code>domainname</code></em> ile boş dizge belirtilmişse, öntanımlı alan adı ilk değer olan <code class="varname">messages</code> yapılır. <code class="varname">messages</code> alanının asla kullanılmaması gerektiğinden dönüş değeri bu değerle sorgulanabilir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-bindtextdomain" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">bindtextdomain</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domainname</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">dirname</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <code class="code">bindtextdomain</code> işlevi farklı diller için <em class="parameter"><code>domainname</code></em> alanının ileti kataloglarını içeren dizini belirtmekte kullanılır. Doğru olması bakımından, bu dizinin dizin hiyerarşisi içinde olması beklenir. Aşağıda buna daha ayrıntılı değinilmiştir.
+     </p>
+     <p>
+      Yazılımla gelen çevirilerin <code class="filename">/foo/bar</code> gibi bir dizin hiyerarşisine yerleştirilmiş olması yazılımcı açısından önemlidir. Yazılım bundan sonra bu dizinle bir <code class="code">bindtextdomain</code>  çağrısı yaparak alanı bağlar. Böylece katalogların bulunması kesin olarak sağlanır. Düzgün çalışan bir yazılım kullanıcının bir ortam değişkeni belirtmesine ihtiyaç duymaz.
+     </p>
+     <p>
+      Evvelce bağlanan alanların üzerine yazılmaması için farklı <em class="parameter"><code>domainname</code></em> bağımsız değişkenleri gerekliyse, <code class="code">bindtextdomain</code> çağrısı defalarca yapılabilir.
+     </p>
+     <p>
+      Yazılım bir <strong class="function"><code>chdir</code></strong> çağrısı ile çalışma dizinini değiştirdiği sırada <code class="code">bindtextdomain</code> çağrısının yapılabilmesi için <em class="parameter"><code>dirname</code></em> bağımsız değişkeninin mutlak bir dosya yolu olması önem kazanır. Aksi takdirde bağımsız değişkende belirtilen dizin bu sırada değişebilir.
+     </p>
+     <p>
+      <em class="parameter"><code>dirname</code></em> bağımsız değişkeni boş gösterci ise, <code class="code">bindtextdomain</code> <em class="parameter"><code>domainname</code></em> alanı için o an seçili dizin ile döner.
+     </p>
+     <p>
+      <code class="code">bindtextdomain</code> işlevi normalde seçilen dizinin ismini içeren  dizgeye gösterici ile döner. Dizge işlev tarafından dahili olarak ayrıldığından yazılımcı bu dizgenin içeriğini değiştirmemelidir. Eğer sistem <code class="code">bindtextdomain</code> çalışırken bir bellek dökümü (core dosyası) çıktılarsa, işlev  <code class="varname">NULL</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine ilgili hata durumu atanır.
+     </p>
+    </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

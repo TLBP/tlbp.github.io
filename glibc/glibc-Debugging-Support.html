@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>34. Hata Ayıklama Desteği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -34,7 +33,7 @@
       <div class="crumbs">
         <p>  </p>
       </div>
-      <div class="part" id="glibc-Debugging-Support">
+      <section class="part" id="glibc-Debugging-Support">
         <div class="titlepage">
           <div>
             <div>
@@ -42,7 +41,147 @@
             </div>
           </div>
         </div>
-      </div>
+        <section class="partintro">
+          <div></div>
+          <p>
+   Uygulamaların hataları genellikle amacı hata ayıklamak olan yazılımlar kullanılarak ayıklanır. Fakat kimi zaman bu mümkün olmaz ve sorunlar hakkında deneyim kazandıkça yazılımcıya mümkün olan en fazla bilgiyi sağlamak gerekir. Bu sebeple, yazılımcının sorunun kaynağına daha kolay erişebilmesini mümkün kılacak bir kaç işlev sağlanmıştır.
+  </p>
+          <section class="sect1" id="glibc-Backtraces">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h2 class="title" style="clear: both">1. Köken Arama Listeleri</h2>
+                </div>
+              </div>
+            </div>
+            <p>
+    
+    <span id="idm104963" class="indexterm"></span>
+    <span id="idm104965" class="indexterm"></span>
+    <span id="idm104967" class="indexterm"></span>
+    Bir <em class="firstterm">köken arama listesi</em> (backtrace), bir evre içindeki o an etkin olan işlev çağrılarının bir listesidir. Bir yazılımın köken arama listesini elde etmenin en uygun yolu <span class="command"><strong>gdb</strong></span> gibi harici bir hata ayıklayıcı kullanmaktır. Ancak, kimi zaman bir köken arama listesini günlük tutma, tanı koyma gibi amaçlarla yazılım içinde kodlayarak elde etmek de gerekebilir.
+    <span id="idm104971" class="indexterm"></span>
+   </p>
+            <p>
+    Geçerli evrenin köken arama listesini elde eden ve onunla çalışan üç işlev vardır ve bunlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/execinfo.h;hb=HEAD" target="_top">execinfo.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-backtrace" class="indexterm"></span>
+    <span id="glibc-fn-backtrace" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/execinfo.h;hb=HEAD" target="_top">execinfo.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">backtrace</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">backtrace</code> işlevi o anki evrenin köken arama listesini elde eder ve bir liste göstericisi olarak <em class="parameter"><code>buffer</code></em> tamponuna yerleştirir.  <em class="parameter"><code>size</code></em> bağımsız değişkeni <em class="parameter"><code>buffer</code></em> içinde bulunacak <code class="type">void *</code> türündeki elemanların sayısı olmalıdır. İşlev <em class="parameter"><code>buffer</code></em> içine konmuş olan listenin eleman sayısı ile döner.
+    </p>
+    <p>
+     <em class="parameter"><code>buffer</code></em> içine yerleştirilen göstericiler aslında araştırılan yığıttan edinilen dönüş adresleridir, yani her yığıt çerçevesi için bir dönüş adresi vardır.
+    </p>
+    <p>
+     Belli derleyici en iyilemelerinin edinilen geçerli köken arama listesi ile etkileşeceği gözardı etdilmemelidir. Satırlaştırma işlemi satıriçi işlevlerin bir yığıt çerçevesine sahip olmamasına sebep olur; kuyruk çağrı en iyilemesi bir yığıt çerçevesini bir diğeri ile değiştirir; çerçeve göstericisi elemesi yığıt içeriğinin <code class="code">backtrace</code> tarafından doğru olarak yorumlanmasını engelleyecektir.
+    </p>
+   </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-backtrace_symbols" class="indexterm"></span>
+    <span id="glibc-fn-backtrace_symbols" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/execinfo.h;hb=HEAD" target="_top">execinfo.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">**</strong><strong><code class="function">backtrace_symbols</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void *const </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">backtrace_symbols</code> işlevi <a href="glibc-Debugging-Support.html#glibc-fn-backtrace"><strong class="function"><code>backtrace</code></strong></a> işleviyle edinilen listeyi dizge dizisine dönüştürür. <em class="parameter"><code>buffer</code></em> bağımsız değişkeni <a href="glibc-Debugging-Support.html#glibc-fn-backtrace"><strong class="function"><code>backtrace</code></strong></a> işleviyle edinilen adres dizisinin göstericisi, <em class="parameter"><code>size</code></em> ise bu dizinin eleman sayısı (<a href="glibc-Debugging-Support.html#glibc-fn-backtrace"><strong class="function"><code>backtrace</code></strong></a> işlevinin dönüş değeri) olmalıdır.
+    </p>
+    <p>
+     İşlevin dönüş değeri <em class="parameter"><code>size</code></em> dizgelik diziye göstericidir. Her dizge <em class="parameter"><code>buffer</code></em> içindeki her elemanın yazdırılabilir içeriğini gösterir. Saptanabiliyorsa işlev ismi, işlevim başlangıç konumunu ve geçerli dönüş adresini (onaltılık tabanda) içerir.
+    </p>
+    <p>
+     Şimdilik işlev ismi ve başlangıç konumu sadece kütüphaneler ve uygulamalar için ELF ikil biçimi kullanılan sistemlerde elde edilebilmektedir. Diğer sistemlerde ise sadece onaltılık tabandaki dönüş adresi elde edilebilmektedir. Ayrıca, yazılımın işlev isimlerini içermesi için ilintileyiciye ek seçenekler belirtilebilir. (Örneğin, GNU <tt><b>ld</b>(1)</tt>'ye <code class="option">--rdynamic</code> seçeneği aktarılabilir.)
+    </p>
+    <p>
+     <code class="code">backtrace_symbols</code> işlevinin dönüş değeri <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevi üzerinden edinilen ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılması gereken bir göstericidir. Yalnız, sadece dönüş değeri serbest bırakılmalı, içerdiği dizgeler serbest bırakılmamalıdır.
+    </p>
+    <p>
+     Edinilen dizgeleri saklamak için bellek yetersizse işlev <code class="varname">NULL</code> ile döner.
+    </p>
+   </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-backtrace_symbols_fd" class="indexterm"></span>
+    <span id="glibc-fn-backtrace_symbols_fd" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/execinfo.h;hb=HEAD" target="_top">execinfo.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">backtrace_symbols_fd</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void *const </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">fd</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">backtrace_symbols_fd</code> işlevi <strong class="function"><code>backtrace_symbols</code></strong> işlevinin yaptığı dönüşümün aynısını yapar, ancak farklı olarak, dizgelere  gösterici döndürmek yerine her dizge bir satır olmak üzere dizgeleri <em class="parameter"><code>fd</code></em> tanıtıcısına yazar. <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevini kullanmaz ve dosya tanıtıcılara yazan işlevlerin başarısız olmasına sebep olan durumlarda bu işlev de başarısız olabilir.
+    </p>
+   </div>
+            <p>
+    Aşağıdaki yazılımda bu işlevlerin kullanımı gösterilmiştir. <a href="glibc-Debugging-Support.html#glibc-fn-backtrace"><strong class="function"><code>backtrace</code></strong></a> tarafından döndürülen gösterici dizisinin adresinin yığıt üzerine tahsis edildiğine dikkat edilmelidir. Bu bakımdan, bu kod  <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> üzerinden bellek tahsis edilemeyen sistemlerde kullanılabilir (bu gibi durumlarda <strong class="function"><code>backtrace_symbols</code></strong> yerine <code class="code">backtrace_symbols_fd</code> işlevi de kullanılabilir). Dönüş adreslerinin sayısı normalde çok fazla olmayacaktır. Nadiren 50'den fazla iç içelik içeren çok karmaşık yazılımlarda bile 200 girdi olabilir.
+   </p>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <pre class="screen">#include &lt;execinfo.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* <em class="replaceable"><code>Köken arama listesini edinip stdout'a çıktıla.</code></em> */
+void
+print_trace (void)
+{
+  void *array[10];
+  char **strings;
+  int size, i;
+
+  size = backtrace (array, 10);
+  strings = backtrace_symbols (array, size);
+  if (strings != NULL)
+  {
+
+    printf ("Obtained %d stack frames.\n", size);
+    for (i = 0; i &lt; size; i++)
+      printf ("%s\n", strings[i]);
+  }
+
+  free (strings);
+}
+
+/* <em class="replaceable"><code>Köken arama listesini biraz daha ilginç hale getirmek
+   için (iç içelik olsun diye) bir işlev.</code></em> */
+void
+dummy_function (void)
+{
+  print_trace ();
+}
+
+int
+main (void)
+{
+  dummy_function ();
+  return 0;
+}
+</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

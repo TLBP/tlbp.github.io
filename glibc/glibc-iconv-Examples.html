@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.5.2. iconv Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Conversion-Interface.html')">Önceki</button>
+          <div class="dropdown-content">6.5.1. Dönüşüm Arayüzü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Charset-Conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Other-iconv-Implementations.html')">Sonraki</button>
+          <div class="dropdown-content">6.5.3. Diğer <code class="code">iconv</code> Gerçeklenimleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-iconv-Examples">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.5.2. <code class="code">iconv</code> Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Aşağıdaki örnekte ortak bir soruna bir çözüm sunulmaktadır. <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> dizgeleri için sistem tarafından bilinen kodlamalar verilmiştir. Metin bir dosyadan okunmakta ve geniş karakter tamponunda saklanmaktadır. Dönüşüm <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> kullanılarak da yapılabilirdi fakat evvelce bahsedilen sorunlar oluşurdu.
+   </p>
+        <pre class="screen">int
+file2wcs (int fd, const char *charset, wchar_t *outbuf, size_t avail)
+{
+  char inbuf[BUFSIZ];
+  size_t insize = 0;
+  char *wrptr = (char *) outbuf;
+  int result = 0;
+  iconv_t cd;
+
+  cd = iconv_open ("WCHAR_T", charset);
+  if (cd == (iconv_t) -1)
+    {
+      /* <em class="replaceable"><code>Yanlış giden birşeyler olabilir.</code></em>  */
+      if (errno == EINVAL)
+        error (0, 0, "'%s' için wchar_t cinsinden bir karşılık yok",
+               charset);
+      else
+        perror ("iconv_open");
+
+      /* <em class="replaceable"><code>Çıktı dizgesini sonlandır.</code></em>  */
+      *outbuf = L'\0';
+
+      return -1;
+    }
+
+  while (avail &gt; 0)
+    {
+      size_t nread;
+      size_t nconv;
+      char *inptr = inbuf;
+
+      /* <em class="replaceable"><code>Girdinin kalanını oku.</code></em>  */
+      nread = read (fd, inbuf + insize, sizeof (inbuf) - insize);
+      if (nread == 0)
+        {
+          /* <em class="replaceable"><code>Buraya gelimişsek okuma tamamlanmıştır.
+             Ama hala <code class="code">inbuf</code> içinde kullanılmamış
+             karakterler kalmış olabilir. Onları geri koy.</code></em>  */
+          if (lseek (fd, -insize, SEEK_CUR) == -1)
+            result = -1;
+
+          /* <em class="replaceable"><code>Gerekliyse, ilk duruma girecek bayt dizilimini yaz.</code></em>  */
+          iconv (cd, NULL, NULL, &amp;wrptr, &amp;avail);
+
+          break;
+        }
+      insize += nread;
+
+      /* <em class="replaceable"><code>Dönüşümü yap.</code></em>  */
+      nconv = iconv (cd, &amp;inptr, &amp;insize, &amp;wrptr, &amp;avail);
+      if (nconv == (size_t) -1)
+        {
+          /* <em class="replaceable"><code>Herşey yolunda gitmez. Tamponun sonunda bitmemiş
+             bayt dizilimi olabilir. Kimi zaman da gerçekten
+             önemli bir sorun olabilir.</code></em>  */
+          if (errno == EINVAL)
+            /* <em class="replaceable"><code>Bu zararsız. Kullanılmayan baytları tamponun başına
+               taşı, böylece sonraki adımda kullanılabilir.</code></em>  */
+            memmove (inbuf, inptr, insize);
+          else
+            {
+              /* <em class="replaceable"><code>Bu gerçekten bir sorun. Ya çıktı tamponu yetersiz
+                 ya da girdi geçersiz. Her durumda, dosya
+                 göstericisini işlenen son baytın konumuna ayarla.</code></em>  */
+              lseek (fd, -insize, SEEK_CUR);
+              result = -1;
+              break;
+            }
+        }
+    }
+
+  /* <em class="replaceable"><code>Çıktı dizgesini sonlandır.</code></em>  */
+  if (avail &gt;= sizeof (wchar_t))
+    *((wchar_t *) wrptr) = L'\0';
+
+  if (iconv_close (cd) != 0)
+    perror ("iconv_close");
+
+  return (wchar_t *) wrptr - outbuf;
+}
+</pre>
+        <p>
+    Bu örnek, <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevlerinin en önemli kullanım şekillerini göstermektedir. Büyük boyutta bir metnin <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> çağrılarıyla nasıl dönüştürülebileceği gösterilmiştir. Kullanıcı durumsal kodlamalar hakkında birşey bilmek zorunda değildir.
+   </p>
+        <p>
+    <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> değerini atayarak döndüğü durum ilginçtir. Bu gerçekte dönüşümdeki bir hata değildir. Girdi karakter kümesinin tek parça olarak işlenemeyen metinler ve bir bayttan uzun bayt dizilimleri içermesine bağlı olarak oluşur. Bu durumda çok baytlı dizilimin bölünmesi olasılığı vardır. Çağrıcı basitçe bu sorunlu baytları atlayıp girdiden kalan baytları okuyup <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a>'ye aktararak dönüşümü devam ettirebilir. ISO C standardında böyle bir olay sonrasındaki duruma bağlı olarak dönüşüm işlevlerinin tanıtıcıda tutulan dahili durum bilgisinin ne olacağı belirtilmemiştir.
+   </p>
+        <p>
+    Ayrıca, örnekte <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinde geniş karakterli dizgelerin kullanımına bağlı sorunlar da gösterilmiştir. <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinin açıklamasında belirtildiği gibi, işlev daima bir <code class="type">char</code> dizisi alır, dolayısıyla bu dizinin boyutu bayt cinsindendir. Örnekte ise çıktı tamponu geniş karakter tamponudur; bu nedenle <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> çağrısında <code class="type">char*</code> türünde olan <em class="replaceable"><code>wrptr</code></em> yerel değişkeni kullanıldı.
+   </p>
+        <p>
+    Bu oldukça masum görünür ama hizalama konusunda sıkı sınırlamaları olan platformlarda sorunlara yol açabilir. Bu nedenle bu tür <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> çağrılarında ilgili karakter kümesindeki karakterlere erişmek için uygun bir gösterici kullanılmalıdır. İşlevin girdi bağımsız değişkeni <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> göstericisi olduğundan bu sağlanmıştır (aksi takdirde bağımsız değişken hesaplanırken hizalama bozulacaktı). Fakat diğer bir durumda, özellikle kullanılan karakter kümesi türünün bilinmediği soysal işlevler yazılırken metinler bayt dizilimleri olarak ele alındığından bu çok zor olabilir.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

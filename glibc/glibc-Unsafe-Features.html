@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>1.3.2.2. Güvenilmez Özellikler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -45,7 +44,7 @@
         </div>
         <span id="glibc-cp-unsafety" class="indexterm"></span>
         <p>
-     Belirli bağlamlarda çağrılması güvenli olmayan işlevlerin çağrılmalarını güvensiz kılan özellikleri belirli anahtar sözcüklerle sınıflandırılmıştır. Bu bölümdeki <code class="code">AS-Unsafe</code> özellikler, önalanda sinyaller etkinken çağrılması asla güvenilir olmayan işlevleri belirtir. <code class="code">AC-Unsafe</code> özellikler ise önalanda iptal etkinken çağrılması asla güvenilir olmayan işlevleri belirtir. Bu bölümde <code class="code">MT-Unsafe</code> özelliklerle ilgili sınıflama yoktur.
+     Belirli bağlamlarda çağrılması güvenli olmayan işlevlerin çağrılmalarını güvensiz kılan özellikleri belirli anahtar sözcüklerle sınıflandırılmıştır. Bu bölümdeki <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> özellikler, eşzamansız sinyaller etkinken çağrılması asla güvenilir olmayan işlevleri belirtir. <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> özellikler ise eşzamansız iptal etkinken çağrılması asla güvenilir olmayan işlevleri belirtir. Bu bölümde <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> özelliklerle ilgili sınıflama yoktur.
     </p>
         <div class="glosslist">
           <dl>
@@ -57,10 +56,10 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">AS-Unsafe</code> özellik olarak <code class="code">lock</code> ile belirtilen işlevler, ardışık olmayan bir kilidi tutarken sinyalle kesintiye uğrayabilir. Sinyal işleyici aynı kilidi alan başka bir işlevi çağırırsa, sonuç kısır döngüdür.
+        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> özellik olarak <code class="code">lock</code> ile belirtilen işlevler, ardışık olmayan bir kilidi tutarken sinyalle kesintiye uğrayabilir. Sinyal işleyici aynı kilidi alan başka bir işlevi çağırırsa, sonuç kısır döngüdür.
        </p>
               <p>
-        <code class="code">AC-Unsafe</code> özellik olarak <code class="code">lock</code> ile belirtilen işlevler, önalanda iptal edilirse, yürütmeleri bu şekilde kesintiye uğratılmamış olsaydı serbest bırakacakları bir kilidi serbest bırakamayabilir. Bir kilit bir kere alındıktan sonra, o kilidi alma girişimleri sürekli engellenir.
+        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> özellik olarak <code class="code">lock</code> ile belirtilen işlevler, eşzamansız iptal edilirse, yürütmeleri bu şekilde kesintiye uğratılmamış olsaydı serbest bırakacakları bir kilidi serbest bırakamayabilir. Bir kilit bir kere alındıktan sonra, o kilidi alma girişimleri sürekli engellenir.
        </p>
             </dd>
             <dt>
@@ -71,10 +70,10 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">AS-Unsafe</code> özellik olarak <code class="code">corrupt</code> ile belirtilen işlevler, veri yapılarını bozabilir ve kesintiye sebep olduklarında veya başka bir işlev tarafından kesintiye uğratıldıklarında yanlış davranabilir. <code class="code">lock</code> ile belirtilen işlevlerin tersine, bunlar, <code class="code">MT-Safety</code> sorunlarından kaçınmak için ardışık kilitler alır, ancak bu, bir sinyal işleyicinin kısmen güncellenmiş bir veri yapısını gözlemlemesini durdurmak için yeterli değildir. Kesintiye uğrayan işlevin sinyal işleyiciler tarafından yapılan güncellemeleri fark etmemesi daha fazla bozulmaya neden olabilir.
+        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> özellik olarak <code class="code">corrupt</code> ile belirtilen işlevler, veri yapılarını bozabilir ve kesintiye sebep olduklarında veya başka bir işlev tarafından kesintiye uğratıldıklarında yanlış davranabilir. <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> ile belirtilen işlevlerin tersine, bunlar, <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> sorunlarından kaçınmak için ardışık kilitler alır, ancak bu, bir sinyal işleyicinin kısmen güncellenmiş bir veri yapısını gözlemlemesini durdurmak için yeterli değildir. Kesintiye uğrayan işlevin sinyal işleyiciler tarafından yapılan güncellemeleri fark etmemesi daha fazla bozulmaya neden olabilir.
        </p>
               <p>
-        <code class="code">AC-Unsafe</code> özellik olarak <code class="code">corrupt</code> ile belirtilen işlevler, veri yapılarını bozuk, kısmen güncellenmiş durumda bırakabilir, veri yapısının sonraki kullanımlarında işlev yanlış davranabilir.
+        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> özellik olarak <code class="code">corrupt</code> ile belirtilen işlevler, veri yapılarını bozuk, kısmen güncellenmiş durumda bırakabilir, veri yapısının sonraki kullanımlarında işlev yanlış davranabilir.
        </p>
             </dd>
             <dt>
@@ -102,7 +101,7 @@
        <code class="code">dlopen</code> ile belirtilen işlevler, paylaşımlı kütüphaneleri geçerli yürütme imgesine yüklemek için özdevimli yükleyiciyi kullanır. Bu, dahili özdevimli yükleyicinin kilitleri tutulurken dosyalar açılabilir, bunlar belleğe eşlenebilir, ek bellek tahsis edilebilir, semboller çözümlenebilir, yer değiştirmeler uygulanabilir ve daha pek çok şey yapılabilir.
        </p>
               <p>
-        Kilitler, bu işlevlerin <code class="code">AS-Unsafe</code> ve <code class="code">AC-Unsafe</code>  olması için yeterlidir, ancak başka sorunlar ortaya çıkabilir. Şu anda <code class="code">dlopen</code>, kendi üzerinden gündeme getirilen tüm olası güvenilirlik sorunları için bir yer tutucudur.
+        Kilitler, bu işlevlerin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> ve <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>  olması için yeterlidir, ancak başka sorunlar ortaya çıkabilir. Şu anda <code class="code">dlopen</code>, kendi üzerinden gündeme getirilen tüm olası güvenilirlik sorunları için bir yer tutucudur.
        </p>
             </dd>
             <dt>
@@ -115,10 +114,10 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">plugin</code> ile belirtilen işlevler GNU C Kütüphanesinin dışındaki eklentilerden kod çalıştırabilir. Bu tür eklenti işlevlerinin <code class="code">MT-Safe</code>, <code class="code">AS-Unsafe</code> ve <code class="code">AC-Unsafe</code> olduğu varsayılır. Bu tür eklentilere örnek olarak yığıt boşaltma kütüphaneleri, ad hizmeti anahtarı (NSS) ve karakter kümesi dönüştürme (iconv) eklentileri verilebilir.
+        <code class="code">plugin</code> ile belirtilen işlevler GNU C Kütüphanesinin dışındaki eklentilerden kod çalıştırabilir. Bu tür eklenti işlevlerinin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>, <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> ve <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> olduğu varsayılır. Bu tür eklentilere örnek olarak yığıt boşaltma kütüphaneleri, ad hizmeti anahtarı (NSS) ve karakter kümesi dönüştürme (iconv) eklentileri verilebilir.
        </p>
               <p>
-        Örnek olarak belirtilen eklentilerin tümü <code class="code">dlopen</code> aracılığıyla getirilse de, <code class="code">plugin</code> anahtar sözcüğü, özdevimli yükleyicinin veya <code class="code">libdl</code> arayüzlerinin herhangi bir doğrudan katkısını gerektirmez, bunlar <code class="code">dlopen</code> kapsamındadır. Örneğin, bir işlev zaten çözülmüş işlevleri çağırırken başka bir işlev bir modülü yükleyip modüldeki işlevlerin bazı adreslerini buluyorsa, ilki <code class="code">plugin</code> ile, ikincisi <code class="code">dlopen</code> ile imlenir. Tüm eylemleri tek bir işlev yerine getiriyorsa, her iki imi de alır.
+        Örnek olarak belirtilen eklentilerin tümü <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> aracılığıyla getirilse de, <code class="code">plugin</code> anahtar sözcüğü, özdevimli yükleyicinin veya <code class="code">libdl</code> arayüzlerinin herhangi bir doğrudan katkısını gerektirmez, bunlar <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> kapsamındadır. Örneğin, bir işlev zaten çözülmüş işlevleri çağırırken başka bir işlev bir modülü yükleyip modüldeki işlevlerin bazı adreslerini buluyorsa, ilki <code class="code">plugin</code> ile, ikincisi <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> ile imlenir. Tüm eylemleri tek bir işlev yerine getiriyorsa, her iki imi de alır.
        </p>
             </dd>
             <dt>
@@ -129,7 +128,7 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">i18n</code> ile belirtilen işlevler <code class="code">gettext</code> ailesinden 18n işlevlerini çağırabilir ve ancak bu işlevler kadar güvenilir olabilir. <code class="code">i18n</code> şuna eşdeğerdir:
+        <code class="code">i18n</code> ile belirtilen işlevler <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> ailesinden 18n işlevlerini çağırabilir ve ancak bu işlevler kadar güvenilir olabilir. <code class="code">i18n</code> şuna eşdeğerdir:
        </p>
               <p>
         | MT-Safe env | AS-Unsafe corrupt heap dlopen | AC-Unsafe corrupt
@@ -143,12 +142,17 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <code class="code">timer</code> ile belirtilen işlevler, bir sistem çağrısı veya uzun süren bir işlem için zaman aşımı ayarlamak üzere <strong class="function"><code>alarm</code></strong> işlevini veya benzerini kullanır. Çok evreli bir yazılımda, zaman aşımı sinyalinin farklı bir evreyi kesintiye uğratması ve dolayısıyla amaçlanan evrenin kesintiye uğramaması riski vardır. <code class="code">MT-Unsafe</code> olmanın yanısıra bu tür işlevler, bunları çağıran sinyal işleyiciler, kesintiye uğratılan kod tarafından atanan zamanlayıcılarla etkileşime girebileceğinden daima <code class="code">AS-Unsafe</code>'tir ve önalanda iptal durumunda daha önceki bir zamanlayıcının sıfırlanacağını garanti etmenin güvenilir bir yolu olmadığından <code class="code">AC-Unsafe</code>'tir.
+        <code class="code">timer</code> ile belirtilen işlevler, bir sistem çağrısı veya uzun süren bir işlem için zaman aşımı ayarlamak üzere <strong class="function"><code>alarm</code></strong> işlevini veya benzerini kullanır. Çok evreli bir yazılımda, zaman aşımı sinyalinin farklı bir evreyi kesintiye uğratması ve dolayısıyla amaçlanan evrenin kesintiye uğramaması riski vardır. <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> olmanın yanısıra bu tür işlevler, bunları çağıran sinyal işleyiciler, kesintiye uğratılan kod tarafından atanan zamanlayıcılarla etkileşime girebileceğinden daima <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>'tir ve eşzamansız iptal durumunda daha önceki bir zamanlayıcının sıfırlanacağını garanti etmenin güvenilir bir yolu olmadığından <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>'tir.
        </p>
             </dd>
           </dl>
         </div>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

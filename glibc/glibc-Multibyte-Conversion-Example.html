@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.3.5. Çok Baytlı Dönüşüm Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Converting-Strings.html')">Önceki</button>
+          <div class="dropdown-content">6.3.4. Dizge Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Restartable-multibyte-conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-reentrant-Conversion.html')">Sonraki</button>
+          <div class="dropdown-content">6.4. Evresel Olmayan Dönüşümler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Multibyte-Conversion-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.3.5. Çok Baytlı Dönüşüm Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bundan önceki bölümlerde verilen örnekler birer özetti ve hata denetimlerini içermiyordu. Burada tam ve belgelemesi yapılmış bir örneğe yer verilmiştir. <a href="glibc-Converting-a-Character.html#glibc-fn-mbrtowc"><strong class="function"><code>mbrtowc</code></strong></a> işlevi kullanılmışsa da diğer işlevlerin yardımıyla kolayca gerçeklenebilirdi.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">int
+file_mbsrtowcs (int input, int output)
+{
+  /* <code class="code">MB_LEN_MAX</code> <em class="replaceable"><code>kullanımına dikkat.</code></em>
+     <code class="code">MB_CUR_MAX</code> <em class="replaceable"><code> burada taşınabilir değildir.</code></em>  */
+  char tampon[BUFSIZ + MB_LEN_MAX];
+  mbstate_t durum;
+  int filled = 0;
+  int eof = 0;
+
+  /* <em class="replaceable"><code>Dönüşüm durumunu ilklendir.</code></em>  */
+  memset (&amp;durum, '\0', sizeof (durum));
+
+  while (!eof)
+    {
+      ssize_t nread;
+      ssize_t nwrite;
+      char *inp = tampon;
+      wchar_t outbuf[BUFSIZ];
+      wchar_t *outp = outbuf;
+
+      /* <em class="replaceable"><code>Tamponu girdi dosyasından doldur.</code></em>  */
+      nread = read (input, tampon + filled, BUFSIZ);
+      if (nread &lt; 0)
+        {
+          perror ("read");
+          return 0;
+        }
+      /* <em class="replaceable"><code>Dosya sonuna gelindiğini belirt.</code></em> */
+      if (nread == 0)
+        eof = 1;
+
+      /* <code class="code">dolan</code>  <code class="code">tampon</code><em class="replaceable"><code>a aktarılan bayt sayısıdır.</code></em> */
+      dolan += nread;
+
+      /* <em class="replaceable"><code>Bu baytları mümkün olduğunda geniş karakterlere dönüştür.</code></em> */
+      while (1)
+        {
+          size_t thislen = mbrtowc (outp, inp, dolan, &amp;durum);
+          /* <em class="replaceable"><code>Geçersiz karakterde dönüşümü durdur.</code></em>
+             <em class="replaceable"><code>Böylece geçerli son karaktere kadar olan
+             parça okunmuş olacak.</code></em>  */
+          if (thislen == (size_t) -1)
+            break;
+          /* <em class="replaceable"><code>Dizge içindeki boş karakterler için 0 döner.
+             Bunu düzelt.</code></em>  */
+          if (thislen == 0)
+            thislen = 1;
+          /* <em class="replaceable"><code>Bu karakter işlendi, diğerine geç.</code></em> */
+          inp += thislen;
+          dolan -= thislen;
+          ++outp;
+        }
+
+      /* <em class="replaceable"><code>Dönüştürülen geniş karakterleri yaz.</code></em>  */
+      nwrite = write (output, outbuf,
+                      (outp - outbuf) * sizeof (wchar_t));
+      if (nwrite &lt; 0)
+        {
+          perror ("write");
+          return 0;
+        }
+
+      /* <em class="replaceable"><code>Gerçekten geçersiz karakter var mı, bak.</code></em> */
+      if ((eof &amp;&amp; dolan &gt; 0) || dolan &gt;= MB_CUR_MAX)
+        {
+          error (0, 0, "cok baytli karakter gecersiz");
+          return 0;
+        }
+
+      /* <em class="replaceable"><code>Kalan karakterleri tamponun başına yerleştir.</code></em> */
+      if (dolan &gt; 0)
+        memmove (tampon, inp, dolan);
+    }
+
+  return 1;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

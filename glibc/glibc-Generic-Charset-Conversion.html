@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.5. Karakter Kümesi Dönüşümü</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Shift-State.html')">Önceki</button>
+          <div class="dropdown-content">6.4.3. Öteleme Durumu</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Character-Set-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Conversion-Interface.html')">Sonraki</button>
+          <div class="dropdown-content">6.5.1. Dönüşüm Arayüzü</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Generic-Charset-Conversion">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">6.5. Karakter Kümesi Dönüşümü</h2>
+            </div>
+          </div>
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Ön Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu kısma kadar bahsedilen dönüşüm işlevlerinin hiçbirinde işlem yaptıkları karakter kümeleri işlevin bir bağımsız değişkeni olarak belirtilmiyordu ve bu işlevler tüm karakter kümeleri için kullanılabiliyordu. Çok baytlı kodlama <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yereli tarafından belirtilen karakter kümesini kullanır. Geniş karakter kümesi gerçeklemeyle sabittir (GNU C Kütüphanesi için daima ISO 10646 kodlu UCS-4'tür).
+   </p>
+          <p>
+    Bu, genel karakter dönüşümlerinde bir takım sorunlar içerir:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+      Kaynak ve hedef karakter kümelerinden hiçbirinin <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yerelinin karakter kümesi olmadığı durumda <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yereli <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevi kullanılarak değiştirilebilir.
+     </p>
+                <p>
+      <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yerelinin değiştirilmesi, <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> sınıfını kullanan işlevlerden (örn, <a class="link" href="glibc-Classification-of-Characters.html" title="4.1. Karakterlerin Sınıflandırılması">karakter sınıflandırma işlevleri</a>) dolayı yazılımın kalanında büyük sorunlara yol açar.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> seçimi genel olduğundan ve tüm evreler tarafından paylaşılan bir seçim olduğundan farklı karakter kümeleri arasında paralel dönüşümler mümkün olmaz.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> gösterimi için kaynağın ve hedefin karakter kümesi kullanılamadığına göre önceki işlevler kullanılarak bir metin dönüştürülmek istenirse iki kademeli işlem gerekir. Birinci adımda çok baytlı kodlama için kaynak karakter kümesi seçilip metin <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> metnine dönüştürülecek, ikinci adımda ise hedefin karakter kümesi seçilip geniş karakterli metin bu karakter kümesindeki çok baytlı karakterlere dönüştürülecektir.
+     </p>
+                <p>
+      Bu mümkün olsa bile (garanti değildir) çok yorucu bir çalışmadır. Bundan başka, yerelin iki defa değişmesine bağlı olarak bazı sorunlara da yol açabilecektir.
+     </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+    XPG2 standardı bu sınırlamaları olmayan tamamen yeni bir işlev ailesi tanımlar. Bunlar seçili yerele bağlı olmadıkları gibi kaynak ve hedef için seçilmiş karakter kümeleriyle ilgili bir sınırlama da getirmez. Tek sınır dönüşüm için kullanılabilecek karakter kümeleridir. Böyle bir kullanışlılık gerçeklemenin kalitesinin bir ölçüsüdür.
+   </p>
+          <p>
+    Bundan sonraki bölümlerde önce <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> arayüzünden ve dönüşüm işlevinden söz edilecektir. Son olarak gelişkin dönüşüm yeteneklerinden yararlanmak isteyen ileri düzey yazılımcıları ilgilendireceği umularak gerçeklemeden bahsedilecektir.
+   </p>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>6.5.1. <a href="glibc-Generic-Conversion-Interface.html">Dönüşüm Arayüzü</a>  -  Soysal karakter kümesi dönüşüm arayüzü</dt>
+            <dt>6.5.2. <a href="glibc-iconv-Examples.html"><code class="code">iconv</code> Örneği</a>  -  Eksiksiz bir <code class="code">iconv</code> örneği</dt>
+            <dt>6.5.3. <a href="glibc-Other-iconv-Implementations.html">Diğer <code class="code">iconv</code> Gerçeklenimleri</a>  -  Diğer <code class="code">iconv</code> gerçeklenimleri hakkında.</dt>
+            <dt>6.5.4. <a href="glibc-iconv-Implementation.html">Glibc <code class="code">iconv</code> Gerçeklenimi</a>  -  GNU C Kütüphanesindeki <code class="code">iconv</code> gerçeklenimi.</dt>
+            <dd>
+              <dl>
+                <dt>6.5.4.1. <a href="glibc-iconv-Implementation.html"><code class="code">gconv-modules</code> dosyalarının biçimi</a></dt>
+                <dt>6.5.4.2. <a href="glibc-iconv-Implementation.html"><code class="code">iconv</code>'de dönüşüm yolunun bulunması</a></dt>
+                <dt>6.5.4.3. <a href="glibc-iconv-Implementation.html"><code class="code">iconv</code> modülü veri yapıları</a></dt>
+                <dt>6.5.4.4. <a href="glibc-iconv-Implementation.html"><code class="code">iconv</code> modül arayüzleri</a></dt>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

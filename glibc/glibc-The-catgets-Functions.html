@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.1.1. catgets İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-a-la-X-Open.html')">Önceki</button>
+          <div class="dropdown-content">8.1. X/Open İleti Kataloglarının İşlenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-a-la-X-Open.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-message-catalog-files.html')">Sonraki</button>
+          <div class="dropdown-content">8.1.2. İleti Kataloğu Dosyalarının Biçimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-The-catgets-Functions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8.1.1. <code class="code">catgets</code> İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-catopen" class="indexterm"></span>
+    <span id="glibc-cp-catopen" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=catgets/nl_types.h;hb=HEAD" target="_top">nl_types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">nl_catd </code> <strong><code class="function">catopen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">cat_name</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     
+     <code class="code">catopen</code> işlevi <em class="parameter"><code>cat_name</code></em> ile belirtilen ileti dosyalarını bulmaya çalışır ve bulduğunda yükler.  Dönüş değeri kataloğun tanıtıcısı olup geçirimsiz türdedir ve diğer işlev çağrılarında yüklü kataloğu belirtmek için kullanılabilir.
+    </p>
+    <p>
+     İşlev başarısız olursa katalog yüklenmemiş demektir ve dönüş değeri <code class="code">(nl_catd) -1</code>'dir. <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkeni başarısızlığın sebebini belirten hata kodunu içerir. İşlev çağrısının başarılı olması katalogdaki tüm iletilerin çevrilmiş olduğu anlamına gelmez.
+    </p>
+    <p>
+     Katalog dosyasının yeri yazılımın kullanıcısının kararını açıklaması sağlanarak belirlenir.  Kullanılacak dile karar vermek kullanıcıya bırakılır ve kimi zaman başka katalog dosyaları kullanmak yararlı olur. Bunun tamamı kullanıcı tarafından bazı ortam değişkenleri kullanılarak belirtilebilir.
+    </p>
+    <p>
+     İlk sorun ileti kataloglarının bulunduğu yeri bulmaktır. Her yazılımın farklı dosyalar  için kendi yeri olabileceği gibi, katalog dosyaları dillere göre gruplanarak tüm yazılımlar için ortak bir yerde de tutulabilir.
+    </p>
+    <div class="csynopsis"><div class="cstype">  ortam değ</div>
+     <span id="glibc-vr-NLSPATH" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">NLSPATH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <code class="code">catopen</code> işlevine yazılımın katalog dosyalarını nerede bulacağı kullanıcı tarafından <code class="code">NLSPATH</code> ortam değişkenine yazılarak belirtilebilir. Bu değerin farklı dil ve yereller için kullanılabilir olması gerektiğinden, değer basit bir dizge olamayacaktır. Dizgenin kendine özgü bir biçimi vardır (<strong class="function"><code>printf</code></strong>'in biçem dizgesi gibi). Bir örnek:
+     </p>
+     <pre class="literallayout monospaced">/usr/share/locale/%L/%N:/usr/share/locale/%L/LC_MESSAGES/%N
+</pre>
+     <p>
+      Görüleceği üzere, iki nokta imleri ile ayırarak birden fazla dizin belirtilebilir. Biçim dizgesinde dikkati çeken ikinci durum <code class="code">%L</code> ve <code class="code">%N</code> belirteçleridir. <code class="code">catopen</code> işlevi bunların çeşitlerini ve yerlerine neleri yerleştireceğini bilir.
+     </p>
+     <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">%N</code></span></dt><dd><p>
+         Bu biçem elemanı katalog dosyasının isminin yerine geçer. Değeri, <code class="code">catopen</code> işlevine belirtilen <em class="parameter"><code>cat_name</code></em> bağımsız değişkeninin değeridir.
+        </p></dd><dt><span class="term"><code class="code">%L</code></span></dt><dd><p>
+         Bu biçem elemanı ileti çevirileri için seçili yerelin isminin yerine geçer. Bunun nasıl saptanacağı aşağıda anlatılmıştır.
+        </p></dd><dt><span class="term"><code class="code">%l</code></span></dt><dd><p>
+         (Küçük L harfi.) Bu biçem elemanı yerel isminin dil elemanının yerine geçer. Seçili yereli betimleyen bu dizgenin şu biçimde olması beklenir:
+        </p><pre class="literallayout monospaced"><code class="code"><em class="replaceable"><code>dil</code></em>[_<em class="replaceable"><code>ülke</code></em>[.<em class="replaceable"><code>karakter-kümesi</code></em>]]</code>
+</pre><p>
+         Bu biçem elemanı bu dizgenin <em class="replaceable"><code>dil</code></em> parçasını ifade eder.
+        </p></dd><dt><span class="term"><code class="code">%t</code></span></dt><dd><p>
+         Bu biçem elemanı yerel isminin <em class="replaceable"><code>ülke</code></em> elemanının yerine geçer. Yerel isminin sözdizimi yukarda verilmişti.
+        </p></dd><dt><span class="term"><code class="code">%c</code></span></dt><dd><p>
+         Bu biçem elemanı yerel isminin <em class="replaceable"><code>karakter-kümesi</code></em> elemanının yerine geçer. Yerel isminin sözdizimi yukarda verilmişti.
+        </p></dd><dt><span class="term"><code class="code">%%</code></span></dt><dd><p>
+         <code class="code">%</code> karakteri bir önceleme karakteri olarak kullanıldığından kendisini de öncelemesi gerekir. <code class="code">%%</code> belirteci aynen <strong class="function"><code>printf</code></strong> işlevindeki gibi çalışır.
+        </p></dd></dl></div>
+     <p>
+      <code class="code">NLSPATH</code> kullanılarak, kullanılacak farklı dillerin ileti kataloglarının aranacağı dizinler isteğe bağlı olarak belirlenebilir. Eğer <code class="code">NLSPATH</code> ortam değişkeni ortamda mevcut değilse, öntanımlı değeri:
+     </p>
+     <pre class="literallayout monospaced"><code class="code"><em class="replaceable"><code>önek</code></em>/share/locale/%L/%N:<em class="replaceable"><code>önek</code></em>/share/locale/%L/LC_MESSAGES/%N</code>
+</pre>
+     <p>
+      Burada <em class="replaceable"><code>önek</code></em>, GNU C Kütüphanesi derlenirken <code class="filename">configure</code> betiğine <code class="option">--prefix</code> seçeneğinde belirtilen dizindir (bu dizin çoğu zaman ya <code class="filename">/usr</code> ya da boş dizgedir).
+     </p>
+    </div>
+    <p>
+     Sorun artık ne kullanılacağına karar vermektir. Değer, yukarıda bahsedilen biçem elemanlarının nelerle ikame edileceğini belirler. Herşeyden önce, ileti kataloğunun ismi dosya yolu ile birlikte belirtilebilir (yani dosya ismi eğik çizgi imleri içerir). Bu durumda <a href="glibc-The-catgets-Functions.html#glibc-vr-NLSPATH"><strong class="varname"><code>NLSPATH</code></strong></a> ortam değişkeni kullanılmaz. Katalog yazılımda belirtildiği gibi mevcut olmalıdır; şüphesiz, bu çalışma dizinine görelidir. Bu istenen bir durum değildir ve katalog isimleri bu yöntemle yazılmamalıdır. Bununla beraber, <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> arayüzünü kullanan platformlar bakımından bu davranış taşınabilir olmayacaktır.
+    </p>
+    <p>
+     <span id="glibc-vr-NL_CAT_LOCALE" class="indexterm"></span>
+     Aksi takdirde, standart ortamdaki ortam değişkenlerinin değerlerine bakılır. Hangi değişkenlere bakılacağına <code class="code">catopen</code> işlevinin <em class="parameter"><code>flag</code></em> bağımsız değişkenine bakarak karar verilir. Eğer bu değer <code class="code">NL_CAT_LOCALE</code> (<code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=catgets/nl_types.h;hb=HEAD" target="_top">nl_types.h</a></code> dosyasında tanımlıdır) ise, <code class="code">catopen</code> işlevi <a href="glibc-Locale-Categories.html#glibc-vr-LC_MESSAGES"><strong class="varname"><code>LC_MESSAGES</code></strong></a> kategorisi için seçili yerelin ismini kullanır.
+    </p>
+    <p>
+     Eğer <em class="parameter"><code>flag</code></em> sıfırsa <a href="glibc-Locale-Categories.html#glibc-vr-LANG"><strong class="varname"><code>LANG</code></strong></a> ortam değişkenine bakılır. Bu davranış, yerel kavramının POSIX yerelleri seviyesine henüz ulaşmadığı erken dönemlerden kalmadır.
+    </p>
+    <p>
+     Ortam değişkeninin içerdiği yerel ismi yukarıda açıklandığı gibi
+    </p>
+    <pre class="literallayout monospaced"><code class="code"><em class="replaceable"><code>dil</code></em>[_<em class="replaceable"><code>ülke</code></em>[.<em class="replaceable"><code>karakter-kümesi</code></em>]]</code>
+</pre>
+    <p>
+     biçiminde olmalıdır. Hiç ortam değişkeni bulunamazsa, çevirilerin kullanılmayacağı anlamına gelen <span class="command"><strong>"C"</strong></span> yereli kullanılır.
+    </p>
+    <p>
+     Bir hata oluştuğunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine şunlar atanabilir:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>Katalog mevcut değil.</p></dd><dt><span class="term"><code class="code">ENOMSG</code></span></dt><dd><p>
+        <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> çifti ileti kataloğundaki mevcut bir elemana ait değil.
+       </p></dd></dl></div>
+    <p>
+     Kimi zaman hatalara karşı sınama yapmak faydalı olduğu halde yazılımlar normalde herhangi bir sınamadan kaçınacaktır. Bir çevirinin yokluğu özgün ileti varsa sorun olmaz, çevrilmemiş ileti basılır. Bu durumu kullanıcı ya olduğu gibi kabul eder ya da iletinin neden çevrilmediğini araştırır.
+    </p>
+   </div>
+        <p>
+    O an seçili yerelin <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevine yapılan bir çağrıya bağlı olmadığı unutulmamalıdır. <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> işlevi bu değerleri ortam değişkenlerinden doğrudan kendisi okur.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-catgets" class="indexterm"></span>
+    <span id="glibc-cp-catgets" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=catgets/nl_types.h;hb=HEAD" target="_top">nl_types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">catgets</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">nl_catd </code> <strong><code class="parameter">catalog_desc</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">set</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">message</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">string</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">catgets</code> işlevi önceki bir <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> çağrısı ile açılmış ileti kataloğuna erişmekte kullanılır. <em class="parameter"><code>catalog_desc</code></em> bağımsız değişkeni önceki bir <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> çağrısının dönüş değeri olmalıdır.
+    </p>
+    <p>
+     Sonraki iki bağımsız değişken, <em class="parameter"><code>set</code></em> ve <em class="parameter"><code>message</code></em>, ileti kataloğu dosyalarının iç düzeni ile ilgilidir. Bu aşağıda ayrıntılı olarak açıklanmıştır. Şimdilik, kataloğun her biri numaralanmış çeşitli <em class="parameter"><code>set</code></em> ve <em class="parameter"><code>message</code></em> demetlerinden oluştuğunu bilmek yeterli olacaktır. Ne <em class="parameter"><code>set</code></em> numarasının ne de <em class="parameter"><code>message</code></em> numarasının bir önemi vardır. Keyfi olarak seçilmiş olabilirler. Fakat her iletinin (başka biriyle aynı olmadıkça) kendine özel eşsiz bir <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> çifti ve ileti numarası olmalıdır.
+    </p>
+    <p>
+     Kullanıcı tarafından seçilen dil için ileti kataloğunun bulunacağı garanti olmadığından son bağımsız değişken olan <em class="parameter"><code>string</code></em> ile bu duruma bir çözüm getirilmiştir. Eğer ileti ile eşleşen bir dizge bulunamazsa <em class="parameter"><code>string</code></em> döndürülür.  Bunun yazılımcı açısından anlamı:
+    </p>
+    <div><ul class="simplelist"><li class="member">
+      <em class="parameter"><code>string</code></em> bağımsız değişkeni kabul edilebilir bir metin içermelidir (bu ayrıca umulan dizge dönmediğinde bu duruma dair bir ipucu elde edilmesini sağlayabilmelidir).
+     </li><li class="member">
+      Tüm <em class="parameter"><code>string</code></em> bağımsız değişkenleri aynı dilde yazılmış olmalıdır.
+     </li></ul></div>
+    <p>
+     İşlevin dönüş değeri her durumda geçerli bir dizgedir. Ya bir ileti kataloğundan çeviridir ya da <em class="parameter"><code>string</code></em> bağımsız değişkeni ile aynıdır. Dolayısıyla, bir çevirinin gerçekten var olup olmadığına karar veren kod parçası şöyle görünmelidir:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">{
+  char *trans = catgets (desc, set, msg, input_string);
+  if (trans == input_string)
+    {
+      /* Birşeyler yanlış gitmiş.  */
+    }
+}
+</pre></div></div><br class="example-break" />
+   </div>
+        <p>
+    Destekleyici bir işlevsellik olmadıkça <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevlerini kullanarak  yazılım geliştirmek biraz tatsız olur. Her <em class="parameter"><code>set</code></em>/<em class="parameter"><code>message</code></em> çiftinin eşsiz olması gerektiğinden yazılımcı kodu yazarken aynı zamanda iletilerin listesini de tutmalı ve aynı proje üzerinde çalışan yazılımcılar arasında eşgüdüm sağlanmış olmalıdır. Bunun nasıl biraz daha esnetilebileceği <a class="xref" href="glibc-Common-Usage.html" title="8.1.4. catgets Kullanımı"><code class="code">catgets</code> Kullanımı</a> bölümünde açıklanacaktır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-catclose" class="indexterm"></span>
+    <span id="glibc-cp-catclose" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=catgets/nl_types.h;hb=HEAD" target="_top">nl_types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">catclose</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">nl_catd </code> <strong><code class="parameter">catalog_desc</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">catclose</code> işlevi önceki bir <a href="glibc-The-catgets-Functions.html#glibc-fn-catopen"><strong class="function"><code>catopen</code></strong></a> çağrısı ile açılmış bir ileti kataloğu ile ilgili özkaynakları serbest bırakmakta kullanılır. Eğer özkaynaklar başarıyla serbest bırakılmışsa işlev <code class="code">0</code> ile aksi takdirde <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.  Eğer <em class="parameter"><code>catalog_desc</code></em> ile belirtilen katalog tanıtıcı geçersizse, <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EBADF"><strong class="varname"><code>EBADF</code></strong></a> atanır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

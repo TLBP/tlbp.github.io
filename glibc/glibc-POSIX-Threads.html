@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>35.2. POSIX Evreleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-ISO-C-Thread-local-Storage.html')">Önceki</button>
+          <div class="dropdown-content">35.1.6. Evreye Özel Depolama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Threads.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Dynamic-Linker.html')">Sonraki</button>
+          <div class="dropdown-content">36. Özdevimli İlintileyici</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-POSIX-Threads">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">35.2. POSIX Evreleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm106197" class="indexterm"></span>
+   <span id="idm106200" class="indexterm"></span>
+   Bu oylumda GNU C Kütühanesinin POSIX Evreleri gerçeklenimi açıklanmıştır.
+  </p>
+        <section class="sect1" id="glibc-Thread-specific-Data">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">35.2.1. Evreye Özgü Veri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm106206" class="indexterm"></span>
+    GNU C Kütüphanesi, kullanıcıların evreye özgü verileri oluşturmasına ve yönetmesine izin veren işlevler gerçeklemiştir. Böyle veriler, bir yok edici işlev sağlanırsa, evre çıkışında yok edilebilir. Aşağıdaki işlevler tanımlanmıştır:
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-pthread_key_create" class="indexterm"></span>
+    <span id="glibc-fn-pthread_key_create" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_key_create</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_key_t </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code>void (*<em class="parameter"><code>destructor</code></em>) (void*)</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Geçerli evre için  evreye özgü veri anahtarı oluşturur ve anahtarı <em class="parameter"><code>key</code></em> ile gösterilen nesnede saklar.
+    </p>
+    <p>
+     C++11 <code class="code">thread_local</code> anahtar sözcüğü ile bildirilen nesneler evreye özgü veriden önce yok edilir. Bu nedenle evreye özgü veri yok edicilerde kullanılmamalıdır. Ayrıca evreye özgü veri yok edici işleve bağımsız değişken olarak aktarıldığından evreye özgü veri üyeleri olarak bile kullanılmamalıdır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-pthread_key_delete" class="indexterm"></span>
+    <span id="glibc-fn-pthread_key_delete" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_key_delete</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_key_t </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Geçerli evrede evreye özgü veri anahtarını yok eder. Evreye özgü veriler için yok edici, yok etme sırasında çağrılmadığı gibi evre çıkarken de çağrılmaz.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-pthread_getspecific" class="indexterm"></span>
+    <span id="glibc-fn-pthread_getspecific" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_getspecific</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_key_t </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Geçerli evrede <em class="parameter"><code>key</code></em> ile ilişkili evreye özgü veriyle döner.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-pthread_setspecific" class="indexterm"></span>
+    <span id="glibc-fn-pthread_setspecific" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_setspecific</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_key_t </code><strong class="type">*</strong><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">value</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Geçerli evrede <em class="parameter"><code>key</code></em> anahtarını evreye özgü <em class="parameter"><code>value</code></em> değeriyle ilişkilendirir.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Non-POSIX-Extensions">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">35.2.2. POSIX-dışı Oluşumlar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm106325" class="indexterm"></span>
+    Evreler için POSIX aryüzünü gerçeklemesine ek olarak, GNU C Kütüphanesi, standartta belirtilmeyen işlevselliği sağlamak için de işlevler ve arayüzler gerçeklemiştir.
+   </p>
+          <section class="sect2" id="glibc-Default-Thread-Attributes">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">35.2.2.1. Süreç Çapında Öntanımlı Öznitelikler</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     GNU C Kütüphanesi, bir süreçte evrelerin oluşturulmasında kullanılan öntanımlı öznitelikleri atamak ve almak için standart-dışı işlevler sağlar.
+    </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-cp-pthread_getattr_default_np" class="indexterm"></span>
+     <span id="glibc-fn-pthread_getattr_default_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_getattr_default_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_attr_t </code><strong class="type">*</strong><strong><code class="parameter">attr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      Öntanımlı öznitelik değerleri döndürülür ve eşleşmeye <em class="parameter"><code>attr</code></em> atanır. Bu işlev, başarı durumunda <code class="code">0</code>, başarısızlık durumunda sıfır olmayan bir hata kodu döndürür.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-cp-pthread_setattr_default_np" class="indexterm"></span>
+     <span id="glibc-fn-pthread_setattr_default_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_setattr_default_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_attr_t </code><strong class="type">*</strong><strong><code class="parameter">attr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <em class="parameter"><code>attr</code></em> özniteliğindeki değerlerle eşleşmesi için öntanımlı öznitelik değerlerini tanımlar. İşlev, başarı durumunda <code class="code">0</code>, başarısızlık durumunda sıfır olmayan bir hata kodu döndürür. Bu işlev için aşağıdaki hata kodları tanımlanmıştır:
+     </p>
+     <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+         <em class="parameter"><code>attr</code></em> özniteliğindeki değerlerden en az biri, nitelikler için geçerli olarak nitelendirilmiyor veya öznitelikte yığıt adresi atanmış.
+        </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+         Sistemde yeterli bellek yok.
+        </p></dd></dl></div>
+    </div>
+          </section>
+          <section class="sect2" id="glibc-Initial-Thread-Signal-Mask">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">35.2.2.2. Sinyal Maskesinin Denetlenmesi</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     GNU C Kütüphanesi, <strong class="function"><code>pthread_create</code></strong> kullanılarak oluşturulan bir evrenin ilk sinyal maskesini, bu amaçla yapılandırılmış evre öznitelik nesnesini aktarmak suretiyle belirleyecek bir yol sağlar.
+    </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-cp-pthread_attr_setsigmask_np" class="indexterm"></span>
+     <span id="glibc-fn-pthread_attr_setsigmask_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_attr_setsigmask_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_attr_t </code><strong class="type">*</strong><strong><code class="parameter">attr</code></strong><strong><code>, </code></strong><code class="type">const sigset_t </code><strong class="type">*</strong><strong><code class="parameter">sigmask</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <em class="parameter"><code>attr</code></em> ile belirtilen ilk sinyal maskesini değiştirir. <em class="parameter"><code>sigmask</code></em> <code class="varname">NULL</code> değilse, <em class="parameter"><code>attr</code></em> ile oluşturulan evreler için ilk sinyal maskesi *<em class="parameter"><code>sigmask</code></em> olarak atanır. <em class="parameter"><code>sigmask</code></em> <code class="varname">NULL</code> ise, <em class="parameter"><code>attr</code></em> artık doğrudan bir sinyal maskesi belirtmediğinden yeni evreye ait ilk sinyal maskesi <strong class="function"><code>pthread_create</code></strong> işlevini çağıran evreden miras alınır.
+     </p>
+     <p>
+      İşlev, başarı durumunda <code class="code">0</code>, bellek tahsisi başarısız olursa <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> ile döner.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-cp-pthread_attr_getsigmask_np" class="indexterm"></span>
+     <span id="glibc-fn-pthread_attr_getsigmask_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_attr_getsigmask_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const pthread_attr_t </code><strong class="type">*</strong><strong><code class="parameter">attr</code></strong><strong><code>, </code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">sigmask</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      <em class="parameter"><code>attr</code></em> özniteliğinde saklanan sinyal maskesini alır ve *<em class="parameter"><code>sigmask</code></em>'a kopyalar. Sinyal maskesi atanmamışsa, <a href="glibc-POSIX-Threads.html#glibc-vr-PTHREAD_ATTR_NO_SIGMASK_NP"><strong class="varname"><code>PTHREAD_ATTR_NO_SIGMASK_NP</code></strong></a> özel sabiti döner, aksi takdirde sıfır döner.
+     </p>
+     <p>
+      Sinyal maskesinin elde edilebilmesi için evvelce <a href="glibc-POSIX-Threads.html#glibc-fn-pthread_attr_setsigmask_np"><strong class="function"><code>pthread_attr_setsigmask_np</code></strong></a> ile kaydedilmiş olması gerekir. Örneğin, <strong class="function"><code>pthread_getattr_np</code></strong> işlevi belirtilen evrenin geçerli sinyal maskesini sağlamaz ve ardından <code class="code">pthread_attr_getsigmask_np</code> sinyal maskesinin atanmamış olduğunu bildirir.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-PTHREAD_ATTR_NO_SIGMASK_NP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">PTHREAD_ATTR_NO_SIGMASK_NP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Özniteliğe sinyal maskesinin atanmadığını belirtmek için <a href="glibc-POSIX-Threads.html#glibc-fn-pthread_attr_setsigmask_np"><strong class="function"><code>pthread_attr_setsigmask_np</code></strong></a> işlevinden dönen özel değer.
+     </p>
+    </div>
+            <p>
+     Bu işlevleri kullanmadan belirli bir sinyal maskesiyle yeni bir evre oluşturmak mümkündür. <strong class="function"><code>pthread_create</code></strong> işlevinin çağrıldığı evrede, genelde gereken adımlar şunlardır:
+    </p>
+            <div class="orderedlist">
+              <ol class="orderedlist" type="1">
+                <li class="listitem">
+                  <p>
+       <strong class="function"><code>pthread_sigmask</code></strong> işlevini kullanarak tüm sinyalleri maskele ve eski sinyal maskesini kaydet. Bu, yeni evrenin tümü maskeli sinyallerle oluşturulmasını sağlar, böylece istenen sinyal maskesi ayarlanana kadar evreye hiçbir sinyal iletilemez.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       Yeni evreyi oluşturmak için istenen sinyal maskesini evreyi oluşturan yordama aktararak <strong class="function"><code>pthread_create</code></strong> işlevini çağır (bu, gerçek evre başlatma yordamı için bir sarmalayıcı işlev olabilir). Yığın bellek üzerinde istenen sinyal maskesinin bir kopyasını yapmak gerekli olabilir, böylece kopyanın ömrü, başlatma yordamının sinyal maskesine eriştiği ana kadar uzar.
+      </p>
+                </li>
+                <li class="listitem">
+                  <p>
+       Evrenin sinyal maskesini ilk adımda kaydedilen kümeye geri yükle.
+      </p>
+                </li>
+              </ol>
+            </div>
+            <p>
+     Oluşturulan evre için başlatma yordamının istenen sinyal maskesini bulması ve bunu evreye uygulamak için <strong class="function"><code>pthread_sigmask</code></strong> işlevini kullanması gerekir. Sinyal maskesi yığın bellekte tahsis edilen bir alana kopyalanmışsa, kopyanın serbest bırakılması gerekir.
+    </p>
+          </section>
+          <section class="sect2" id="glibc-Waiting-with-Explicit-Clocks">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">35.2.2.3. Bekletme İşlevleri</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     GNU C Kütüphanesi <code class="code">clockid_t</code> türünde bir bağımsız değişkeninin aktarılabileceği çeşitli bekletme işlevleri içerir.
+    </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sem_clockwait" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">sem_clockwait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sem_t </code><strong class="type">*</strong><strong><code class="parameter">sem</code></strong><strong><code>, </code></strong><code class="type">clockid_t </code> <strong><code class="parameter">clockid</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <a href="glibc-Inter-Process-Communication.html#glibc-fn-sem_timedwait"><strong class="function"><code>sem_timedwait</code></strong></a> gibi davranır, ancak <em class="parameter"><code>abstime</code></em> süresi <code class="varname">CLOCK_REALTIME</code> yerine <em class="parameter"><code>clockid</code></em> ile belirtilen saate göre ölçülür. Şimdilik, <em class="parameter"><code>clockid</code></em> ya <code class="varname">CLOCK_MONOTONIC</code> ya da <code class="varname">CLOCK_REALTIME</code> olmalıdır.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_cond_clockwait" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_cond_clockwait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_cond_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>, </code></strong><code class="type">pthread_mutex_t </code><strong class="type">*</strong><strong><code class="parameter">mutex</code></strong><strong><code>, </code></strong><code class="type">clockid_t </code> <strong><code class="parameter">clockid</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <strong class="function"><code>pthread_cond_timedwait</code></strong>  gibi davranır, ancak <em class="parameter"><code>abstime</code></em> süresi <strong class="function"><code>pthread_cond_init</code></strong> çağrıldığında belirtilen veya öntanımlı olan saat yerine <em class="parameter"><code>clockid</code></em> ile belirtilen saate göre ölçülür. Şimdilik, <em class="parameter"><code>clockid</code></em> ya <code class="varname">CLOCK_MONOTONIC</code> ya da <code class="varname">CLOCK_REALTIME</code> olmalıdır.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_rwlock_clockrdlock" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_rwlock_clockrdlock</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_rwlock_t </code><strong class="type">*</strong><strong><code class="parameter">rwlock</code></strong><strong><code>, </code></strong><code class="type">clockid_t </code> <strong><code class="parameter">clockid</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> 
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <strong class="function"><code>pthread_rwlock_timedrdlock</code></strong> gibi davranır, ancak <em class="parameter"><code>abstime</code></em> süresi <code class="varname">CLOCK_REALTIME</code> yerine <em class="parameter"><code>clockid</code></em> ile belirtilen saate göre ölçülür. Şimdilik, <em class="parameter"><code>clockid</code></em> ya <code class="varname">CLOCK_MONOTONIC</code> ya da <code class="varname">CLOCK_REALTIME</code> olmalıdır, yoksa <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> döner.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_rwlock_clockwrlock" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_rwlock_clockwrlock</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_rwlock_t </code><strong class="type">*</strong><strong><code class="parameter">rwlock</code></strong><strong><code>, </code></strong><code class="type">clockid_t </code> <strong><code class="parameter">clockid</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <strong class="function"><code>pthread_rwlock_timedwrlock</code></strong> gibi davranır, ancak <em class="parameter"><code>abstime</code></em> süresi <code class="varname">CLOCK_REALTIME</code> yerine <em class="parameter"><code>clockid</code></em> ile belirtilen saate göre ölçülür. Şimdilik, <em class="parameter"><code>clockid</code></em> ya <code class="varname">CLOCK_MONOTONIC</code> ya da <code class="varname">CLOCK_REALTIME</code> olmalıdır, yoksa <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> döner.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_tryjoin_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_tryjoin_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_t </code><strong class="type">*</strong><strong><code class="parameter">thread</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">thread_return</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <em class="parameter"><code>thread</code></em> tarafından belirtilen evre henüz sonlandırılmamışsa hemen <a href="glibc-Error-Codes.html#glibc-vr-EBUSY"><strong class="varname"><code>EBUSY</code></strong></a> döndürmesi dışında <strong class="function"><code>pthread_join</code></strong> gibi davranır.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_timedjoin_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_timedjoin_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_t </code><strong class="type">*</strong><strong><code class="parameter">thread</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">thread_return</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <a href="glibc-POSIX-Threads.html#glibc-fn-pthread_tryjoin_np"><strong class="function"><code>pthread_tryjoin_np</code></strong></a> işlevine benzer, ancak evre o zamana kadar sonlandırılmamışsa <code class="varname">CLOCK_REALTIME</code> ile ölçülen zaman <em class="parameter"><code>abstime</code></em> mutlak zamanına ulaşana kadar engellenir ve işlev <a href="glibc-Error-Codes.html#glibc-vr-EBUSY"><strong class="varname"><code>EBUSY</code></strong></a> ile döner. <em class="parameter"><code>abstime</code></em>, <code class="varname">NULL</code> ise, işlev, <strong class="function"><code>pthread_join</code></strong> işlevinde olduğu gibi sonsuza kadar bekler.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-pthread_clockjoin_np" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pthread_clockjoin_np</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pthread_t </code><strong class="type">*</strong><strong><code class="parameter">thread</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">**</strong><strong><code class="parameter">thread_return</code></strong><strong><code>, </code></strong><code class="type">clockid_t </code> <strong><code class="parameter">clockid</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">abstime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     </div>
+     <p>
+      <code class="code">pthread_timedjoin_np</code>  işlevine benzer, ancak <em class="parameter"><code>abstime</code></em> değişkenindeki mutlak zaman <em class="parameter"><code>clockid</code></em> ile belirtilen saate göre ölçülür. Şimdilik, <em class="parameter"><code>clockid</code></em> ya <code class="varname">CLOCK_MONOTONIC</code> ya da <code class="varname">CLOCK_REALTIME</code> olmalıdır.
+     </p>
+    </div>
+          </section>
+          <section class="sect2" id="glibc-Single-Threaded">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">35.2.2.4. Tek Evrelilik</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Çok evreli yazılımlar, evreleri arasında eşzamanlamayı gerektirir. Yalnızca tek bir evre olsa ve birden çok işlemci arasında hiçbir veri paylaşılmasa bile bu eşitleme maliyetli olabilir. GNU C Kütüphanesi, sürecin tek evreli kipte olup olmadığını saptamak için bir arayüz sunar. Uygulamalar, örneğin belleği yüklemek ve depolamak için düzenli komutlar kullanarak veya daha güçlü bellek sıralaması yerine rahat bellek sıralaması kullanarak bu bilgileri eşzamanlamadan kaçınmak için  kullanabilir.
+    </p>
+            <div class="csynopsis"><div class="cstype">   değişken</div>
+     <span id="glibc-vr-libc_single_threaded" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/pthread.h;hb=HEAD" target="_top">pthread.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code> <strong><code class="varname">__libc_single_threaded</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu değişken sıfır değilse geçerli süreç kesinlikle tek evrelidir. Sıfır ise, süreç çok evreli olabilir veya GNU C Kütüphanesi, yazılımın yürütülmesinin bu noktasında sürecin tek evreli olup olmadığını belirleyemiyordur.
+     </p>
+     <p>
+      Uygulamalar bu değişkene kesinlikle yazmamalıdır.
+     </p>
+    </div>
+            <p>
+     Çoğu uygulama, daha az eşzamanlama dışında, <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> doğru olsa da olmasa da aynı eylemleri gerçekleştirmelidir. Bu kural izlenirse, daha sonra çok evreli hale gelen bir süreç zaten tutarlı bir durumdadır. Örneğin, atıf sayısını artırmak için aşağıdaki kod kullanılabilir:
+    </p>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <pre class="screen">if (__libc_single_threaded)
+  atomic_fetch_add (&amp;reference_count, 1, memory_order_relaxed);
+else
+  atomic_fetch_add (&amp;reference_count, 1, memory_order_acq_rel);
+</pre>
+                <p>
+      Bu, tek evreli dalda yine de bir tür eşzamanlama gerektirir, bu nedenle atıf sayısını <code class="type">_Atomic</code> olarak bildirmemek ve GCC <code class="code">__atomic</code> yerleşiklerini kullanmak yararlı olabilir. Bkz: GCC belgelerindeki <a class="link" href="https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html#g_t_005f_005fatomic-Builtins" target="_top">Built-in Functions for Memory Model Aware Atomic Operations</a>.  Bundan sonra, bir atıf sayısını artırma kodu şöyle görünür:
+     </p>
+                <pre class="screen">if (__libc_single_threaded)
+  ++reference_count;
+else
+  __atomic_fetch_add (&amp;reference_count, 1, __ATOMIC_ACQ_REL);
+</pre>
+                <p>
+      (Atıf sayısıyla ilişkili verilere bağlı olarak, çok evreli dalda daha zayıf olan <code class="varname">__ATOMIC_RELAXED</code> bellek sıralamasını kullanmak mümkün olabilir.)
+     </p>
+              </div>
+            </div>
+            <br class="example-break" />
+            <p>
+     GNU C Kütüphanesindeki çeşitli işlevler, <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değişkeninin değerini değiştirebilir. Örneğin, <strong class="function"><code>pthread_create</code></strong> veya <a href="glibc-ISO-C-Thread-Management.html#glibc-fn-thrd_create"><strong class="function"><code>thrd_create</code></strong></a> işlevini kullanarak yeni ileti dizileri oluşturmak, değişkene <code class="varname">false</code> değerini atar. Bu, örneğin bir <a href="glibc-Unsafe-Features.html#glibc-safety-dlopen"><strong class="function"><code>dlopen</code></strong></a> çağrısı yoluyla dolaylı olarak da olabilir. Bu nedenle, böyle bir işlev çağrısından sonra davranışın, çağrıdan önceki değerle eşleşmesi gerekiyorsa, uygulamaların <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değerinin bir kopyasını alması gerekir, örneğin:
+    </p>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <pre class="screen">bool single_threaded = __libc_single_threaded;
+if (single_threaded)
+  prepare_single_threaded ();
+else
+  prepare_multi_thread ();
+
+void *handle = dlopen (shared_library_name, RTLD_NOW);
+lookup_symbols (handle);
+
+if (single_threaded)
+  cleanup_single_threaded ();
+else
+  cleanup_multi_thread ();
+</pre>
+                <p>
+      Yazılımın yürütülmesi sırasında <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değeri <code class="varname">true</code>'dan <code class="varname">false</code>'a değişebileceğinden, IFUNC çözümleyicilerinde en iyilenmiş işlev gerçeklenimlerini seçmek için kullanışlı değildir.
+     </p>
+              </div>
+            </div>
+            <br class="example-break" />
+            <p>
+     Bölünmez işlemler, tek evreli işlemler arasında paylaşılan eşlemelerde de kullanılabilir. Bu, bir derleyicinin, belleğin paylaşılmadığını kanıtlayamadığı sürece bölünmez işlemleri en iyilemek için <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> kullanmaması gerektiği anlamına gelir.
+    </p>
+            <div class="admon note">
+              <h3 class="admon-title">Gerçeklenim Bilgisi:</h3>
+              <div class="admon-contents">
+                <p>
+      <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değişkeni <code class="type">volatile</code> olarak bildirilmez, çünkü örneğin birkaç atıf sayısı güncellenirse, derleyicilerin tek evreli sınamaların sırasını tek bir sınamada en iyilemesi beklenir. GNU C Kütüphanesindeki mevcut gerçeklenim, bir süreç tekrar tek evreli duruma gelirse, <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değişkenini <code class="varname">true</code> olarak güncellemez. GNU C Kütüphanesinin gelecek sürümleri bunu yapabilir, ancak yalnızca bir edinim (derleyici) engelini örtük olarak uygulayan işlev çağrılarının sonucu olarak. (Bazı derleyiciler, <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gibi iyi bilinen işlevlerin genel değişkenlere yazmadığını ve <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değerinin bir veri yarışına ve tanımsız davranışa yol açacağını varsayar.) Her durumda, bir uygulama, sonuncu uygulamayla oluşturulmuş evreye katılmış olsa bile <a href="glibc-POSIX-Threads.html#glibc-vr-libc_single_threaded"><strong class="varname"><code>__libc_single_threaded</code></strong></a> değişkenine yazmamalıdır. Çünkü  GNU C Kütüphanesinin gelecek sürümleri, ilk evre oluşturulduktan sonra artalan evreleri oluşturabilir ve uygulamanın bu evrelerin var olduğunu bilmesinin hiçbir yolu yoktur.
+     </p>
+              </div>
+            </div>
+          </section>
+          <section class="sect2" id="glibc-Restartable-Sequences">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title">35.2.2.5. Yeniden Başlatılabilirlik</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     Bu bölüm, GNU C Kütüphanesi için yeniden başlatılabilir yordamlarla bütünleşmeyi açıklar. Bu işlevsellik yalnızca Linux'ta mevcuttur.
+    </p>
+            <div class="csynopsis"><div class="cstype">  veri türü</div>
+     <span id="glibc-tp-rseq" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/rseq.h" target="_top">rseq.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code> <strong><code class="function">rseq</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Yeniden başlatılabilir yordamlar alanının türü. Linux'un gelecek sürümleri bu yapının sonuna ek alanlar ekleyebilir.
+     </p>
+     <p>
+      Kullanıcıların, aşağıda açıklanan  <a href="glibc-POSIX-Threads.html#glibc-vr-rseq_offset"><strong class="varname"><code>__rseq_offset</code></strong></a> değişkenini ve evre göstericisini kullanarak yeniden başlatılabilir yordamlar alanının adresini alması gerekir.
+     </p>
+     <p>
+      Yeniden başlatılabilir yordamlar alanının tek kullanımı, <strong class="function"><code>sched_getcpu</code></strong> işlevinin satırlaştırılmış sürümü olarak <strong class="structfield"><code>cpu_id</code></strong> alanından geçerli işlemci numarasını okumaktır. GNU C Kütüphanesi, kayıt başarısız olursa veya açıkça devre dışı bırakılmışsa, <strong class="structfield"><code>cpu_id</code></strong> alanına <code class="varname">RSEQ_CPU_ID_REGISTRATION_FAILED</code> değerini atar.
+     </p>
+     <p>
+      Ayrıca, kullanıcılar bir <code class="type">struct rseq_cs</code> nesnesinin adresini <code class="code">struct rseq</code>'in <strong class="structfield"><code>rseq_cs</code></strong> alanına kaydedebilir, böylece evrenin yeniden başlatılabilir bir sıra kritik bölümüne girdiğini çekirdeğe bildirir. Bu gösterici ve gösterdiği kod alanları, boşalan veya yeniden kullanılan bellek alanlarını gösterecek şekilde bırakılmamalıdır. Birkaç yaklaşım bunu garanti edebilir. Uygulama veya kütüphane, yapı <strong class="structfield"><code>rseq_cs</code></strong> alanını tutmak için kullanılan belleğin ve başvuruda bulunduğu kod alanlarının asla serbest bırakılmayacağını veya yeniden kullanılmayacağını garanti edebiliyorsa, özel bir işlem yapılmamalıdır. Aksi takdirde, bu bellek yeniden kullanılmadan veya serbest bırakılmadan önce uygulama, askıdaki atıflarının sızmamasını garantilemek için her evrenin yeniden başlatılabilir yordam alanında <strong class="structfield"><code>rseq_cs</code></strong> alanına <code class="varname">NULL</code> atamaktan sorumludur. Uygulamalar genelde kütüphanelerin yeniden başlatılabilir yordamları kullanıp kullanmadığını bilemeyeceğinden, bellekleri boşaltmaya veya yeniden kullanmaya neden olabilen yeniden başlatılabilir yordamları kullanan kitaplıkların, bu yordamları kullanan kütüphane işlevlerinden dönmeden önce <strong class="structfield"><code>rseq_cs</code></strong> alanına <code class="varname">NULL</code> ataması önerilir.
+     </p>
+     <p>
+      <tt><b>rseq</b>(2)</tt> sistem çağrısı için kılavuz sayfası <a class="link" href="https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2" target="_top">https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2</a> adresinde bulunabilir.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">   değişken</div>
+     <span id="glibc-vr-rseq_offset" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/rseq.h" target="_top">rseq.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ptrdiff_t </code> <strong><code class="varname">__rseq_offset</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu değişken, evre göstericisi ile (mimari için evre göstericisi kaydı veya <code class="varname">__builtin_thread_pointer</code> tarafından tanımlandığı gibi) yeniden başlatılabilir yordamlar alanı arasındaki uzaklığı içerir. Bu değer, süreçteki tüm evreler için aynıdır. Yeniden başlatılabilir yordamlar alanı, evre göstericisinin gösterdiği konumdan daha düşük bir adreste bulunuyorsa, değer negatiftir.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">   değişken</div>
+     <span id="glibc-vr-seq_size" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/rseq.h" target="_top">rseq.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">unsigned int </code> <strong><code class="varname">__rseq_size</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu değişken ya sıfırdır (yeniden başlatılabilir yordam kaydı başarısız olursa veya devre dışı bırakılmışsa) veya yeniden başlatılabilir yordam kaydının boyutudur. Çekirdek kaydın boyutunu genişlettiyse, bu <code class="code">struct rseq</code> boyutundan farklı olabilir. Kayıt başarılı olursa, <code class="code">__rseq_size</code> en az 32'dir (<a href="glibc-POSIX-Threads.html#glibc-tp-rseq"><strong class="type"><code>struct rseq</code></strong></a>'in başlangıç boyutu).
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">   değişken</div>
+     <span id="glibc-vr-rseq_flags" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/rseq.h" target="_top">rseq.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">unsigned int </code> <strong><code class="varname">__rseq_flags</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Yeniden başlatılabilir yordamın çekirdek ile kaydı sırasında kullanılan seçenek sayısı. Şimdilik sıfırdır.
+     </p>
+    </div>
+            <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-RSEQ_SIG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/rseq.h" target="_top">rseq.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">RSEQ_SIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Desteklenen her mimari, <code class="code">RSEQ_SIG</code> makrosunu <a class="link" href="https://github.com/torvalds/linux/blob/master/tools/testing/selftests/rseq/rseq-x86.h" target="_top">sys/rseq.h</a> dosyasında sağlar. Bu makronun, her yeniden başlatılabilir yordam göstericisinin iptal işleyicisinden önce kodda bulunması beklenir. Beklenen makronun sağlanamaması, süreci parçalama arızası ile sonlandırabilir.
+     </p>
+    </div>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

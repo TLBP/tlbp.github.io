@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.3.5. Alt ifade Eşlemesindeki Zorluklar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regexp-Subexpressions.html')">Önceki</button>
+          <div class="dropdown-content">10.3.4. Alt İfadelerle Eşleşmeler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regular-Expressions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regexp-Cleanup.html')">Sonraki</button>
+          <div class="dropdown-content">10.3.6. POSIX Şablonunun Temizlenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Subexpression-Complications">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">10.3.5. Alt ifade Eşlemesindeki Zorluklar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Kimi zaman bir alt ifade hiçbir karakter içermeyen bir altdizge ile eşleşebilir. Bu durum örneğin <code class="code">fum</code> dizgesi <code class="code">f\(o*\)</code> ifadesiyle eşleştiğinde ortaya çıkar. (Aslında sadece <code class="code">f</code> eşleşir.) Bu durumda, konumların her ikisi de bulunan boş alt dizgeleri gösterir. Bu örnekte her iki konum da <code class="code">1</code>'dir.
+   </p>
+        <p>
+    Kimi zaman bir düzenli ifade, alt ifadeler hiç kullanılmadan eşleşir; örneğin, <code class="code">ba\(na\)*</code> ifadesi <code class="code">ba</code> dizgesiyle eşleşirken yaylı ayraçlı alt ifade kullanılmaz. Bu durumda bu alt ifadenin elemanındaki her iki alan da <code class="code">-1</code> içerir.
+   </p>
+        <p>
+    Kimi zaman düzenli ifadenin tamamının eşleştirilmesinde belli bir alt ifade defalarca eşleşebilir; örneğin, <code class="code">ba\(na\)*</code> ifadesi <code class="code">bananana</code> dizgesi ile eşleştirilirken yaylı ayraçlı alt ifade üç kere eşleştirilir. Bu durumda <a href="glibc-Matching-POSIX-Regexps.html#glibc-fn-regexec"><strong class="function"><code>regexec</code></strong></a> çağrısı alt ifade ile eşleşen son dizge parçasının konumlarını kaydeder; <code class="code">bananana</code> için bu komumlar <code class="code">6</code> ve <code class="code">8</code>'dir.
+   </p>
+        <p>
+    Fakat son eşleşme daima seçilenlerden biri olmaz. Eşleşme için en elverişli olanın öncelikli olanlardan biri olduğu söylenebilir. Yani, bir alt ifade bir diğerinin içinde görünüyorsa sonuçlar son eşleşen dış alt ifadedeki eşleşmeyi ifade eden içteki alt ifade için raporlanır. Örneğin, <code class="code">\(ba\(na\)*s \)*</code> ifadesinin <code class="code">"bananas bas "</code> dizgesi ile eşleştiği varsayılsın.
+    Son defasında içteki ifade aslında ilk sözcüğün sonuna doğru eşlenir. Ancak ikinci sözcüğün tekrar eşleşeceği varsayıldığında eşleme başarısız olur. <a href="glibc-Matching-POSIX-Regexps.html#glibc-fn-regexec"><strong class="function"><code>regexec</code></strong></a>, <code class="code">"na"</code> alt ifadesinin kullanılmadığını raporlar.
+   </p>
+        <p>
+    Bu kuralın uygulandığı başka bir örnek:
+   </p>
+        <pre class="literallayout monospaced">\(ba\(na\)*s \|nefer\(ti\)* \)*
+</pre>
+        <p>
+    Bu ifade <code class="code">bananas nefertiti</code> ile eşleşir.  İlk sözcükte <code class="code">"na"</code> alt ifadesi eşleşir, ama ikinci sözcükte bu alt ifade değil, onun benzeri olan alt ifade eşleşir. Bir kere daha, dış alt ifadenin ikinci yinelemesi birincinin üzerine yazar ve bu ikinci yinelemede <code class="code">"na"</code> alt ifadesi kullanılmaz. Bu durumda, <a href="glibc-Matching-POSIX-Regexps.html#glibc-fn-regexec"><strong class="function"><code>regexec</code></strong></a>, <code class="code">"na"</code> alt ifadesinin kullanılmadığını raporlar.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

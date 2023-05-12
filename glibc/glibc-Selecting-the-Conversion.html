@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.3.1. Dönüşüm Seçimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Restartable-multibyte-conversion.html')">Önceki</button>
+          <div class="dropdown-content">6.3. Çok Baytlı Dönüşüm</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Restartable-multibyte-conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Keeping-the-state.html')">Sonraki</button>
+          <div class="dropdown-content">6.3.2. Durumun saklanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Selecting-the-Conversion">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.3.1. Dönüşüm Seçimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm95331" class="indexterm"></span>
+    <span id="idm95333" class="indexterm"></span>
+    Burada açıklayacağımız işlevler tarafından uygulanan dönüşümlerde önceki bölümde bahsettiğimiz gibi seçilen yerelin <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> sınıfı tarafından belirlenen karakter kümesi kullanılır. Her yerelin (<strong class="function"><code>localedef</code></strong>'e bağımsız değişken olarak verilen) kendi karakter kümesi vardır ve bunun harici çok baytlı kodlamalardan biri olduğu kabul edilir. Geniş karakterli karakter kümesi daima UCS-4'tür, en azından GNU sistemlerinde böyledir.
+   </p>
+        <p>
+    Çok baytlı karakter kümelerinin karakteristik özelliklerinden biri, bir karakteri göstermek için gereken en fazla bayt sayısıdır. Bu, dönüşüm işlevlerinin kullanıldığı bir kodu yazarken oldukça önemli bir bilgidir (örnekleri aşağıda görülebilir). Bu bilgiyi sağlamak için ISO C standardı iki makro tanımlar.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-MB_LEN_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/limits.h;hb=HEAD" target="_top">limits.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">MB_LEN_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">MB_LEN_MAX</code> desteklenen yerellerin herhangi birinde tek bir karakterin çok baytlı gösterimindeki azami bayt sayısını belirler. Derleme zamanı sabitidir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-MB_CUR_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">MB_CUR_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">MB_CUR_MAX</code> geçerli yereldeki çok baytlı bir karakterin azami bayt sayısı olan pozitif bir tamsayı ifadeye genişletilir. Değeri hiçbir zaman <a href="glibc-Selecting-the-Conversion.html#glibc-vr-MB_LEN_MAX"><strong class="varname"><code>MB_LEN_MAX</code></strong></a>'tan büyük olamaz. <a href="glibc-Selecting-the-Conversion.html#glibc-vr-MB_LEN_MAX"><strong class="varname"><code>MB_LEN_MAX</code></strong></a>'ın tersine bu makronun derleme zamanı sabiti olması gerekmez ve GNU C Kütüphanesinde de derleme zamanı sabiti değildir.
+    </p>
+   </div>
+        <p>
+    ISO C derleyicileri değişken uzunluklu dizi tanımlarına kesinlikle izin vermediğinden iki farklı makro gerekir, ancak yine de özdevimli bellek tahsisinden kaçınılması istenir. Kodun bu eksik parçası aşağıdaki soruna yol açar:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">{
+  char tampon[MB_LEN_MAX];
+  ssize_t uzunluk = 0;
+
+  while (! feof (fp))
+    {
+      fread (&amp;tampon[len], 1, MB_CUR_MAX - uzunluk, fp);
+      /* <em class="replaceable"><code>… tamponu işle</code></em> */
+      uzunluk -= kullanilan;
+    }
+}
+</pre>
+            <p>
+     İç döngüdeki kod tek bir çok baytlı karakterin dönüşümü için <em class="replaceable"><code>tampon</code></em> dizisinde daima yeterli bayt bulunduğu varsayımına dayanır. Çoğu derleyici değişken uzunluktaki dizilere izin vermediğinden <em class="replaceable"><code>tampon</code></em> dizisi sabit uzunluktadır. <strong class="function"><code>fread</code></strong> çağrısı <em class="replaceable"><code>tampon</code></em> dizisinde daima <a href="glibc-Selecting-the-Conversion.html#glibc-vr-MB_CUR_MAX"><strong class="varname"><code>MB_CUR_MAX</code></strong></a> bayt olduğundan emin olarak yapılır. Burada <a href="glibc-Selecting-the-Conversion.html#glibc-vr-MB_CUR_MAX"><strong class="varname"><code>MB_CUR_MAX</code></strong></a> bir derleme zamanı sabiti değilse bir sorun çıkmaz.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

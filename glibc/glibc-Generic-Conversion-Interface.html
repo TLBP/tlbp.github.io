@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.5.1. Dönüşüm Arayüzü</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Charset-Conversion.html')">Önceki</button>
+          <div class="dropdown-content">6.5. Karakter Kümesi Dönüşümü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generic-Charset-Conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-iconv-Examples.html')">Sonraki</button>
+          <div class="dropdown-content">6.5.2. <code class="code">iconv</code> Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Generic-Conversion-Interface">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.5.1. Dönüşüm Arayüzü</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu işlev ailesi geleneksel özkaynak kullanım yöntemini kullanır: aç-kullan-kapat. Arayüz her biri bir adımı gerçekleştiren üç işlevden oluşur.
+   </p>
+        <p>
+    <span id="idm96486" class="indexterm"></span>
+    Arayüzün açıklanmasına geçmeden önce bir veri türünden bahsedilmesi gerekiyor.
+    Diğer aç-kullan-kapat arayüzler gibi burada bahsedilen işlevler de tanıtıcıları kullanarak çalışır. Bu tanıtıcıların kullandığı özel veri türü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/iconv.h;hb=HEAD" target="_top">iconv.h</a></code> başlık dosyasında tanımlanmıştır.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-iconv_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/iconv.h;hb=HEAD" target="_top">iconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">iconv_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu veri türü soyut, şeffaf olmayan bir türdür. Yazılımcı bu veri türünün tanımıyla ilgili hiçbir kabul yapmamalıdır.
+    </p>
+    <p>
+     Bu türdeki nesneler <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevleri kullanılan dönüşümler için atanmış tanıtıcıları alabilir.  Tanıtıcıyı kullanan dönüşümlerin nesneyi serbest bırakması gerektiğinden nesnelerin kendi kendilerini serbest bırakmaması gerekir.
+    </p>
+   </div>
+        <p>İlk adım tanıtıcıyı oluşturan işlevdir.</p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-iconv_open" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/iconv.h;hb=HEAD" target="_top">iconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">iconv_t </code> <strong><code class="function">iconv_open</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">tocode</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">fromcode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">iconv_open</code> işlevi bir dönüşüm başlatmadan önce kullanılması gereken işlevdir. İşlev, dönüşüm için kullanılacak karakter kümelerinin belirtildiği iki bağımsız değişken alır. Gerçekleme böyle bir dönüşümü yapabilecek yeterlilikteyse işlev bir tanıtıcı ile döner.
+    </p>
+    <p>
+     İstenen dönüşüm mümkün değilse işlev, <code class="code">(iconv_t) -1</code> ile döner. Bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine şu değerlerden biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+        Süreç zaten <code class="varname">OPEN_MAX</code> dosya tanıtıcı açmış.
+       </p></dd><dt><span class="term"><code class="code">ENFILE</code></span></dt><dd><p>
+        Sistemin açık dosya sayısı ile ilgili sınırı aşıldı.
+       </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+        İşlemi gerçekleştirecek kadar bellek yok.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>fromcode</code></em> ile <em class="parameter"><code>tocode</code></em> arasında dönüşüm desteklenmiyor.
+       </p></dd></dl></div>
+    <p>
+     Bağımsız dönüşümler yapacak farklı evrelerde aynı tanıtıcıyı kullanmak mümkün değildir. Tanıtıcı ile ilişkili veri yapıları dönüşüm durumu hakkında bilgi içerir. Bu bilgi farklı dönüşümlerde kullanılarak bozulmamalıdır.
+    </p>
+    <p>
+     Bir <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> tanıtıcısı bir dosya tanıtıcısı gibi her kullanım için yeniden oluşturulmalıdır. Tanıtıcı <em class="parameter"><code>fromcode</code></em> ile <em class="parameter"><code>tocode</code></em> arasındaki tüm dönüşümleri temsil etmez.
+    </p>
+    <p>
+     GNU C Kütüphanesinin <code class="code">iconv_open</code> gerçeklemesi diğer gerçeklemelerden farklı olarak önemli bir özelliğe sahiptir. Dönüşüm için desteklenen tüm karakter kümeleri ile ilgili verileri ve kodları içeren dosyalar belli başlı dizinlerde tutulur. Bu özelliğin nasıl gerçeklendiği <a class="xref" href="glibc-iconv-Implementation.html" title="6.5.4. Glibc iconv Gerçeklenimi">Glibc <code class="code">iconv</code> Gerçeklenimi</a> bölümünde açıklanmıştır. Burada üstünde durulacak tek şey, <code class="varname">GCONV_PATH</code> ortam değişkeninde ismi bulunan dizinlerin sadece bir <code class="filename">gconv-modules</code> dosyası içermesi halinde geçerli olduğudur. Bu dizinlerin sistem yönetici tarafından oluşturulması şart değildir. Aslında bu özellik kullanıcıların kendilerine özel dönüşümleri yazabilmelerine ve kullanabilmelerine imkan vermek için tasarlanmıştır. Güvenlik kaygıları nedeniyle SUID çalıştırılabilirlerle çalışmaz; bu durumda sadece sistem dizinlerine bakılır. Bunun yeri de normalde <em class="replaceable"><code>önek</code></em><code class="filename">/lib/gconv</code> dizinidir. <code class="varname">GCONV_PATH</code> ortam değişkenine sadece <code class="code">iconv_open</code> işlevi ilk çağrıldığında bakılır. Değişkende sonradan yapılan değişikliğin etkisi yoktur.
+    </p>
+   </div>
+        <p>
+    <code class="code">iconv</code> gerçeklenimi, tanıtıcısı <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> tarafından döndürülen geniş veri yapısı ile ilişkilendirilebilir. Diğer taraftan, tüm dönüşümler yapıldıktan sonra ve başka dönüşüm kalmamışsa tüm özkaynakların hemen serbest bırakılması önemlidir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-iconv_close" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/iconv.h;hb=HEAD" target="_top">iconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">iconv_close</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">iconv_t </code> <strong><code class="parameter">cd</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">iconv_close</code> işlevi önceki bir <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> çağrısından dönen  <em class="parameter"><code>cd</code></em> tanıtıcısı ile ilişkili tüm özkaynakları serbest bırakır.
+    </p>
+    <p>
+     İşlev hatasız bir işlem yürütmüşse <code class="code">0</code> ile döner, aksi takdirde <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumunu kaydederek <code class="code">-1</code> ile döner. İşlev için tanımlı hatalar:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>Dönüşüm tanımlayıcı geçersiz.</p></dd></dl></div>
+     <p>
+      <code class="code">iconv_close</code> işlevi diğer <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevleri ile birlikte XPG2 içinde tanımlanmıştır.
+     </p>
+    </div>
+        <p>
+     Standart aslında tek bir dönüşüm işlevi tanımlar. Bu çok genel bir arayüz tanımlandığı için böyledir: Dönüşümün bir tampondan diğerine yapılacağı öngörülmüştür. Dosyadan tampona ve tersi ya da dosyadan dosyaya dönüşümler standarttaki bu tanımı genişleterek gerçeklenebilir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-iconv" class="indexterm"></span>
+    <span id="glibc-cp-iconv" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/iconv.h;hb=HEAD" target="_top">iconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">iconv</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">iconv_t </code> <strong><code class="parameter">cd</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">**</strong><strong><code class="parameter">inbuf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong class="type">*</strong><strong><code class="parameter">inbytesleft</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">**</strong><strong><code class="parameter">outbuf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong class="type">*</strong><strong><code class="parameter">outbytesleft</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:cd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">iconv</code> işlevi <em class="parameter"><code>cd</code></em> dönüşüm tanıtıcısı ile ilişkilendirilmiş kurallara uygun olarak girdi tamponundaki metni dönüştürerek sonucu çıktı tamponunda saklar. Gerekli durum bilgisi tanıtıcı ile ilişkilendirilmiş veri yapıları içinde tutulduğundan işlev aynı metin için defalarca çağrılabilir.
+    </p>
+    <p>
+     *<em class="parameter"><code>inbuf</code></em> ile belirtilen girdi tamponu *<em class="parameter"><code>inbytesleft</code></em> bayt içerir. Kullanılan girdinin çağrıcı ile iletişimi için ek olarak bir dolaylı işlem gerekir. Tampon göstericisinin <code class="type">char</code> türünde ve tampondaki karakterler geniş karakterler olduğu halde tampon uzunluğunun bayt cinsinden olmasına dikkat edilmelidir.
+    </p>
+    <p>
+     Çıktı tamponu da benzer şekilde sonucun saklanacağı *<em class="parameter"><code>outbuf</code></em> göstericisinin belirtiği adresten başlayan en az *<em class="parameter"><code>outbytesleft</code></em> baytlık bir alan olarak belirtilir. Yine benzer şekilde tampon göstericisi <code class="type">char</code> türündedir ve tampon uzunluğu bayt cinsindendir. <em class="parameter"><code>outbuf</code></em> veya *<em class="parameter"><code>outbuf</code></em> boş gösterici ise dönüşüm yine yapılır ama çıktı üretilmez.
+    </p>
+    <p>
+     <em class="parameter"><code>inbuf</code></em> boş gösterici ise, dönüşüm durumunu ilk duruma getiren bir eylem gerçekleştirilir. Bu, durumsal olmayan kodlamalarda bir eylemle sonuçlanmaz, ama eğer, kodlama bir duruma sahipse böyle bir işlev çağrısı gerekli durum değişikliklerini gerçekleştirecek bazı bayt dizilimlerini çıktı tamponuna koyar. Normal bir <em class="parameter"><code>inbuf</code></em> ile yapılan bir sonraki işlev çağrısında dönüşüm ilk durumdan başlar. Yazılımcının dönüşümün durumsallığı ile ilgili bir ön kabul yapmaktan kaçınması gerekir. Girdi ve çıktı karakterleri durumsal olmasa bile gerçekleme yine de durumları tutmak zorunda olabilir. Aşağıda açıklanan sebeplerden dolayı GNU C Kütüphanesinde bu böyledir. Bu nedenle, durumu sıfırlayacak bir <code class="code">iconv</code> çağrısı, bir protokol, çıktı metni için bunu gerektiriyorsa daima bunu yapacaktır.
+    </p>
+    <p>
+     Dönüşüm üç sebepten birine bağlı olarak durabilir. İlki girdi tamponundaki tüm karakterlerin dönüştürüldüğü durumdur. Bu aslında iki farklı anlama gelir: Ya girdi tamponundaki tüm karakterler tüketilmiştir ya da tamponun sonunda girdide eksik ama tamponda tam biçimde olan bazı baytlar bulunmuştur. Durmanın ikinci sebebi çıktı tamponunun dolmasıdır. Üçüncüsü ise girdinin geçersiz karakterler içermesidir.
+    </p>
+    <p>
+     Bu durumların hepsinde sorunsuz yapılan son dönüşümün ardından girdi ve çıktı tamponları <em class="parameter"><code>inbuf</code></em> ve <em class="parameter"><code>outbuf</code></em>,  tamponun uzunlukları ise sırayla <em class="parameter"><code>inbytesleft</code></em> ve <em class="parameter"><code>outbytesleft</code></em> göstericileriyle döndürülür.
+    </p>
+    <p>
+     <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> çağrısında seçilen karakter kümeleri hemen hemen tamamen isteğe bağlı olduğundan girdi karakter kümesinde, çıktı karakter kümesinde karşılığı olmayan karakterler bulunabilir. Bu durumda işlevin davranışı tanımsızdır. GNU C Kütüphanesinin bu durum karşısında <em class="emphasis">şimdiki</em> davranışı bir hata durumu ile dönmektir. Bu olması gereken çözüm değildir; bu nedenle, daha iyi bir çözüm için çalışmalar sürmektedir ve kütüphanenin gelecek sürümlerinde daha iyi bir çözüm sunulacaktır.
+    </p>
+    <p>
+     Girdi tamponundaki karakterlerin tümü değiştirilip sonuç çıktı tamponunda saklanmışsa, işlev tersinir olmayan dönüşümlerin sayısı ile döner. Bunun dışındaki tüm durumlarda işlev <code class="code">(size_t) -1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumunu kaydeder. Böyle durumlarda <em class="parameter"><code>inbytesleft</code></em> ile gösterilen değer sıfırdan farklıdır.
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EILSEQ</code></span></dt><dd><p>
+        Girdi geçersiz bir bayt dizilimi içerdiğinden dönüşüm durdu. Çağrıdan sonra, *<em class="parameter"><code>inbytesleft</code></em> geçerli bayt dizilimlerinin ilk baytını gösterir.
+       </p></dd><dt><span class="term"><code class="code">E2BIG</code></span></dt><dd><p>
+        Çıktı tamponu yetersiz olduğundan dönüşüm durdu.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        Girdi tamponunun sonundaki bayt dizilimi eksik olduğundan dönüşüm durdu.
+       </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>cd</code></em> bağımsız değişkeni geçersiz.
+       </p></dd></dl></div>
+    <p>
+     <code class="code">iconv</code> işlevi XPG2 içinde tanımlanmıştır.
+    </p>
+   </div>
+        <p>
+    <code class="code">iconv</code> işlevi, benzerlerinden daha iyi gerçeklenmiştir. Daha esnek bir işlevsellik sunar. Sorunlu kısımlar, geçersiz girdi ve girdi tamponunun sonundaki geçersiz bayt dizilimlerinin olduğu durumlardır. Üçüncü bir sorun varsa da, bu bir tasarım sorunu değildir, dönüşümlerin seçimi ile ilgilidir. Standart, meşru isimler hakkında birşey içermez. Bunun diğer gerçeklemeleri nasıl olumsuz etkilediğini sonraki bölümde bir örnekle gösterilecektir.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>7.8. Sayıların Biçimlenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-The-Elegant-and-Fast-Way.html')">Önceki</button>
+          <div class="dropdown-content">7.7.2. Yerel Verisine Noktasal Erişim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Locales.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Yes-or-No-Questions.html')">Sonraki</button>
+          <div class="dropdown-content">7.9. Evet/Hayır Yanıtları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Formatting-Numbers">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">7.8. Sayıların Biçimlenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Gerek <a href="glibc-The-Lame-Way-to-Locale-Data.html#glibc-fn-localeconv"><strong class="function"><code>localeconv</code></strong></a> ile dönen yapı ile gerekse <a href="glibc-The-Elegant-and-Fast-Way.html#glibc-fn-nl_langinfo"><strong class="function"><code>nl_langinfo</code></strong></a> işlevine simge belirterek sayısal ve parasal gösterimleri biçimlemekte kullanılan yerele özgü bilgilerin çeşitli parçalarının elde edilebileceği ve ayrıca temel kuralların da oldukça karmaşık olduğu görülmüştü.
+  </p>
+        <p>
+   Bu nedenle, X/Open standartları bu tür yerel bilgisini kullanan ve sayıları bu kurallara göre biçimlemeyi kullanıcı açısından kolaylaştıran bir işlev tanımlamıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-strfmon" class="indexterm"></span>
+   <span id="glibc-cp-strfmon" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/monetary.h;hb=HEAD" target="_top">monetary.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code> <strong><code class="function">strfmon</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">maxsize</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">strfmon</code> işlevi <strong class="function"><code>strftime</code></strong> işlevine benzer. İşlev bir tampon, tampon boyu ve biçem dizgesi alır ve çıktı biçem dizgesi ile belirtildiği gibi biçimlenerek metin olarak tampona yazılır. İşlev, <strong class="function"><code>strftime</code></strong> gibi tampona yazılan baytların sayısı ile döner.
+   </p>
+   <p>
+    İki fark vardır: <code class="code">strfmon</code> birden fazla bağımsız değişken alır ve şüphesiz biçem belirtimi farklıdır. <strong class="function"><code>strftime</code></strong>'a benzer olarak, biçem dizgesi çıktıda olduğu gibi normal metindir ve biçem belirteçleri <code class="code">%</code> işareti ile belirtilir. <strong class="function"><code>printf</code></strong> işlevinde olduğu gibi, <code class="code">%</code> işaretinin ardından, biçem karakterinden önce isteğe bağlı olarak çeşitli seçenekler ve biçimleme bilgileri belirtilebilir:
+   </p>
+   <p>
+    <code class="code">%</code> işaretinin hemen ardından aşağıdaki seçeneklerden biri veya birkaçı belirtilebilir:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term">'<code class="code">=</code><em class="replaceable"><code>f</code></em>'</span></dt><dd><p>
+       <em class="replaceable"><code>f</code></em> karakteri, sayısal dolgu karakteri olarak bu alanda kullanılacak tek baytlık karakterdir. Bu karakterin öntanımlı değeri boşluk karakteridir. Bu karakterin dolgu karakteri olarak kullanılabilmesi için ondalık ayracın solundaki bölüm için genişlik belirtilmiş olmalıdır. Belirtilen alan genişliği dolgu karakteri sayısı değildir.
+     </p></dd><dt><span class="term">'<code class="code">^</code>'</span></dt><dd><p>
+      Seçili yerelin kurallarına bağlı rakam gruplaması yapılmaz. Öntanımlı olarak yerelde belirtilmiş gruplama yapılır.
+     </p></dd><dt><span class="term">'<code class="code">+</code>', '<code class="code">(</code>'</span></dt><dd><p>
+      Bu seçeneklerden sadece biri kullanılabilir. Para miktarında işaretin nasıl belirtileceğini belirler. Öntanımlı olarak ve <code class="code">+</code> belirtilmişse +/- için yerelde belirtilen kullanılır. <code class="code">(</code> belirtilmişse, negatif miktarlar yaylı ayraç içine alınır. Tam biçim yazılımın çalışması sırasında seçili yerelin <a href="glibc-Locale-Categories.html#glibc-vr-LC_MONETARY"><strong class="varname"><code>LC_MONETARY</code></strong></a> kategorisindeki değerlere göre saptanır.
+     </p></dd><dt><span class="term">'<code class="code">!</code>'</span></dt><dd><p>
+      Çıktı para simgesini içermeyecektir.
+     </p></dd><dt><span class="term">'<code class="code">-</code>'</span></dt><dd><p>
+      Çıktı, alan genişliğinde doldurma yapılacağı belirtilmemişse sağa değil sola yanaşık biçimlenecektir.
+     </p></dd></dl></div>
+  <p>
+   Belirtimin sonraki parçası isteğe bağlı olan alan genişliğidir. Bir genişlik belirtilmemişse <code class="code">0</code> verilmiş kabul edilir. Çıktılama sırasında, işlev önce ne kadar alan gerektiğini saptar. Eğer gerektiği kadar genişlik belirtilmişse çıktı bu alanı kullanır. Aksi takdirde, belirtilen genişlik dolgu karakteri ile doldurularak çıktılama yapılır. <code class="code">-</code> iminin varlığına veya yokluğuna bağlı olarak işaretin bulunduğu tarafın boşluğu saptanır. Varsa, çıktı sola yanaşık yapılarak boşluk sağa eklenir ya da tersi yapılır.
+  </p>
+  <p>
+   Şimdiye kadar <strong class="function"><code>printf</code></strong> ve <strong class="function"><code>strftime</code></strong> biçimlerine benzerliğinden dolayı biçem oldukça bildik göründü. Ancak sonraki iki alan biraz yeni. İlki <code class="code">#</code> karakteri ile başlayan bir ondalık sayı dizgesidir. Bu dizge ondalık ayracın solunda kalan rakam (karakter sayısını değil) sayısını belirtir. Bu miktara gruplama karakterleri dahil değildir. Basılacak sayının rakamları bu genişliği dolduramazsa, boş kalan alan <code class="code">=</code> imi ile belirtilmişse o karakterle aksi takdirde boşluk karakteri ile doldurulur. Örneğin alan genişliği 6 ve dolgu karakteri <code class="code">*</code> olarak verilmişse, <code class="code">123</code> sayısı, <code class="code">***123</code> olarak biçimlenecektir.
+  </p>
+  <p>
+   İsteğe bağlı ikinci alan ise <code class="code">.</code> karakteri ile başlayan ondalık sayı dizgesidir. Bu dizge ondalık ayracın sağındaki rakam sayısını belirtir. Öntanımlı değer yerelin <strong class="structfield"><code>frac_digits</code></strong> ve <strong class="structfield"><code>int_frac_digits</code></strong> değerleridir (bkz. <a class="xref" href="glibc-The-Lame-Way-to-Locale-Data.html#glibc-General-Numeric" title="7.7.1.1. Genel Sayısal Biçimleme Elemanları">Genel Sayısal Biçimleme Elemanları</a>). Eğer belirtilen genişlik bütün haneleri göstermek için yeterli değilse, yuvarlama yapılır. Alan genişliği sıfır olarak belirtilmişse ondalık ayraç basılmaz.
+  </p>
+  <p>
+   Bir GNU oluşumu olarak GNU C Kütüphanesindeki <code class="code">strfmon</code> gerçeklemesi bu seçeneklerden sonra isteğe bağlı <code class="code">L</code> biçem belirtecini kabul eder. Eğer bu belirteç varsa, belirtilen bağımsız değişkenin değeri <code class="code">double</code> değil <code class="code">long double</code> kabul edilir.
+  </p>
+  <p>
+   Son eleman biçem belirtecidir. Üç belirteç belirtilebilir:
+  </p>
+  <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">i</code></span></dt><dd><p>
+      Bir uluslararası parasal değerin biçimlenmesi için yerelin kuralları kullanılır.
+     </p></dd><dt><span class="term"><code class="code">n</code></span></dt><dd><p>
+      Bir ulusal parasal değerin biçimlenmesi için yerelin kuralları kullanılır.
+     </p></dd><dt><span class="term"><code class="code">%</code></span></dt><dd><p>
+      Çıktıya <code class="code">%</code> işareti basılır. Sadece  <code class="code">%%</code> belirtilebilir, im, seçenek ya da belirteç belirtilmesine izin verilmemiştir.
+     </p></dd></dl></div>
+  <p>
+   <strong class="function"><code>printf</code></strong> işlevinin yaptığı gibi, işlev biçem dizgesini soldan sağa okur ve biçem dizgesinden sonra verilmiş olan değerleri bu dizgeye göre biçimlendirir. Değerler <code class="code">L</code> belirteci varsa  <code class="code">long double</code>, aksi takdirde <code class="code">double</code> türünde kabul edilir. Sonuç, <em class="parameter"><code>s</code></em> ile gösterilen tamponda en fazla <em class="parameter"><code>maxsize</code></em> karakterlik saklanır.
+  </p>
+  <p>
+   İşlevin dönüş değeri <em class="parameter"><code>s</code></em> tamponunda saklanan boş bayt sonlandırmalı dizgenin karakter sayısıdır. Eğer <em class="parameter"><code>s</code></em> içinde saklanacak karakterlerin sayısı <em class="parameter"><code>maxsize</code></em> değerinden büyükse tamponun yetersiz kaldığını belirtmek için işlev <code class="code">-1</code> ile döner. Bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-E2BIG"><strong class="varname"><code>E2BIG</code></strong></a> değeri atanır.
+  </p>
+ </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+   Küçük bir kaç örnekle işlevin nasıl çalıştığı gösterilebilir. Örneklerin ABD yerelinde (<code class="code">en_US</code>) çalıştırıldığı varsayılmıştır. En basit biçim:
+  </p>
+            <pre class="screen">strfmon (buf, 100, "@%n@%n@%n@", 123.45, -567.89, 12345.678);
+</pre>
+            <p>
+   Çıktısı şöyle olur (@ karakterlerine dikkat):
+  </p>
+            <pre class="screen">"@$123.45@-$567.89@$12,345.68@"
+</pre>
+            <p>
+   Burada birkaç şey fark edilir. İlk olarak, çıktı sayılarının genişlikleri farklıdır. Biçem dizesinde bir genişlik belirtilmedi ve bu şaşırtıcı değil. İkincisi, üçüncü sayı binlik ayraç kullanılarak yazdırıdı. <code class="code">en_US</code> yereli için binlik ayraç virgüldür. Sayı ayrıca yuvarlanmıştır. Biçem kesinlik belirtmediğinden ve yereldeki öntanımlı değer <code class="code">2</code> olduğundan <code class="code">.678</code>, <code class="code">.68</code>'e yuvarlanır. Son olarak, '<code class="code">i</code>' değil '<code class="code">%n</code>' kullanıldığı için ulusal para birimi simgesi yazdırılmıştır. Aşağıda, çıktının nasıl hizalandığı gösterilmiştir.
+  </p>
+            <pre class="screen">strfmon (buf, 100, "@%=*11n@%=*11n@%=*11n@", 123.45, -567.89, 12345.678);
+</pre>
+            <p>Çıktısı:</p>
+            <pre class="screen">"@    $123.45@   -$567.89@ $12,345.68@"
+</pre>
+            <p>
+   Burada iki şeyden söz edilebilir: İlki, biçem dizgesinde alan genişliği belirtildiğinden ve bu genişlikten daha geniş bir sayı olmadığından tüm alanlar aynı genişlikte çıktılandı (onbir karakter). İkinci önemli nokta ise dolgu karakteri belirtildiği halde çıktıda kullanılmamış olmasıdır. Bunun sebebi, <code class="code">#</code> karakteri ile ondalık noktanın solundaki alan genişliğinin verilmemiş olmasıdır; bu nedenle öntanımlı olarak boşluk kullanılmıştır. Aşağıdaki örnekte bu genişlik belirtilmiştir:
+  </p>
+            <pre class="screen">strfmon (buf, 100, "@%=*11#5n@%=*11#5n@%=*11#5n@",
+         123.45, -567.89, 12345.678);
+</pre>
+            <p>Çıktısı:</p>
+            <pre class="screen">"@ $***123.45@-$***567.89@ $12,456.68@"
+</pre>
+            <p>
+    Görüldüğü üzere para simgeleri hizalandı ve para simgesi ile sayı arasındaki alan dolgu karakteri ile dolduruldu. Genişlik <code class="code">5</code> seçildiğinden <code class="code">123.45</code> için ondalık ayracın solundaki rakam sayısı bu değerden küçük olduğundan (<code class="code">5</code>'e değil <code class="code">11</code> karaktere tamamlanacak şekilde) artan alan yıldızlarla doldurulmuştur. Son sayıda ise binler ayracının genişliğe dahil olmadığı kanıtlanmaktadır. Aşağıda kalan işlevsellik örneklenmektedir:
+   </p>
+            <pre class="screen">strfmon (buf, 100, "@%=0(16#5.3i@%=0(16#5.3i@%=0(16#5.3i@",
+         123.45, -567.89, 12345.678);
+</pre>
+            <p>
+   Bu karmaşık biçem dizgesi şu çıktıyı üretir:
+  </p>
+            <pre class="screen">"@ USD 000123,450 @(USD 000567.890)@ USD 12,345.678 @"
+</pre>
+            <p>
+    Burada en önemli değişiklik negatif sayıları göstermekte kullanılan yöntemdir. Finansal çevrelerde bu çoğunlukla yaylı ayraçlar kullanılarak yapılır ve bu <code class="code">(</code> imi ile seçilir. <code class="code">0</code> karakterleri burada sayı için anlamlı haneler olmadıklarından bunlar arasında binler ayracı kullanılmamıştır. Biçim belirteci olarak <code class="code">n</code> değil, <code class="code">i</code> kullanıldığından uluslararası para simgesi görüntülendi. Bu dört karakterlik (<code class="code">"USD "</code>) bir dizgedir. Son nokta ise, ondalık ayracın sağındaki hane sayısı <code class="code">3</code> olarak belirtildiğinden ilk iki sayıda sağa birer sıfır eklenirken, üçüncü sayıda yuvarlama yapılmamıştır.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

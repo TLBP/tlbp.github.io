@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.4. Çoğul Biçimler Sorunu</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Advanced-gettext-functions.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.3. Gelişkin <code class="code">gettext</code> İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Charset-conversion-in-gettext.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.1.5. <code class="code">gettext</code>'te Karakter Kümesi Dönüşümü</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-gettext-plural-forms">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.4. Çoğul Biçimler Sorunu</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     Bir önceki bölümde sorun ile ilgili bir açıklama yapılmıştı. Şimdi burada sorunun nasıl çözümlendiği açıklanacaktır. Dilbilimciler olmaksızın (mevcut değildi), desteklenen her dil için çoğul biçimlerin neye göre şekillendiği, kaç çoğul biçim olduğu gibi bilgileri elde etmek mümkün değildi.
+    </p>
+        <p>
+     Bu bakımdan, çoğul biçimlerin seçim kurallarını belirlemeleri çevirmenlere bırakılarak çözüme ulaşıldı. Formül her dil için değişiklik gösterdiğinden, bilgiyi kodun içine yerleştirerek bu mümkün oldu (yeni dillerin kullanımını engellememek için hala bazı genişletmeler gerekiyor).  Bu konu hakkında <a class="link" href="https://www.gnu.org/software/gettext/manual/gettext.html#Top" target="_top">GNU <code class="filename">gettext</code> kılavuzunda</a> daha fazla ayrıntı bulunabilir.
+    </p>
+        <p>
+     Çoğul biçimin seçimi hakkındaki bilgi ileti kataloğunun başlık kısmında (Başlık, boş bir <em class="parameter"><code>msgid1</code></em> dizgesidir) şuna benzer bir girdi olarak bulunur:
+    </p>
+        <pre class="literallayout monospaced">Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;
+</pre>
+        <p>
+     <code class="code">nplurals</code> değeri bu dilde kaç çoğul biçim olduğunu belirten bir tamsayı olmalıdır. <code class="code">plural</code> ise C dilinin sözdizimine uygun bir ifade olmalıdır. Ancak bu ifadede, negatif sayılar bulunmamalı, sayılar onluk tabanda olmalı ve değişken olarak sadece <code class="code">n</code> bulunmalıdır. Bu ifade <a href="glibc-Advanced-gettext-functions.html#glibc-fn-ngettext"><strong class="function"><code>ngettext</code></strong></a>, <a href="glibc-Advanced-gettext-functions.html#glibc-fn-dngettext"><strong class="function"><code>dngettext</code></strong></a> veya <a href="glibc-Advanced-gettext-functions.html#glibc-fn-dcngettext"><strong class="function"><code>dcngettext</code></strong></a> işlevlerinden biri ile değerlendirilecektir. Bu işlevlere aktarılan <code class="code">n</code> değeri bu ifadede yerine konarak değerlendirilir. Sonuç, <code class="code">nplurals</code> değerinden küçük, eşit veya büyük olmalıdır.
+    </p>
+        <p><span class="notfoot"></span>
+     Bu noktada bilinen kurallar aşağıda dil ailelerine göre sınıflandırılarak listelenmiştir. Fakat, listeden de görüleceği gibi kurallar bir dil ailesinin tamamına genelleştirilememektedir.<a id="idm100093" href="#ftn.idm100093" class="footnote"><sup class="footnote">[76]</sup></a>
+    </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">Sadece bir biçim:</span>
+            </dt>
+            <dd>
+              <p>
+        Bazı dillerde tekil/çoğul biçim farkı yoktur. Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=1; plural=0;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">Uralca/Fin-Uygur Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Macarca
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Asya Dilleri</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Japonca, Korece
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Türk/Altay Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p><span class="notfoot"></span>
+           Türkçe<a id="idm100116" href="#ftn.idm100116" class="footnote"><sup class="footnote">[77]</sup></a>
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">Biri tekil biçim olmak üzere iki biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Yazılımların çoğu ingilizce olduğundan bu biçimi kullanır. Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=2; plural=n != 1;
+</pre>
+              <p>
+        (Bilgi: Burada sıfır ya da bir ile sonuçlanan mantıksal C ifadesi kullanılmıştır.)
+       </p>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">Germen Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Danca, Felemenkçe, İngilizce, Almanca, Norveççe, İsveççe
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Uralca/Fin-Uygur Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Estonca, Fince
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Latin/Helen Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Yunanca
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Batı Samî/Kenan Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           İbranice
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">İtalik/Latin Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           İtalyanca, Portekizce, İspanyolca
+          </p>
+                  </dd>
+                  <dt>
+                    <span class="term">Hint-Arî Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Esperanto
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">Biri 0 ve 1 için tekil biçim olmak üzere 2 biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Dil ailesindeki olağandışı durum.  Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=2; plural=n&gt;1;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">İtalik/Latin Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Fransızca, Brezilya Portekizcesi
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">Sıfır için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; plural=n%10==1 &amp;&amp; n%100!=11 ? 0 : n != 0 ? 1 : 2;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">Baltık Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Latviya dili
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1 ve 2 için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">Keltçe Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           İrlanda Dili
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1[2-9] ile biten sayılar için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; \
+plural=n%10==1 &amp;&amp; n%100!=11 ? 0 : \
+n%10&gt;=2 &amp;&amp; (n%100&lt;10 || n%100&gt;=20) ? 1 : 2;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">Baltık Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Litvanya dili
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1[1-4] ile bitenler hariç; 1, 2, 3, 4 ile biten sayılar için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; \
+plural=n%100/10==1 ? 2 : n%10==1 ? 0 : (n+9)%103 ? 2 : 1;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">İslav Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Hırvatça, Çekçe, Rusça, Ukrayna dili
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1, 2, 3, 4 için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; \
+plural=(n==1) ? 1 : (n&gt;=2 &amp;&amp; n&lt;=4) ? 2 : 0;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">İslav Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Slovakça
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1 için ve 2, 3 veya 4 ile biten bazı sayılar için özel bir durum ile üç biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=3; \
+plural=n==1 ? 0 : \
+n%10&gt;=2 &amp;&amp; n%10&lt;=4 &amp;&amp; (n%100&lt;10 || n%100&gt;=20) ? 1 : 2;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">İslav Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Lehçe
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dt>
+              <span class="term">1 için ve 02, 03 veya 04 ile biten tüm sayılar için özel bir durum ile dört biçim</span>
+            </dt>
+            <dd>
+              <p>
+        Böyle bir dil için ileti kataloğunun başlığında şu satır bulunur:
+       </p>
+              <pre class="literallayout monospaced">Plural-Forms: nplurals=4; \
+plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;
+</pre>
+              <p>
+        Bu özellikteki diller:
+       </p>
+              <div class="variablelist">
+                <dl class="variablelist">
+                  <dt>
+                    <span class="term">İslav Dil Ailesi</span>
+                  </dt>
+                  <dd>
+                    <p>
+           Slovence
+          </p>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm100093" class="footnote">
+            <p><a href="#idm100093" class="para"><sup class="para">[76] </sup></a>Bu listeye eklenmesini isteyeceğiniz bilgileri lütfen &lt;bug-glibc-manual@gnu.org&gt; adresine bildiriniz.</p>
+          </div>
+          <div id="ftn.idm100116" class="footnote">
+            <p><a href="#idm100116" class="para"><sup class="para">[77] </sup></a>Çevirenin Notu: Her ne kadar türkçede miktar belirtirken  tekil/çoğul farkı yoksa da bir uygulama nedeniyle tekil ve çoğul biçimler için ayrı iletiler gerekli olmaktadır. Ben (NBB) GNU <code class="filename">gettext</code> paketinin ileti kataloğu dosyasının da çevirmeni olduğumdan o dosyadaki bir örneği vererek ne demek istediğimi açıklamaya çalışayım.</p>
+            <pre class="screen">#: src/msgfmt.c:1095
+#, c-format
+msgid "...but some messages have one plural form"
+msgid_plural "...but some messages have %lu plural forms"
+msgstr[0] "...ama bazı iletiler tek çoğul biçim içeriyor"
+msgstr[1] "...ama bazı iletiler %lu çoğul biçim içeriyor"
+</pre>
+            <p>Burada dikkat edilirse tekil biçimli ileti içinde miktar <code class="literal">%lu</code> belirtimi ile değil, yazıyla, <code class="code">one</code> olarak yazılmış. Bu kılavuzun ingilizcesinde belirtildiği gibi tek çoğul biçim kullanma şansımız böyle bir örnek karşısında kalmıyor. Çünkü türkçe iletiye, ingilizce iletide bulunmayan <code class="code">%lu</code> belirteci konulursa ve dosya <strong class="function"><code>msgfmt</code></strong> ile derlenmeye çalışılırsa bunun bir hata olduğu görülür. Böyle bir durumda her iki ileti için birer çeviri olmak zorunda, dolayısıyla bir tekil ve bir çoğul biçim belirtmek zorunludur:</p>
+            <pre class="literallayout monospaced">Plural-Forms: nplurals=2; plural=n != 1;
+</pre>
+            <p>Bunun bize bir zararı yok, en kötü durumda çoğul biçimli iletilerde birbirinin aynı iki ileti olur. Ancak dosya böyle özel bir duruma sahip tek bir ileti dahi içermedikçe tekil biçim de kullanılabilir. </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

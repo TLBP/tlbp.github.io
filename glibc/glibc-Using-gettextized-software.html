@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.7. gettext Kullanan Yazılımların Kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-GUI-program-problems.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.6. Görsel Arayüzlü Yazılımlarının Sorunları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Helper-programs-for-gettext.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.2. <code class="literal">gettext</code> için Yardımcı Uygulamalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Using-gettextized-software">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.7. <code class="code">gettext</code> Kullanan Yazılımların Kullanımı</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     Önceki bölümde yazılımcının yazılımının iletilerini uluslararasılaştırmak için ne yapabileceği açıklandı. Ancak, sonuçta görmek istediği iletiyi kullanıcı seçecektir. Kullanıcı onları anlayabilmelidir.
+    </p>
+        <p>
+     POSIX yerel modeli, kullanılan yereli seçmede <a href="glibc-Locale-Categories.html#glibc-vr-LC_COLLATE"><strong class="varname"><code>LC_COLLATE</code></strong></a>, <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a>, <a href="glibc-Locale-Categories.html#glibc-vr-LC_MESSAGES"><strong class="varname"><code>LC_MESSAGES</code></strong></a>, <a href="glibc-Locale-Categories.html#glibc-vr-LC_MONETARY"><strong class="varname"><code>LC_MONETARY</code></strong></a>, <a href="glibc-Locale-Categories.html#glibc-vr-LC_NUMERIC"><strong class="varname"><code>LC_NUMERIC</code></strong></a> ve <a href="glibc-Locale-Categories.html#glibc-vr-LC_TIME"><strong class="varname"><code>LC_TIME</code></strong></a> ortam değişkenlerini kullanır. Evvelce açıklandığı gibi <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> de bunları kullanır.
+    </p>
+        <p>
+     Bunun nasıl olduğunu anlayabilmek için bir ileti kataloğunun yerini bulmakta kullanılan dosya isminin hangi bileşenlerden oluştuğuna bakılabilir:
+    </p>
+        <pre class="literallayout monospaced"><em class="replaceable"><code>dizin_ismi</code></em><code class="code">/<em class="replaceable"><code>yerel_dil</code></em>/LC_<em class="replaceable"><code>yerel_sınıf</code></em>/<em class="replaceable"><code>alan_adı</code></em>.mo</code>
+</pre>
+        <p>
+     <em class="replaceable"><code>dizin_ismi</code></em> için öntanımlı değer sisteme özeldir. C kütüphanesi yapılandırılırken <code class="option">--prefix</code> seçeneği ile belirtilen dizine göre hesaplanır. <code class="option">--prefix</code> değeri normalde <code class="filename">/usr</code> ya da <code class="filename">/</code> dizinidir. <em class="replaceable"><code>dizin_ismi</code></em> ise genellikle:
+     </p>
+        <pre class="literallayout monospaced"><code class="filename">/usr/share/locale</code>
+</pre>
+        <p>
+      dizinidir. İleti kataloglarını içeren <code class="filename">.mo</code> dosyaları sistemden bağımsız dosyalar olduklarından <code class="filename">/usr/share</code> öneki tercih edilmiştir. <a href="glibc-Locating-gettext-catalog.html#glibc-fn-bindtextdomain"><strong class="function"><code>bindtextdomain</code></strong></a> işlevinin ikinci bağımsız değişkeninde sadece <em class="replaceable"><code>dizin_ismi</code></em> ile belirtilen parça verilir. İşlev dosya yolunun geri kalanını aşağıda açıklandığı gibi oluşturur.
+     </p>
+        <p>
+      <em class="replaceable"><code>yerel_sınıf</code></em> yerel sınıfının ismidir. <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> ve <a href="glibc-Translation-with-gettext.html#glibc-fn-dgettext"><strong class="function"><code>dgettext</code></strong></a> için bu daima <a href="glibc-Locale-Categories.html#glibc-vr-LC_MESSAGES"><strong class="varname"><code>LC_MESSAGES</code></strong></a>'dır. <a href="glibc-Translation-with-gettext.html#glibc-fn-dcgettext"><strong class="function"><code>dcgettext</code></strong></a> işlevinde ise bu değer üçüncü bağımsız değişkende belirtilir. Ancak evvelce de açıklandığı gibi  <a href="glibc-Locale-Categories.html#glibc-vr-LC_MESSAGES"><strong class="varname"><code>LC_MESSAGES</code></strong></a> sınıfından başka bir sınıf belirtmekten kaçınılmalıdır.
+     </p>
+        <p>
+      <em class="replaceable"><code>yerel_dil</code></em> elemanı yerel sınıfını içeren dildir. Bu değer <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevindeki gibi kullanıcının dil seçimine bağlı olarak belirlenir. Bu değer, bazı ortam değişkenlerinin belli bir öncelik sırasına göre belirlenir. Bu sıra şöyledir:
+     </p>
+        <pre class="literallayout monospaced">LANGUAGE
+LC_ALL
+LC_xxx
+LANG
+</pre>
+        <p>
+      Çok bildik görünüyor. Bu sıralama <code class="varname">LANGUAGE</code> ortam değişkeni dışında <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevinin kullandığı sıralama ile aynıdır. Peki ama neden <code class="varname">LANGUAGE</code> değişkenine bakılıyor?
+     </p>
+        <p>
+      Bunun sebebi bu değişkenlerin değerlerinden elde edilecek sözdiziminin <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevinden farklı olmasıdır. Eğer <a href="glibc-Locale-Categories.html#glibc-vr-LC_ALL"><strong class="varname"><code>LC_ALL</code></strong></a> değişkenine aşağıdaki genişletilmiş sözdizimine uygun bir değer atanırsa, <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevi bu değeri asla kullanamayacaktır. Bir ek değişkenle bu sorun aşıldığı gibi, bu değişken sayesinde kullanıcının ileti dilini yerel ayarlarından bağımsız olarak belirleyebilme imkanı vardır.
+     </p>
+        <p>
+      <code class="code">LC_xxx</code> değişkenlerinin değerleri sadece bir yerele ait belirtimi içerebilirken <code class="varname">LANGUAGE</code> değişkeninin değerinde çok sayıda dil iki nokta imleriyle ayrılarak belirtilebilir. Böylece kullanıcı tercih ettiği dilleri bu değişken sayesinde bir öncelik sırasıyla belirtebilir.
+     </p>
+        <p>
+      Dosya ismini oluşturan son parça olan <em class="replaceable"><code>alan_adı</code></em> ya <a href="glibc-Locating-gettext-catalog.html#glibc-fn-textdomain"><strong class="function"><code>textdomain</code></strong></a> işlevi ile etkinleştirilen ya da <a href="glibc-Translation-with-gettext.html#glibc-fn-dgettext"><strong class="function"><code>dgettext</code></strong></a> veya <a href="glibc-Translation-with-gettext.html#glibc-fn-dcgettext"><strong class="function"><code>dcgettext</code></strong></a> işlevinde ilk bağımsız değişken olarak belirtilen yazılımın alan ismidir; başka bir deyişle yazılımcının pakete verdiği isimdir. Örneğin GNU C Kütüphanesi için alan ismi <code class="filename">libc</code>'dir.
+     </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+       Yazılımcının bu işlemi nasıl yapacağını gösteren örnek kod parçası:
+      </p>
+            <pre class="screen">{
+  setlocale (LC_ALL, "");
+  textdomain ("test-package");
+  bindtextdomain ("test-package", "/usr/local/share/locale");
+  puts (gettext ("Hello, world!"));
+}
+</pre>
+            <p>
+       Yazılım ilk çalıştırıldığında öntanımlı alan <code class="varname">messages</code>, öntanımlı yerel "C"dir. <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> çağrısı yereli kullanıcının atadığı ortam değişkenlerine bağlı olarak değiştirir. Yukarıda bahsedildiği gibi <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevleri ileti kataloglarının yerini bulmak için  <a href="glibc-Locale-Categories.html#glibc-vr-LC_MESSAGES"><strong class="varname"><code>LC_MESSAGES</code></strong></a> sınıfını, karakter kümesi dönüşümü için <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> sınıfını kullanıyordu. <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> çağrısı ile bunlar kullanıcının seçimlerine göre belirlenmiş olur. <a href="glibc-Locating-gettext-catalog.html#glibc-fn-textdomain"><strong class="function"><code>textdomain</code></strong></a> çağrısı ile <code class="code">test-package</code> alan isimli ileti kataloğunun kullanılacağı, <a href="glibc-Locating-gettext-catalog.html#glibc-fn-bindtextdomain"><strong class="function"><code>bindtextdomain</code></strong></a> çağrısı ile de bu kataloğun bulunacağı yerin <code class="filename">/usr/local/share/locale</code> olacağı belirtilmektedir.
+     </p>
+            <p>
+      Kullanıcı <code class="varname">LANGUAGE</code> ortam değişkenine <code class="code">tr</code> değerini atarsa <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi
+     </p>
+            <p>
+      <code class="filename">/usr/local/share/locale/tr/LC_MESSAGES/test-package.mo</code> iletiği kataloğunu kullanacaktır.
+     </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Bu örnekte <code class="varname">LANGUAGE</code> ortam değişkenine <code class="code">tr</code> değerinin atandığı varsayıldı. Eğer kullanıcı bunun yerine değeri <code class="code">tr_TR.UTF-8</code> olan <a href="glibc-Locale-Categories.html#glibc-vr-LC_ALL"><strong class="varname"><code>LC_ALL</code></strong></a> ortam değişkenini kullanmak isteseydi ne olacaktı? Yukarıda bu gibi durumlara pek sık rastlanmadığından  bahsetmiştik. Örneğin, kullanıcının tercih ettiği dil olarak son çare resmi dil değilse kullanıcı kendi lehçesini tercih edebilir.
+    </p>
+        <p>
+     <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> bu gibi durumlara da hazırlıklıdır. İşlevler bu değişkenin değerinin biçimini tanır. Değeri parçalarına ayırarak içinden kendi kullanacağı değeri alır. Bu işlem şüphesiz bir ön kabule dayanır. Ortam değişkeninin değerini oluşturan biçim az ya da çok standarttır. X/Open belirtimi şöyledir:
+    </p>
+        <pre class="literallayout monospaced"><code class="code"><em class="replaceable"><code>dil</code></em>[_<em class="replaceable"><code>ülke</code></em>[.<em class="replaceable"><code>karakter-kümesi</code></em>]][@<em class="replaceable"><code>değiştirici</code></em>]</code>
+</pre>
+        <p>
+     Yerel ismi şu sıraya göre ayıklanır:
+    </p>
+        <div class="literallayout">
+          <p>1. <em class="replaceable"><code>karakter-kümesi</code></em><br />
+2. normalleştirilmiş <em class="replaceable"><code>karakter-kümesi</code></em><br />
+3. <em class="replaceable"><code>ülke</code></em><br />
+4. <em class="replaceable"><code>değiştirici</code></em><br />
+</p>
+        </div>
+        <p>
+     <em class="replaceable"><code>dil</code></em> alanı bilinen sebeplerle asla kaldırılmayacaktır.
+    </p>
+        <p>
+     Burada yeni olan <em class="replaceable"><code>normalleştirilmiş karakter-kümesi</code></em> girdisidir. Çoğu kişi standart haline gelmiş isimleri yanlış hatırlar ve örneğin ISO-8859-9 yerine iso8859-9, iso_8859-9, 88599, 8859-9 gibi değerler yazabilir. <em class="replaceable"><code>normalleştirilmiş karakter-kümesi</code></em> değeri şu kurallar izlenerek oluşturulur:
+    </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+       Sayılar ve harfler dışında tüm karakterler kaldırılır.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Harflerin tamamı küçük harfe dönüştürülür.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       Rakamlar <code class="code">"iso"</code> dizgesi ile öncelenmemişse öncelenir.
+      </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+     Örneğimizdeki isim <code class="code">iso88599</code> olarak normalleştirilir. Böylece kullanıcıya yerel ismini belirtirken daha fazla serbestlik sağlanmış olur.
+    </p>
+        <p>
+     Ancak bu kadar genişletilmiş işlevsellik bile aynı dili belirtirken kullanılabilen farklı isimler için bir çözüm sağlamaz (örneğin, <code class="code">tr</code> ve <code class="code">turkish</code>). Hem yerel gerçeklemesi hem de <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> bu gibi durumlarda yardımseverdir.
+    </p>
+        <p>
+     <code class="filename">/usr/share/locale/locale.alias</code> dosyası (C kütüphanesini derlerken <code class="filename">/usr</code> yerine ne belirtimişse, <code class="filename">/usr</code> yerine onun yazılması gerekir) dil isimleriyle yerel isimlerini eşleştiren bir liste içerir. Sistem yöneticisi bu listeye yeni girdiler eklemekte özgürdür. Ortam değişkenleri ile seçilmiş isim bu listedekilerle karşılaştırılır. Bir eşleşme bulunursa ikinci sütundaki değer kullanılır.
+    </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

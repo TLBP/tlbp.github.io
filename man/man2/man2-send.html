@@ -2,12 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>send</title>
+    <link rel="stylesheet" type="text/css" href="../../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, kılavuz, sistem, çağrı, işlev, veri, msghdr, writev, send, sendto, sendmsg, soket, sockaddr, types.h, socket.h, socklen_t" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -100,19 +99,19 @@
    çağrısına eşdeğerdir. <em class="replaceable"><code>sockfd</code></em> değişkeni, gönderen soketin dosya tanıtıcısıdır.
   </p>
           <p>
-   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<code class="constant">SOCK_STREAM</code>, <code class="constant">SOCK_SEQPACKET</code>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <code class="constant">EISCONN</code> hatası dönebilir) ve eğer soket bağlanmadıysa <code class="constant">ENOTCONN</code> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
+   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<strong class="constant"><code>SOCK_STREAM</code></strong>, <strong class="constant"><code>SOCK_SEQPACKET</code></strong>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EISCONN"><strong class="constant"><code>EISCONN</code></strong></a> hatası dönebilir) ve eğer soket bağlanmadıysa <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTCONN"><strong class="constant"><code>ENOTCONN</code></strong></a> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
   </p>
           <p>
    <span class="command"><strong>send</strong></span>() ve <span class="command"><strong>sendto</strong></span>() için, ileti <em class="replaceable"><code>buf</code></em> tamponu içinde tutulur ve <em class="replaceable"><code>len</code></em> uzunluktadır. <span class="command"><strong>sendmsg</strong></span>() için, ileti <em class="replaceable"><code>msg.msg_iov</code></em> dizisindeki öğelerle gösterilir. <span class="command"><strong>sendmsg</strong></span>() çağrısı yardımcı verinin de yollanmasını sağlar (denetim bilgisi de denir).
   </p>
           <p>
-   Eğer ileti ilgili protokol için bütün olarak gönderilemeyecek kadar uzunsa, <code class="constant">EMGSIZE</code> hatası döner ve ileti gönderilmez.
+   Eğer ileti ilgili protokol için bütün olarak gönderilemeyecek kadar uzunsa, <strong class="constant"><code>EMGSIZE</code></strong> hatası döner ve ileti gönderilmez.
   </p>
           <p>
    <span class="command"><strong>send</strong></span>() işlevinde teslimatın yapılmadığını gösteren hiçbir belirti yoktur. Yerel olarak hatalar <code class="code">-1</code> dönüş değeri ile saptanır.
   </p>
           <p>
-   İleti soketin gönderim tamponuna sığmadığında, <span class="command"><strong>send</strong></span>() eğer soket engellemesiz G/Ç kipine alınmadıysa engellenir. Engellemesiz kip başarısız olduğunda <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> döner. <tt><b>select</b>(2)</tt> çağrısı daha fazla veri gönderme olasılığını saptamak için kullanılabilir.
+   İleti soketin gönderim tamponuna sığmadığında, <span class="command"><strong>send</strong></span>() eğer soket engellemesiz G/Ç kipine alınmadıysa engellenir. Engellemesiz kip başarısız olduğunda <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="constant"><code>EAGAIN</code></strong></a> veya <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="constant"><code>EWOULDBLOCK</code></strong></a> döner. <tt><b>select</b>(2)</tt> çağrısı daha fazla veri gönderme olasılığını saptamak için kullanılabilir.
   </p>
           <div class="refsect2">
             <h3><em class="replaceable"><code>flags</code></em> değerleri</h3>
@@ -122,16 +121,18 @@
             <div class="glosslist">
               <dl>
                 <dt>
-                  <span class="glossterm"><code class="constant">MSG_CONFIRM</code> (Linux 2.3.15 ve sonrası)</span>
+                  <span class="glossterm"><strong class="constant"><code>MSG_CONFIRM</code></strong> (Linux 2.3.15 ve sonrası)</span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Bağlantı katmanına yönlendirme sürecinin durumunu bildir: Karşı taraftan başarılı bir yanıt aldın. Eğer bağlantı katmanı bunu alamazsa komşusunu düzenli olarak uyarır (örneğin, tek noktaya ARP ile). Sadece <code class="constant">SOCK_DGRAM</code> ve <code class="constant">SOCK_RAW</code> soketleri için geçerli olup şimdilik sadece IPv4 ve IPv6 için gerçeklenmiştir. Ayrıntılar için <tt><b>arp</b>(7)</tt> sayfasına bakın.
+       Bağlantı katmanına yönlendirme sürecinin durumunu bildir: Karşı taraftan başarılı bir yanıt aldın. Eğer bağlantı katmanı bunu alamazsa komşusunu düzenli olarak uyarır (örneğin, tek noktaya ARP ile). Sadece <strong class="constant"><code>SOCK_DGRAM</code></strong> ve <strong class="constant"><code>SOCK_RAW</code></strong> soketleri için geçerli olup şimdilik sadece IPv4 ve IPv6 için gerçeklenmiştir. Ayrıntılar için <tt><b>arp</b>(7)</tt> sayfasına bakın.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-                    <code class="constant">MSG_DONTROUTE</code>
+                    <strong class="constant">
+                      <code>MSG_DONTROUTE</code>
+                    </strong>
                   </span>
                 </dt>
                 <dd class="glossdef">
@@ -140,48 +141,50 @@
       </p>
                 </dd>
                 <dt>
-                  <span class="glossterm"><code class="constant">MSG_DONTWAIT</code> (Linux 2.2 ve sonrası)</span>
+                  <span class="glossterm"><strong class="constant"><code>MSG_DONTWAIT</code></strong> (Linux 2.2 ve sonrası)</span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Engellemesiz işlemi etkinleştirir; eğer işlem engellenirse, <code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code> döner. <code class="constant">O_NONBLOCK</code> seçeneği tanımlanmış (<tt><b>fcntl</b>(2)</tt> üzerinden <code class="constant">F_SETFL</code> işlemi ile) gibi davranır, fakat <code class="constant">MSG_DONTWAIT</code> çağrıya özel olmasıyla fark oluşturur. <code class="constant">O_NONBLOCK</code> seçeneği ise açık dosya tanıtıcısı içindir (<tt><b>open</b>(2)</tt> sayfasına bakın), çağrı sürecindeki tüm evreleri ve aynı zamanda aynı açık dosyanın dosya tanıtıcılarına sahip diğer süreçleri de etkiler.
+       Engellemesiz işlemi etkinleştirir; eğer işlem engellenirse, <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="constant"><code>EAGAIN</code></strong></a> veya <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="constant"><code>EWOULDBLOCK</code></strong></a> döner. <strong class="constant"><code>O_NONBLOCK</code></strong> seçeneği tanımlanmış (<tt><b>fcntl</b>(2)</tt> üzerinden <strong class="constant"><code>F_SETFL</code></strong> işlemi ile) gibi davranır, fakat <strong class="constant"><code>MSG_DONTWAIT</code></strong> çağrıya özel olmasıyla fark oluşturur. <strong class="constant"><code>O_NONBLOCK</code></strong> seçeneği ise açık dosya tanıtıcısı içindir (<tt><b>open</b>(2)</tt> sayfasına bakın), çağrı sürecindeki tüm evreleri ve aynı zamanda aynı açık dosyanın dosya tanıtıcılarına sahip diğer süreçleri de etkiler.
       </p>
                 </dd>
                 <dt>
-                  <span class="glossterm"><code class="constant">MSG_EOR</code> (Linux 2.2 ve sonrası)</span>
+                  <span class="glossterm"><strong class="constant"><code>MSG_EOR</code></strong> (Linux 2.2 ve sonrası)</span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Bir kaydı sonlandırır (bu kavram <code class="constant">SOCK_SEQPACKET</code> türündeki soketlerdeki gibi destekleniyorsa).
+       Bir kaydı sonlandırır (bu kavram <strong class="constant"><code>SOCK_SEQPACKET</code></strong> türündeki soketlerdeki gibi destekleniyorsa).
       </p>
                 </dd>
                 <dt>
-                  <span class="glossterm"><code class="constant">MSG_MORE</code> (Linux 2.4.4 ve sonrası)</span>
+                  <span class="glossterm"><strong class="constant"><code>MSG_MORE</code></strong> (Linux 2.4.4 ve sonrası)</span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Çağrıcının hala yollayacağı veri var. Bu seçenek <code class="constant">TCP_CORK</code> soket seçeneğine ait etkiyi TCP soketleri ile elde etmek için kullanılır (<tt><b>tcp</b>(7)</tt> sayfasına bakın). Bu seçeneğin farkı çağrıya özel olmasıdır.
+       Çağrıcının hala yollayacağı veri var. Bu seçenek <strong class="constant"><code>TCP_CORK</code></strong> soket seçeneğine ait etkiyi TCP soketleri ile elde etmek için kullanılır (<tt><b>tcp</b>(7)</tt> sayfasına bakın). Bu seçeneğin farkı çağrıya özel olmasıdır.
       </p>
                   <p>
-       Linux 2.6'dan itibaren, bu seçenek UDP soketleri için de desteklenmektedir. Çekirdeğe, sadece bu seçenek belirtilmeksizin yapılan bir çağrı ile aktarım yapılan tek bir verikatarına gönderilecek tüm veriyi bu seçenek kullanılarak yapılan çağrılarla gönderilecek şekilde paketlemesini söyler. (Ayrıca <tt><b>udp</b>(7)</tt>'de açıklanan <code class="constant">UDP_CORK</code> soket seçeneğine de bakın.)
+       Linux 2.6'dan itibaren, bu seçenek UDP soketleri için de desteklenmektedir. Çekirdeğe, sadece bu seçenek belirtilmeksizin yapılan bir çağrı ile aktarım yapılan tek bir verikatarına gönderilecek tüm veriyi bu seçenek kullanılarak yapılan çağrılarla gönderilecek şekilde paketlemesini söyler. (Ayrıca <tt><b>udp</b>(7)</tt>'de açıklanan <strong class="constant"><code>UDP_CORK</code></strong> soket seçeneğine de bakın.)
       </p>
                 </dd>
                 <dt>
-                  <span class="glossterm"><code class="constant">MSG_NOSIGNAL</code> (Linux 2.2 ve sonrası)</span>
+                  <span class="glossterm"><strong class="constant"><code>MSG_NOSIGNAL</code></strong> (Linux 2.2 ve sonrası)</span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Eğer akım odaklı soket karşıdan bağlantıyı kapattıysa <code class="constant">SIGPIPE</code> sinyali üretme. <code class="constant">EPIPE</code> hatası yine de döner. <code class="constant">SIGPIPE</code> sinyalini görmezden gelmek için <tt><b>sigaction</b>(2)</tt> kullanımına benzer bir davranış sağlar, fakat <code class="constant">MSG_NOSIGNAL</code> çağrıya özeldir, <code class="constant">SIG_PIPE</code> sinyalinin görmezden gelinmesi sürecin tüm evrelerini etkileyen bir süreç özelliğinin atanmasına sebep olur.
+       Eğer akım odaklı soket karşıdan bağlantıyı kapattıysa <strong class="constant"><code>SIGPIPE</code></strong> sinyali üretme. <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EPIPE"><strong class="constant"><code>EPIPE</code></strong></a> hatası yine de döner. <strong class="constant"><code>SIGPIPE</code></strong> sinyalini görmezden gelmek için <tt><b>sigaction</b>(2)</tt> kullanımına benzer bir davranış sağlar, fakat <strong class="constant"><code>MSG_NOSIGNAL</code></strong> çağrıya özeldir, <strong class="constant"><code>SIG_PIPE</code></strong> sinyalinin görmezden gelinmesi sürecin tüm evrelerini etkileyen bir süreç özelliğinin atanmasına sebep olur.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-                    <code class="constant">MSG_OOB</code>
+                    <strong class="constant">
+                      <code>MSG_OOB</code>
+                    </strong>
                   </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Veriyi bantdışı (Out Of Band) veriyi destekleyen soketlere gönderir (örneğin <code class="constant">SOCK_STREAM</code> türü); kullanılan protokol bantdışı veriyi desteklemelidir.
+       Veriyi bantdışı (Out Of Band) veriyi destekleyen soketlere gönderir (örneğin <strong class="constant"><code>SOCK_STREAM</code></strong> türü); kullanılan protokol bantdışı veriyi desteklemelidir.
       </p>
                 </dd>
               </dl>
@@ -231,7 +234,11 @@
             <dl>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EACCES</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EACCES">
+                    <strong class="constant">
+                      <code>EACCES</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -243,7 +250,7 @@
      </p>
               </dd>
               <dt>
-                <span class="glossterm"><code class="constant">EAGAIN</code> veya <code class="constant">EWOULDBLOCK</code></span>
+                <span class="glossterm"><a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="constant"><code>EAGAIN</code></strong></a> veya <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="constant"><code>EWOULDBLOCK</code></strong></a></span>
               </dt>
               <dd class="glossdef">
                 <p>
@@ -252,7 +259,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EAGAIN</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EAGAIN">
+                    <strong class="constant">
+                      <code>EAGAIN</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -262,7 +273,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EALREADY</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EALREADY">
+                    <strong class="constant">
+                      <code>EALREADY</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -272,7 +287,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EBADF</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EBADF">
+                    <strong class="constant">
+                      <code>EBADF</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -282,7 +301,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">ECONNRESET</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ECONNRESET">
+                    <strong class="constant">
+                      <code>ECONNRESET</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -292,7 +315,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EDESTADDRREQ</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EDESTADDRREQ">
+                    <strong class="constant">
+                      <code>EDESTADDRREQ</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -302,7 +329,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EFAULT</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EFAULT">
+                    <strong class="constant">
+                      <code>EFAULT</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -312,7 +343,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EINTR</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EINTR">
+                    <strong class="constant">
+                      <code>EINTR</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -322,7 +357,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EINVAL</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EINVAL">
+                    <strong class="constant">
+                      <code>EINVAL</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -332,7 +371,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EISCONN</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EISCONN">
+                    <strong class="constant">
+                      <code>EISCONN</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -342,7 +385,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EMSGSIZE</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EMSGSIZE">
+                    <strong class="constant">
+                      <code>EMSGSIZE</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -352,7 +399,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">ENOBUFS</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOBUFS">
+                    <strong class="constant">
+                      <code>ENOBUFS</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -362,7 +413,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">ENOMEM</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOMEM">
+                    <strong class="constant">
+                      <code>ENOMEM</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -372,7 +427,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">ENOTCONN</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTCONN">
+                    <strong class="constant">
+                      <code>ENOTCONN</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -382,7 +441,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">ENOTSOCK</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTSOCK">
+                    <strong class="constant">
+                      <code>ENOTSOCK</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -392,7 +455,11 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EOPNOTSUPP</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EOPNOTSUPP">
+                    <strong class="constant">
+                      <code>EOPNOTSUPP</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
@@ -402,12 +469,16 @@
               </dd>
               <dt>
                 <span class="glossterm">
-                  <code class="constant">EPIPE</code>
+                  <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EPIPE">
+                    <strong class="constant">
+                      <code>EPIPE</code>
+                    </strong>
+                  </a>
                 </span>
               </dt>
               <dd class="glossdef">
                 <p>
-      Bağlantı yönelimli sokette yerel uç kapatılmış. Bu durumda, <code class="constant">MSG_NOSIGNAL</code> atanmamışsa işlem ayrıca <code class="constant">SIGPIPE</code> sinyalini de alır.
+      Bağlantı yönelimli sokette yerel uç kapatılmış. Bu durumda, <strong class="constant"><code>MSG_NOSIGNAL</code></strong> atanmamışsa işlem ayrıca <strong class="constant"><code>SIGPIPE</code></strong> sinyalini de alır.
      </p>
               </dd>
             </dl>
@@ -419,7 +490,7 @@
    4.4BSD, SVr4, POSIX.1-2001.  Bu arayüzler ilk defa 4.2BSD ile ortaya çıktı.
   </p>
           <p>
-   POSIX.1-2001 sadece <code class="constant">MSG_OOB</code> ve <code class="constant">MSG_EOR</code> seçeneklerini açıklar. POSIX.1-2008 <code class="constant">MSG_NOSIGNAL</code>'e bir belirtim ekler. <code class="constant">MSG_CONFIRM</code> seçeneği ise Linux eklentisidir.
+   POSIX.1-2001 sadece <strong class="constant"><code>MSG_OOB</code></strong> ve <strong class="constant"><code>MSG_EOR</code></strong> seçeneklerini açıklar. POSIX.1-2008 <strong class="constant"><code>MSG_NOSIGNAL</code></strong>'e bir belirtim ekler. <strong class="constant"><code>MSG_CONFIRM</code></strong> seçeneği ise Linux eklentisidir.
   </p>
         </div>
         <div class="refsect1">
@@ -434,7 +505,7 @@
         <div class="refsect1">
           <h2>HATALAR</h2>
           <p>
-   Linux, <code class="constant">ENOTCONN</code> yerine <code class="constant">EPIPE</code> döndürebilir.
+   Linux, <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTCONN"><strong class="constant"><code>ENOTCONN</code></strong></a> yerine <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EPIPE"><strong class="constant"><code>EPIPE</code></strong></a> döndürebilir.
   </p>
         </div>
         <div class="refsect1">
@@ -517,6 +588,11 @@
           </table>
         </div>
       </div>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

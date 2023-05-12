@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.2.2. GNU Bellek Tahsis Gerçeklenimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -44,22 +43,27 @@
           </div>
         </div>
         <p>
-    <span id="idm85637" class="indexterm"></span>
-    GNU C Kütüphanesindeki <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi, dlmalloc'tan (Doug Lea malloc) türetilen ptmalloc'tan (pthreads malloc) türetilmiştir.  GNU C Kütüphanesinin <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi, boyutuna ve kullanıcılar tarafından denetlenebilecek belli değişkenlere bağlı olarak belleği iki farklı şekilde ayırabilir. En yaygın yol, kullanılamaz dilimler biçimindeki israfı azalmak için belleğin bölünmemiş geniş bir bölümünden belleğin dilim dilim tahsis edilmesi ve bu dilimler arasındaki kullanımı en iyilemek için bunların yönetilmesidir. Geleneksel olarak yığın bellek, tek bir büyük bellek alanı olacak şekilde düzenlenmiştir, fakat GNU C Kütüphanesinin <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi belleğin çok evreli uygulamalardaki kullanımını en iyilemek için böyle çok sayıda alan sağlar. Böyle alanlardan bahsederken dahili olarak <em class="emphasis">saha</em> karşılığı kullanılacaktır.
+    <span id="idm85650" class="indexterm"></span>
+    GNU C Kütüphanesindeki <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi, dlmalloc'tan (Doug Lea malloc) türetilen ptmalloc'tan (pthreads malloc) türetilmiştir.  GNU C Kütüphanesinin <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi, boyutuna ve kullanıcılar tarafından denetlenebilecek belli değişkenlere bağlı olarak belleği iki farklı şekilde ayırabilir. En yaygın yol, kullanılamaz dilimler biçimindeki israfı azalmak için belleğin bölünmemiş geniş bir bölümünden belleğin dilim dilim tahsis edilmesi ve bu dilimler arasındaki kullanımı en iyilemek için bunların yönetilmesidir. Geleneksel olarak yığın bellek, tek bir büyük bellek alanı olacak şekilde düzenlenmiştir, fakat GNU C Kütüphanesinin <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerçeklenimi belleğin çok evreli uygulamalardaki kullanımını en iyilemek için böyle çok sayıda alan sağlar. Böyle alanlardan bahsederken dahili olarak <em class="emphasis">saha</em> karşılığı kullanılacaktır.
    </p>
         <p>
-    Diğer sürümlerin aksine, GNU C Kütüphanesindeki <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, büyük ya da küçük oluşuna bakmaksızın tahsis edilen her alanın boyutunu ikinin üstellerine yukarıya yuvarlamaz. Komşu parçalar boyutları ne olursa olsun <em class="emphasis">özgürce</em> birleştirilir. Böylece, parçalanma yoluyla bellek israf edilmeden gerçeklenim her türlü tahsis modeli için elverişli duruma getirilir. Birden çok sahanın varlığı, birden çok evrenin belleği aynı anda sahalara ayırmasına izin vererek başarımı artırır.
+    Diğer sürümlerin aksine, GNU C Kütüphanesindeki <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, büyük ya da küçük oluşuna bakmaksızın tahsis edilen her alanın boyutunu ikinin üstellerine yukarıya yuvarlamaz. Komşu parçalar boyutları ne olursa olsun <em class="emphasis">özgürce</em> birleştirilir. Böylece, parçalanma yoluyla bellek israf edilmeden gerçeklenim her türlü tahsis modeli için elverişli duruma getirilir. Birden çok sahanın varlığı, birden çok evrenin belleği aynı anda sahalara ayırmasına izin vererek başarımı artırır.
    </p>
         <p>
     Diğer bir bellek tahsisi yolu, muhtemelen bir sayfadan çok daha büyük, büyük tomarlar tahsis etmektir. Böyle istekler <strong class="function"><code>mmap</code></strong> ile yerine getirilir (anonim veya <code class="filename">/dev/zero</code> aracılığıyla; bkz. ???). Bunun en büyük getirisi, bu tomarların serbest kaldıklarında hemen sisteme geri döndürülmeleridir. Bu nedenle, büyük bir tomar daha küçük olanlar arasında "kilitlenmez" ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> çağrısından sonra bile bellek boşa gitmez. <strong class="function"><code>mmap</code></strong> için kullanılacak boyut eşiği yazılımın bellek tahsis modeline uygun olarak özdevimli ayarlanır. Eşiği duruk olarak ayarlamak için <a href="glibc-Malloc-Tunable-Parameters.html#glibc-fn-mallopt"><strong class="function"><code>mallopt</code></strong></a> işlevi <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_MMAP_THRESHOLD"><strong class="varname"><code>M_MMAP_THRESHOLD</code></strong></a> ile kullanılabilir ve <strong class="function"><code>mmap</code></strong> kullanımı <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-M_MMAP_MAX"><strong class="varname"><code>M_MMAP_MAX</code></strong></a> ile tamamen devre dışı bırakılabilir; bkz. <a class="xref" href="glibc-Malloc-Tunable-Parameters.html" title="3.2.3.7. malloc Ayarlanabilirleri"><code class="code">malloc</code> Ayarlanabilirleri</a>.
    </p>
         <p>
-    GNU Bellek Ayırıcısı ile ilgili daha ayrıntılı teknik bir açıklama <a class="link" href="https://sourceware.org/glibc/wiki/MallocInternals" target="_top">GNU C Kütüphanesi wikisinde</a> bulunabilir.
+    GNU Bellek Ayırıcısı ile ilgili daha ayrıntılı teknik bir açıklama <a class="link" href="https://sourceware.org/glibc/wiki/MallocInternals" target="_top">GNU C Kütüphanesi wikisinde</a> bulunabilir.
    </p>
         <p>
-    GNU C Kütüphanesi tarafından sağlanan yerleşik bellek ayırıcı yerine özel bir  <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevinin kullanımı da mümkündür.  Bkz. <a class="xref" href="glibc-Replacing-malloc.html" title="3.2.5. malloc İkamesi"><code class="code">malloc</code> İkamesi</a>.
+    GNU C Kütüphanesi tarafından sağlanan yerleşik bellek ayırıcı yerine özel bir  <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevinin kullanımı da mümkündür.  Bkz. <a class="xref" href="glibc-Replacing-malloc.html" title="3.2.5. malloc İkamesi"><code class="code">malloc</code> İkamesi</a>.
    </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

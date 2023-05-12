@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.1. Dosya İsmi Kalıpları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pattern-Matching.html')">Önceki</button>
+          <div class="dropdown-content">10. Şablon Eşleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pattern-Matching.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Globbing.html')">Sonraki</button>
+          <div class="dropdown-content">10.2. Genelleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Wildcard-Matching">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">10.1. Dosya İsmi Kalıpları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm101405" class="indexterm"></span>
+   Bu bölümde belli bir dizgenin bir kalıp ile nasıl eşleştirildiği anlatılacaktır. Sonuç bir evet ya da hayır yanıtıdır: Dizge bir kalıpla ya eşleşir ya da eşleşmez. Bu bölümde bahsedilen simgelerin hepsi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fnmatch" class="indexterm"></span>
+   <span id="glibc-cp-fnmatch" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">fnmatch</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">pattern</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">string</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>string</code></em> dizgesi ile <em class="parameter"><code>pattern</code></em> kalıbının eşleşip eşleşmediğine bakar. Eğer eşleşiyorlarsa <code class="code">0</code> ile döner, aksi takdirde sıfırdan farklı <code class="varname">FNM_NOMATCH</code> değeri ile döner. <em class="parameter"><code>pattern</code></em> ve <em class="parameter"><code>string</code></em> bağımsız değişkenlerinin her ikisi de dizgedir.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> ile eşleşme ile ilgili ayrıntıları değiştiren seçenek bitleri belirtilir. Belirtilebilecek seçeneklerin listesi için aşağıya bakınız.
+   </p>
+   <p>
+    GNU C Kütüphanesinde, <code class="code">fnmatch</code> işlevi  kimi zaman hata raporlayabilir. Bu durumda dönen değerler <code class="varname">FNM_NOMATCH</code> değerinden ve sıfırdan farklı olacaktır.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> bağımsız değişkeninde belirtilebilecek seçenekler:
+   </p>
+   <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_FILE_NAME" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_FILE_NAME</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    ‘<code class="filename">/</code>’ karakteri dosya isimlerinde özel olarak ele alınır. Bu seçenek etkinse, <em class="parameter"><code>pattern</code></em>, <em class="parameter"><code>string</code></em> içindeki‘<code class="filename">/</code>’ karakteri ile eşleşemez. Eşleştirmenin tek yolu <em class="parameter"><code>pattern</code></em> dizgesinin ‘<code class="filename">/</code>’ karakterini içermesidir.
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_PATHNAME" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_PATHNAME</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <span class="command"><strong>FNM_FILE_NAME</strong></span> için takma ad olup POSIX.2 ile gelir. Bu belgede dosya isimleri için dosya yolu (pathname), terimi kullanılmadığından kullanımı önerilmemektedir.
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_PERIOD" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_PERIOD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    ‘<code class="filename">.</code>’ karakteri dosya isimlerinin başında ise özel olarak ele alınır. Bu seçenek etkinse ve ‘<code class="filename">.</code>’ karakteri <em class="parameter"><code>string</code></em> dizgesinin ilk karakteri ise <em class="parameter"><code>pattern</code></em> ile eşleşmez.
+   </p>
+   <p>
+    <code class="code">FNM_PERIOD</code> ve <a href="glibc-Wildcard-Matching.html#glibc-tp-FNM_FILE_NAME"><strong class="varname"><code>FNM_FILE_NAME</code></strong></a> birlikte belirtilmişse, ‘<code class="filename">.</code>’ karakterinin <em class="parameter"><code>string</code></em> dizgesinin başında olmasının yanında ardında ‘<code class="filename">/</code>’ karakteri bulunması durumda da eşleşme seğlanır. (Kabuk <code class="code">FNM_PERIOD</code> ve <a href="glibc-Wildcard-Matching.html#glibc-tp-FNM_FILE_NAME"><strong class="varname"><code>FNM_FILE_NAME</code></strong></a> seçeneklerini dosya isimleriyle eşleşme ararken birlikte kullanır.)
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_NOESCAPE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_NOESCAPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    ‘<code class="filename">\</code>’ karakteri kalıplarda özel olarak ele alınmaz. Normalde, ‘<code class="filename">\</code>’ kendinden sonraki karakteri önceler; bu seçenek etkinse bu özellik kapatılır, böylece yalnızca kendisiyle eşleşebilir. Önceleme etkin olduğunda, ‘<code class="filename">\?</code>’ kalıbı sadece ‘<code class="filename">?</code>’ karakteri ile eşleşir, çünkü kalıp içindeki soru işareti sıradan bir karakter gibi işlem görür.
+   </p>
+   <p>
+    Eğer <code class="code">FNM_NOESCAPE</code> seçeneği etkinse, ‘<code class="filename">\</code>’ bir sıradan karakterdir.
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_LEADING_DIR" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_LEADING_DIR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <em class="parameter"><code>string</code></em> içinde ‘<code class="filename">/</code>’ karakterini izleyen karakterler yoksayılır; başka bir deyişle <em class="parameter"><code>pattern</code></em> dizgesi <em class="parameter"><code>string</code></em> dizisinin başındaki bir dizin ismi mi diye bakılır.
+   </p>
+   <p>
+    Bu seçenek etkinse, <code class="filename">foo*</code> ya da <code class="filename">foobar</code> bir kalıp olarak <code class="filename">foobar/frobozz</code> dizgesi ile eşleşir.
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FNM_CASEFOLD" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_CASEFOLD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <em class="parameter"><code>string</code></em> ile <em class="parameter"><code>pattern</code></em> karşılaştırılırken harf büyüklüğüne bakılmaz.
+   </p>
+  </div>
+  <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-cp-FNM_EXTMATCH" class="indexterm"></span>
+   <span id="glibc-pg-FNM_EXTMATCH" class="indexterm"></span>
+   <span id="glibc-tp-FNM_EXTMATCH" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/fnmatch.h;hb=HEAD" target="_top">fnmatch.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">FNM_EXTMATCH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Normal kalıplardan başka <tt><b>ksh</b>(1)</tt> kabuğunda bahsedilen ek kalıplar da tanınır. Aşağıdaki listedeki <em class="replaceable"><code>kalıp-listesi</code></em>, <code class="code">|</code> karakterinin ayraç olarak kullanıldığı bir kalıp listesidir.
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="code">?(<em class="replaceable"><code>kalıp-listesi</code></em>)</code>
+     </span></dt><dd class="glossdef"><p>
+       <em class="replaceable"><code>kalıp-listesi</code></em> ile belirtilen kalıplar girdi dizgesiyle hiç eşleşmeyebilir ya da bir kere eşleşebilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="code">*(<em class="replaceable"><code>kalıp-listesi</code></em>)</code>
+     </span></dt><dd class="glossdef"><p>
+       <em class="replaceable"><code>kalıp-listesi</code></em> ile belirtilen kalıplar girdi dizgesiyle hiç eşleşmeyebilir ya da defalarca eşleşebilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="code">+(<em class="replaceable"><code>kalıp-listesi</code></em>)</code>
+     </span></dt><dd class="glossdef"><p>
+       <em class="replaceable"><code>kalıp-listesi</code></em> ile belirtilen kalıplar girdi dizgesiyle ya en azından bir kere ya da defalarca eşleşebilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="code">@(<em class="replaceable"><code>kalıp-listesi</code></em>)</code>
+     </span></dt><dd class="glossdef"><p>
+       <em class="replaceable"><code>kalıp-listesi</code></em> ile belirtilen kalıplar girdi dizgesiyle sadece bir kere eşleşebilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="code">!(<em class="replaceable"><code>kalıp-listesi</code></em>)</code>
+     </span></dt><dd class="glossdef"><p>
+       <em class="replaceable"><code>kalıp-listesi</code></em> ile belirtilen kalıplar girdi dizgesiyle hiç eşleşmiyorsa eşleşme sağlanmış demektir.
+      </p></dd></dl></div>
+  </div></div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

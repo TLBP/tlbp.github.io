@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>7.6. Yerel Adları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Standard-Locales.html')">Önceki</button>
+          <div class="dropdown-content">7.5. Standart Yereller</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Locales.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Locale-Information.html')">Sonraki</button>
+          <div class="dropdown-content">7.7. Yerel Bilgisine Erişim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Locale-Names">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">7.6. Yerel Adları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm97576" class="indexterm"></span>
+   Sistem tarafından desteklenen yereller şu komutla listelenebilir:
+  </p>
+        <pre class="screen">$ locale -a</pre>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+    '<code class="code">C</code>' ve '<code class="code">POSIX</code>' standart yerel adlarının kayda değer istisnası dışında, yerel adları sisteme özeldir.
+   </p>
+          </div>
+        </div>
+        <p>
+   Çoğu yerel adı XPG sözdizimine uygun olarak dört parçadan oluşur:
+  </p>
+        <pre class="literallayout monospaced"><code class="code"><em class="replaceable"><code>dil</code></em>[_<em class="replaceable"><code>ülke</code></em>[.<em class="replaceable"><code>karakter-kümesi</code></em>]][@<em class="replaceable"><code>değiştirici</code></em>]</code>
+</pre>
+        <p>
+   İlki dışında, hiçbiri belirtilmeyebilir. Tamamı için tanımlı bir yerel bulunamazsa, daha azı için arama yapılır. Arama sırasında parçalar aşağıdaki sırayla çıkarılır:
+  </p>
+        <div class="literallayout">
+          <p>1. <em class="replaceable"><code>karakter-kümesi</code></em><br />
+2. normalleştirilmiş <em class="replaceable"><code>karakter-kümesi</code></em><br />
+3. <em class="replaceable"><code>ülke</code></em><br />
+4. <em class="replaceable"><code>değiştirici</code></em><br />
+</p>
+        </div>
+        <p>
+   Örneğin, '<code class="code">de_AT.iso885915@euro</code>' yereli, Avusturya'da yaşayan, karakter kümesi olarak ISO-8859-15 (Latin-9), para birimi olarak Euro'yu kullanan ve Almanca konuşan biri için yerel belirtir.
+  </p>
+        <p>
+   XPG sözdizimine uygun yerel adlarına ek olarak, sistemler ‘<code class="code">german</code>’ gibi takma adlar sağlayabilir. Her iki yerel sınıfının da '<code class="code">/</code>' eğik çizgi karakterini içermemesi gerekir.
+  </p>
+        <p>
+   '<code class="code">/</code>' ile başlayan yerel adları, yapılanırılmış yerel dizinlerine göreli yollar olarak ele alınır. Bkz. <a href="glibc-Locale-Names.html#glibc-vr-LOCPATH"><strong class="varname"><code>LOCPATH</code></strong></a>. Belirtilen yol '<code class="code">..</code>' bileşenini içermemelidir, aksi takdirde <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> başarısız olur.
+  </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+    POSIX, bir yerel adının eğik çizgi '/' ile başlaması durumunda mutlak yol olarak çözümlenmesini önerir. Bununla birlikte, GNU C Kütüphanesi, bu yerel adını <a href="glibc-Locale-Names.html#glibc-vr-LOCPATH"><strong class="varname"><code>LOCPATH</code></strong></a> ortam değişkeninde listelenen dizinler (veya <a href="glibc-Locale-Names.html#glibc-vr-LOCPATH"><strong class="varname"><code>LOCPATH</code></strong></a> atanmamışsa öntanımlı <code class="filename">locale</code> dizini) altında göreli bir yol olarak ele alır.
+   </p>
+          </div>
+        </div>
+        <p>
+   Gerçeklenim tarafından tanımlanan sınırdan daha uzun yerel adları geçersizdir ve <a href="glibc-Setting-the-Locale.html#glibc-fn-setlocale"><strong class="function"><code>setlocale</code></strong></a> işlevinin başarısız olmasına neden olur.
+  </p>
+        <p>
+   Özel bir durum olarak, <a href="glibc-Locale-Categories.html#glibc-vr-LC_ALL"><strong class="varname"><code>LC_ALL</code></strong></a> ile kullanılan yerel adları, farklı sınıflar için farklı yerellerin belirtildiği birkaç yereli birleştirebilir.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Örneğin, ISO A4 kağıt biçimiyle bir ABD yerel ayarı kullanılmak istenirse, <a href="glibc-Locale-Categories.html#glibc-vr-LANG"><strong class="varname"><code>LANG</code></strong></a> için "en_US.UTF-8" ve <code class="varname">LC_PAPER</code> için "de_DE.UTF-8" belirtilebilir. Bu durumda, <a href="glibc-Locale-Categories.html#glibc-vr-LC_ALL"><strong class="varname"><code>LC_ALL</code></strong></a> makrosu
+   </p>
+            <pre class="literallayout monospaced">LC_CTYPE=en_US.UTF-8;LC_TIME=en_US.UTF-8;LC_PAPER=de_DE.UTF-8;…
+</pre>
+            <p>
+    birleşik yereline ek olarak burada gösterilmeyen diğer yerel sınıflarını içerirdi.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">  ortam değ</div>
+   <span id="glibc-vr-LOCPATH" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">LOCPATH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <p>
+    Yerel verilerini bulmak için kullanılan yol, <code class="code">LOCPATH</code> ortam değişkenine atanabilir. Bu değişken, iki nokta üst üste '<code class="code">:</code>' ile ayrılmış olarak yerele ilişkin tanımların aranacağı dizinleri listeler.
+   </p>
+   <p>
+    Yerel verileri bulmak için kullanılan öntanımlı yol sisteme özeldir. <code class="code">LOCPATH</code> yokluğunda kullanılan (öntanımlı) dizin
+   </p>
+   <pre class="literallayout monospaced"><code class="filename">/usr/share/locale</code>
+</pre>
+   <p>
+    olup, <code class="code">LOCPATH</code> değeri, ayrıcalıklı uygulamalar tarafından güvenlik nedenleriyle göz ardı edilir ve yalnızca öntanımlı dizin kullanılır.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.2.6.1. Yığınak Oluşturma</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -44,30 +43,35 @@
           </div>
         </div>
         <p>
-     <span id="idm87231" class="indexterm"></span>
+     <span id="idm87260" class="indexterm"></span>
      Yığınaklar üzerinde işlem yapmak için gereken araçlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code> başlık dosyasında bildirilmiştir.
     </p>
         <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-mtrace" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct obstack </code></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/obstack.h;hb=HEAD" target="_top">obstack.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code> <strong><code class="function">obstack</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      <p>
-      Bir yığınak <code class="type">struct obstack</code> türünde bir veri yapısı ile ifade edilir. Bu veri yapısı çok küçük ve sabit boyutludur. Nesnelerin içinde tahsis edilmiş alanın nasıl bulunacağı ve yığınağın durumu hakkında bilgileri kaydeder. Nesnelerin kendileri hakkında bir bilgi içermez. Bu yapının içeriğine doğrudan erişmeye çalışılmamalı, sadece bu bölümde açıklanan işlevler kullanılmalıdır.
+      Bir yığınak <code class="code">struct obstack</code> türünde bir veri yapısı ile ifade edilir. Bu veri yapısı çok küçük ve sabit boyutludur. Nesnelerin içinde tahsis edilmiş alanın nasıl bulunacağı ve yığınağın durumu hakkında bilgileri kaydeder. Nesnelerin kendileri hakkında bir bilgi içermez. Bu yapının içeriğine doğrudan erişmeye çalışılmamalı, sadece bu bölümde açıklanan işlevler kullanılmalıdır.
      </p>
      
     </div>
         <p>
-     Değişkenler <code class="type">struct obstack</code> türünde bildirilebilir ve bunlar yığınak olarak kullanılabilir ya da yığınak diğer nesne çeşitlerinde olduğu gibi gerektikçe  tahsis edilebilir. Yığınakların gerektikçe tahsisi yazılımın çok sayıda farklı yığınağa sahip olmasını mümkün kılar. (Hatta bir yığınak yapısı bir başka yığınağın içinde tahsis edilebilir, ancak bu pek kullanışlı olmaz.)
+     Değişkenler <code class="code">struct obstack</code> türünde bildirilebilir ve bunlar yığınak olarak kullanılabilir ya da yığınak diğer nesne çeşitlerinde olduğu gibi gerektikçe  tahsis edilebilir. Yığınakların gerektikçe tahsisi yazılımın çok sayıda farklı yığınağa sahip olmasını mümkün kılar. (Hatta bir yığınak yapısı bir başka yığınağın içinde tahsis edilebilir, ancak bu pek kullanışlı olmaz.)
     </p>
         <p>
-     Yığınaklar ile çalışan işlevlerin tümü hangi yığınağın kullanılacağının belirtilmesini gerektirir.  Bunu <code class="type">struct obstack *</code> türünden bir gösterici ile yapabilirsiniz. Bundan sonra bir yığınaktan bahsedildiğinde ona böyle bir gösterici üzerinden erişildiği kabul edilecektir.
+     Yığınaklar ile çalışan işlevlerin tümü hangi yığınağın kullanılacağının belirtilmesini gerektirir.  Bunu <code class="code">struct obstack *</code> türünden bir gösterici ile yapabilirsiniz. Bundan sonra bir yığınaktan bahsedildiğinde ona böyle bir gösterici üzerinden erişildiği kabul edilecektir.
     </p>
         <p>
-     Yığınaktaki nesneler <em class="wordasword">öbek</em> adı verilen büyük dilimler halindedir. <span class="command"><strong>struct obstack</strong></span> yapısı ise bu öbeklerden oluşan  zincirin kaydını tutar.
+     Yığınaktaki nesneler <em class="wordasword">öbek</em> adı verilen büyük dilimler halindedir. <a href="glibc-Creating-Obstacks.html#glibc-tp-mtrace"><strong class="type"><code>struct obstack</code></strong></a> yapısı ise bu öbeklerden oluşan  zincirin kaydını tutar.
     </p>
         <p>
      Yığınak kütüphanesi, önceki öbeğe sığmayan bir bellek nesnesi tahsis edildiğinde, yeni bir öbek oluşturur. Yığınak kütüphanesi öbekleri kendisi yönettiğinden bu işlemlere fazla dikkat etmeniz gerekmez. Ancak, yığınak kütüphanesinin bir öbeği tahsis ederken kullanacağı işlevi sağlamak gerekir. Bu işlev <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> işlevini doğrudan ya da dolaylı kullanmalıdır. Ayrıca öbeği serbest bırakacak işlevin de sağlanması gerekir. Bu konular bir sonraki bölümde açıklanmıştır.
     </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>2.1. Hata Denetimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/style/belgeler.css" />
-    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
   </head>
   <body>
@@ -44,14 +43,15 @@
           </div>
         </div>
         <p>
-    <span id="idm82668" class="indexterm"></span>
+    <span id="idm82678" class="indexterm"></span>
     
     
-    Kütüphane işlevlerinin çoğu başarısız olduğu durumlarda özel bir değer döndürür. Bu özel değer genellikle ya <code class="literal">-1</code> veya boş gösterici ya da bu amaç için tanımlanmış <code class="constant">EOF</code> gibi bir sabittir. Bu geri dönen değer sadece bir hatanın oluştuğu bilgisini verir.  Hatanın çeşidini bulmak için <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde saklanan hata koduna bakılması gerekir. Bu değişken <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında bildirilmiştir.
+    Kütüphane işlevlerinin çoğu başarısız olduğu durumlarda özel bir değer döndürür. Bu özel değer genellikle ya <code class="literal">-1</code> veya boş gösterici ya da bu amaç için tanımlanmış <strong class="constant"><code>EOF</code></strong> gibi bir sabittir. Bu geri dönen değer sadece bir hatanın oluştuğu bilgisini verir.  Hatanın çeşidini bulmak için <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde saklanan hata koduna bakılması gerekir. Bu değişken <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında bildirilmiştir.
    </p>
         <div class="csynopsis"><div class="cstype">   değişken</div>
     <span id="glibc-vr-errno" class="indexterm"></span>
     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">volatile int </code> <strong><code class="varname">errno</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
     <p>
      <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeni sistem hata numarasını içerir. <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değeri yazılımcı tarafından değiştirebilir.
     </p>
@@ -74,7 +74,6 @@
     <p>
      Bir hata durumunda tamamen meşru bir değer döndüren <strong class="function"><code>sqrt</code></strong> ve <strong class="function"><code>atan</code></strong> gibi bazı kütüphane işlevleri hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine de tanımlar. Bu işlevler için, önerilen yöntem, işlev çağrısından önce <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine sıfır değeri atanması ve çağrı sonrasında <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin değerine bakılmasıdır.
     </p>
-    
    </div>
         <p>
     Tüm hata kodları için <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/mach/hurd/bits/errno.h;hb=HEAD" target="_top">errno.h</a></code> başlık dosyasında birer makro olarak tanımlanmış birer sembolik isim vardır. Bu isimler daima bir <span class="command"><strong>E</strong></span> harfi ile başlar ve bir rakam ya da büyük harf ile devam eder. Bu isimler birer <a class="link" href="glibc-Reserved-Names.html" title="1.4.3. Anahtar Sözcükler">anahtar sözcük</a> gibi ele alınmalıdır.
@@ -99,6 +98,11 @@
     Bazı Unix sistemlerinde birçok sistem çağrısı, bağımsız değişken olarak verilmiş yığıt içindeki bir göstericiden dolayı, çekirdeğin yığıtı genişletmeye çalışırken anlaşılmaz bir sebeple başarısız olması durumunda <a href="glibc-Error-Codes.html#glibc-vr-EFAULT"><strong class="function"><code>EFAULT</code></strong></a> döndürebilir. Bu gibi durumların oluşmaması için sistemdeki yığıt (stack) belleği kullanmak yerine yığın (heap) bellekten duruk olarak ya da özdevimli tahsis edişmiş bellek kullanılmaya çalışılmalıdır.
    </p>
       </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
     </section>
   </body>
 </html>

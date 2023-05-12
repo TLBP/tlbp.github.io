@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6.3.4. Dizge Dönüşümleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Converting-a-Character.html')">Önceki</button>
+          <div class="dropdown-content">6.3.3. Karakterlerin Dönüştürülmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Restartable-multibyte-conversion.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Multibyte-Conversion-Example.html')">Sonraki</button>
+          <div class="dropdown-content">6.3.5. Çok Baytlı Dönüşüm Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Converting-Strings">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6.3.4. Dizge Dönüşümleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Önceki bölümde bahsedilen işlevler bir defada sadece tek bir karakteri dönüştürmek içindi. Gerçekte uygulanan çoğu işlem dizgeler üzerinde yapılır ve ISO C standardı dizgelerin tamamının dönüşümlerini de tanımlar. Bununla birlikte, tanımlı işlevlerin bazı sınırlamaları vardır; ancak, GNU C Kütüphanesi bazı önemli durumlarda yardımcı olabilecek bazı genişletmeler içerir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-mbsrtowcs" class="indexterm"></span>
+    <span id="glibc-cp-mbsrtowcs" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">mbsrtowcs</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">dst</code></strong><strong><code>, </code></strong><code class="type">const char **restrict </code> <strong><code class="parameter">src</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">len</code></strong><strong><code>, </code></strong><code class="type">mbstate_t *restrict </code> <strong><code class="parameter">ps</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:mbsrtowcs</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!ps</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">mbsrtowcs</code> işlevi ("multibyte string restartable to wide character string" kısaltmasıdır) *<em class="parameter"><code>src</code></em> içindeki boş karakter sonlandırmalı çok baytlı karakter dizgesini eşdeğer geniş karakter dizgesine dönüştürür. Dönüşüm, <em class="parameter"><code>ps</code></em> ile gösterilen nesnedeki ya da <em class="parameter"><code>ps</code></em> boş gösterici ise <code class="code">mbsrtowcs</code> içindeki dahili durum bilgisi kullanılarak başlatılır. İşlev dönmeden önce, durum nesnesi son karakter dönüştürüldükten sonraki durumla güncellenir. Dönüşüm sonlandırıcı boş karaktere de uygulandığında durum, ilk durum olur.
+    </p>
+    <p>
+     <em class="parameter"><code>dst</code></em> boş gösterici değilse, sonuç <em class="parameter"><code>dst</code></em> ile gösterilen dizide saklanır; aksi takdirde, dönüşüm sonucu dahili tamponda saklanmış olacağından sonuç kullanılabilir olmayacaktır.
+    </p>
+    <p>
+     <em class="parameter"><code>dst</code></em> dizgesinde dizge sonuna ulaşmayan <em class="parameter"><code>len</code></em> geniş karakter varsa, girdi dizgesinin dönüştürülen kısmı <em class="parameter"><code>len</code></em> geniş karakterlik olduğunda dönüşüm durdurulur ve <em class="parameter"><code>len</code></em> döner. <em class="parameter"><code>dst</code></em> bir boş dizge ise <em class="parameter"><code>len</code></em> anlamlı değildir.
+    </p>
+    <p>
+     Eksik dönüşümlü bir dönüşün sebeplerinden biri de girdi dizgesinin geçersiz çok baytlı dizilim içermesidir. Bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EILSEQ"><strong class="varname"><code>EILSEQ</code></strong></a> atanarak işlev, <code class="code">(size_t) -1</code> ile döner.
+    </p>
+    <p>
+     Tüm diğer durumlarda işlev, bu çağrı ile dönüştürülmüş geniş karakterlerin sayısı ile döner. <em class="parameter"><code>dst</code></em> boş değilse, <code class="code">mbsrtowcs</code> işlevi <em class="parameter"><code>src</code></em> ile ya boş gösterici (girdi dizgesinde boş karaktere erişilmişse) ya da son dönüştürülen çok baytlı karakterden sonraki baytın adresini döndürür.
+    </p>
+    <p>
+     <a href="glibc-Non-reentrant-String-Conversion.html#glibc-fn-mbstowcs"><strong class="function"><code>mbstowcs</code></strong></a> işlevindeki gibi, <em class="parameter"><code>dst</code></em> boş gösterici olabilir ve işlev gereken geniş karakter sayısını bulmakta kullanılabilir.
+    </p>
+    <p>
+     <code class="code">mbstowcs</code> işlevi ISO C90 standardının 1. düzeltmesinde bulunur.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> işlevinin tanımı önemli bir sınırlama içerir. <em class="parameter"><code>dst</code></em>'nin boş karakter sonlandırmalı dizge içermesi gereksinimi dönüşümün metin içeren tamponlarda yapılması durumunda sorunlara sebep olur. Bir tampon normalde, boş karakter sonlandırmalı dizgeler değil, her biri satır sonu karakteri ile biten satırlar içerir. Şimdi bir işlevden tampon içindeki satırlardan birini dönüştürmesi istenmiş olsun. Satır boş karakterle bitmediğinden kaynak gösterici değiştirilmemiş metin tamponunu doğrudan gösteremez. Bunun anlamı: Ya <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> çağrısı sırasında uygun bir yere boş karakter yerleştirilmeli (bu, salt okunur tamponlarda ve çok evreli uygulamalarda yapılamaz) ya da satır, boş karakterle sonlandırılmış olarak başka bir tampona kopyalanmalıdır. <em class="parameter"><code>len</code></em> bağımsız değişkenine belli bir değer atayarak dönüştürülecek karakterlerin sayısını sınırlamak genellikle mümkün değildir. Her çok baytlı karakterin kaç bayttan oluştuğu bilinemediğinden sadece tahmin yapılabilir.
+   </p>
+        <p>
+    <span id="idm95892" class="indexterm"></span>
+    Satır sonu karakterinden sonra boş bayt koyarak satırın sonlandırılması ile ilgili olarak çok tuhaf sonuçlara sebep olan bir sorun hala mevcuttur. Yukarıda  <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> işlevinin açıklamasında bahsedildiği gibi girdi dizgesinin sonundaki boş bayt işlendikten sonra durumun ilk öteleme durumu olacağı garanti edilmiştir. Fakat bu boş bayt gerçekte metnin bir parçası değildir (yani, özgün metinde satır sonu karakterinden sonraki dönüşüm durumu ilk öteleme durumundan farklı olacaktı ve sonraki satırın ilk karakteri bu durum kullanılarak kodlanacaktı). Diğer taraftan, dönüşüm boş baytta duracağından (öteleme durumu sıfırlanacağından) gerçekte olması gereken durum bilgisi kaybolacaktır. Günümüzdeki çoğu karakter kümesi bir satır sonu karakterinden sonraki öteleme durumunun ilk durum olmasını gerektirse de bu kesin bir garanti değildir. Basitçe, metnin üzerinde çalışılan parçasının boş karakterle sonlandırılması her zaman uygun çözüm değildir ve genellikle hiç kullanılmaz.
+   </p>
+        <p>
+    Karakter kümesi dönüşüm arayüzü (<a class="xref" href="glibc-Generic-Charset-Conversion.html" title="6.5. Karakter Kümesi Dönüşümü"><em>Karakter Kümesi Dönüşümü</em></a>) bu sınırlamaya sahip değildir (basitçe tamponlarla çalışır, dizgelerle değil) ve GNU C Kütüphanesi girdi dizgesinde işlenecek baytların azami sayısının belirtilebildiği ek bağımsız değişkenler alan işlevler içerir. Bu yolla, <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> işlevinin yukarıdaki örneğindeki sorun, satır uzunluğu saptanıp bu uzunluk işleve aktarılarak çözülebilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-wcsrtombs" class="indexterm"></span>
+    <span id="glibc-cp-wcsrtombs" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">wcsrtombs</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">dst</code></strong><strong><code>, </code></strong><code class="type">const wchar_t **restrict </code> <strong><code class="parameter">src</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">len</code></strong><strong><code>, </code></strong><code class="type">mbstate_t *restrict </code> <strong><code class="parameter">ps</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:wcsrtombs</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!ps</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">wcsrtombs</code> işlevi ("wide character string restartable to multibyte string" kısaltmasıdır), boş geniş karakter sonlandırmalı *<em class="parameter"><code>src</code></em> geniş karakter dizgesini eşdeğeri olan çok baytlı karakter dizgesine dönüştürür ve sonucu <em class="parameter"><code>dst</code></em> ile gösterilen dizide saklar. Boş geniş karakter ayrıca dönüştürülür. Dönüşüm, <em class="parameter"><code>ps</code></em> ile gösterilen nesnedeki  ya da <em class="parameter"><code>ps</code></em> boş gösterici ise <code class="code">wcsrtombs</code> içindeki dahili durum bilgisi kullanılarak başlatılır. <em class="parameter"><code>dst</code></em> boş gösterici olduğunda dönüşüm yine yapılır ama sonuç döndürülmez. Girdi dizgesindeki tüm karakterler dönüştürülmüşse ve <em class="parameter"><code>dst</code></em> boş gösterici değilse <em class="parameter"><code>src</code></em> ile gösterilen göstericiye boş gösterici atanır.
+    </p>
+    <p>
+     Geniş karakterlerden birinin geçerli çok baytlı karakter eşdeğeri yoksa dönüşüm durdurulur ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EILSEQ"><strong class="varname"><code>EILSEQ</code></strong></a> değeri atanarak işlev <code class="code">(size_t) -1</code> ile döner.
+    </p>
+    <p>
+     İşlemin eksik kalmasına başka bir sebep de <em class="parameter"><code>dst</code></em>'nin boş karakter olmadığı durumda dönüştürülecek karakterin dizideki <em class="parameter"><code>len</code></em> bayttan fazlasını gerektirmesidir. Bu durumda <em class="parameter"><code>src</code></em> ile gösterilen göstericiye başarıyla dönüştürülmüş son karakterden sonraki karakteri gösteren gösterici atanır.
+    </p>
+    <p>
+     Bir kodlama hatası haricinde, <span class="command"><strong>wcsrtombs</strong></span> işlevinin dönüş değeri <em class="parameter"><code>dst</code></em> içinde saklanan çok baytlı karakterlerin toplam bayt sayısıdır. İşlev dönmeden önce, durum nesnesi son karakter dönüştürüldükten sonraki durumla güncellenir. Sonlandırıcı boş geniş karakter işlenmişse durum, ilk durum olur.
+    </p>
+    <p>
+     <code class="code">wcsrtombs</code> işlevi ISO C90 standardının 1. düzeltmesinde bulunur.
+    </p>
+   </div>
+        <p>
+    Yukarıda <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> işlevi ile ilgili sınırlama bu işlevde de geçerlidir. Girdi karakterlerinin sayısını doğrudan belirlemek mümkün değildir. Ya doğru yere boş geniş karakter yerleştirilmeli ya da işlenen girdi uzunluğu dolaylı olarak çıktı dizgesinin uzunluğu (<em class="parameter"><code>len</code></em> bağımsız değişkeni) sınanarak saptanmalıdır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-mbsnrtowcs" class="indexterm"></span>
+    <span id="glibc-cp-mbsnrtowcs" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">mbsnrtowcs</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t *restrict </code> <strong><code class="parameter">dst</code></strong><strong><code>, </code></strong><code class="type">const char **restrict </code> <strong><code class="parameter">src</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">nmc</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">len</code></strong><strong><code>, </code></strong><code class="type">mbstate_t *restrict </code> <strong><code class="parameter">ps</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:mbsnrtowcs</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!ps</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">mbsnrtowcs</code> işlevi, <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> işlevine çok benzer. <em class="parameter"><code>nmc</code></em> bağımsız değişkeni dışında tüm bağımsız değişkenler ve işlevin dönüş durumu aynıdır.
+    </p>
+    <p>
+     <em class="parameter"><code>nmc</code></em> bağımsız değişkeni ile çok baytlı karakter dizgesinin en çok kaç baytının kullanılacağı belirtilir. Başka bir deyişle, *<em class="parameter"><code>src</code></em> çok baytlı karakter dizisinin boş bayt sonlandırmalı olması gerekli değildir. Fakat dizge içinde ilk <em class="parameter"><code>nmc</code></em> karakter içinde boş bayta rastlanırsa dönüşüm orada durur.
+    </p>
+    <p>
+     Bu işlev GNU oluşumudur. Amacı yukarıda belirtilen sorunun etrafından dolanmaktır. Böylece çok baytlı karakterler içeren bir tamponun dönüştürülmesi boş karakter yerleştirmeden ve boş karakter dönüşüm durum nesnesini etkilemeksizin mümkün olur.
+    </p>
+   </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Çok baytlı karakter dizgesini geniş karakter dizgesine dönüştürecek ve gösterecek işlev şöyle yazılabilir (örnek kullanılabilir değildir):
+    </p>
+            <pre class="screen">void
+showmbs (const char *src, FILE *fp)
+{
+  mbstate_t state;
+  int cnt = 0;
+  memset (&amp;state, '\0', sizeof (state));
+  while (1)
+    {
+      wchar_t linebuf[100];
+      const char *endp = strchr (src, '\n');
+      size_t n;
+
+      /* <em class="replaceable"><code>Satır kalmadıysa çık.</code></em>  */
+      if (endp == NULL)
+        break;
+
+      n = mbsnrtowcs (linebuf, &amp;src, endp - src, 99, &amp;state);
+      linebuf[n] = L'\0';
+      fprintf (fp, "line %d: \"%S\"\n", linebuf);
+    }
+}
+</pre>
+            <p>
+     <a href="glibc-Converting-Strings.html#glibc-fn-mbsnrtowcs"><strong class="function"><code>mbsnrtowcs</code></strong></a> çağrısından sonra durumla ilgili bir sorun çıkmaz. Dizgelere dışarıdan bir karakter yerleştirilmediğinden <em class="replaceable"><code>state</code></em> durumunu sadece verilen tamponu dönüştürmek için kullanıldı. Durumun değişmesiyle ilgili bir sorun çıkmadı.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-wcsnrtombs" class="indexterm"></span>
+    <span id="glibc-cp-wcsnrtombs" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code> <strong><code class="function">wcsnrtombs</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char *restrict </code> <strong><code class="parameter">dst</code></strong><strong><code>, </code></strong><code class="type">const wchar_t **restrict </code> <strong><code class="parameter">src</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">nwc</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">len</code></strong><strong><code>, </code></strong><code class="type">mbstate_t *restrict </code> <strong><code class="parameter">ps</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:wcsnrtombs</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!ps</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">wcsnrtombs</code> işlevi geniş karakter dizgesini çok baytlı karakter dizgesine dönüştürmekte kullanılır. <a href="glibc-Converting-Strings.html#glibc-fn-wcsrtombs"><strong class="function"><code>wcsrtombs</code></strong></a> işlevine benzemekle birlikte <a href="glibc-Converting-Strings.html#glibc-fn-mbsnrtowcs"><strong class="function"><code>mbsnrtowcs</code></strong></a> işlevi gibi girdi dizgesinin uzunluğunun belirtilebildiği ek bir bağımsız değişken alır.
+    </p>
+    <p>
+     *<em class="parameter"><code>src</code></em> dizgesinin sadece ilk <em class="parameter"><code>nwc</code></em> geniş karakteri dönüştürülür. Bu parça içinde boş geniş karaktere rastlanırsa dönüşüm bu karakterde durdurulur.
+    </p>
+    <p>
+     <code class="code">wcsnrtombs</code> işlevi GNU oluşumudur ve <a href="glibc-Converting-Strings.html#glibc-fn-mbsnrtowcs"><strong class="function"><code>mbsnrtowcs</code></strong></a> işlevi gibi boş sonlandırıcı içermeyen dizgelerin dönüştürülmesinde yararlı olur.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

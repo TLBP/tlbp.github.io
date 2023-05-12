@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.3. Akımların Açılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Standard-Streams.html')">Önceki</button>
+          <div class="dropdown-content">12.2. Standart Akımlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Closing-Streams.html')">Sonraki</button>
+          <div class="dropdown-content">12.4. Akımların Kapatılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Opening-Streams">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.3. Akımların Açılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir dosyanın <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> işlevi ile açılması bir yeni akım ve bu akım ile dosya arasında bir bağlantı oluşturur. Bu yeni bir dosya oluşturulmasına sebep olabilir.
+  </p>
+        <p>
+   <span id="idm103791" class="indexterm"></span>
+   Bu kısımda açıklanan herşey <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında  bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fopen" class="indexterm"></span>
+   <span id="glibc-cp-fopen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">fopen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">opentype</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">fopen</code> işlevi, <em class="parameter"><code>filename</code></em> dosyasına G/Ç için bir akım açar ve bu akıma gösterici ile döner.
+   </p>
+   <p>
+    <em class="parameter"><code>opentype</code></em> bağımsız değişkeni dosyanın nasıl açılacağını ve sonuçlanan akımın özniteliklerini belirtmekte kullanılan bir dizgedir. Aşağıdaki dizgelerden biri ile başlamalıdır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term">'<code class="code">r</code>'</span></dt><dd><p>
+       Mevcut bir dosyayı salt-okunur olarak açar.
+      </p></dd><dt><span class="term">'<code class="code">w</code>'</span></dt><dd><p>
+       Dosyayı sadece yazmak için açar. Dosya zaten varsa içeriği silinir. Aksi takdirde yeni bir dosya oluşturulur.
+      </p></dd><dt><span class="term">'<code class="code">a</code>'</span></dt><dd><p>
+       Bir dosyayı sadece sonuna yazmak için açar. Dosya zaten varsa, içeriği değiştirilmez ve akıma yapılan çıktı dosyanın sonuna eklenir. Aksi takdirde yeni bir dosya oluşturulur.
+      </p></dd><dt><span class="term">'<code class="code">r+</code>'</span></dt><dd><p>
+       Bir dosyayı oku-yaz olarak açar. Dosyanın içeriği değiştirilmez ve konumlayıcı dosyanın başına yerleştirilir.
+      </p></dd><dt><span class="term">'<code class="code">w+</code>'</span></dt><dd><p>
+       Bir dosyayı oku-yaz olarak açar. Dosya zaten varsa içeriği silinir. Aksi takdirde yeni bir dosya oluşturulur.
+      </p></dd><dt><span class="term">'<code class="code">a+</code>'</span></dt><dd><p>
+       Dosyayı hem okumak hem de eklemek için açar ya da oluşturur. Dosya zaten varsa içeriği değiştirilmez. Aksi takdirde yeni bir dosya oluşturulur. Dosya konumlayıcı okumak için dosyanın başına konumlansa da çıktı daima dosyanın sonuna eklenir.
+      </p></dd></dl></div>
+   <p>
+    Görüldüğü gibi, ‘<code class="filename">+</code>’ imi bir akımın hem girdi hem de çıktı yapabilmesini ister. Böyle bir akımı kullanırken <strong class="function"><code>fflush</code></strong> çağrısı (Bkz. ???) yapmalı ya da okumadan yazmaya veya yazmadan okumaya geçerken <strong class="function"><code>fseek</code></strong> (Bkz. ???) gibi bir dosya konumlama işlevine çağrı yapılmalıdır. Aksi takdirde, dahili tamponlar olması gerektiği gibi boşaltılamaz. GNU C Kütüphanesi için böyle bir sınırlama yoktur; bir akım üzerinde okuma ve yazma işlemleri istenen sırada yapılabilir.
+   </p>
+   <p>
+    Bunlardan sonra çağrı için bayrakları belirtmek amacıyla ek karakterler kullanılabilir. Daima önce kip (‘<code class="filename">r</code>’, ‘<code class="filename">w+</code>’, vs.) yerleştirilir; bu tüm sistemler tarafından anlaşılacağı garanti edilen tek parçadır.
+   </p>
+   <p>
+     GNU C Kütüphanesi <em class="parameter"><code>opentype</code></em> bağımsız değişkeninde kullanmak için ek karakterler tanımlar:
+    </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term">'<code class="code">c</code>'</span></dt><dd><p>
+       G/Ç işlevleri devre dışı bırakıldığında dosya iptal edilerek açılır.
+      </p></dd><dt><span class="term">'<code class="code">e</code>'</span></dt><dd><p>
+       <code class="code">exec…</code> işlevlerinden herhangi biri kullanılırsa, ilgili dosya tanıtıcı kapatılır (bkz. ???). (Bu, o tanıtıcıya <code class="varname">FD_CLOEXEC</code> atamaya eşdeğerdir.
+      </p></dd><dt><span class="term">'<code class="code">m</code>'</span></dt><dd><p>
+       Dosya açılır ve <strong class="function"><code>mmap</code></strong> kullanılarak erişilir. Bu, yalnızca okumak için açılan dosyalarda desteklenir.
+      </p></dd><dt><span class="term">'<code class="code">x</code>'</span></dt><dd><p>
+       Yeni bir dosya oluşturmakta ısrarcı olunur; <em class="parameter"><code>filename</code></em> zaten varsa, <code class="code">fopen</code> onu açmak yerine başarısız olur. ‘<code class="filename">x</code>’ kullanılırsa, mevcut dosyanın bozulmayacağı garanti edilir. Bu,  <strong class="function"><code>open</code></strong> işlevinin <code class="varname">O_EXCL</code> erişim kipiyle kullanımına eşdeğerdir.
+      </p><p>
+       '<code class="code">x</code>' değiştiricisi ISO C11'in bir parçası olup dosyanın özel erişimle oluşturulduğunu belirtir; GNU C Kütüphanesinde <code class="varname">O_EXCL</code> erişim kipine eşdeğerdir.
+      </p></dd></dl></div>
+   <p>
+    <em class="parameter"><code>opentype</code></em> bağımsız değişkenindeki '<code class="code">b</code>' karakterinin standart bir anlamı vardır; metin akımı yerine ikil akım isteğinde bulunur.  Fakat POSIX sistemlerinde (GNU dahil) bu bir fark oluşturmaz. <code class="code">+</code> ve '<code class="code">b</code>' birlikte belirtilirse, herhangi bir sırada yazılabilir. Bkz. ???.
+   </p>
+   <p>
+    <span id="idm103911" class="indexterm"></span>
+    <span id="idm103913" class="indexterm"></span>
+    <em class="parameter"><code>opentype</code></em> bağımsız değişkeni <code class="code">,ccs=</code><em class="replaceable"><code>DİZGE</code></em> içeriyorsa, buradaki <em class="replaceable"><code>DİZGE</code></em> bir kodlu karakter kümesinin ismi olarak ele alınır ve <code class="code">fopen</code> işlevi bu akımı geniş-yönlenimli olarak imler, yani <em class="replaceable"><code>DİZGE</code></em> karakter kümesi ile ilgili dönüşümlere uygun dönüşüm işlevleri yerleştirilir. Başka bir akım dahili olarak yönlenimsiz açılır ve yönlenime ilk dosya işleminde karar verilir. Eğer ilk işlem bir geniş karakter işlemiyse, akım sadece geniş yönlenimli olarak imlenmez ayrıca yerelin kodlu karakter kümesine dönüşüm işlevleri yüklenir. Artık bu noktadan sonra yerelin seçildiği <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> sınıfı değiştirilse bile bu değişmeyecektir.
+   </p>
+   <p>
+    <em class="parameter"><code>opentype</code></em> bağımsız değişkeninde başka karakterler varsa bunlar yoksayılır. Bunlar diğer sistemler için anlamlı olabilir.
+   </p>
+   <p>
+    Açma işlemi başarısız olursa <code class="code">fopen</code> boş gösterici ile döner.
+   </p>
+   <p>
+    Kaynak dosyalar 32 bitlik bir makinede <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde LFS arayüzü eski arayüzle şeffaf olarak değiştirildiğinden bu işlev için <a href="glibc-Opening-Streams.html#glibc-fn-fopen64"><strong class="function"><code>fopen64</code></strong></a> tanımı kullanılır.
+   </p>
+  </div>
+        <p>
+   Aynı dosya için aynı anda açılmış çok sayıda akım (ya da dosya tanıtıcı) olabilir. Sadece girdi yapılacaksa bu doğru dürüst çalışır ama çıktı akımları da varsa dikkatli olmak gerekir. Bkz. ???. Bu durum, akımlar tek süreç tarafından da açılsa, çok sayıda süreç tarafından da açılsa hemen hemen aynıdır. Aynı anda erişimden kaçınmak için dosya kilitleme oluşumları yararlı olabilir. Bkz. ???.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fopen64" class="indexterm"></span>
+   <span id="glibc-cp-fopen64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">fopen64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">opentype</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> işlevine benzer ama <strong class="function"><code>open64</code></strong> işlevi kullanılarak açılan akıma gösterici ile döner. Diğer yandan bu akım 32 bitlik makineler üzerinde  <code class="literal">2</code><sup>31</sup> bayttan büyük dosyalar üzerinde bile çalışır.
+   </p>
+   <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+     Dönen gösterici yine <code class="type">FILE *</code> türünde olacaktır. Çünkü LFS arayüzü için özel bir <a href="glibc-Streams.html#glibc-tp-FILE"><strong class="type"><code>FILE</code></strong></a> türü yoktur.
+    </p></div></div>
+   <p>
+    Kaynak dosyaları 32 bitlik bir makine üzerinde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenirse bu işlev <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> ismi ile kullanılabilir yani eski arayüz ile şeffaf olarak yer değiştirir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-tp-FOPEN_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">FOPEN_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makronun değeri gerçeklenimin aynı anda açık olmasını garanti ettiği en düşük akım sayısına karşılık gelen bir sabit ifadesidir. Bu değerden daha fazla sayıda akım açılabilir ancak bu garanti edilmez. Bu sabitin değeri en az sekizdir ve üç standart akımı da (<a href="glibc-Standard-Streams.html#glibc-vr-stdin"><strong class="varname"><code>stdin</code></strong></a>, <a href="glibc-Standard-Streams.html#glibc-vr-stdout"><strong class="varname"><code>stdout</code></strong></a> ve <a href="glibc-Standard-Streams.html#glibc-vr-stderr"><strong class="varname"><code>stderr</code></strong></a>) içerir. POSIX.1 sistemlerde  bu değer <code class="varname">OPEN_MAX</code> makrosu tarafından belirlenir. Bkz. ???. BSD ve GNU'da ise <code class="varname">RLIMIT_NOFILE</code> özkaynak sınırıyla belirlenir. Bkz. ???.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-freopen" class="indexterm"></span>
+   <span id="glibc-cp-freopen" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">freopen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">opentype</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev, <a href="glibc-Closing-Streams.html#glibc-fn-fclose"><strong class="function"><code>fclose</code></strong></a> ve <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> işlevlerinin bir birleşimi gibidir. Önce <em class="parameter"><code>stream</code></em> ile gösterilen akımı kapatır, kapatırken oluşan hatalar yoksayılır. (Hataların yoksayılmasından dolayı, akıma bir çıktılama yapılmışsa çıktı akımı üzerinde <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> kullanılmamalıdır.) Sonra da <em class="parameter"><code>filename</code></em> isimli dosyayı <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> işlevindeki türlerden biri olarak <em class="parameter"><code>opentype</code></em> kipinde açar ve aynı <em class="parameter"><code>stream</code></em> nesnesi ile ilişkilendirir.
+   </p>
+   <p>
+    İşlem başarısız olursa boş gösterici döner; aksi takdirde işlev <em class="parameter"><code>stream</code></em> ile döner. Linux'ta, <code class="code">freopen</code> çağrılmadan önce çekirdek yapısı eski dosya tanıtıcı için tamamen ilklendirilmediğinde, <code class="code">freopen</code> başarısız olabilir ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EBUSY"><strong class="varname"><code>EBUSY</code></strong></a> atayabilir. Bu, yalnızca çok evreli yazılımlarda, iki evre aynı dosya tanıtıcı numarasını tahsis etmek için yarıştığında ortaya çıkabilir. Bu yarış olasılığını önlemek için, ilgili <a href="glibc-Streams.html#glibc-tp-FILE"><strong class="type"><code>FILE</code></strong></a> dosya tanıtıcısını kapatmak amacıyla <strong class="function"><code>close</code></strong> kullanılmamalıdır; ya dosya açıkken <code class="code">freopen</code> kullanılmalı ya da yeni bir dosya tanıtıcı tahsisi için <strong class="function"><code>open</code></strong> ve ardından <strong class="function"><code>dup2</code></strong> kullanılmalıdır.
+   </p>
+   <p>
+    <code class="code">freopen</code> işlevi geleneksel olarak <a href="glibc-Standard-Streams.html#glibc-vr-stdin"><strong class="varname"><code>stdin</code></strong></a> gibi standart akımlara seçilen bir dosyayla bağlanmak için kullanılır. Bu, standart bir akıma belirli amaçlar için doğrudan yazmak için yararlıdır. GNU C Kütüphanesinde standart akımlar basitçe kapatılabilir ve yeni biri <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> ile açılabilir. Ancak bazı sistemler bu tarz çalışmayı desteklemez, bu nedenle <code class="code">freopen</code> kullanımı daha taşınabilir olacaktır.
+   </p>
+   <p>
+    Kaynak dosyalar 32 bitlik bir makinede <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde LFS arayüzü eski arayüzle şeffaf olarak değiştirildiğinden bu işlev için <a href="glibc-Opening-Streams.html#glibc-fn-freopen64"><strong class="function"><code>freopen64</code></strong></a> tanımı kullanılır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-freopen64" class="indexterm"></span>
+   <span id="glibc-cp-freopen64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">freopen64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">opentype</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> işlevine benzer. Tek farkla, bu akım 32 bitlik makineler üzerinde <code class="literal">2</code><sup>31</sup> bayttan büyük dosyalar üzerinde bile çalışır. <em class="parameter"><code>stream</code></em> tarafından gösterilen akımın kipi bu işlev için önemli olmadığından, akımın <a href="glibc-Opening-Streams.html#glibc-fn-fopen64"><strong class="function"><code>fopen64</code></strong></a> veya <a href="glibc-Opening-Streams.html#glibc-fn-freopen64"><strong class="function"><code>freopen64</code></strong></a> kullanarak açılmış olmaması gerekir.
+   </p>
+   <p>
+    Kaynak dosyaları 32 bitlik bir makine üzerinde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenirse bu işlev <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> ismi ile kullanılabilir yani eski arayüz ile şeffaf olarak yer değiştirir.
+   </p>
+  </div>
+        <p>
+   Bazı durumlarda, verilen akımın okuma ve yazma için kullanılabilir olup olmadığını bilmek kullanışlıdır. Bu bilgi normalde kullanılabilir değildir ve ayrıca hatırlanması gerekir. Solaris, akım tanıtıcıdan bu bilgiyi alacak bir kaç işlev içerir ve bu işlevler GNU C Kütüphanesinde de vardır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-freadable" class="indexterm"></span>
+   <span id="glibc-cp-freadable" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">__freadable</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>
+   </div>
+   <p>
+    <code class="code">__freadable</code> işlevi <em class="parameter"><code>stream</code></em> akımının okuma iznine sahip olup olmadığını saptar. Okuma izni varsa sıfırdan farklı bir değer ile döner. Sadece yazma izni olan akımlarda işlev sıfır ile döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fwritable" class="indexterm"></span>
+   <span id="glibc-cp-fwritable" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">__fwritable</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>
+   </div>
+   <p>
+    <code class="code">__fwritable</code> işlevi <em class="parameter"><code>stream</code></em> akımının yazma iznine sahip olup olmadığını saptar. Yazma izni varsa sıfırdan farklı bir değer ile döner. Sadece okuma izni olan akımlarda işlev sıfır ile döner.
+   </p>
+  </div>
+        <p>
+   Biraz daha farklı çeşitte sorunlar için iki işlev daha vardır. Bunlar biraz daha hassas bilgiler sağlar.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-freading" class="indexterm"></span>
+   <span id="glibc-cp-freading" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">__freading</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>
+   </div>
+   <p>
+    <code class="code">__freading</code> işlevi <em class="parameter"><code>stream</code></em> akımından son olarak okuma işlemi yapılmışsa ya da akım salt okunur olarak açılmışsa sıfırdan farklı bir değerle döner, aksi takdirde sıfır ile döner. Bir akımın okuma ve yazma için açılıp açılmadığının saptanması işlemi son yazma sırasında kullanılmışsa diğer şeylerin yanı sıra içerik ve tampon hakkında sonuçlar çıkarmaya da izin verilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fwriting" class="indexterm"></span>
+   <span id="glibc-cp-fwriting" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">__fwriting</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a>
+   </div>
+   <p>
+    <code class="code">__fwriting</code> işlevi <em class="parameter"><code>stream</code></em> akımına son olarak yazma işlemi yapılmışsa ya da akım salt yazılır olarak açılmışsa sıfırdan farklı bir değerle döner, aksi takdirde sıfır ile döner.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

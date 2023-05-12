@@ -1,0 +1,527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10.2. Genelleme</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Wildcard-Matching.html')">Önceki</button>
+          <div class="dropdown-content">10.1. Dosya İsmi Kalıpları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pattern-Matching.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Regular-Expressions.html')">Sonraki</button>
+          <div class="dropdown-content">10.3. Düzenli İfade Eşleştirme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Globbing">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">10.2. Genelleme</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm101600" class="indexterm"></span>
+   <span id="idm101602" class="indexterm"></span>
+   Kalıpların çok genel bir kullanımı bir dizindeki dosyalarda eşleşme aramak ve eşleşenleri listelemektir. Bu işleme <em class="wordasword">genelleme</em> denir.
+  </p>
+        <p>
+   Bu işlem yazılımcı tarafından bir dizindeki dosya isimleri tek tek <a href="glibc-Wildcard-Matching.html#glibc-fn-fnmatch"><strong class="function"><code>fnmatch</code></strong></a> ile sınanarak da yapılabilirdi ama yavaş olurdu (bu işlemin alt dizinlere de ayrı ayrı uygulanması gerekeceğinden).
+  </p>
+        <p>
+   Kütüphane özellikle bu işi yapan bir işlev içerir: <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a>.
+  </p>
+        <p>
+   <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> ve bu kısımdaki diğer tüm simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <section class="sect1" id="glibc-Calling-Glob">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.2.1. <code class="code">glob</code> çağrısı</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Genelleme işleminin sonucu dosya isimleri göstericileri dizisidir. Bu diziyi döndürmek için  <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi aslında bir yapı olan özel bir veri türü, <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> kullanır.  <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevine yapının adresi aktarılırsa, işlev, sonucu yapının alanlarına yazar.
+   </p>
+          <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-glob_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">glob_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu veri türü dizge göstericileri dizisine gösterici tutar. Daha açıkçası, bu dizinin adresini ve boyutunu kaydeder. GNU gerçeklenimi standart dışı olarak biraz daha fazla alan içerir.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">size_t </code><strong class="structfield"><code>gl_pathc</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisindeki eleman sayısı; <a href="glibc-Globbing.html#glibc-vr-GLOB_DOOFFS"><strong class="varname"><code>GLOB_DOOFFS</code></strong></a> seçeneği kullanılmışsa baştaki boş girdiler hariç (aşağıdaki <strong class="structfield"><code>gl_offs</code></strong> açıklamasına bakınız).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">char **</code><strong class="structfield"><code>gl_pathv</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisinin adresi.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>gl_offs</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="structfield"><code>gl_pathv</code></strong> alanındaki adresten itibaren ilk gerçek elemanın konumu. Diğer alanların tersine bu alan <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi için daima bir girdidir (diğer alanları işlev doldurur).
+       </p><p>
+        Eğer sıfırdan farklı bir konum belirtilirse, gösterici dizisinin başlangıcından itibaren bazı elemanlar boş kalacaktır. (<a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi oraları boş göstericilerle doldurur.)
+       </p><p>
+        <code class="code">gl_offs</code> alanı sadece <a href="glibc-Globbing.html#glibc-vr-GLOB_DOOFFS"><strong class="varname"><code>GLOB_DOOFFS</code></strong></a> seçeneği etkinse anlamlıdır.  Aksi takdirde bu alanın ne içerdiğine bakılmaksızın konumun sıfır olduğu varsayılır, yani ilk eleman gösterici dizisinin başına konur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>gl_flags</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Glob çağrıldığında kullanılan bayraklar. Ek olarak, <a href="glibc-Globbing.html#glibc-vr-GLOB_MAGCHAR"><strong class="varname"><code>GLOB_MAGCHAR</code></strong></a> atanmış olabilir. Daha fazla ayrıntı  <a class="xref" href="glibc-Globbing.html#glibc-Flags-for-Globbing" title="10.2.2. Genelleme Seçenekleri">Genelleme Seçenekleri</a> bölümünde bulunabilir.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">void </code><strong class="structfield"><code>(*gl_closedir)</code></strong><code class="type">(void *)</code>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="function"><code>closedir</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">struct dirent *</code><strong class="structfield"><code>(*gl_readdir)</code></strong><code class="type">(void *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Bir dizinin içeriğini okumakta kullanılan <strong class="function"><code>readdir</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur ve <code class="type">struct dirent</code> yapısının aşağıdaki alanlarının ilklendirilmesini gerektirir:
+       </p><div class="glosslist"><dl><dt><span class="glossterm"><strong class="structfield"><code>d_type</code></strong></span></dt><dd class="glossdef"><p>
+           Bu üyeye, biliniyorsa girdinin dosya türü atanmalıdır. Aksi takdirde <code class="varname">DT_UNKNOWN</code> değeri kullanılabilir. <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi, dosya türünün verilerin gerekli olmadığını gösterdiği durumlarda geri çağırımları önlemek için belirtilen dosya türünü kullanabilir.
+          </p></dd><dt><span class="glossterm"><strong class="structfield"><code>d_ino</code></strong></span></dt><dd class="glossdef"><p>
+           Bu üyenin sıfırdan farklı olması gerekir, aksi takdirde <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi mevcut girdiyi atlayabilir ve başka bir girdiyi almak için <strong class="structfield"><code>gl_readdir</code></strong> geri çağırım işlevini tekrar çağırabilir.
+          </p></dd><dt><span class="glossterm"><strong class="structfield"><code>d_name</code></strong></span></dt><dd class="glossdef"><p>
+           Bu üyeye, girdinin adı atanmalıdır. Dizge boş karakter sonlandırmalı olmalıdır.
+          </p></dd></dl></div><div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+         Aşağıdaki örnek, belirli bir adı içeren bir <code class="type">struct dirent</code> nesnesinin nasıl tahsis edileceğini göstermektedir.
+        </p><pre class="screen">#include &lt;dirent.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct dirent *
+mkdirent (const char *name)
+{
+  size_t dirent_size = offsetof (struct dirent, d_name) + 1;
+  size_t name_length = strlen (name);
+  size_t total_size = dirent_size + name_length;
+  if (total_size &lt; dirent_size)
+    {
+      errno = ENOMEM;
+      return NULL;
+    }
+  struct dirent *result = malloc (total_size);
+  if (result == NULL)
+    return NULL;
+  result-&gt;d_type = DT_UNKNOWN;
+  result-&gt;d_ino = 1;            /* <em class="replaceable"><code>Bu girdiyi atla.</code></em> */
+  memcpy (result-&gt;d_name, name, name_length + 1);
+  return result;
+}
+</pre></div></div><br class="example-break" /><p>
+        <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi, yukarıda listelenen <code class="type">struct dirent</code> üyelerini okur ve <strong class="structfield"><code>gl_readdir</code></strong> geri çağırım işlevi geri döndükten hemen sonra <strong class="structfield"><code>d_name</code></strong> üyesindeki dosya adının bir kopyasını oluşturur. Geri çağırım işlevlerinden herhangi birinin gelecekteki çağrıları tamponu serbest bırakabilir veya yeniden kullanabilir. Tamponu <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısı çevresinde veya geri çağırım işlevlerini kullanarak tahsis etmek ve serbest bırakmak, <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevini çağıranın sorumluluğundadır. Örneğin, bir uygulama tamponu <strong class="structfield"><code>gl_readdir</code></strong> geri çağırım işlevinde tahsis edebilir ve <strong class="structfield"><code>gl_closedir</code></strong> geri çağırım işlevinde serbest bırakabilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">void *</code><strong class="structfield"><code>(*gl_opendir)</code></strong><code class="type">(const char *)</code>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="function"><code>opendir</code></strong>  işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>(*gl_stat)</code></strong><code class="type">(const char *, struct stat *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Dosya sistemindeki bir nesne hakkında bilgi döndüren <strong class="function"><code>lstat</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>(*gl_lstat)</code></strong><code class="type">(const char *, struct stat *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Dosya sistemindeki bir nesne hakkında bilgi döndüren, ancak simgesel bağları izlemeyen <strong class="function"><code>lstat</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd></dl></div>
+   </div>
+          <p>
+    <a href="glibc-Globbing.html#glibc-fn-glob64"><strong class="function"><code>glob64</code></strong></a> işlevinde kullanmak üzere <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code> başlık dosyası bu türe çok benzer bir başka tanım daha içerir.  <a href="glibc-Globbing.html#glibc-tp-glob64_t"><strong class="type"><code>glob64_t</code></strong></a> türü <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> türünden sadece  <strong class="structfield"><code>gl_readdir</code></strong>, <strong class="structfield"><code>gl_stat</code></strong> ve <strong class="structfield"><code>gl_lstat</code></strong> elemanlarının farklı türde olması ile farklıdır.
+   </p>
+          <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-glob64_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">glob64_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu veri türü dizge göstericileri dizisine gösterici tutar. Daha açıkçası, bu dizinin adresini ve boyutunu kaydeder. GNU gerçeklenimi standart dışı olarak biraz daha fazla alan içerir.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">size_t </code><strong class="structfield"><code>gl_pathc</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisindeki eleman sayısı; <a href="glibc-Globbing.html#glibc-vr-GLOB_DOOFFS"><strong class="varname"><code>GLOB_DOOFFS</code></strong></a> seçeneği kullanılmışsa baştaki boş girdiler hariç (aşağıdaki <strong class="structfield"><code>gl_offs</code></strong> açıklamasına bakınız).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">char **</code><strong class="structfield"><code>gl_pathv</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gösterici dizisinin adresi.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>gl_offs</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="structfield"><code>gl_pathv</code></strong> alanındaki adresten itibaren ilk gerçek elemanın konumu. Diğer alanların tersine bu alan <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi için daima bir girdidir (diğer alanları işlev doldurur).
+       </p><p>
+        Eğer sıfırdan farklı bir konum belirtilirse, gösterici dizisinin başlangıcından itibaren bazı elemanlar boş kalacaktır. (<a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi oraları boş göstericilerle doldurur.)
+       </p><p>
+        <code class="code">gl_offs</code> alanı sadece <a href="glibc-Globbing.html#glibc-vr-GLOB_DOOFFS"><strong class="varname"><code>GLOB_DOOFFS</code></strong></a> seçeneği etkinse anlamlıdır.  Aksi takdirde bu alanın ne içerdiğine bakılmaksızın konumun sıfır olduğu varsayılır, yani ilk eleman gösterici dizisinin başına konur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>gl_flags</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Glob çağrıldığında kullanılan bayraklar. Ek olarak, <a href="glibc-Globbing.html#glibc-vr-GLOB_MAGCHAR"><strong class="varname"><code>GLOB_MAGCHAR</code></strong></a> atanmış olabilir. Daha fazla ayrıntı  <a class="xref" href="glibc-Globbing.html#glibc-Flags-for-Globbing" title="10.2.2. Genelleme Seçenekleri">Genelleme Seçenekleri</a> bölümünde bulunabilir.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">void </code><strong class="structfield"><code>(*gl_closedir)</code></strong><code class="type">(void *)</code>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="function"><code>closedir</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">struct dirent64 *</code><strong class="structfield"><code>(*gl_readdir)</code></strong><code class="type">(void *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Bir dizinin içeriğini okumakta kullanılan <strong class="function"><code>readdir</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur ve <code class="type">struct dirent</code> yapısının aşağıdaki alanlarının ilklendirilmesini gerektirir:
+       </p></dd><dt><span class="glossterm">
+       <code class="type">void *</code><strong class="structfield"><code>(*gl_opendir)</code></strong><code class="type">(const char *)</code>
+      </span></dt><dd class="glossdef"><p>
+        <strong class="function"><code>opendir</code></strong>  işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>(*gl_stat)</code></strong><code class="type">(const char *, struct stat64 *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Dosya sistemindeki bir nesne hakkında bilgi döndüren <strong class="function"><code>lstat</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>(*gl_lstat)</code></strong><code class="type">(const char *, struct stat64 *)</code>
+      </span></dt><dd class="glossdef"><p>
+        Dosya sistemindeki bir nesne hakkında bilgi döndüren, ancak simgesel bağları izlemeyen <strong class="function"><code>lstat</code></strong> işlevinin başka bir gerçekleniminin adresi. <a href="glibc-Globbing.html#glibc-vr-GLOB_ALTDIRFUNC"><strong class="varname"><code>GLOB_ALTDIRFUNC</code></strong></a> seçeneği etkinse kullanılır.
+       </p><p>
+        Bu alan bir GNU oluşumudur.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-glob" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">glob</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">pattern</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code>int (*<em class="parameter"><code>errfunc</code></em>)
+    (const char *<em class="parameter"><code>filename</code></em>, int <em class="parameter"><code>error-code</code></em>)</code><strong><code>, </code></strong><code class="type">glob_t </code><strong class="type">*</strong><strong><code class="parameter">vector-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:utent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-sig">sig</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ALRM</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-timer">timer</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">glob</code> işlevi <em class="parameter"><code>pattern</code></em> kalıbını kullanarak geçerli dizin içinde genelleme yapar. Sonuçları yeni ayırdığı gösterici dizisine yerleştirir ve bu dizinin adresi ile boyutunu  <em class="parameter"><code>vector-ptr</code></em> içine koyar.  <em class="parameter"><code>flags</code></em> bağımsız değişkeni seçenek bitlerinin birleşimidir; bu seçenekler hakkında ayrıntılı bilgi <a class="xref" href="glibc-Globbing.html#glibc-Flags-for-Globbing" title="10.2.2. Genelleme Seçenekleri">Genelleme Seçenekleri</a> bölümünde bulunabilir.
+   </p>
+   <p>
+    Genellemenin sonucu dosya isimleri dizisidir. <code class="code">glob</code> işlevi her sonuç dizgesi için bir dizge ve bu dizgelerin adreslerini saklamak için <code class="type">char ** </code> türünde bir gösterici dizisi ayırır. Dizinin son elemanı boş göstericidir. Bu gösterici dizisine <em class="firstterm">dizge göstericileri dizisi</em> denir.
+    </p>
+    <p>
+     Bu diziyi döndürmek için dizinin adres ve uzunluğu (sonlandırıcı boş gösterici dışında dizge gösterici sayısı) *<em class="parameter"><code>vector-ptr</code></em> içinde saklanır.
+    </p>
+    <p>
+     Normalde, <code class="code">glob</code> işlevi dosya isimlerini döndürmeden önce abecesel sıraya sokar. Bu <a href="glibc-Globbing.html#glibc-vr-GLOB_NOSORT"><strong class="varname"><code>GLOB_NOSORT</code></strong></a> seçeneği kullanılmadan yapılabilir ve sonuç daha çabuk alınabilir. Genellikle, sıralamayı  <code class="code">glob</code> işlevine yaptırmak daha iyidir. Eğer dosyalar abecesel sırayla görüntülenirse, kullanıcı işlem hızının  yazılımdan kaynaklandığını sanacaktır.
+    </p>
+    <p>
+     <code class="code">glob</code> başarılı olursa <code class="code">0</code> ile döner.  Aksi takdirde şu hata kodlarından biri ile döner:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">GLOB_ABORTED</code></span></dt><dd><p>
+        Bir dizini açarken bir hata oluşmuş ya <span class="command"><strong>GLOB_ERR</strong></span> seçeneği kullanılmış ya da <code class="varname">hata-işlevi</code>'nin sıfırdan farklı bir değer döndürmesi sağlanmış. <span class="command"><strong>GLOB_ERR</strong></span> seçeneği ve <code class="varname">hata-işlevi</code> ile ilgili açıklamalar için <a class="xref" href="glibc-Globbing.html#glibc-Flags-for-Globbing" title="10.2.2. Genelleme Seçenekleri">Genelleme Seçenekleri</a> bölümüne bakınız.
+       </p></dd><dt><span class="term"><code class="code">GLOB_NOMATCH</code></span></dt><dd><p>
+        Kalıp mevcut dosyaların hiçbiriyle eşleşmedi. <span class="command"><strong>GLOB_NOCHECK</strong></span> seçeneğini belirtirseniz bu hatayı asla almazsınız, çünkü bu seçenek <span class="command"><strong>glob</strong></span>'a en azından bir dosya eşleşmiş <em class="emphasis">gibi</em> davranmasını söyler.
+       </p></dd><dt><span class="term"><code class="code">GLOB_NOSPACE</code></span></dt><dd><p>
+        Sonuçlar için ayrılacak bellek yok.
+       </p></dd></dl></div>
+    <p>
+     Bir hata durumunda <code class="code">glob</code>, bulduğu tüm eşleşmeler hakkındaki bilgiyi <code class="code">*<em class="parameter"><code>vector-ptr</code></em></code> dosyasında saklar.
+    </p>
+    <p>
+     LFS arabirimleri olmadan işlenemeyen dizinler veya dosyalarla karşılaştığında <code class="code">glob</code> işlevinin başarısız olmayacağını fark etmek önemlidir. <code class="code">glob</code> gerçekleniminin bu işlevleri dahili olarak kullanması beklenir. En azından Unix standardı bunun böyle olacağını varsayar. Kullanıcının kendi dizin işleme ve istatistik işlevlerini sağlamasına izin veren GNU oluşumu, işleri biraz daha karmaşık duruma getirir. Bu geri çağırım işlevleri kullanılırsa ve büyük bir dosya veya dizinle karşılaşılırsa, <code class="code">glob</code> başarısız olabilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-glob64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">glob64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">pattern</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code>int (*<em class="parameter"><code>errfunc</code></em>)
+     (const char *<em class="parameter"><code>filename</code></em>, int <em class="parameter"><code>error-code</code></em>)</code><strong><code>, </code></strong><code class="type">glob64_t </code><strong class="type">*</strong><strong><code class="parameter">vector-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:utent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-sig">sig</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ALRM</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-timer">timer</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">glob64</code> işlevi büyük dosya arayüzünün parçası olarak eklenmiştir, ancak kullanılan arayüz özgün LFS arayüzü değildir. Bunun sebebi basittir: Gereksizdir. <code class="code">glob64</code> işlevi için gerekli olan herşey GNU oluşumunun kullanıcıya kendi dizin elde etme yöntemini sağlamasıyla ve <strong class="function"><code>stat</code></strong> işlevleriyle eklenmiştir. <code class="type">struct dirent</code> ve <code class="type">struct stat</code> veri türleri <a href="glibc-Feature-Test-Macros.html#glibc-vr_FILE_OFFSET_BITS"><strong class="varname"><code>_FILE_OFFSET_BITS</code></strong></a> seçimine bağlı olduğundan <strong class="function"><code>readdir</code></strong> ve <strong class="function"><code>stat</code></strong> işlevleri bu seçime bağlı olarak çalışır.
+    </p>
+    <p>
+     Bu farkların dışında <code class="code">glob64</code> tamamen <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> gibi çalışır.
+    </p>
+    <p>
+     Bu işlev bir GNU oluşumudur.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Flags-for-Globbing">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.2.2. Genelleme Seçenekleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu bölümde <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevinin <em class="parameter"><code>flags</code></em> bağımsız değişkeninde belirtilebilecek seçenekler açıklanmıştır. Seçenekler C'nin bit seviyesi VEYA işleci olan <span class="command"><strong>|</strong></span> işleci kullanılarak birlikte belirtilebilir.
+   </p>
+          <p>
+    GNU oluşumu olarak bu seçeneklerden başka <a class="xref" href="glibc-Globbing.html#glibc-More-Flags-for-Globbing" title="10.2.3. Diğer Genelleme Seçenekleri">Diğer Genelleme Seçenekleri</a> de vardır.
+   </p>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_APPEND" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_APPEND</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Önceki bir <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısı ile üretilen dizge göstericileri dizisine bu genişletmeden dizgeler eklenir. İşlem bir dizgeye aralarında boşluklar bırakarak yeni sözcükler eklenmesi gibidir.
+    </p>
+    <p>
+     Ekleme işlemi sırasında, <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısından önce dizge göstericileri dizisine ilişkin bilgileri içeren yapının içeriğinde değişiklik yapılmamalıdır. Eğer ilk çağrıda <a href="glibc-Globbing.html#glibc-vr-GLOB_DOOFFS"><strong class="varname"><code>GLOB_DOOFFS</code></strong></a> seçeneği kullanılmışsa, ekleme amacıyla yapılan çağrıda da bu seçenek kullanılmalıdır.
+    </p>
+    <p>
+     Yapının <strong class="structfield"><code>gl_pathv</code></strong> üyesindeki gösterici ikinci <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısından sonra artık geçerli olmayacaktır, çünkü <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi diziyi yeniden ayırır. Böylece her <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısından sonra <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> yapısının <strong class="structfield"><code>gl_pathv</code></strong> üyesinden doğru gösterici elde edilir; çağrılar arasında gösterici <em class="wordasword">asla</em> saklanmamalıdır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_DOOFFS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_DOOFFS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Gösterici dizisinin başlangıcında boş elemanlar bırakır. <strong class="structfield"><code>gl_offs</code></strong> alanında bunun sayısı belirtilir. Boş elemanlar boş gösterici içerir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_ERR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_ERR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Eğer <em class="parameter"><code>pattern</code></em> kalıbının eşleştirilmesi sırasında okunması gereken dizinlerin okunmasında zorluk varsa, bir hata bildirilir ve hemen çıkılır. Okunmak istenen dizinin erişim izinlerinin yetersizliği bu zorluklardan biridir.
+    </p>
+    <p>
+     <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısında hataları elde edebilen bir <em class="parameter"><code>errfunc</code></em> işlevi belirterek bu hatalar üzerinde daha fazla denetim sağlanabilir. <em class="parameter"><code>errfunc</code></em> olarak boş gösterici belirtilmemişse, <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> bir dizini okuyamadığında hemen çıkmaz, iki bağımsız değişken ile şuna benzer biçimde <em class="parameter"><code>errfunc</code></em> işlevini çağırır:
+    </p>
+    <pre class="literallayout monospaced">(*<em class="parameter"><code>errfunc</code></em>) (<em class="parameter"><code>dosyaismi</code></em>, <em class="parameter"><code>hatakodu</code></em>)
+</pre>
+    <p>
+     <em class="parameter"><code>dosyaismi</code></em> <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevinin açamadığı ya da okuyamadığı dizinin ismidir, <em class="parameter"><code>hatakodu</code></em> ise <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> tarafından raporlanan <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeridir.
+    </p>
+    <p>
+     Hata işleyici işlev sıfırdan farklı bir değerle dönerse <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> hemen döner, aksi takdirde işleme devam eder.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_MARK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_MARK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Kalıp dizin ismiyle eşleşirse, dizin ismi döndürülürken ismine ‘<code class="filename">/</code>’ eklenir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_NOCHECK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_NOCHECK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Eğer kalıp hiçbir dosya ismiyle eşleşmezse, <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> sanki bir eşleşme bulunmuş gibi döner. (Normalde, kalıp hiçbir şeyle eşleşmemişse <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> eşleşme bulunmadığını belirtecek şekilde döner.)
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_NOESCAPE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_NOESCAPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Kalıpta ‘<code class="filename">\</code>’ karakteri özel olarak değil kendisi olarak ele alınır. Normalde, ‘<code class="filename">\</code>’ başka bir karakteri öncelemek için kullanılır. Bu seçenek bu şekilde yorumlanmasını engeller. Önceleme etkinse, ‘<code class="filename">\?</code>’ kalıbı sadece ‘<code class="filename">?</code>’ dizgesiyle eşleşir, çünkü bu biçimde belirtilen soru işareti kalıpta sıradan bir karakter olarak işlem görür.
+    </p>
+    <p>
+     <a href="glibc-Globbing.html#glibc-vr-GLOB_NOESCAPE"><strong class="varname"><code>GLOB_NOESCAPE</code></strong></a> seçeneği etkinse, ‘<code class="filename">\</code>’ bir sıradan karakterdir.
+    </p>
+    <p>
+     <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi <a href="glibc-Wildcard-Matching.html#glibc-fn-fnmatch"><strong class="function"><code>fnmatch</code></strong></a> işlevini defalarca çağırarak çalışır.  <a href="glibc-Globbing.html#glibc-vr-GLOB_NOESCAPE"><strong class="varname"><code>GLOB_NOESCAPE</code></strong></a> seçeneğini <a href="glibc-Wildcard-Matching.html#glibc-fn-fnmatch"><strong class="function"><code>fnmatch</code></strong></a> çağrılarında <a href="glibc-Wildcard-Matching.html#glibc-tp-FNM_NOESCAPE"><strong class="varname"><code>FNM_NOESCAPE</code></strong></a> seçeneğini etkinleştirmek için kullanır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_NOSORT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_NOSORT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dosya isimleri abecesel olarak sıralanmaz; okundukları sırada döndürülür. (Uygulamada sıralama, dosyaların dizine giriş sırasına bağlıdır.) Sıralama yapılmak istenmemesinin tek sebebi <em class="emphasis">zaman kazanmak</em> olabilir.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-More-Flags-for-Globbing">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">10.2.3. Diğer Genelleme Seçenekleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Önceki bölümde açıklanan seçeneklerin yanında <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevinin GNU gerçekleniminde geçerli başka seçenekler de vardır. Bu seçenekler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code> başlık dosyasında tanımlanmıştır.  Bu seçeneklerin bazıları günümüzdeki kabuk gerçeklenimlerinde kullanılan işlevselliği sağlar.
+   </p>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_PERIOD" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_PERIOD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">.</code> (nokta) karakteri özel karakter olarak ele alınır. Bu durumda özel kalıp karakteri olarak eşleştirilmez. Bkz: <a href="glibc-Wildcard-Matching.html#glibc-tp-FNM_PERIOD"><strong class="varname"><code>FNM_PERIOD</code></strong></a>
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_MAGCHAR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_MAGCHAR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">GLOB_MAGCHAR</code> seçeneği <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevinin <em class="parameter"><code>flags</code></em> bağımsız değişkeninde kullanmak için değildir.  <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi bu seçeneği, eğer kalıp, özel kalıp karakterleri içeriyorsa sonucun bu yolla elde edileceğini belirtmek için <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> yapısının <strong class="structfield"><code>gl_flags</code></strong> üyesinde kullanır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_ALTDIRFUNC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_ALTDIRFUNC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek etkinse, <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> gerçeklenimi dosya sistemine erişmek için kütüphanedeki işlevleri değil, kullanıcı tarafından <em class="parameter"><code>vector-ptr</code></em> ile gösterilen yapı içinde belirtilen işlevleri kullanır. Dizinlere erişim için kullanılan işlevler ??? ve ??? bölümlerinde açıklanmıştır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_BRACE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_BRACE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek etkinse kaşlı ayraçlar özel olarak ele alınır. Bu durumda kaşlı ayraçların doğru gruplanması gerekir. Yani kaşlı ayraçlar çiftler halinde olmalıdır. İç içe gruplamalar yapılabilir. Böylece bir gruplama bir diğerini tanımlamakta kullanılabilir. Bir kaşlı ayraç ifadesi, başka bir kaşlı ayraç ifadesinin içinde tanımlanmışsa onun dışına çıkmaması gerektiğine dikkat edilmelidir.
+    </p>
+    <p>
+     Bir kaşlı ayraç grubundaki dizgeler, virgüllerle ayrılarak ayrı ifadeler haline getirilebilir. Bu durumda virgüllerin bu amaçla kullanıldıkları ve dizgelerin virgül içermedikleri varsayılır. Virgül kullanılarak ayrılan ifadeler aynı seviyede olmalıdır. Alt ifadeler kaşlı ayraç içine alınmışsa bunların içindeki virgüller eşleştirilmez.  Kaşlı ayraçlı alt gruplar da daha derin seviyeleri elde etmede kullanılır. Bir kullanım örneği:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">glob ("{foo/{,bar,biz},baz}", GLOB_BRACE, NULL, &amp;result)
+</pre><p>
+     Hatalar gözönüne alınmazsa, şuna eşdeğerdir:
+     </p><pre class="screen">glob ("foo/", GLOB_BRACE, NULL, &amp;result)
+glob ("foo/bar", GLOB_BRACE|GLOB_APPEND, NULL, &amp;result)
+glob ("foo/biz", GLOB_BRACE|GLOB_APPEND, NULL, &amp;result)
+glob ("baz", GLOB_BRACE|GLOB_APPEND, NULL, &amp;result)
+</pre></div></div><br class="example-break" />
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_NOMAGIC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_NOMAGIC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Eğer kalıp herhangi bir özel kalıp karakteri içermiyorsa (doğrudan dosya ismi verilmişse), bu isimde bir dosya yoksa bile bu kalıp dizgesi döndürülür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_TILDE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_TILDE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bu seçenek etkinse ve kalıp yaklaşık işareti (<code class="code">~</code>) ile başlıyorsa, bu karakter özel olarak ele alınır. Bu durumda yaklaşık işaretinin kullanıcının ev dizinini gösterdiği varsayılır.
+    </p>
+    <p>
+     Eğer <code class="code">~</code> kalıptaki tek karakterse ya da onu bir <code class="code">/</code> (eğik çizgi) izliyorsa, bu kalıp sürecin sahibinin ev dizini ile eşleştirilir. Bilgi, <strong class="function"><code>getlogin</code></strong> ve <strong class="function"><code>getpwnam</code></strong> işlevleri kullanılarak sistem veritabanlarından okunur.
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+      Örneğin, ev dizini <code class="filename">/home/bart</code> olan <code class="code">bart</code> kullanıcısı için çağrı şöyle olurdu:
+     </p><pre class="screen">glob ("~/bin/*", GLOB_TILDE, NULL, &amp;result)
+</pre><p>
+      Bu çağrıdan <code class="filename">/home/bart/bin</code> döner. Burada başka bir kullanıcının ev dizini de belirtilebilirdi. Bunun için yaklaşık işaretinden sonra kullanıcının ismini belirtmek yeterlidir.
+     </p><pre class="screen">glob ("~homer/bin/*", GLOB_TILDE, NULL, &amp;result)
+</pre><p>
+      Eğer kullanıcı ismi geçersizse ya da ev dizini bir nedenle saptanamamışsa kalıba dokunulmaksızın kalıp dizgesi sonuç olarak döndürülür. Son örnekte, <code class="code">homer</code> isminde bir kullanıcı yoksa işlev <code class="filename">~homer</code> dizinini aramaz ve sonuç olarak <code class="filename">"~homer/bin/*"</code> dizgesini döndürür.
+     </p><p>
+      Bu işlevsellik C kabuklarında <code class="option">nonomatch</code> seçeneğinin etkin olduğu duruma eşdeğerdir.
+     </p></div></div><br class="example-break" />
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_TILDE_CHECK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_TILDE_CHECK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek belirtilmişse <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi <a href="glibc-Globbing.html#glibc-vr-GLOB_TILDE"><strong class="varname"><code>GLOB_TILDE</code></strong></a> seçeneği verilmiş gibi davranır. Tek fark, belirtilen kullanıcı yoksa ya da bir ev dizini saptanamamışsa kalıp dizgesi döndürülmez ve işlem bir hata ile sonuçlanır.
+    </p>
+    <p>
+     Bu işlevsellik C kabuklarında <code class="option">nonomatch</code> seçeneğinin etkin olmadığı duruma eşdeğerdir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-GLOB_ONLYDIR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/glob.h;hb=HEAD" target="_top">glob.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">GLOB_ONLYDIR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek belirtilmişse, bu, çağrıcının sadece kalıpla eşleşen dizinle ilgilendiğine dair bir <em class="emphasis">ipucu</em> olarak değerlendirilir. Eğer dosya hakkında saptanan bilgi onun bir dizin olmadığını belirtiyorsa bunlar reddedilir ama bunların türünü saptamak için ek bir çalışma yapılmaz. Yani çağrıcı hala bir süzme çalışması yapabilir.
+    </p>
+    <p>
+     Bu işlevsellik sadece GNU <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> gerçeklenimi ile kullanılabilir. Aslında dahili kullanım için düşünülmüşse de kullanıcı için de yararlı olabileceğinden burada belgelenmiştir.
+    </p>
+   </div>
+          <p>
+    <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrısı çoğu durumda döndürdüğü sonucu saklamak için özkaynak ayırır. <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> işlevi hep aynı <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> nesnesi ile çağrılsa bile her çağrıda özkaynaklar önce serbest bırakılıp sonra tekrar tahsis edildiğinden bir kaçak oluşmaz. Fakat bu işlem her çağrıda hep aynı süre içinde olmaz.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-globfree" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">globfree</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">glob_t </code><strong class="type">*</strong><strong><code class="parameter">pglob</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">globfree</code> işlevi önceki <a href="glibc-Globbing.html#glibc-fn-glob"><strong class="function"><code>glob</code></strong></a> çağrılarında <em class="parameter"><code>pglob</code></em> ile gösterilen nesne için ayrılan yeri serbest bırakır. Bu <a href="glibc-Globbing.html#glibc-tp-glob_t"><strong class="type"><code>glob_t</code></strong></a> türündeki nesne artık kullanılmayacaksa bu işlev çağrılarak bu alan serbest bırakılmalıdır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-globfree64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/search.h;hb=HEAD" target="_top">search.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">globfree64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">glob64_t </code><strong class="type">*</strong><strong><code class="parameter">pglob</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+    Bu işlev <a href="glibc-Globbing.html#glibc-fn-globfree"><strong class="function"><code>globfree</code></strong></a> işlevinin benzeridir, farklı olarak <a href="glibc-Globbing.html#glibc-fn-glob64"><strong class="function"><code>glob64</code></strong></a> işlevi ile ayrılan bir <a href="glibc-Globbing.html#glibc-tp-glob64_t"><strong class="type"><code>glob64_t</code></strong></a> nesnesini serbest bırakmak için kullanılır.
+    </p>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

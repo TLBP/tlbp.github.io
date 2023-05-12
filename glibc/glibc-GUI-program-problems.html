@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8.2.1.6. Görsel Arayüzlü Yazılımlarının Sorunları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Charset-conversion-in-gettext.html')">Önceki</button>
+          <div class="dropdown-content">8.2.1.5. <code class="code">gettext</code>'te Karakter Kümesi Dönüşümü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Message-catalogs-with-gettext.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Using-gettextized-software.html')">Sonraki</button>
+          <div class="dropdown-content">8.2.1.7. <code class="code">gettext</code> Kullanan Yazılımların Kullanımı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-GUI-program-problems">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">8.2.1.6. Görsel Arayüzlü Yazılımlarının Sorunları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevlerinin büyük sorunlara yol açtığı kullanım yerlerinden biri görsel arayüzlü yazılımlardır. Burada sorun çevrilecek iletilerin çoğunun çok kısa olması gerekliliğinden kaynaklanır. Bunlara genellikle menülerde rastlanır. Bu dizgeler tam bir cümle içeremedikleri gibi bir dilde aynı olan dizgelerin diğer dillerde farklı olabilmesi sorun oluşturur. Bu tek sözcüklük dizgelerde iyice belirginleşir.
+    </p>
+        <p>
+     Çoğu kimse, <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> yaklaşımı yerine bu sorunun görülmediği <a href="glibc-The-catgets-Functions.html#glibc-fn-catgets"><strong class="function"><code>catgets</code></strong></a> işlevlerinin kullanılması gerektiğini söyler.  Ancak, bu sorunları <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevleri kullanıldığında aşmanın çok basit ve oldukça güçlü bir yöntemi vardır.
+    </p>
+        <p>
+     Görsel arayüzlü bir yazılımın şöyle bir menüsü olduğu varsayılsın:
+    </p>
+        <pre class="literallayout monospaced">+------------+------------+--------------------------------------+
+| File       | Printer    |                                      |
++------------+------------+--------------------------------------+
+| Open     | | Select   |
+| New      | | Open     |
++----------+ | Connect  |
+             +----------+
+</pre>
+        <p>
+     Kodun bazı yerlerinde <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> ailesinden işlevlerde <code class="code">File</code>, <code class="code">Printer</code>, <code class="code">Open</code>, <code class="code">New</code>, <code class="code">Select</code> ve <code class="code">Connect</code> dizgelerinin çevirilerine erişildiği varsayılsın. Ancak dikkat edilirse iki yerde işleve aktarılan dizge  <code class="code">Open</code> olacaktır.  Yukarıda açıklanan açmazdan dolayı bu dizgenin çevirileri aynı olmayabilecektir.
+    </p>
+        <p>
+     Bu sorunun çözümlerinden biri belirsizliği ortadan kaldırmak için dizgeyi yapay olarak uzatmak ama çevirmenden sadece asıl dizgeyi çevirmesini istemektir. Fakat bir çeviri bulunamadığında yazılım ne yapacak? Uzatılan dizge basılamaz. O halde işlevin biraz değiştirilmiş bir sürümünü kullanmak gerekir.
+    </p>
+        <p>
+     Dizgenin uzatılmasında tektip bir yönteme ihtiyaç vardır. Örneğin, yukarıdaki örnek için uzatılmış dizgeler şöyle seçilebilir:
+    </p>
+        <pre class="literallayout monospaced">Menu|File
+Menu|Printer
+Menu|File|Open
+Menu|File|New
+Menu|Printer|Select
+Menu|Printer|Open
+Menu|Printer|Connect
+</pre>
+        <p>
+     Böylece dizgelerin hepsi farklı oldu. Eğer <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi aşağıdaki işlevle kullanılırsa herşey istendiği gibi olacaktır:
+     <span id="glibc-fn-sgettext" class="indexterm"></span>
+    </p>
+        <pre class="screen">char *
+sgettext (const char *msgid)
+{
+  char *msgval = gettext (msgid);
+  if (msgval == msgid)
+    msgval = strrchr (msgid, '|') + 1;
+  return msgval;
+}
+</pre>
+        <p>
+     Bu küçük işlevin tek yaptığı bir çevirinin bulunmadığı zaman uzatılmış dizgeden özgün dizgeyi elde etmektir. Dönen değer girdi değeri olduğundan bu işlem doğrudan bir gösterici karşılaştırması olarak yapıldığında daha verimli olur. Bir çevirinin bulunmaması halinde girdi dizgesinin <span class="command"><strong>|</strong></span> karakterini içereceğini bildiğimize göre dizge içinde bu karakterin son görüldüğü yeri bulup bu noktaya bir gösterici döndürmek yeterli olacaktır.
+    </p>
+        <p>
+     Eğer uzatılmış dizgeler tutarlı şekilde kullanılır ve <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> çağrıları <a href="glibc-GUI-program-problems.html#glibc-fn-sgettext"><strong class="function"><code>sgettext</code></strong></a> çağrıları ile değiştirilirse (bunu sadece görsel yazılımda gerektiği yerde yapmak yeterlidir), uluslarasılaştırılabilen bir yazılım üretilebilir.
+    </p>
+        <p>
+     GNU C gibi ileri düzey derleyicilerle <a href="glibc-GUI-program-problems.html#glibc-fn-sgettext"><strong class="function"><code>sgettext</code></strong></a> işlevi bunun gibi satırlaştırılmış bir işlev veya  makro olarak gerçeklenebilir:
+    </p>
+        <pre class="screen">#define sgettext(msgid) \
+  ({ const char *__msgid = (msgid);            \
+     char *__msgstr = gettext (__msgid);       \
+     if (__msgval == __msgid)                  \
+       __msgval = strrchr (__msgid, '|') + 1;  \
+     __msgval; })
+</pre>
+        <p>
+     Diğer <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevleri de (<a href="glibc-Translation-with-gettext.html#glibc-fn-dgettext"><strong class="function"><code>dgettext</code></strong></a>, <a href="glibc-Translation-with-gettext.html#glibc-fn-dcgettext"><strong class="function"><code>dcgettext</code></strong></a> ve <a href="glibc-Advanced-gettext-functions.html#glibc-fn-ngettext"><strong class="function"><code>ngettext</code></strong></a>) benzer şekilde sarmalayıcı bir işlevle kullanılabilir.
+    </p>
+        <p>
+     Şimdi bir soru gelecek akıllara: GNU C Kütüphanesinde neden böyle işlevler yok? Bu sorunun iki şıklı bir yanıtı var:
+    </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+       Yazılması kolaydır, bu bakımdan kullanıldıkları projenin içinde yazılabilir. Bu bir yanıt değil derseniz, ikinci şık ile birlikte değerlendirildiğinde bir şey ifade eder.
+      </p>
+            </li>
+            <li class="listitem">
+              <p>
+       C kütüphanesinde her yerde çalışabilecek bir sürümün bulunmasını sağlayacak bir yöntem yok. Sorun, uzatılmış dizgede asıl dizgenin başına eklenen dizgelerin arasındaki karakterin seçiminden kaynaklanıyor. Yukarıdaki örnekte kullanılan <code class="code">|</code> karakteri bu tür bağlamlarda sıkça kullanılan bir ayraç karakteri olarak iyi bir seçimdir ama ileti dizgelerinde de sık kullanılan bir karakterdir.
+      </p>
+              <p>
+       <span id="glibc-pg-iso646h" class="indexterm"></span>
+       Eğer bu ayraç karakteri ileti dizgesinde de kullanılmışsa ne olacak? Ya da ayraç karakteri kodun derlendiği makinede yoksa ne olacak (örneğini ISO C için <code class="code">|</code> karakteri gerekli değildir; bu nedenle ISO C yazılım geliştirme ortamında ayrıca bir <code class="filename"><a class="filename" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/ginclude/iso646.h;hb=HEAD" target="_top">iso646.h</a></code> dosyası vardır).
+      </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+     Yalnızca bir açıklama daha kaldı. Yukarıdaki sarmalayıcı işlev uzatılmış dizgenin tamamının çevrilmeyeceği esasına dayandırılmıştır. Mantık bunu gerektirdiği için böyle yapılmıştır. Çeviri, arama için bir anahtar olarak kullanılmadığından neyi nasıl içerdiğinin bir önemi yoktur, hem gereksiz bellek harcamanın da alemi yok.
+    </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

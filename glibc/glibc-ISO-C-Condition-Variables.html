@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>35.1.5. Koşul Değişkenleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-ISO-C-Mutexes.html')">Önceki</button>
+          <div class="dropdown-content">35.1.4. Karşılıklı Dışlayıcılar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-ISO-C-Threads.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-ISO-C-Thread-local-Storage.html')">Sonraki</button>
+          <div class="dropdown-content">35.1.6. Evreye Özel Depolama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-ISO-C-Condition-Variables">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">35.1.5. Koşul Değişkenleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm105795" class="indexterm"></span>
+    <span id="idm105798" class="indexterm"></span>
+    Karşılıklı dışlayıcılar, kullanılabilen tek eşzamanlama oluşumu değildir. GNU C Kütüphanesi bazı daha karmaşık görevler için yazılımcının karmaşık eşzamanlama sorunlarını çözerken daha yüksek seviyede düşünmesini sağlayan koşul değişkenlerini gerçeklemiştir. Bunlar belirli bir koşulun gerçekleşmesini bekleyen evreleri eşzamanlamak için kullanılır.
+   </p>
+        <p>
+    <code class="code">cnd_t</code> koşul değişkenleri için temel veri türüdür:
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-cnd_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">cnd_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Koşul değişkeni nesnesini tanımlayan eşsiz veri türüdür.
+    </p>
+   </div>
+        <p>
+    Koşul değişkenlerle çalışırken kullanılan işlevler:
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_init" class="indexterm"></span>
+    <span id="glibc-fn-cnd_init" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_init</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">cnd_init</code> işlevi <em class="parameter"><code>cond</code></em> koşul değişkenini ilklendirir.
+    </p>
+    <p>
+     Bu işlev ya <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ya da <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_error"><strong class="varname"><code>thrd_error</code></strong></a> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_signal" class="indexterm"></span>
+    <span id="glibc-fn-cnd_signal" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_signal</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">cnd_signal</code> işlevi <em class="parameter"><code>cond</code></em> koşul değişkeninde beklemekte olan tek bir evrenin engelini kaldırır. Evrenin engeli başarıyla kaldırılmışsa işlev <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ile döner. Engellenen evre yoksa işlev hiçbir şey yapmaz ve <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ile döner. Aksi takdirde <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_error"><strong class="varname"><code>thrd_error</code></strong></a> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_broadcast" class="indexterm"></span>
+    <span id="glibc-fn-cnd_broadcast" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_broadcast</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">cnd_broadcast</code> işlevi <em class="parameter"><code>cond</code></em> koşul değişkeninde beklemekte olan tüm evrelerin engelini kaldırır. başarı durumunda işlev <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ile döner. Engellenen evre yoksa işlev hiçbir şey yapmaz ve <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ile döner. Aksi takdirde <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_error"><strong class="varname"><code>thrd_error</code></strong></a> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_wait" class="indexterm"></span>
+    <span id="glibc-fn-cnd_wait" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_wait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>, </code></strong><code class="type">mtx_t </code><strong class="type">*</strong><strong><code class="parameter">mutex</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">cnd_wait</code> işlevi, karşılıklı dışlayıcısı <em class="parameter"><code>mutex</code></em> olan evrenin kilidini kaldırır ve evreyi <a href="glibc-ISO-C-Condition-Variables.html#glibc-fn-cnd_signal"><strong class="function"><code>cnd_signal</code></strong></a> veya <a href="glibc-ISO-C-Condition-Variables.html#glibc-fn-cnd_broadcast"><strong class="function"><code>cnd_broadcast</code></strong></a> ile sinyallenene kadar <em class="parameter"><code>cond</code></em> koşul değişkeninde beklemeye alır. Evre işlev dönmeden hemen önce <em class="parameter"><code>mutex</code></em> karşılıklı dışlayıcısı ile tekrar kilitlenir.
+    </p>
+    <p>
+     Bu işlev ya <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ya da <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_error"><strong class="varname"><code>thrd_error</code></strong></a> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_timedwait" class="indexterm"></span>
+    <span id="glibc-fn-cnd_timedwait" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_timedwait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t *restrict </code> <strong><code class="parameter">cond</code></strong><strong><code>, </code></strong><code class="type">mtx_t *restrict </code> <strong><code class="parameter">mutex</code></strong><strong><code>, </code></strong><code class="type">const struct timespec *restrict </code> <strong><code class="parameter">time_point</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">cnd_timedwait</code> işlevi, karşılıklı dışlayıcısı <em class="parameter"><code>mutex</code></em> olan evrenin kilidini kaldırır ve evreyi <a href="glibc-ISO-C-Condition-Variables.html#glibc-fn-cnd_signal"><strong class="function"><code>cnd_signal</code></strong></a> veya <a href="glibc-ISO-C-Condition-Variables.html#glibc-fn-cnd_broadcast"><strong class="function"><code>cnd_broadcast</code></strong></a> ile sinyallenene kadar <em class="parameter"><code>cond</code></em> koşul değişkeninde veya <em class="parameter"><code>time_point</code></em> ile gösterilen takvim zamanına kadar ya da bilinmeyen bir nedenle engeli kaldırılana kadar beklemeye alır. Evre işlev dönmeden hemen önce <em class="parameter"><code>mutex</code></em> karşılıklı dışlayıcısı ile tekrar kilitlenir.
+    </p>
+    <p>
+     <a href="glibc-ISO-C-Mutexes.html#glibc-fn-mtx_timedlock"><strong class="function"><code>mtx_timedlock</code></strong></a> işlevindeki gibi, işlev zaman olarak mutlak zaman aldığından süre gerekliyse takvim zamanın elle hesaplanması gerekir. Bkz: ???, ???.
+    </p>
+    <p>
+     Bu işlev ya <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_success"><strong class="varname"><code>thrd_success</code></strong></a> ya da <a href="glibc-ISO-C-Threads-Return-Values.html#glibc-vr-thrd_error"><strong class="varname"><code>thrd_error</code></strong></a> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-cnd_destroy" class="indexterm"></span>
+    <span id="glibc-fn-cnd_destroy" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/threads.h" target="_top">threads.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">cnd_destroy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cnd_t </code><strong class="type">*</strong><strong><code class="parameter">cond</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">cnd_destroy</code> işlevi <em class="parameter"><code>cond</code></em> koşul değişkenini yok eder. Değişken üzerinde bekleyen evreler varsa davranış tanımsızdır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>
