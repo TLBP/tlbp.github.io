@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.20.2. Tamponların Boşaltılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Buffering-Concepts.html')">Önceki</button>
+          <div class="dropdown-content">12.20.1. Tamponlama Kavramları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Stream-Buffering.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Controlling-Buffering.html')">Sonraki</button>
+          <div class="dropdown-content">12.20.3. Tamponlama Çeşidinin Seçimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Flushing-Buffers">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.20.2. Tamponların Boşaltılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm110384" class="indexterm"></span>
+    <em class="wordasword">Boşaltma</em>, bir tamponlu akımın biriken karakterleri bir dosyaya çıktılamasıdır. Bir akım üzerindeki tamponlu çıktının özdevinimli olarak boşaltılması çeşitli durumlarda ortaya çıkar:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+     Çıktı tamponu dolduğu halde ve çıktılama yapılmaya çalışılmıştır.
+    </li>
+            <li class="member">
+     Akım kapatılıyordur. Bkz.  <a class="xref" href="glibc-Closing-Streams.html" title="12.4. Akımların Kapatılması"><em>Akımların Kapatılması</em></a>.
+    </li>
+            <li class="member">
+     <strong class="function"><code>exit</code></strong> çağrısı ile uygulama sonlandırılıyordur. Bkz. ???.
+    </li>
+            <li class="member">
+     Akım satır tamponludur ve bir satır sonu karakteri yazılmıştır.
+    </li>
+            <li class="member">
+     Akım veriyi dosyadan okurken bir girdi işlemi vardır.
+    </li>
+          </ul>
+        </div>
+        <p>
+    Bunların dışında tamponlu bir çıktının boşaltılması istenirse <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiş olan <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> işlevi çağrılır.
+    <span id="idm110400" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fflush" class="indexterm"></span>
+    <span id="glibc-cp-fflush" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fflush</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>stream</code></em> üzerindeki tamponlu çıktının dosyaya teslimini sağlar. Eğer <em class="parameter"><code>stream</code></em> boş gösterici ise <code class="code">fflush</code>, tamponlu çıktının tüm açık çıktı akımlarına boşaltılmasına sebep olur.
+    </p>
+    <p>
+     Bir yazma hatası oluşursa, bu işlev <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> döndürür. Aksi takdirde sıfır döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fflush_unlocked" class="indexterm"></span>
+    <span id="glibc-cp-fflush_unlocked" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fflush_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">fflush_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> işlevi ile aynıdır.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> işlevi o an açık olan tüm akımları boşaltmak için kullanılabilir. Bu bazı durumlarda kullanışlıdır ama bazı durumlarda da gereklidir. Örneğin, uçbirimden girdi bekleyen bir uygulama için, uçbirimde tüm çıktının görünür olması istenir. Fakat bu sadece satır tamponlu akımlar için anlamlıdır. Solaris özellikle bu durum için bir işlev içerir. Bu işlev GNU C Kütüphanesinde birtakım şekillerde hep vardı ama hiçbir zaman resmen var denilmedi.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-flushlbf" class="indexterm"></span>
+    <span id="glibc-cp-flushlbf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">_flushlbf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">_flushlbf</code> işlevi o an açık bulunan tüm satır tamponlu akımları boşaltır.
+    </p>
+   </div>
+        <div class="admon note">
+          <h3 class="admon-title">Uyumluluk Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     Satır yönlenimli girdi ve çıktıya saplantılı olduğu bilinen kafa travması geçirmiş bazı işletim sistemlerinde satır tamponlu çıktının boşaltılması bir satır sonu karakterinin de yazılmasına sebep olur. Bereket versin ki bu "özellik" giderek daha az kullanılır olmaya doğru gidiyor. GNU C Kütüphanesiinde bundan dolayı kaygılanılmasına gerek yoktur.
+    </p>
+          </div>
+        </div>
+        <p>
+    Bazı durumlarda bekleyen çıktının boşaltılması yerine unutulması daha kullanışlı olabilir. Eğer aktarımın bedeli yüksekse ve geçerli bir sebep yoksa çıktılama gerekmez. Bu gibi durumlar için Solaris’te standart dışı bir işlev vardır ve GNU C Kütüphanesinde de bulunmaktadır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fpurge" class="indexterm"></span>
+    <span id="glibc-cp-fpurge" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">__fpurge</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">__fpurge</code> işlevi <em class="parameter"><code>stream</code></em> akımının tamponunun temizlenmesini sağlar. Akım zaten okuma kipindeyse tampondaki tüm girdi kaybolur. Çıktılama kipindeyse tamponlu çıktı aygıta (veya igili saklama alanına) yazılmaz ve tampon temizlenir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

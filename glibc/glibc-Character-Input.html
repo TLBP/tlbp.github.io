@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.8. Karakter Girdilerinin Alınması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Simple-Output.html')">Önceki</button>
+          <div class="dropdown-content">12.7. Karakterlerin ve Satırların Basit Çıktılanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Line-Input.html')">Sonraki</button>
+          <div class="dropdown-content">12.9. Satır Yönlenimli Girdi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Character-Input">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.8. Karakter Girdilerinin Alınması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm105212" class="indexterm"></span>
+   <span id="idm105216" class="indexterm"></span>
+   <span id="idm105218" class="indexterm"></span>
+   Bu kısımda girdi olarak karakter alan işlevler açıklanmıştır. Bu kısımdaki dar yönlenimli akım işlevleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında, geniş yönlenimli akım işlevleri ise <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <p>
+   Bu işlevler bir karakter girdisinde, dar yönlenimli ise bir <code class="type">int</code> türünden değerle, geniş yönlenimli ise bir <code class="type">wint_t</code> türünden bir değerle ya da <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a>/<a href="glibc-Extended-Char-Intro.html#glibc-vr-WEOF"><strong class="varname"><code>WEOF</code></strong></a> özel değeri (genellikle <code class="code">-1</code>) ile döner.
+  </p>
+        <p>
+   Dar yönlenimli akım işlevleri için, işlev sonucunun bir karakter olarak kullanılması tasarlanıyor olsa bile, bu işlevlerin sonucunun <code class="type">char</code> türü yerine <code class="type">int</code> türünden bir değişkene atanması önemlidir. <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> değerinin <code class="type">char</code> türünden bir değişkene atanması onun bir karakterlik boyuta indirilmesine sebep olur ki bu durumda artık geçerli bir karakterden (<code class="code">(char) -1</code>) farkı kalmaz. Bu durumda, <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> ve arkadaşlarının daima <code class="type">int</code> türünden bir değişkene atanarak çağrılması ve dönen değerin <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> olup olmadığına bakılması gerekir. Dönen değer <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> değilse  artık <code class="type">char</code> türünden bir değişkene bilgi kaybı olmadan atanabilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetc" class="indexterm"></span>
+   <span id="glibc-cp-fgetc" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fgetc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>stream</code></em> akımındaki sonraki karakteri bir <code class="type">unsigned char</code> olarak okur ve değerini <code class="type">int</code> türüne dönüştürerek döndürür. Bir dosya sonu durumunda ya da bir hata oluştuğunda hata durumu yerine <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> ile döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetwc" class="indexterm"></span>
+   <span id="glibc-cp-fgetwc" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">fgetwc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>stream</code></em> akımındaki sonraki geniş karakteri okur ve değerini döndürür. Bir dosya sonu durumunda ya da bir hata oluştuğunda hata durumu yerine <a href="glibc-Extended-Char-Intro.html#glibc-vr-WEOF"><strong class="varname"><code>WEOF</code></strong></a> ile döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetc_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-fgetc_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fgetc_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">fgetc_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-fgetc"><strong class="function"><code>fgetc</code></strong></a> işlevine eşdeğerdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetwc_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-fgetwc_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">fgetwc_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">fgetwc_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-fgetwc"><strong class="function"><code>fgetwc</code></strong></a> işlevine eşdeğerdir.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getc" class="indexterm"></span>
+   <span id="glibc-cp-getc" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Birçok sistemin daha hızlı olması için bir makro olarak gerçeklemesi dışında tamamen <a href="glibc-Character-Input.html#glibc-fn-fgetc"><strong class="function"><code>fgetc</code></strong></a> gibidir. Makrolar için genel kurala bir istisna olarak <em class="parameter"><code>stream</code></em> bağımsız değişkenini bir kereden fazla değerlendirebilmesi işleve önem kazandırır. Genellikle <code class="code">getc</code> işlevi tek bir karakterin okunması için kullanılacak en iyi işlevdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getwc" class="indexterm"></span>
+   <span id="glibc-cp-getwc" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">getwc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Birçok sistemin daha hızlı olması için bir makro olarak gerçeklemesi dışında tamamen <a href="glibc-Character-Input.html#glibc-fn-fgetwc"><strong class="function"><code>fgetwc</code></strong></a> gibidir. Makrolar için genel kurala bir istisna olarak <em class="parameter"><code>stream</code></em> bağımsız değişkenini bir kereden fazla değerlendirebilmesi işleve önem kazandırır. Genellikle <code class="code">getwc</code> işlevi tek bir geniş karakterin okunması için kullanılacak en iyi işlevdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getc_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-getc_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getc_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getc_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> işlevine eşdeğerdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getwc_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-getwc_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">getwc_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getwc_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-getwc"><strong class="function"><code>getwc</code></strong></a> işlevine eşdeğerdir.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getchar" class="indexterm"></span>
+   <span id="glibc-cp-getchar" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getchar</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getchar</code> işlevi <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> işlevinin <em class="parameter"><code>stream</code></em> bağımsız değişkenine değer olarak <a href="glibc-Standard-Streams.html#glibc-vr-stdin"><strong class="varname"><code>stdin</code></strong></a> belirtilerek çağrılmasına eşdeğerdir. Yani bu işlev bir karakteri doğrudan standart girdiden okur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getwchar" class="indexterm"></span>
+   <span id="glibc-cp-getwchar" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">getwchar</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getwchar</code> işlevi <a href="glibc-Character-Input.html#glibc-fn-getwc"><strong class="function"><code>getwc</code></strong></a> işlevinin <em class="parameter"><code>stream</code></em> bağımsız değişkenine değer olarak <a href="glibc-Standard-Streams.html#glibc-vr-stdin"><strong class="varname"><code>stdin</code></strong></a> belirtilerek çağrılmasına eşdeğerdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getchar_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-getchar_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getchar_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stdin</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getchar_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-getchar"><strong class="function"><code>getchar</code></strong></a> işlevine eşdeğerdir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getwchar_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-getwchar_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">getwchar_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stdin</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getwchar_unlocked</code> işlevi akımı örtük olarak kilitlememesi dışında <a href="glibc-Character-Input.html#glibc-fn-getwchar"><strong class="function"><code>getwchar</code></strong></a> işlevine eşdeğerdir.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Aşağıda <a href="glibc-Character-Input.html#glibc-fn-fgetc"><strong class="function"><code>fgetc</code></strong></a> kullanarak girdi alan bir işlev örneği vardır. İşlev <code class="code">fgetc (stdin)</code> yerine <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> ya da <a href="glibc-Character-Input.html#glibc-fn-getchar"><strong class="function"><code>getchar</code></strong></a> kullanarak da çalışırdı. Kod ayrıca geniş yönlenimli akım işlevleri için de aynı şekilde çalışırdı.
+  </p>
+            <pre class="screen">int
+e_veya_h (const char *soru)
+{
+  fputs (soru, stdout);
+  while (1)
+    {
+      int c, cevap;
+      /* <em class="replaceable"><code>Bir boşluk ile yanıtı sorudan ayır.</code></em> */
+      fputc (' ', stdout);
+      /* <em class="replaceable"><code>Satırdan ilk karakteri oku.
+         Bu yanıt karakteri olmalı ama olmayabilir.</code></em> */
+      c = tolower (fgetc (stdin));
+      answer = c;
+      /* <em class="replaceable"><code>Satırın kalanını iptal et.</code></em> */
+      while (c != '\n' &amp;&amp; c != EOF)
+        c = fgetc (stdin);
+      /* <em class="replaceable"><code>Yanıt geçerliyse uygun dönüşü yap.</code></em> */
+      if (cevap == 'y')
+        return 1;
+      if (cevap == 'n')
+        return 0;
+      /* <em class="replaceable"><code>Yanıt geçersiz: Geçerli yanıtı almaya çalış.</code></em> */
+      fputs ("Yanıtınız e ya da h olmalı: ", stdout);
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getw" class="indexterm"></span>
+   <span id="glibc-cp-getw" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getw</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">getchar_unlocked</code> işlevi bir sözcüğü (<code class="type">int</code> türünde) <em class="parameter"><code>stream</code></em> akımından okur. SVID ile uyumluluk için vardır, ancak bunun yerine <a href="glibc-Block-Input-Output.html#glibc-fn-fread"><strong class="function"><code>fread</code></strong></a> kullanılması önerilir. Bkz. <a class="xref" href="glibc-Block-Input-Output.html" title="12.11. Sabit Uzunlukta Giriş ve Çıkış"><em>Sabit Uzunlukta Giriş ve Çıkış</em></a>. <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> işlevinin tersine herhangi <code class="type">int</code> türünden değer geçerli sonuç olmalıydı. İşlev bir hata oluştuğunda ya da dosya sonu saptandığında <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> ile döner, ancak <code class="code">-1</code> değerini geçerli sözcükten ayırmak için bir yol yoktur.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>33.2. Öngörülemez Baytların Üretimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Passphrase-Storage.html')">Önceki</button>
+          <div class="dropdown-content">33.1. Parolaların Saklanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Cryptographic-Functions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Debugging-Support.html')">Sonraki</button>
+          <div class="dropdown-content">34. Hata Ayıklama Desteği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Unpredictable-Bytes">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">33.2. Öngörülemez Baytların Üretimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm134784" class="indexterm"></span>
+   <span id="idm134786" class="indexterm"></span>
+   <span id="idm134788" class="indexterm"></span>
+   <span id="idm134790" class="indexterm"></span>
+   <span id="idm134793" class="indexterm"></span>
+   <span id="idm134795" class="indexterm"></span>
+   <span id="idm134797" class="indexterm"></span>
+   <span id="idm134799" class="indexterm"></span>
+   <span id="idm134801" class="indexterm"></span>
+   <span id="idm134803" class="indexterm"></span>
+   
+   Şifresel uygulamalar genellikle düşman bir kulak misafiri için tahmin etmesi mümkün olduğu kadar zor olacak bazı rastgele verilere ihtiyaç duyar. Örneğin, şifreleme anahtarları rasgele seçilmelidir ve <a href="glibc-Passphrase-Storage.html#glibc-fn-crypt"><strong class="function"><code>crypt</code></strong></a> tarafından kullanılan "tuz" dizileri de rasgele seçilmelidir (bkz. <a class="xref" href="glibc-Passphrase-Storage.html" title="33.1. Parolaların Saklanması"><em>Parolaların Saklanması</em></a>).
+  </p>
+        <p>
+   Bazı sözde rasgele sayı üreteçleri, şifresel uygulamalar için yeterince öngörülemeyen çıktı sağlamaz; bkz. ???. Bu tür uygulamaların, bazen "şifresel olarak güçlü sözde rasgele sayı üreteci" (ŞOGSRSÜ - İng: CSPRNG) veya "belirlenimsel rasgele bit üreteci" (BRBÜ - İng: DRBG) olarak da adlandırılan bir "şifresel rasgele sayı üreteci" (ŞRSÜ - İng: CRNG) kullanması gerekir.
+  </p>
+        <p>
+   Şu anda, GNU C Kütüphanesi şifresel rasgele sayı üreteci sağlamamaktadır, ancak işletim sistemi tarafından sağlanan bir rasgelelik kaynağından rasgele verileri okuyan işlevler sağlar. Rastgelelik kaynağı özünde bir ŞRSÜ'dür, ancak aynı zamanda kendini elektronik gürültü ve saat titremesi gibi fiziksel rastgelelik kaynaklarından sürekli olarak "yeniden tohumlar". Bu, uygulamaların ürettiği rasgele sayıların her çalıştırmada farklı olmasını sağlamak için herhangi bir şey yapmasına gerek olmadığı anlamına gelir.
+  </p>
+        <p>
+   Ancak işin püf noktası, bu işlevlerin herhangi bir çağrıda yalnızca nispeten kısa rasgele diziler üretecek olmasıdır. Genellikle bu sorun olmaz, ancak birkaç kilobayttan fazla şifresel olarak güçlü rasgele veriye ihtiyaç duyan uygulamalar bu işlevleri bir kez çağırmalı ve çıktılarını ŞRSÜ'yü tohumlamak için kullanmalıdır.
+  </p>
+        <p>
+   Uygulamaların genelde <a href="glibc-Unpredictable-Bytes.html#glibc-fn-getentropy"><strong class="function"><code>getentropy</code></strong></a> kullanması gerekir. <a href="glibc-Unpredictable-Bytes.html#glibc-fn-getrandom"><strong class="function"><code>getrandom</code></strong></a> işlevi, engelleme davranışı üzerinde ek denetime ihtiyaç duyan düşük düzeyli uygulamalar için tasarlanmıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getentropy" class="indexterm"></span>
+   <span id="glibc-cp-getentropy" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/random.h;hb=HEAD" target="_top">sys/random.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getentropy</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>buffer</code></em> göstericisinde başlayan diziye tam olarak <em class="parameter"><code>length</code></em> uzunlukta rastgele veri baytları yazar. <em class="parameter"><code>length</code></em> 256 bayttan fazla olamaz. Başarı durumunda <code class="code">0</code> döner. Başarısızlık durumunda, <code class="code">-1</code> döner ve sorunu belirten kod <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır. Olası hatalardan bazıları aşağıda listelenmiştir.
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">ENOSYS</code></span></dt><dd class="glossdef"><p>
+       İşletim sistemi bir rastgelelik kaynağı gerçeklemiyor veya bu şekilde erişimi desteklemiyor. (Örneğin, bu işlev tarafından kullanılan sistem çağrısı, 3.17 sürümünde Linux çekirdeğine eklenmiştir.)
+      </p></dd><dt><span class="glossterm"><code class="code">EFAULT</code></span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>buffer</code></em> ve <em class="parameter"><code>length</code></em> birlikte geçersiz bir bellek aralığı belirtiyor.
+      </p></dd><dt><span class="glossterm"><code class="code">EIO</code></span></dt><dd class="glossdef"><p>
+       
+       <em class="parameter"><code>length</code></em> 256'dan büyük veya çekirdek rastgele veri havuzu ciddi bir başarısızlık yaşadı.
+      </p></dd></dl></div>
+   <p>
+    <code class="code">getentropy</code> çağrısı, yalnızca sistem yeni başlatıldığında ve rastgelelik kaynağı henüz başlatılmadığında engellenebilir. Ancak, engellenirse, sinyaller veya evre iptali ile kesintiye uğratılamaz. Önyükleme işleminin çok erken aşamalarında çalıştırılması amaçlanan süreçlerin bunun yerine <a href="glibc-Unpredictable-Bytes.html#glibc-fn-getentropy"><strong class="function"><code>getentropy</code></strong></a> işlevini engellenmeyen kipte kullanması ve rastgele verilerin hiç mevcut olmamasıyla başa çıkmaya hazırlıklı olması gerekebilir.
+   </p>
+   <p>
+    <code class="code">getentropy</code> işlevi OpenBSD'deki benzerinden türetilmiştir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getrandom" class="indexterm"></span>
+   <span id="glibc-cp-getrandom" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/random.h;hb=HEAD" target="_top">sys/random.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">getrandom</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>buffer</code></em> göstericisinde başlayan diziye <em class="parameter"><code>length</code></em> uzunlukta rastgele veri baytları yazar.
+    <em class="parameter"><code>flags</code></em> sıfır ya da aşağıdaki sabitlerin bazılarının bitsel VEYAsı olmalıdır:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-GRND_RANDOM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">GRND_RANDOM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Rastgelelik elde etmek için (engellenmeyen) <code class="filename">/dev/urandom</code>  kaynak yerine (engellenen) <code class="filename">/dev/random</code> kaynağı kullanılır.
+    </p>
+    <p>
+     Bu bayrak belirtilirse, çağrının, rastgelelik kaynağı başlatıldıktan sonra bile  oldukça uzun bir süre engellenebilme olasılığı vardır. Belirtilmezse, çağrı yalnızca sistem yeni başlatıldığında ve rastgelelik kaynağı henüz ilklendirilmediğinde engellenebilir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-GRND_NONBLOCK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">GRND_NONBLOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Engellemek yerine, hiçbir veri yoksa çağrıcıya hemen geri dönülür.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-GRND_INSECURE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">GRND_INSECURE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Şifresel olarak güvenli olmayabilecek rastgele veri yazılır.
+    </p>
+   </div>
+   <p>
+    <a href="glibc-Unpredictable-Bytes.html#glibc-fn-getentropy"><strong class="function"><code>getentropy</code></strong></a> işlevinden farklı olarak <code class="code">getrandom</code> işlevi bir iptal noktasıdır ve engellenirse sinyallerle kesintiye uğratılabilir.
+   </p>
+   <p>
+    <code class="code">getrandom</code> işlevi başarı durumunda, <em class="parameter"><code>buffer</code></em> tamponuna yazılan ve <em class="parameter"><code>length</code></em> değerinden daha az uzunlukta bayt sayısı döndürebilir. Hata durumunda, <code class="code">-1</code> döner ve sorunu belirten kod <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır. Olası hatalardan bazıları aşağıda listelenmiştir.
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">ENOSYS</code></span></dt><dd class="glossdef"><p>
+       İşletim sistemi bir rastgelelik kaynağı gerçeklemiyor veya bu şekilde erişimi desteklemiyor. (Örneğin, bu işlev tarafından kullanılan sistem çağrısı, 3.17 sürümünde Linux çekirdeğine eklenmiştir.)
+      </p></dd><dt><span class="glossterm"><code class="code">EAGAIN</code></span></dt><dd class="glossdef"><p>
+       Rastgele veri mevcut değildi ve <em class="parameter"><code>flags</code></em> için <a href="glibc-Unpredictable-Bytes.html#glibc-vr-GRND_NONBLOCK"><strong class="varname"><code>GRND_NONBLOCK</code></strong></a> belirtildi.
+      </p></dd><dt><span class="glossterm"><code class="code">EFAULT</code></span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>buffer</code></em> ve <em class="parameter"><code>length</code></em> birlikte geçersiz bir bellek aralığı belirtiyor.
+      </p></dd><dt><span class="glossterm"><code class="code">EINTR</code></span></dt><dd class="glossdef"><p>
+       Sistem çağrısı kesintiye uğradı. Sistem önyüklemesi sırasında, çekirdek rasgelelik havuzu başlatılmadan önce, <em class="parameter"><code>flags</code></em> sıfır olsa bile bu olabilir.
+      </p></dd><dt><span class="glossterm"><code class="code">EINVAL</code></span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>flags</code></em> geçersiz sabitler içeriyor.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

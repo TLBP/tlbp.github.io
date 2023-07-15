@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>23.1. Yerel Olmayan Çıkışlar Hakkında</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits.html')">Önceki</button>
+          <div class="dropdown-content">23. Yerel Olmayan Çıkışlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Details.html')">Sonraki</button>
+          <div class="dropdown-content">23.2. Yerel Olmayan Çıkışların Ayrıntıları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Non-Local-Intro">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">23.1. Yerel Olmayan Çıkışlar Hakkında</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Yerel olmayan çıkışların ne zaman faydalı olabileceğini bir örnekle açıklamaya çalışmak daha iyi olacak. Örneğin, bir ana döngüyle kullanıcıdan komutları alıp bunları çalıştıran etkileşimli bir yazılım olsun. Komutların bir dosyadaki girdilerden okunduğunu ve girdideki komutun işleme sokulmadan önce bazı sözel çözümleme işlemleriyle girdinin incelendiği varsayılsın. Düşük seviyeli bir hata saptandığında, sözel çözümleme, ayrıştırma ve işleme aşamalarının her yapılışında iç içe çağrılarda saptanan hatalarla yerinde uğraşmaktansa hemen "ana döngü"ye dönebilmek iyi olurdu.
+  </p>
+        <p>
+   (Diğer taraftan, bu aşamalardan her çıkışta önemli miktarda temizlik işlemleri yapılması gerekli olabilir--örneğin, dosyaların kapatılması, tamponların ve veri yapılarının serbest bırakılması ve benzerleri--ancak bundan sonra normal dönüş yapmak daha uygun olabilir. Bir yerel olmayan çıkış ara aşamaların ve onlarla ilgili temizlik kodunun atlanmasına neden olacağından her aşamanın kendine özgü temizlik kodu olması da daha uygun olabilir. Bundan başka, temizliği "ana döngü"ye dönmeden önce ya da döndükten sonra yapacak şekilde bir yerel olmayan çıkış da kullanılabilirdi.)
+  </p>
+        <p>
+   Bazı bakımlardan, yerel olmayan çıkış, işlevden çıkış deyimi olan <code class="code">return</code> kullanımına benzer. Fakat <code class="code">return</code> sadece tek bir işlev çağrısından çıkıp denetimi geriye işlev çağrısının yapıldığı noktaya taşırken,  yerel olmayan çıkış denetimin büyük olasılıkla çok iç içe geçmiş pek çok işlev çağrısının dışındaki bir noktaya taşınmasını sağlar.
+  </p>
+        <p>
+   Yerel olmayan çıkışlarda denetimin döndürüleceği nokta <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevi çağrılarak belirtilebilir. Bu işlev,  <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlev çağrısının göründüğü yürütme ortamı hakkındaki bilgiyi <a href="glibc-Non-Local-Details.html#glibc-tp-jmp_buf"><strong class="type"><code>jmp_buf</code></strong></a> türünde bir nesneye kaydeder. Yazılımın çalışması <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısından sonra normal olarak devam eder, fakat daha sonra bu dönüş noktası için kaydedilen <a href="glibc-Non-Local-Details.html#glibc-tp-jmp_buf"><strong class="type"><code>jmp_buf</code></strong></a> türündeki nesne ile yapılan bir <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> çağrısı ile bu dönüş noktasına bir çıkış yapılırsa, denetim <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısının yapıldığı noktaya aktarılmış olur. <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısından dönen değer ile sıradan bir dönüş ve <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> çağrısı tarafından yapılan bir dönüş arasında ayrım yapılabilmesi için <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısının bir <code class="code">if</code> deyimi içinde görünmesi gerekir.
+  </p>
+        <p>
+   Bunun yapılışına bir örnek:
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;setjmp.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+jmp_buf ana_dongu;
+
+void
+abort_to_main_loop (int status)
+{
+  longjmp (ana_dongu, status);
+}
+
+int
+main (void)
+{
+  while (1)
+    if (setjmp (ana_dongu))
+      puts ("Ana döngüye geri dön....");
+    else
+      do_command ();
+}
+
+
+void
+do_command (void)
+{
+  char buffer[128];
+  if (fgets (buffer, 128, stdin) == NULL)
+    abort_to_main_loop (-1);
+  else
+    exit (EXIT_SUCCESS);
+}
+</pre>
+            <p>
+    <code class="code">abort_to_main_loop</code> işlevi nereden çağrıldığına bakılmaksızın, denetimin, yazılımın ana döngüsüne geri dönmesine sebep olur.
+   </p>
+            <p>
+    <code class="code">main</code> işlevinin içindeki akış denetimi başta biraz esrarlı görünebilir. Bir normal <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısı sıfırla döner, böylece "else" sözcüğündeki kod çalışır. <code class="code">do_command</code> içinde bir yerlerde <code class="code">abort_to_main_loop</code> yapılırsa, hemen ardından <code class="code">main</code> içinde <code class="code">-1</code> değeri döndüren ikinci bir <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısı yapılmış gibi görünür.
+   </p>
+            <p>
+    <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> kullanımı ile ilgili genel kalıp şöyle görünür:
+   </p>
+            <pre class="screen">if (setjmp (<em class="replaceable"><code>tampon</code></em>))
+  /* <em class="replaceable"><code>Erken dönüş sonrası temizlik kodu.</code></em> */
+  …
+else
+  /* <em class="replaceable"><code>Dönüş noktası ayarlandıktan sonra
+     normal olarak çalıştırılacak kod.</code></em> */
+  …
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

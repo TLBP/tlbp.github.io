@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26.6. Süreç Tamamlama</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Executing-a-File.html')">Önceki</button>
+          <div class="dropdown-content">26.5. Bir Dosyanın Çalıştırılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Completion-Status.html')">Sonraki</button>
+          <div class="dropdown-content">26.7. Süreç Tamamlanma Durumu</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Process-Completion">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">26.6. Süreç Tamamlama</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm129853" class="indexterm"></span>
+   <span id="idm129855" class="indexterm"></span>
+   <span id="idm129858" class="indexterm"></span>
+   <span id="idm129861" class="indexterm"></span>
+   Bu bölümde anlatılan işlevler bir alt sürecin sonlanmasını veya durmasını beklemek ve durumunu algılamak için kullanılır. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-waitpid" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">waitpid</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">status-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">options</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">waitpid</code> işlevi, süreç kimliği <em class="parameter"><code>pid</code></em> olan alt sürecin durum bilgisini istemek için kullanılır. Normalde, çağıran süreç, alt süreç sonlanarak durum bilgisini verene kadar askıda kalır.
+   </p>
+   <p>
+    <em class="parameter"><code>pid</code></em> bağımsız değişkeni için verilecek diğer değerler farklı yorumlanır. <code class="code">-1</code> veya <a href="glibc-Process-Completion.html#glibc-vr-WAIT_ANY"><strong class="varname"><code>WAIT_ANY</code></strong></a> değeri herhangi bir alt süreç için durum bilgisi ister; <code class="code">0</code> veya <a href="glibc-Process-Completion.html#glibc-vr-WAIT_MYPGRP"><strong class="varname"><code>WAIT_MYPGRP</code></strong></a> değeri çağıran süreçle aynı süreç grubundaki herhangi bir alt süreç için bilgi ister; ve -<code class="varname">sgkim</code> gibi başka herhangi bir negatif değer, süreç grup kimliği <code class="varname">sgkim</code> olan herhangi bir alt süreç için bilgi ister.
+   </p>
+   <p>
+    Eğer alt süreç durum bilgisi mevcutsa, bu işlev beklemeden hemen döner. Eğer birden fazla seçilebilir alt sürecin durum bilgisi mevcutsa, rastgele birisi seçilir ve durum bilgisi hemen döndürülür. Diğer seçilebilir alt süreçlerden birinin durum bilgisini almak için, <code class="code">waitpid</code> işlevini tekrar çağırmak gerekir.
+   </p>
+   <p>
+    <em class="parameter"><code>options</code></em> bağımsız değişkeni bit maskesidir. Değeri sıfır veya daha çok sayıda <a href="glibc-Process-Completion.html#glibc-vr-WNOHANG"><strong class="varname"><code>WNOHANG</code></strong></a> ve <a href="glibc-Process-Completion.html#glibc-vr-WUNTRACED"><strong class="varname"><code>WUNTRACED</code></strong></a> bayrağının bitsel VEYAlanmış (yani, <span class="command"><strong>|</strong></span> işleci) hali olmalıdır. <a href="glibc-Process-Completion.html#glibc-vr-WNOHANG"><strong class="varname"><code>WNOHANG</code></strong></a> bayrağı üst sürecin beklememesi gerektiğini belirtmek için, <a href="glibc-Process-Completion.html#glibc-vr-WUNTRACED"><strong class="varname"><code>WUNTRACED</code></strong></a> bayrağı ise duran ve hatta sonlanan süreçlerden durum bilgisi istemek için kullanılır.
+   </p>
+   <p>
+    Alt süreçten alınan durum bilgisi, <em class="parameter"><code>status-ptr</code></em> boş gösterici değilse, <em class="parameter"><code>status-ptr</code></em> tarafından gösterilen nesnede saklanır.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlar için iptal noktasıdır. <code class="code">waitpid</code> çağrıldığında bir evre bazı kaynakları (bellek, dosya tanıtıcısı, semafor veya herhangi bir öz kaynak) tahsis ederse bu sorun olur. Evre iptal edilirse bu kaynaklar yazılım sonlanıncaya kadar tahsisli durumda kalırlar. Bundan kaçınmak için <code class="code">waitpid</code>'e yapılan çağrılar iptal işleyicileri kullanılarak korunmalıdır.
+   </p>
+   <p>
+    Dönüş değeri normalde durumu bildirilen alt sürecin süreç kimliğidir. Eğer alt süreçler var ancak hiçbiri algılanmayı beklemiyorsa, <code class="code">waitpid</code> birisi algılanana kadar engeller. Fakat, <a href="glibc-Process-Completion.html#glibc-vr-WNOHANG"><strong class="varname"><code>WNOHANG</code></strong></a> seçeneği belirtildiyse, <code class="code">waitpid</code> engellemek yerine sıfır döndürür.
+   </p>
+   <p>
+    Eğer <code class="code">waitpid</code> belirli bir süreç kimliği için bekleyecekse, diğer hiçbir alt süreci (varsa) dikkate almaz. Bu nedenle, algılanmayı bekleyen alt süreçler varsa, fakat süreç kimliği belirtilen çocuk bunlardan biri değilse, <code class="code">waitpid</code> yukarıda açıklandığı gibi ya engeller ya da  sıfır döndürür.
+   </p>
+   <p>
+    <code class="code">-1</code> değeri hata halinde döndürülür. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       Çağıran sürece bir sinyal gelmesi nedeniyle işlev kesintiye uğradı. Bkz  <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd><dt><span class="term"><code class="code">ECHILD</code></span></dt><dd><p>
+       Bekleyen alt süreç yok veya belirtilen <em class="parameter"><code>pid</code></em> çağıran sürecin bir alt süreci değil.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>options</code></em> bağımsız değişkeni için geçersiz bir değer verildi.
+      </p></dd></dl></div>
+   <p>
+    Bu simgesel sabitler <code class="code">waitpid</code> işlevinin <em class="parameter"><code>pid</code></em> bağımsız değişkeninin değerleri olarak tanımlanmıştır.
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WAIT_ANY" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">WAIT_ANY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sabit makrosu (değeri <code class="code">-1</code>'dir) <code class="code">waitpid</code> işlevinin herhangi bir alt süreç hakkında durum bilgisi döndürmesi gerektiğini belirtir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WAIT_MYPGRP" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">WAIT_MYPGRP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sabit (<code class="code">0</code> değerli) <code class="code">waitpid</code> işlevinin çağıran süreçle aynı süreç grubundaki herhangi bir alt süreç hakkında durum bilgisi döndürmesi gerektiğini belirtir.
+    </p>
+   </div>
+   <p>
+    Bu simgesel sabitler <code class="code">waitpid</code> işlevinin <em class="parameter"><code>options</code></em> bağımsız değişkeni için bayrak olarak tanımlanmıştır. Bayraklar bitsel VEYAlanarak bağımsız değişkene değer olarak kullanılabilir.
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-WNOHANG" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">WNOHANG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bayrak, algılanmaya hazır bir alt süreç yoksa, <code class="code">waitpid</code> işlevinin beklemek yerine hemen dönmesi gerektiğini belirtir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-WUNTRACED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">WUNTRACED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bayrak, <code class="code">waitpid</code> işlevinin durmuş veya sonlandırılmış alt süreçlerinin durumlarını bildirmesi gerektiğini belirtir.
+    </p>
+   </div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wait" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">wait</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">status-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu <a href="glibc-Process-Completion.html#glibc-fn-waitpid"><strong class="function"><code>waitpid</code></strong></a> işlevininin basitleştirilmiş sürümüdür ve herhangi bir alt süreç sonlanıncaya kadar beklemek için kullanılır. Aşağıdaki çağrı şekli:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">wait (&amp;<em class="replaceable"><code>status</code></em>)</code>
+</pre>
+   <p>
+    aşağıdaki ile tamamen aynıdır:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">waitpid (-1, &amp;<em class="replaceable"><code>status</code></em>, 0)</code>
+</pre>
+   <p>
+    Bu işlev çok evreli yazılımlar için iptal noktasıdır. Eğer <code class="code">wait</code> çağrıldığında bir evre bazı kaynakları (bellek, dosya tanıtıcısı, semafor veya herhangi bir öz kaynak) tahsis ederse bu sorun olur. Evre iptal edilirse bu kaynaklar yazılım sonlanıncaya kadar tahsisli durumda kalır. Bundan kaçınmak için <code class="code">wait</code>'e yapılan çağrılar iptal işleyicileri kullanılarak korunmalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-wait4" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sys/wait.h;hb=HEAD" target="_top">sys/wait.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">wait4</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">status-ptr</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">options</code></strong><strong><code>, </code></strong><code class="type">struct rusage </code><strong class="type">*</strong><strong><code class="parameter">usage</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>usage</code></em> boş gösterici ise, <code class="code">wait4</code> işlevi <code class="code">waitpid (<em class="parameter"><code>pid</code></em>, <em class="parameter"><code>status-ptr</code></em>, <em class="parameter"><code>options</code></em>)</code>  ile eşdeğerdir.
+   </p>
+   <p>
+    <em class="parameter"><code>usage</code></em> boş gösterici değilse, <code class="code">wait4</code> işlevi *<em class="parameter"><code>usage</code></em> içinde alt sürecin kullanım şekillerini saklar (alt süreç durduysa değil, yalnızca sonlandıysa).  Bkz. <a class="xref" href="glibc-Resource-Usage.html" title="22.1. Kaynak Kullanımı"><em>Kaynak Kullanımı</em></a>.
+   </p>
+   <p>
+    Bu işlev BSD oluşumudur.
+   </p>
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Bu örnekte sonlandırılmış bütün alt süreçlerin durumunu beklemeden almak için <a href="glibc-Process-Completion.html#glibc-fn-waitpid"><strong class="function"><code>waitpid</code></strong></a> işlevinin kullanımını gösterilmiştir. Bu işlev, en azından bir alt sürecin sonlandırılması gerektiğini belirten bir sinyal olan, <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> için bir işleyici olarak tasarlanmıştır.
+   </p>
+            <pre class="screen">void
+sigchld_handler (int signum)
+{
+  int pid, status, serrno;
+  serrno = errno;
+  while (1)
+    {
+      pid = waitpid (WAIT_ANY, &amp;status, WNOHANG);
+      if (pid &lt; 0)
+        {
+          perror ("waitpid");
+          break;
+        }
+      if (pid == 0)
+        break;
+      notice_termination (pid, status);
+    }
+  errno = serrno;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

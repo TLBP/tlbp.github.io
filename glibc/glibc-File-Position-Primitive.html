@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.3. Dosya Konumu İlkeli</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Primitives.html')">Önceki</button>
+          <div class="dropdown-content">13.2. Girdi ve Çıktı İlkelleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Descriptors-and-Streams.html')">Sonraki</button>
+          <div class="dropdown-content">13.4. Tanıtıcılar ve Akımlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-File-Position-Primitive">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.3. Dosya Konumu İlkeli</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="glibc-cp-konum" class="indexterm"></span>
+   <span id="glibc-cp-konumlama" class="indexterm"></span>
+   Akımın dosya konumunun <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> ile belirtilmesi gibi, sonraki <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlemleri için bir tanıtıcının dosya konumu da <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> ile  belirtilebilir. Dosya konumlamanın ne olduğu ve daha fazlası için <a class="xref" href="glibc-File-Positioning.html" title="12.18. Dosyalarda Konumlama"><em>Dosyalarda Konumlama</em></a> bölümüne bakılabilir.
+  </p>
+        <p>
+   Bir tanıtıcıdan geçerli dosya konumunu okumak için <code class="code">lseek (<em class="replaceable"><code>tanıtıcı</code></em>, 0, SEEK_CUR)</code> çağrısı kullanılabilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-lseek" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">off_t </code><strong><code class="function">lseek</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">offset</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">whence</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">lseek</code> işlevi <em class="parameter"><code>filedes</code></em> tanıtıcısında dosya konumunu değiştirmek için kullanılır.
+   </p>
+   <p>
+    <em class="parameter"><code>whence</code></em> bağımsız değişkeni <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> işlevindeki gibi <em class="parameter"><code>offset</code></em> konumunun nasıl yorumlanacağını belirtir. Değeri <a href="glibc-File-Positioning.html#glibc-vr-SEEK_SET_"><strong class="varname"><code>SEEK_SET</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-vr-SEEK_CUR_"><strong class="varname"><code>SEEK_CUR</code></strong></a> veya <a href="glibc-File-Positioning.html#glibc-vr-SEEK_END_"><strong class="varname"><code>SEEK_END</code></strong></a> sembolik sabitlerinden biri olabilir.
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SEEK_SET" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code> <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">SEEK_SET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <em class="parameter"><code>whence</code></em> bağımsız değişkeni, dosyanın başlangıcından itibaren karakter sayısını belirtir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SEEK_CUR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code> <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">SEEK_CUR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <em class="parameter"><code>whence</code></em> bağımsız değişkeni, geçerli dosya konumundan itibaren karakter sayısını belirtir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SEEK_END" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code> <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">SEEK_END</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <em class="parameter"><code>whence</code></em> bağımsız değişkeni, dosya sonundan kaç karakter sayılacağını belirtir. Negatif bir değer dosya sonundan ileriye doğru, pozitif bir değer dosya sonundan geriye doğru karakter sayısıdır. Konumu sondan başa doğru belirtirseniz ve yazma yapıyorsanız, dosya, konuma kadar sıfırlarla doldurularak büyütülecektir.
+    </p>
+   </div>
+   <p>
+    <code class="code">lseek</code> işlevinin normal dönüş değeri sonuçlanan dosya başlangıcından itibaren karakter sayısı olarak dosya konumudur. Bu özellik, geçerli dosya konumunu öğrenmek için <a href="glibc-File-Positioning.html#glibc-vr-SEEK_CUR_"><strong class="varname"><code>SEEK_CUR</code></strong></a> ile kullanılabilir.
+   </p>
+   <p>
+    Dosyaya ekleme yapmak istenirse, dosya konumunu geçerli dosya sonundan itibaren <a href="glibc-File-Positioning.html#glibc-vr-SEEK_END_"><strong class="varname"><code>SEEK_END</code></strong></a> ile belirtmek yeterli olmaz. Dosya konumu değiştirildikten sonra, ancak yazmaya başlanmadan önce, başka bir süreç dosyaya bir miktar veri yazmış olabilir, dolayısıyla böyle bir konuma yapılacak bir yazma işlemi mevcut verinin kaybına sebep olur. Bunun olmaması için <a href="glibc-Operating-Modes.html#glibc-vr-O_APPEND"><strong class="varname"><code>O_APPEND</code></strong></a> işletim kipinin kullanılması gerekir; bkz. <a class="xref" href="glibc-Operating-Modes.html" title="13.15.3. G/Ç İşlem Kipleri">G/Ç İşlem Kipleri</a>.
+   </p>
+   <p>
+    Dosya konumu, dosyanın geçerli dosya sonundan başa doğru belirtilebilir. Bu dosyanın kendisini uzatmaz; <code class="code">lseek</code> dosyanın boyunu asla değiştirmez. Fakat aynı konuma daha sonra yapılan çıktılama dosyayı uzatır.  Dosyanın önceki sonu ile yeni konum arası sıfırlarla doldurulur. Bu yolla uzatılan dosyada sıfırlardan oluşan bir "delik" oluşur, disk üzerinde delik için yer ayrılmaz, bu durumda dosya göründüğünden daha az alanı kaplar; bu durumdaki bir dosyaya "seyrek dosya" (sparse file) denir.
+    <span id="glibc-cp-seyrek" class="indexterm"></span>
+    <span id="glibc-cp-delik" class="indexterm"></span>
+   </p>
+   <p>
+    Dosya konumu değiştirilemezse ya da işlem bir şekilde geçersiz olmuşsa, işlev <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> geçerli bir dosya tanıtıcısı değil.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>whence</code></em> bağımsız değişkeninin değeri geçersiz ya da sonuçlanan dosya konumu geçersiz. Dosya konumu geçersiz.
+     </p></dd><dt><span class="term"><code class="code">ESPIPE</code></span></dt><dd><p>
+       <em class="parameter"><code>offset</code></em> bağımsız değişkeni, bir ardışık süreç ya da uçbirim gibi dosya konumlamasına izin verilmeyen bir nesneyle ilgili olduğundan konumlama yapılamıyor. (POSIX.1 bu hatayı sadece ardışık süreçler için belirtir, ancak GNU sistemlerinde konumlama yapılamayan her nesne için daima <span class="command"><strong>ESPIPE</strong></span> hatası alınır.)
+      </p></dd></dl></div>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse <code class="code">lseek</code> işlevi aslında 2^63 bayta kadar dosyalarla 64 bitlik <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde konumlarla çalışan <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek64"><strong class="function"><code>lseek64</code></strong></a> işlevi olur.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda bir iptal noktasıdır. <code class="code">lseek</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">lseek</code> çağrılarından kaçınmak için iptal işleyicilerle korunulmalıdır.
+   </p>
+   <p>
+    <span class="command"><strong>lseek</strong></span> işlevi, akımlardan okuma yapan <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-fn-ftell"><strong class="function"><code>ftell</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-fn-ftello"><strong class="function"><code>ftello</code></strong></a> ve <a href="glibc-File-Positioning.html#glibc-fn-rewind"><strong class="function"><code>rewind</code></strong></a> gibi işlevler için temel ilkeldir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-lseek64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">off64_t </code><strong><code class="function">lseek64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">offset</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">whence</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> işlevinin benzeridir.  Farkı <em class="parameter"><code>offset</code></em> bağımsız değişkeninin  2^31 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde değil, 2^63 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türünde olmasıdır. Bu işlev için kullanılan <em class="parameter"><code>filedes</code></em> tanıtıcısının <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open64"><strong class="function"><code>open64</code></strong></a> ile açılması önemlidir. Aksi takdirde, küçük dosya kipinde açılmış dosya tanıtıcılarla <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türündeki dosya konumları hatalara yol açacaktır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> ismiyle erişilir. Yani 64 bitlik arayüz 32 bitlik olanıyla değiştirilir.
+   </p>
+  </div>
+        <p>
+   Bir dosya defalarca açılırsa ya da <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup"><strong class="function"><code>dup</code></strong></a> ile tanıtıcı çoğaltılırsa aynı dosya için çok sayıda tanıtıcı olabilir. <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> çağrıları ile elde edilen tanıtıcıların dosya konumları birbirinden bağımsızdır dolayısıyla biri üzerinde kullanılan <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> diğerlerini etkilemez. Örneğin,
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">{
+  int d1, d2;
+  char buf[4];
+  d1 = open ("foo", O_RDONLY);
+  d2 = open ("foo", O_RDONLY);
+  lseek (d1, 1024, SEEK_SET);
+  read (d2, buf, 4);
+}
+</pre>
+            <p>
+    <code class="filename">foo</code> dosyasının ilk dört karakterini okuyacaktır. (Gerçek bir yazılımda gerekli olan hata denetimine, örneği karıştırmaması için yer verilmemiştir.)
+   </p>
+            <p>
+    Tersine olarak, çoğaltma yoluyla elde edilen dosya tanıtıcılar ortak bir dosya  konumunu paylaşır. Biri üzerinde yapılan okuma, yazma, dosyada konumlama gibi her işlem diğerlerini etkiler. Örneğin,
+   </p>
+            <pre class="screen">{
+  int d1, d2, d3;
+  char buf1[4], buf2[4];
+  d1 = open ("foo", O_RDONLY);
+  d2 = dup (d1);
+  d3 = dup (d2);
+  lseek (d3, 1024, SEEK_SET);
+  read (d1, buf1, 4);
+  read (d2, buf2, 4);
+}
+</pre>
+            <p>
+    <code class="filename">foo</code> dosyasının 1024. karakterinden başlayarak dört karakter okur ve 1028. karakterden başlayarak dört karakter daha okur.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-off_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">off_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu işaretli tamsayı veri türü dosya boyutlarını göstermekte kullanılır. GNU C Kütüphanesinde <code class="type">int</code> türünden daha dardır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse, bu veri türü <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> veri türüne eşdeğer olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-off64_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">off64_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> veri türüne benzer.  Bir farkla: 32 bitlik makinelerde <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> 32 bitlikken <code class="code">off64_t</code> 64 bitliktir. Böylece dosyalar 2^63 bayta kadar adreslenebilir.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse, bu veri türü <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> ismiyle kullanılır.
+   </p>
+  </div>
+        <p>
+   <code class="code">SEEK_…</code> sabitleri için eski BSD sistemleri ile uyumluluk adına takma adlar tanımlanıştır. Bunlar iki ayrı başlık dosyasında tanımlıdır: <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code> ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/file.h;hb=HEAD" target="_top">sys/file.h</a></code>.
+  </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-L_SET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/file.h;hb=HEAD" target="_top">sys/file.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">L_SET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Positioning.html#glibc-vr-SEEK_SET_"><strong class="varname"><code>SEEK_SET</code></strong></a> için takma addır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-L_INCR" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/file.h;hb=HEAD" target="_top">sys/file.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">L_INCR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Positioning.html#glibc-vr-SEEK_CUR_"><strong class="varname"><code>SEEK_CUR</code></strong></a> için takma addır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-L_XTND" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/file.h;hb=HEAD" target="_top">sys/file.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">L_XTND</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Positioning.html#glibc-vr-SEEK_END_"><strong class="varname"><code>SEEK_END</code></strong></a> için takma addır.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

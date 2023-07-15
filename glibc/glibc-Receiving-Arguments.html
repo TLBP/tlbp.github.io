@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>A.2.2.2. Bağımsız Değişken Değerlerinin Alınması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Variadic-Prototypes.html')">Önceki</button>
+          <div class="dropdown-content">A.2.2.1. Değişen Sayıda Bağımsız Değişken için Sözdizimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-How-Variadic.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-How-Many-Arguments.html')">Sonraki</button>
+          <div class="dropdown-content">A.2.2.3. Aktarılan Bağımsız Değişkenlerin Sayısı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Receiving-Arguments">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">A.2.2.2. Bağımsız Değişken Değerlerinin Alınması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm138830" class="indexterm"></span>
+    <span id="idm138833" class="indexterm"></span>
+    Gerekli olan bağımsız değişkenlerin isimleri vardır ve değerlerine bu isimler kullanılarak erişilir. Ama isteğe bağlı bağımsız değişkenlerin isimleri yoktur, çünkü onlar bir üçlü nokta ile ifade edilmiştir. O halde bu bağımsız değişkenlere nasıl erişilecek?
+   </p>
+        <p>
+    <span id="idm138838" class="indexterm"></span>
+    Onlara erişmenin tek yolu yazıldıkları sırayla erişmektir. Bunun için <code class="filename"><a class="filename" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/ginclude/stdarg.h;hb=HEAD" target="_top">stdarg.h</a></code> başlık dosyasındaki özel makroların aşağıdaki üç adımlık işlemlerle kullanılması gerekir:
+   </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+      <a href="glibc-Argument-Macros.html#glibc-fn-va_start"><strong class="function"><code>va_start</code></strong></a> kullanarak <a href="glibc-Argument-Macros.html#glibc-tp-va_list"><strong class="type"><code>va_list</code></strong></a> türünde bir bağımsız değişken gösterici değişkeni ilklendirilir. Bağımsız değişken gösterici, ilklendirildiğinde ilk isteğe bağlı bağımsız değişkeni gösterecektir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      İsteğe bağlı bağımsız değişkenlere <a href="glibc-Argument-Macros.html#glibc-fn-va_arg"><strong class="function"><code>va_arg</code></strong></a> işlevi çağrılarak erişilir. İlk <a href="glibc-Argument-Macros.html#glibc-fn-va_arg"><strong class="function"><code>va_arg</code></strong></a> çağrısı ilk isteğe bağlı bağımsız değişkene erişir, ikinci çağrı ile ikincisine, böyle gider.
+     </p>
+              <p>
+      Bu çağrı işlemi, kalan isteğe bağlı bağımsız değişkenlerden yok sayılacaklara kadar sürdürülebilir. Bir işlevin bağımsız değişkenlerinden daha azına erişmek bir sorun çıkarmaz ama daha fazla sayıda bağımsız değişkene erişmeye çalışmak bozuk değerlerle sonuçlanır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Bağımsız değişken göstericiye ihtiyaç kalmadığında bunun <a href="glibc-Argument-Macros.html#glibc-fn-va_end"><strong class="function"><code>va_end</code></strong></a> çağrısıyla belirtilmesi gerekir.
+     </p>
+              <p>
+      (Uygulamada, birçok C derleyicisi <a href="glibc-Argument-Macros.html#glibc-fn-va_end"><strong class="function"><code>va_end</code></strong></a> çağrısında hiçbir şey yapmaz. Bu GNU C derleyicisi için de geçerlidir. Ancak, yazılımın bir gün bu çağrıyı gerektiren bir derleyici ile derlenebileceği göz önüne alınarak yine de <a href="glibc-Argument-Macros.html#glibc-fn-va_end"><strong class="function"><code>va_end</code></strong></a> çağrısı yapılması iyi olur.)
+     </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+    <a href="glibc-Argument-Macros.html#glibc-fn-va_start"><strong class="function"><code>va_start</code></strong></a>, <a href="glibc-Argument-Macros.html#glibc-fn-va_arg"><strong class="function"><code>va_arg</code></strong></a> ve <a href="glibc-Argument-Macros.html#glibc-fn-va_end"><strong class="function"><code>va_end</code></strong></a> işlevlerinin tanımları <a class="xref" href="glibc-Argument-Macros.html" title="A.2.2.5. Bağımsız Değişkene Erişim Makroları">Bağımsız Değişkene Erişim Makroları</a> bölümünde bulunabilir.
+   </p>
+        <p>
+    Birden üçe kadar adımlar isteğe bağlı bağımsız değişkenleri kabul eden işlevin içinde uygulanmalıdır. Buna rağmen <a href="glibc-Argument-Macros.html#glibc-tp-va_list"><strong class="type"><code>va_list</code></strong></a> türündeki değişken, bir bağımsız değişken olarak başka bir işleve aktarılarak 2. adım ya da tamamı burada uygulanabilir.
+   </p>
+        <p>
+    Bu üç adımlık işlem, tek bir işlev defalarca çağrılarak da uygulanabilir. İsteğe bağlı bağımsız değişkenler yok sayılmak istendiğinde ise bu adımlar sıfır kere uygulanabilir.
+   </p>
+        <p>
+    Gerekirse, birden fazla bağımsız değişken gösterici değişkeni olabilir ve bu değişkenlerin her biri gerektiği zaman <a href="glibc-Argument-Macros.html#glibc-fn-va_start"><strong class="function"><code>va_start</code></strong></a> çağrılarıyla ayrı ayrı ilklendirilebilir. Her bağımsız değişken göstericisi ile gerektiği kadar isteğe bağlı bağımsız değişken alınabilir. Her bağımsız değişken gösterici değişkeni daima aynı bağımsız değişken kümesine ama kendi alanında sahip olacaktır.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi:</h3>
+          <div class="admon-contents">
+            <p>
+     Bazı derleyicilerle, bir bağımsız değişken gösterici değerini bir alt işleve aktardıktan sonra, alt işlev döndüğünde aynı bağımsız değişken gösterici değerinin kullanımda tutulması gerekir. Tam taşınabilirlik için,   <a href="glibc-Argument-Macros.html#glibc-fn-va_end"><strong class="function"><code>va_end</code></strong></a>'e aktarılmalıdır. Bu aslında bir ISO C gerekliliği olmakla birlikte birçok ANSI C derleyicisi ile de sorunsuz çalışır.
+    </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

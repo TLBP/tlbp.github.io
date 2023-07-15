@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.2. Girdi ve Çıktı İlkelleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Opening-and-Closing-Files.html')">Önceki</button>
+          <div class="dropdown-content">13.1. Dosyaların Açılması ve Kapatılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Position-Primitive.html')">Sonraki</button>
+          <div class="dropdown-content">13.3. Dosya Konumu İlkeli</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-I-O-Primitives">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.2. Girdi ve Çıktı İlkelleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu kısımda dosya tanıtıcılar üzerinde düşük seviyeli girdi ve çıktı işlemlerini gerçekleştiren <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a>, <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> ve <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> işlevlerinden bahsedilecektir. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm112095" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-ssize_t" class="indexterm"></span>
+   <span id="glibc-cp-ssize_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">ssize_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri türü tek bir işlem olarak okunup yazılabilen veri parçalarının uzunluğunu göstermekte kullanılır. <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> türüne benzemekle birlikte bu işaretli türüdür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-read" class="indexterm"></span>
+   <span id="glibc-cp-read-eof" class="indexterm"></span>
+   <span id="glibc-fn-read" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">read</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">read</code> işlevi <em class="parameter"><code>filedes</code></em> tanıtıcılı dosyadan <em class="parameter"><code>size</code></em> baytlık okuma yapar ve sonucu <em class="parameter"><code>buffer</code></em> içinde döndürür. (Bunun bir karakter dizgesi olması gerekmediği gibi sonlandırıcı boş karakter de eklenmez.)
+   </p>
+   <p>
+    İşlevin normal dönüş değeri okunan baytların sayısıdır. Bu <em class="parameter"><code>size</code></em> bayttan küçük olabilir; örneğin dosyada kalan baytlar <em class="parameter"><code>size</code></em> bayttan az olabilir ya da o an için dosyada <em class="parameter"><code>size</code></em> bayt olmayabilir. Davranış aslında dosyanın çeşidine bağlıdır. <em class="parameter"><code>size</code></em> bayttan daha az verinin okunmuş olmasının bir hata olarak değerlendirilmediği unutulmamalıdır.
+   </p>
+   <p>
+    Sıfır dönüş değeri dosya sonunu belirtir (<em class="parameter"><code>size</code></em> bağımsız değişkeninin sıfır olduğu durum dışında). Bu bir hata sayılmaz. Dosya sonunda sürekli <code class="code">read</code> çağrısı yapılırsa, işlev başka bir şey yapmadan sıfır döndürmeye devam eder.
+   </p>
+   <p>
+    <code class="code">read</code> çağrısı ile zaten tek bir karakter döndürülüyorsa, dosya sonuna erişildiğinde bu anlaşılamaz. Ancak dosya sonunda, sonraki <code class="code">read</code> çağrıları hep sıfır döndürecektir.
+   </p>
+   <p>
+    Bir hata durumunda işlev <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+       Normalde, bir girdi yoksa <code class="code">read</code> girdi var olana kadar bekler. Fakat dosya için <a href="glibc-Open-time-Flags.html#glibc-vr-O_NONBLOCK"><strong class="varname"><code>O_NONBLOCK</code></strong></a> seçeneği etkinse (bkz. <a class="xref" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri"><em>Dosya Durum Seçenekleri</em></a>), böyle bir durumda <code class="code">read</code> hiç veri okumadan hemen döner ve bunu <code class="code">EAGAIN</code> ile bildirir.
+      </p><div class="admon note"><h3 class="admon-title">Uyumluluk Bilgisi</h3><div class="admon-contents"><p>
+        BSD Unix'lerin çoğu sürümü bunun için farklı bir hata kodu kullanır:  <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a>.  GNU C Kütüphanesinde <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a>, <code class="code">EAGAIN</code> için takma addır, dolayısıyla hangi ismi kullandığınızın bir önemi yoktur.
+       </p></div></div><p>
+       Bazı sistemlerde çekirdek, kullanıcı sayfaları için yeterli fiziksel bellek bulamazsa, bir karakter özel dosyasından büyük miktarda veri okunması da <code class="code">EAGAIN</code> hata koduna sebep olur. Bu, kullanıcı belleğine doğrudan erişim ile iletim yapan aygıtlarla sınırlıdır. Bunlar uçbirimleri kapsamaz, çünkü uçbirimler için çekirdek içinde daima ayrı tamponlar vardır. GNU/Hurd sistemlerinde böyle bir sorunla asla karşılaşılmaz.
+      </p><p>
+       <code class="code">EAGAIN</code> ile sonuçlanabilecek bir durumda istenenden daha az bayt döndürerek <code class="code">read</code> başarılı olabilir. Hemen ardından yapılan bir <code class="code">read</code> çağrısı <code class="code">EAGAIN</code> ile sonuçlanırdı.
+      </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçerli bir dosya tanıtıcı değil ya da okumak için açılmamış.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       <code class="code">read</code> çağrısı girdi beklerken bir sinyal ile durduruldu. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.  Bir sinyalin <code class="code">read</code> çağrısının <code class="code">EINTR</code> döndürmesine sebep olması şart değildir; istenenden daha az bayt döndürerek <code class="code">read</code> başarılı olabilir.
+      </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+       Çoğu aygıt ve disk dosyası için bu hata kodu bir donanım hatasına işaret eder.
+      </p><p>
+       <code class="code">EIO</code> ayrıca, bir artalan süreci denetim uçbiriminden okuma yapmaya çalışırken ve sürecin bir <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTTIN"><strong class="varname"><code>SIGTTIN</code></strong></a> sinyali gönderilerek durdurulmasıyla normal eylem çalışmadığında da oluşabilir. Bu <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTTIN"><strong class="varname"><code>SIGTTIN</code></strong></a> sinyalinin engellenmesi ya da yok sayılmasından kaynaklanabileceği gibi süreç grubunun öksüz kalması nedeniyle de oluşabilir. Sinyaller hakkında daha fazla bilgi için <a class="xref" href="glibc-Signal-Handling.html" title="24. Sinyal İşleme">Sinyal İşleme</a> bölümüne ve iş denetimi için <a class="xref" href="glibc-Job-Control.html" title="28. İş Denetimi">İş Denetimi</a> bölümüne bakılabilir.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Bazı sistemlerde bir karakter veya blok aygıtından okuma yapılırken, konum ve boyut başlangıçları belli bir blok boyuna hizalanmalıdır. Bu hata başlangıçların gerektiği gibi hizalanmadığını belirtir.
+      </p></dd></dl></div>
+   <p>
+    <code class="code">read64</code> isminde bir işlevin olmadığını unutulmamalıdır. İşlev olası geniş dosya konumlarını işlemek ya da değiştirmek için bir işlem yapmadığından bu gerekli değidir. Çekirdek gerekeni kendi içinde hallettiğinden <code class="code">read</code> işlevi her durumda kullanılabilir.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda bir iptal noktasıdır. <code class="code">read</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">read</code> çağrılarından kaçınmak için iptal eylemcileri kullanılarak korunulmalıdır.
+   </p>
+   <p>
+    <span class="command"><strong>read</strong></span> işlevi, akımlardan okuma yapan <a href="glibc-Character-Input.html#glibc-fn-fgetc"><strong class="function"><code>fgetc</code></strong></a> gibi işlevler için temel ilkeldir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-pread" class="indexterm"></span>
+   <span id="glibc-fn-pread" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">pread</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">pread</code> işlevi ilk üç bağımsız değişkeninin ve dönüş değeri ile hata durumlarının aynı olmasıyla <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevine çok benzer.
+   </p>
+   <p>
+    Fark dördüncü bağımsız değişkende ve onun elde edilişindedir. Okuma işlemi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısının geçerli konumundan değil, <em class="parameter"><code>offset</code></em> ile belirtilen konumdan başlar ve dosya tanıtıcısının konumu bu işlemden etkilenmez; değeri çağrı öncesindeki değerinde kalır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse <code class="code">pread</code> işlevi aslında 2^63 bayta kadar dosyalarla 64 bitlik <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde konumlarla çalışan <a href="glibc-I-O-Primitives.html#glibc-fn-pread64"><strong class="function"><code>pread64</code></strong></a> işlevi olur.
+   </p>
+   <p>
+    <code class="code">pread</code> işlevinin normal dönüş değeri okunan baytların sayısıdır. Hata durumunda <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> gibi <code class="code">-1</code> ile döndüğü gibi hata kodları aşağıdakiler dışında aynıdır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>offset</code></em> değeri negatif dolayısıyla kural dışı.
+      </p></dd><dt><span class="term"><code class="code">ESPIPE</code></span></dt><dd><p>
+       <em class="parameter"><code>offset</code></em> ardışık süreç ile ilişkili ve bu aygıt dosya içinde konum belirtilmesine izin vermiyor.
+      </p></dd></dl></div>
+   <p>
+    İşlev Unix Tek Belirtiminin 2. sürümünde tanımlı bir oluşumdur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-pread64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">pread64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-I-O-Primitives.html#glibc-fn-pread"><strong class="function"><code>pread</code></strong></a> işlevinin benzeridir.  Farkı <em class="parameter"><code>offset</code></em> bağımsız değişkeninin  2^31 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde değil, 2^63 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türünde olmasıdır. Bu işlev için kullanılan <em class="parameter"><code>filedes</code></em> tanıtıcısının <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open64"><strong class="function"><code>open64</code></strong></a> ile açılması önemlidir. Aksi takdirde, küçük dosya kipinde açılmış dosya tanıtıcılı <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türündeki dosya konumları hatalara yol açacaktır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-I-O-Primitives.html#glibc-fn-pread"><strong class="function"><code>pread</code></strong></a> ismiyle erişilir. Yani 64 bitlik arayüz 32 bitlik olanıyla değiştirilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-write" class="indexterm"></span>
+   <span id="glibc-fn-write" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">write</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">write</code> işlevi <em class="parameter"><code>filedes</code></em> tanıtıcılı dosyaya <em class="parameter"><code>buffer</code></em> tamponundaki <em class="parameter"><code>size</code></em> baytı yazar. <em class="parameter"><code>buffer</code></em> içindeki verinin bir karakter dizgesi olması gerekmediği gibi boş karakter de sıradan bir karakter olarak ele alınır.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri yazılabilen baytların sayısıdır. Bu <em class="parameter"><code>size</code></em> sayıda olabileceği halde hep daha küçük olur. İşlevin, tüm veri yazılana kadar tekrarlanan <code class="code">write</code> çağrıları şeklinde bir döngü içinde kullanılması gerekir.
+   </p>
+   <p>
+    <code class="code">write</code> döndükten hemen sonra kuyruklanan veri okunabilir. Bunun için verinin kalıcı bir saklama alanına yazılması şart değildir. Devam etmeden önce verinin kalıcı saklama alanına yazılmasını sağlamak için <a href="glibc-Synchronizing-I-O.html#glibc-fn-fsync"><strong class="function"><code>fsync</code></strong></a> kullanılabilir. (Yazma işlemini ard arda çağrılar şeklinde bir defada gerçekleştirip saklama alanına yazma işini sisteme bırakmak daha verimlidir. Normalde bu veri diske bir dakikadan daha geç yazılmaz.) Günümüz sistemlerinde <a href="glibc-Synchronizing-I-O.html#glibc-fn-fdatasync"><strong class="function"><code>fdatasync</code></strong></a> adında bir işlev daha vardır ve bununla dosya verisinin bütünlüğü garanti edilmiştir ve daha hızlıdır. Dosya  <a href="glibc-Operating-Modes.html#glibc-vr-O_FSYNC"><strong class="varname"><code>O_FSYNC</code></strong></a> kipinde açılırsa <code class="code">write</code> çağrıları veri diske yazılmadan dönmeyecektir; bkz.  <a class="xref" href="glibc-Operating-Modes.html" title="13.15.3. G/Ç İşlem Kipleri">G/Ç İşlem Kipleri</a>.
+   </p>
+   <p>
+    Hata durumunda işlev <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+       Normalde, yazma işlemi tamamlanana kadar <code class="code">write</code> dönmez. Fakat <a href="glibc-Open-time-Flags.html#glibc-vr-O_NONBLOCK"><strong class="varname"><code>O_NONBLOCK</code></strong></a> seçeneği etkinse (bkz. <a class="xref" href="glibc-Control-Operations.html" title="13.12. Dosyalar Üzerindeki Denetim İşlemleri"><em>Dosyalar Üzerindeki Denetim İşlemleri</em></a>), hiçbir veri yazılmadan işlev hemen bu hata durumu ile döner. Bu duruma bir örnek vermek gerekirse, sürecin  akış denetimini destekleyen bir uçbirim bir <code class="varname">STOP</code> karakteri aldığında çıktının aygıta yazılmasını engellemesi verilebilir.
+      </p><div class="admon note"><h3 class="admon-title">Uyumluluk Bilgisi</h3><div class="admon-contents"><p>
+        BSD Unix'in çoğu sürümü bu hata kodu için farklı bir hata kodu kullanır: <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a>. GNU C Kütüphanesinde <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a>, <code class="code">EAGAIN</code> için takma addır, dolayısıyla hangi ismin kullanıldığının bir önemi yoktur.
+       </p></div></div><p>
+       Bazı sistemlerde, çekirdek kullanıcı sayfaları için yeterli fiziksel bellek bulamazsa, bir karakter özel dosyasına büyük miktarda veri yazılması da <code class="code">EAGAIN</code> hata koduna sebep olur. Bu, kullanıcı belleğine doğrudan erişim ile aktarım yapan aygıtlarla sınırlıdır. Bunlar uçbirimleri kapsamaz, çünkü uçbirimler için çekirdek içinde daima ayrı tamponlar vardır. GNU/Hurd sistemlerinde böyle bir sorunla asla karşılaşılmaz.
+      </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçerli bir dosya tanıtıcı değil ya da okumak için açılmamış.
+      </p></dd><dt><span class="term"><code class="code">EFBIG</code></span></dt><dd><p>
+       Dosya boyutu gerçeklemenin desteklediğinden büyük olacak.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       Yazma işlemi tamamlanmadan önce bir sinyal tarafından durduruldu. Bir sinyal her zaman <code class="code">write</code> işlevinin <code class="code">EINTR</code> döndürmesine sebep olmaz; istenenden daha az baytı yazarak da işlev başarılı olabilir. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+       Çoğu aygıt ve disk dosyası için bu hata kodu bir donanım hatasını işaret eder.
+      </p></dd><dt><span class="term"><code class="code">ENOSPC</code></span></dt><dd><p>
+       Dosyayı içeren aygıt dolmuş.
+      </p></dd><dt><span class="term"><code class="code">ESPIPE</code></span></dt><dd><p>
+       Bu hata bir süreç tarafından yazmak için açılmamış bir ardışık sürece yazmaya çalışılırsa oluşur. Bu oluştuğu zaman sürece bir <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGPIPE"><strong class="varname"><code>SIGPIPE</code></strong></a> sinyali gönderilir; bkz. <a class="xref" href="glibc-Signal-Handling.html" title="24. Sinyal İşleme">Sinyal İşleme</a>.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Bazı sistemlerde bir karakter veya blok aygıtına yazarken, konum ve boyut başlangıçlarının belli bir blok boyuna hizalanması gerekir. Bu hata konumların gerektiği gibi hizalanmadığını belirtir.
+      </p></dd></dl></div>
+   <p>
+    <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> başarısızlıklarından korunmak için bir düzenleme yapılmadıkça,  her başarısız <code class="code">write</code> çağrısından sonra <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine bakılmalı ve bu <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> hatası ise çağrı tekrarlanmalıdır. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.  Bunu yapmanın kolay bir yolu <a href="glibc-Interrupted-Primitives.html#glibc-fn-TEMP_FAILURE_RETRY"><strong class="function"><code>TEMP_FAILURE_RETRY</code></strong></a> makrosunu kullanmaktır:
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">nbytes = TEMP_FAILURE_RETRY (write (desc, buffer, count));
+</pre></div></div><br class="example-break" />
+   <p>
+    <code class="code">write64</code> isminde bir işlevin olmadığını unutulmamalıdır. İşlev olası geniş dosya konumlarını işlemek ya da değiştirmek için bir işlem yapmadığından bu gerekli değidir. Çekirdek gerekeni kendi içinde hallettiğinden <code class="code">write</code> işlevi her durumda kullanılabilir.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda bir iptal noktasıdır. <code class="code">write</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">write</code> çağrılarından kaçınmak için iptal işleyicilerle korunulmalıdır.
+   </p>
+   <p>
+    <code class="code">write</code> işlevi, akımlardan okuma yapan <a href="glibc-Simple-Output.html#glibc-fn-fputc"><strong class="function"><code>fputc</code></strong></a> gibi işlevler için temel ilkeldir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-pwrite" class="indexterm"></span>
+   <span id="glibc-fn-pwrite" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">pwrite</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">pwrite</code> işlevi ilk üç bağımsız değişkeninin ve dönüş değeri ile hata durumlarının aynı olmasıyla <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevine çok benzer.
+   </p>
+   <p>
+    Fark dördüncü bağımsız değişkende ve onun elde edilişindedir. Yazma işlemi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısının geçerli konumundan değil, <em class="parameter"><code>offset</code></em> ile belirtilen konumdan başlar ve dosya tanıtıcısının konumu bu işlemden etkilenmez; değeri çağrı öncesindeki değerinde kalır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse <code class="code">pwrite</code> işlevi aslında 2^63 bayta kadar dosyalarla 64 bitlik <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde konumlarla çalışan <a href="glibc-I-O-Primitives.html#glibc-fn-pwrite64"><strong class="function"><code>pwrite64</code></strong></a> işlevi olur.
+   </p>
+   <p>
+    <code class="code">pwrite</code> işlevinin normal dönüş değeri yazılan baytların sayısıdır. Hata durumunda <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> gibi <code class="code">-1</code> ile döndüğü gibi hata kodları aşağıdakiler dışında aynıdır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>offset</code></em> değeri negatif dolayısıyla kural dışı.
+      </p></dd><dt><span class="term"><code class="code">ESPIPE</code></span></dt><dd><p>
+       <em class="parameter"><code>offset</code></em> ardışık süreç ile ilişkili ve bu aygıt dosya içinde konum belirtilmesine izin vermiyor.
+      </p></dd></dl></div>
+   <p>
+    İşlev Unix Tek Belirtiminin 2. sürümünde tanımlı bir oluşumdur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-pwrite64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">pwrite64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-I-O-Primitives.html#glibc-fn-pwrite"><strong class="function"><code>pwrite</code></strong></a> işlevinin benzeridir.  Farkı <em class="parameter"><code>offset</code></em> bağımsız değişkeninin  2^31 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünde değil, 2^63 bayta kadar dosyalar için olan <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türünde olmasıdır. Bu işlev için kullanılan <em class="parameter"><code>filedes</code></em> tanıtıcısının <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open64"><strong class="function"><code>open64</code></strong></a> ile açılması önemlidir. Aksi takdirde, küçük dosya kipinde açılmış dosya tanıtıcılı <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türündeki dosya konumları hatalara yol açacaktır.
+   </p>
+   <p>
+    Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-I-O-Primitives.html#glibc-fn-pwrite"><strong class="function"><code>pwrite</code></strong></a> ismiyle erişilir. Yani 64 bitlik arayüz 32 bitlik olanıyla değiştirilir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.13.3. İşleyici İşlevin Tanımlanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Conversion-Specifier-Options.html')">Önceki</button>
+          <div class="dropdown-content">12.13.2. Dönüşüm Belirteci Seçenekleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Printf-Extension-Example.html')">Sonraki</button>
+          <div class="dropdown-content">12.13.4. <code class="code">printf</code> Genişletme Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Defining-the-Output-Handler">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.13.3. İşleyici İşlevin Tanımlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümde <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> işlevine aktarılacak işleyici işlev ile bağımsız değişken bilgileri işlevinin nasıl tanımlanacağı açıklanacaktır.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Uyumluluk Bilgisi:</h3>
+          <div class="admon-contents">
+            <p>
+     Arayüz GNU C Kütüphanesi 2.0 sürümünde değiştirilmiştir. Bundan önce üçüncü bağımsız değişkenin türü <code class="type">va_list *</code> idi.
+    </p>
+          </div>
+        </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-printf_function" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">printf_function</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">const struct printf_info </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>, </code></strong><code class="type">const void *const </code><strong class="type">*</strong><strong><code class="parameter">args</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     <code class="code">printf_function</code> türü, <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> işlevinin <em class="parameter"><code>handler-function</code></em> (işleyici-işlev) bağımsız değişkeninin türüdür.
+    </p>
+    <p>
+     Yazılımda <a href="glibc-Parsing-a-Template-String.html#glibc-fn-parse_printf_format"><strong class="function"><code>parse_printf_format</code></strong></a> işlevi kullanılacaksa, <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> ile tanımlanacak her dönüşüm belirteci için <em class="parameter"><code>handler-function</code></em> bağımsız değişkeni ile aktarılacak işlevin de tanımlanması gerekir. İşlevin sözdizimi bu türün bildirimindeki gibi olmalıdır.
+    </p>
+    <p>
+     <em class="parameter"><code>stream</code></em> bağımsız değişkeni, işleyici işlevin çıktıyı yazacağı akımdır.
+    </p>
+    <p>
+     <em class="parameter"><code>info</code></em> bağımsız değişkeni, kalıp dizgesindeki belirteç ile birlikte belirtilen çeşitli seçenekler hakkında bilgi içeren yapıya göstericidir. Bu veri yapısının işleyici işlev içinde değiştirilmemesi gerekir. Bu veri yapısının açıklamaları için bkz. <a class="xref" href="glibc-Conversion-Specifier-Options.html" title="12.13.2. Dönüşüm Belirteci Seçenekleri">Dönüşüm Belirteci Seçenekleri</a>.
+    </p>
+    <p>
+     <em class="parameter"><code>args</code></em> bağımsız değişkenlerin verilerine göstericileri içeren bir gösterici dizisidir. Bağımsız değişken sayısı, yazılımcı tarafından tanımlanan bağımsız değişken bilgileri işlevi çağrılarak elde edilir.
+    </p>
+    <p>
+     Yazılımcı tarafından tanımlanacak bu işleyici-işlev de tıpkı <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevi gibi değer döndürmelidir: Ya çıktılanan karakterlerin sayısı ile dönmeli ya da hata durumunda hatayı ifade eden negatif bir değer ile dönmelidir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-printf_arginfo_function" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">printf_arginfo_function</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct printf_info </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">n</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">argtypes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> işlevinin <em class="parameter"><code>arginfo-function</code></em> bağımsız değişkeni ile aktarılacak işlevin sözdizimi bu türün bildirimindeki gibi olmalıdır.
+    </p>
+    <p>
+     İşlevden dönen değer, dönüşümü umulan bağımsız değişkenlerin sayısı olmalıdır. İşlev ayrıca <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevinin bağımsız değişkenlerinin her biri için tür bilgisini içeren en çok <em class="parameter"><code>n</code></em> elemanlı <em class="parameter"><code>argtypes</code></em> dizisini de doldurmalıdır. Bu bilgi <code class="code">PA_</code> makroları kullanılarak kodlanır. (Bu, <a href="glibc-Parsing-a-Template-String.html#glibc-fn-parse_printf_format"><strong class="function"><code>parse_printf_format</code></strong></a> işlevinin kullandığı çağrı ile aynı yapıdaysa bir uyarı verilir.)
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

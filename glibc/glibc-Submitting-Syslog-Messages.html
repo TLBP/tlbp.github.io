@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>18.2. Syslog İletilerinin Teslim Edilmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Overview-of-Syslog.html')">Önceki</button>
+          <div class="dropdown-content">18.1. Syslog'a Bir Bakış</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Syslog.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Mathematics.html')">Sonraki</button>
+          <div class="dropdown-content">19. Matematik</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Submitting-Syslog-Messages">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">18.2. Syslog İletilerinin Teslim Edilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   GNU C Kütüphanesi iletileri Syslog'a teslim etmek için işlevler içerir:
+  </p>
+        <p>
+   Bu işlevler iletileri sadece aynı sistemdeki Syslog oluşumuna teslim eder. Syslog iletilerini başka bir sistemdeki Syslog oluşumuna teslim etmek için sistemdeki <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> UDP portuna bir UDP veri katarı yazan soket G/Ç işlevleri kullanılır. Bkz. <a class="xref" href="glibc-Sockets.html" title="16. Soketler">Soketler</a>.
+  </p>
+        <section class="sect1" id="glibc-openlog">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">18.2.1. openlog</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başlık dosyasında bildirilmiştir.
+    <span id="idm123073" class="indexterm"></span>
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-openlog" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">openlog</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">ident</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">option</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">facility</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">openlog</code> işlevi iletileri teslim etmek için Syslog'a bir bağlantı açar ya da yeniden açar.
+    </p>
+    <p>
+     <em class="parameter"><code>ident</code></em> ileride yapılacak <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrılarında iletinin başına eklenecek keyfi bir kimlik dizgesidir. Bu iletinin kaynağını belirtmek için düşünülmüştür ve uzlaşımsal olarak iletileri teslim edecek yazılımın ismidir.
+    </p>
+    <p>
+     <em class="parameter"><code>ident</code></em> <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ise ya da <code class="code">openlog</code> çağrısı yapılmazsa, ön tanımlı kimlik dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismi olacaktır.
+    </p>
+    <p>
+     <em class="parameter"><code>ident</code></em> dizge göstericisinin Syslog yordamları tarafından dahili olarak saklanacağı unutulmamalıdır. <em class="parameter"><code>ident</code></em> ile gösterilen bellek serbest bırakılmamalıdır. Etki alanından çıkmak değişkenin yaşamının sonu demek olduğundan dizgeyi bir özdevinimli değişkende saklamak ayrıca tehlikelidir de. <em class="parameter"><code>ident</code></em> dizgesi değiştirilmek istenirse <code class="code">openlog</code> işlevi tekrar çağrılmalıdır; <em class="parameter"><code>ident</code></em> ile gösterilen dizgeye yazma işlemi evresel olarak güvenilir değildir.
+    </p>
+    <p>
+     Syslog yordamlarının <em class="parameter"><code>ident</code></em> başvurusunu bırakması sağlanabilir ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrısı ile ön tanımlı dizgeye (<code class="code">argv[0]</code>'dan alınan yazılım ismi) geri dönülebilir: Bkz. <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-closelog" title="18.2.3. closelog">closelog</a>.
+    </p>
+    <p>
+     Kodun, yüklenebilen bir paylaşımlı kütüphane (örn, bir PAM modülü) için yazılması durumunda <code class="code">openlog</code> kullanılıyorsa, kütüphaneyi yüklenmemiş duruma getirmeden önce bir noktada <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrısı yapılmalıdır. Bir örnek:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">#include &lt;syslog.h&gt;
+
+void
+shared_library_function (void)
+{
+  openlog ("mylibrary", option, priority);
+
+  syslog (LOG_INFO, "shared library has been invoked");
+
+  closelog ();
+}
+</pre><p>
+      <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrılmaksızın kütüphane yüklenmemiş duruma getirilip <code class="code">"mylibrary"</code> dizgesini içeren bellek eşlenmemiş duruma getirilirse, kütüphaneyi kullanan yazılım tarafından ileride yapılacak bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı çökmeye sebep olabilir. Bu BSD syslog arayüzünün bir sınırlamasıdır.
+     </p></div></div><br class="example-break" />
+    <p>
+     <code class="code">openlog</code> işlevi <em class="parameter"><code>option</code></em> değerine bağlı olarak <code class="filename">/dev/log</code> soketini açabilir de açmayabilir de. Eğer açması gerekiyorsa,açmayı dener ve bir UDP soketi olarak ona bağlanır. Soket, "Close on Exec" özniteliğine sahiptir, bu bakımdan eğer süreç bir <strong class="function"><code>exec</code></strong> çağrısı yaparsa çekirdek onu kapatacaktır.
+    </p>
+    <p>
+     <code class="code">openlog</code> kullanımı zorunlu değildir. <code class="code">openlog</code> çağrısı yapmaksızın bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı yapılırsa, <em class="parameter"><code>ident</code></em> ve <em class="parameter"><code>option</code></em> için ön tanımlı değerler kullanılarak bağlantı anında açılır.
+    </p>
+    <p>
+     <em class="parameter"><code>option</code></em> bir bit dizgesidir. Bitler aşağıdaki tek bitlik maskelerle tanımlanmıştır:
+    </p>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-LOG_PERROR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_PERROR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bit varsa, <code class="code">openlog</code> bağlantıyı kurar, böylece bu bağlantı üzerinden yapılan herhangi bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı iletiyi Syslog'a teslim ederken ek olarak iletiyi sürecin standart hata akımına da yazar. Bit yoksa, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> iletiyi standart hataya yazmaz.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-LOG_CONS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_CONS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bit varsa, <code class="code">openlog</code> bağlantıyı kurar, böylece bu bağlantı üzerinden yapılan herhangi bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısında bir ileti Syslog'a teslim edilemezse ileti sistem konsoluna yazılır. Bit yoksa, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı sistem konsoluna yazmaz (ama şüphesiz çağrının geldiği konsola yazabilir).
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-LOG_PID" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_PID</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bit varsa, <code class="code">openlog</code> bağlantıyı kurar, böylece bu bağlantı üzerinden yapılan herhangi bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı, çağrıldığı sürecin süreç kimliğini (PID) iletiye yerleştirir. Bit yoksa, <code class="code">openlog</code> PID'i yerleştirmez.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-LOG_NDELAY" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_NDELAY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bit varsa, <code class="code">openlog</code>, <code class="filename">/dev/log</code> soketini açar ve bağlanır. Bit yoksa, ileride yapılacak bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı soketi açmalı ve bağlanmalıdır.
+     </p>
+     <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+       Erken dönemdeki sistemlerde, bu bit tamamen ters çalışırdı.
+      </p></div></div>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-LOG_ODELAY" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_ODELAY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bu bit hiçbir şey yapmaz. Sadece geriye uyumluluk adına vardır.
+     </p>
+    </div>
+    <p>
+     <em class="parameter"><code>option</code></em> içindeki diğer bitler birse sonuç belirsizdir.
+    </p>
+    <p>
+     <em class="parameter"><code>facility</code></em> bu bağlantı için ön tanımlı oluşum kodudur. Bu bağlantı üzerinden ön tanımlı oluşum belirten bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı, iletinin bu oluşumla ilişkilendirilmesine sebep olur. Olası değerler <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> işlevinin açıklamasında bulunabilir. <span class="command"><strong>LOG_USER</strong></span> anlamına gelen sıfır değeri ön tanımlıdır.
+    </p>
+    <p>
+     <code class="code">openlog</code> çağrısı yapıldığında, eğer bir Syslog bağlantısı zaten açıksa, <code class="code">openlog</code> bağlantıyı "yeniden" açar. Yeniden açma ön tanımlı oluşum kodu için sıfır belirtilmesi dışında açma gibidir, ön tanımlı kod basitçe değişmeden kalır ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-vr-LOG_NDELAY"><strong class="varname"><code>LOG_NDELAY</code></strong></a> belirtilmişse, soket zaten açık ve bağlı olduğundan <code class="code">openlog</code> onu olduğu gibi bırakır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-syslog-vsyslog">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">18.2.2. syslog, vsyslog</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başkık dosyasında bildirilmiştir.
+   <span id="idm123213" class="indexterm"></span>
+  </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-syslog" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">syslog</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">facility_priority</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">syslog</code> bir iletiyi Syslog'a teslim eder. Bunu Unix alan soketi olan <code class="filename">/dev/log</code>'a yazarak yapar.
+   </p>
+   <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-fn-LOG_MAKEPRI" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_MAKEPRI</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><strong><code class="parameter">facility</code></strong><strong><code>, </code></strong><strong><code class="parameter">priority</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    <code class="code">syslog</code> iletiyi <em class="parameter"><code>facility_priority</code></em> ile belirtilen oluşum ve öncelikle teslim eder. Tek bir oluşum ve tek bir öncelik kodundan <em class="parameter"><code>facility_priority</code></em> değeri <code class="code">LOG_MAKEPRI</code> makrosu ile şöyle üretilir (Makro iki değeri VEYAlar):
+    </p>
+    <pre class="screen">LOG_MAKEPRI(LOG_USER, LOG_WARNING)</pre>
+    <p>
+     <em class="parameter"><code>facility</code></em> için olası değerler (makrolar):
+    </p>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_USER" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_USER</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Çeşitli kullanıcı süreci
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_MAIL" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_MAIL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Posta
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_DAEMON" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_DAEMON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Çeşitli sistem artalan süreci
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_AUTH" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_AUTH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Güvenlik (yetkilendirme)
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_SYSLOG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_SYSLOG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Syslog
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_LPR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LPR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Merkezi yazıcı
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_NEWS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_NEWS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Ağ haber grupları (örn, Usenet)
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_UUCP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_UUCP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      UUCP
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_CRON" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_CRON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Cron ve At
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_AUTHPRIV" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_AUTHPRIV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Özel güvenlik (yetkilendirme)
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_FTP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_FTP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      FTP Sunucusu
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_LOCAL0" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL0</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL1" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL1</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL2" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL2</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL3" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL3</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL4" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL4</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL5" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL5</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL6" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL6</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vt-LOG_LOCAL7" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_LOCAL7</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Yerel olarak tanımlı
+     </p>
+    </div>
+    <p>
+     Bunların dışındaki <em class="parameter"><code>facility</code></em> değerleri için sonuç tanımsızdır.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+      <code class="code">syslog</code> başka bir oluşum kodu daha tanır: bu çekirdektir. Ama onun oluşum kodu bu işlevlerle belirtilemez. Denenirse, <code class="code">syslog</code> ön tanımlı oluşum isteği yapılmış gibi davranır. Fakat bunun hiçbir şekilde denenmemesi gerekir, çünkü çekirdek GNU C Kütüphanesini kullanan bir yazılım değildir.
+     </p></div></div>
+    <p>
+     <em class="parameter"><code>facility_priority</code></em> olarak tek bir öncelik kodu belirtilebilir. Bu durumda, <code class="code">syslog</code> çağrısı Syslog bağlantısı açıldığında ön tanımlı oluşum bağlantısı kurulduğunu varsayar. Bkz.  <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-Syslog-Example" title="18.2.5. Syslog Örneği">Syslog Örneği</a>.
+    </p>
+    <p>
+     <em class="parameter"><code>priority</code></em> için olası değerler (makrolar):
+    </p>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_EMERG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_EMERG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti, sistemin kullanılamaz olduğunu söylüyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_ALERT" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_ALERT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İletideki işlem hemen yerine getirilmelidir.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_CRIT" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_CRIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti ciddi bir durum belirtiyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_ERR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_ERR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti bir hata açıklıyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_WARNING" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_WARNING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti bir uyarı açıklıyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_NOTICE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_NOTICE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti normal ama önemli bir olayı açıklıyor.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_INFO" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_INFO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti tamamen bilgilendiricidir.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vt-LOG_DEBUG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_DEBUG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İleti yalnızca hata ayıklama amaçlıdır.
+     </p>
+    </div>
+    <p>
+     Bunların dışındaki <em class="parameter"><code>priority</code></em> değerleri için sonuç tanımsızdır.
+    </p>
+   </div>
+   <p>
+    Süreç açık bir Syslog bağlantısına sahip değilse (yani <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> çağrısı yapılmamışsa), <code class="code">syslog</code> işlevi <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  işlevinin yaptığı gibi hemen bağlantıyı açar. Bağlantıyı açarken, aksi sadece bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  çağrısı ile belirtilebilecek bilgi için şu ön tanımlıları kullanır:
+   </p>
+   <div><ul class="simplelist"><li class="member">Öntanımlı <em class="parameter"><code>ident</code></em> dizgesi yazılımın ismidir.
+    </li><li class="member">Öntanımlı <em class="parameter"><code>facility</code></em> <span class="command"><strong>LOG_USER</strong></span>'dır.
+    </li><li class="member"><em class="parameter"><code>option</code></em> ile belirtilen bitlerin hepsi sıfırdır. </li><li class="member"><code class="code">syslog</code> bağlantıyı açık bırakır.</li></ul></div>
+   <p>
+    <code class="filename">dev/log</code> soketi açık ve bağlı değilse, <code class="code">syslog</code> işlevi, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> işlevinin <a href="glibc-Submitting-Syslog-Messages.html#glibc-vr-LOG_NDELAY"><strong class="varname"><code>LOG_NDELAY</code></strong></a> seçeneğiyle yaptığı gibi soketi açar ve bağlanır.
+   </p>
+   <p>
+    <code class="code">syslog</code> iletiyi göndermeye çalışırkan başarısız olmazsa, <code class="filename">dev/log</code> soketini açık ve bağlı bırakır, aksi takdirde <code class="code">syslog</code> soketi kapatır (ileride bir örtük açılışın Syslog bağlantısını kullanışlı bir durumda açacağını umarak).
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">#include &lt;syslog.h&gt;
+syslog (LOG_MAKEPRI(LOG_LOCAL1, LOG_ERROR),
+        "Unable to make network connection to %s.  Error=%m", host);
+</pre></div></div><br class="example-break" />
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-vsyslog" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">vsyslog</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">facility_priority</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">va_list </code><strong><code class="parameter">arglist</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     BSD tarzı değişken sayıda bağımsız değişken dışında <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> işlevinin benzeridir.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-closelog">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">18.2.3. closelog</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başılk dosyasında bildirilmiştir.
+    <span id="idm123527" class="indexterm"></span>
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-closelog" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">closelog</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>;
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">closelog</code> işlevi, var olan Syslog bağlantısını kapatır. Bu işlem açıksa <code class="filename">/dev/log</code> soketini de kapatır. İşlev ayrıca Syslog iletilerininin kimlik dizgesini, eğer <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> bağlantıyı boş olmayan bir <em class="parameter"><code>ident</code></em> bağımsız değişkeni ile açmışsa, geriye ön tanımlı değerine ayarlar. Öntanımlı <em class="parameter"><code>ident</code></em> dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismidir.
+    </p>
+    <p>
+     Özelleştirilmiş syslog çıktısı üretmek için <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> kullanan paylaşımlı bir kütüphane kodu yazılıyorsa, iş bittiğinde, GNU C Kütüphanesinin <em class="parameter"><code>ident</code></em> göstericisi ile ilişkisini kesmek için <code class="code">closelog</code> kullanılmalıdır. Daha fazla bilgi için <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-openlog" title="18.2.1. openlog">openlog</a> bölümünü okunabilir.
+    </p>
+    <p>
+     <code class="code">closelog</code> tamponları boşaltmaz. Bir Syslog bağlantısını <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> ile yeniden açmadan önce <code class="code">closelog</code> çağrısı zorunlu değildir. Syslog bağlantıları <strong class="function"><code>exec</code></strong> veya <strong class="function"><code>exit</code></strong> çağrıları ile özdevinimli olarak kapanır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-setlogmask">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">18.2.4. setlogmask</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başılk dosyasında bildirilmiştir.
+    <span id="idm123573" class="indexterm"></span>
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setlogmask" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setlogmask</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">mask</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:LogMask</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">setlogmask</code> işlevi ileride hangi <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrılarının yok sayılacağını belirleyen bir maske ("logmask") tanımlar. Eğer bir yazılım <code class="code">setlogmask</code> çağrısı yapmazsa, hiçbir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı yok sayılmaz. <code class="code">setlogmask</code> işlevi hangi öncelikteki iletilerin ileride yok sayılacağını belirtmek için kullanılabilir.
+    </p>
+    <p>
+     Her <code class="code">setlogmask</code> çağrısı daha önceki bir <code class="code">setlogmask</code> çağrısının etkisini ortadan kaldırır.
+    </p>
+    <p>
+     Logmask, Syslog bağlantılarının açılması ya da kapanmasından bağımsız olarak mevcut olabilir.
+    </p>
+    <p>
+     Logmaskın atanması, Syslog'un yapılandırmasına benzer bir etki oluşturmasına rağmen tamamen aynı değildir. Syslog yapılandırması, alınacak belli iletilerin tamamen yok sayılmasına sebep olabilir, ama logmaskta belirterek yapılandırma ile yok sayılan iletilerin teslim edilmesi sağlanamaz.
+    </p>
+    <p>
+     <em class="parameter"><code>mask</code></em> her biti olası ileti önceliklerine karşılık düşen bir bit maskesidir. Eğer bu bitlerden biri birse, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> o bitle ilgili öncelikteki iletileri iptal eder. Kullanılan ileti öncelik makroları  <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-syslog-vsyslog" title="18.2.2. syslog, vsyslog">syslog, vsyslog</a> bölümünde açıklanmıştır.
+    </p>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-fn-LOG_MASK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_MASK</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><strong><code class="parameter">priority</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <p>
+      Uygun <em class="parameter"><code>mask</code></em> değeri oluşturmak için kullanılır. Kullanım örnekleri:
+     </p>
+     <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">LOG_MASK(LOG_EMERG) | LOG_MASK(LOG_ERROR)
+</pre><p>veya</p><pre class="screen">~(LOG_MASK(LOG_INFO))
+</pre></div></div><br class="example-break" />
+    </div>
+    <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-fn-LOG_UPTO" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LOG_UPTO</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><strong><code class="parameter">priority</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <p>
+      <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-LOG_MASK"><strong class="varname"><code>LOG_MASK</code></strong></a> makrosuna benzer, farklı olarak belirtilen öncelikten daha düşük öncelikteki iletiler de iptal edilir. Örnek:
+     </p>
+     <pre class="screen">LOG_UPTO(LOG_ERROR)
+</pre>
+     <p>
+      Makronun talihsiz bir şekilde adlandırılmasının nedeni dahili olarak daha düşük ileti öncelikleri için daha yüksek sayıların kullanılmasıdır.
+     </p>
+    </div>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Syslog-Example">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">18.2.5. Syslog Örneği</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Burada <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> işlevlerinin kullanımı örneklenmiştir:
+   </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <p>
+     Bu örnekte hata ayıklama ve bilgilendirme iletileri logmaskta belirtilerek daha Syslog'a ulaşmadan iptal edilmektedir. Böylece örnekteki ikinci <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> hiçbir şey yapmamaktadır.
+    </p>
+              <pre class="screen">#include &lt;syslog.h&gt;
+
+setlogmask (LOG_UPTO (LOG_NOTICE));
+
+openlog ("exampleprog", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+
+syslog (LOG_NOTICE, "Program started by User %d", getuid ());
+syslog (LOG_INFO, "Ormanda bir ağaç devrildi.");
+
+closelog ();
+
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

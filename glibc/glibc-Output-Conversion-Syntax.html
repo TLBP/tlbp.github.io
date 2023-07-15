@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.12.2. Çıktı Dönüşüm Sözdizimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output-Basics.html')">Önceki</button>
+          <div class="dropdown-content">12.12.1. Biçimli Çıktılamanın Temelleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Table-of-Output-Conversions.html')">Sonraki</button>
+          <div class="dropdown-content">12.12.3. Çıktı Dönüşümlerinin Listesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Output-Conversion-Syntax">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.12.2. Çıktı Dönüşüm Sözdizimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümde bir <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> kalıp dizgesindeki dönüşüm belirtimlerinin tam sözdizimi ayrıntılarıyla açıklanmıştır.
+   </p>
+        <p>
+    Kalıp dizgesindeki bir dönüşüm belirtiminin parçası olmayan karakterler akıma oldukları gibi çıktılanır. Kalıp dizgesinde çok baytlı karakter dizileri de kullanılabilir (Bkz. <a class="xref" href="glibc-Character-Set-Handling.html" title="6. Karakter Kümeleriyle Çalışma">Karakter Kümeleriyle Çalışma</a>).
+   </p>
+        <p>
+    Bir <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> kalıp dizgesindeki dönüşüm belirtimlerinin genel sözdizimi:
+   </p>
+        <pre class="literallayout monospaced"><code class="code">% [ <em class="replaceable"><code>konum</code></em> $] <em class="replaceable"><code>imler</code></em> <em class="replaceable"><code>genişlik</code></em> [ . <em class="replaceable"><code>hassasiyet</code></em> ] <em class="replaceable"><code>tür</code></em> <em class="replaceable"><code>dönüşüm</code></em></code>
+</pre>
+        <p>veya</p>
+        <pre class="literallayout monospaced"><code class="code">% [ <em class="replaceable"><code>konum</code></em> $] <em class="replaceable"><code>imler</code></em> <em class="replaceable"><code>genişlik</code></em> . * [ <em class="replaceable"><code>konum</code></em> $] <em class="replaceable"><code>tür</code></em> <em class="replaceable"><code>dönüşüm</code></em></code>
+</pre>
+        <p>
+    
+    Örneğin, <code class="code">%-10.8ld</code> dönüşüm belirtecinde, <code class="code">-</code> ile im, <code class="code">10</code> ile alan genişliği, <code class="code">8</code> ile hassasiyet, <code class="code">l</code> ile veri türü, <code class="code">d</code> ile dönüşüm tarzı belirtilmektedir. (Bu dönüşüm belirteci art bileşen bağımsız değişkeninin en az <code class="code">10</code> karakter genişlikteki alana onluk tabanda <code class="code">8</code> basamaklı <code class="type">long int</code> türündeki değerinin sola yanaşık olarak basılacağını belirtir.)
+   </p>
+        <p>
+    Çıktı dönüşüm belirtimlerinde <code class="code">%</code> imini izleyen  belirteçler sırayla aşağıda açıklanmıştır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      İsteğe bağlı <em class="replaceable"><code>konum</code></em>. Normalde <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevi, kalıp dizgesini izleyen bağımsız değişkenleri verildikleri sıraya göre basar. Ancak bazı durumlarda (örneğin çevirilerde) bu sıra uygun düşmez ve bunların sırasını değiştirmek gerekir. Bu sıra değişikliği <em class="replaceable"><code>konum</code></em> ile belirtilir.
+     </p>
+              <p>
+      Sözdizimindeki <em class="replaceable"><code>konum</code></em> parçası 1’den çağrıdaki art bileşen bağımsız değişkenlerinin sayısına kadar bir aralıkta bir tamsayı olmalıdır. Bazı gerçeklenimler belirtilebilecek artbileşen bağımsız değişkenlerinin sayısına bir üst sınır koyar. Bu sınır değer aşağıdaki sabit ile belirlenir.
+     </p>
+              <div class="csynopsis"><div class="cstype">      sabit</div>
+      <span id="glibc-vr-NL_ARGMAX" class="indexterm"></span>
+      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">NL_ARGMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+      <p>
+       <code class="code">NL_ARGMAX</code> sabitinin değeri bir <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> çağrısında belirtilebilecek art bileşen bağımsız değişkenlerin sayısının üst sınırıdır. Çalışma anında etkin olan bu değer <strong class="function"><code>sysconf</code></strong> işlevinin <em class="parameter"><code>parameter</code></em> bağımsız değişkeninde <span class="command"><strong>_SC_NL_ARGMAX</strong></span> kullanılarak alınabilir. Bkz.  <a class="xref" href="glibc-Sysconf.html#glibc-Sysconf-Definition" title="32.4.1. sysconf Tanımı"><code class="code">sysconf</code> Tanımı</a>.
+      </p>
+      <p>
+       Bazı sistemler oldukça düşük değerlere sahiptir, örneğin System V için bu değer 9'dur. GNU C Kütüphanesinde böyle bir sınır yoktur.
+      </p>
+     </div>
+              <p>
+      Biçemlerden herhangi birinde <em class="replaceable"><code>konum</code></em> belirtilmişse diğerlerinde de olmalıdır. Aksi takdirde, işlevin davranışı tanımlanmamıştır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <span id="glibc-cp-im" class="indexterm"></span>
+      Dönüşüm belirtiminin normal davranışını değiştiren sıfır veya daha fazla  <em class="wordasword">im karakteri</em>.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <span id="idm106408" class="indexterm"></span>
+      <em class="wordasword">En küçük alan genişliği</em>ni belirten isteğe bağlı bir onluk tamsayı. Normal dönüşüm bundan daha az karakter üretiyorsa eksik karakterlerin yeri boşluklarla doldurulur. Bu bir <em class="emphasis">en küçük</em> değerdir; normal dönüşüm bundan daha fazla karakter üretiyorsa, değer alan genişliği ile sınırlanmaz.  Normalde çıktı alan içinde sağa yanaştırılır.
+     </p>
+              <p>
+      Alan genişliği <code class="code">*</code> ile de belirtilebilir. Bu durumda bağımsız değişken listesindeki sonraki bağımsız değişken alan genişliği olarak kullanılır. Değer <code class="type">int</code> türünde olmalıdır. Değer negatifse  <code class="code">-</code> imi im karakteri olarak, mutlak değer ise alan genişliği olarak kullanılır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      
+      <span id="glibc-cp-hassasiyet" class="indexterm"></span>
+      Sayısal dönüşümlerde basamak sayısını belirtmek için isteğe bağlı <em class="wordasword">hassasiyet</em> değeri. Hassasiyet belirtilmişse,  noktadan (<span class="command"><strong>.</strong></span>) sonra gelen onluk tamsayıdır (verilmezse ön tanımlı değeri sıfırdır).
+     </p>
+              <p>
+      Hassasiyet <code class="code">*</code> ile de belirtilebilir. Bu durumda bağımsız değişken listesindeki sonraki bağımsız değişkenin hassasiyeti olarak kullanılır. Değer <code class="type">int</code> türünde olmalıdır. Negatifse yok sayılır. Hem alan genişliği hem de hassasiyet <code class="code">*</code> ile belirtilirse, alan genişliği hassasiyetten önce olmalıdır. Diğer C kütüphanesi sürümleri bu sözdizimini tanımayabilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <span id="glibc-cp-tür-değiştirme" class="indexterm"></span>
+      İsteğe bağlı bir <em class="wordasword">tür değiştirme karakteri</em>; art bileşen bağımsız değişkenin türünden farklı bir tür belirtmek için kullanılır. (Örneğin tamsayı dönüşümleri <code class="type">int</code> türünde varsayılır, ama <code class="code">h</code>, <code class="code">l</code> veya <code class="code">L</code> harfi ile başka bir tür belirtilebilir.)
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <span id="glibc-cp-belirtec" class="indexterm"></span>
+      Uygulanacak dönüşümü belirten bir karakter (<em class="wordasword">dönüşüm belirteci</em>).
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    İzin verilen seçenekler ve yorumlanışları farklı dönüşüm belirteçleri için aynı değildir. Bir seçeneğin kullanıldığı bir dönüşümdeki yorumlanışı ile ilgili bilgiler, o dönüşümün açıklamalarında bulunabilir.
+   </p>
+        <p>
+    <code class="option">-Wformat</code> seçeneği ile GNU C derleyicisi <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve ilgili işlevleri denetler. Biçim dizgesine bakarak doğru sayı ve türde bağımsız değişken belirtilip belirtilmediğini denetler. Yazılan <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> tarzı biçem dizgesini denetlemek için GNU C sözdizimini derleyiciye söyleyecek bir işlev de vardır. (Bkz: GCC info'sundaki <a class="link" href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes" target="_top">"İşlev Özniteliklerinin Bildirilmesi"</a> [Declaring Attributes  of Functions])
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

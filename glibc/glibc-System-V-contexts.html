@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>23.4. Bütünsel Bağlam Denetimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits-and-Signals.html')">Önceki</button>
+          <div class="dropdown-content">23.3. Yerel Olmayan Çıkışlarda Sinyaller</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Sonraki</button>
+          <div class="dropdown-content">24. Sinyal İşleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-System-V-contexts">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">23.4. Bütünsel Bağlam Denetimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Unix standardında var olan, yürütme yolunu denetleyen bir diğer işlev grubu. Bu işlevler bu bölümde buraya kadar anlatılanlardan daha güçlü olup en baştan beri System V yazılım geliştirme arayüzünde bulunmakta olup buradan Unix yazılım geliştirme arayüzüne aktarılmıştır. Markalı Unix gerçeklenimleri dışında bu arayüzlere fazla rastlanmaz. GNU C'nin bulunduğu bütün platformlar ve mimarilerde de yer almazlar. Var olup olmadıkları <code class="code">configure</code> kullanılarak anlaşılabilir.
+  </p>
+        <p>
+   <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> işlevinin durumunu içeren değişkenler için kullanılan <a href="glibc-Non-Local-Details.html#glibc-tp-jmp_buf"><strong class="type"><code>jmp_buf</code></strong></a> ve <a href="glibc-Non-Local-Exits-and-Signals.html#glibc-tp-sigjmp_buf"><strong class="type"><code>sigjmp_buf</code></strong></a> türlerine benzer şekilde, burada anlatılacak olan arayüzler için de uygun türler tanımlanmıştır. Bu türdeki nesneler daha fazla bilgi içerdiklerinden dolayı daha büyüktür. Bu tür ileride görülecek birkaç yerde daha kullanılmıştır. Bu bölümde anlatılan veri türleri ve işlevlerin tümü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code> başlık dosyasında tanımlanmış ve bildirilmiştir.
+   <span id="idm125893" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-ucontext_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">ucontext_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">ucontext_t</code> yapısı en azından aşağıdaki üyeleri içermelidir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">ucontext_t *</code><strong class="structfield"><code>uc_link</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Sonraki bağlam yapısına göstericidir. Eğer mevcut yapıda tanımlanan bağlamdan çıkılmışsa kullanılır.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">sigset_t </code><strong class="structfield"><code>uc_sigmask</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu bağlam kullanıldığında engellenen sinyalleri içerir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">stack_t </code><strong class="structfield"><code>uc_stack</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu bağlam için kullanılan yığıt. Değeri bir yığıt göstericisi olmak zorunda değildir ve normalde de değildir. Bkz. <a class="xref" href="glibc-Signal-Stack.html" title="24.9. Sinyal Yığıtı"><em>Sinyal Yığıtı</em></a>.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">mcontext_t </code><strong class="structfield"><code>uc_mcontext</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu üye sürecin mevcut durumunu içerir. <code class="type">mcontext_t</code> türü de bu başlıkta tanımlanır fakat bu tanımın geçirimsiz olduğu düşünülmelidir. Bu türde herhangi bir bilgi kullanımı, uygulamaları daha az taşınabilir hale getirir.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Bu türden nesneler yazılımcı tarafından oluşturulmalıdır. İlklendirme ve değişiklik işlemleri için aşağıdaki işlevlerden biri kullanılır:
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getcontext" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getcontext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">ucontext_t </code><strong class="type">*</strong><strong><code class="parameter">ucp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ucp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">getcontext</code> işlevi, kendisini çağıran evre bağlamında <em class="parameter"><code>ucp</code></em> ile gösterilen bağlam nesnesini ilklendirir. Buradaki bağlam, yazmaçlar, sinyal maskesi ve mevcut yığıta ait içerikleri barındırır. İçeriklerin yürütmesi <code class="code">getcontext</code> çağrısı döndüğü anda başlar.
+   </p>
+   <div class="admon note"><h3 class="admon-title">Uyumluluk Bilgisi:</h3><div class="admon-contents"><p>
+     İşletim sistemine bağlı olarak, geçerli bağlamın yığıtı hakkındaki bilgiler <em class="parameter"><code>ucp</code></em>'nin <strong class="structfield"><code>uc_stack</code></strong> alanında olabilir veya bunun yerine <strong class="structfield"><code>uc_mcontext</code></strong> alanının mimariye özgü alt alanlarında olabilir.
+    </p></div></div>
+   <p>
+    İşlev başarılıysa <code class="code">0</code> değerini döndürür. Değilse <code class="code">-1</code> döndürür ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine uygun değeri atar.
+   </p>
+  </div>
+        <p>
+   <code class="code">getcontext</code> işlevi <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevine benzer ancak işlevin ilk kez mi döndüğü yoksa ilklendirilmiş bağlam kullanılıp yürütmeye o noktadan mı geri dönüldüğü konusunda bilgi vermez.  Eğer bu ayrımın yapılması gerekliyse, bunu yazılımcı kendisi ortaya çıkarmalıdır. Ancak bunu dikkatlice yapmak gerekir çünkü bağlam içerisinde yazmaç değişkenlerini içeren yazmaçlar bulunabilir. Değişkenleri <code class="type">volatile</code> ile tanımlamak için bu iyi bir durumdur.
+  </p>
+        <p>
+   <em class="parameter"><code>ucp</code></em> bağlam nesnesine bir kez ilk değer atandıktan sonra ya olduğu gibi ya da <code class="code">makecontext</code> işlevi ile değiştirilerek kullanılır. Değişiklik normal olarak eş-yordamları veya benzeri yapıları gerçekleştirmek için yapılır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-makecontext" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">makecontext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">ucontext_t </code><strong class="type">*</strong><strong><code class="parameter">ucp</code></strong><strong><code>, </code></strong><code>void (*<em class="parameter"><code>func</code></em>) (void)</code><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">argc</code></strong><strong><code>, </code></strong><strong><code>…</code><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ucp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    İşleve aktarılan <em class="parameter"><code>ucp</code></em> bağımsız değişkeni <a href="glibc-System-V-contexts.html#glibc-fn-getcontext"><strong class="function"><code>getcontext</code></strong></a> tarafından ilklendirilmiş olmalıdır. Sonuçta elde edilen bağlama geri dönüldüğünde yapılan ilk işlem, <em class="parameter"><code>argc</code></em> tane tamsayı bağımsız değişken ile <em class="parameter"><code>func</code></em> işlevinin çağrılmasıdır. <code class="code">makecontext</code> çağrısında tamsayı bağımsız değişkenler <em class="parameter"><code>argc</code></em> bağımsız değişkeninden sonra verilmelidir.
+   </p>
+   <p>
+    Bu işlev çağrılmadan önce <em class="parameter"><code>ucp</code></em> yapısına ait <strong class="structfield"><code>uc_stack</code></strong> ve <strong class="structfield"><code>uc_link</code></strong> üyeleri ilklendirilmelidir. <strong class="structfield"><code>uc_stack</code></strong> üyesi bu bağlam için kullanılan yığıtı tanımlar. Aynı anda kullanılan bağlamların her biri yığıt için ayrı bellek bölgeleri kullanmalıdır.
+   </p>
+   <p>
+    <em class="parameter"><code>ucp</code></em> tarafından gösterilen nesnenin <strong class="structfield"><code>uc_link</code></strong> üyesi, <em class="parameter"><code>func</code></em> işlevinin geri dönüş noktasında yürütülecek bağlamı göstermeli veya boş gösterici olmalıdır. Kullanımı hakkında daha fazla bilgi için bkz: <a href="glibc-System-V-contexts.html#glibc-fn-setcontext"><strong class="function"><code>setcontext</code></strong></a>.
+   </p>
+  </div>
+        <p>
+   Yığıt için bellek ayırırken dikkatli olunmalıdır. Günümüzde işlemcilerin çoğunluğu bir bellek bölgesinin çalıştırılabilir kod içerip içeremeyeceği konusunda ayrım yapar. Veri bölütleri ve özdevimli ayırma yapılan bellekte buna izin veren bir yaftalama yoktur. Sonuçta yazılımlar başarısız olur. Bu tür çalıştırılabilir koda bir örnek, iç içe işlev çağrıları için GNU C derleyicisinin ürettiği çağrı dizilimleridir. Yığıtlar için güvenli bir şekilde bellek ayırmak için örneğin özgün evre yığıtı üzerindeki bellek kullanılabilir veya çalıştırılmaya uygun şekilde yaftalanmış bir bellek bölgesi tahsis edilebilir (bkz. <a class="xref" href="glibc-Memory-mapped-I-O.html" title="13.8. Bellek Eşlemli G/Ç"><em>Bellek Eşlemli G/Ç</em></a>).
+  </p>
+        <div class="admon note">
+          <h3 class="admon-title">Uyumluluk Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+    Mevcut Unix standardı yığıt için bellek tahsisi konusunda hemen hemen hiç belirleyici değildir. Bütün gerçeklenimler <strong class="structfield"><code>uc_stack</code></strong> üyesinin kullanımında anlaşmıştır ama <a href="glibc-Signal-Stack.html#glibc-tp-stack_t"><strong class="type"><code>stack_t</code></strong></a> türünden üyelerde saklanan değerler konusunu belirsiz bırakmıştır. GNU C Kütüphanesi ve diğer Unix gerçeklenimlerinin çoğunluğunda <strong class="structfield"><code>uc_stack</code></strong> üyesinin <strong class="structfield"><code>ss_sp</code></strong> değeri, yığıt için ayrılmış bellek bölgesinin tabanını göstermelir ve <strong class="structfield"><code>ss_size</code></strong> değeri de bu bölgenin büyüklüğünü içermelidir. Bazı gerçeklenimlerde ise <strong class="structfield"><code>ss_sp</code></strong> değeri yığıt göstericisinin değerini içerir (yığıtın gelişme yönüne göre bu değer farklıdır). Bu farklılık <a href="glibc-System-V-contexts.html#glibc-fn-makecontext"><strong class="function"><code>makecontext</code></strong></a> işlevinin kullanımını zorlaştırır ve derleme sırasında platformn bilgisinin elde edilip kullanılmasını zorunlu kılar.
+   </p>
+          </div>
+        </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-setcontext" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setcontext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const ucontext_t </code><strong class="type">*</strong><strong><code class="parameter">ucp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ucp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">setcontext</code> işlevi, <em class="parameter"><code>ucp</code></em> tarafından tanımlanmış bağlamı yeniden geçerli kılar. Bağlamda değişiklik yapılmaz ve istenen sıklıkta yeniden kullanılabilir.
+   </p>
+   <p>
+    Eğer bağlam <a href="glibc-System-V-contexts.html#glibc-fn-getcontext"><strong class="function"><code>getcontext</code></strong></a> ile oluşturulmuşsa yürütme sonunda yazmaçlar, <a href="glibc-System-V-contexts.html#glibc-fn-getcontext"><strong class="function"><code>getcontext</code></strong></a> sanki o an geri dönüş yapmış gibi aynı değerleri içerir.
+   </p>
+   <p>
+    Eğer <a href="glibc-System-V-contexts.html#glibc-fn-makecontext"><strong class="function"><code>makecontext</code></strong></a>'in çağrılmasıyla bağlamda değişiklik yapılmışsa <a href="glibc-System-V-contexts.html#glibc-fn-makecontext"><strong class="function"><code>makecontext</code></strong></a>'in çağrıldığı işlevle yürütmeye devam edilir ve bu işleve aynı çağrı sırasında verilen bağımsız değişkenler aktarılır. Bu işlev geri dönüş yaptığında <a href="glibc-System-V-contexts.html#glibc-fn-makecontext"><strong class="function"><code>makecontext</code></strong></a> çağrılırken verilen bağlam yapısının <strong class="structfield"><code>uc_link</code></strong> üyesi tarafından gösterilen bağlamla yürütmeye devam edilir. Eğer <strong class="structfield"><code>uc_link</code></strong> boş gösterici ise, bu durumda uygulama sonlanır.
+   </p>
+   <p>
+    Bağlam yığıt hakkında bilgi içerdiğinden aynı bağlamı aynı anda iki evre kullanmamalıdır. Aksi takdirde, sonuç çoğu durumda felaket olurdu.
+   </p>
+   <p>
+    <code class="code">setcontext</code> işlevi bir hata oluşmadıkça dönmeyecekir, hata oluşmuşsa <code class="code">-1</code> değeri ile döner.
+   </p>
+  </div>
+        <p>
+   <code class="code">setcontext</code> işlevi mevcut bağlamı basitçe <em class="parameter"><code>ucp</code></em> bağımsız değişkenini tanımlayarak değiştirir. Mevcut bağlamın korunmasını gerektiren durumlar da olmasına rağmen bu çoğunlukla kullanışlıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-swapcontext" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdlib/ucontext.h;hb=HEAD" target="_top">ucontext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">swapcontext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">ucontext_t *restrict </code><strong><code class="parameter">oucp</code></strong><strong><code>, </code></strong><code class="type">const ucontext_t *restrict </code><strong><code class="parameter">ucp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:oucp</a></code> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ucp</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">swapcontext</code> işlevi <a href="glibc-System-V-contexts.html#glibc-fn-setcontext"><strong class="function"><code>setcontext</code></strong></a> işlevine benzer, fakat geçerli bağlam olan <em class="parameter"><code>ucp</code></em> bağlamını bir <a href="glibc-System-V-contexts.html#glibc-fn-getcontext"><strong class="function"><code>getcontext</code></strong></a> çağrısından dönmüş olan <em class="parameter"><code>oucp</code></em> ile değiştirir. <code class="code">swapcontext</code> çağrısında sonra yürütme bu bağlamla devam eder.
+   </p>
+   <p>
+    Eğer <code class="code">swapcontext</code> başarılıysa işlev dönmez. <em class="parameter"><code>oucp</code></em> bağlamı evvelki bir <a href="glibc-System-V-contexts.html#glibc-fn-makecontext"><strong class="function"><code>makecontext</code></strong></a> çağrısı ile değişiklik yapılmaksızın kullanışmışsa  dönüş değeri <code class="code">0</code>'dır. Eğer işlev başarısız olmuşsa <code class="code">-1</code> döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.
+   </p>
+  </div>
+        <div class="example" id="glibc-Example-for-SVID-Context-Handling">
+          <div class="example-title">Örnek: SVID Bağlam Denetimi Örneği</div>
+          <div class="example-contents">
+            <p>
+    Bağlam işleme işlevlerini kullanmanın en kolay yolu <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> ve <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> işlevlerinin yerine bunları kullanmaktır. Bağlam çoğu platformda daha az sürprizle sonuçlanan daha fazla bilgi içermesine rağmen bu işlevlerin kullanımı daha masraflıdır (daha az taşınabilir olması cabası).
+   </p>
+            <pre class="screen">int
+random_search (int n, int (*fp) (int, ucontext_t *))
+{
+  volatile int cnt = 0;
+  ucontext_t uc;
+
+  /* <em class="replaceable"><code>Geçerli bağlamı güvene alalım.</code></em>  */
+  if (getcontext (&amp;uc) &lt; 0)
+    return -1;
+
+  /* <em class="replaceable"><code>n deneme yapılmamışsa, tekrar dene.</code></em>  */
+  if (cnt++ &lt; n)
+    /* <em class="replaceable"><code>İşlevi yeni bir rastgele sayı
+       ve bağlamla çağır.</code></em>.  */
+    if (fp (rand (), &amp;uc) != 0)
+      /* <em class="replaceable"><code>Arayan bulur.</code></em>  */
+      return 1;
+
+  /* <em class="replaceable"><code>Yokmuş.</code></em>  */
+  return 0;
+}
+</pre>
+            <p>
+    Bağlamların böyle bir yolla kullanımı olağan dışılıkların elde edilme benzeşimini etkinleştirir. <em class="replaceable"><code>fp</code></em> bağımsız değişkeni ile aktarılan arama işlevleri çok büyük, iç içe ve çağrıcıya aktarılan bir hata değeri ile işlevin bırakılması onu karmaşıklaştıracağından (veya en azından biraz daha kod gerekeceğinden), çok karmaşık olabilir. Bağlamı kullanarak arama işlevini tek bir adımda bırakmak ve ayrıca belirgin biçimde daha hızlı olabilen bir yan etkiyle aramanın yeniden başlatılmasına izin vermek mümkündür.
+   </p>
+            <p>
+    Geçici olarak farklı bir yürütme noktasına geçmek ve sonra yürütmenin durduğu yerden devam etmek gibi şeylerin <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> ve <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> ile gerçeklenmesi daha zordur.
+   </p>
+            <pre class="screen">
+#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;ucontext.h&gt;
+#include &lt;sys/time.h&gt;
+
+/* <em class="replaceable"><code>Bunu sinyal eylemci atayacak.</code></em> */
+static volatile int expired;
+
+/* <em class="replaceable"><code>Bağlamlar.</code></em> */
+static ucontext_t uc[3];
+
+/* <em class="replaceable"><code>Belli sayıda geçiş yapılacak.</code></em> */
+static int switches;
+
+
+/* <em class="replaceable"><code>Bu işi yapan işlev. Sadece bir iskelet,
+   gerçek kod sonra yerleştirilecek</code></em> */
+static void
+f (int n)
+{
+  int m = 0;
+  while (1)
+    {
+      /* <em class="replaceable"><code>İşin yapıldığı yer.</code></em> */
+      if (++m % 100 == 0)
+        {
+          putchar ('.');
+          fflush (stdout);
+        }
+
+      /* <em class="replaceable"><code>Değişkenin zaman aşımına uğrayıp uğramadığına
+         düzenli olarak bakmak lazım.</code></em> */
+      if (expired)
+        {
+          /* <em class="replaceable"><code>Kodun uzun uzadıya çalışmasını istenmiyor.</code></em> */
+          if (++switches == 20)
+            return;
+
+          printf (\n%d. bağlamdan %d. bağlama geçiliyor\n", n, 3 - n);
+          expired = 0;
+          /* <em class="replaceable"><code>Diğer bağlama geçip şimdikini kaydet.</code></em> */
+          swapcontext (&amp;uc[n], &amp;uc[3 - n]);
+        }
+    }
+}
+
+/* <em class="replaceable"><code>Sadece değişkene değer atayan bir sinyal eylemci bu.</code></em> */
+void
+handler (int signal)
+{
+  expired = 1;
+}
+
+
+int
+main (void)
+{
+  struct sigaction sa;
+  struct itimerval it;
+  char st1[8192];
+  char st2[8192];
+
+  /* <em class="replaceable"><code>Zamanlayıcının kullanacağı veri yapılarını ilklendir.</code></em> */
+  sa.sa_flags = SA_RESTART;
+  sigfillset (&amp;sa.sa_mask);
+  sa.sa_handler = handler;
+  it.it_interval.tv_sec = 0;
+  it.it_interval.tv_usec = 1;
+  it.it_value = it.it_interval;
+
+  /* <em class="replaceable"><code>Zamanlayıcıyı kur ve çalışılacak bağlamı al.</code></em> */
+  if (sigaction (SIGPROF, &amp;sa, NULL) &lt; 0
+      || setitimer (ITIMER_PROF, &amp;it, NULL) &lt; 0
+      || getcontext (&amp;uc[1]) == -1
+      || getcontext (&amp;uc[2]) == -1)
+    abort ();
+
+  /* <em class="replaceable"><code>Bağlamı, f işlevinin 1 bağımsız değişkeni ile
+     çağrılmasına sebep olan ayrı bir yığıt ile oluştur.
+     uc_link'in, işlev döndüğü anda yazılımın sonlanmasına
+     sebep olan ana bağlamı gösterdiğine dikkat et.</code></em> */
+  uc[1].uc_link = &amp;uc[0];
+  uc[1].uc_stack.ss_sp = st1;
+  uc[1].uc_stack.ss_size = sizeof st1;
+  makecontext (&amp;uc[1], (void (*) (void)) f, 1, 1);
+
+  /* <em class="replaceable"><code>Aynı ama f'ye bağımsız değişken olarak 2 aktarılıyor.</code></em> */
+  uc[2].uc_link = &amp;uc[0];
+  uc[2].uc_stack.ss_sp = st2;
+  uc[2].uc_stack.ss_size = sizeof st2;
+  makecontext (&amp;uc[2], (void (*) (void)) f, 1, 2);
+
+  /* <em class="replaceable"><code>İşbaşı!</code></em> */
+  swapcontext (&amp;uc[0], &amp;uc[1]);
+  putchar ('\n');
+
+  return 0;
+}
+</pre>
+            <p>
+    Bu kod, bağlam işlevlerinin eş-yordamları veya çok evreli işbirliğini gerçekleştirmekte kullanılabilirliğine bir örnektir. Burada yapılan <a href="glibc-System-V-contexts.html#glibc-fn-swapcontext"><strong class="function"><code>swapcontext</code></strong></a> kullanarak yürütmenin her seferinde farklı bir bağlamdan devam ettirilmesidir. Sinyal eylemci içinden ne <a href="glibc-System-V-contexts.html#glibc-fn-setcontext"><strong class="function"><code>setcontext</code></strong></a> ne de <a href="glibc-System-V-contexts.html#glibc-fn-swapcontext"><strong class="function"><code>swapcontext</code></strong></a> çağrısı yapıldığından, bağlam değiştirme doğrudan sinyal eylemci tarafından yapılmamaktadır. Bunun yerine sinyal eylemci içinde bir değişkene değer atanıp, işlev içinden bu değişkene bakarak bu işlem gerçekleştirilmektedir. <a href="glibc-System-V-contexts.html#glibc-fn-swapcontext"><strong class="function"><code>swapcontext</code></strong></a> geçerli bağlamı kaydettiğinden kod içinde farklı zamanlama noktaları olabilir. Yürütme daima kaldığı yerden devam edecektir.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

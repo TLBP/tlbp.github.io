@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.12.1. Biçimli Çıktılamanın Temelleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Önceki</button>
+          <div class="dropdown-content">12.12. Biçimli Çıktı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Output-Conversion-Syntax.html')">Sonraki</button>
+          <div class="dropdown-content">12.12.2. Çıktı Dönüşüm Sözdizimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Formatted-Output-Basics">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.12.1. Biçimli Çıktılamanın Temelleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm106302" class="indexterm"></span>
+    <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevi istenen sayıda bağımsız değişkeni basmak için  kullanılabilir. İşlev çağrılırken belirtilecek kalıp dizgesi içinde sadece ek bağımsız değişkenlerin sayısına ilişkin bilgi değil türleri ve nasıl biçimlenerek çıktılanacağına ilişkin bilgiler de verilebilir.
+   </p>
+        <p>
+    Kalıp dizgesi içindeki özellik içermeyen karakterler oldukları gibi akıma  çıktılanırken kalıp dizgesi içindeki bir <code class="code">%</code> karakteri ile vurgulanan <em class="wordasword">dönüşüm belirtimleri</em> alt bileşen bağımsız değişkenlerin biçimlenerek akıma çıktılanmasını sağlar.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">int pct = 37;
+char filename[] = "foo.txt";
+printf ("`%s' dosyasının %%%d'lik kısmı işlendi.\nLütfen sabırlı olun.\n",
+	filename, pct);
+</pre>
+            <p>
+    kodu şöyle bir çıktı üretir:
+   </p>
+            <pre class="screen">`foo.txt' dosyasının %37'lik kısmı işlendi.
+Lütfen sabırlı olun.
+</pre>
+            <p>
+    Bu örnekteki <code class="code">%d</code> biçimleyeceği ikinci art bileşen bağımsız değişkenin <code class="type">int</code> türünden olduğunu ve bir onluk tamsayı olarak basılacağını belirtir. <code class="code">%s</code> ise ilk art bileşen bağımsız değişkenin bir dizge olduğunu belirtir. <code class="code">%d</code> belirtimini önceleyen <code class="code">%%</code> karakterleri <code class="code">%</code> imi olarak yorumlanır.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   Bir tamsayı bağımsız değişkenin bir işaretsiz sekizlik, onluk ya da onaltılık tabanda bir sayı olarak (sırasıyla <code class="code">%o</code>, <code class="code">%u</code>, <code class="code">%x</code>) ya da bir karakter <code class="code">%c</code>) olarak yorumlanmasını sağlanabilir.
+  </p>
+        <p>
+   Bir gerçek sayı, <code class="code">%f</code> ile ondalık gösterimde (kaymayan noktalı), <code class="code">%e</code> ile üstel gösterimde (kayan noktalı) basılabilir. <code class="code">%g</code> dönüşümü ile gerçek sayıya, sayının büyüklüğüne bağlı olarak  <code class="code">%f</code> veya <code class="code">%g</code> dönüşümü uygulanır.
+   </p>
+        <p>
+    Biçimlemeyi <code class="code">%</code> ile dönüşüm karakteri arasına <em class="wordasword">değiştiriciler</em> yerleştirerek daha hassas olarak ayarlamak mümkündür. Bunlar kimi zaman normal dönüşüm davranışını oldukça değiştirebilir. Örneğin, dönüşüm belirtimlerinin çoğu bir en küçük alan genişliği ile alanın sağa mı yoksa sola mı yanaştırılarak yazılacağını belirleyen imlerin kullanılmasına izin verir.
+   </p>
+        <p>
+    Bu tür değiştirici ve imler dönüşüm türüne bağlı olarak farklı yorumlanabilir. Bunlar başta oldukça karmaşık görünebilir; ancak bir değiştirici ya da im kullanmadan da serbest biçimde gayet anlamlı çıktılar üretilebilir. Bu değiştirici ve imler özellikle ve çoğunlukla tablo benzeri çıktılarda daha hoş görünümler elde etmek amacıyla kullanılır.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.3.4.1. Geleneksel Zamanlamaya Giriş</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Traditional-Scheduling.html')">Önceki</button>
+          <div class="dropdown-content">22.3.4. Geleneksel Zamanlama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Traditional-Scheduling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Traditional-Scheduling-Functions.html')">Sonraki</button>
+          <div class="dropdown-content">22.3.4.2. Geleneksel Zamanlama İşlevleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Traditional-Scheduling-Intro">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">22.3.4.1. Geleneksel Zamanlamaya Giriş</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <a class="link" href="glibc-Absolute-Priority.html" title="22.3.1. Mutlak Öncelik">Mutlak öncelikler</a> ortaya çıkmadan çok önceleri Unix sistemleri işlemci zamanlamasını bu şekilde yapıyordu. POSIX Romalılar gibi çıkagelip gerçek zamanlı işlemin gereksinimlerini karşılamak üzere Mutlak Öncelikleri ortaya attı ve yöreye özgü Sıfır Mutlak Öncelikli süreçlerin kendilerini kendi bildikleri zamanlama kurallarına göre yönetmelerine izin verdi.
+    </p>
+        <p>
+     Gerçekten, sıfırdan büyük mutlak öncelikler, esas olarak gerçek zamanlı işlem yapmak üzere tasarlanmış bilgisayarların sistemleri dışında günümüzdeki çoğu sistemde kullanılmamaktadır. Bu bakımdan, bu bölümde sadece çoğu yazılımcının bilmek istediği zamanlamadan söz edilecektir.
+    </p>
+        <p>
+     Bu zamanlamanın kapsamı hakkında daha temiz bir giriş olarak: Herhangi bir anda mutlak önceliği sıfır olan bir süreç ile mutlak önceliği sıfırdan büyük bir süreç aynı anda çalışmaya hazırsa, mutlak önceliği sıfır olan çalışmaz. Eğer mutlak önceliği sıfır olan bir süreç çalışmaktayken mutlak önceliği sıfırdan büyük bir süreç çalışmaya hazır olursa mutlak önceliği sıfır olanın çalışması hemen durdurulur.
+    </p>
+        <p>
+     Mutlak önceliği sıfır olma durumuna ek olarak, sürecin çalışması esnasında değişen bir öncelik olarak <em class="wordasword">özdevimli öncelik</em> olarak bilinen bir öncelik daha vardır. Mutlak önceliği sıfırdan büyük süreçler için özdevimli öncelik anlamlı değildir.
+    </p>
+        <p>
+     Özdevimli öncelik kimi zaman işlemciyi kimin alacağını, kimi zaman işlemciyi ne kadar süreyle kullanacağını, kimi zaman da bir sürecin başka bir süreci işlemciden kovup kovamayacağını belirler.
+    </p>
+        <p>
+     Linux'ta, değer bunların bir karışımı olarak ortaya çıkar. Fakat çoğunlukla bu değer sürecin işlemciyi kullanma süresini belirler.   Özdevimli önceliği daha yüksek olan süreç, işlemciyi bir kere aldı mı, daha uzun süre onu kullanır. Eğer, G/Ç beklemek gibi şeyler yapmak için kendi zaman dilimi içinde işini bitiremezse, tekrar hazır olduğunda kendi zaman dilimini tamamlamak üzere işlemciyi alması için öne alınır. Bunun dışında, yeni zaman dilimleri için süreçlerin seçimi temel olarak turnuva sistemine göre yapılır. Fakat zamanlayıcı düşük öncelikli süreçlere bir kemik atar: Bir sürecin özdevimli önceliği, zamanlama işleminde her aşağılanışında yükselir. Linux'ta, oyunu hep şişko velet kazanır.
+    </p>
+        <p>
+     Bir sürecin özdevimli önceliğinin iniş çıkışları başka bir değerle düzene sokulur: <em class="wordasword">nezaket değeri</em> (ing.si "nice value" olan değer). Nezaket değeri bir tamsayıdır ve -20 ile 20 arasında olup, bir sürecin özdevimli önceliğinin uç değerlerini ifade eder. Daha yüksek bir nezaket daha düşük bir sınır gösterir.
+    </p>
+        <p>
+     Tipik bir Linux sisteminde, örneğin, nezaket değeri 20 olan bir süreç işlemci zamanının sadece 10 milisaniyesini alabilir, -20 olan bir süreç ise daha yüksek bir öncelikle işlemci zamanının 400 milisaniyesini alabilecektir.
+    </p>
+        <p>
+     Nezaket değeri gerçekten bir kibarlık, saygılılık belirtir. Başlarda, Unix'in cennet bahçesinde, tüm süreçler bilgisayar sisteminin nimetlerini eşit olarak paylaşırdı. Ama tüm süreçler aynı işlemci zamanını paylaşma ihtiyacı göstermez, bu durumda nezaket değeri, diğer süreçler yararına kibar bir sürecin payına düşen işlemci süresinden feragat etmesini sağlar. Dolayısıyla, nezaket değeri daha yüksek olan süreç daha kibar süreç olur. (Bir yılan geldi ve bir sürece bir negatif nezaket değeri sundu böylece bugün kaba öz kaynak ayırma sistemi olarak bildiğimiz sistem ortaya çıktı).
+    </p>
+        <p>
+     Özdevimli öncelikler işlemci zamanının ayrılmasını nesnel olarak pürüzsüzleştirerek ve seyrek isteklere hızlı yanıt vererek yukarı ve aşağı doğru meyleder. Fakat kendi nezaket sınırlarını asla aşmaz, böylece işlemcinin ağır yük altında olduğu durumda nezaket değeri etkin olarak bir sürecin ne kadar hızlı çalışacağını belirler.
+    </p>
+        <p>
+     Unix süreç önceliğinin toplumcu mirasına uymak için, bir süreç kendini çalıştıran süreçle aynı nezaket değeri ile oluşur ve onu yükseltebilir. Bir süreç ayrıca sahibi aynı kullanıcı olan (ya da aynı etkin kimlikli) başka bir sürecin de nezaket değerini yükseltebilir. Fakat sadece ayrıcalıklı süreç kendi nezaket değerini düşürebilir. Bir ayrıcalıklı süreç ayrıca başka bir sürecin nezaket değerini de artırıp azaltabilir.
+    </p>
+        <p>
+     Nezaket değerlerini öğrenmek ve belirlemek için kullanılan GNU C Kütüphanesi işlevleri <a class="xref" href="glibc-Traditional-Scheduling-Functions.html" title="22.3.4.2. Geleneksel Zamanlama İşlevleri">Geleneksel Zamanlama İşlevleri</a> bölümünde açıklanmıştır.
+    </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

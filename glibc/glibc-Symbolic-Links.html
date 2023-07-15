@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.5. Simgesel Bağlar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Hard-Links.html')">Önceki</button>
+          <div class="dropdown-content">14.4. Sabit Bağlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Deleting-Files.html')">Sonraki</button>
+          <div class="dropdown-content">14.6. Dosyaların Silinmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Symbolic-Links">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">14.5. Simgesel Bağlar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm119456" class="indexterm"></span>
+   <span id="idm119459" class="indexterm"></span>
+   <span id="idm119462" class="indexterm"></span>
+   <span id="idm119465" class="indexterm"></span>
+   GNU sistemleri <em class="wordasword">simgesel bağlar</em>ı destekler. Bu aslında bir dosya ismine gösterici olan bir dosya çeşididir. Sabit bağların tersine, dizinlere ve diğer dosya sistemlerindeki dosyalara ve dizinlere simgesel bağlar yapılabilir. Ayrıca, olmayan bir dosyaya da simgesel bağ yapılabilir.  Tersi durumda simgesel bağın hedefindeki dosyanın silinmesi simgesel bağı sadece geçersiz hale getirir. Hedef dosya oluşturulana kadar bağ dosyası herhangi bir dosyayı göstermez.
+  </p>
+        <p>
+   Simgesel bağların tercih edilmesinin bir başka sebebi de bağ açılmaya çalışıldığında bazı özel şeylerin yapılmasıdır. <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevine dosya ismi olarak bir simgesel bağ ismi vererek dosya açılmaya çalışılırsa, bağın hedefindeki dosya ismini okunur ve bağ yerine bu dosya açılır. <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> işlevi de benzer şekilde simgesel bağın kendisi ile değil, gösterdiği dosya ile çalışır.
+  </p>
+        <p>
+   Ayrıca, dosya silme ve isim değiştirme gibi bazı işlemler bağın kendisi üzerinde yapılır. <a href="glibc-Symbolic-Links.html#glibc-fn-readlink"><strong class="function"><code>readlink</code></strong></a> ve <a href="glibc-Reading-Attributes.html#glibc-fn-lstat"><strong class="function"><code>lstat</code></strong></a> işlevleri ayrıca simgesel bağları izlemekten kaçınır, çünkü onların amacı bağ hakkında bilgi sağlamaktır. Sabit bağ yapan <a href="glibc-Hard-Links.html#glibc-fn-link"><strong class="function"><code>link</code></strong></a> işlevi simgesel bağlara da sabit bağ yapar.
+  </p>
+        <p>
+   Bazı sistemlerde, dosyalarla çalışan bazı işlevlerin bir dosya yolu çözümlenirken kaç tane simgesel bağın izleneceğine ilişkin bir sınırlama vardır. Bu sınır sistemde eğer varsa <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/param.h;hb=HEAD" target="_top">sys/param.h</a></code> başlık dosyasında tanımlıdır.
+   <span id="idm119477" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-MAXSYMLINKS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/param.h;hb=HEAD" target="_top">sys/param.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">MAXSYMLINKS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">MAXSYMLINKS</code> makrosu bazı işlevlerin <a href="glibc-Error-Codes.html#glibc-vr-ELOOP"><strong class="varname"><code>ELOOP</code></strong></a> değerini döndürmeden kaç tane simgesel bağ izleyebileceğini belirtir. Tüm işlevler böyle davranmaz ve bu değer <strong class="function"><code>sysconf</code></strong> işlevinin <code class="varname">_SC_SYMLOOP</code> için döndürdüğü değerle aynı değildir. Aslında, <strong class="function"><code>sysconf</code></strong> böyle bir sınır olmadığını, sınırın sonsuz olduğunu belirten bir değer döndürür.
+   </p>
+  </div>
+        <p>
+   Bu bölümdeki işlevlerin çoğu <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm119496" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-symlink" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">symlink</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">oldname</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">newname</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">symlink</code> işlevi <em class="parameter"><code>oldname</code></em> isimli dosyaya <em class="parameter"><code>newname</code></em> isminde simgesel bağ oluşturur.
+   </p>
+   <p>
+    İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EEXIST</code></span></dt><dd><p>
+       <em class="parameter"><code>newname</code></em> isminde bir dosya zaten var.
+      </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+       <em class="parameter"><code>newname</code></em> salt-okunur dosya sisteminde zaten var.
+      </p></dd><dt><span class="term"><code class="code">ENOSPC</code></span></dt><dd><p>
+       Yeni bağı içerecek dizin ya da dosya sistemi genişletilemiyor.
+      </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+       Diske okuma ya da yazma denemesi sırasında bir donanım hatası oluştu.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-symlinkat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">symlinkat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">oldname</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">newfd</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">newname</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">symlinkat</code> işlevi burada açıklanan farklılıklar dışında <a href="glibc-Symbolic-Links.html#glibc-fn-symlink"><strong class="function"><code>symlink</code></strong></a> ile aynıdır.
+   </p>
+   <p>
+    <em class="parameter"><code>newname</code></em> ile verilen yol adı göreceli ise, <em class="parameter"><code>newfd</code></em> dosya tanıtıcısı tarafından atıfta bulunulan dizine göre (göreli bir yol adı için <a href="glibc-Symbolic-Links.html#glibc-fn-symlink"><strong class="function"><code>symlink</code></strong></a> tarafından yapıldığı gibi, çağrıldığı sürecin geçerli çalışma dizinine göre değil) yorumlanır.
+   </p>
+   <p>
+    <em class="parameter"><code>newname</code></em> göreliyse ve <em class="parameter"><code>newfd</code></em> <a href="glibc-Hard-Links.html#glibc-vr-AT_FDCWD"><strong class="varname"><code>AT_FDCWD</code></strong></a> özel değeriyse, <em class="parameter"><code>newname</code></em> çağrıldığı sürecin geçerli çalışma dizinine göre yorumlanır (<a href="glibc-Symbolic-Links.html#glibc-fn-symlink"><strong class="function"><code>symlink</code></strong></a> gibi).
+   </p>
+   <p>
+    <em class="parameter"><code>newname</code></em> mutlak yol adı ise <em class="parameter"><code>newfd</code></em> yok sayılır.
+   </p>
+   <p>
+    <a href="glibc-Symbolic-Links.html#glibc-fn-symlink"><strong class="function"><code>symlink</code></strong></a> işlevindeki hatalara ek olarak bu işlevde aşağıdaki hatalar oluşur:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>newfd</code></em> dosya tanıtıcısı geçersiz.
+      </p></dd><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+       <em class="parameter"><code>newname</code></em> göreli ve <em class="parameter"><code>newfd</code></em> dosya tanıtıcısı silinmiş bir dizine ait.
+      </p></dd><dt><span class="term"><code class="code">ENOTDIR</code></span></dt><dd><p>
+       <em class="parameter"><code>newname</code></em> göreli ve <em class="parameter"><code>newfd</code></em> dosya tanıtıcısı bir dizine değil bir dosyaya ait.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-readlink" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">readlink</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">readlink</code> işlevi simgesel bağın ismini <em class="parameter"><code>filename</code></em> ile alır ve simgesel bağın hedefindeki dosyanın ismini *<em class="parameter"><code>buffer</code></em>'a yerleştirir.  Dosya ismi dizgesi boş karakter sonlandırmalı <em class="emphasis">değildir</em>; işlev <em class="parameter"><code>buffer</code></em> ile gösterilen dizgeye yerleştirilen karakterlerin sayısı ile döner, dolayısıyla <em class="parameter"><code>size</code></em> bağımsız değişkeni en azından bu değerde olmalıdır.
+   </p>
+   <p>
+    Eğer işlev <em class="parameter"><code>size</code></em> değerine eşit bir değerle dönmüşse, dosya ismi için yeterli yerin olup olmadığı hakkında bir fikir vermez. Bu durumda tamponu büyütüp tekrar denemek gerekir.
+   </p>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">char *
+readlink_malloc (const char *filename)
+{
+  size_t size = 50;
+  char *buffer = NULL;
+
+  while (1)
+    {
+      buffer = xreallocarray (buffer, size, 2);
+      size *= 2;
+      ssize_t nchars = readlink (filename, buffer, size);
+      if (nchars &lt; 0)
+        {
+          free (buffer);
+          return NULL;
+        }
+      if (nchars &lt; size)
+        return buffer;
+    }
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    İşlevin dönüş değeri <code class="code">-1</code> ise bir hata oluşmuş demektir. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Dosya simgesel bağ değil.
+      </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+       Diske okuma ya da yazma denemesi sırasında bir donanım hatası oluştu.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Bazı durumlarda simgesel bağların hedefindeki gerçek dosya isminin başka hiçbir simgesel bağ, önek ve dosya yolunda '<code class="code">.</code>' veya '<code class="code">..</code>' olmaksızın çözümlenmesi istenebilir. Bu örneğin, aynı dosya düğümüne erişen farklı dosya isimlerinin karşılaştırılması durumunda istenebilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-canonicalize_file_name" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">canonicalize_file_name</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">canonicalize_file_name</code> işlevi <em class="parameter"><code>name</code></em> ile belirtilen dosya isminin  ne '<code class="code">.</code>' ve '<code class="code">.</code>' elemanları ne herhangi bir dosya yolu ayracı (<span class="command"><strong>/</strong></span>) ne de simgesel bağ içeren mutlak ismini döndürür. İşlev dönüş değerini <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilmiş bellek diliminde döndürür. Eğer dönen sonuç artık kullanılmayacaksa <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> çağrısı ile serbest bırakılmalıdır.
+   </p>
+   <p>
+    Bir dosya yolu bileşeni yoksa işlev boş gösterici ile döner. Bu ayrıca, dosya yolunun uzunluğu <a href="glibc-Limits-for-Files.html#glibc-vr-PATH_MAX"><strong class="varname"><code>PATH_MAX</code></strong></a> karakteri aşarsa da döndürülür. Her durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ENAMETOOLONG</code></span></dt><dd><p>
+       Sonuçlanan dosya yolu çok uzun. Bu hata dosya isimlerinde uzunluk sınırı olan dosya sistemlerinde oluşur.
+      </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       Dosya yolunu oluşturan bileşenlerden en az biri okunamıyor.
+      </p></dd><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+       Girdi dosya ismi boş veya dosya yolunu oluşturan bileşenlerden en az biri mevcut değil.
+      </p></dd><dt><span class="term"><code class="code">ELOOP</code></span></dt><dd><p>
+       <a href="glibc-Symbolic-Links.html#glibc-vr-MAXSYMLINKS"><strong class="varname"><code>MAXSYMLINKS</code></strong></a>'den fazla simgesel bağ izlendi.
+      </p></dd></dl></div>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <p>
+   Unix standardı <a href="glibc-Symbolic-Links.html#glibc-fn-canonicalize_file_name"><strong class="function"><code>canonicalize_file_name</code></strong></a> işlevinin bir benzeri olarak sonucun yerleştirileceği tamponu kullanıcının belirteceği bir işlev tanımlamıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-realpath" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">realpath</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char *restrict </code><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">char *restrict </code><strong><code class="parameter">resolved</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">realpath</code> işlevi <em class="parameter"><code>resolved</code></em> bağımsız değişkeninde boş gösterici belirtildiğinde tamamen <a href="glibc-Symbolic-Links.html#glibc-fn-canonicalize_file_name"><strong class="function"><code>canonicalize_file_name</code></strong></a> gibi davranır.  İşlev bir tampon tahsis eder ve ona bir gösterici ile döner. Eğer <em class="parameter"><code>resolved</code></em> <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> değilse, sonuç onun gösterdiği tampona kopyalanır. İşlevin çağrıcıya yanıtı yeterince büyük bir tampon tahsis etmektir. <a href="glibc-Limits-for-Files.html#glibc-vr-PATH_MAX"><strong class="varname"><code>PATH_MAX</code></strong></a>'ın tanımlı olduğu sistemlerde tampon bu uzunlukta olmalıdır. Dosya yolu uzunluğu için bir sınırlama bulunmayan sistemlerde uzunluk tahmin edilemeyeceğinden <code class="code">realpath</code> işlevi <em class="parameter"><code>resolved</code></em> bağımsız değişkeninde <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> dışında bir değer belirtilerek çağrılMAMAlıdır.
+   </p>
+   <p>
+    Bir diğer fark da, işlev <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ile döndüğünde <em class="parameter"><code>resolved</code></em> tamponunun (sıfırdan farklıysa) mevcut olmayan ya da okunamayan dosya yolu parçaları içereceğidir. Bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EACCES"><strong class="varname"><code>EACCES</code></strong></a> ya da <a href="glibc-Error-Codes.html#glibc-vr-ENOENT"><strong class="varname"><code>ENOENT</code></strong></a> atanır.
+   </p>
+  </div>
+        <p>
+   Bu işlevi kullanmanın bir faydası da geniş çapta kullanım alanı olmasıdır. Sakıncası ise uzun dosya isimleri için sınırlama olmayan sistemlerde uzun dosya yolu başarısızlıkları bildirmesidir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

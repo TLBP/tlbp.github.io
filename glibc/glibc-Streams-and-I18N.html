@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.6. Akımlar ve Uluslararasılaştırma</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Streams-and-Threads.html')">Önceki</button>
+          <div class="dropdown-content">12.5. Akımlar ve Evreler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Simple-Output.html')">Sonraki</button>
+          <div class="dropdown-content">12.7. Karakterlerin ve Satırların Basit Çıktılanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Streams-and-I18N">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.6. Akımlar ve Uluslararasılaştırma</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   ISO C90 geniş karakter kümeleriyle çalışmak için <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> isimli yeni bir veri türü tanımladı. Eksik olan, <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> dizgelerini doğrudan çıktılama olasılığıydı. Biri onları <a href="glibc-Non-reentrant-String-Conversion.html#glibc-fn-mbstowcs"><strong class="function"><code>mbstowcs</code></strong></a> kullanarak çok baytlı dizgelere çevirdi (henüz bir <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> yok) ve sonra normal akım işlevlerini kullandı. Bu yapılabilir olurken anlamsız olmayan dönüşümler uyguladığından ve yazılımın karmaşıklığını ve boyutlarını fazlaca artırdığından çok hantal oldu.
+  </p>
+        <p>
+   Unix standardı daha erken olarak (galiba XPG4.2'de) <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve <a href="glibc-Formatted-Input-Functions.html#glibc-fn-scanf"><strong class="function"><code>scanf</code></strong></a> işlevleri için iki ek biçem belirteci tanımladı. Tek geniş karakterin okunması ve basılması <code class="code">%C</code> belirteci ile geniş karakterli dizgelerinki ise <code class="code">%S</code> belirteci kullanılarak mümkün hale getirildi. Bu belirteçler geniş karakter türü kullanmak dışında tıpkı <code class="code">%c</code> ve <code class="code">%s</code> belirteçleri gibi çalışıyordu. Ancak geniş karakterler ve dizgeler kullanılmadan önce çok baytlı dizgelere ya da tersine çevriliyordu.
+  </p>
+        <p>
+   Bu bir başlangıçtı ama hala yeterince iyi değildi. <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a>  ve <a href="glibc-Formatted-Input-Functions.html#glibc-fn-scanf"><strong class="function"><code>scanf</code></strong></a> kullanımı hep tercih edilen bir şey değildi. Daha küçük ve daha hızlı diğer işlevler geniş karakterlerle çalışamıyordu. İkincisi, <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve <a href="glibc-Formatted-Input-Functions.html#glibc-fn-scanf"><strong class="function"><code>scanf</code></strong></a> işlevleri için geniş karakterleri oluşturulmasını sağlayacak bir biçem dizgesine sahip değildi. Sonuç olarak, eğer temel olmayan karakterleri içermeleri gerekiyorsa, biçem dizgilerinin oluşturulması gerekecekti.
+  </p>
+        <p>
+   <span id="glibc-Streams-cplus" class="indexterm"></span>
+   <span id="glibc-Streams-cplusplus" class="indexterm"></span>
+   ISO C90'ın 1. düzeltmesinde sorunu çözümlemek için yeni bir işlevler kümesi eklendi. Akım işlevlerinin çoğu bir karakter veya dizge yerine bir geniş karakter veya bir geniş karakterli dizge alır hale getirildi. Yeni işlevler aynı akımlar (örn, <a href="glibc-Standard-Streams.html#glibc-vr-stdout"><strong class="varname"><code>stdout</code></strong></a>) üzerinde işlem yapmaktadır. Bu normal ve geniş karakterler G/Ç işlemleri için ayrı akım işlevleri kullanılan C++ çalışma anı kütüphanesindeki modelden farklıdır.
+  </p>
+        <p>
+   <span id="glibc-Streams-orientation" class="indexterm"></span>
+   Aynı akımın hem normal hem de geniş karakterlerle kullanılabilmesi bir sınırlama ile mümkün olur: Bir akım ya normal karakterleri kullanır ya da geniş karakterleri, ikisi birden olmaz. Bir kere karar verildikten sonra dönüşü yoktur. Sadece <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> ya da <a href="glibc-Opening-Streams.html#glibc-fn-freopen64"><strong class="function"><code>freopen64</code></strong></a> işlevleri yönlenimi sıfırlayabilir. Yönlenime üç yolla karar verilebilir:
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     Normal karakter işlevlerinden biri (<a href="glibc-Block-Input-Output.html#glibc-fn-fread"><strong class="function"><code>fread</code></strong></a> ve <a href="glibc-Block-Input-Output.html#glibc-fn-fwrite"><strong class="function"><code>fwrite</code></strong></a> işlevleri dahil) kullanılmışsa akım "geniş yönlenimli değildir" olarak imlenir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Geniş karakter işlevlerinden biri kullanılmışsa akım "geniş yönlenimli" olarak imlenir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Yönlenimi belirtmek için <a href="glibc-Streams-and-I18N.html#glibc-fn-fwide"><strong class="function"><code>fwide</code></strong></a> işlevi kullanılır.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Geniş ve geniş olmayan karakter işlemlerinin aynı akım üzerinde asla karıştırılmaması gerekliliği önemlidir. Bunun için tasarlanmış bir tanılama yolu yoktur. Uygulama basitçe tuhaflaşır hatta daha basitçe çökebilir. <a href="glibc-Streams-and-I18N.html#glibc-fn-fwide"><strong class="function"><code>fwide</code></strong></a> işlevi bundan kaçınılmasına yardımcı olabilir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fwide" class="indexterm"></span>
+   <span id="glibc-cp-fwide" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fwide</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">fwide</code> işlevi <em class="parameter"><code>stream</code></em> akımının yönleniminin belirlenmesinde ve sorgulanmasında kullanılabilir. <em class="parameter"><code>mode</code></em> bağımsız değişkeni pozitif değer belirtiyorsa akım geniş yönlenimli, negatif bir değer belirtiyorsa dar yönlenimlidir. <code class="code">fwide</code> ile önceki yönlenimi değiştirmek mümkün değildir. <em class="parameter"><code>stream</code></em> akımı zaten yönlenimli ise işlev hiçbir şey yapmaz.
+   </p>
+   <p>
+    <em class="parameter"><code>mode</code></em> sıfırsa, o anki yönlenim durumu sorgulanır ve hiçbir değişiklik yapılmaz.
+   </p>
+   <p>
+    <code class="code">fwide</code> işlevi yönlenimin durumuna bağlı olarak, dar, hiçbiri veya geniş yönlenimli olmasına göre sırayla bir negatif değer, sıfır veya bir pozitif değerle döner.
+   </p>
+   <p>
+    Bu işlev ISO C90'ın 1. düzeltmesinde tanımlanmıştır.
+   </p>
+  </div>
+        <p>
+   Genel olarak bir akımın yönlenimini mümkün olduğu kadar erken belirlemek daha iyidir. Bu özellikle <a href="glibc-Standard-Streams.html#glibc-vr-stdin"><strong class="varname"><code>stdin</code></strong></a>, <a href="glibc-Standard-Streams.html#glibc-vr-stdout"><strong class="varname"><code>stdout</code></strong></a> ve <a href="glibc-Standard-Streams.html#glibc-vr-stderr"><strong class="varname"><code>stderr</code></strong></a> standart akımlarında ortaya çıkacak bazı sürprizlerden  koruyabilir. Bu akımlardan birini kullanan bazı kütüphane işlevleri bazı durumlarda akımın yönlenimini uygulamanın kalanında, sonlanma ve hata üretilmesi  dışında farklı bir yolla kullanır. Akımların yönleniminin yanlış kullanımında hata üretilmediği unutulmamalıdır. Bir akımın oluşturulduktan sonra yönlenimsiz bırakılması normalde, sadece akımları farklı bağlamlarda kullanmak üzere oluşturan kütüphane işlevleri için gereklidir.
+  </p>
+        <p>
+   Akımların kullanıldığı ve bu akımların farklı bağlamlarda kullanılabildiği bir kodu yazarken bir akımı kullanmadan önce akımın yönlenimini (kütüphane arayüzünün kuralları belli bir yönlenimi talep etmedikçe) sorgulamak önemlidir. Aşağıdaki küçük işlev bunu örneklemektedir:
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">void
+print_f (FILE *fp)
+{
+  if (fwide (fp, 0) &gt; 0)
+    /* <em class="replaceable"><code>Dönen pozitif değer geniş yönlenimi gösterir.</code></em>  */
+    fputwc (L'f', fp);
+  else
+    fputc ('f', fp);
+}
+</pre>
+            <p>
+    Burada <strong class="function"><code>print_f</code></strong> işlevi, akım önceden yönlenimsiz olsa da akımın yönlenimine karar vermektedir (yukarıdaki bilgiler ışığında olumsuz bir şey olmayacağı görülecektir).
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> değerleri için kullanılan karakter kodlaması belirtilmemiştir ve yazılımcı karakter kodlaması hakkında herhangi bir kabulde bulunmamalıdır. <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> değerlerinin G/Ç işlemleri için bunun anlamı, bu değerlerin akıma doğrudan doğruya yazılmasının imkansızlığıdır. Bu ISO C yerel modelinde izlenen yol da değildir. Baytların alttaki ortamdan okunması ve oraya yazılması yerine yapılacak olan önce <a href="glibc-Extended-Char-Intro.html#glibc-tp-wchar_t"><strong class="type"><code>wchar_t</code></strong></a> için gerçekleme tarafından seçilen dahili yerele dönüşümdür. Harici karakter kodlaması o anki yerelin <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yerel sınıfı tarafından ya da <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a>, <a href="glibc-Opening-Streams.html#glibc-fn-fopen64"><strong class="function"><code>fopen64</code></strong></a>, <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> veya <a href="glibc-Opening-Streams.html#glibc-fn-freopen64"><strong class="function"><code>freopen64</code></strong></a> işlevlerine verilen kip belirtiminin parçası olan <code class="code">ccs</code> değeri tarafından belirlenir. Dönüşümün ne zaman ve nasıl olacağı belirsizdir ve kullanıcıya görünür değildir.
+  </p>
+        <p>
+   Bir akım yönlenimsiz durumda oluşturulduğunda bu noktada onunla ilişkili bir dönüşüm yapılmaz. Kullanılacak dönüşüm akım yönlenimlendiği sırada <a href="glibc-Locale-Categories.html#glibc-vr-LC_CTYPE"><strong class="varname"><code>LC_CTYPE</code></strong></a> yerel sınıfı tarafından saptanmış olacaktır. Dikkatli olunmazsa, yerel çalışma anında değiştirilirse sürprizli durumlarla karşılaşılabilir. Bu da, akımın yönleniminin mümkün olduğunca erken belirlenmesinin önemini gösteren iyi bir sebeptir. Bu işlemin bir <a href="glibc-Streams-and-I18N.html#glibc-fn-fwide"><strong class="function"><code>fwide</code></strong></a> çağrısı ile yapılması gerekir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

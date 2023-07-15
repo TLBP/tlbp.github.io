@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.6.4. kill Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Permission-for-kill.html')">Önceki</button>
+          <div class="dropdown-content">24.6.3. <code class="code">kill</code> ile İlgili Sınırlamalar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generating-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">24.7. Sinyallerin Engellenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Kill-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.6.4. <code class="code">kill</code> Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm128181" class="indexterm"></span>
+    Burada süreçler arası iletişim için sinyallerin kullanıldığı daha kapsamlı bir örneğe yer verilmiştir. <a href="glibc-Miscellaneous-Signals.html#glibc-vr-SIGUSR1"><strong class="varname"><code>SIGUSR1</code></strong></a> ve <a href="glibc-Miscellaneous-Signals.html#glibc-vr-SIGUSR2"><strong class="varname"><code>SIGUSR2</code></strong></a> sinyalleri ile neler yapılabileceği gösterilmiştir. Bu sinyaller ön tanımlı olarak ölümcül olduklarından, sürecin bu sinyalleri <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> veya <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> ile yakalayacakları varsayılır.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Bu örnekte, bir süreç bir alt süreci çatalladıktan sonra alt sürecin kendini ilklendirmesini beklemekte, alt süreç ise <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> işlevini bir <a href="glibc-Miscellaneous-Signals.html#glibc-vr-SIGUSR1"><strong class="varname"><code>SIGUSR1</code></strong></a> sinyalini göndermek için kullanarak hazır olduğunu bildirmektedir.
+    </p>
+            <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+
+/* <em class="replaceable"><code><code class="code">SIGUSR1</code> sinyali alındığında bu değişken 1 olacak.</code></em> */
+volatile sig_atomic_t usr_interrupt = 0;
+
+void
+synch_signal (int sig)
+{
+  usr_interrupt = 1;
+}
+
+/* <em class="replaceable"><code>Bu işlevi alt süreç çalıştıracak.</code></em> */
+void
+child_function (void)
+{
+  /* <em class="replaceable"><code>İlklendir.</code></em> */
+  printf ("Hazirim!!!  Surec kimligim: %d.\n", (int) getpid ());
+
+  /* <em class="replaceable"><code>Üst sürece bunu bildir.</code></em> */
+  kill (getppid (), SIGUSR1);
+
+  /* <em class="replaceable"><code>Bilgilendirme bitti, işbaşı!.</code></em> */
+  puts (""Simdilik hoscakal...."");
+  exit (0);
+}
+
+int
+main (void)
+{
+  struct sigaction usr_action;
+  sigset_t block_mask;
+  pid_t child_id;
+
+  /* <em class="replaceable"><code> Sinyal işleyiciyi kur.</code></em> */
+  sigfillset (&amp;block_mask);
+  usr_action.sa_handler = synch_signal;
+  usr_action.sa_mask = block_mask;
+  usr_action.sa_flags = 0;
+  sigaction (SIGUSR1, &amp;usr_action, NULL);
+
+  /* <em class="replaceable"><code>Alt süreci oluştur.</code></em> */
+  child_id = fork ();
+  if (child_id == 0)
+    child_function ();          /* <em class="replaceable"><code>Bir şey dönmeyecek.</code></em> */
+
+
+  /* <em class="replaceable"><code>Alt sürecin sinyal göndermesini bekle.</code></em> */
+  while (!usr_interrupt)
+    ;
+
+
+  /* <em class="replaceable"><code>Alt süreç hazır, işbaşı!.</code></em> */
+  puts ("Bu kadar!");
+
+  return 0;
+}
+</pre>
+            <p>
+     Bu örnekte beklerken işlemci meşgul ediliyor, bu iyi değil, işlemciyi kullanabilecek başka süreçler engelleniyor. Sinyalin gelip gelmediğini sisteme sormak daha iyidir. <a class="xref" href="glibc-Waiting-for-a-Signal.html" title="24.8. Sinyalin Beklenmesi"><em>Sinyalin Beklenmesi</em></a> bölümünde böyle bir örnek var.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

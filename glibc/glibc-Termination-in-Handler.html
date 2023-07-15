@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.2. Süreci Sonlandıran İşleyiciler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Handler-Returns.html')">Önceki</button>
+          <div class="dropdown-content">24.4.1. Dönen Sinyal işleyiciler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Longjmp-in-Handler.html')">Sonraki</button>
+          <div class="dropdown-content">24.4.3. İşleyici İşlevlerde Denetimin Aktarımı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Termination-in-Handler">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.2. Süreci Sonlandıran İşleyiciler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Süreci sonlandıran işleyici işlevler genellikle düzenlenmiş bir durdurma için ya da yazılım hata sinyalleri ile etkileşen kesmelerden kurtulmak amacıyla kullanılır.
+   </p>
+        <p>
+    Süreci sonlandıran bir işleyici için en iyi yöntem aynı sinyali işleyici çalıştığı anda tekrar yayınlamaktır. Bunun yapılışına bir örnek:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">volatile sig_atomic_t fatal_error_in_progress = 0;
+
+void
+fatal_error_signal (int sig)
+{
+  /* <em class="replaceable"><code>Bu işleyici çok sayıda sinyal çeşidi için kurulduğundan,
+     diğer sinyaller için de defalarca çağrılabilecektir. Bu
+     durumu izlemek için duruk bir değişken kullanılacak.</code></em> */
+  if (fatal_error_in_progress)
+    raise (sig);
+  fatal_error_in_progress = 1;
+
+  /* <em class="replaceable"><code>Şimdi biraz temizlik yapalım:
+     - uçbirim kipleri sıfırlansın
+     - alt süreçler ölsün
+     - kilit dosyaları silinsin.</code></em> */
+  …
+
+  /* <em class="replaceable"><code>Şimdi sinyali tekrar yayınla. Süreci sonlandırması
+     için sinyalin ön tanımlı eylemini etkin kıl.
+     Tam bu anda <code class="code">exit</code> veya <code class="code">abort</code> çağrısı yapılabilmeli
+     ve sürecin çıkış durumunun doğru ayarlanması için
+     sinyal yeniden yayınlanmalı.</code></em> */
+  signal (sig, SIG_DFL);
+  raise (sig);
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

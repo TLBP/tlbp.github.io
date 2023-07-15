@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.9.2. Dosya Özniteliklerinin Okunması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Attribute-Meanings.html')">Önceki</button>
+          <div class="dropdown-content">14.9.1. Dosya Özniteliklerinin Anlamları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Attributes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Testing-File-Type.html')">Sonraki</button>
+          <div class="dropdown-content">14.9.3. Dosyanın Türünün Sınanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Reading-Attributes">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.9.2. Dosya Özniteliklerinin Okunması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir dosyanın özniteliklerini öğrenmek için <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a>, <a href="glibc-Reading-Attributes.html#glibc-fn-fstat"><strong class="function"><code>fstat</code></strong></a> ve <a href="glibc-Reading-Attributes.html#glibc-fn-lstat"><strong class="function"><code>lstat</code></strong></a> işlevleri kullanılır. Öznitelikler, <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> türünde bir nesne içinde döndürür. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-stat" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">stat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">struct stat </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">stat</code> işlevi belirtilen <em class="parameter"><code>filename</code></em> dosyasının özniteliklerini <em class="parameter"><code>buf</code></em> ile gösterilen <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> yapısı içinde döndürür.
+    </p>
+    <p>
+     <em class="parameter"><code>filename</code></em> simgesel bağ adıysa, bağın hedefindeki dosyanın öznitelikleri döndürülür. Simgesel bağın hedefindeki dosya mevcut değilse işlev dosyanın mevcut olmadığını bildirerek başarısız olur.
+    </p>
+    <p>
+     İşlem sorunsuz yerine getirilmişse <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">ENOENT</code></dt><dd><p>
+      <em class="parameter"><code>filename</code></em> diye bir dosya yok.
+     </p></dd></dl>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-stat64"><strong class="function"><code>stat64</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-stat64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">stat64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">struct stat64 </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     2^31 bayttan daha büyük dosyalarla çalışmanın mümkün olduğu 32 bitlik sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> işlevine eşdeğerdir. Bunu mümkün kılmak için sonucu döndüren <em class="parameter"><code>buf</code></em>, <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türündeki yapıya göstericidir.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> ismiyle bulunur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fstat" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fstat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">struct stat </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">fstat</code> işlevi bağımsız değişken olarak dosya ismi yerine bir <a class="link" href="glibc-Low-Level-I-O.html" title="13. Düşük Seviyeli Girdi ve Çıktı">açık dosya tanıtıcı</a> alması dışında <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> işlevinin benzeridir.
+    </p>
+    <p>
+     <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> gibi, <code class="code">fstat</code> işlevi de başarı durumunda <code class="code">0</code> ve hata oluşmuşsa <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EBADF</code></dt><dd><p>
+      <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı geçersiz.
+     </p></dd></dl>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-fstat64"><strong class="function"><code>fstat64</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fstat64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fstat64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">struct stat64 </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-fstat"><strong class="function"><code>fstat</code></strong></a> işlevine benzer fakat 32 bitlik platformlarda büyük dosyalarla çalışır.  Büyük dosyalarla çalışmak için <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open64"><strong class="function"><code>open64</code></strong></a> veya <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-creat64"><strong class="function"><code>creat64</code></strong></a> ile sağlanmış olmalıdır.  <em class="parameter"><code>buf</code></em> ile gösterilen değişken büyük değerleri tutabilen <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde olmalıdır.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-fstat"><strong class="function"><code>fstat</code></strong></a> ismiyle bulunur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-lstat" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">lstat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">struct stat </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">lstat</code> işlevi <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> işlevi gibidir fakat <a class="link" href="glibc-Symbolic-Links.html" title="14.5. Simgesel Bağlar">simgesel bağlara</a> izin vermez. Eğer <em class="parameter"><code>filename</code></em> bir simgesel bağ ismi ise, <code class="code">lstat</code> bağın hedefi ile değil bağ dosyasının kendisi ile ilgili bilgi döndürür; bunun dışında <code class="code">lstat</code> işlevi <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="type"><code>stat</code></strong></a> gibi çalışır.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-lstat64"><strong class="type"><code>lstat64</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-lstat64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">lstat64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">struct stat64 </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     2^31 bayttan daha büyük dosyalarla çalışmanın mümkün olduğu 32 bitlik sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-lstat"><strong class="function"><code>lstat</code></strong></a> işlevine eşdeğerdir. Bunu mümkün kılmak için sonucu döndüren <em class="parameter"><code>buf</code></em>, <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde bir yapıya göstericidir.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği sistemlerde bu işlev <a href="glibc-Reading-Attributes.html#glibc-fn-lstat"><strong class="function"><code>lstat</code></strong></a> ismiyle bulunur.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.1. Dönen Sinyal işleyiciler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Önceki</button>
+          <div class="dropdown-content">24.4. Sinyal İşleyicilerin Tanımlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Termination-in-Handler.html')">Sonraki</button>
+          <div class="dropdown-content">24.4.2. Süreci Sonlandıran İşleyiciler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Handler-Returns">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.1. Dönen Sinyal işleyiciler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Normal olarak dönen işleyiciler genellikle, G/Ç ve süreçler arası iletişim sinyalleri ile <a href="glibc-Alarm-Signals.html#glibc-vr-SIGALRM"><strong class="varname"><code>SIGALRM</code></strong></a> benzeri sinyaller için kullanılır. Ancak, <a href="glibc-Termination-Signals.html#glibc-vr-SIGINT"><strong class="varname"><code>SIGINT</code></strong></a> sinyali için de bir işleyici dönebilir. Bir farkla, sürece uygun bir zamanda sonlanmasını söyleyen bir seçeneği etkinleştirerek döner.
+   </p>
+        <p>
+    Bir yazılım hata sinyali için normal olarak dönen bir işlev yazmak doğru olmayacaktır. Çünkü yazılımın davranışının bir yazılım hatası sinyali alındıktan sonra ne olacağı belli değildir. Bkz,  <a class="xref" href="glibc-Program-Error-Signals.html" title="24.2.1. Yazılım Hatalarının Sinyalleri">Yazılım Hatalarının Sinyalleri</a>.
+   </p>
+        <p>
+    Normalde dönen işleyiciler bir etki yaratması umulan bir genel değişkene değer atamalıdır. Bu değişken yazılımın çalışma anında belirli aralıklarla baktığı bir değişken olmalıdır. <a class="xref" href="glibc-Atomic-Data-Access.html" title="24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme">Bölünmez Veri Erişimi ve Sinyal İşleme</a> bölümünde açıklanan sebeplerle bu değişkenin veri türü <a href="glibc-Atomic-Data-Access.html#glibc-tp-sig_atomic_t"><strong class="type"><code>sig_atomic_t</code></strong></a> olmalıdır.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Burada, böyle bir yazılım örneği vardır. Bir <a href="glibc-Alarm-Signals.html#glibc-vr-SIGALRM"><strong class="varname"><code>SIGALRM</code></strong></a> sinyali alınıncaya kadar bir döngü çalıştırılmaktadır. Bu teknik, döngü tamamlanmadan bir sinyal alınıncaya kadar yinelenen işlemler için yararlıdır.
+   </p>
+            <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* <em class="replaceable"><code>Bu değişken döngünün denetimi içindir.</code></em> */
+volatile sig_atomic_t keep_going = 1;
+
+/* <em class="replaceable"><code>Sinyal işleyici değişkeni sıfırlar
+   ve kendini tekrar etkinleştirir.</code></em> */
+void
+catch_alarm (int sig)
+{
+  keep_going = 0;
+  signal (sig, catch_alarm);
+}
+
+void
+do_stuff (void)
+{
+  puts ("Uyarı gelene kadar bir şeyler yapılıyor...");
+}
+
+int
+main (void)
+{
+  /* <em class="replaceable"><code>SIGALRM sinyalleri için bir işleyici oluştur.</code></em> */
+  signal (SIGALRM, catch_alarm);
+
+  /* <em class="replaceable"><code>Kısa süreli bir uyarıyı etkinleştir.</code></em> */
+  alarm (2);
+
+  /* <em class="replaceable"><code>Her çevrimde değişkenin değerine bakılsın.</code></em> */
+  while (keep_going)
+    do_stuff ();
+
+  return EXIT_SUCCESS;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

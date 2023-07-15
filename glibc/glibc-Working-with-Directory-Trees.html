@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.3. Dizin Ağaçlarıyla Çalışma</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-level-Directory-Access.html')">Önceki</button>
+          <div class="dropdown-content">14.2.8. Düşük Seviyeli Dizin Erişimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Hard-Links.html')">Sonraki</button>
+          <div class="dropdown-content">14.4. Sabit Bağlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Working-with-Directory-Trees">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">14.3. Dizin Ağaçlarıyla Çalışma</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm118812" class="indexterm"></span>
+   <span id="idm118815" class="indexterm"></span>
+   <span id="idm118818" class="indexterm"></span>
+   Buraya kadar açıklanan işlevler ya bilgiyi bit bit aldı ya da tüm dosyaları grup halinde işleme soktu (bkz. <a href="glibc-Scanning-Directory-Content.html#glibc-fn-scandir"><strong class="function"><code>scandir</code></strong></a>). Kimi zaman alt dizinler ve içerdikleri dosyalarla çalışmak gerekir. X/Open belirtimi bunu yapmak için iki işlev tanımlamıştır. Daha basit hali System V sistemlerindeki ilk tanımından türetilmiştir ve bu bakımdan bu işlev SVID'den türetilmiş sistemlerde bulunur. İlk örnekler ve gerekli tanımlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code> başlık dosyasında bulunabilir.
+  </p>
+        <p>
+   Bu ailenin dört işlevi vardır: <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a>, <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> ile  64 bitlik olanları <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw64"><strong class="function"><code>ftw64</code></strong></a> ve <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw64"><strong class="function"><code>nftw64</code></strong></a>.  Bu işlevlerin bağımsız değişkenlerinden biri uygun türde bir geri çağırım işlevine göstericidir.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-ftw_func_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code>int (*<a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw_func_t"><strong class="function"><code>__ftw_func_t</code></strong></a>)</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const struct stat </code><strong class="type">*</strong><strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> işlevine belirtilen geri çağırım işlevinin türüdür. İlk bağımsız değişken dosya ismine bir gösterici, ikinci bağımsız değişken ise ilk bağımsız değişkende ismi belirtilen dosya için doldurulan <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> türünde bir durum nesnesidir.
+   </p>
+   <p>
+    Son bağımsız değişken geçerli dosya hakkında bilgi veren bir değerdir. Son bağımsız değişken şu değerleri içerebilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_F" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_F</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe ya normal bir dosya ya da diğer dosya sınıflarıyla eşleşmeyen (özel dosyalar, soketler gibi) bir dosyadır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_D" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_D</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe bir dizindir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_NS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_NS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> çağrısı başarısız olduğundan ikinci bağımsız değişkenin gösterdiği bilgi geçersizdir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_DNR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_DNR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe okunamayan bir dizindir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_SL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_SL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe simgesel bağdır. Simgesel bağlar normalde izlendiğinden, bu değerin bir <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> geri çağırım işlevinde görünmesi simgesel bağın hedefindeki dosyanın mevcut olmadığı anlamına gelir. <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> işlevinde durum daha farklıdır.
+    </p>
+    <p>
+     Bu değer sadece, ilk başlık dosyasından önce <code class="varname">_BSD_SOURCE</code> veya <code class="varname">_XOPEN_EXTENDED</code> tanımlanarak derlenmiş bir yazılımda kullanılabilir. Özgün SVID sistemlerinde simgesel bağlar yoktur.
+    </p>
+   </div>
+   <p>
+    Kaynaklar <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse, bu tür aslında <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw64_func_t"><strong class="type"><code>__ftw64_func_t</code></strong></a> türü olur. Aynı sebeple <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> türü de <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> olur.
+   </p>
+  </div>
+        <p>
+   Büyük Dosya Sistemi Arayüzünde ve <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw64"><strong class="function"><code>ftw64</code></strong></a> işlevinde kullanılmak üzere <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw64_func_t"><strong class="type"><code>__ftw64_func_t</code></strong></a> türü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code> başlık dosyasında tanımlanmştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-ftw64_func_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code>int (*<a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw64_func_t"><strong class="function"><code>__ftw64_func_t</code></strong></a>)</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const struct stat64 </code><strong class="type">*</strong><strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    Bu tür <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw64"><strong class="function"><code>ftw64</code></strong></a> işlevine belirtilen geri çağırım işlevinin türü olmak dışında <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw_func_t"><strong class="type"><code>__ftw_func_t</code></strong></a> türünün benzeridir. Geri çağırım işlevinin ikinci bağımsız değişkeni daha geniş değerleri mümkün kılmak için <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde bir değişkene göstericidir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-nftw_func_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code>int (*<a href="glibc-Working-with-Directory-Trees.html#glibc-tp-nftw_func_t"><strong class="function"><code>__nftw_func_t</code></strong></a>)</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const struct stat </code><strong class="type">*</strong><strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>, </code></strong><code class="type">struct FTW </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    İlk üç bağımsız değişkeni <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw_func_t"><strong class="type"><code>__ftw_func_t</code></strong></a> türü ile aynıdır.  Ancak üçüncü bağımsız değişken, daha hassas bir farklılaşmayı sağlamak için bazı ek değerler içerebilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_DP" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_DP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe bir dizindir ve tüm alt dizinlerine girilmiş ve raporlanmıştır. Eğer <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> işlevi <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_DEPTH"><strong class="varname"><code>FTW_DEPTH</code></strong></a> seçeneği ile çağrılmışsa <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_D"><strong class="varname"><code>FTW_D</code></strong></a> yerine bu değer döner (aşağıya bakınız).
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-FTW_SLN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_SLN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Öğe geçerliğini yitirmiş bir simgesel bağdır. Yani gösterdiği dosya ortada yok.
+    </p>
+   </div>
+   <p>
+    Eylemci işlevin son bağımsız değişkeninin aldığı ek değerler aşağıda açıklanan yapıya göstericidir.
+   </p>
+   <p>
+    Eğer kaynaklar <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse, bu tür aslında <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-nftw64_func_t"><strong class="type"><code>__nftw64_func_t</code></strong></a> türü olur. Aynı sebeple <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> türü de <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> olur.
+   </p>
+  </div>
+        <p>
+   Büyük Dosya Sistemi Arayüzünde ve <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw64"><strong class="function"><code>ftw64</code></strong></a> işlevinde kullanmak üzere <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-nftw64_func_t"><strong class="type"><code>__nftw64_func_t</code></strong></a> türü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code> başlık dosyasında tanımlanmştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-nftw64_func_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code>int (*<a href="glibc-Working-with-Directory-Trees.html#glibc-tp-nftw64_func_t"><strong class="function"><code>__nftw64_func_t</code></strong></a>)</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const struct stat64 </code><strong class="type">*</strong><strong><code class="parameter">status</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>, </code></strong><code class="type">struct FTW </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    Bu tür <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw64"><strong class="function"><code>nftw64</code></strong></a> işlevine belirtilen geri çağırım işlevinin türü olmak dışında <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-nftw_func_t"><strong class="type"><code>__nftw_func_t</code></strong></a> türünün benzeridir.  Geri çağırım işlevinin ikinci bağımsız değişkeni daha geniş değerleri mümkün kılmak için <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde bir değişkene göstericidir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-FTW" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/ftw.h;hb=HEAD" target="_top">ftw.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">FTW</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu yapının içerdiği bilgi isim bağımsız değişkeninin yorumlanmasına ve dizin hiyerarşisinin geçişli durumu hakkında bazı bilgiler verilmesine yardımcı olur.
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">int </code><strong class="structfield"><code>base</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Değeri geri çağırım işlevinin ilk bağımsız değişkeninde aktarılan dizgedeki dosya isminin dizgenin başlangıcına göre başlangıç konumudur. Dizgenin başlangıcında kalan bölüm dosyanın dosya yoludur. Çalışma dizini o an bulunan ögelerden biri olduğundan, <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> çağrısı <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_CHDIR"><strong class="varname"><code>FTW_CHDIR</code></strong></a> seçeneği ile yapıldığında bu bilgi önem kazanır.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">int </code><strong class="structfield"><code>level</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       İşlem sırasında, dosyayı bulmak için kaç dizin içeri gidileceğini gösterir. İlk dizinin seviyesi <code class="code">0</code>'dır.
+      </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ftw" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ftw</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">__ftw_func_t </code><strong><code class="parameter">func</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">descriptors</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">ftw</code> işlevi, <em class="parameter"><code>filename</code></em> ile belirtilen dizin ve alt dizinlerinde bulunan her öge için <em class="parameter"><code>func</code></em> bağımsız değişkeni ile belirtilen işlevi çağırır. İşlev gerekirse simgesel bağları da izler ama ögeyi iki defa işleme sokmaz. Eğer <em class="parameter"><code>filename</code></em> ile bir dizin belirtilmemişse <em class="parameter"><code>func</code></em> işlevi sadece bu öge için çağrılır.
+   </p>
+   <p>
+    <em class="parameter"><code>func</code></em> işlevine aktarılan dosya ismi <em class="parameter"><code>filename</code></em> bağımsız değişkeninden alınarak ve aktarılan tüm dizin isimleri ve yerel dosya ismi eklenerek oluşturulur. Böylece <em class="parameter"><code>func</code></em> işlevi dosyaya erişmek için bu bağımsız değişkeni kullanabilir. <code class="code">ftw</code> ayrıca dosya için <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> çağrısı da yapar ve bu bilgiyi <em class="parameter"><code>func</code></em> işlevine aktarır. Eğer bu <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> çağrısı başarısız olursa bu durum <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> işlevinin üçüncü bağımsız değişkenine <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_NS"><strong class="varname"><code>FTW_NS</code></strong></a> aktarılarak belirtilir. Aksi takdirde, üçüncü bağımsız değişkene yukarıda <a href="glibc-Working-with-Directory-Trees.html#glibc-tp-ftw_func_t"><strong class="type"><code>__ftw_func_t</code></strong></a> açıklamasında belirtildiği gibi aktarım yapılır.
+   </p>
+   <p>
+    Bir hata oluşmadığını ve işlemin devam edebileceğini belirtmek üzere eylemci işlevin <code class="code">0</code> döndürmesi beklenir. Eğer bir hata oluşmuşsa ya da <code class="code">ftw</code> işlevinin işlemi hemen sonlandırması isteniyorsa sıfırdan farklı bir değer döndürülmelidir. Bu işlevi sonlandırmanın tek yoludur. <em class="parameter"><code>func</code></em> işlevinin içinde işleme başka bir yerde devam etmek için <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> veya benzeri bir işlev kullanılmamalıdır. Bu, <code class="code">ftw</code> işlevinin tahsis ettiği öz kaynakların tahsisli olarak kalmasına sebep olur.
+   </p>
+   <p>
+    <em class="parameter"><code>descriptors</code></em> bağımsız değişkeni ile <code class="code">ftw</code> işlevinin toplam kaç dosya tanıtıcısı kullanacağı belirtilir. Ne kadar çok dosya tanıtıcısı kullanmasına izin veririrse işlev o kadar hızlı çalışır. Dizin hiyerarşisindeki her alt dizin için en fazla bir dosya tanıtıcısı kullanılır, fakat çok derinlere inildiğinde açık dosya tanıtıcılarının sayısı süreç ya da sistem için belirlenmiş sınırları aşabilir. Dahası, çok evreli yazılımlarda bu katlanarak artar. Bu bakımdan açık dosya tanıtıcılarının sayısına kabul edilebilir bir sınır belirtmek gerekir.
+   </p>
+   <p>
+    Eğer tüm <em class="parameter"><code>func</code></em> çağrıları <code class="code">0</code> ile dönmüşse ve <code class="code">ftw</code> tüm eylemleri uygulayabilmişse, <code class="code">ftw</code> <code class="code">0</code> ile döner. Eğer bir işlev çağrısı başarısız olmuşsa (<a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> çağrıları hariç) <code class="code">-1</code> ile döner. Eğer eylemci işlev çağrılarından biri sıfırdan farklı bir değerle dönmüşse <code class="code">ftw</code> işlevi bu dönüş değerini döndürür.
+   </p>
+   <p>
+    Kaynakların 32 bitlik bir sistemde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği durumda bu işlev aslında <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw64"><strong class="function"><code>ftw64</code></strong></a> işlevidir, yani LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ftw64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ftw64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">__ftw64_func_t </code><strong><code class="parameter">func</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">descriptors</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Büyük Dosya Sistemleri ile çalışması dışında bu işlev <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> işlevinin benzeridir. <em class="parameter"><code>func</code></em> işlevine dosya bilgisi aktarılırken <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde bir değişken kullanılır.
+    </p>
+    <p>
+     32 bitlik bir sistemde, kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği durumda bu işlev <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> ismiyle bulunur ve eski gerçekleme tamamen LFS'ye uygun olarak değiştirilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-nftw" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">nftw</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">__nftw_func_t </code><strong><code class="parameter">func</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">descriptors</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-cwd">cwd</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-cwd">cwd</a>
+    </div>
+    <p>
+     <code class="code">nftw</code> işlevi <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> işlevi gibi çalışır. <em class="parameter"><code>filename</code></em> ile belirtilen dizin ve alt dizinlerinde ve aşağıda açıklandığı gibi bulunan her öge için <em class="parameter"><code>func</code></em> bağımsız değişkeni ile belirtilen işlevi çağırır. <em class="parameter"><code>descriptors</code></em> bağımsız değişkeni ile <code class="code">nftw</code> işlevinin toplam kaç dosya tanıtıcısı kullanacağı belirtilir.
+    </p>
+    <p>
+     Birinci fark geri çağırım işlevinin türüdür. Yukarıda açıklandığı gibi geri çağırım işlevine <code class="code">struct FTW *</code> türünde ek bilgi aktarılabilir.
+    </p>
+    <p>
+     İkinci fark, <code class="code">nftw</code> işlevinin dördüncü bir bağımsız değişken almasıdır. Bu bağımsız değişkene <code class="code">0</code> veya aşağıdaki değerlerin bitsel VEYAlanmış değeri aktarılabilir:
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-FTW_PHYS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_PHYS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Dizin taranırken simgesel bağlar izlenmez. Bunun yerine simgesel bağlar geri çağırım işlevinin <em class="parameter"><code>flag</code></em> bağımsız değişkeninde <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_SL"><strong class="varname"><code>FTW_SL</code></strong></a> değeri kullanılarak belirtilir. Eğer simgesel bağın hedefindeki dosya mevcut değilse, bunun yerine <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_SLN"><strong class="varname"><code>FTW_SLN</code></strong></a> döner.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-FTW_MOUNT" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_MOUNT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Geri çağırım işlevi, <code class="code">nftw</code> işlevine yalnızca  <em class="parameter"><code>filename</code></em> bağımsız değişkeniyle aktarılan dizine bağlı dosya sisteminde bulunan ögeler için çağrılır.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-FTW_CHDIR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_CHDIR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bu seçenek verilmişse geri çağırım işlevi çağrılmadan önce çalışma dizininden raporlanan dizine geçilir. <strong class="function"><code>ntfw</code></strong> işlevi geri çağırım işlevi döndükten sonra tekrar eski çalışma dizinine geçer.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-FTW_DEPTH" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_DEPTH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bu seçenek verilmişse ana dizin içeriği işlenmeden önce alt dizinler ve onların dosyaları üzerinde işlem yapılır (önce derinlik kipi). Bu durum ayrıca geri çağırım işlevine <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_D"><strong class="varname"><code>FTW_D</code></strong></a> değil <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_DP"><strong class="varname"><code>FTW_DP</code></strong></a> aktarılarak belirtilir.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-FTW_ACTIONRETVAL" class="indexterm"></span>
+     <span id="glibc-vr-FTW_CONTINUE" class="indexterm"></span>
+     <span id="glibc-vr-FTW_STOP" class="indexterm"></span>
+     <span id="glibc-vr-FTW_SKIP_SUBTREE" class="indexterm"></span>
+     <span id="glibc-vr-FTW_SKIP_SIBLINGS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FTW_ACTIONRETVAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Bu seçenek belirtilmişse geri çağırım işlevinin dönüş değeri farklı işlem görür. Eğer geri çağırım işlevi <code class="code">FTW_CONTINUE</code> ile dönerse işlem normal olarak devam eder. <code class="code">FTW_STOP</code> işlemi durdur ve işlev bu değerle döner. Eğer <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_D"><strong class="varname"><code>FTW_D</code></strong></a> bağımsız değişkeni ile çağrılmış geri çağırım işlevi <code class="code">FTW_SKIP_SUBTREE</code> değeri ile dönerse, alt ağaç atlanır ve sonraki kardeş dizinden devam edilir;  <code class="code">FTW_SKIP_SIBLINGS</code> değeri dönerse, o anki girdinin tüm kardeş dizinleri atlanır ve işlem bir üst dizinden devam eder. Bu seçeneğin belirtildiği durumda geri çağırım işlevi bu değerlerin dışında bir değer döndürmemelidir. Bu seçenek GNU oluşumudur.
+     </p>
+    </div>
+    <p>
+     İşlevin dönüş değeri <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-ftw"><strong class="function"><code>ftw</code></strong></a> işlevindeki gibi değerlendirilir. Eğer tüm eylemci işlev çağrıları <code class="code">0</code> ile dönmüşse ve <code class="code">nftw</code> tüm eylemleri uygulayabilmişse, <code class="code">nftw</code> işlevi <code class="code">0</code> ile döner. Bellek sorunu gibi dahili bir hata oluşmuşsa işlev <code class="code">-1</code> ile döner ve hata durumu <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanır. Eğer geri çağırım işlevi çağrılarından biri sıfırdan farklı bir değerle dönmüşse <code class="code">nftw</code> işlevi bu dönüş değerini döndürür.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik bir sistemde bu işlev aslında <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw64"><strong class="function"><code>nftw64</code></strong></a> işlevidir, yani LFS arayüzü eski arayüzün yerine geçer.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-nftw64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/string.h;hb=HEAD" target="_top">string.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">nftw64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">__nftw64_func_t </code><strong><code class="parameter">func</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">descriptors</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-cwd">cwd</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-cwd">cwd</a>
+    </div>
+    <p>
+     Büyük dosyalı dosya sistemlerinde çalışabilmesi dışında bu işlev <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> işlevinin benzeridir. Geri çağırım işlevine dosya bilgisi aktarılırken <a href="glibc-Attribute-Meanings.html#glibc-tp-stat64"><strong class="type"><code>struct stat64</code></strong></a> türünde bir değişken kullanılır.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik bir sistemde bu işlev <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> ismiyle bulunur ve eski gerçekleme tamamen LFS'ye uygun olarak değiştirilir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

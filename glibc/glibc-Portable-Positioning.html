@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.19. Taşınabilir Dosya Konumlama İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Positioning.html')">Önceki</button>
+          <div class="dropdown-content">12.18. Dosyalarda Konumlama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Stream-Buffering.html')">Sonraki</button>
+          <div class="dropdown-content">12.20. Akım Tamponlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Portable-Positioning">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.19. Taşınabilir Dosya Konumlama İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   GNU sistemlerinde dosya konumlaması tamamen karakter sayısıdır. <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> veya <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a> işlevine konum karakter sayısı olarak belirtilebilir ve herhangi bir rastgele erişimli dosyada düzgün sonuçlar alınabilir. Ancak ISO C sistemlerinde dosya konumlaması bu şekilde değildir.
+  </p>
+        <p>
+   Bazı sistemlerde metin akımları ikil akımlardan tamamen farklıdır ve bir metin akımının dosya konumunu dosyanın başlangıcından itibaren karakter sayısı olarak belirtmek mümkün değildir. Örneğin bazı sistemlerde önce dosya içindeki kaydın konumuna oradan da kayıt içindeki karakter konumuna erişilir.
+  </p>
+        <p>
+   Sonuç olarak, geliştirilen yazılımın bu sistemlere taşınabilir olması isteniyorsa bazı kurallara uyulması gerekir:
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     Bir metin akımında <a href="glibc-File-Positioning.html#glibc-fn-ftell"><strong class="function"><code>ftell</code></strong></a> işlevinden dönen değer, o ana kadar okunan karakterlerin sayısıyla bire bir ilişkili değildir. Tek bir şeyden emin olunabilir: <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> veya <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a> işlevinin <em class="parameter"><code>offset</code></em> bağımsız değişkeninde aynı değerler ardışık kullanılarak geriye aynı dosya konumuna gidilebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bir metin akımında <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> veya <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a> çağrısında ya <em class="parameter"><code>offset</code></em> sıfır olmalı ya da <em class="parameter"><code>whence</code></em> bağımsız değişkeninin değeri <a href="glibc-File-Positioning.html#glibc-vr-SEEK_SET_"><strong class="varname"><code>SEEK_SET</code></strong></a> olmalı ve <em class="parameter"><code>offset</code></em> aynı akım üzerinde bir önceki <a href="glibc-File-Positioning.html#glibc-fn-ftell"><strong class="function"><code>ftell</code></strong></a> çağrısının sonucu olmalıdır.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bir metin akımının dosya konumlayıcı değeri, bu karakterler, onları okunmamış ya da iptal edilmemiş yapan <a href="glibc-Unreading.html#glibc-fn-ungetc"><strong class="function"><code>ungetc</code></strong></a> ile geriye itilmişse tanımsızdır. Bkz.  <a class="xref" href="glibc-Unreading.html" title="12.10. Okunmamış Yapmak"><em>Okunmamış Yapmak</em></a>.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Bu kurallara uyulsa bile uzun dosyalarda hala bazı sorunlar olabilir, çünkü <a href="glibc-File-Positioning.html#glibc-fn-ftell"><strong class="function"><code>ftell</code></strong></a> ve <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> dosya konumu için <code class="type">long int</code> değer kullanır. Bu tür, büyükçe bir dosyadaki tüm dosya konumlarına erişmek için yeterli olmayabilir. <a href="glibc-File-Positioning.html#glibc-fn-ftello"><strong class="function"><code>ftello</code></strong></a> ve <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a> işlevlerinin kullanımı <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türünü kullanmalarından ötürü tüm dosya konumlarına erişmeye yardımcı olabileceği umulsa bile hala, bir dosya konumu ile ilişkili ek bilgileri elde etmekte yardımı olmayacaktır.
+  </p>
+        <p>
+   Bu durumda, dosya konumu için özel kodlamalar kullanılan sistemlere destek verilmek istenirse, bunlar yerine <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos"><strong class="function"><code>fgetpos</code></strong></a> ve <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos"><strong class="function"><code>fsetpos</code></strong></a> işlevlerinin kullanılması daha iyi olur. Bu işlevler dosya konumunu belirtmek için dahili genişliği sistemden sisteme değişiklik gösteren <a href="glibc-Portable-Positioning.html#glibc-tp-fpos_t"><strong class="type"><code>fpos_t</code></strong></a> veri türünü kullanır.
+  </p>
+        <p>
+   Bu simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm110177" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-fpos_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">fpos_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos"><strong class="function"><code>fgetpos</code></strong></a> ve <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos"><strong class="function"><code>fsetpos</code></strong></a> işlevlerinde kullanmak üzere, bir akımın dosya konumu hakkındaki bilgileri kodlayan bir nesnenin türüdür.
+   </p>
+   <p>
+    GNU C Kütüphanesinde, <code class="code">fpos_t</code>, dosya konumunu içeren dahili veriyi ve dönüşüm durum bilgilerini tutan bir veri yapısıdır. Diğer sistemlerdeki görüntüsü farklı olabilir.
+   </p>
+   <p>
+    Kaynaklar, 32 bitlik sistemlerde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde büyük dosya desteği arayüzü eski arayüzün yerine geçtiğinden bu veri türü <a href="glibc-Portable-Positioning.html#glibc-tp-fpos64_t"><strong class="type"><code>fpos64_t</code></strong></a> türüne eşdeğer olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-fpos64_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">fpos64_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos64"><strong class="function"><code>fgetpos64</code></strong></a> ve <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos64"><strong class="function"><code>fsetpos64</code></strong></a> işlevlerinde kullanmak üzere, bir akımın dosya konumu hakkındaki bilgileri kodlayan bir nesnenin türüdür.
+   </p>
+   <p>
+    GNU C Kütüphanesinde, <code class="code">fpos64_t</code>, dosya konumunu içeren dahili veriyi ve dönüşüm durum bilgilerini tutan bir veri yapısıdır. Diğer sistemlerdeki görüntüsü farklı olabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetpos" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fgetpos</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">fpos_t </code><strong class="type">*</strong><strong><code class="parameter">position</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>stream</code></em> akımının dosya konum değerini <em class="parameter"><code>position</code></em> ile gösterilen <a href="glibc-Portable-Positioning.html#glibc-tp-fpos_t"><strong class="type"><code>fpos_t</code></strong></a> nesnesinde saklar. Başarı durumunda <code class="code">fgetpos</code> sıfır ile döner, aksi halde gerçeklemeye bağlı bir pozitif değeri <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde saklayarak sıfırdan farklı bir değerle döner.
+   </p>
+   <p>
+    Kaynaklar, 32 bitlik sistemlerde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde büyük dosya desteği arayüzü eski arayüzün yerine geçtiğinden bu işlev <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos64"><strong class="function"><code>fgetpos64</code></strong></a> işlevine eşdeğer olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fgetpos64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fgetpos64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">fpos64_t </code><strong class="type">*</strong><strong><code class="parameter">position</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev dosya konumunu <em class="parameter"><code>position</code></em> ile gösterilen <a href="glibc-Portable-Positioning.html#glibc-tp-fpos64_t"><strong class="type"><code>fpos64_t</code></strong></a> türünde bir değişken içinde döndürmesi dışında <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos"><strong class="function"><code>fgetpos</code></strong></a> işlevi gibidir.
+   </p>
+   <p>
+    Kaynaklar, 32 bitlik sistemlerde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde büyük dosya desteği arayüzü eski arayüzün yerine geçtiğinden bu işlev <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos"><strong class="function"><code>fgetpos</code></strong></a> ismiyle de kullanılabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fsetpos" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fsetpos</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">const fpos_t </code><strong class="type">*</strong><strong><code class="parameter">position</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev, aynı akım üzerinde bir önceki <a href="glibc-Portable-Positioning.html#glibc-fn-fgetpos"><strong class="function"><code>fgetpos</code></strong></a> işlevinden dönen <em class="parameter"><code>position</code></em> değeriyle <em class="parameter"><code>stream</code></em> akımının dosya konum belirtecini konumlandırır. Başarı durumunda <code class="code">fsetpos</code> akım üzerindeki dosya sonu belirtecini temizler, <a href="glibc-Unreading.html#glibc-fn-ungetc"><strong class="function"><code>ungetc</code></strong></a> kullanımıyla geriye itilen karakterleri iptal eder ve sıfır değeriyle döner. Aksi takdirde, gerçeklenime göre <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine bir pozitif değer atar ve sıfırdan farklı bir değerle döner.
+   </p>
+   <p>
+    Kaynaklar, 32 bitlik sistemlerde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde büyük dosya desteği arayüzü eski arayüzün yerine geçtiğinden bu işlev <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos64"><strong class="function"><code>fsetpos64</code></strong></a> işlevine eşdeğer olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fsetpos64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fsetpos64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">const fpos64_t </code><strong class="type">*</strong><strong><code class="parameter">position</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev dosya konumlamasında kullanılacak <em class="parameter"><code>position</code></em> bağımsız değişkeninin <a href="glibc-Portable-Positioning.html#glibc-tp-fpos64_t"><strong class="type"><code>fpos64_t</code></strong></a> türünde bir değişken olarak verilmesi dışında <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos"><strong class="function"><code>fsetpos</code></strong></a> ile aynıdır.
+   </p>
+   <p>
+    Kaynaklar, 32 bitlik sistemlerde <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiğinde büyük dosya desteği arayüzü eski arayüzün yerine geçtiğinden bu işlev <a href="glibc-Portable-Positioning.html#glibc-fn-fsetpos"><strong class="function"><code>fsetpos</code></strong></a> ismiyle de kullanılabilir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

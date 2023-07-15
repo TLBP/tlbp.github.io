@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>32.9. pathconf Kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Minimums.html')">Önceki</button>
+          <div class="dropdown-content">32.8. Dosyalarla İlgili Asgari Değerler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Configuration-Parameters.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Utility-Limits.html')">Sonraki</button>
+          <div class="dropdown-content">32.10. Bazı Araçların Yeteneklerinin Sınırları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Pathconf">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">32.9. <code class="code">pathconf</code> Kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir dosya sisteminde farklı dosyaların özellikleri için farklı değerler varsa, bu kısımdaki işlevler kullanılarak belli bir dosya için belli bir değerin ne olduğu öğrenilebilir.
+  </p>
+        <p>
+   <span id="idm133944" class="indexterm"></span>
+   Bu işlevler ve <em class="parameter"><code>parameter</code></em> bağımsız değişkeninde belirtilebilecek sabitler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-pathconf" class="indexterm"></span>
+   <span id="glibc-cp-pathconf" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">pathconf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">parameter</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>filename</code></em> adlı dosyaya uygulanan sınırlar hakkında bilgi almak için kullanılır.
+   </p>
+   <p>
+    <em class="parameter"><code>parameter</code></em> bağımsız değişkeni aşağıda listelenen <code class="code">_PC_</code> sabitlerinden biri olmalıdır.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri işlevden istenen değerdir. <code class="code">-1</code> değeri dönmüşse bu gerçeklemenin böyle bir sınır içermediğini belirtebileceği gibi bir hata durumunu da gösterebilir. İlk durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine bir değer atanmazken ikinci durumda değişken hata durumunu içerir. Bu bakımdan dönen değerin bir hata durumu içerip içermediğini saptayabilmek için işlev çağrılmadan hemen önce <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişlenine <code class="code">0</code> değeri atanmalıdır.
+   </p>
+   <p>
+    <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak, bu işlev için şu hata durumu tanımlanmıştır:
+   </p>
+   <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+     <em class="parameter"><code>parameter</code></em> değeri geçersiz ya da gerçeklemede bu dosya için <em class="parameter"><code>parameter</code></em> desteği yok.
+    </p></dd></dl>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fpathconf" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">fpathconf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">parameter</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <a href="glibc-Pathconf.html#glibc-fn-pathconf"><strong class="function"><code>pathconf</code></strong></a> işlevi gibi olmakla birlikte bilgi dosya ismi için değil açık dosya tanıtıcı için döner.
+   </p>
+   <p>
+    Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçerli bir dosya tanıtıcı değil.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>parameter</code></em> değeri geçersiz ya da gerçeklemede bu dosya için <em class="parameter"><code>parameter</code></em> desteği yok.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Buradaki simgesel sabitler <a href="glibc-Pathconf.html#glibc-fn-pathconf"><strong class="function"><code>pathconf</code></strong></a> ve <a href="glibc-Pathconf.html#glibc-fn-fpathconf"><strong class="function"><code>fpathconf</code></strong></a> işlevlerinin <em class="parameter"><code>parameter</code></em> bağımsız değişkeninde kullanmak içindir. Değerlerin hepsi tamsayı sabitlerdir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_LINK_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_LINK_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-LINK_MAX"><strong class="varname"><code>LINK_MAX</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_MAX_CANON" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_MAX_CANON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_CANON"><strong class="varname"><code>MAX_CANON</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_MAX_INPUT" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_MAX_INPUT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_INPUT"><strong class="varname"><code>MAX_INPUT</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_NAME_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_NAME_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="varname">PC_NAME_MAX</code> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_PATH_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_PATH_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-PATH_MAX"><strong class="varname"><code>PATH_MAX</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_PIPE_BUF" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_PIPE_BUF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-PIPE_BUF"><strong class="varname"><code>PIPE_BUF</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_CHOWN_RESTRICTED" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_CHOWN_RESTRICTED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Options-for-Files.html#glibc-vr-POSIX_CHOWN_RESTRICTED"><strong class="varname"><code>_POSIX_CHOWN_RESTRICTED</code></strong></a>'in değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_NO_TRUNC" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_NO_TRUNC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Options-for-Files.html#glibc-vr-POSIX_NO_TRUNC"><strong class="varname"><code>_POSIX_NO_TRUNC</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_VDISABLE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_VDISABLE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Options-for-Files.html#glibc-vr-POSIX_VDISABLE"><strong class="varname"><code>_POSIX_VDISABLE</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_SYNC_IO" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_SYNC_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="varname">_POSIX_SYNC_IO</code> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_ASYNC_IO" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_ASYNC_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="varname">_POSIX_ASYNC_IO</code> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_PRIO_IO" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_PRIO_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="varname">_POSIX_PRIO_IO</code>'in değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_FILESIZEBITS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_FILESIZEBITS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Dosya sisteminde büyük dosyaların kullanılabilirliği hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_REC_INCR_XFER_SIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_REC_INCR_XFER_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Minimums.html#glibc-vr-POSIX_REC_INCR_XFER_SIZE"><strong class="varname"><code>POSIX_REC_INCR_XFER_SIZE</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_REC_MAX_XFER_SIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_REC_MAX_XFER_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Minimums.html#glibc-vr-POSIX_REC_MAX_XFER_SIZE"><strong class="varname"><code>POSIX_REC_MAX_XFER_SIZE</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_REC_MIN_XFER_SIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_REC_MIN_XFER_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Minimums.html#glibc-vr-POSIX_REC_MIN_XFER_SIZE"><strong class="varname"><code>POSIX_REC_MIN_XFER_SIZE</code></strong></a> değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-PC_REC_XFER_ALIGN" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_PC_REC_XFER_ALIGN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-File-Minimums.html#glibc-vr-POSIX_REC_XFER_ALIGN"><strong class="varname"><code>POSIX_REC_XFER_ALIGN</code></strong></a>'in değeri hakkında bilgi.
+   </p>
+  </div>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+    GNU C Kütüphanesi bazı sistemlerde <a href="glibc-Pathconf.html#glibc-vr-PC_NAME_MAX"><strong class="varname"><code>_PC_NAME_MAX</code></strong></a> veya <a href="glibc-Pathconf.html#glibc-vr-PC_PATH_MAX"><strong class="varname"><code>_PC_PATH_MAX</code></strong></a> sınırlarını zorlamaz.
+   </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

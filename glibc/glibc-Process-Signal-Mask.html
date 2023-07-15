@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.3. Sürecin Sinyal Maskesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Sets.html')">Önceki</button>
+          <div class="dropdown-content">24.7.2. Sinyal Kümeleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Testing-for-Delivery.html')">Sonraki</button>
+          <div class="dropdown-content">24.7.4. Sinyal Alımının Sınanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Process-Signal-Mask">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.3. Sürecin Sinyal Maskesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm128410" class="indexterm"></span>
+    <span id="idm128412" class="indexterm"></span>
+    Engellenen sinyallerden oluşan küme <em class="wordasword">sinyal maskesi</em> olarak adlandırılır. Her sürecin kendine özgü bir sinyal maskesi vardır. Yeni bir <a class="link" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması">süreç oluşturulduğunda</a>, süreç sinyal maskesini onu çalıştıran süreçten miras alır. Bu sinyal maskesi değiştirilerek sinyaller tam bir esneklikle engellenebilir ya da engellenmeyebilir.
+   </p>
+        <p>
+    <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında bildirilmiştir.
+    <span id="idm128419" class="indexterm"></span>
+   </p>
+        <p>
+    Her evre kendi sinyal maskesine sahip olduğundan ve dolayısıyla sürecin tek bir sinyal maskesi olmadığından çok evreli süreçlerde <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> işlevi kullanılmamalıdır. POSIX'e göre, çok evreli bir süreçte <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> davranışı "belirsizdir". Yerine <strong class="function"><code>pthread_sigmask</code></strong> işlevi kullanılmalıdır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigprocmask" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigprocmask</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">how</code></strong><strong><code>, </code></strong><code class="type">const sigset_t *restrict </code><strong><code class="parameter">set</code></strong><strong><code>, </code></strong><code class="type">sigset_t *restrict </code><strong><code class="parameter">oldset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:sigprocmask</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd(SIG_UNBLOCK)</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+    </div>
+    <p>
+     <code class="code">sigprocmask</code> işlevi çağrıldığı sürecin sinyal maskesini değiştirmek ya da okumak için kullanılır. <em class="parameter"><code>how</code></em> bağımsız değişkeni ile sinyal maskesinin nasıl değiştirileceği aşağıdaki değerlerden biri ile belirtilmelidir:
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SIG_BLOCK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SIG_BLOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <em class="parameter"><code>set</code></em> kümesi içindeki sinyaller engellensin--mevcut maskeye eklensin. Başka bir deyişle, yeni maske, <em class="parameter"><code>oldset</code></em> ile <em class="parameter"><code>set</code></em> kümesinin birleşimi olur.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SIG_UNBLOCK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SIG_UNBLOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      <em class="parameter"><code>set</code></em> kümesi içindeki sinyaller engellenmesin--mevcut maskeden kaldırılsın.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SIG_SETMASK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SIG_SETMASK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Sinyal maskesi için <em class="parameter"><code>set</code></em> kullanılsın; önceki maske yok sayılsın.
+     </p>
+    </div>
+    <p>
+     Son bağımsız değişken olan <em class="parameter"><code>oldset</code></em> sürecin eski maskesi hakkında bilgi döndürmek için kullanılır. Eski maskeye bakmaksızın maske değiştirilmek istenirse <em class="parameter"><code>oldset</code></em> bağımsız değişkeni ile boş gösterici aktarılmalıdır. Benzer şekilde, maskeyi değiştirmeksizin mevcut maske hakkında bilgi almak için <em class="parameter"><code>set</code></em> bağımsız değişkeni ile boş gösterici aktarılmalıdır (bu durumda <em class="parameter"><code>how</code></em> bağımsız değişkeninin önemi yoktur). <em class="parameter"><code>oldset</code></em> bağımsız değişkeni çoğunlukla, sinyal maskesini daha sonra eski durumuna getirmek için mevcut durum bilgisini almak gerektiğinde kullanılır. (Sinyal maskesi <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> ve <strong class="function"><code>exec</code></strong> çağrıları üzerinden miras alındığından, yazılım çalışmaya başlamadan içeriği hakkında bilgi edinmek mümkün değildir.)
+    </p>
+    <p>
+     <code class="code">sigprocmask</code> çağrısı bekleyen sinyallerin alınmasına sebep olacağından <code class="code">sigprocmask</code> dönmeden önce bu sinyallerden en az biri alınmış olacaktır. Bekleyen sinyallerin hangisinin önce alınacağı belli olmaz, ancak her sinyal için ayrı ayrı <code class="code">sigprocmask</code> çağrısı yaparak hangi sinyalin önce alınacağı belirlenebilir.
+    </p>
+    <p>
+     <code class="code">sigprocmask</code> işlevi başarılı olduğunda <code class="code">0</code> ile döner. <code class="code">-1</code> ile dönmüşse bir hata var demektir. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+      <em class="parameter"><code>how</code></em> bağımsız değişkeni geçersiz.
+     </p></dd></dl>
+    <p>
+     <a href="glibc-Termination-Signals.html#glibc-vr-SIGKILL"><strong class="varname"><code>SIGKILL</code></strong></a> ve <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGSTOP"><strong class="varname"><code>SIGSTOP</code></strong></a> sinyalleri engellenemez, ama sinyal kümesi bunları içerebilir. Bu durumda <code class="code">sigprocmask</code> hata döndürmez basitçe onları yok sayar.
+    </p>
+    <p>
+     Bir yazılım hatası sonucu olarak (<a href="glibc-Signaling-Yourself.html#glibc-fn-raise"><strong class="function"><code>raise</code></strong></a> veya <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> ile gönderilen sinyallerin aksine) üretilen <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGFPE"><strong class="varname"><code>SIGFPE</code></strong></a> gibi yazılım hata sinyallerinin engellenmesinin, istenmeyen sonuçlara yol açacağı unutulmamalıdır. Böyle bir durumda yazılım bozulmuş olacağından sinyallerin engellenmesi kaldırıldığında yazılım isteneni yapmayabilecektir. Bkz. <a class="xref" href="glibc-Program-Error-Signals.html" title="24.2.1. Yazılım Hatalarının Sinyalleri">Yazılım Hatalarının Sinyalleri</a>.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

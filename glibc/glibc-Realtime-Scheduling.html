@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.3.2. Anlık Zamanlama</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Absolute-Priority.html')">Önceki</button>
+          <div class="dropdown-content">22.3.1. Mutlak Öncelik</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Priority.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Basic-Scheduling-Functions.html')">Sonraki</button>
+          <div class="dropdown-content">22.3.3. Temel Zamanlama İşlevleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Realtime-Scheduling">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">22.3.2. Anlık Zamanlama</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm124475" class="indexterm"></span>
+    Aynı mutlak önceliğe sahip iki süreç aynı anda çalışmaya hazırsa, çekirdek bir karar vermek zorundadır, çünkü bir kerede sadece biri çalışabilir. Eğer süreçlerin mutlak öncelikleri 0 ise çekirdek bu kararı <a class="xref" href="glibc-Traditional-Scheduling.html" title="22.3.4. Geleneksel Zamanlama">Geleneksel Zamanlama</a> bölümünde anlatıldığı gibi verir.  Aksi takdirde vereceği karar bu bölümde anlatılacaktır.
+   </p>
+        <p>
+    Farklı mutlak önceliklere sahip iki süreç çalışmaya hazırsa verilecek karar basittir, bu <a class="xref" href="glibc-Absolute-Priority.html" title="22.3.1. Mutlak Öncelik">Mutlak Öncelik</a> bölümünde açıklanmıştı.
+   </p>
+        <p>
+    Her sürecin kendine ait zamanlama kuralları vardır. Sıfırdan farklı mutlak önceliği olan süreçler için bunlar iki tanedir:
+   </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+      İlk gelen alır
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Döner turnuva düzenlenir
+     </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+    En duyarlı durum, tüm süreçlerin aynı zamanlama kurallarına sahip olduğu ama mutlak önceliklerinin farklı olduğu durumdur ki, bundan daha önce söz edilmişti.
+   </p>
+        <p>
+    Turnuvada, süreçler işlemciyi paylaşır, her biri küçük bir zaman diliminde çalışır ve döner turnuva bağlamında bunu her turda bir kere yapar. Şüphesiz, bu turnuvaya sadece aynı mutlak önceliğe sahip ve aynı anda çalışmaya hazır süreçler katılır.
+   </p>
+        <p>
+    İlk gelen alır durumunda ise, en uzun bekleyen süreç işlemciyi alır ve işlemciyi bırakmaya gönüllü olana kadar, bırakmaktan başka çare kalmayana dek (beklemeye geçmek gibi) ya da daha yüksek öncelikli bir süreç işlemciyi alana kadar işlemciyi tutar.
+   </p>
+        <p>
+    İlk gelen alır kuralı, en yüksek mutlak öncelik ve kesmelerle sayfalama hatalarının dikkati denetlenmesiyle, bir sürecin mutlak olarak ve olumlu manada işlemciyi tam hızda çalıştırdığı takdirde kullanılması vazgeçilmezdir; değilse anlamlı değildir.
+   </p>
+        <p>
+    Süreçlerin <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_yield"><strong class="function"><code>sched_yield</code></strong></a> çağrılarında, zamanlama kuralını belirtirken turnuva ile ilk gelen alır arasında iyi bir uzlaşımın sonucu olarak ilk gelen alır kuralını kullanmak konusunda akıllıca davranmalıdır.
+   </p>
+        <p>
+    Farklı zamanlama kuralları olan aynı mutlak önceliğe sahip süreçler açısından zamanlamanın nasıl çalıştığını anlamak için, süreçlerin çalışmaya hazır süreçler listesine nasıl dahil edildiği ve nasıl listeden çıkarıldıkları ile ilgili ayrıntılar iyi bilinmelidir:
+   </p>
+        <p>
+    Her iki durumda da, çalışmaya hazır süreçlerin listesi gerçek bir kuyruk olarak düzenlenir. Süreç çalışmaya hazır olduğunda kuyruğun sonuna eklenir ve zamanlayıcı onu çalıştırmaya karar verdiğinde kuyruğun başına çekilir. Çalışmaya hazır olmak ile çalışıyor olmanın aynı anda olan şeyler olmadıklarına dikkat edilmelidir. Zamanlayıcı bir süreci çalıştırıyorsa o artık çalışmaya hazır bir süreç değildir ve dolayısıyla artık çalışmaya hazır süreçler listesinde değildir. Sürecin çalışması durduğunda tekrar çalışmaya hazır duruma gelir.
+   </p>
+        <p>
+    Turnuva kuralına göre çalışacak süreç ile ilk gelen alır kuralına göre çalışacak süreç arasındaki tek fark, ilk durumdaki sürecin belli bir süre sonra işlemciyi bırakmak zorunda kalacağıdır. Bu olduğunda süreç tekrar çalışmaya hazır duruma gelir ve kuyruğa tekrar eklenir. Burada bahsedilen süre oldukça kısadır. Hem de gerçekten kısadır. Örneğin, Linux çekirdeğinde turnuva zaman dilimi, geleneksel zamanlama ile ilgili zaman diliminden bin kere daha kısadır.
+   </p>
+        <p>
+    Bir süreç, kendini başlatan süreç ile aynı zamanlama kuralları ile oluşturulur. Bu durumu değiştirebilen işlevler <a class="xref" href="glibc-Basic-Scheduling-Functions.html" title="22.3.3. Temel Zamanlama İşlevleri">Temel Zamanlama İşlevleri</a> bölümünde açıklanmıştır.
+   </p>
+        <p>
+    Sadece ayrıcalıklı süreç, mutlak önceliği <code class="code">0</code>'dan farklı bir sürecin zamanlama kuralını ayarlayabilir.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -7,6 +7,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
@@ -57,7 +58,7 @@ file2wcs (int fd, const char *charset, wchar_t *outbuf, size_t avail)
   cd = iconv_open ("WCHAR_T", charset);
   if (cd == (iconv_t) -1)
     {
-      /* <em class="replaceable"><code>Yanlış giden birşeyler olabilir.</code></em>  */
+      /* <em class="replaceable"><code>Yanlış giden bir şeyler olabilir.</code></em>  */
       if (errno == EINVAL)
         error (0, 0, "'%s' için wchar_t cinsinden bir karşılık yok",
                charset);
@@ -127,7 +128,7 @@ file2wcs (int fd, const char *charset, wchar_t *outbuf, size_t avail)
 }
 </pre>
         <p>
-    Bu örnek, <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevlerinin en önemli kullanım şekillerini göstermektedir. Büyük boyutta bir metnin <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> çağrılarıyla nasıl dönüştürülebileceği gösterilmiştir. Kullanıcı durumsal kodlamalar hakkında birşey bilmek zorunda değildir.
+    Bu örnek, <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevlerinin en önemli kullanım şekillerini göstermektedir. Büyük boyutta bir metnin <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> çağrılarıyla nasıl dönüştürülebileceği gösterilmiştir. Kullanıcı durumsal kodlamalar hakkında bir şey bilmek zorunda değildir.
    </p>
         <p>
     <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinin <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> değerini atayarak döndüğü durum ilginçtir. Bu gerçekte dönüşümdeki bir hata değildir. Girdi karakter kümesinin tek parça olarak işlenemeyen metinler ve bir bayttan uzun bayt dizilimleri içermesine bağlı olarak oluşur. Bu durumda çok baytlı dizilimin bölünmesi olasılığı vardır. Çağrıcı basitçe bu sorunlu baytları atlayıp girdiden kalan baytları okuyup <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a>'ye aktararak dönüşümü devam ettirebilir. ISO C standardında böyle bir olay sonrasındaki duruma bağlı olarak dönüşüm işlevlerinin tanıtıcıda tutulan dahili durum bilgisinin ne olacağı belirtilmemiştir.

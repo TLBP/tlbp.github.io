@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>23.2. Yerel Olmayan Çıkışların Ayrıntıları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Intro.html')">Önceki</button>
+          <div class="dropdown-content">23.1. Yerel Olmayan Çıkışlar Hakkında</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Non-Local-Exits-and-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">23.3. Yerel Olmayan Çıkışlarda Sinyaller</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Non-Local-Details">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">23.2. Yerel Olmayan Çıkışların Ayrıntıları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Burada yerel olmayan çıkışları gerçekleştirmekte kullanılan veri yapıları ve işlevler ayrıntılı olarak incelenecektir. Bu oluşumlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=setjmp/setjmp.h;hb=HEAD" target="_top">setjmp.h</a></code> dosyasında bildirilmiştir.
+   <span id="idm125677" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-jmp_buf" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=setjmp/setjmp.h;hb=HEAD" target="_top">setjmp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">jmp_buf</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">jmp_buf</code> türündeki nesneler, yerel olmayan bir çıkış tarafından eski durumuna getirilecek durum bilgisini tutar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-setjmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=setjmp/setjmp.h;hb=HEAD" target="_top">setjmp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setjmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">jmp_buf </code><strong><code class="parameter">state</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Normal olarak çağrıldığında, <code class="code">setjmp</code> işlevi yazılımın yürütülme durumu hakkında bilgiyi <em class="parameter"><code>state</code></em> nesnesine kaydeder ve sıfırla döner. Daha sonra yerel olmayan bir çıkış gerçekleştirmek için bu <em class="parameter"><code>state</code></em> durum bilgisi ile bir <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> çağrısı yapılırsa, <code class="code">setjmp</code> sıfırdan farklı bir değerle döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-longjmp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=setjmp/setjmp.h;hb=HEAD" target="_top">setjmp.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">longjmp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">jmp_buf </code><strong><code class="parameter">state</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">value</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+   </div>
+   <p>
+    Bu işlev o anki çalışma durumunu <em class="parameter"><code>state</code></em> nesnesinde kayıtlı durum ile değiştirerek yürütmenin dönüş noktasını oluşturan <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısından devam etmesini sağlar. <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevinin dönüş durumu <code class="code">0</code> yerine, <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> çağrısının <em class="parameter"><code>value</code></em> bağımsız değişkeninde belirtilen değer olur. (Ancak, eğer <em class="parameter"><code>value</code></em> olarak sıfır verilmişse, <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevi <code class="code">1</code> ile döner).
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> ve <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> kullanımında önemli sınırlamalar getirmeyen bazı karanlık noktalar vardır. Bu sınırlamaların çoğu hala vardır, çünkü yerel olmayan çıkışlar C derleyicisinin bir kısmının biraz sihirli olmasını ve dilin diğer parçaları ile tuhaf bir yolla etkileşmesini gerektirir.
+  </p>
+        <p>
+   <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevi aslında bir işlev tanımı olmaksızın bir makrodur, yani <code class="code">#undef</code> yapılamaz ve adresi alınamaz. Ek olarak, <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrıları sadece aşağıdaki bağlamla güvenlidir.
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     Bir seçim ya da yineleme deyiminin sınama ifadesi olarak. (örneğin, <code class="code">if</code>, <code class="code">switch</code> veya <code class="code">while</code>).
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Bir seçim ya da yineleme deyiminin sınama ifadesinde görünen bir eşitlik ya da karşılaştırma işlecinin terimi olarak. Diğer terim bir tamsayı sabit ifadesi olmalıdır.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bir seçim ya da yineleme deyiminin sınama ifadesinde görünen bir tek terimli <code class="code">!</code> işlecinin terimi olarak.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bir ifade deyimi olarak kendisi tarafından.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Geri dönüş noktaları, sadece bu dönüş noktalarını oluşturan <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevine çağrı yapan işlevin (örnekteki, <code class="code">main</code> işlevi) çalışması boyunca geçerlidir. Eğer zaten dönmüş bir işlevde kurulu bir dönüş noktasına <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> yapılırsa bunun sonuçları öngörülemez ve yıkıcı etkileri olabilir.
+  </p>
+        <p>
+   <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> çağrısında <em class="parameter"><code>value</code></em> bağımsız değişkenine sıfırdan farklı bir değer belirtilmelidir. <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> işlevinin, <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> işlevinden dönecek değer olarak, <span class="command"><strong>setjmp</strong></span> işlevine sıfır değerini aktarmayı reddetmesi, aslında kaza ile oluşacak bir kötü kullanıma karşı oluşturulmuş bir güvencedir.
+  </p>
+        <p>
+   Bir yerel olmayan çıkış yapıldığında, erişilebilir nesneler genellikle <span class="command"><strong>longjmp</strong></span> çağrısı yapıldığı sıradaki değerlerinde kalır. Bunun istisnası, <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısını içeren işlevin yerel özdevinimli değişken değerlerinin, <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> çağrısının belirsizliğinden dolayı değişmesidir. Bunun olmaması için bunlar <code class="type">volatile</code> olarak bildirilebilir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

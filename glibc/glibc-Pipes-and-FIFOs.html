@@ -1,19 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
-    <title>15. Borular ve İsimli Borular</title>
+    <title>15. Ardışık Süreçler</title>
     <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Önceki</button>
-          <div class="dropdown-content">14. Dosya Sistemi Arayüzü</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Temporary-Files.html')">Önceki</button>
+          <div class="dropdown-content">14.11. Geçici Dosyalar</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -37,45 +38,313 @@
         <div class="titlepage">
           <div>
             <div>
-              <h1 class="title">15. Borular ve İsimli Borular</h1>
+              <h1 class="title">15. Ardışık Süreçler</h1>
             </div>
           </div>
         </div>
-        <div class="preliminary">
-          <div class="titlepage">
-            <div>
+        <section class="partintro">
+          <div></div>
+          <p>
+   
+   
+   <span id="idm122700" class="indexterm"></span>
+   <em class="wordasword">Ardışık süreçler</em> süreçler arasında iletişim için bir düzenektir; bir süreç tarafından ardışık süreçlerin ilkine aktarılan veri ardından  gelen süreç tarafından okunabilir. Veri ilk giren, ilk çıkar sırasıyla ele alınır. Düzeneğin bir adı yoktur; bir kullanımlık oluşturulur ve her iki uç, düzeneği oluşturan süreç tarafından erişilebilir olmalıdır.
+  </p>
+          <p>
+   <span id="idm122704" class="indexterm"></span>
+   <em class="wordasword">Ardışık süreç dosyaları</em> ardışık süreçlerin bir veya birden fazla ismi olan türüdür. Süreçler tarafından üzerinden iletişim kurmak için bir <em class="emphasis">ardışık süreç dosyası</em> olarak adı belirtilerek açılabilir.
+  </p>
+          <p>
+   İster akım ister dosya olsun, ardışık sürecin her iki ucu aynı anda açılmalıdır. Herhangi bir sürecin üzerine yazmadığı (belki hepsi ardışık süreci kapatmış veya çıkmış olabilir) böyle bir ardışık süreçten okuma yapılıyorsa, okuma sonucunda <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> döner. Üzerinde okuma işlemi olmayan ardışık sürece  yazmak hata olarak ele alınır ve bir <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGPIPE"><strong class="varname"><code>SIGPIPE</code></strong></a> sinyali üretilir. Sinyal işleniyor ya da engelleniyorsa akım <a href="glibc-Error-Codes.html#glibc-vr-EPIPE"><strong class="varname"><code>EPIPE</code></strong></a> hata koduyla başarısız olur.
+  </p>
+          <p>
+   İster akım ister dosya olsun, ardışık süreçte konumlamaya izin verilmez. Okuma ve yazma işlemleri sırayla gerçekleşir; başından okunur ve sonuna yazılır.
+  </p>
+          <section class="sect1" id="glibc-Creating-a-Pipe">
+            <div class="titlepage">
               <div>
-                <h2 class="title">Ön Bilgi</h2>
+                <div>
+                  <h2 class="title" style="clear: both">1. Ardışık Süreç Akımının Oluşturulması</h2>
+                </div>
               </div>
             </div>
-          </div>
-          <p>
-   <span id="idm104355" class="indexterm"></span>
-   A <em class="emphasis">pipe</em> is a mechanism for interprocess communication; data written
-to the pipe by one process can be read by another process.  The data is
-handled in a first-in, first-out (FIFO) order.  The pipe has no name; it
-is created for one use and both ends must be inherited from the single
-process which created the pipe.
-</p>
-          <p>
-   <span id="idm104359" class="indexterm"></span>
-   A <em class="emphasis">FIFO special file</em> is similar to a pipe, but instead of being an anonymous, temporary connection, a FIFO has a name or names like any
-other file.  Processes open the FIFO by name in order to communicate
-through it.
-</p>
-          <p>A pipe or FIFO has to be open at both ends simultaneously.  If you read
-from a pipe or FIFO file that doesn’t have any processes writing to it
-(perhaps because they have all closed the file, or exited), the read
-returns end-of-file.  Writing to a pipe or FIFO that doesn’t have a
-reading process is treated as an error condition; it generates a
-<code class="code">SIGPIPE</code> signal, and fails with error code <code class="code">EPIPE</code> if the
-signal is handled or blocked.
-</p>
-          <p>Neither pipes nor FIFO special files allow file positioning.  Both
-reading and writing operations happen sequentially; reading from the
-beginning of the file and writing at the end.
-</p>
-        </div>
+            <p>
+    <span id="idm122718" class="indexterm"></span>
+    <span id="idm122721" class="indexterm"></span>
+    Ardışık süreçlere özel akımı oluşturmak için en ilkel işlev <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pipe"><strong class="function"><code>pipe</code></strong></a> işlevidir. İşlev akımın okuma ve yazma uçlarının her ikisini de oluşturur.  Tek bir sürecin kendisiyle konuşması için pek kullanışlı değildir. Genelde kullanım şekli, bir sürecin bir veya daha fazla <a class="link" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması">alt sürece çatallanmadan</a> önce akımı oluşturmasıdır.  Bundan sonra akım üst ve alt süreç arasında veya iki alt süreç arasında iletişim için kullanılır.
+   </p>
+            <p>
+    <span id="idm122727" class="indexterm"></span>
+    <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pipe"><strong class="function"><code>pipe</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-pipe" class="indexterm"></span>
+    <span id="idm122734" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pipe</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><code>[2]</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">pipe</code> işlevi ardışık süreç akımını oluşturup okuma ve yazma uçları için dosya tanıtıcılarını (sırasıyla) dizinin <em class="parameter"><code>filedes</code></em><code class="code">[0]</code> ve <em class="parameter"><code>filedes</code></em><code class="code">[1]</code> elemanlarına yerleştirir.
+    </p>
+    <p>
+     Girdi ucunun önce geldiğini hatırlamanın en kolay yolu dosya tanıtıcı <code class="code">0</code>'ın standart girdi ve dosya tanıtıcı <code class="code">1</code>'in standart çıktı olmasıdır.
+    </p>
+    <p>
+     Başarı durumunda  <code class="code">pipe</code> işlevi, <code class="code">0</code> değerini döndürür.  Başarısızlık halinde ise <code class="code">-1</code> döndürülür.  Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+        Sürecin çok sayıda açık dosyası var.
+       </p></dd><dt><span class="term"><code class="code">ENFILE</code></span></dt><dd><p>
+        Sistemde çok sayıda açık dosya var. <a href="glibc-Error-Codes.html#glibc-vr-ENFILE"><strong class="varname"><code>ENFILE</code></strong></a> hatası GNU sisteminde hiçbir zaman oluşmaz.
+       </p></dd></dl></div>
+   </div>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <p>
+     Burada basit bir ardışık süreç akımı oluşturma yazılımı yer almaktadır. Bu yazılım <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> işlevini (<a class="xref" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması"><em>Bir Sürecin Oluşturulması</em></a>) alt süreç oluşturmak için kullanmıştır. Üst süreç veriyi ardışık süreç akımına yazar, alt süreç okur.
+    </p>
+                <pre class="screen">#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* <em class="replaceable"><code>Akımdan karakterleri oku.</code></em> */
+
+void
+read_from_pipe (int file)
+{
+  FILE *stream;
+  int c;
+  stream = fdopen (file, "r");
+  while ((c = fgetc (stream)) != EOF)
+    putchar (c);
+  fclose (stream);
+}
+
+/* <em class="replaceable"><code>Akıma bir şeyler yaz.</code></em> */
+
+void
+write_to_pipe (int file)
+{
+  FILE *stream;
+  stream = fdopen (file, "w");
+  fprintf (stream, "Merhaba!\n");
+  fprintf (stream, "Elveda!\n");
+  fclose (stream);
+}
+
+int
+main (void)
+{
+  pid_t pid;
+  int mypipe[2];
+
+  /* <em class="replaceable"><code>Akımı oluştur.</code></em> */
+  if (pipe (mypipe))
+    {
+      fprintf (stderr, "Ardışık süreç başarısız oldu.\n");
+      return EXIT_FAILURE;
+    }
+
+  /* <em class="replaceable"><code>Alt süreç oluştur.</code></em> */
+  pid = fork ();
+  if (pid == (pid_t) 0)
+    {
+      /* <em class="replaceable"><code>Alt süreç. Önce diğer ucu kapat.</code></em> */
+      close (mypipe[1]);
+      read_from_pipe (mypipe[0]);
+      return EXIT_SUCCESS;
+    }
+  else if (pid &lt; (pid_t) 0)
+    {
+      /* <em class="replaceable"><code>Alt süreç oluşturulamadı.</code></em> */
+      fprintf (stderr, "Çatallama başarısız oldu.\n");
+      return EXIT_FAILURE;
+    }
+  else
+    {
+      /* <em class="replaceable"><code>Üst süreç. Önce diğer ucu kapat.</code></em> */
+      close (mypipe[0]);
+      write_to_pipe (mypipe[1]);
+      return EXIT_SUCCESS;
+    }
+}
+</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+          </section>
+          <section class="sect1" id="glibc-Pipe-to-a-Subprocess">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h2 class="title" style="clear: both">2. Alt Süreçle Veri Alışverişi</h2>
+                </div>
+              </div>
+            </div>
+            <p>
+    <span id="idm122797" class="indexterm"></span>
+    <span id="idm122800" class="indexterm"></span>
+    <span id="idm122803" class="indexterm"></span>
+    Ardışık süreçlerin genel kullanım şekli alt süreç olarak çalışan bir yazılım ile veri alışverişidir. Bunu yapmanın bir yolu  <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pipe"><strong class="function"><code>pipe</code></strong></a> (akımı oluşturmak için), <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> (alt süreç oluşturmak için), <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup2"><strong class="function"><code>dup2</code></strong></a> (bir alt süreci ardışık süreç akımı için standart girdi veya çıktı kanalı olmaya zorlamak için) ve <strong class="function"><code>exec</code></strong> (yeni bir yazılımı çalıştırmak için) birleşimini kullanmaktır.  Ya da, bunlar yerine <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-popen"><strong class="function"><code>popen</code></strong></a> ve <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pclose"><strong class="function"><code>pclose</code></strong></a> işlevlerini kullanmaktır.
+   </p>
+            <p>
+    <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-popen"><strong class="function"><code>popen</code></strong></a> ve <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pclose"><strong class="function"><code>pclose</code></strong></a> kullanmanın yararı arayüzünün daha basit ve kullanımının kolay oluşudur. Ancak düşük seviyeli işlevleri doğrudan kullanma esnekliği yoktur.
+   </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-popen" class="indexterm"></span>
+    <span id="glibc-cp-popen" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">popen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">command</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">popen</code> işlevi <a href="glibc-Running-a-Command.html#glibc-fn-system"><strong class="function"><code>system</code></strong></a> işlevleriyle yakından ilgilidir;  bkz. <a class="xref" href="glibc-Running-a-Command.html" title="26.1. Komut Çalıştırmak"><em>Komut Çalıştırmak</em></a>. <em class="parameter"><code>command</code></em> kabuk komutunu alt süreç olarak çalıştırır.  Fakat, komutun bitmesini beklemek yerine, alt süreçten bir ardışık süreç oluşturur ve ardışık süreçle ilişkili akımı döndürür.
+    </p>
+    <p>
+     <em class="parameter"><code>mode</code></em> bağımsız değişkeninde <code class="code">"r"</code> belirtilirse, alt sürecin standart çıktı kanalındaki veriyi almak için akımdan okuma yapılabilir. Alt süreç, standart girdi kanalını üst süreçten miras alır.
+    </p>
+    <p>
+     Benzer şekilde, <em class="parameter"><code>mode</code></em> bağımsız değişkeninde <code class="code">"w"</code> belirtilirse, alt sürecin standart girdi kanalına veri göndermek için akıma yazılabilir. Alt süreç, standart çıktı kanalını üst süreçten alır.
+    </p>
+    <p>
+     Hata durumunda <code class="code">popen</code> boş gösterici ile döner. Bu ardışık süreç veya akım oluşturulamadığında, alt süreç çatallanamadığında ya da yazılım çalıştırılamadığında ortaya çıkabilir.
+    </p>
+   </div>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-pclose" class="indexterm"></span>
+    <span id="glibc-cp-pclose" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pclose</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">pclose</code> işlevi <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-popen"><strong class="function"><code>popen</code></strong></a> tarafından oluşturulan <em class="parameter"><code>stream</code></em> ardışık süreç akımını kapatmak için kullanılır. <a href="glibc-Running-a-Command.html#glibc-fn-system"><strong class="function"><code>system</code></strong></a> işlevinin yaptığı gibi, alt sürecin sonlanmasını bekler ve onun durum değerini döndürür.
+    </p>
+   </div>
+            <div class="example">
+              <div class="example-title">Örnek: </div>
+              <div class="example-contents">
+                <p>
+     Burada <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-popen"><strong class="function"><code>popen</code></strong></a> ve <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-pclose"><strong class="function"><code>pclose</code></strong></a> işlevlerinin, çıktıyı <tt><a href="../man/man1/man1-more.html"><b>more</b></a>(1)</tt> sayfalama yazılımı gibi başka bir yazılımla süzmek için nasıl kullanıldığını gösteren bir örneğe yer verilmiştir.
+    </p>
+                <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void
+write_data (FILE * stream)
+{
+  int i;
+  for (i = 0; i &lt; 100; i++)
+    fprintf (stream, "%d\n", i);
+  if (ferror (stream))
+    {
+      fprintf (stderr, "Akıma çıktılama başarısız oldu.\n");
+      exit (EXIT_FAILURE);
+    }
+}
+
+int
+main (void)
+{
+  FILE *output;
+
+  output = popen ("more", "w");
+  if (!output)
+    {
+      fprintf (stderr,
+               "ya bağımsız değişken yanlış ya da dosya sayısı fazla.\n");
+      return EXIT_FAILURE;
+    }
+  write_data (output);
+  if (pclose (output) != 0)
+    {
+      fprintf (stderr,
+               "Artık yürütülemiyor veya başka bir hata var.\n");
+    }
+  return EXIT_SUCCESS;
+}
+</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+          </section>
+          <section class="sect1" id="glibc-FIFO-Special-Files">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h2 class="title" style="clear: both">3. Ardışık Süreç Dosyaları</h2>
+                </div>
+              </div>
+            </div>
+            <p>
+    <span id="idm122903" class="indexterm"></span>
+    <span id="idm122906" class="indexterm"></span>
+    Bir ardışık süreç dosyasının ardışık süreç akımından farkı oluşturulma şeklidir. İsimsiz bir iletişim kanalı olmak yerine, ardışık süreç dosyası, dosya sistemine <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-mkfifo"><strong class="function"><code>mkfifo</code></strong></a> işlevi çağrılarak sokulur.
+   </p>
+            <p>
+    Herhangi bir süreç, ardışık süreç dosyasını bir kere bu şekilde oluşturduktan sonra, sıradan bir dosya gibi, onu okuma veya yazma için açabilir. Fakat, üzerinde her hangi bir girdi veya çıktı işlemi yapmadan önce her iki ucun da eş zamanlı açılması gerekir. Ardışık süreç dosyasının okumak için açılması, normalde başka bir süreç aynı ardışık süreç dosyasını yazmak için açana engellenir (ya da tam tersi).
+   </p>
+            <p>
+    <a href="glibc-Pipes-and-FIFOs.html#glibc-fn-mkfifo"><strong class="function"><code>mkfifo</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code> başlık dosyasında bildirilmiştir.
+    <span id="idm122914" class="indexterm"></span>
+   </p>
+            <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-mkfifo" class="indexterm"></span>
+    <span id="glibc-cp-mkfifo" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">mkfifo</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">mkfifo</code> işlevi <em class="parameter"><code>filename</code></em> adında bir ardışık süreç dosyası oluşturur. <em class="parameter"><code>mode</code></em> bağımsız değişkeni dosyanın izinlerini belirlemek için kullanılır; bkz. <a class="xref" href="glibc-Setting-Permissions.html" title="14.9.7. Dosya İzinlerinin Atanması">Dosya İzinlerinin Atanması</a>.
+    </p>
+    <p>
+     <code class="code">mkfifo</code> işlevinin normal hatasız dönüş değeri <code class="code">0</code>'dır. Hata durumunda, <code class="code">-1</code> döner.  Bildik <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">dosya ismi hatalarına</a> ek olarak, aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="literal">EEXIST</code></span></dt><dd><p>
+        Bu isimde dosya zaten var.
+       </p></dd><dt><span class="term"><code class="literal">ENOSPC</code></span></dt><dd><p>
+        Dizin veya dosya sistemi genişletilemez.
+       </p></dd><dt><span class="term"><code class="literal">EROFS</code></span></dt><dd><p>
+        Dosyayı içeren dizin salt-okunur bir dosya sisteminde.
+       </p></dd></dl></div>
+   </div>
+          </section>
+          <section class="sect1" id="glibc-Pipe-Atomicity">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h2 class="title" style="clear: both">4. Ardışık Süreçlerin G/Ç Bölünmezliği</h2>
+                </div>
+              </div>
+            </div>
+            <p>
+    Yazılan verinin miktarı <a href="glibc-Limits-for-Files.html#glibc-vr-PIPE_BUF"><strong class="varname"><code>PIPE_BUF</code></strong></a> değerinden büyük olmadığı sürece ardışık süreçlerden okuma ve yazma işlemi <em class="wordasword">bölünmez</em> bir işlemdir. Bu veri aktarımının anlık bir birim olarak göründüğü anlamına gelir, bu nedenle sistemdeki hiçbir şey tamamlanmış halini gözlemleyemez. Bölünmez G/Ç hemen başlayamayabilir (tampon alanı veya veri için beklemesi gerekebilir), fakat başladıktan hemen sonra biter.
+   </p>
+            <p>
+    Büyük miktarda veri okumak veya yazmak bölünmez olmayabilir; örneğin, dosya tanıtıcısını paylaşan diğer süreçlerin çıktı verisi araya serpiştirilmiş olabilir.
+    Aynı zamanda, bir kere <a href="glibc-Limits-for-Files.html#glibc-vr-PIPE_BUF"><strong class="varname"><code>PIPE_BUF</code></strong></a> karakter yazılınca, okuma yapılıncaya kadar başka yazımlar durdurulur.
+   </p>
+            <p>
+    <a href="glibc-Limits-for-Files.html#glibc-vr-PIPE_BUF"><strong class="varname"><code>PIPE_BUF</code></strong></a> hakkında daha fazla bilgi <a class="xref" href="glibc-Limits-for-Files.html" title="32.6. Dosya Sistemi Sığa Sınırları"><em>Dosya Sistemi Sığa Sınırları</em></a> bölümünde bulunmaktadır.
+   </p>
+          </section>
+        </section>
       </section>
       <footer>
         <div align="center" class="footer">

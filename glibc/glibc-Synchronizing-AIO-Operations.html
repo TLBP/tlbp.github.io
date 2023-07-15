@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.11.3. Eşzamansız G/Ç İşlemlerinin Eşzamanlanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Status-of-AIO-Operations.html')">Önceki</button>
+          <div class="dropdown-content">13.11.2. Eşzamansız G/Ç İşlemlerinin Durumu</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Asynchronous-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Cancel-AIO-Operations.html')">Sonraki</button>
+          <div class="dropdown-content">13.11.4. Eşzamansız G/Ç İşlemlerinin İptal Edilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Synchronizing-AIO-Operations">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">13.11.3. Eşzamansız G/Ç İşlemlerinin Eşzamanlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Eşzamansız işlemlerle çalışırken kimi zaman tutarlı duruma geçmek gerekir. Bu, eşzamansız G/Ç işlemlerinde belli bir isteğin ya da belli bir istek grubunun işlenip işlenmediğinin bilinmesinin istendiği anlamına gelir. Bu, işlem sonlandıktan sonra sistem tarafından gönderilecek bir uyarı beklenerek de yapılabilirdi, fakat bu kimi zaman öz kaynakların kirlenmesi anlamına gelir (özellikle hesaplama sırasında). Bunun yerine tutarlılık gerektiren çoğu durumda yardımcı olmak üzere POSIX.1b iki işlev tanımlamıştır.
+   </p>
+        <p>
+    <span id="glibc-vr-POSIX_SYNCHRONIZED_IO" class="indexterm"></span>
+    <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_fsync"><strong class="function"><code>aio_fsync</code></strong></a> ve <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_fsync64"><strong class="function"><code>aio_fsync64</code></strong></a> işlevleri sadece <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> dosyasında <a href="glibc-Synchronizing-AIO-Operations.html#glibc-vr-POSIX_SYNCHRONIZED_IO"><strong class="varname"><code>_POSIX_SYNCHRONIZED_IO</code></strong></a> tanımlıysa kullanılabilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_fsync" class="indexterm"></span>
+    <span id="glibc-cp-aio_fsync" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_fsync</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">op</code></strong><strong><code>, </code></strong><code class="type">struct aiocb </code><strong class="type">*</strong><strong><code class="parameter">aiocbp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev çağrıldığında <code class="code">aiocbp-&gt;aio_fildes</code> tanıtıcısı üzerinde işlev çağrısının çalışması esnasında kuyruktaki tüm G/Ç işlemleri eşzamanlı G/Ç tamamlama durumuna (bkz. <a class="xref" href="glibc-Synchronizing-I-O.html" title="13.10. G/Ç İşlemlerinin Eşzamanlanması"><em>G/Ç İşlemlerinin Eşzamanlanması</em></a>) sokulmaya zorlanır. <code class="code">aio_fsync</code> işlevi beklemeden hemen döner ancak, <code class="code">aiocbp-&gt;aio_sigevent</code> ile belirtilen yöntem üzerinden uyarı sadece dosya tanıtıcısı sonlandığında ve dosya eşzamanlandığında verilir. Bu ayrıca, eşzamanlama isteğinden sonra aynı dosya tanıtıcısı için yapılan bu isteklerin etkili olmadığı anlamına gelir.
+    </p>
+    <p>
+     <em class="parameter"><code>op</code></em> değeri <code class="varname">O_DSYNC</code> ise eşzamanlama bir <a href="glibc-Synchronizing-I-O.html#glibc-fn-fdatasync"><strong class="function"><code>fdatasync</code></strong></a> çağrısı olarak, <a href="glibc-Operating-Modes.html#glibc-vr-O_SYNC"><strong class="varname"><code>O_SYNC</code></strong></a> ise bir <a href="glibc-Synchronizing-I-O.html#glibc-fn-fsync"><strong class="function"><code>fsync</code></strong></a> çağrısı olarak gerçekleştirilir.
+    </p>
+    <p>
+     Eşzamanlama oluşmadığı sürece, <em class="parameter"><code>aiocbp</code></em> ile gösterilen nesne ile yapılan <a href="glibc-Status-of-AIO-Operations.html#glibc-fn-aio_error"><strong class="function"><code>aio_error</code></strong></a> çağrıları <a href="glibc-Error-Codes.html#glibc-vr-EINPROGRESS"><strong class="varname"><code>EINPROGRESS</code></strong></a> ile döner. Eşzamanlama oluştuktan sonra yapılan bir <a href="glibc-Status-of-AIO-Operations.html#glibc-fn-aio_error"><strong class="function"><code>aio_error</code></strong></a> çağrısı eşzamanlama gerçekleşmişse sıfır ile döner; aksi takdirde, <a href="glibc-Synchronizing-I-O.html#glibc-fn-fsync"><strong class="function"><code>fsync</code></strong></a> ya da <a href="glibc-Synchronizing-I-O.html#glibc-fn-fdatasync"><strong class="function"><code>fdatasync</code></strong></a> çağrılarının hata durumunda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atadıkları değer ile döner. Bu durumda dosya tanıtıcısına veri yazmada tutarlılık anlamında hiçbir şey yapılmamış olabilir.
+    </p>
+    <p>
+     İstek başarıyla kuyruğa alınmışsa bu işlevin dönüş değeri sıfır olur. Aksi takdirde <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine şu değerlerden biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+        Tüm istekleri kuyruğa almak için gereken öz kaynaklar şu anda yok. Hangi isteğin başarısız olduğunu bulmak için <em class="parameter"><code>list</code></em> dizisinin tüm elemanları için hata durumuna bakılmalıdır.
+       </p><p>
+        Bu hatanın başka bir sebebi de eşzamansız G/Ç isteklerinin sistem çapında sınırları aşması olabilirdi. Bu durum GNU sistemlerinde keyfi sınırlar olmadığından mümkün değildir.
+       </p></dd><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+        İstek, öz kaynakların geçici yokluğundan dolayı kuyruğa alınmadı.
+       </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <code class="code"><em class="parameter"><code>aiocbp</code></em>-&gt;aio_fildes</code> tanıtıcı ya geçersiz ya da yazmak için açılmamış.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        Ya gerçekleme G/Ç eşzamanlamasını gerçeklemiyor ya da  <em class="parameter"><code>op</code></em> değeri <code class="varname">O_DSYNC</code> veya <a href="glibc-Operating-Modes.html#glibc-vr-O_SYNC"><strong class="varname"><code>O_SYNC</code></strong></a> değil.
+       </p></dd><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+        İşlev gerçeklenmedi.
+      </p></dd></dl></div>
+    <p>
+     Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işlev aslında <span class="command"><strong>aio_fsync64</strong></span> işlevine karşılıktır. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_fsync64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_fsync64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">op</code></strong><strong><code>, </code></strong><code class="type">struct aiocb64 </code><strong class="type">*</strong><strong><code class="parameter">aiocbp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev, bağımsız değişkeninin <a href="glibc-Asynchronous-I-O.html#glibc-tp-aiocb64"><strong class="type"><code>struct aiocb64</code></strong></a> türünde bir değişken olması dışında <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_fsync"><strong class="function"><code>aio_fsync</code></strong></a> işlevine benzer.
+    </p>
+    <p>
+     Kaynak dosyası <span class="command"><strong>_FILE_OFFSET_BITS == 64</strong></span> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_fsync"><strong class="function"><code>aio_fsync</code></strong></a> ismiyle erişilir. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+        <p>
+    Başka bir eşzamanlama yöntemi de bir ya da daha fazla istekten oluşan belli bir küme sonlanana kadar beklemektir. Bu, sonlanma hakkında işlemi başlatan sürecin uyarılmasında <code class="code">aio_*</code> işlevleri kullanılmasıyla mümkün olsa da bazı durumlarda bu ideal bir çözüm değildir. Sunucuya bağlı istemcileri sürekli güncel tutan bir yazılımda bazı bağlantıların yavaş bağlantılar olması nedeniyle istemcilerin sırayla taranması da en iyi çözüm olmaz. Diğer taraftan, bir istemci güncellenmeden uyarı alan süreç yeni istemciye geçemeyeceğinden, bir <code class="code">aio_*</code> işlevinden uyarı ile işlemin durdurulması bir şey ifade etmeyeceği için bu da iyi bir çözüm olmaz. Bu gibi durumlar için <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_suspend"><strong class="function"><code>aio_suspend</code></strong></a> kullanılmalıdır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_suspend" class="indexterm"></span>
+    <span id="glibc-cp-aio_suspend" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_suspend</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct aiocb *const </code><strong><code class="parameter">list</code></strong><code>[]</code><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">nent</code></strong><strong><code>, </code></strong><code class="type">const struct timespec *restrict </code><strong><code class="parameter">timeout</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev çağrıldığında, <em class="parameter"><code>list</code></em> dizisinin <em class="parameter"><code>nent</code></em> elemanı tarafından yapılan isteklerden en az biri tamamlanana kadar çağıran evre bekletilir. <code class="code">aio_suspend</code> çağrısı sırasında zaten tamamlanmış bir istek varsa işlev beklemeksizin döner. Bir isteğin sonlanıp sonlanmadığı isteğin hata durumunun <a href="glibc-Error-Codes.html#glibc-vr-EINPROGRESS"><strong class="varname"><code>EINPROGRESS</code></strong></a> olup olmamasına bağlıdır. <em class="parameter"><code>list</code></em>enin <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> elemanı varsa bu girdi yok sayılır.
+    </p>
+    <p>
+     Tamamlanan bir istek yoksa, çağıran süreç beklemeye alınır. <em class="parameter"><code>timeout</code></em> bağımsız değişkeninde <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> belirtilmişse, bir istek tamamlanana kadar süreç ilerlemez. <em class="parameter"><code>timeout</code></em> bağımsız değişkeni <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> değilse, belirtilen süre kadar süreç bekletilir. Bu durumda <code class="code">aio_suspend</code> bir hata ile döner.
+    </p>
+    <p>
+     <em class="parameter"><code>list</code></em>edeki elemanlardan en az biri sonlanmışsa işlev sıfır değeri ile döner. Aksi takdirde <code class="code">-1</code> ile döner, bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde şu durumlardan biri olabilir:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+        <em class="parameter"><code>list</code></em>edeki elemanlardan hiçbiri belirtilen <em class="parameter"><code>timeout</code></em> süresinde tamamlanmadı.
+       </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+        <code class="code">aio_suspend</code> işlevini bir sinyal durdurdu. Bu sinyal eşzamansız G/Ç gerçeklenimi tarafından isteklerden birinin sonlanması sinyallenirken de gönderilmiş olabilir.
+       </p></dd><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+        <code class="code">aio_suspend</code> işlevi gerçeklenmedi.
+       </p></dd></dl></div>
+    <p>
+     Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işlev aslında <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_suspend64"><strong class="function"><code>aio_suspend64</code></strong></a> işlevine karşılıktır. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_suspend64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_suspend64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct aiocb64 *const </code><strong><code class="parameter">list</code></strong><code>[]</code><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">nent</code></strong><strong><code>, </code></strong><code class="type">const struct timespec *restrict </code><strong><code class="parameter">timeout</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev, bağımsız değişkeninin <a href="glibc-Asynchronous-I-O.html#glibc-tp-aiocb64"><strong class="type"><code>struct aiocb64</code></strong></a> türünde bir değişken olması dışında <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_suspend"><strong class="function"><code>aio_suspend</code></strong></a> işlevine benzer.
+    </p>
+    <p>
+     Kaynak dosyası <span class="command"><strong>_FILE_OFFSET_BITS == 64</strong></span> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-Synchronizing-AIO-Operations.html#glibc-fn-aio_suspend"><strong class="function"><code>aio_suspend</code></strong></a> ismiyle erişilir. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

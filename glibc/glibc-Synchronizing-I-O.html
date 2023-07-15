@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.10. G/Ç İşlemlerinin Eşzamanlanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Waiting-for-I-O.html')">Önceki</button>
+          <div class="dropdown-content">13.9. Girdi ve Çıktının Beklenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Asynchronous-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13.11. Eşzamansız G/Ç</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Synchronizing-I-O">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.10. G/Ç İşlemlerinin Eşzamanlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm114684" class="indexterm"></span>
+   Günümüzdeki çoğu işletim sisteminde normal G/Ç işlemleri eşzamanlı yapılmaz. Örneğin, bir <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> çağrısı normal olarak dönse bile bu, verinin ilgili ortama (örn, disk) yazılmış olduğu anlamına gelmez.
+  </p>
+        <p>
+   Eşzamanlamanın gerektiği durumlarda, işlev dönmeden önce tüm işlemlerin tamamlanmış olduğundan emin olunmasını sağlayan özel işlevler vardır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-sync" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">sync</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işleve yapılacak bir çağrı, veri aygıta yazılana kadar dönmez. Çekirdekte içinde veri bulunan tüm tamponlar boşaltılır (veri yerine yazıldıktan sonra tampon silinir), böylece sistemin tamamı tutarlı duruma gelir (o an veri yazmakta olan başka bir süreç yoksa).
+   </p>
+  </div>
+        <p>
+   Yazılımlar çoğunlukla sistemdeki tüm verinin değil, bir dosya ile ilgili bir verinin o dosyaya yazıldığından emin olmak ister. Bu bakımdan <a href="glibc-Synchronizing-I-O.html#glibc-fn-sync"><strong class="function"><code>sync</code></strong></a> fazla gelir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fsync" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fsync</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fildes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">fsync</code> işlevi yazmak amacıyla açılmış ve tanıtıcısı <em class="parameter"><code>fildes</code></em> olan dosyaya tüm veri fiziksel olarak yazılıncaya kadar dönmez.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda iptal noktasıdır. <code class="code">fsync</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">fsync</code> çağrılarından kaçınmak için iptal eylemcileri kullanılarak korunulmalıdır.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri sıfırdır, bir hata oluşmuşsa <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>fildes</code></em> geçersiz.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Sistemde ilgili oluşum gerçeklenmediğinden eşzamanlama mümkün değil.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Kimi zaman dosya tanıtıcı ile ilgili verinin tamamını yazmak gerekmez. Örneğin, veritabanı dosyalarına veri yazarken dosya boyutu değişmeyeceğinden dosyanın içerdiği verinin aygıta yazılması yeterlidir. Dosya ile ilgili değişiklik zamanı gibi temel veriler önemli değildir ve bu bilgilerin olduğu gibi bırakılması bir sorun çıktığında dosyanın başarıyla kurtarılmasını engellemez.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fdatasync" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fdatasync</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fildes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">fdatasync</code> çağrıldığında, dosya verisinin tamamı aygıta yazılmadan dönmez. Bekleyen tüm G/Ç işlemleri için parçalar veri bütünlüğünü sağlayacak şekilde birleştirilir.
+   </p>
+   <p>
+    Tüm sistemler <code class="code">fdatasync</code> işlemini gerçekleştirmez. Bu işlevselliğin olmadığı sistemlerde <code class="code">fdatasync</code> işlemleri, <code class="code">fdatasync</code> için gereken işlemlerin bir üst kümesi olarak bir <span class="command"><strong>fsync</strong></span> çağrısı ile yerine getirilir.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri sıfırdır, bir hata oluşmuşsa <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>fildes</code></em> geçersiz.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Sistemde ilgili oluşum gerçeklenmediğinden eşzamanlama mümkün değil.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

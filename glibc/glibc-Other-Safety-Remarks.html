@@ -7,6 +7,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
@@ -84,7 +85,7 @@
             </dt>
             <dd class="glossdef">
               <p>
-        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> özellik olarak <code class="code">hostid</code> ile imlenmiş işlevler, makinenin "konak kimliğini" saklandığı sistem genelindeki veri yapılarından okur. Bu veri yapıları genellikle atomik olarak (bütünlüğü bozulacak şekilde) değiştirilemez. "Konak kimliğinin" normal olarak değişmeyeceği beklendiğinden, okuyan işlev (<strong class="function"><code>gethostid</code></strong>) güvenilir olarak kabul edilirken, değiştiren işlev (<strong class="function"><code>sethostid</code></strong>) çağrıldığında değişikliğin yalnızca süreç içinde değil sistem genelinde ele alınmasının gerekebileceğini belirtmek için <code class="code">const:hostid</code> ile imlenir.
+        <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> özellik olarak <code class="code">hostid</code> ile imlenmiş işlevler, makinenin "konak kimliğini" saklandığı sistem genelindeki veri yapılarından okur. Bu veri yapıları genellikle atomik olarak (bir kerede) değiştirilemez. "Konak kimliğinin" normal olarak değişmeyeceği beklendiğinden, okuyan işlev (<strong class="function"><code>gethostid</code></strong>) güvenilir olarak kabul edilirken, değiştiren işlev (<strong class="function"><code>sethostid</code></strong>) çağrıldığında değişikliğin yalnızca süreç içinde değil sistem genelinde ele alınmasının gerekebileceğini belirtmek için <code class="code">const:hostid</code> ile imlenir.
        </p>
             </dd>
             <dt>
@@ -98,7 +99,7 @@
         <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> özellik olarak <code class="code">sigintr</code> ile imlenmiş işlevler, eşzamanlı değişikliklerin varlığında güvenilirliği sağlamak için <strong class="structname"><code>_sigintr</code></strong> dahili veri yapısına herhangi bir koruma olmaksızın erişir.
        </p>
               <p>
-        Ancak, bu veri yapısını değiştiren işlevler <code class="code">const:sigintr</code> ile imlendiğinden ve güvensiz olarak kabul edildiğinden, bu işlevleri <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> olarak imlemiyoruz. Çoklu evreler çalışırken veya eşzamansız sinyaller etkinleştirildiğinde güvensiz olarak kabul edilenler çağrılmayacaktır ve bu bakımdan veri yapısı, bu bağlamlarda etkili şekilde sabit (<code class="code">const</code>) kabul edilebilir, bu da <code class="code">const:sigintr</code> imli işlevleri güvenilir kılar.
+        Ancak, bu veri yapısını değiştiren işlevler <code class="code">const:sigintr</code> ile imlendiğinden ve güvensiz olarak kabul edildiğinden, bu işlevleri <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> olarak imlemiyoruz. Çoklu evreler çalışırken veya eşzamansız sinyaller etkinleştirildiğinde güvensiz olarak kabul edilenler çağrılmayacaktır ve bu bakımdan veri yapısı, bu bağlamlarda etkili şekilde sabit (<a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-const">const</a>) kabul edilebilir, bu da <code class="code">const:sigintr</code> imli işlevleri güvenilir kılar.
        </p>
             </dd>
             <dt>
@@ -112,10 +113,10 @@
         <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> özellik olarak <code class="code">fd</code> ile imlenmiş işlevler, eşzamansız evre iptali yürütülmelerini kesintiye uğratırsa dosya tanıtıcılarında kaçak olabilir.
        </p>
               <p>
-        Dosya tanıtıcıları ayıran ve serbest bırakan işlevler genelde böyle imlenir. Dosya tanıtıcı tahsisi ve yeniden tahsis işlemleri, temizlik işlevleri ile korunmaya çalışılsa bile, yeni bir tanıtıcı tahsisini ve numarasını temizlik işlevlerinin serbest bırakabileceği bir yerde saklamak, tek bir bölünmez işlem olarak gerçekleştirilemez. Benzer şekilde tanıtıcının serbest bırakılması ve normalde serbest bırakılmasından sorumlu olan veri yapısından çıkarılması da tek bir bölünmez işlem olarak gerçekleştirilemez. Henüz temizleme işleyici bağımsız değişkeninde saklanmadığı veya serbest bırakılmadan önce zaten çıkarıldığı için tanıtıcının serbest bırakılamadığı bir pencere her zaman olacaktır. Tanıtıcı serbest bırakıldıktan sonra çıkarılamaz: Açık bir tanıtıcı, tanıtıcının hala kapatılması gerektiği veya zaten kapalı olduğu ancak tanıtıcının başka bir evre veya sinyal işleyici tarafından yeniden tahsis edildiği anlamına da gelebilir.
+        Dosya tanıtıcıları tahsis eden ve serbest bırakan işlevler genelde böyle imlenir. Dosya tanıtıcı tahsisi ve yeniden tahsis işlemleri, temizlik işlevleri ile korunmaya çalışılsa bile, yeni bir tanıtıcı tahsisini ve numarasını temizlik işlevlerinin serbest bırakabileceği bir yerde saklamak, tek bir bölünmez işlem olarak gerçekleştirilemez. Benzer şekilde tanıtıcının serbest bırakılması ve normalde serbest bırakılmasından sorumlu olan veri yapısından çıkarılması da tek bir bölünmez işlem olarak gerçekleştirilemez. Henüz temizleme işleyici bağımsız değişkeninde saklanmadığı veya serbest bırakılmadan önce zaten çıkarıldığı için tanıtıcının serbest bırakılamadığı bir pencere her zaman olacaktır. Tanıtıcı serbest bırakıldıktan sonra çıkarılamaz: Açık bir tanıtıcı, tanıtıcının hala kapatılması gerektiği veya zaten kapalı olduğu ancak tanıtıcının başka bir evre veya sinyal işleyici tarafından yeniden tahsis edildiği anlamına da gelebilir.
        </p>
               <p>
-        Bu tür kaçaklar, eşzamansız evre iptalini geçici olarak devre dışı bırakarak, bir miktar başarım düşüşüyle dahili olarak önlenebilir. Bununla birlikte, tahsis veya yeniden tahsis işlev çağrılarının yapıldığı katmanda aynı türden bir kaçağı önlemek için bunun çağrıcı tarafından yapılması gerekeceğinden, üst katmanlarda sorun çözüldüğünde gereksiz, çözülmediğinde yetersiz bir başarım cezası vermektense sorunla kütüphanenin ilgilendiğinin varsayılması daha mantıklıdır.
+        Bu tür kaçaklar, eşzamansız evre iptalini geçici olarak devre dışı bırakarak, bir miktar başarım düşüşüyle dahili olarak önlenebilir. Bununla birlikte, tahsis veya yeniden tahsis işlev çağrılarının yapıldığı katmanda aynı türden birkaçağı önlemek için bunun çağrıcı tarafından yapılması gerekeceğinden, üst katmanlarda sorun çözüldüğünde gereksiz, çözülmediğinde yetersiz bir başarım cezası vermektense sorunla kütüphanenin ilgilendiğinin varsayılması daha mantıklıdır.
        </p>
               <p>
         Bu açıklama tek başına bir işlevin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> olarak değerlendirilmesine neden olmaz. Ancak bu tür kaçakların birikerek artan etkileri bazı uygulamalar için sorun teşkil edebilir. Bu durumda, bu tür işlevlere yapılan çağrıların yürütülmesi sırasında eşzamansız iptalin askıya alınması önerilir.
@@ -149,7 +150,7 @@
         <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> özellik olarak <code class="code">cwd</code> ile imlenmiş işlevler, yürütülürken geçerli çalışma dizinini geçici olarak değiştirebilir, bu da göreli yolların diğer evrelerde veya eşzamansız sinyal veya iptal işleyicileri içinde beklenmedik şekillerde çözümlenmesine neden olabilir.
        </p>
               <p>
-        Bu açıklama tek başına <code class="code">cwd</code> imli işlevlerin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> olarak imlenmesi için yeterli neden değildir, ancak bu davranış seçimlik olduğunda (örneğin, <code class="varname">FTW_CHDIR</code> özellikli <strong class="function"><code>nftw</code></strong> çağrılarında), tam dosya yollarını kullanmak veya (<strong class="function"><code>openat</code></strong> gibi) göreli dosya tanıtıcılı sistem çağrıları yapmaktansa bu seçenekten kaçınılması daha iyi olabilir.
+        Bu açıklama tek başına <code class="code">cwd</code> imli işlevlerin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> olarak imlenmesi için yeterli neden değildir, ancak bu davranış seçimlik olduğunda (örneğin, <a href="glibc-Working-with-Directory-Trees.html#glibc-vr-FTW_CHDIR"><strong class="varname"><code>FTW_CHDIR</code></strong></a> özellikli <a href="glibc-Working-with-Directory-Trees.html#glibc-fn-nftw"><strong class="function"><code>nftw</code></strong></a> çağrılarında), tam dosya yollarını kullanmak veya (<strong class="function"><code>openat</code></strong> gibi) göreli dosya tanıtıcılı sistem çağrıları yapmaktansa bu seçenekten kaçınılması daha iyi olabilir.
        </p>
             </dd>
             <dt>
@@ -160,7 +161,7 @@
             </dt>
             <dd class="glossdef">
               <p>
-        Bu im, işlevin güvenilirlik durmunun POSIX standardında belirtilenden farklı olduğunun bilindiğini belirtmek üzere, işleve <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>, <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> özellik atfedebilir. Örneğin POSIX, bir işlevin güvenilir olmasını gerektirmezken bizim gerçeklenimimiz güvenilirdir veya bunun tam tersidir.
+        Bu im, işlevin güvenilirlik durmunun POSIX standardında belirtilenden farklı olduğunun bilindiğini belirtmek üzere, işleve <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>, <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> veya <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> özellik atfedebilir. Örneğin POSIX, bir işlevin güvenilir olmasını gerektirmezken bizim gerçeklenimimiz güvenilirdir veya bunun tam tersidir.
        </p>
               <p>
         Şimdilik, bu imin olmaması, belgelediğimiz güvenilirlik özelliklerinin ilgili işlevler için POSIX tarafından zorunlu kılınanlarla aynı olduğu anlamına gelmez.
@@ -197,7 +198,7 @@
             </dt>
             <dd class="glossdef">
               <p>
-        Bazı güvenilirlik imlemeleri koşula bağlı olabilir, örneğin yalnızca bağımsız değişkenleri, genel değişkenleri ve hatta sistemdeki çekirdeği içeren mantıksal bir ifadenin doğru olarak değerlendirildiği durumda uygulanabiliyor olabilir. <code class="code">/hurd</code> veya <code class="code">/!linux!bsd</code> gibi koşullar, yalnızca sistem çekirdeği HURD olduğunda veya sırasıyla ne Linux ne de BSD çekirdeği olduğunda önlerindeki imin geçerli olduğunu gösterir. <code class="code">/!ps</code> ve <code class="code">/one_per_line</code>,  yalnızca <code class="varname">ps</code> bağımsız değişkeni NULL olduğunda veya <code class="varname">one_per_line</code> küresel değişkeni sıfır olmadığında önlerindeki imin geçerli olduğunu belirtir.
+        Bazı güvenilirlik imlemeleri koşula bağlı olabilir, örneğin yalnızca bağımsız değişkenleri, genel değişkenleri ve hatta sistemdeki çekirdeği içeren mantıksal bir ifadenin doğru olarak değerlendirildiği durumda uygulanabiliyor olabilir. <code class="code">/hurd</code> veya <code class="code">/!linux!bsd</code> gibi koşullar, yalnızca sistem çekirdeği HURD olduğunda veya sırasıyla ne Linux ne de BSD çekirdeği olduğunda önlerindeki imin geçerli olduğunu gösterir. <code class="code">/!ps</code> ve <code class="code">/one_per_line</code>,  yalnızca <em class="parameter"><code>ps</code></em> bağımsız değişkeni <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> olduğunda veya <code class="varname">one_per_line</code> küresel değişkeni sıfır olmadığında önlerindeki imin geçerli olduğunu belirtir.
        </p>
               <p>
         Bir işlevi güvensiz kılan tüm imlemeler bu tür koşullarla donandığında ve belirtilen koşullardan hiçbiri sağlanmadığında, işlev güvenli olarak kabul edilebilir.

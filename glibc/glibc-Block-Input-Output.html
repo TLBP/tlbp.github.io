@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.11. Sabit Uzunlukta Giriş ve Çıkış</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Unreading.html')">Önceki</button>
+          <div class="dropdown-content">12.10. Okunmamış Yapmak</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Sonraki</button>
+          <div class="dropdown-content">12.12. Biçimli Çıktı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Block-Input-Output">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.11. Sabit Uzunlukta Giriş ve Çıkış</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm106095" class="indexterm"></span>
+   <span id="idm106098" class="indexterm"></span>
+   <span id="idm106101" class="indexterm"></span>
+   <span id="idm106105" class="indexterm"></span>
+   <span id="idm106109" class="indexterm"></span>
+   Bu kısımda veri dilimleri üzerinde giriş ve çıkış işlemlerinin nasıl yapıldığı  anlatılmıştır. Bu işlevler kullanılarak ikil verilerin giriş ve çıkış işlemleri  yapılabileceği gibi satırlar ve karakterler yerine sabit uzunluktaki metinler üzerinde de giriş ve çıkış işlemleri yapılabilir.
+  </p>
+        <p>
+   İkil dosyalar, genellikle, bir çalışan yazılımın içeriği ile aynı biçimdeki veri dilimlerinin okunması ve yazılmasında kullanılır. Başka bir deyişle, istenen bellek dilimleri (sadece karakter ya da dizge nesneleri değil) bir ikil dosyaya kaydedilir ve aynı yazılım tarafından anlamlı olarak tekrar okunur.
+  </p>
+        <p>
+   Verinin ikil biçimde saklanması biçimli G/Ç işlemlerini kullanmaktan çok daha verimlidir. Ayrıca gerçek sayıların ikil biçimde okunması dönüşüm sırasında olası hassasiyet kayıplarının da önüne geçer. Diğer taraftan, ikil dosyalar birçok standart dosya aracıyla (örn., metin düzenleyiciler) ile düzenlenemez ve dilin farklı gerçeklemeleri ya da farklı bilgisayarlar arasında taşınabilir değildir.
+  </p>
+        <p>
+   Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fread" class="indexterm"></span>
+   <span id="glibc-cp-fread" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">fread</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">count</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>size</code></em> uzunluktaki <em class="parameter"><code>count</code></em> sayıda nesneyi <em class="parameter"><code>stream</code></em> akımından okur ve <em class="parameter"><code>data</code></em> dizisine yazar. Bir hata oluşur veya dosya sonuna ulaşılırsa, okunan nesnelerin sayısı olan ve belirtilen <em class="parameter"><code>count</code></em>’dan küçük bir sayı ile döner. <em class="parameter"><code>size</code></em> ya da <em class="parameter"><code>count</code></em> sıfır değeriyle verilmişse işlev hiçbir işlem yapmaz ve sıfır ile döner.
+   </p>
+   <p>
+    İşlev bir nesnenin ortasında dosya sonu saptarsa tamamen okunabilen nesnelerin sayısı ile döner ve kısmen okunan nesneyi iptal eder. Bu nedenle gerçek dosya sonu akımda kalır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fread_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-fread_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">fread_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">count</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">fread_unlocked</code> işlevi akımı dolaylı olarak kilitlememesi dışında <a href="glibc-Block-Input-Output.html#glibc-fn-fread"><strong class="function"><code>fread</code></strong></a> işlevine eşdeğerdir.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fwrite" class="indexterm"></span>
+   <span id="glibc-cp-fwrite" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">fwrite</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">count</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>size</code></em> uzunluktaki <em class="parameter"><code>count</code></em> sayıda nesneyi <em class="parameter"><code>data</code></em> dizisinden okur ve <em class="parameter"><code>stream</code></em> akımına yazar. İşlev başarılı olursa <em class="parameter"><code>count</code></em> ile döner. Farklı bir değer dönmüşse bu, alan yetersizliği gibi bazı hataları belirtir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fwrite_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-fwrite_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">fwrite_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">data</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">count</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+   </div>
+   <p>
+    <code class="code">fwrite_unlocked</code> işlevi akımı dolaylı olarak kilitlememesi dışında <a href="glibc-Block-Input-Output.html#glibc-fn-fwrite"><strong class="function"><code>fwrite</code></strong></a> işlevine eşdeğerdir.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

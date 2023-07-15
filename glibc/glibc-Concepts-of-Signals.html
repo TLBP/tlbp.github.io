@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.1. Sinyallerle İlgili Temel Kavramlar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Önceki</button>
+          <div class="dropdown-content">24. Sinyal İşleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Standard-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">24.2. Standart Sinyaller</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Concepts-of-Signals">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">24.1. Sinyallerle İlgili Temel Kavramlar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu kısımda sinyallerin nasıl üretildiği, bir sinyal alındıktan sonra neler olduğu ve yazılımlarda sinyallerin nasıl işlendiği gibi konularla ilgili kavramlara değinilecektir.
+  </p>
+        <section class="sect1" id="glibc-Kinds-of-Signals">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.1.1. Bazı Sinyal Çeşitleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir sinyal olağan dışı bir olayın varlığını raporlar. Bir sinyale sebep olan (üreten ya da ortaya çıkaran) olayların bazıları:
+   </p>
+          <div>
+            <ul class="simplelist">
+              <li class="member">
+     Sıfırla bölme ya da geçerli bir aralık dışında adres gösterme gibi yazılım hataları.
+    </li>
+              <li class="member">
+     Kullanıcı tarafından yazılımın durdurulmak ya da sonlandırılmak istenmesi. Çoğu ortam kullanıcıya <code class="code">C-z</code> tuşlayarak uygulamayı durdurabilme veya <code class="code">C-c</code> tuşlayarak uygulamayı sonlandırabilme imkanı sağlar. Bu tuş vuruşları algılandığında işletim sistemi sürece bu isteği belirten bir sinyal gönderir.
+    </li>
+              <li class="member">
+     Bir alt sürecin sonlanması.
+    </li>
+              <li class="member">
+     Alarm veya zamanlayıcının zaman aşımına uğraması.
+    </li>
+              <li class="member">
+     Aynı süreç tarafından yapılan bir <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> veya <a href="glibc-Signaling-Yourself.html#glibc-fn-raise"><strong class="function"><code>raise</code></strong></a> çağrısı.
+    </li>
+              <li class="member">
+     Başka bir süreç tarafından yapılan bir <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> çağrısı; sinyallerin süreçler arası iletişim için sınırlı ama kullanışlı biçimidir.
+    </li>
+              <li class="member">
+     Yapılamayacak bir G/Ç işleminin yapılmaya çalışılması. Örneğin, bir ucuna yazma yapılmayan bir ardışık süreç akımını okumaya çalışmak (bkz, <a class="xref" href="glibc-Pipes-and-FIFOs.html" title="15. Ardışık Süreçler">Ardışık Süreçler</a>), bazı durumlarda bir uçbirime yazmaya ya da okumaya çalışmak (bkz, <a class="xref" href="glibc-Job-Control.html" title="28. İş Denetimi">İş Denetimi</a>).
+    </li>
+            </ul>
+          </div>
+          <p>
+    Bu olayların her biri (açıkça yapılan <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> ve <a href="glibc-Signaling-Yourself.html#glibc-fn-raise"><strong class="function"><code>raise</code></strong></a> çağrıları dışında) kendine özel bir sinyal üretir. Sinyal çeşitleri <a class="xref" href="glibc-Standard-Signals.html" title="24.2. Standart Sinyaller"><em>Standart Sinyaller</em></a> bölümünde listelenmiş ve açıklanmıştır.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Signal-Generation">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.1.2. Sinyal Üretimi İle İlgili Kavramlar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm126194" class="indexterm"></span>
+    Genellikle, sinyalleri üreten olaylar üç ana sınıf altında incelenir: hatalar, dış olaylar, doğrudan yapılan istekler.
+   </p>
+          <p>
+    Bir hata, bir uygulamanın bazı şeyleri yanlış yaptığını ve çalışmasını sürdüremeyeceği bir durumu anlatır. Fakat, hata çeşitlerinin hepsi sinyal üretmez (aslında bu çoğu için geçerlidir). Örneğin, mevcut olmayan bir dosya bir hatadır ama bir sinyal üretmez, sadece <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevi <code class="code">-1</code> ile döner. Genelde hatalar kütüphane işlevleri ile ilişkilidir ve işlevler bir hata oluştuğunda hatayı bir değerle raporlarlar. Sinyalleri ortaya çıkaran hatalar sadece kütüphane çağrılarında değil yazılımda herhangi bir yerde oluşabilir. Bunlar sıfırla bölme, geçersiz bir bellek adresi olabilir.
+   </p>
+          <p>
+    Bir dış olay genelde G/Ç işlemleri ya da başka süreçlerle ilgilidir. Bunlar, bir girdinin alınması, bir zamanlayıcının zaman aşımına uğraması ve bir alt sürecin sonlanması olabilir.
+   </p>
+          <p>
+    Doğrudan yapılan istekler, amacı özellikle sinyal üretmek olan <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> gibi bir kütüphane işlevinin kullanılmasıyla yapılır.
+   </p>
+          <p>
+    Sinyaller <em class="emphasis">eşzamanlı olarak</em> ya da <em class="emphasis">herhangi bir anda</em> üretilebilir. Bir eşzamanlı sinyal, yazılım içindeki belirli bir eylemle ilişkilidir ve (engellenmedikçe)  bu eylem sırasında oluşur. Çoğu hatalar sinyalleri eşzamanlı üretir, öyle ki, kendisi için sinyal üretecek bir süreç kimi zaman bunu bilinçli olarak yapar. Bazı makinelerde belli birtakım donanım hataları (genellikle gerçek sayılarla ilgili olağan dışılıklar) tamamen eşzamanlı üretilir, fakat ardından birkaç makine komutunun da gelmesi gerekir.
+   </p>
+          <p>
+    Herhangi bir anda üretilen sinyaller onları alan sürecin denetimi dışındaki olaylardan kaynaklanır. Bu sinyaller icra sırasında hiç umulmadık zamanlarda gelir. Harici olaylar sinyalleri eşzamansız olarak üretir ve diğer süreçlere yapılacak istekler için kullanılır.
+   </p>
+          <p>
+    Bir sinyal ya özellikle eşzamanlı ya da özellikle eşzamansızdır. Örneğin, hatalar için gönderilen sinyaller özellikle eşzamanlıdır, çünkü hatalar sinyalleri eşzamanlı üretir. Ancak ister eşzamanlı olsun ister eşzamansız, sinyaller açıkça bir isteğin sonucu olarak üretilir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Delivery-of-Signal">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.1.3. Sinyallerin Gönderilmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm126211" class="indexterm"></span>
+    <span id="idm126214" class="indexterm"></span>
+    <span id="idm126217" class="indexterm"></span>
+    Bir sinyal üretidiğinde <em class="emphasis">beklemeye</em> alınır. Normalde kısa bir süre için beklemede kaldıktan sonra sinyalleyeceği sürece gönderilir. Eğer sinyal engellenen türde ise sonsuza kadar--sinyal engellenemeyecek duruma gelinceye kadar--beklemede kalır. Sinyalin engellenemeyeceği durum oluştuğunda anında gönderilir. Bkz. <a class="xref" href="glibc-Blocking-Signals.html" title="24.7. Sinyallerin Engellenmesi"><em>Sinyallerin Engellenmesi</em></a>.
+   </p>
+          <p>
+    <span id="idm126223" class="indexterm"></span>
+    <span id="idm126226" class="indexterm"></span>
+    <span id="idm126229" class="indexterm"></span>
+    <span id="idm126231" class="indexterm"></span>
+    Bir sinyal gönderildiğinde, hemen ya da uzun bir beklemenin ardından bu sinyal için belirlenmiş eylem alınır. <a href="glibc-Termination-Signals.html#glibc-vr-SIGKILL"><strong class="varname"><code>SIGKILL</code></strong></a> ve <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGSTOP"><strong class="varname"><code>SIGSTOP</code></strong></a> gibi sinyaller için eylem bellidir, ama diğer sinyaller için yazılım bazı seçimler yapabilir: sinyali yok sayabilir, bir <em class="emphasis">sinyalle tetiklenen işlev</em> belirtebilir ya da bu sinyal için geçerli olan <em class="emphasis">ön tanımlı eylem</em>i kabul eder. Yazılım seçimini <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> veya <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> gibi bir işlev ile belirtir (bkz, <a class="xref" href="glibc-Signal-Actions.html" title="24.3. Sinyal Eylemlerinin Belirtilmesi"><em>Sinyal Eylemlerinin Belirtilmesi</em></a>). Sinyalle tetiklenen işlevlerden belge içinde kimi zaman <em class="wordasword">sinyal işleyici</em> kimi zaman da <em class="wordasword">işleyici işlev</em> olarak bahsedilecektir. Bu işlev çalışırken buna ilişkin sinyal engellenir.
+   </p>
+          <p>
+    Bir sinyal için belirlenmiş eylem onun yok sayılması ise, böyle bir sinyal üretildiği anda iptal edilir. Bu, sinyal zamanında engellendiğinde de böyle olur. Bu yolla iptal edilmiş bir sinyal asla gönderilmez; yazılımda hemen ardından böyle bir sinyal için farklı bir eylem belirtilse hatta engellenmeyeceği belirtilse bile.
+   </p>
+          <p>
+    Yazılım, bir sinyali ne işleme sokacağını ne de yok sayacağını belirtmemişse bu sinyal geldiğinde, sinyalin <em class="emphasis">ön tanımlı eylem</em>ini almış olur. Her sinyal türü kendine özgü bir ön tanımlı eyleme sahiptir. Bunlar <a class="xref" href="glibc-Standard-Signals.html" title="24.2. Standart Sinyaller"><em>Standart Sinyaller</em></a> bölümünde açıklanmıştır. Sinyallerin çoğu için ön tanımlı eylem sürecin sonlandırılmasıdır.  "Zararsız" olaylar için gönderilen sinyaller için ön tanımlı eylem ise hiçbir şey yapılmamasıdır.
+   </p>
+          <p>
+    Bir sinyal bir süreci sonlandırdığında, onu çalıştıran süreç, sonlanma sebebini <a href="glibc-Process-Completion.html#glibc-fn-wait"><strong class="function"><code>wait</code></strong></a> veya <a href="glibc-Process-Completion.html#glibc-fn-waitpid"><strong class="function"><code>waitpid</code></strong></a> işlevlerini kullanarak, bu işlevlerden dönen sonlanma durum koduna bakarak saptayabilir. (Bu <a class="xref" href="glibc-Process-Completion.html" title="26.6. Süreç Tamamlama"><em>Süreç Tamamlama</em></a> bölümünde ayrıntılı olarak açıklanmıştır.) Alınan bilgi, sonlanmaya bir sinyalin mi sebep olduğunu ve ne çeşit sinyal alındığını içerir.
+   </p>
+          <p>
+    Normalde yazılım hatalarını gösteren sinyaller özel bir niteliğe sahiptir: bu sinyallerden biri süreci sonlandırdığında, sonlanma sırasında sürecin durumunu gösteren <code class="filename">core</code> isimli bir döküm dosyası çıktılanır. Bu dosya bir hata ayıklayıcı ile incelenip hatanın sebebi saptanabilir.
+   </p>
+          <p>
+    Yazılımınızın oluşturduğu bir "yazılım hatası"nın sonucu olarak bir sinyal alınıp bunun sonucu olarak süreç sonlandığında tıpkı bir hatanın sonucunda olduğu gibi <code class="filename">core</code> dosyası çıktılanır.
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

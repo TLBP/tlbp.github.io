@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.2. Kaynak Kullanımın Sınırlanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage.html')">Önceki</button>
+          <div class="dropdown-content">22.1. Kaynak Kullanımı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage-And-Limitation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Priority.html')">Sonraki</button>
+          <div class="dropdown-content">22.3. Sürecin İşlemci Önceliği ve Zamanlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Limits-on-Resources">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">22.2. Kaynak Kullanımın Sınırlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm123889" class="indexterm"></span>
+   <span id="idm123891" class="indexterm"></span>
+   Bir sürecin kaynak kullanımı için sınırlar belirtilebilir. Süreç bir sınırı aşmaya çalışırsa bir sinyal alabilir ya da öz kaynağa bağımlı bir sistem çağrısı başarısız olabilir. Her süreç kendi öz kaynak sınır değerlerini kendini çalıştıran süreçten miras alır, ancak onları üst sürecinden bağımsız olarak değiştirebilir.
+  </p>
+        <p>
+   Bir öz kaynağın her süreç için iki sınırı vardır:
+  </p>
+        <dl>
+          <dt>
+            <em class="firstterm">geçerli sınır</em>
+          </dt>
+          <dd>
+            <p>
+    <span id="idm123898" class="indexterm"></span>
+    <span id="idm123900" class="indexterm"></span>
+    Geçerli sınır, sistemin aşılmasına izin vermediği sınırdır. "Sanal sınır" olarak da bilinir, çünkü bu sınırı sürecin kendisi belirler.
+   </p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>
+            <em class="firstterm">üst sınır</em>
+          </dt>
+          <dd>
+            <p>
+    <span id="idm123906" class="indexterm"></span>
+    <span id="idm123908" class="indexterm"></span>
+    Bir sürecin geçerli sınır olarak belirleyebileceği değerin üst sınırıdır. "Kesin sınır" olarak da bilinir, çünkü sürecin bu sınırın etrafından dolanması mümkün değildir. Bir süreç geçerli sınırını bu değere kadar artırabilirken, sadece sistem yöneticisi bu üst sınırı artırabilir.
+   </p>
+          </dd>
+        </dl>
+        <p>
+   <span id="idm123911" class="indexterm"></span>
+   <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit"><strong class="function"><code>getrlimit</code></strong></a>, <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a>, <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit64"><strong class="function"><code>getrlimit64</code></strong></a> ve <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit64"><strong class="function"><code>setrlimit64</code></strong></a> işlevleri ve bunlarla kullanılan simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="idm123919" class="indexterm"></span>
+   <span id="glibc-fn-getrlimit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getrlimit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">resource</code></strong><strong><code>, </code></strong><code class="type">struct rlimit </code><strong class="type">*</strong><strong><code class="parameter">rlp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>resource</code></em> öz kaynağının geçerli ve üst sınırlarını okur ve bunları *<em class="parameter"><code>rlp</code></em> içinde saklar.
+   </p>
+   <p>
+    İşlev başarılı olursa <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner.  Olası tek <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu <a href="glibc-Error-Codes.html#glibc-vr-EFAULT"><strong class="varname"><code>EFAULT</code></strong></a>'tur.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev aslında <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit64"><strong class="function"><code>getrlimit64</code></strong></a> işlevine denktir. Yani LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getrlimit64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getrlimit64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">resource</code></strong><strong><code>, </code></strong><code class="type">struct rlimit64 </code><strong class="type">*</strong><strong><code class="parameter">rlp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev ikinci bağımsız değişkenin <a href="glibc-Limits-on-Resources.html#glibc-tp-rlimit64"><strong class="type"><code>struct rlimit64</code></strong></a> türünde olması dışında <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit"><strong class="function"><code>getrlimit</code></strong></a> işlevinin eşdeğeridir.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlevin ismi <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit"><strong class="function"><code>getrlimit</code></strong></a> olur, böylece LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="idm123983" class="indexterm"></span>
+   <span id="glibc-fn-setrlimit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setrlimit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">resource</code></strong><strong><code>, </code></strong><code class="type">const struct rlimit </code><strong class="type">*</strong><strong><code class="parameter">rlp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>resource</code></em> öz kaynağının geçerli ve üst sınırlarını  *<em class="parameter"><code>rlp</code></em> içindeki değerlere ayarlar.
+   </p>
+   <p>
+    İşlev başarılı olursa <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları:
+   </p>
+   <dl><dt><code class="code">EPERM</code></dt><dd><p><div><ul class="simplelist"><li class="member">
+      Süreç geçerli sınırı üst sınırın üstünde belirtmeyi denedi.
+     </li><li class="member">
+      Süreç üst sınırı artırmayı denedi ama yetkisi yetersiz.
+     </li></ul></div></p></dd></dl>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev aslında <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit64"><strong class="function"><code>setrlimit64</code></strong></a> işlevine denktir. Yani LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-setrlimit64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setrlimit64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">resource</code></strong><strong><code>, </code></strong><code class="type">const struct rlimit64 </code><strong class="type">*</strong><strong><code class="parameter">rlp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev ikinci bağımsız değişkenin <a href="glibc-Limits-on-Resources.html#glibc-tp-rlimit64"><strong class="type"><code>struct rlimit64</code></strong></a> türünde olması dışında <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> işlevinin eşdeğeridir.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlevin ismi <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> olur, böylece LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-rlimit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">rlimit</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu yapı <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit"><strong class="function"><code>getrlimit</code></strong></a> işlevinde kullanıldığında sınır değerlerin alınmasını sağlar, <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> işlevinde kullanıldığında ise belli bir süreç ve öz kaynak için sınır değerleri belirtir. İki üyesi vardır:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">rlim_t </code><strong class="structfield"><code>rlim_cur</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Geçerli sınır.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">rlim_t </code><strong class="structfield"><code>rlim_max</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Üst sınır.
+      </p></dd></dl></div>
+   <p>
+    <a href="glibc-Limits-on-Resources.html#glibc-fn-getrlimit"><strong class="function"><code>getrlimit</code></strong></a> işlevi açısından yapı bir çıktı alanıdır; o anki değerleri alır. <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> işlevinde ise yeni değerleri belirtir.
+   </p>
+  </div>
+        <p>
+   LFS işlevleri için benzer bir tür <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code> başlık dosyasında tanımlanmıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-rlimit64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">rlimit64</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu yapı üyelerinin daha geniş aralıklara sahip olması dışında yukarıdaki <a href="glibc-Limits-on-Resources.html#glibc-tp-rlimit"><strong class="type"><code>struct rlimit</code></strong></a> yapısının karşılığıdır. İki üyesi vardır:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">rlim_t64 </code><strong class="structfield"><code>rlim_cur</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       <code class="code">rlimit.rlim_cur</code> karşılığıdır, ama türü farklıdır.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">rlim_t64 </code><strong class="structfield"><code>rlim_max</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       <code class="code">rlimit.rlim_max</code> karşılığıdır, ama türü farklıdır.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Bir sınır belirtilebilecek öz kaynakların listesi aşağıda verilmiştir. Bellek ve dosyalarla ilgili sınırlar bayt cinsindendir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_CPU" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_CPU</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Sürecin kullanabileceği işlemci zamanının azami miktarı. Süreç bundan daha uzun süre çalışırsa, <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGXCPU"><strong class="varname"><code>SIGXCPU</code></strong></a> sinyalini alır. Değer saniye cinsindendir. Bkz. <a class="xref" href="glibc-Operation-Error-Signals.html" title="24.2.6. İşlemsel Hata Sinyalleri">İşlemsel Hata Sinyalleri</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_FSIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_FSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Sürecin oluşturabileceği azami dosya boyutu. Daha büyük bir dosya yazma denemesi <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGXFSZ"><strong class="varname"><code>SIGXFSZ</code></strong></a> sinyaline sebep olur.  Bkz. <a class="xref" href="glibc-Operation-Error-Signals.html" title="24.2.6. İşlemsel Hata Sinyalleri">İşlemsel Hata Sinyalleri</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_DATA" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_DATA</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Süreç için ayrılan azami veri belleği miktarı. Süreç bu miktardan daha büyük bellek ayırmaya çalışırsa bellek ayırma işlevi başarısız olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_STACK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_STACK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Süreç için azami yığıt boyutu. Süreç yığıtını bundan fazlasına genişletmeye çaışırsa bir <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGSEGV"><strong class="varname"><code>SIGSEGV</code></strong></a> sinyali alacaktır. Bkz. <a class="xref" href="glibc-Program-Error-Signals.html" title="24.2.1. Yazılım Hatalarının Sinyalleri">Yazılım Hatalarının Sinyalleri</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_CORE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_CORE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu sürecin oluşturabileceği core dosyasının azami boyutu. Eğer süreç sonlanır ve bu boyuttan daha büyük bir core dosyası dökümlemeyi denerse core dosyası oluşmaz. Bu bakımdan, bu sınır sıfıra indirilerek core dosyalarının asla oluşmaması sağlanabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_RSS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_RSS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu sürecin alabileceği fiziksel belleğin azami miktarı. Bu bağımsız değişken sistemin zamanlayıcısı ve bellek ayırıcısı için bir kılavuzdur. Sistem, sürece ihtiyaç duyduğunda bundan daha fazla bellek verebilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_MEMLOCK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_MEMLOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Fiziksel bellekte kilitlenebilecek belleğin azami miktarı (böylece bu bellek takaslanmayacaktır).
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_NPROC" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_NPROC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Aynı kullanıcı kimlikle oluşturulabilecek süreçlerin azami sayısı. Bu sınırı kendi kullanıcı kimliğiniz için aşmaya çalışırsanız, <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> işlevi <a href="glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="varname"><code>EAGAIN</code></strong></a> ile başarısız olacaktır. Bkz. <a class="xref" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması"><em>Bir Sürecin Oluşturulması</em></a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_NOFILE" class="indexterm"></span>
+   <span id="glibc-vr-RLIMIT_OFILE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_NOFILE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_OFILE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Sürecin açabileceği dosyaların azami sayısı. Bundan daha fazla dosya açmaya çalışırsa, işlem <a href="glibc-Error-Codes.html#glibc-vr-EMFILE"><strong class="varname"><code>EMFILE</code></strong></a> hata kodu ile başarısız olur. Bu sınır tüm sistemlerde desteklenmez; GNU ve 4.4 BSD böyledir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIMIT_AS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIMIT_AS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu sürecin alabileceği toplam belleğin azami miktarı. Eğer süreç bunu aşan miktarı örneğin, <a href="glibc-Resizing-the-Data-Segment.html#glibc-fn-brk"><strong class="function"><code>brk</code></strong></a>, <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>, <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> veya <a href="glibc-Resizing-the-Data-Segment.html#glibc-fn-sbrk"><strong class="function"><code>sbrk</code></strong></a> ile ayırmaya çalışırsa işlev başarısız olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIM_NLIMITS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">RLIM_NLIMITS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Farklı öz kaynak sınırlarının sayısı. Geçerli <em class="parameter"><code>resource</code></em> terimlerinin sayısı <code class="code">RLIM_NLIMITS</code> değerinden küçük olmalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-RLIM_INFINITY" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">rlim_t </code><strong><code class="function">RLIM_INFINITY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu sabit, <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> içinde sınır değer olarak belirtildiğinde "sonsuz" değerine karşılıktır.
+   </p>
+  </div>
+        <p>
+   Aşağıdaki tarihi işlevler şimdiye kadar bahsedilen işlevlerin yaptıklarını yaparlar. Bunların yerine yukarıda bahsedilen işlevlerin kullanılması daha iyi bir seçim olacaktır.
+  </p>
+        <p>
+   <span id="idm124241" class="indexterm"></span>
+   <a href="glibc-Limits-on-Resources.html#glibc-fn-ulimit"><strong class="function"><code>ulimit</code></strong></a> ve komut simgeleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/ulimit.h;hb=HEAD" target="_top">ulimit.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-ulimit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/ulimit.h;hb=HEAD" target="_top">ulimit.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">ulimit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">cmd</code></strong><strong><code>, </code></strong><strong><code>…</code><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">ulimit</code> işlevi çağrıldığı süreç ile ilgili olarak <em class="parameter"><code>cmd</code></em> ile belirtildiği gibi öz kaynağın ya geçerli sınırıyla döner ya da geçerli ve üst sınırını belirtir.
+   </p>
+   <p>
+    Bir sınır değeri döndürmek için komut bağımsız değişkeninden başka bağımsız değişken gerekmez. Bir sınırı belirtmek için ise ikinci bir bağımsız değişken gerekir: <code class="type">long int</code> <em class="parameter"><code>sınır</code></em>.
+   </p>
+   <p>
+    <em class="parameter"><code>cmd</code></em> bağımsız değişkeninde kullanılabilecek değerler ve belirttikleri işlemler:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-GETFSIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">GETFSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Dosya boyutunun geçerli sınırını 512 baytlık birimler cinsinden döndürür.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SETFSIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SETFSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Dosya boyutunun geçerli ve üst sınırını <em class="parameter"><code>sınır</code></em> * 512 bayta ayarlar.
+    </p>
+   </div>
+   <p>
+    Bazı sistemlerde başka işlemler yapan başka <em class="parameter"><code>cmd</code></em> değerleri de olabilir ama onlar desteklenmemektedir.
+   </p>
+   <p>
+    Bir üst sınırı sadece sistem yöneticisi artırabilir.
+   </p>
+   <p>
+    Bir sınır başarıyla alınmışsa işlevin dönüş değeri bu sınırın değeridir ve asla negatif değildir. Bir sınır başarıyla değiştirilmişse işlevin dönüş değeri sıfır olur. İşlev başarısız olduğunda <code class="code">-1</code> ile döner ve olası <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu şu olabilir:
+   </p>
+   <dl><dt><code class="code">EPERM</code></dt><dd><p>
+     Süreç üst sınırı artırmayı denedi ama yetkisi yetersiz.
+    </p></dd></dl>
+  </div>
+        <p>
+   <span id="idm124299" class="indexterm"></span>
+   <code class="code">vlimit</code> ve onunla ilgili öz kaynak simgeleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sys/vlimit.h;hb=HEAD" target="_top">sys/vlimit.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-vlimit" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/ulimit.h;hb=HEAD" target="_top">ulimit.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">vlimit</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">resource</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">limit</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:setrlimit</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Sürecin belirtilen öz kaynağı için geçerli sınırı <em class="parameter"><code>limit</code></em> yapar.
+   </p>
+   <p>
+    <em class="parameter"><code>limit</code></em> şunlardan biri olabilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_CPU" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_CPU</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami işlemci zamanı. <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_CPU"><strong class="varname"><code>RLIMIT_CPU</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_FSIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_FSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami işlemci zamanı. <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_FSIZE"><strong class="varname"><code>RLIMIT_FSIZE</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_DATA" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_DATA</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami veri belleği.  <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_DATA"><strong class="varname"><code>RLIMIT_DATA</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_STACK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_STACK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami yığıt boyutu.  <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_STACK"><strong class="varname"><code>RLIMIT_STACK</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_CORE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_CORE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami core dosyası boyutu.  <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <code class="varname">RLIMIT_COR</code> ile aynıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-LIM_MAXRSS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LIM_MAXRSS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Azami fiziksel bellek.  <a href="glibc-Limits-on-Resources.html#glibc-fn-setrlimit"><strong class="function"><code>setrlimit</code></strong></a> için <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_RSS"><strong class="varname"><code>RLIMIT_RSS</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+   <p>
+    İşlevin normal dönüş değeri sıfırdır, <code class="code">-1</code> dönüş değeri bir hata oluştuğunu gösterir. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu:
+   </p>
+   <dl><dt><code class="code">EPERM</code></dt><dd><p>
+     Süreç geçerli sınırı üst sınırın üzerine çıkarmaya çalıştı.
+    </p></dd></dl>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

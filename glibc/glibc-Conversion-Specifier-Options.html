@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.13.2. Dönüşüm Belirteci Seçenekleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Registering-New-Conversions.html')">Önceki</button>
+          <div class="dropdown-content">12.13.1. Yeni Dönüşümlerin Kaydı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-the-Output-Handler.html')">Sonraki</button>
+          <div class="dropdown-content">12.13.3. İşleyici İşlevin Tanımlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Conversion-Specifier-Options">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.13.2. Dönüşüm Belirteci Seçenekleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir dönüşüm belirteci olarak '<code class="code">%A</code>' tanımlanmış olsun, bir kalıp örneğin, '<code class="code">%+23A</code>' veya '<code class="code">%-#A</code>' içeriyorsa ne olacak? Dönüşüm belirteçleri ile birlikte verilen seçeneklerin tanımlanacağı bir yapı olabilir.
+   </p>
+        <p>
+    Hem işleyici işlev hem de bağımsız değişken bilgileri işlevi bir dönüşüm belirtecinde görülen seçenekler hakkında bilgi içeren <a href="glibc-Conversion-Specifier-Options.html#glibc-tp-printf_info"><strong class="type"><code>struct printf_info</code></strong></a> yapısına gösterici alır. Bu veri türü <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code> başlık dosyasında bildirilmiştir.
+    <span id="idm108112" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-printf_info" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">printf_info</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu yapı bir kalıp dizgesindeki dönüşüm belirteçleri için kullanılan bağımsız değişken türleri ve sayıları hakkında bilgi veren ve bu belirteçleri çıktılayan işlevlere bilgi aktarmak için kullanılır. Yapı üyeleri şunlardır:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>prec</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Belirtilen hassasiyettir. Hassasiyet belirtilmemişse değeri <code class="code">-1</code>’dir. Hassasiyet '<code class="code">*</code>' olarak verilmişse, işleyici işleve aktarılan <code class="type">printf_info</code> yapısı bağımsız değişken listesinden alınan değeri içerir. Ancak bağımsız değişken türleri ve sayısı için bilgi veren işleve aktarılan yapı, değer bilinmediğinden <a href="glibc-Range-of-Type.html#glibc-vr-INT_MIN"><strong class="varname"><code>INT_MIN</code></strong></a> değerini içerir.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">int </code><strong class="structfield"><code>width</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Belirtilen en küçük alan genişliğidir. <code class="code">0</code> değeri bir genişlik belirtilmediği anlamına gelir. Alan genişliği '<code class="code">*</code>' olarak verilmişse, işleyici işleve aktarılan <code class="type">printf_info</code> yapısı bağımsız değişken listesinden alınan değeri içerir. Ancak bağımsız değişken türleri ve sayısı için bilgi veren işleve aktarılan yapı, değer bilinmediğinden <a href="glibc-Range-of-Type.html#glibc-vr-INT_MIN"><strong class="varname"><code>INT_MIN</code></strong></a> değerini içerir.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">wchar_t </code><strong class="structfield"><code>spec</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Belirtilen dönüşüm belirteci karakteridir. Bunun yapı içinde bulunmasının sebebi çok sayıda karaktere aynı işleyici işlevi kaydedebilmenizi sağlamaktır, ancak bu olmasa bile işleyici işlevi çağırdığınızda onları ayıracak bir yol vardır.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>is_long_double</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">L</code>’, ‘<code class="code">ll</code>’ veya ‘<code class="code">q</code>’ tür değiştiricileri belirtilmişse değeri, mantıksal doğrudur. Kayan noktalı sayı dönüşümlerinde bu <code class="type">long double</code> iken tamsayı dönüşümlerinde <code class="type">long long int</code>’tir.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>is_char</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">hh</code>’ tür değiştiricisi belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>is_short</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">h</code>’ tür değiştiricisi belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>is_long</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">l</code>’ tür değiştiricisi belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>alt</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">#</code>’ seçeneği belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>space</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘  ’ seçeneği belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>left</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">-</code>’ seçeneği belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>showsign</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">+</code>’ seçeneği belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>group</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        ‘<code class="code">'</code>’ seçeneği belirtilmişse değeri mantıksal doğrudur.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>extra</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Bu üyenin değerinin bağlama özgü bir anlamı vardır. Yapı <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevi tarafından kullanılmışsa değeri <code class="code">0</code>’dır. Kullanıcı tarafından tanımlanmış bir işlev tarafından kullanıldığında ise herhangi bir değer içerebilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">unsigned int </code><strong class="structfield"><code>wide</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Akım geniş yönlenimli ise bu üyenin değeri <code class="code">1</code>’dir.
+       </p></dd><dt><span class="glossterm">
+       <code class="literal">wchar_t </code><strong class="structfield"><code>pad</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Çıktıda en küçük alan genişliğinde boş kalan yerlere yerleştirilecek karakterdir. Boş kalan yerler sıfırlarla doldurulursa bu üyenin değeri <code class="code">'0'</code>’dır, aksi takdirde <code class="code">' '</code> yani boşluktur.
+       </p></dd></dl></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

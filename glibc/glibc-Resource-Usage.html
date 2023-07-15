@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.1. Kaynak Kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage-And-Limitation.html')">Önceki</button>
+          <div class="dropdown-content">22. Kaynak Kullanımı ve Sınırlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage-And-Limitation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Limits-on-Resources.html')">Sonraki</button>
+          <div class="dropdown-content">22.2. Kaynak Kullanımın Sınırlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Resource-Usage">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">22.1. Kaynak Kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm123715" class="indexterm"></span>
+   <span id="idm123717" class="indexterm"></span>
+   Bir sürecin kaynak kullanımını incelemek için kullanılan <a href="glibc-Resource-Usage.html#glibc-fn-getrusage"><strong class="function"><code>getrusage</code></strong></a> işlevi ve <a href="glibc-Resource-Usage.html#glibc-tp-rusage"><strong class="type"><code>struct rusage</code></strong></a> veri yapısı <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="idm123723" class="indexterm"></span>
+   <span id="glibc-fn-getrusage" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getrusage</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">processes</code></strong><strong><code>, </code></strong><code class="type">struct rusage </code><strong class="type">*</strong><strong><code class="parameter">rusage</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>processes</code></em> ile belirtilen süreçlerin toplam öz kaynak kullanımını <em class="parameter"><code>rusage</code></em> içinde saklayarak döner.
+   </p>
+   <p>
+    Çoğu sistemde, <em class="parameter"><code>processes</code></em> için sadece iki geçerli değer vardır:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-RUSAGE_SELF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">RUSAGE_SELF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sadece işlevi çalıştıran süreci belirtir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-RUSAGE_CHILDREN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">RUSAGE_CHILDREN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sonlanmış olan tüm alt süreçler (doğrudan ya da dolaylı).
+    </p>
+   </div>
+   <p>
+    İşlevin normal dönüş değeri sıfırdır, <code class="code">-1</code> dönüş değeri bir hata oluştuğunu gösterir. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu:
+   </p>
+   <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+     <em class="parameter"><code>processes</code></em> bağımsız değişkeni geçersiz.
+    </p></dd></dl>
+  </div>
+        <p>
+   Belli bir alt sürecin kaynak kullanımını sorgulamanın tek yolu, sonlandığında kullandığı öz kaynak toplamlarını döndüren <a href="glibc-Process-Completion.html#glibc-fn-wait4"><strong class="function"><code>wait4</code></strong></a> işlevidir. Bkz. <a class="xref" href="glibc-BSD-Wait-Functions.html" title="26.8. BSD Süreç Bekletme İşlevleri"><em>BSD Süreç Bekletme İşlevleri</em></a>.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-rusage" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/resource.h;hb=HEAD" target="_top">sys/resource.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">rusage</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri türü çeşitli öz kaynakların kullanım istatistiklerini saklar. En azından şu üyelere sahiptir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">struct timeval </code><strong class="structfield"><code>ru_utime</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Kullanıcı komutları çalıştırılırken harcanan süre.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">struct timeval </code><strong class="structfield"><code>ru_stime</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       İşletim sistemi tarafından <em class="parameter"><code>processes</code></em> yararına kullanılan toplam süre.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_maxrss</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>processes</code></em> tarafından aynı anda kullanılan fiziksel belleğin kilobayt cinsinden azami miktarı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_ixrss</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Diğer süreçlerle paylaşılan metin tarafından kullanılan bellek miktarını belirten icra tiklerinin kilobayt cinsinden tamsayı değeri.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_idrss</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Veri için kullanılan paylaşımsız bellek miktarının aynı yöntemle ifade edilen tamsayı değeri.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_isrss</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Yığıt alanı için kullanılan paylaşımsız bellek miktarının aynı yöntemle ifade edilen tamsayı değeri.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_minflt</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Herhangi bir G/Ç gerektirmeksizin sunulan sayfalama hatalarının sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_majflt</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       G/Ç yaparak sunulan sayfalama hatalarının sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_nswap</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Sözkonusu süreçlerin tamamen ana belleğe takaslanma sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_inblock</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Dosya sisteminin sözkonusu süreçler yararına diskten yaptığı okumaların sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_oublock</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Dosya sisteminin sözkonusu süreçler yararına diskten yaptığı yazmaların sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_msgsnd</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Gönderilen süreçler arası iletişim (IPC) iletilerinin sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_msgrcv</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Alınan süreçler arası iletişim (IPC) iletilerinin sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_nsignals</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Alınan sinyallerin sayısı.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_nvcsw</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Sözkonusu süreçlerin bir bağlamsal seçiciye kasıtlı yaptığı çağrı sayısı (genellikle bazı hizmetler beklenirken).
+      </p></dd><dt><span class="glossterm">
+      <code class="type">long int </code><strong class="structfield"><code>ru_nivcsw</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       İstemdışı olarak bir bağlamsal seçicide yer alma sayısı (belli bir süre geçmiş ya da daha yüksek öncelikli başka bir sürecin öne geçmiş olmasından dolayı).
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

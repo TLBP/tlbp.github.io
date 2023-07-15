@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.6.2. Başka Bir Sürece Sinyal Göndermek</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signaling-Yourself.html')">Önceki</button>
+          <div class="dropdown-content">24.6.1. Kendine Sinyal Göndermek</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generating-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Permission-for-kill.html')">Sonraki</button>
+          <div class="dropdown-content">24.6.3. <code class="code">kill</code> ile İlgili Sınırlamalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Signaling-Another-Process">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.6.2. Başka Bir Sürece Sinyal Göndermek</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127980" class="indexterm"></span>
+    <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> işlevi bir sinyalin başka bir sürece gönderilmesi için kullanılır. İsmine rağmen, bir sürecin sonlandırılmasına sebep olmaktan farklı bir şeyler yapmak için de kullanılabilir. Süreçler arasında sinyal gönderilmesini gerektiren durumlara ilişkin bazı örnekler:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+     Bir süreç bir işlemi yerine getirmek için kendini bir alt süreç olarak çalıştırabilir -- bir alt süreç çalıştırılması bir kısır döngü oluşturabilir -- ve işlem yerine getirildiğinde alt sürecini sonlandırabilir.
+    </li>
+            <li class="member">
+     Bir hata oluştuğunda ya da bir olay gerçekleştiğinde, bir süreç, bir grubun parçası olarak çalıştırılıp gruptaki başka bir süreci uyarmak ya da sonlandırmak için kullanılabilir.
+    </li>
+            <li class="member">
+     Birlikte çalışan iki sürecin eşzamanlanması gerekebilir.
+    </li>
+          </ul>
+        </div>
+        <p>
+    Bu bölümde <a class="link" href="glibc-Processes.html" title="26. Süreçler">bir sürecin nasıl çalıştığı</a>nın bilindiği varsayılacaktır.
+   </p>
+        <p>
+    <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında bildirilmiştir.
+    <span id="idm127992" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-kill" class="indexterm"></span>
+    <span id="glibc-cp-kill" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">kill</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">kill</code> işlevi <em class="parameter"><code>pid</code></em> ile belirtilen süreç ya da süreç grubuna <em class="parameter"><code>signum</code></em> sinyalini gönderir. <a class="xref" href="glibc-Standard-Signals.html" title="24.2. Standart Sinyaller"><em>Standart Sinyaller</em></a> bölümünde listelenen sinyallere ilaveten, ayrıca <em class="parameter"><code>pid</code></em> süreç kimliğini doğrulamak için sıfır değeri de kullanılabilir.
+    </p>
+    <p>
+     Sinyal alacak süreç veya süreç grubunu belirten <em class="parameter"><code>pid</code></em> değerleri ve anlamları:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <em class="parameter"><code>pid</code></em><code class="code"> &gt; 0</code>
+      </span></dt><dd class="glossdef"><p>
+        Belirteci <em class="parameter"><code>pid</code></em> olan süreç. (Linux'ta <em class="parameter"><code>pid</code></em> süreçten başka evrenin de kimliği olsa bile sinyal sürecin tamamına gönderilir.)
+       </p></dd><dt><span class="glossterm">
+       <em class="parameter"><code>pid</code></em><code class="code"> == 0</code>
+      </span></dt><dd class="glossdef"><p>
+        Gönderen ile aynı gruptaki süreçlerin tümü.
+       </p></dd><dt><span class="glossterm">
+       <em class="parameter"><code>pid</code></em><code class="code"> &lt; -1</code>
+      </span></dt><dd class="glossdef"><p>
+        Belirteci <em class="parameter"><code>-pid</code></em> olan süreç grubu.
+       </p></dd><dt><span class="glossterm">
+       <em class="parameter"><code>pid</code></em><code class="code"> == -1</code>
+      </span></dt><dd class="glossdef"><p>
+        Süreç ayrıcalıklı ise, sinyal, bazı özel sistem süreçleri dışında kalan tüm süreçlere gönderilir. Aksi takdirde, sinyal, aynı etkin kullanıcı kimlikli tüm süreçlere gönderilir.
+       </p></dd></dl></div>
+    <p>
+     Bir süreç <code class="code">kill (getpid(), <em class="parameter"><code>signum</code></em>)</code> gibi bir çağrı ile kendisine sinyal gönderebilir ve sinyal engellenmez, sonrasında <code class="code">kill</code> dönmeden önce sürece en az bir sinyal gönderir (<em class="parameter"><code>signum</code></em> yerine beklemede olan engellenmeyen sinyaller gidebilir).
+    </p>
+    <p>
+     Sinyal gönderme başarılı olduğunda <code class="code">kill</code> sıfır ile döner. Aksi takdirde sinyal gönderilmemiş demektir ve <code class="code">-1</code> ile döner. Eğer <em class="parameter"><code>pid</code></em> bir sinyalin birden fazla sürece gönderilmesini belirtiyorsa, en azından bir sürece sinyal gönderilebilmişse <code class="code">kill</code> sıfır ile dönecektir. Sinyali alan ve almayan süreçlerin hangileri olduğunu saptayacak bir yöntem yoktur.
+    </p>
+    <p>
+     Bu işlev için tanımlanmış olan <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerleri:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">EINVAL</code></span></dt><dd class="glossdef"><p>
+        <em class="parameter"><code>signum</code></em> geçersiz ya da desteklenmeyen bir numara.
+       </p></dd><dt><span class="glossterm"><code class="code">EPERM</code></span></dt><dd class="glossdef"><p>
+        <em class="parameter"><code>pid</code></em> ile belirtilen sürece ya da süreç grubundaki herhangi bir sürece bir sinyal gönderme yetkiniz yok.
+       </p></dd><dt><span class="glossterm"><code class="code">ESRCH</code></span></dt><dd class="glossdef"><p>
+        <em class="parameter"><code>pid</code></em> mevcut süreç veya grup ile ilgili değil.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-tgkill" class="indexterm"></span>
+    <span id="glibc-fn-tgkill" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">tgkill</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">pid_t </code><strong><code class="parameter">tid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">tgkill</code> işlevi, yalnızca <em class="parameter"><code>tid</code></em> kimlikli evrenin süreç kimliği <em class="parameter"><code>pid</code></em> ise, <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> işlevi gibi <em class="parameter"><code>tid</code></em> kimlikli evre veya sürece <em class="parameter"><code>signum</code></em> sinyalini gönderir. Hedef evre başka bir sürece aitse işlev <a href="glibc-Error-Codes.html#glibc-vr-ESRCH"><strong class="varname"><code>ESRCH</code></strong></a> hata koduyla başarısız olur.
+    </p>
+    <p>
+     Çağrıcı, <em class="parameter"><code>pid</code></em> değerinin çekirdek tarafından (başka bir süreç için) yeniden kullanılmadığından eminse (örneğin, geçerli sürecin süreç kimliği <a href="glibc-Process-Identification.html#glibc-fn-getpid"><strong class="function"><code>getpid</code></strong></a> tarafından döndürülen ile aynıysa) <code class="code">tgkill</code> işlevi, yanlış süreçteki bir evreye sinyal gönderilmesini önlemek için kullanılabilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-killpg" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">killpg</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">pgid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <em class="parameter"><code>signum</code></em> sinyalini <em class="parameter"><code>pgid</code></em> ile belirtilen süreç grubuna göndermesi dışında <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> gibidir. Bu işlev BSD uyumluluğu için vardır. Bunun yerine <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> kullanmak yazılımı daha taşınabilir yapar.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> kullanımına basit bir örnek olan <code class="code">kill (getpid (), <em class="replaceable"><code>sinyal</code></em>)</code> çağrısı ile <code class="code">raise (<em class="replaceable"><code>sinyal</code></em>)</code> çağrısının etkisi aynıdır.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

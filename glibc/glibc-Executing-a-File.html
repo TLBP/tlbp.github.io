@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26.5. Bir Dosyanın Çalıştırılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Creating-a-Process.html')">Önceki</button>
+          <div class="dropdown-content">26.4. Bir Sürecin Oluşturulması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Completion.html')">Sonraki</button>
+          <div class="dropdown-content">26.6. Süreç Tamamlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Executing-a-File">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">26.5. Bir Dosyanın Çalıştırılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm129543" class="indexterm"></span>
+   <span id="idm129546" class="indexterm"></span>
+   Bu bölüm bir dosyayı bir süreç imgesi olarak çalıştırmak için kullanılan <strong class="function"><code>exec</code></strong> ailesi işlevlerini anlatmaktadır. Bu işlevler bir alt sürecin çatallandıktan sonra yeni bir yazılımı çalıştırmasını sağlamak için kullanılabilir.
+  </p>
+        <p>
+   <strong class="function"><code>exec</code></strong> işlevinin etkilerini çağırıldığı yazılımın bakış açısıyla görmek için, bkz. ???.
+  </p>
+        <p>
+   <span id="idm129554" class="indexterm"></span>
+   Bu ailedeki işlevler bağımsız değişkenlerinin belirtiliş şekillerine göre farklılıklar gösterir, aksi takdirde hepsi aynı işi yapar. Bunlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyası içinde bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execv" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execv</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">argv</code></strong><code>[]</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">execv</code> işlevi <em class="parameter"><code>filename</code></em> adındaki dosyayı yeni bir süreç imgesi olarak çalıştırır.
+   </p>
+   <p>
+    <em class="parameter"><code>argv</code></em> bağımsız değişkeni boş karakter sonlandırmalı dizgelerden oluşan bir dizidir ve bu çalıştırılan yazılımın <code class="code">main</code> işlevinin <em class="parameter"><code>argv</code></em> bağımsız değişkenine değer sağlamak için kullanılır. Bu dizinin son elemanı boş gösterici olmalıdır. Kural olarak, bu dizinin ilk elemanı yazılımın dizinleri olmaksızın dosya ismidir. Yazılımların bu bağımsız değişkenlere nasıl eriştiğiyle ilgili tüm ayrıntılar için, bkz. ???.
+   </p>
+   <p>
+    Yeni süreç imgesinin ortamı geçerli süreç imgesinin <code class="varname">environ</code> değişkeninden alınır; ortam değişkenleri hakkında bilgi için, bkz. ???.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execl" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execl</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">arg0</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <a href="glibc-Executing-a-File.html#glibc-fn-execv"><strong class="function"><code>execv</code></strong></a> gibidir, fakat <em class="parameter"><code>argv</code></em> dizgeleri bir dizi yerine tek tek belirtilir. Son bağımsız değişken boş gösterici olmalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execve" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execve</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">argv</code></strong><code>[]</code><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">env</code></strong><code>[]</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <a href="glibc-Executing-a-File.html#glibc-fn-execv"><strong class="function"><code>execv</code></strong></a> gibidir, fakat yeni yazılım için ortamın açıkça belirtilmesine <em class="parameter"><code>env</code></em> bağımsız değişkeni ile izin verir. Bu <code class="varname">environ</code> değişkeniyle aynı biçimde, dizgelerden oluşan bir dizi olmalıdır; bkz. ???.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fexecve" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fexecve</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">argv</code></strong><code>[]</code><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">env</code></strong><code>[]</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <a href="glibc-Executing-a-File.html#glibc-fn-execve"><strong class="function"><code>execve</code></strong></a> gibidir, çalıştırılabiliri dosya yolu ile belirtmek yerine <em class="parameter"><code>fd</code></em> dosya tanıtıcısını kullanılır. Tanıtıcı  <a href="glibc-Access-Modes.html#glibc-vr-O_RDONLY"><strong class="varname"><code>O_RDONLY</code></strong></a> veya (Linux üzerinde) <a href="glibc-Access-Modes.html#glibc-vr-O_PATH"><strong class="varname"><code>O_PATH</code></strong></a> seçeneği ile açılmış olmalıdır.
+   </p>
+   <p>
+    Linux'ta, <code class="filename">/proc</code> bağlı değilse ve çekirdek ilgili <strong class="function"><code>execveat</code></strong> sistem çağrısı için destek içermiyorsa, <code class="code">fexecve</code> <a href="glibc-Error-Codes.html#glibc-vr-ENOSYS"><strong class="varname"><code>ENOSYS</code></strong></a> hatası vererek başarısız olabilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execle" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execle</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">arg0</code></strong><strong><code>, </code></strong><strong><code>…</code><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">env</code></strong><code>[]</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <a href="glibc-Executing-a-File.html#glibc-fn-execl"><strong class="function"><code>execl</code></strong></a> gibidir, fakat yeni yazılım için ortamın açıkça belirtilmesine izin verir. <em class="parameter"><code>env</code></em> bağımsız değişkeni son <em class="parameter"><code>argv</code></em> bağımsız değişkeni olan boş göstericiden sonra gelmeli ve <code class="varname">environ</code> değişkeniyle aynı biçimde, dizgelerden oluşan bir dizi olmalıdır.
+   </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execvp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execvp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">char *const </code><strong><code class="parameter">argv</code></strong><code>[]</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">execvp</code> işlevi <a href="glibc-Executing-a-File.html#glibc-fn-execv"><strong class="function"><code>execv</code></strong></a> gibidir, ancak eğer <em class="parameter"><code>filename</code></em> bir <code class="code">/</code> içermiyorsa <em class="parameter"><code>filename</code></em> isimli dosyanın tam ismini bulmak için <code class="varname">PATH</code> ortam değişkeninde  (???) listelenen dizinleri de arar.
+   </p>
+   <p>
+    Bu işlev sisteme yardımcı yazılımların çalıştırılmasında kullanışlı olabilir, çünkü bu yazılımları bulmak için kullanıcının seçtiği yerlere bakar. Kabuklar bunu kullanıcının yazdığı komutları çalıştırmak için kullanır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-execlp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">execlp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">arg0</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-Executing-a-File.html#glibc-fn-execl"><strong class="function"><code>execl</code></strong></a> gibidir, ancak <a href="glibc-Executing-a-File.html#glibc-fn-execvp"><strong class="function"><code>execvp</code></strong></a> işlevi gibi dosya ismi araması yapar.
+   </p>
+  </div>
+        <p>
+   Bağımsız değişken listesinin ve ortam değişkenleri listesinin toplam boyutu <a href="glibc-General-Limits.html#glibc-vr-ARG_MAX"><strong class="varname"><code>ARG_MAX</code></strong></a> bayttan büyük olmamalıdır. Bkz. <a class="xref" href="glibc-General-Limits.html" title="32.1. Genel Sınırlar"><em>Genel Sınırlar</em></a>. GNU sisteminde, her dizge için bu boyut (<a href="glibc-General-Limits.html#glibc-vr-ARG_MAX"><strong class="varname"><code>ARG_MAX</code></strong></a> ile karşılaştırıldığında), "dizge içerisindeki karakter sayısı, artı <code class="type">char *</code> türünün boyutu, artı bir" değerinin <code class="type">char *</code> boyutunun katlarına yuvarlanması ile elde edilir. Diğer sistemler biraz farklı sayım kuralları uygulayabilir.
+  </p>
+        <p>
+   Bu işlevler normalde değer döndürmez, çünkü yeni bir yazılımın çalıştırılması halen çalışan yazılımın tamamen terk edilmesine neden olur. Hata durumunda <code class="code">-1</code> döndürülür. Olağan <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">dosya ismi hatalarına</a> ek olarak, aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlevler için tanımlanmıştır:
+  </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">
+                <code class="code">E2BIG</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Yeni yazılımın bağımsız değişken listesinin uzunluğuyla ortam değişkenleri listesinin birleştirilmiş büyüklüğü <a href="glibc-General-Limits.html#glibc-vr-ARG_MAX"><strong class="varname"><code>ARG_MAX</code></strong></a> bayttan büyüktür. GNU sisteminde bağımsız değişken listesi büyüklüğü için belirtilmiş bir sınır yoktur, böylece bu hata kodu oluşamaz, ancak eğer bağımsız değişkenler kullanılabilir bellek için çok büyük ise bunun yerine <a href="glibc-Error-Codes.html#glibc-vr-ENOMEM"><strong class="varname"><code>ENOMEM</code></strong></a> alınabilir.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="code">ENOEXEC</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Belirtilen dosya doğru biçimde olmadığı için çalıştırılamıyor.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="code">ENOMEM</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Belirtilen dosyanın çalıştırılması mevcut olandan daha fazla depolama alanı gerektiriyor.
+     </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   Yeni dosyanın çalıştırılması başarılı olursa, okumada olduğu gibi dosyanın erişim zamanı alanını günceller. Dosyaların erişim zamanları hakkında daha fazla bilgi için <a class="xref" href="glibc-File-Times.html" title="14.9.9. Dosya Zamanları">Dosya Zamanları</a> bölümüne bakınız.
+  </p>
+        <p>
+   Dosyanın tekrar kapandığı nokta belirtilmemiştir, ancak süreçten çıkmadan önceki bir nokta veya başka bir süreç imgesi çalıştırılmadan önceki nokta belirtilmiş olabilir.
+  </p>
+        <p>
+   Yeni bir süreç imgesinin çalıştırılması, sadece bağımsız değişken ve ortam dizgelerini yeni yerlerine kopyalayarak bellek içeriğini tamamen değiştirir. Fakat sürecin diğer birçok özelliği değişmez:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+    Süreç kimliği ve üst süreç kimliği. Bkz. <a class="xref" href="glibc-Process-Creation-Concepts.html" title="26.2. Süreç Oluşturma Kavramları"><em>Süreç Oluşturma Kavramları</em></a>.
+   </li>
+            <li class="member">
+    Oturum ve süreç grubu üyeliği. Bkz. ???.
+   </li>
+            <li class="member">
+    Gerçek kullanıcı kimliği ve grup kimliği ile ek grup kimlikleri.  Bkz. ???.
+   </li>
+            <li class="member">
+    Bekleyen uyarılar. Bkz. ???.
+   </li>
+            <li class="member">
+    Geçerli çalışma dizini ve kök dizini. Bkz. <a class="xref" href="glibc-Working-Directory.html" title="14.1. Çalışma dizini"><em>Çalışma dizini</em></a>. GNU sisteminde, kök dizini bir setuid yazılım çalıştırılırken kopyalanmaz; bunun yerine yeni yazılım için sistemin ön tanımlı kök dizini kullanılır.
+   </li>
+            <li class="member">
+    Dosya kipi oluşturma maskesi. Bkz. <a class="xref" href="glibc-Setting-Permissions.html" title="14.9.7. Dosya İzinlerinin Atanması">Dosya İzinlerinin Atanması</a>.
+   </li>
+            <li class="member">
+    Süreç sinyal maskesi; bkz. <a class="xref" href="glibc-Process-Signal-Mask.html" title="24.7.3. Sürecin Sinyal Maskesi">Sürecin Sinyal Maskesi</a>.
+   </li>
+            <li class="member">
+    Bekleyen sinyaller; bkz. <a class="xref" href="glibc-Blocking-Signals.html" title="24.7. Sinyallerin Engellenmesi"><em>Sinyallerin Engellenmesi</em></a>.
+   </li>
+            <li class="member">
+    Sürece ilişkin biten işlemci süresi; bkz. ???.
+   </li>
+          </ul>
+        </div>
+        <p>
+   Eğer süreç görüntü dosyasının set-user-ID ve set-group-ID kip bitleri işaretlenmişse, bu sürecin etkin kullanıcı kimliği ve grup kimliği (sırasıyla) değerlerini etkiler. Bu kavramlara ayrıntılı bir şekilde ??? bölümünde değinilmiştir.
+  </p>
+        <p>
+   Geçerli süreçte görmezden gelinecek sinyaller yeni süreçte de dikkate alınmayacak şekilde ayarlanmalıdır. Diğer bütün sinyaller yeni süreç imgesinde ön tanımlı hareketlerine ayarlanır. Sinyaller hakkında daha fazla bilgi için, bkz.  <a class="xref" href="glibc-Signal-Handling.html" title="24. Sinyal İşleme">Sinyal İşleme</a>.
+  </p>
+        <p>
+   Varolan süreç imgesinde açık kalan dosya tantıcıları yeni süreç imgesinde de <a href="glibc-Descriptor-Flags.html#glibc-vr-FD_CLOEXEC"><strong class="varname"><code>FD_CLOEXEC</code></strong></a> (close-on-exec) bayrak kümesine sahip değilse açık kalır. Açık kalan dosyalar var olan süreç imgesinden açık dosya tanıtıcısının dosya kilitleri dahil bütün özelliklerini miras alır. Dosya tanıtıcıları <a class="xref" href="glibc-Low-Level-I-O.html" title="13. Düşük Seviyeli Girdi ve Çıktı">Düşük Seviyeli Girdi ve Çıktı</a> bölümünde incelenmiştir.
+  </p>
+        <p>
+   Akımlar, buna karşın, <strong class="function"><code>exec</code></strong> işlevleriyle varlıklarını sürdüremez, çünkü bunlar sürecin kendi bellek alanına yerleşmektedir. Yeni süreç imgesinin kendisinin yeniden oluşturdukları dışında akımları yoktur. <strong class="function"><code>exec</code></strong> öncesi süreç imgesinin içindeki akımların her birinin içinde bir tanıtıcı vardır ve bunlar <strong class="function"><code>exec</code></strong> ile varlıklarını sürdürür (<a href="glibc-Descriptor-Flags.html#glibc-vr-FD_CLOEXEC"><strong class="varname"><code>FD_CLOEXEC</code></strong></a> kümesinin olmaması halinde). Yeni süreç imgesi bu yeni akımlara <a href="glibc-Descriptors-and-Streams.html#glibc-fn-fdopen"><strong class="function"><code>fdopen</code></strong></a> kullanarak tekrar bağlanabilir (bkz. <a class="xref" href="glibc-Descriptors-and-Streams.html" title="13.4. Tanıtıcılar ve Akımlar"><em>Tanıtıcılar ve Akımlar</em></a>).
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.2.8. Düşük Seviyeli Dizin Erişimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Simple-Directory-Lister-Mark-II.html')">Önceki</button>
+          <div class="dropdown-content">14.2.7. Bir Dizinin İçeriğini Listeleyen İkinci Örnek</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Working-with-Directory-Trees.html')">Sonraki</button>
+          <div class="dropdown-content">14.3. Dizin Ağaçlarıyla Çalışma</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Low-level-Directory-Access">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.2.8. Düşük Seviyeli Dizin Erişimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Akım tabanlı dizin işlevleri <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> değildir ve <a href="glibc-Creating-a-Process.html#glibc-fn-vfork"><strong class="function"><code>vfork</code></strong></a> işlevinden sonra kullanılamaz. Bkz. <a class="xref" href="glibc-POSIX-Safety-Concepts.html" title="1.3.2.1. POSIX Güvenlik Kavramları">POSIX Güvenlik Kavramları</a>. Aşağıdaki işlev, bu bağlamlarda kullanılmak üzere tasarlanmıştır.
+   </p>
+        <p>
+    Dizin verileri, <a href="glibc-Open-time-Flags.html#glibc-vr-O_DIRECTORY"><strong class="varname"><code>O_DIRECTORY</code></strong></a> seçeneği olsun olmasın, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevi tarafından oluşturulduğu şekliyle bir dosya tanıtıcıdan elde edilir. Bkz. <a class="xref" href="glibc-Opening-and-Closing-Files.html" title="13.1. Dosyaların Açılması ve Kapatılması"><em>Dosyaların Açılması ve Kapatılması</em></a>.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-getdents64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">getdents64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">getdents64</code> işlevi, <em class="parameter"><code>fd</code></em> dosya tanıtıcısından dizin giriş verilerinin en uzun baytlarını okur ve onu <em class="parameter"><code>buffer</code></em> göstericisinde başlayan bayt dizisine kaydeder.
+    </p>
+    <p>
+     İşlev başarılı olduğunda, <em class="parameter"><code>buffer</code></em> tamponuna yazılan bayt sayısını döndürür. <em class="parameter"><code>fd</code></em> zaten dizin akımının sonundaysa bu sayı sıfırdır. Hata durumunda işlev <code class="code">-1</code> döndürür ve hata durumunu <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenini atar.
+    </p>
+    <p>
+     Veriler, <code class="code">d_reclen</code> üyesi kullanılarak geçilebilen bir dizi <code class="type">struct dirent64</code> kaydı olarak depolanır. Tampon, mümkün olan en büyük dizin girdisini tutacak kadar büyük olmalıdır. Bazı dosya sistemlerinin <a href="glibc-Limits-for-Files.html#glibc-vr-NAME_MAX"><strong class="varname"><code>NAME_MAX</code></strong></a> bayttan uzun dosya adlarını desteklediği unutulmamalıdır (örneğin, 255 adede kadar Unicode karakteri destekleyenler), bu nedenle en az 1024 baytlık tampon boyutu önerilir.
+    </p>
+    <p>
+     Bu işlev Linux'a özgüdür.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

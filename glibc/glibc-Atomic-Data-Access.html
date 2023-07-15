@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Nonreentrancy.html')">Önceki</button>
+          <div class="dropdown-content">24.4.6. Sinyal İşleme ve Evresel Olmayan İşlevler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Interrupted-Primitives.html')">Sonraki</button>
+          <div class="dropdown-content">24.5. Sinyallerle Kesilen İlkeller</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Atomic-Data-Access">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Uygulama verisinin bölünmez türde ya da salt metin olup olmamasına bağlı olarak, bölünmez türde olmayan bir veriye erişirken dikkatli olunmalıdır. Bir nesnenin okunması ya da yazılması tek bir işlemci komutu ile gerçekleşemeyebilir, böyle bir durumda bir sinyal işleyici işlemin arasına girebilir ve işlem yarıda kalabilir.
+   </p>
+        <p>
+    Bu sorunla ilgili olarak uygulanabilecek üç yöntem vardır. Veri türlerine erişim bölünmez yapılabilir; işlem dikkatlice yapılandırılabilir böylece erişimin kesilmesi sözkonusu ise böyle bir veri erişimi ya hiç yapılmaz ya da veriye erişirken işlem sırasında sinyallerin tamamı <a class="link" href="glibc-Blocking-Signals.html" title="24.7. Sinyallerin Engellenmesi">engellenir</a>.
+   </p>
+        <section class="sect2" id="glibc-Non-atomic-Example">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">24.4.7.1. Veriye Erişimde Kesinti</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bu örnekte, bir değişkenin değerinin değiştirilmesi sırasında bir sinyal işleyici işlevin araya girdiği durum gösterilmiştir. (Bir değişkenin okunması sırasında kesintiye uğratılması mantıksız sonuçlara sebep olabilir, ama burada sadece yazma olayı gösterilmiştir.)
+    </p>
+          <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+volatile struct two_words { int a, b; } memory;
+
+void
+isleyici(int signum)
+{
+   printf ("%d,%d\n", memory.a, memory.b);
+   alarm (1);
+}
+
+
+int
+main (void)
+{
+   static struct two_words zeros = { 0, 0 }, ones = { 1, 1 };
+   signal (SIGALRM, isleyici);
+   memory = zeros;
+   alarm (1);
+   while (1)
+     {
+       memory = zeros;
+       memory = ones;
+     }
+}
+</pre>
+          <p>
+     Yazılım, <em class="replaceable"><code>memory</code></em> değişkenini sırayla sıfırlarla ve birlerle doldurmaktadır. Her saniyede bir, alarm sinyalinin işleyicisi o anki içeriği basmaktadır. (İşleyici içinde <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> kullanımı, sinyal oluştuğu sırada <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işleyici dışında çağrılmadığından bu kod için sorun çıkarmaz.)
+    </p>
+          <p>
+     Başka bir deyişle yazılım sıfır ya da bir çiftlerinden birini basar. Ama bu iş tamamen istendiği gibi olmaz! Çoğu makinede, <em class="replaceable"><code>memory</code></em> değişkeninde yeni değerin saklanması bir işlemci komutundan fazlasına ihtiyaç duyar. Bu komutların çağrılması sırasında bir sinyal alınırsa, işleyici <code class="code">memory.a</code> için <code class="code">0</code>, <code class="code">memory.b</code> için <code class="code">1</code> ya da tersini basabilir (Normalde ikisi de aynı olmalıydı).
+    </p>
+          <p>
+     Bazı makineler, işlemi tek bir işlemci komutu ile yapabilir ve bu durumda işleyici daima sıfır ya da bir çiftleri basar.
+    </p>
+        </section>
+        <section class="sect2" id="glibc-Atomic-Types">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">24.4.7.2. Bölünmez Türler</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir değişkene erişimin ne olursa olsun kesintiye uğratılamamasını sağlamak için erişimin daima bölünmez olduğu bir veri türü kullanılabilir: <a href="glibc-Atomic-Data-Access.html#glibc-tp-sig_atomic_t"><strong class="type"><code>sig_atomic_t</code></strong></a>. Bu veri türündeki bir değişkene yapılan bir okuma veya yazma işleminin tek bir işlemci komutu ile gerçekleştirilmesi garanti edilmiştir. Böylece bir sinyal işleyicinin işlemin arasına girmesi engellenmiş olur.
+    </p>
+          <p>
+     <a href="glibc-Atomic-Data-Access.html#glibc-tp-sig_atomic_t"><strong class="type"><code>sig_atomic_t</code></strong></a> türü daima bir tamsayı veri türüdür, ama hangisi olduğu yani kaç bit genişlikte olduğu makineden makineye değişebilir.
+    </p>
+          <div class="csynopsis"><div class="cstype">  veri türü</div>
+     <span id="glibc-tp-sig_atomic_t" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">sig_atomic_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu bir tamsayı veri türüdür. Bu türdeki nesnelere erişim kesintiye uğratılamaz.
+     </p>
+    </div>
+          <p>
+     Uygulamada, <code class="type">int</code> türüne erişimin kesintiye uğratılmayacağı varsayılabilir. Ayrıca çok elverişli olmasa da gösterici türlerinin de böyle olduğu varsayılabilir. GNU C Kütüphanesini destekleyen makinelerde ve bilinen tüm POSIX sistemlerinde her iki kabulde geçerlidir.
+    </p>
+        </section>
+        <section class="sect2" id="glibc-Atomic-Usage">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">24.4.7.3. Veriye Erişimde Kesintiden Kaçınma Yöntemleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bir erişimin kesintiye uğratılmasından kaçınılmasını sağlayan belli erişim şekilleri vardır. Örneğin, sinyal işleyici işlev tarafından bir seçenek etkinleştirilebilir ve ana yazılım tarafından bu değişken zaman zaman 1 ya da 0 yapılabilir. Böylece, bir veriye erişim için iki komut gerekiyorsa bu işlem güvenceye alınmış olur. Bunun böyle olduğunu göstermek için, veriye her erişimin kesmeye uğratılmaya çalışıldığı, ancak kesmeye uğratılsa bile bunun bir sorun oluşturmadığı gösterilecektir.
+    </p>
+          <p>
+     Seçeneğin sınanması sırasında bir kesme sorun çıkarmaz, çünkü ya değerin kesinliğinin önemi olmadığı duruma karşılık değer sıfırdan farklı olacak ya da bir sonraki sınama için sıfırdan farklı görünecektir.
+    </p>
+          <p>
+     Seçeneğin sıfırlanması sırasında da bir kesinti sorun çıkarmayacaktır, çünkü seçenek sıfırlanmadan önce bir sinyal geldiğinde ne olacağına bağlı olarak değer ya sıfır olacak ya da sıfırdan farklı olacaktır. Kod her iki durumu da olması gerektiği gibi mümkün olduğunca iyi elde eder, ayrıca seçeneğin sıfırlanması sırasında bir başka bir sinyal bile işlenebilir.
+    </p>
+          <p>
+     Kimi zaman, bir nesneye erişimin kesintiye uğratılmaması, nesnenin başka bir nesne tarafından korunması sağlanarak da sağlama alınabilir. <a class="xref" href="glibc-Merged-Signals.html" title="24.4.5. İşleyici Çalışmadan İkinci Bir Sinyalin Alınması">İşleyici Çalışmadan İkinci Bir Sinyalin Alınması</a> bölümünde bunun bir örneği vardır.
+    </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

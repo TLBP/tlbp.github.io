@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.7. Dosya Verisinin Kopyalanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Scatter-Gather.html')">Önceki</button>
+          <div class="dropdown-content">13.6. G/Ç'yı Hızlı Dağıtıp Toplama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-mapped-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13.8. Bellek Eşlemli G/Ç</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Copying-File-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.7. Dosya Verisinin Kopyalanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm113562" class="indexterm"></span>
+   <span id="idm113565" class="indexterm"></span>
+   <span id="idm113567" class="indexterm"></span>
+   Aynı dosya sistemindeki iki dosya arasında veri kopyalamak için özel bir işlev sağlanmıştır. Sistem, bu tür kopyalama işlemlerini en iyileyebilir. Bu ağ dosya sistemlerinde özellikle önemlidir, aksi takdirde verilerin ağ üzerinden iki kez aktarılması gerekir.
+  </p>
+        <p>
+   Bu işlevin yalnızca dosya verilerini kopyaladığı, dosya izinleri veya genişletilmiş öznitelikler gibi meta verileri kopyalamadığı unutulmamalıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-copy_file_range" class="indexterm"></span>
+   <span id="glibc-cp-copy_file_range" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">copy_file_range</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">inputfd</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong class="type">*</strong><strong><code class="parameter">inputpos</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">outputfd</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong class="type">*</strong><strong><code class="parameter">outputpos</code></strong><strong><code>, </code></strong><code class="type">ssize_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev <em class="parameter"><code>length</code></em> baytı <em class="parameter"><code>inputfd</code></em> dosya tanıtıcısından <em class="parameter"><code>outputfd</code></em> dosya tanıtıcısına kopyalar.
+   </p>
+   <p>
+    İşlev, hem geçerli dosya konumunda (<code class="code">read</code> ve <code class="code">write</code> gibi) hem de belirtilen dosya konumunda (<code class="code">pread</code> ve <code class="code">pwrite</code> gibi) çalışabilir. <em class="parameter"><code>inputpos</code></em> boş gösterici ise, <em class="parameter"><code>inputfd</code></em> tanıtıcısının dosya konumu kopyalama işleminin başlangıç noktası olarak kullanılır ve bu işlem dosya konumunu ilerletilir. <em class="parameter"><code>inputpos</code></em> boş gösterici değilse, kopyalama işleminin başlangıç noktası olarak *<em class="parameter"><code>inputpos</code></em> kullanılır ve *<em class="parameter"><code>inputpos</code></em> kopyalanan bayt sayısı kadar artırılır, ancak dosya konumu değişmeden kalır. Çıkış dosyası konumu için <em class="parameter"><code>outputfd</code></em> ve <em class="parameter"><code>outputpos</code></em> bağımsız değişkenlerinde benzer kurallar geçerlidir.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> bağımsız değişkeni şimdilik kullanılmamakta olup değeri daima <code class="code">0</code> olmalıdır.
+   </p>
+   <p>
+    <code class="code">copy_file_range</code> işlevi kopyalanan bayt sayısı ile döner. Girdi dosyasında <em class="parameter"><code>length</code></em> bayttan daha az veri kalması durumunda veya okuma/yazma hatası oluşursa, dönen değer <em class="parameter"><code>length</code></em> bayttan az olabilir. Girdi dosyasının sonuna gelinmişse dönen değer <code class="code">0</code> olur.
+   </p>
+   <p>
+    Hiçbir bayt kopyalanmazsa, <code class="code">copy_file_range</code> hatayı bildirmek için <code class="code">-1</code> döndürür ve hatayı <code class="code">errno</code> değişkenine atar. Bu işleve özgü hata durumları:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+       Çekirdek gereken işlevselliği gerçeklemiyor.
+      </p></dd><dt><span class="term"><code class="code">EISDIR</code></span></dt><dd><p>
+       <em class="parameter"><code>inputfd</code></em> ve <em class="parameter"><code>outputfd</code></em> dosya tanıtıcılarından en az biri bir dizine ait.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>inputfd</code></em> ve <em class="parameter"><code>outputfd</code></em> dosya tanıtıcılarından en az biri normal dosya veya dizin olmayan bir oluşuma ait (bir soket veya isimli ardışık süreç).
+      </p><p>
+       Kopyalama işlemlerinden önceki ve sonraki girdi veya çıktı konumları, gerçeklenimle tanımlanan sınırın dışında.
+      </p><p>
+       <em class="parameter"><code>flags</code></em> bağımsız değişkeni <code class="code">0</code> değil.
+      </p></dd><dt><span class="term"><code class="code">EFBIG</code></span></dt><dd><p>
+       Yeni dosya boyutu, süreç dosyası boyutu sınırını aşıyor. Bkz. <a class="xref" href="glibc-Limits-on-Resources.html" title="22.2. Kaynak Kullanımın Sınırlanması"><em>Kaynak Kullanımın Sınırlanması</em></a>.
+      </p><p>
+       Kopyalama işlemlerinden önceki ve sonraki girdi veya çıktı konumları, gerçeklenimle tanımlanan sınırın dışındadır. Dosya 32 bitlik makinelerde büyük dosya desteği (LFS) ile açılmadıysa ve kopyalama işlemi <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a>'nin konumlayabileceğinden daha büyük bir dosya oluşturursa bu hata oluşabilir.
+      </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>inputfd</code></em> bağımsız değişkeni, okumak için açılmış geçerli bir dosya tanıtıcısı değil.
+      </p><p>
+       <em class="parameter"><code>ouputfd</code></em> bağımsız değişkeni, yazmak için açılmış geçerli bir dosya tanıtıcısı değil ya da <a href="glibc-Operating-Modes.html#glibc-vr-O_APPEND"><strong class="varname"><code>O_APPEND</code></strong></a> ile açılmış.
+      </p></dd></dl></div>
+   <p>
+    Ek olarak, <code class="code">copy_file_range</code>, <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a>, <a href="glibc-I-O-Primitives.html#glibc-fn-pread"><strong class="function"><code>pread</code></strong></a>, <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> ve <a href="glibc-I-O-Primitives.html#glibc-fn-pwrite"><strong class="function"><code>pwrite</code></strong></a> tarafından kullanılan hata kodlarıyla da başarısız olabilir.
+   </p>
+   <p>
+    <code class="code">copy_file_range</code> işlevi iptal noktasıdır. İptal durumunda, girdi konumu (dosya konumu veya *<em class="parameter"><code>inputpos</code></em>'taki değer) belirsizdir.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.4. Bellek Özkaynakları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-CPU-Affinity.html')">Önceki</button>
+          <div class="dropdown-content">22.3.5. İşlemciler Arasında İcra Sınırlaması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage-And-Limitation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processor-Resources.html')">Sonraki</button>
+          <div class="dropdown-content">22.5. İşlemci Özkaynakları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Memory-Resources">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">22.4. Bellek Özkaynakları</h2>
+            </div>
+          </div>
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Ön Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sistemdeki mevcut belleğin miktarı ve belleğin düzenlenmesi sıklıkla yazılımların yapabileceklerine ve çalışabilmelerine bağlı olarak belirlenir. <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> gibi işlevler açısından her bir bellek sayfasının boyutunun bilinmesi ve bir yazılımın ne kadar belleği arabellekler gibi seçimler için kullanabileceğinin bilinmesi gereklidir. Bu tür ayrıntılara dalmadan önce geleneksel Unix sistemlerindeki bellek alt sisteminden biraz bahsetmek gerekir.
+   </p>
+        </div>
+        <section class="sect1" id="glibc-Memory-Subsystem">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">22.4.1. Bellek Alt Sistemi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm125403" class="indexterm"></span>
+    <span id="idm125405" class="indexterm"></span>
+    <span id="idm125408" class="indexterm"></span>
+    <span id="idm125410" class="indexterm"></span>
+    Unix sistemleri genelde süreçlere sanal adres alanları sunar. Bunun anlamı, verinin saklandığı adres alanlarının aslında fiziksel bellek adresleri değil, bunları kapsayan ama bu adreslere doğrudan erişim sağlamayan bellek bölgelerinin adresleri olduğudur. Sanal adreslerin fiziksel adreslere dönüştürüldüğü ek bir dolaylı işlem katmanı vardır ve bu işlemler normalde işlemcinin donanımı tarafından yapılır.
+   </p>
+          <p>
+    Bir sanal adres alanı kullanmanın çeşitli yararları vardır. En önemlisi süreç yalıtımıdır. Sistemde çalışmakta olan farklı süreçlerin birbirleriyle doğrudan etkileşmemeleri gerekir. Bir sürecin adres alanına başka hiçbir süreç yazamaz (Paylaşımlı bellek kullanımı hariç. Ancak bu da isteğe bağlıdır ve denetim altında yapılır).
+   </p>
+          <p>
+    Sanal bellek kullanımının diğer bir yararı da süreçlerin adres alanının mevcut fiziksel bellekten daha büyük bir bellek alanı olarak görünmesidir. Fiziksel bellek dış saklama ortamları ile genişletilebilir ve o an kullanılmayan bellek bölgeleri bu ortamlara aktarılabilir. Adres dönüşümü bu bellek bölgelerine erişimi engeller ve hemen bu içeriği fiziksel belleğe geri yükleyerek kullanıma hazır duruma getirir.
+   </p>
+          <p>
+    Kullanılabilir fiziksel bellekle kullanılabilir sanal adres alanı arasındaki farkın bilindiği durumda bu işlem yazılımların belleği kullanabilmesi için gerekli hale gelir. Sistemde çalışmakta olan tüm süreçlerin çalışmalarını sürdürebilmeleri için fiziksel belleğin yetersiz kaldığı ve dış saklama ortamlarının hemen hemen dolduğu durumlarda bu iki ortam arasındaki takaslama işlemi küçük miktarlarda olmaya başlar ve bu sistemin belirgin biçimde yavaşlamasına sebep olur. Buna  <em class="wordasword">atıştırma</em> (thrashing) denir (argosu: çöplenme).
+    <span id="idm125417" class="indexterm"></span>
+    <span id="idm125420" class="indexterm"></span>
+    <span id="idm125423" class="indexterm"></span>
+   </p>
+          <p>
+    Sanal bellek hakkında söylenebilecek son şey, önceki paragrafta bahsedilen sanal belleğin takaslanma büyüklüğü ile ilgilidir. Bu takaslama işlemi bayt bayt yapılmaz. Yönetsel karar organı bunun olmasına izin vermez (işlemci donanımı naparsan yap deyip bırakılmaz). Bu işlem birkaç bin baytlık <em class="wordasword">sayfa</em> olarak nitelenen belirli miktarlarla yapılır. Her sayfanın genişliği ikinin üstel katları olarak bayt cinsinden belirlenir. Günümüzdeki en küçük sayfa genişliği 4096 bayt olup, 8192, 16384 ve 65536 baytlık sayfa genişlikleri de görülmektedir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Query-Memory-Parameters">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">22.4.2. Bellek Bağımsız değişkenlerinin Sorgulanması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sürecin sanal bellek sayfa genişliğini bilmesi bazı durumlarda zorunludur. Bazı yazılım arayüzleri (<a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> gibi, bkz. <a class="xref" href="glibc-Memory-mapped-I-O.html" title="13.8. Bellek Eşlemli G/Ç"><em>Bellek Eşlemli G/Ç</em></a>) kullanıcının sayfa genişliğine ayarlanmış bilgi vermesini gerektirir. <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a>, sayfa genişliğinin katları olarak uzunluk bağımsız değişkeni gerektirir. Sayfa genişliğinin bilinmesinin faydalı olduğu diğer bir yer de bellek tahsisidir. Uygulama tarafından bölünerek kullanılmak üzere büyükçe bir tomar halinde bir tahsis yapılırsa, geniş dilimlerin boyutlarının sayfa genişliğine ayarlanması yararlı olur. Çekirdek bellekle çalışırken sadece tamamı kullanılan bellek sayfalarını tahsis etmek zorunda olduğundan, tahsisi istenen dilim boyutunun sayfa genişliğinin katlarına yakın (daha büyük değil) olması çekirdeğin bellek tahsisi ile ilgili olarak daha verimli çalışabilmesini sağlar. (Bu en iyilemeyi yapmak için her dilim için bir miktar bellek gerektirecek olan bellek tahsisçi hakkında biraz bilgi sahibi olunması ve sayfa genişliğinin katlarını aşan bir toplam boyut talep edilmemesi gerekir.)
+   </p>
+          <p>
+    Sayfa genişliği geleneksel olarak bir derleme zamanı sabitidir. Fakat son zamanlarda geliştirilen işlemcilerle bu durum değişmiştir. İşlemciler artık farklı sayfa genişliklerini desteklemekte ve aynı sistem üzerinde farklı süreçler arasında bunun değişiklik göstermesine bile olanak verebilmektedir. Bu nedenle, çalışma anında sistem o anki sayfa genişliği hakkında sorgulanmalı ve sayfa genişliği ile ilgili hiçbir önkabul yapılmamalıdır (sayfa genişliğinin ikinin üstel katları olması gerekliliği hariç).
+   </p>
+          <p>
+    Sayfa genişliğini sorgulamak için doğru arayüz <strong class="function"><code>sysconf</code></strong> olup <a href="glibc-Sysconf.html#glibc-vr-SC_PAGESIZE"><strong class="varname"><code>_SC_PAGESIZE</code></strong></a> ile kullanılmalıdır. (bkz. <a class="xref" href="glibc-Sysconf.html#glibc-Sysconf-Definition" title="32.4.1. sysconf Tanımı"><code class="code">sysconf</code> Tanımı</a>). Ayrıca daha eski bir arayüz de vardır.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-getpagesize" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getpagesize</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">getpagesize</code> işlevi sürecin sayfa genişliği ile döner. Bu değer sürecin çalışması süresince sabittir ama aynı yazılımın farklı süreçlerinde farklı değerler alabilir.
+    </p>
+   </div>
+          <p>
+    Sistemin fiziksel belleği hakkında System V'den türetilmiş sistemlerde geniş olarak kullanılan bir bilgi alma yöntemi vardır.
+   </p>
+          <pre class="literallayout monospaced"><code class="code">sysconf (<a href="glibc-Sysconf.html#glibc-vr-SC_PHYS_PAGES"><strong class="varname"><code>_SC_PHYS_PAGES</code></strong></a>)</code>
+</pre>
+          <p>
+    çağrısı sistemin sahip olduğu belleğin fiziksel sayfalarının toplam sayısı ile döner, ancak bu belleğin tümünün kullanılabilir olduğu anlamına gelmez. Bu bilgi,
+   </p>
+          <pre class="literallayout monospaced"><code class="code">sysconf (<a href="glibc-Sysconf.html#glibc-vr-SC_AVPHYS_PAGES"><strong class="varname"><code>_SC_AVPHYS_PAGES</code></strong></a>)</code>
+</pre>
+          <p>
+    çağrısı ile edinilebilir. Bu iki değer uygulamaların en iyilenmesine yardımcı olur. <a href="glibc-Sysconf.html#glibc-vr-SC_AVPHYS_PAGES"><strong class="varname"><code>_SC_AVPHYS_PAGES</code></strong></a> için döndürülen değer uygulamanın başka bir süreç tarafından engellenmeksizin kullanabileceği bellek miktarıdır (başka hiçbir sürecin kendi bellek kullanımını, diğerlerinin hilafına artıramayacağını belirtir). <a href="glibc-Sysconf.html#glibc-vr-SC_PHYS_PAGES"><strong class="varname"><code>_SC_PHYS_PAGES</code></strong></a> için dönen değer ise az ya da çok çalışma birliği için donanımsal bir sınırdır. Eğer tüm uygulamalar birlikte bundan fazlasını kullanmaya çalışırsa, sistemin bellek miktarı ile başı dertte demektir.
+   </p>
+          <p>
+    GNU C Kütüphanesi bu iki yönteme ek olarak bu bilgiyi almak için iki işlev daha içerir. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/sysinfo.h;hb=HEAD" target="_top">sys/sysinfo.h</a></code> başlık dosyasında bildirilmiştir. Yazılımcılar yukarıda açıklanan <strong class="function"><code>sysconf</code></strong> yöntemini tercih etmelidir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-get_phys_pages" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/sysinfo.h;hb=HEAD" target="_top">sys/sysinfo.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">get_phys_pages</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">get_phys_pages</code> işlevi sistemin sahip olduğu fiziksel sayfaların sayısı ile döner. Belleğin toplam miktarını bulmak için bu değer sayfa genişliği ile çarpılır.
+    </p>
+    <p>
+     Bu işlevGNU oluşumudur.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-get_avphys_pages" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/sysinfo.h;hb=HEAD" target="_top">sys/sysinfo.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">get_avphys_pages</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">get_avphys_pages</code> işlevi sistemin sahip olduğu fiziksel sayfalardan kullanılabilir olanlarının sayısı ile döner. Belleğin kullanılabilir toplam miktarını bulmak için bu değer sayfa genişliği ile çarpılır.
+    </p>
+    <p>
+     Bu işlev GNU oluşumudur.
+    </p>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

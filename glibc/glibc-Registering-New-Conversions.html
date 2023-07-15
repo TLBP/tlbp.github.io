@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.13.1. Yeni Dönüşümlerin Kaydı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Önceki</button>
+          <div class="dropdown-content">12.13. <code class="code">printf</code> İşlevinin Özelleştirilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Conversion-Specifier-Options.html')">Sonraki</button>
+          <div class="dropdown-content">12.13.2. Dönüşüm Belirteci Seçenekleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Registering-New-Conversions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.13.1. Yeni Dönüşümlerin Kaydı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    
+    <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code> başlık dosyasında bildirilmiştir ve yeni tanımladığınız dönüşüm belirtecini kaydetmek için kullanılır.
+    <span id="idm108037" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-register_printf_function" class="indexterm"></span>
+    <span id="glibc-cp-register_printf_function" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">register_printf_function</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">spec</code></strong><strong><code>, </code></strong><code class="type">printf_function </code><strong><code class="parameter">handler-function</code></strong><strong><code>, </code></strong><code class="type">printf_arginfo_function </code><strong><code class="parameter">arginfo-function</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-const">const</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:printfext</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>spec</code></em> dönüşüm belirteç karakterini tanımlar. Eğer <em class="parameter"><code>spec</code></em> <code class="code">'Y'</code> ise dönüşüm belirteci '<code class="code">%Y</code>' olacaktır. '<code class="code">%s</code>' gibi yerleşik dönüşüm belirteçleri de tanımlanabilir ama '<code class="code">#</code>' gibi im karakterleri '<code class="code">l</code>' gibi tür değiştiricileri dönüşüm karakteri olarak tanımlanamaz. İşlev bu karakterlerden biri ile çağrılırsa hiçbir etkisi olmaz. Küçük harflerin dönüşüm karakteri olarak tanımlanmaması iyi olur, çünkü ISO C standardı, standardın gelecekteki iyileştirmelerinde başka küçük harflerin de standarda dahil edebileceği konusunda uyarıyor.
+    </p>
+    <p>
+     <em class="parameter"><code>handler-function</code></em> (işleyici işlev), bir kalıp dizgesinde tanımlanan karakterlerlerden birine rastlarsa <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve arkadaşları tarafından çağrılacak işlevdir. Bağımsız değişken olarak atanan böyle bir işlevin nasıl tanımlanacağı <a class="xref" href="glibc-Defining-the-Output-Handler.html" title="12.13.3. İşleyici İşlevin Tanımlanması">İşleyici İşlevin Tanımlanması</a> bölümünde açıklanmıştır. Bu bağımsız değişkene boş gösterici belirtilirse, <em class="parameter"><code>spec</code></em> için atanan işleyici işlev kaldırılır.
+    </p>
+    <p>
+     <em class="parameter"><code>arginfo-function</code></em> (bağımsız değişken bilgileri işlevi) ise, bu dönüşüm belirteci bir kalıp dizgesinde kullanıldığında <a href="glibc-Parsing-a-Template-String.html#glibc-fn-parse_printf_format"><strong class="function"><code>parse_printf_format</code></strong></a> işlevi tarafından çağrılır. Bu konu hakkında daha ayrıntılı bilgi almak için bkz. <a class="xref" href="glibc-Parsing-a-Template-String.html" title="12.12.10. Kalıp Dizgesinin Çözümlenmesi">Kalıp Dizgesinin Çözümlenmesi</a>.
+    </p>
+    <div class="admon caution"><h3 class="admon-title">Dikkat</h3><div class="admon-contents"><p>
+      GNU C Kütüphanesinin 2.0 öncesi sürümlerinde <a href="glibc-Parsing-a-Template-String.html#glibc-fn-parse_printf_format"><strong class="function"><code>parse_printf_format</code></strong></a> işlevi çağrılmadıkça <em class="parameter"><code>arginfo-function</code></em> işlevinin tanımlanması gerekmiyordu. Bu şimdi değişti. Artık, dönüşüm belirteci kalıp dizgesinde kullanılmışsa her <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> çağrısında bu işlev çağrılmaktadır.
+     </p></div></div>
+    <p>
+     İşlev başarı durumunda <code class="code">0</code> ile döner. Hata oluşması halinde (<em class="parameter"><code>spec</code></em> aralık dışındaysa) <code class="code">-1</code> ile döner.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi:</h3><div class="admon-contents"><p>
+      Standart çıktı dönüşümlerini yeniden tanımlamak mümkündür, ancak dönüşümlerin etkilerinin ilgili dil standartlarına uygun olduğunu varsayan yazılımların ve derleyici gerçeklenimlerinin davranışlarıyla etkileşebileceğinden, bunu yapmak kesinlikle önerilmez. Ek olarak, uyumlu derleyicilerin, standart bir dönüşüm için kaydedilen işlevin, bir yazılımdaki her biçim dizgesindeki bu tür her dönüşüm için çağrılacağını garanti etmesi gerekmez.
+     </p></div></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

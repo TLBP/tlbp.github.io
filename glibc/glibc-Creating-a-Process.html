@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26.4. Bir Sürecin Oluşturulması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Identification.html')">Önceki</button>
+          <div class="dropdown-content">26.3. Süreç Kimliği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Executing-a-File.html')">Sonraki</button>
+          <div class="dropdown-content">26.5. Bir Dosyanın Çalıştırılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Creating-a-Process">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">26.4. Bir Sürecin Oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> işlevi süreç oluşturma ilkelidir ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm129406" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fork" class="indexterm"></span>
+   <span id="glibc-cp-fork" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">fork</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">fork</code> işlevi yeni bir süreç oluşturur.
+   </p>
+   <p>
+    Süreç oluşturma başarılıysa, hem üst hem de alt sürecin her ikisi de <code class="code">fork</code> işlevinin döndüğünü görür, ancak gördükleri dönüş değerleri farklıdır: <code class="code">fork</code> işlevi, alt sürece <code class="code">0</code> değerini ve üst sürece ise alt sürecin süreç kimliğini döndürür.
+   </p>
+   <p>
+    Süreç oluşturma başarısızsa, <code class="code">fork</code> işlevi üst sürece <code class="code">-1</code> değerini döndürür. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları <code class="code">fork</code> işlevi için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+       Başka süreç oluşturmak için yeterli sistem kaynağı yok ya da kullanıcının zaten çok fazla süreci çalışmakta. Bu <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_NPROC"><strong class="varname"><code>RLIMIT_NPROC</code></strong></a> kaynak sınırının aşılmakta olduğu anlamına gelir, bu genellikle artırılabilir; bkz. <a class="xref" href="glibc-Limits-on-Resources.html" title="22.2. Kaynak Kullanımın Sınırlanması"><em>Kaynak Kullanımın Sınırlanması</em></a>.
+      </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+       Süreç sistemin sağlayabileceğinden daha fazla yere ihtiyaç duyuyor.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Alt süreçlerin üst süreçlerden farklı olan öznitelikleri:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+    Alt sürecin kendi süreç kimliği vardır.
+   </li>
+            <li class="member">
+    Alt sürecin üst süreç kimliği üst sürecinin süreç kimliğidir.
+   </li>
+            <li class="member">
+    Alt süreç, üst sürecin açık dosya tanıtıcılarının kendine ait kopyalarını alır. Böylece üst süreçteki dosya tanıtıcısının özelliklerinin değiştirilmesi alt süreçteki dosya tanıtıcıları etkilemez, bunun tersi de geçerlidir.  Bkz. <a class="xref" href="glibc-Control-Operations.html" title="13.12. Dosyalar Üzerindeki Denetim İşlemleri"><em>Dosyalar Üzerindeki Denetim İşlemleri</em></a>. Ancak, her tanıyıcıyla ilişkilendirilmiş olan dosya konumu her iki süreç tarafından paylaşılır; bkz. <a class="xref" href="glibc-I-O-Concepts.html#glibc-File-Position" title="11.1.2. Dosyada Konumlama">Dosyada Konumlama</a>.
+   </li>
+            <li class="member">
+    Alt süreçler için biten işlemci zamanları sıfırlanır; bkz. ???.
+   </li>
+            <li class="member">
+    Alt süreç üstü tarafından oluşturulmuş dosya kilitlerini miras almaz.<a class="xref" href="glibc-Control-Operations.html" title="13.12. Dosyalar Üzerindeki Denetim İşlemleri"><em>Dosyalar Üzerindeki Denetim İşlemleri</em></a>.
+   </li>
+            <li class="member">
+    Alt süreç üstü tarafından oluşturulmuş uyarıları miras almaz.???.
+   </li>
+            <li class="member">
+    Alt süreç için bekleyen sinyallerin tümü  (<a class="xref" href="glibc-Concepts-of-Signals.html#glibc-Delivery-of-Signal" title="24.1.3. Sinyallerin Gönderilmesi">Sinyallerin Gönderilmesi</a>) temizlenir. (Alt süreç baskılanmış sinyallerin maskesini ve sinyal eylemlerini üst sürecinden miras alır.)
+   </li>
+          </ul>
+        </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fork_" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">_Fork</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">_Fork</code> işlevi <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> işlevinin benzeridir, farklı olarak, ne <strong class="function"><code>pthread_atfork</code></strong> tarafından kaydedilmiş geri çağırım işlevlerini çağırır ne de herhangi bir kilidi (<a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kilitleri gibi) veya dahili durumu sıfırlar. Yeni alt süreçlerde yalnızca <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup2"><strong class="function"><code>dup2</code></strong></a> or <a href="glibc-Executing-a-File.html#glibc-fn-execve"><strong class="function"><code>execve</code></strong></a> gibi eşzamansız-sinyal-güvenilir (<a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>) işlevler çağrılır.
+   </p>
+   <p>
+    <code class="code">_Fork</code> işlevi, <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> işlevinin <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a> olan benzeri olup bir GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-vfork" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">vfork</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">vfork</code> işlevi <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> gibidir fakat bazı sistemlerde daha verimlidir; ancak, güvenli kullanımı için bazı kısıtlar vardır.
+   </p>
+   <p>
+    <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> çağıran sürecin adres alanının tam bir kopyasını alıp hem alt hem de üst sürecin bağımsız olarak çalışmasını sağlarken, <code class="code">vfork</code> bu kopyayı yapmaz. Bunun yerine <code class="code">vfork</code> ile oluşturulan alt süreç <strong class="function"><code>_exit</code></strong> veya <strong class="function"><code>exec</code></strong> işlevleri çağrılana kadar üst sürecin adres alanını paylaşır. Bu arada, üst süreç çalışmayı askıya alır.
+   </p>
+   <p>
+    <code class="code">vfork</code> ile oluşturulan alt sürecin küresel verileri, hatta üstüyle paylaştığı yerel değişkenleri bile değiştirmesine izin vermemek konusunda dikkatli olunmalıdır. Bundan başka, alt süreç <code class="code">vfork</code>'u çağıran işlevden dönemez (veya uzun atlama yapamaz)! Bu üst sürecin denetim bilgisini karıştırabilir. Kuşkunuz varsa, <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> kullanın.
+   </p>
+   <p>
+    Bazı işletim sistemleri gerçek anlamda <code class="code">vfork</code>'u gerçeklemez.  GNU C Kütüphanesi <code class="code">vfork</code>'un bütün sistemlerde kullanımına izin verir, ancak aslında <code class="code">vfork</code> yoksa <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> çalıştırır. Eğer  <code class="code">vfork</code> kullanımında gerekli önlemler alınırsa, sistem onun yerine <code class="code">fork</code>'u kullansa bile yazılım çalışır.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.19. Sinyallerle Sürülen Girdi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Open-File-Description-Locks-Example.html')">Önceki</button>
+          <div class="dropdown-content">13.18. Açık Dosya Tanıtıcı Kilitleri Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-IOCTLs.html')">Sonraki</button>
+          <div class="dropdown-content">13.20. G/Ç Denetim İşlemleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Interrupt-Input">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.19. Sinyallerle Sürülen Girdi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm117425" class="indexterm"></span>
+   Bir dosya tanıtıcıda <a href="glibc-Operating-Modes.html#glibc-vr-O_ASYNC"><strong class="varname"><code>O_ASYNC</code></strong></a> <a class="link" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri">durum seçeneği</a> etkinse, bu dosya tanıtıcı ile ilgili bir girdi ya da çıktı olasılığı varsa bir  <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGIO"><strong class="varname"><code>SIGIO</code></strong></a> sinyali gönderilir. Sinyali alacak süreç veya süreç grubu <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinde <a href="glibc-Interrupt-Input.html#glibc-vr-F_SETOWN"><strong class="varname"><code>F_SETOWN</code></strong></a> komutu kullanılarak seçilebilir. Dosya tanıtıcısı bir soket ise bu ayrıca, sokete bir band dışı veri geldiğinde alınan <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGURG"><strong class="varname"><code>SIGURG</code></strong></a> sinyallerinin alıcılarını seçmekte de kullanılır. <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGURG"><strong class="varname"><code>SIGURG</code></strong></a> sinyali <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevinin bir "olağan dışı durumu" raporladığı durumlarda gönderilir. Bkz. <a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>.)
+  </p>
+        <p>
+   Dosya tanıtıcı bir uçbirim aygıtı ile ilgiliyse <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGIO"><strong class="varname"><code>SIGIO</code></strong></a> sinyalleri uçbirimin önalan süreç grubuna gönderilir. Bkz. <a class="xref" href="glibc-Job-Control.html" title="28. İş Denetimi">İş Denetimi</a>.
+  </p>
+        <p>
+   <span id="idm117442" class="indexterm"></span>
+   Bu kısımdaki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code> başlık dosyasında tanımlanmıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-F_GETOWN" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_GETOWN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <em class="parameter"><code>command</code></em> bağımsız değişkeninde <code class="code">SIGIO</code> sinyallerinin gönderildiği süreç veya süreç grubu hakkında bilgi edinmek için kullanılır. (Bir uçbirim için, bu aslında <strong class="function"><code>tcgetpgrp</code></strong> kullanılarak alınabilen önalan süreç grubu kimliğidir; bkz. ???.)
+   </p>
+   <p>
+    Dönen değer, bir süreç kimliği olarak yorumlanır; negatifse, mutlak değeri süreç grubu kimliğidir.
+   </p>
+   <p>
+    Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu komut için tanımlanmıştır:
+   </p>
+   <dl><dt><code class="code">EBADF</code></dt><dd><p>
+     <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçersiz.
+    </p></dd></dl>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-F_SETOWN" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_SETOWN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <em class="parameter"><code>command</code></em> bağımsız değişkeninde <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGIO"><strong class="varname"><code>SIGIO</code></strong></a> sinyallerinin gönderildiği süreç veya süreç grubun oluşturulması gerektiğini belirtmek için kullanılır. Bu komut, <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinde <a href="glibc-Process-Identification.html#glibc-tp-pid_t"><strong class="type"><code>pid_t</code></strong></a> türünde üçüncü bir bağımsız değişken kullanılmasını gerektirir:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">fcntl (<em class="replaceable"><code>tanıtıcı-kimliği</code></em>, F_OFD_SETLK, <em class="replaceable"><code>pid</code></em>)</code>
+</pre>
+   <p>
+    <em class="replaceable"><code>pid</code></em> bağımsız değişkeni bir süreç kimliği olmalıdır. Ayrıca mutlak değeri bir süreç grup kimliği olan negatif bir sayı da belirtilebilir.
+   </p>
+   <p>
+    Bu komutun <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinden döndürdüğü değer bir hata oluşmuşsa <code class="code">-1</code>'dir, aksi takdirde farklı bir değer döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu komut için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="replaceable"><code>tanıtıcı-kimliği</code></em> bağımsız değişkeni geçersiz.
+      </p></dd><dt><span class="term"><code class="code">ESRCH</code></span></dt><dd><p>
+       <em class="replaceable"><code>pid</code></em>'e karşılık bir süreç ya da süreç grubu yok.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

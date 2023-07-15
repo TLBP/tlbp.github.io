@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.9. Girdi ve Çıktının Beklenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-mapped-I-O.html')">Önceki</button>
+          <div class="dropdown-content">13.8. Bellek Eşlemli G/Ç</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Synchronizing-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13.10. G/Ç İşlemlerinin Eşzamanlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Waiting-for-I-O">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.9. Girdi ve Çıktının Beklenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm114399" class="indexterm"></span>
+   <span id="idm114402" class="indexterm"></span>
+   <span id="idm114405" class="indexterm"></span>
+   <span id="idm114408" class="indexterm"></span>
+   Kimi zaman bir yazılımın girdiyi gelişine bağlı olarak çok sayıda girdi kanalından kabul etmesi gerekir. Örneğin bazı iş istasyonları tablet, işlev düğmeleri kutusu, normal eşzamansız seri arayüz üzerinden bağlanılan çevirmeli ağ gibi çok sayıda aygıttan aynı anda ve anında yanıt verecek iyi bir kullanıcı arayüzü gerektirmektedir. Başka bir örnek de bir yazılımın başka süreçlere adlı ya da adsız ardışık süreçler üzerinden bir sunucu olarak hizmet vermesidir.
+  </p>
+        <p>
+   Normalde bu amaçla <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> kullanılamaz, çünkü işlev dosya tanıtıcıdan bir girdi gelene kadar beklerken diğer kanallardaki girdi fazladan bekletilir. Engellenmeyen kipe geçilmesi ve dosya tanıtıcılarının sürekli taranması gerekir ki bu da pek verimli değildir.
+  </p>
+        <p>
+   Daha iyi bir çözüm <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevini kullanmaktır.  Bu, belirtilen dosya tanıtıcı kümesinde bir girdi ya da çıktı hazır olana kadar ya da bir zamanlayıcı zaman aşımına uğrayıncaya kadar (hangisi önce gerçekleşirse), bekler. Bu oluşum <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm114416" class="indexterm"></span>
+  </p>
+        <p>
+   Bir sunucu soketi durumunda, askıda olduğu varsayılan bağlantılar olduğunda girdinin de var olabileceğinden söz edilebilir. <strong class="function"><code>accept</code></strong> işlevi sunucu soketini beklemeye alır ve <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevinin normal girdi için yaptığı gibi  <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> ile etkileşir.
+  </p>
+        <p>
+   <span id="idm114425" class="indexterm"></span>
+   <span id="idm114428" class="indexterm"></span>
+   <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi için dosya tanıtıcı kümeleri <a href="glibc-Waiting-for-I-O.html#glibc-tp-fd_set"><strong class="type"><code>fd_set</code></strong></a> türünde nesneler olarak belirtilir. Burada bu nesnelerin veri türü ve bunlarla ilgili makrolara değinilecektir.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-fd_set" class="indexterm"></span>
+   <span id="glibc-cp-fd_set" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">fd_set</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">fd_set</code> veri türü <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi için tanımlanan dosya tanıtıcı kümelerinin veri türü olup aslında bit dizisidir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-FD_SETSIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">FD_SETSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <a href="glibc-Waiting-for-I-O.html#glibc-tp-fd_set"><strong class="type"><code>fd_set</code></strong></a> nesnesinde saklanabilen dosya tanıtıcılarının azami sayısıdır. Azami sayının sabit olduğu sistemlerde <code class="code">FD_SETSIZE</code> bu sayıya eşittir. GNU sistemininde dahil olduğu bazı sistemlerde açık tanıtıcıların azami sayısı için mutlak bir üst sınır olmamasına rağmen bu sabit <a href="glibc-Waiting-for-I-O.html#glibc-tp-fd_set"><strong class="type"><code>fd_set</code></strong></a> içindeki bitlerin sayısını belirten bir değerdir; <code class="code">FD_SETSIZE</code>'ıncıdan sonraki bir dosya tanıtıcısı <a href="glibc-Waiting-for-I-O.html#glibc-tp-fd_set"><strong class="type"><code>fd_set</code></strong></a> içine konamaz.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-FD_ZERO" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">FD_ZERO</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:set</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu makro <em class="parameter"><code>set</code></em> dosya tanıtıcı kümesini boş bir küme olarak ilklendirir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-FD_SET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">FD_SET</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:set</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu makro <em class="parameter"><code>filedes</code></em> dosya tanıtıcısını <em class="parameter"><code>set</code></em> dosya tanıtıcı kümesine dahil eder.
+   </p>
+   <p>
+    <em class="parameter"><code>filedes</code></em> bağımsız değişkeni bir kereden fazla değerlendirildiğinden yan etkilere sahip olmamalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-FD_CLR" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">FD_CLR</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:set</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu makro <em class="parameter"><code>filedes</code></em> dosya tanıtıcısını <em class="parameter"><code>set</code></em> dosya tanıtıcı kümesinden kaldırır.
+   </p>
+   <p>
+    <em class="parameter"><code>filedes</code></em> bağımsız değişkeni bir kereden fazla değerlendirildiğinden yan etkilere sahip olmamalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-FD_ISSET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">FD_ISSET</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:set</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu makro, <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı <em class="parameter"><code>set</code></em> dosya tanıtıcı kümesinin bir üyesi ise sıfırdan farklı bir değerle (true), aksi takdirde sıfırla (false) döner.
+   </p>
+   <p>
+    <em class="parameter"><code>filedes</code></em> bağımsız değişkeni bir kereden fazla değerlendirildiğinden yan etkilere sahip olmamalıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-select" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">select</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">nfds</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">read-fds</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">write-fds</code></strong><strong><code>, </code></strong><code class="type">fd_set </code><strong class="type">*</strong><strong><code class="parameter">except-fds</code></strong><strong><code>, </code></strong><code class="type">struct timeval </code><strong class="type">*</strong><strong><code class="parameter">timeout</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:read-fds</a></code>  <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:write-fds</a></code>  <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:except-fds</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">select</code> işlevi, belirtilen dosya tanıtıcı kümesindeki tanıtıcılarda bir etkinlik olana kadar ya da belirtilen zaman aşımı süresi dolana kadar çağrıldığı süreci bekletir.
+   </p>
+   <p>
+    <em class="parameter"><code>read-fds</code></em> bağımsız değişkeni ile okumaya hazır tanıtıcılar, <em class="parameter"><code>write-fds</code></em> bağımsız değişkeni ile yazmaya hazır tanıtıcılar belirtilir. <em class="parameter"><code>except-fds</code></em> ile belirtilen tanıtıcılar ise olağan dışı durumlara göre denetlenir. İlgilenilmeyen durumla ilgili olan bağımsız değişkene boş gösterici atanabilir.
+   </p>
+   <p>
+    Bir dosya gösterici eğer <span class="command"><strong>read</strong></span> çağrısı engellenmeyecekse okumaya hazır olarak kabul edilir. Engellenme durumları olarak okuma başlangıcının dosyanın sonunda olması veya raporlanacak bir hatanın varlığından bahsedilebilir. Bir sunucu soketi de <span class="command"><strong>accept</strong></span> ile kabul edilebilen bir bağlantı askıdaysa okumaya hazır kabul edilir. Bir istemci soketi ise bağlantı tamamen kurulduğunda yazmaya hazır olur.
+   </p>
+   <p>
+    "Olağandışı durumlar" hata anlamında değildir; hatalar oluştuğunda sistem çağrıları tarafından raporlanır ve bunların tanıtıcının durumu ile ilgisi yoktur. Olağandışı durumlar bir soket üzerinde acil bir iletinin varlığı gibi durumlardır. (Acil iletiler hakkında <a class="xref" href="glibc-Sockets.html" title="16. Soketler">Soketler</a> bölümünde bilgi bulunabilir.)
+   </p>
+   <p>
+    <code class="code">select</code> işlevi sadece ilk <em class="parameter"><code>nfds</code></em> dosya tanıtıcısını denetler. <em class="parameter"><code>nfds</code></em> olarak <a href="glibc-Waiting-for-I-O.html#glibc-vr-FD_SETSIZE"><strong class="varname"><code>FD_SETSIZE</code></strong></a> değeri çok kullanışlıdır.
+   </p>
+   <p>
+    <em class="parameter"><code>timeout</code></em> azami bekleme süresini belirtir. Boş gösterici belirtmişse bir süre sınırı olmaksızın bir dosya tanıtıcı hazır olana kadar işlev bekleyecektir. Bunun olmaması için <code class="type">struct timeval</code> türünde bir zaman aşımı süresi belirtilmelidir. Beklemeden hangi dosya tanıtıcıların hazır olduğuna bakılmak istenirse, buraya süre olarak sıfır (<code class="type">struct timeval</code> üyelerinin hepsi sıfır) belirtilebilir.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri tüm kümelerde hazır olan dosya tanıtıcıların sayısıdır. Küme bağımsız değişkenlerinin her birinde hazır olan tanıtıcılarla ilgili bilgi bulunur. <code class="code">select</code> döndükten sonra belli bir dosya tanıtıcının girdi için hazır olup olmadığı <code class="code">FD_ISSET (<em class="replaceable"><code>dt</code></em>, <em class="replaceable"><code>oku-dt</code></em>)</code> ile öğrenilebilir.
+   </p>
+   <p>
+    <code class="code">select</code> zaman aşımına uğramışsa sıfır ile döner.
+   </p>
+   <p>
+    Herhangi bir sinyal <code class="code">select</code> işlevinin anında dönmesine sebep olur. Yazılımda sinyaller kullanılıyorsa belirtilen zaman aşımı süresince işlevin beklemede kalması mümkün olmayabilir. Bu sürenin mutlaka beklenmesi isteniyorsa, <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> durumunun varlığına göre geçerli zaman değeri ile karşılaştırılarak yeni bekleme süresi hesaplanıp çağrı yinelenmelidir. Bunun bir örneği aşağıda verilmiştir, ayrıca bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+   </p>
+   <p>
+    Bir hata oluşursa işlev <code class="code">-1</code> ile döner ve dosya tanıtıcı kümesi bağımsız değişkenlerinde  bir değişiklik yapmaz. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       Dosya tanıtıcı kümelerinden biri geçersiz bir dosya tanıtıcı içeriyor.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       İşlem bir sinyalle durduruldu. Bkz.  <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>timeout</code></em> bağımsız değişkeni geçersiz; üyelerinden biri ya negatif ya da çok büyük.
+      </p></dd></dl></div>
+  </div>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+    <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi bir BSD Unix özelliğidir.
+   </p>
+          </div>
+        </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    Bu örnekte bir dosya tanıtıcısının okumaya hazır olmasını belli bir süre beklemek için <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevinin kullanımı gösterilmiştir. <code class="code">input_timeout</code> işlevi çağrıldığı süreci dosya tanıtıcı üzerinde bir girdi olana kadar ya da belli bir zaman aşımına kadar bekletir.
+   </p>
+            <pre class="screen">#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/time.h&gt;
+
+int
+input_timeout (int filedes, unsigned int seconds)
+{
+  fd_set set;
+  struct timeval timeout;
+
+  /* <em class="replaceable"><code>Dosya tanıtıcı kümesini ilklendir.</code></em> */
+  FD_ZERO (&amp;set);
+  FD_SET (filedes, &amp;set);
+
+  /* <em class="replaceable"><code>Zaman aşımı yapısını ilklendir.</code></em> */
+  timeout.tv_sec = seconds;
+  timeout.tv_usec = 0;
+
+  /* <em class="replaceable"><code>select, zamanaşımına uğrarsa 0 ile,
+     girdi varsa 1 ile, hata oluşursa -1 ile döner.</code></em> */
+  return TEMP_FAILURE_RETRY (select (FD_SETSIZE,
+                                     &amp;set, NULL, NULL,
+                                     &amp;timeout));
+}
+
+int
+main (void)
+{
+  fprintf (stderr, "select returned %d.\n",
+           input_timeout (STDIN_FILENO, 5));
+  return 0;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   <code class="code">select</code> işlevinin çok sayıda soketten çoklu girdi alınması ile ilgili kullanım örneği  ??? bölümünde bulunabilir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

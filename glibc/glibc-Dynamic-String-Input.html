@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.14.6. Dizge Dönüşümlerinde Özdevimli Tahsis</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-String-Input-Conversions.html')">Önceki</button>
+          <div class="dropdown-content">12.14.5. Dizgeler için Girdi Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Input.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Other-Input-Conversions.html')">Sonraki</button>
+          <div class="dropdown-content">12.14.7. Diğer Girdi Dönüşümleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Dynamic-String-Input">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.14.6. Dizge Dönüşümlerinde Özdevimli Tahsis</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Biçimlendirilmiş girdiye yönelik bir GNU oluşumu, azami boyutu olmayan bir dizgenin güvenle okunmasını sağlar. Bu özellik kullanıldığında tampon tahsis etmeye gerek yoktur. <a href="glibc-Formatted-Input-Functions.html#glibc-fn-scanf"><strong class="function"><code>scanf</code></strong></a> veriyi tutacak kadar büyüklükte tamponu kendi ayırır ve adresini verir. Bu özelliği kullanmak için im karakteri olarak ‘<code class="code">a</code>' karakteri ‘<code class="code">%as</code>' ya da ‘<code class="code">%a[0-9a-z]</code>' dönüşümü ile belirtilebilir.
+   </p>
+        <p>
+    Girdinin saklanacağı tamponun adresini tutacak gösterici bağımsız değişkeni  <code class="type">char **</code> türünde olmalıdır. <a href="glibc-Formatted-Input-Functions.html#glibc-fn-scanf"><strong class="function"><code>scanf</code></strong></a> işlevi bir tampon tahsis eder ve adresini bu bağımsız değişkenin gösterdiği yere kaydeder. Tampona ihtiyaç kalmadığında <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile tahsis edilen alan serbest bırakılmalıdır.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Bu örnekte ‘<code class="code">%[…]</code>' dönüşüm belirtimi ‘<code class="code">a</code>' imi ile birlikte kullanılarak <em class="replaceable"><code>değişken</code></em> = <em class="replaceable"><code>değer</code></em> çifti halinde bir "değişken ataması" okunmaktadır.
+    </p>
+            <pre class="screen">{
+  char *degisken, *deger;
+
+  if (2 &gt; scanf ("%a[a-zA-Z0-9] = %a[^\n]\n",
+		 &amp;degisken, &amp;deger))
+    {
+      invalid_input_error ();
+      return 0;
+    }
+
+  …
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

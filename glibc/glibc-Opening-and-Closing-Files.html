@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.1. Dosyaların Açılması ve Kapatılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Önceki</button>
+          <div class="dropdown-content">13. Düşük Seviyeli Girdi ve Çıktı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Primitives.html')">Sonraki</button>
+          <div class="dropdown-content">13.2. Girdi ve Çıktı İlkelleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Opening-and-Closing-Files">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.1. Dosyaların Açılması ve Kapatılması</h2>
+            </div>
+          </div>
+        </div>
+        <p><span class="notfoot"></span>
+   Bu kısımda dosya tanıtıcılar<a id="idm111665" href="#ftn.idm111665" class="footnote"><sup class="footnote">[78]</sup></a> kullanılarak dosyaların açılması ve kapatılması için kullanılan ilkeller açıklanacaktır. <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> ve <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-creat"><strong class="function"><code>creat</code></strong></a> işlevleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code> başlık dosyasında bildirilmişken <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="idm111678" class="indexterm"></span>
+   <span id="glibc-fn-open" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">open</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong>[<strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong>]<strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">open</code> işlevi, <em class="parameter"><code>filename</code></em> adlı dosya için bir dosya tanıtıcı kimliği oluşturur ve bunu döndürür. İlk olarak dosya konum indisi dosyanın başlangıcındadır. <em class="parameter"><code>mode</code></em> bağımsız değişkeni (bkz. <a class="xref" href="glibc-Permission-Bits.html" title="14.9.5. Erişim İzinleri için Kip Bitleri">Erişim İzinleri için Kip Bitleri</a>) sadece dosya oluşturulurken kullanılır, ancak herhangi bir durumda bu bağımsız değişkenin bir zararı yoktur.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> bağımsız değişkeni dosyanın nasıl açılacağını belirler. Bu bir bit maskesidir ve ilgili seçenekler bitsel VEYAlanarak (C'de <strong class="operator"><code>|</code></strong> işleci ile) maskenin değeri oluşturulabilir. Kullanılabilecek seçenekler <a class="xref" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri"><em>Dosya Durum Seçenekleri</em></a> bölümünde bulunabilir.
+   </p>
+   <p>
+    <code class="code">open</code> işlevinin normal dönüş değeri negatif olmayan bir tamsayı olarak dosya tanıtıcı kimliğidir. Bir hata durumunda <code class="code">-1</code> değeri döner. Olağan <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       Dosya var, ancak <em class="parameter"><code>flags</code></em> bağımsız değişkeninde istendiği gibi okunabilir/yazılabilir değil veya dosya yok, dizine de yazılamadığından dosya oluşturulamıyor.
+      </p></dd><dt><span class="term"><code class="code">EEXIST</code></span></dt><dd><p>
+       <a href="glibc-Open-time-Flags.html#glibc-vr-O_CREAT"><strong class="varname"><code>O_CREAT</code></strong></a> ve <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneklerinin ikisi de belirtilmiş ama isimli dosya zaten var.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+        <code class="code">open</code> işlemi bir sinyal tarafından durduruldu. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd><dt><span class="term"><code class="code">EISDIR</code></span></dt><dd><p>
+        <em class="parameter"><code>flags</code></em> bağımsız değişkeninde yazma erişimi belirtilmiş ve dosya bir dizin.
+      </p></dd><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+        Sürecin çok fazla açık dosyası var. Dosya tanıtıcılarının azami sayısı <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_NOFILE"><strong class="varname"><code>RLIMIT_NOFILE</code></strong></a> öz kaynak sınırı tarafından denetlenir; bkz. <a class="xref" href="glibc-Limits-on-Resources.html" title="22.2. Kaynak Kullanımın Sınırlanması"><em>Kaynak Kullanımın Sınırlanması</em></a>.
+      </p></dd><dt><span class="term"><code class="code">ENFILE</code></span></dt><dd><p>
+        Dizini içeren sistemin tamamı ya da muhtemelen dosya sistemi, bu anda hiçbir ek açık dosyayı destekleyemiyor. (GNU/Hurd sistemlerinde asla böyle bir sorun olmaz.)
+      </p></dd><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+        İsmi belirtilen dosya yok ve <a href="glibc-Open-time-Flags.html#glibc-vr-O_CREAT"><strong class="varname"><code>O_CREAT</code></strong></a> belirtilmemiş.
+      </p></dd><dt><span class="term"><code class="code">ENOSPC</code></span></dt><dd><p>
+        Yeni dosyayı içerecek dizin ya da dosya sistemi genişletilemiyor çünkü diskte yer yok.
+      </p></dd><dt><span class="term"><code class="code">ENXIO</code></span></dt><dd><p>
+        <a href="glibc-Open-time-Flags.html#glibc-vr-O_NONBLOCK"><strong class="varname"><code>O_NONBLOCK</code></strong></a> ve <a href="glibc-Access-Modes.html#glibc-vr-O_WRONLY"><strong class="varname"><code>O_WRONLY</code></strong></a> seçeneklerinin ikisi de <em class="parameter"><code>flags</code></em> bağımsız değişkeninde belirtilmiş ama okumak için dosya açmış bir süreç yok.
+      </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+        Dosya salt okunur dosya sistemi üzerinde ve <em class="parameter"><code>flags</code></em> bağımsız değişkeninde <a href="glibc-Access-Modes.html#glibc-vr-O_WRONLY"><strong class="varname"><code>O_WRONLY</code></strong></a>, <a href="glibc-Access-Modes.html#glibc-vr-O_RDWR"><strong class="varname"><code>O_RDWR</code></strong></a> ve <a href="glibc-Open-time-Flags.html#glibc-vr-O_TRUNC"><strong class="varname"><code>O_TRUNC</code></strong></a> seçeneklerinden biri belirtilmiş; veya <a href="glibc-Open-time-Flags.html#glibc-vr-O_CREAT"><strong class="varname"><code>O_CREAT</code></strong></a> belirtilmiş ve dosya mevcut değil.
+      </p></dd></dl></div>
+   <p>
+    Bir 32 bitlik makinede kaynaklar <code class="code">_FILE_OFFSET_BITS == 64</code> ile dönüştürülürse, <code class="code">open</code> işlevi, 2^63 baytlık ve -2^63 ile 2^63 arasında konum sınırlı dosyalarda kullanılan dosya işleme işlevlerini etkinleştiren büyük dosya kipinde açılmış bir dosya tanıtıcı ile döner. Bu, tüm düşük seviyeli dosya işleme işlevleri büyük dosya kipindeki eşdeğerleri ile değiştirilerek kullanıcı bakımından şeffaf olarak yapılır.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda bir iptal noktasıdır. <code class="code">open</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">open</code> çağrılarından kaçınmak için iptal eylemcileri kullanılarak korunulmalıdır.
+   </p>
+   <p>
+    <code class="code">open</code> işlevi, akımları oluşturan <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> ve <a href="glibc-Opening-Streams.html#glibc-fn-freopen"><strong class="function"><code>freopen</code></strong></a> işlevlerinin düşük seviyeli karşılığıdır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-open64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">open64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong>[<strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong>]<strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev <code class="code">open</code> işlevine benzer. <em class="parameter"><code>filename</code></em> isimli dosyaya erişim için kullanılabilen bir dosya tanıtıcı ile döner. Tek farkı bu işlevin 32 bitlik sistemlerde dosyayı büyük dosya (dosya uzunluğunun ve konum değerlerinin 63 bit genişlikte olduğu dosyalar) kipinde açmasıdır.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile dönüştürülürdüğü durumda, bu işlev aslında <code class="code">open</code> ismi altında kullanılır. Yani 64 bitlik yeni, genişletilmiş arayüz eski arayüzle şeffaf olarak değiştirilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype"> atıl işlev</div>
+   <span id="glibc-fn-creat" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">creat</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev atıl olmuştur, geriye uyumluluk için vardır, kullanılmamalıdır.
+   </p>
+   <pre class="literallayout monospaced"><code class="code">creat (<em class="parameter"><code>filename</code></em>, <em class="parameter"><code>mode</code></em>)</code>
+</pre>
+   <p>gibi bir çağrı,</p>
+   <pre class="literallayout monospaced"><code class="code">open (<em class="parameter"><code>filename</code></em>, O_WRONLY | O_CREAT | O_TRUNC, <em class="parameter"><code>mode</code></em>)</code>
+</pre>
+   <p>çağrısına eşdeğerdir.</p>
+   <p>
+    32 bitlik bir makinede kaynaklar <code class="code">_FILE_OFFSET_BITS == 64</code> ile dönüştürülüyorsa, <code class="code">creat</code> işlevi, 2^63 baytlık ve -2^63 ile 2^63 arasındaki konum sınırlı dosyalarda kullanılan dosya işleme işlevlerini etkinleştiren büyük dosya kipinde açılmış bir dosya tanıtıcı ile döner. Yani, tüm düşük seviyeli dosya işleme işlevleri için büyük dosya kipindeki eşdeğerlerinin tanımları geçerli olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype"> atıl işlev</div>
+   <span id="glibc-fn-creat64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">creat64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev atıl olmuştur, geriye uyumluluk için vardır, kullanılmamalıdır.
+   </p>
+   <p>
+    Bu işlev <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-creat"><strong class="function"><code>creat</code></strong></a> işlevine benzer. <em class="parameter"><code>filename</code></em> isimli dosyaya erişim için kullanılabilen bir dosya tanıtıcı ile döner. Tek farkı bu işlevin 32 bitlik sistemlerde dosyayı büyük dosya (dosya uzunluğunun ve konum değerlerinin 31 bit genişlikte olduğu dosyalar) kipinde açmasıdır.
+   </p>
+   <p>
+    Bu dosya tanıtıcıları <code class="code">*64</code> biçiminde isimlendirilmiş işlevler (<strong class="function"><code>read64</code></strong> gibi) dışında normal dosya işlemlerinde kullanılmamalıdır.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile dönüştürülürdüğü durumda, bu işlev aslında <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-creat"><strong class="function"><code>creat</code></strong></a> ismi altında kullanılır. Yani eski arayüz için şeffaf olarak 64 bitlik yeni, genişletilmiş arayüz kullanılır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="idm111901" class="indexterm"></span>
+   <span id="glibc-fn-close" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">close</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">close</code> işlevi, dosya tanıtıcısı <em class="parameter"><code>filedes</code></em> ile belirtilen dosyayı kapatır. Bir dosyanın kapatılma işlemi şöyle yürütülür:
+   </p>
+   <div><ul class="simplelist"><li class="member">
+     Dosya tanıtıcı serbest bırakılır.
+    </li><li class="member">
+     Dosyadaki süreç tarafından sahiplenilmiş kayıt kilitleri kaldırılır.
+    </li><li class="member">
+     İsimli ya da isimsiz bir ardışık süreç ile ilişkili tüm dosya tanıtıcılar kapatılır, okunmamış veri varsa iptal edilir.
+    </li></ul></div>
+   <p>
+    Bu işlev çok evreli yazılımlarda bir iptal noktasıdır. <code class="code">close</code> çağrısı sırasında evre bazı öz kaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu sorun ortaya çıkar. Evre tam bu anda bir iptal alırsa tahsis edilen öz kaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">close</code> çağrılarından kaçınmak için iptal eylemcileri kullanılarak korunulmalıdır.
+   </p>
+   <p>
+    <code class="code">close</code> işlevinin normal dönüş değeri sıfırdır. Bir hata durumunda <code class="code">-1</code> değeri döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">EBADF</code></span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>filedes</code></em> geçerli bir dosya tanıtıcı değil.
+      </p></dd><dt><span class="glossterm"><code class="code">EINTR</code></span></dt><dd class="glossdef"><p>
+       Çağrı bir sinyalle durduruldu Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>. <code class="code">EINTR</code> hatasının düzgün olarak elde edilişine bir örnek:
+      </p><pre class="screen">TEMP_FAILURE_RETRY (close (desc));
+</pre></dd><dt><span class="glossterm">
+      <code class="code">ENOSPC</code>
+      <br /><code class="code">EIO</code>
+      <br /><code class="code">EDQUOT</code>
+     </span></dt><dd class="glossdef"><p>
+       Dosyaya NFS üzerinden erişilirken, <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevinden kaynaklanan bu hatalar kimi zaman <code class="code">close</code> çağrısına kadar saptanamaz. Bunun ne anlama geldiği <a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a> bölümünde açıklanmıştır.
+      </p></dd></dl></div>
+   <p>
+    Ayrı bir <code class="code">close64</code> işlevinin bulunmadığını unutulmamalıdır. Çünkü bu işlev dosya kipine bağımlı olmadığı gibi bunu saptamaya da çalışmaz. Bunu çekirdek bilir ve bir <code class="code">close</code> çağrısı olduğunda gerekeni yapar.
+   </p>
+  </div>
+        <p>
+   Bir akımı kapatırken, <a href="glibc-Closing-Streams.html#glibc-fn-fclose"><strong class="function"><code>fclose</code></strong></a> (bkz. <a class="xref" href="glibc-Closing-Streams.html" title="12.4. Akımların Kapatılması"><em>Akımların Kapatılması</em></a>) işlevi kullanılmalıdır, işlevin düşük seviye eşdeğeri olan <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> ile kapatmaya çalışılmamalıdır. <a href="glibc-Closing-Streams.html#glibc-fn-fclose"><strong class="function"><code>fclose</code></strong></a> işlevi tamponda bir veri varsa bunu boşaltır ve akım nesnesini kapandığını belirtecek şekilde günceller.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-close_range" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">close_range</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">unsigned int </code><strong><code class="parameter">lowfd</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">maxfd</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">close_range</code> işlevi <em class="parameter"><code>lowfd</code></em>'den (dahil) <em class="parameter"><code>maxfd</code></em>'ye (dahil) kadar dosya tanıtıcılarını kapatır. <em class="parameter"><code>flags</code></em> bağımlılığı ile belirtilen dosya tanıtıcı aralığında <code class="code">close</code> çağrısına benzer.
+   </p>
+   <p>
+    Bu işlev yalnızca son Linux sürümlerinde desteklenir ve GNU C Kütüphanesi hata durumunda herhangi bir çare sağlamaz (uygulamanın olası <a href="glibc-Error-Codes.html#glibc-vr-ENOSYS"><strong class="varname"><code>ENOSYS</code></strong></a> hatalarını işlemesi gerekir).
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> dosyaların kapanışı ile ilgili seçenekler ekler. Linux şimdilik şunları desteklemektedir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-CLOSE_RANGE_UNSHARE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/unix/sysv/linux/bits/unistd_ext.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">CLOSE_RANGE_UNSHARE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dosya tanıtıcılar kapatılmadan önce dosya tanıtıcı tablosunun paylaşımı kaldırılır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-CLOSE_RANGE_CLOEXEC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=sysdeps/unix/sysv/linux/bits/unistd_ext.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">CLOSE_RANGE_CLOEXEC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dosya tanıtıcıyı kapatmak yerine <a href="glibc-Descriptor-Flags.html#glibc-vr-FD_CLOEXEC"><strong class="varname"><code>FD_CLOEXEC</code></strong></a> biti tanımlanır.
+    </p>
+   </div>
+   <p>
+    <code class="code">close_range</code> normal dönüş değeri <code class="code">0</code>'dır; başarısızlık durumunda <code class="code">-1</code> döndürülür. Bu işlev için aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları tanımlanmıştır:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">EINVAL</code></span></dt><dd class="glossdef"><p>
+       <em class="parameter"><code>lowfd</code></em> değeri <em class="parameter"><code>maxfd</code></em> değerinden büyük veya belirtilen <em class="parameter"><code>flags</code></em> desteklenmiyor.
+      </p></dd><dt><span class="glossterm"><code class="code">ENOMEM</code></span></dt><dd class="glossdef"><p>
+       Ya işlem için yeterli bellek yok ya da sürecin adres alanı yetersiz. Yalnızca <a href="glibc-Opening-and-Closing-Files.html#glibc-vr-CLOSE_RANGE_UNSHARE"><strong class="varname"><code>CLOSE_RANGE_UNSHARE</code></strong></a> kapanış seçeneği kullanıldığında oluşur.
+      </p></dd><dt><span class="glossterm"><code class="code">EMFILE</code></span></dt><dd class="glossdef"><p>
+       Süreçte çok fazla açık dosya var. Yalnızca <a href="glibc-Opening-and-Closing-Files.html#glibc-vr-CLOSE_RANGE_UNSHARE"><strong class="varname"><code>CLOSE_RANGE_UNSHARE</code></strong></a> kapanış seçeneği kullanıldığında oluşur. Azami dosya tanıtıcı sayısı, <a href="glibc-Limits-on-Resources.html#glibc-vr-RLIMIT_NOFILE"><strong class="varname"><code>RLIMIT_NOFILE</code></strong></a> öz kaynak sınırı tarafından denetlenir. Bkz. <a class="xref" href="glibc-Limits-on-Resources.html" title="22.2. Kaynak Kullanımın Sınırlanması"><em>Kaynak Kullanımın Sınırlanması</em></a>.
+      </p></dd><dt><span class="glossterm"><code class="code">ENOSYS</code></span></dt><dd class="glossdef"><p>
+       Çekirdek gereken işlevselliği sağlamıyor.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-closefrom" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">closefrom</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">lowfd</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">closefrom</code> işlevi, <em class="parameter"><code>lowfd</code></em>'den büyük veya ona eşit olan tüm dosya tanıtıcılarını kapatır. Bu işlev, <em class="parameter"><code>lowfd</code></em>'den küçük olmayan tüm açık dosya tanıtıcıları için <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> çağırmaya benzer.
+   </p>
+   <p>
+    Zaten kapanmış dosya tanıtıcıları yok sayılır.
+   </p>
+  </div>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm111665" class="footnote">
+            <p><a href="#idm111665" class="para"><sup class="para">[78] </sup></a>Ç.N.: İleri bölümlerde <a class="link" href="glibc-Open-File-Description-Locks.html" title="13.17. Açık Dosya Tanıtıcı Kilitleri">açık dosya tanıtıcı kilitlerinden</a> bahsedilirken "dosya tanıtıcısı" (file description) ile "dosya tanıtıcı kimliği" (file descriptor - tanıtıcıya atıf yapan bir numara) arasında ayrım yapılırken <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevi ile dosya tanıtıcı alındığından <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup"><strong class="function"><code>dup</code></strong></a> ile tanıtıcının değil kimliğin çoğaltıldığından ayrıca bahsedilmişken bu ayrıma diğer bölümlerde dikkat edilmediği gözlemlenmiştir. Örneğin bu bölümde <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> ile dosya tanıtıcı kimliği alındığından bahsedilerek kilitlerle ilgili bölümde yapılan açıklama (<a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> ile elde edilen tanıtıcıdan, kimlikten farklı olarak dosya örneği (instance) olarak söz edilmekte) ile bu bilgi çelişmektedir.</p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.9.11. Depolama Alanının Tahsisi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Size.html')">Önceki</button>
+          <div class="dropdown-content">14.9.10. Dosya Boyu</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Attributes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Making-Special-Files.html')">Sonraki</button>
+          <div class="dropdown-content">14.10. Özel Dosyaların Oluşturulması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Storage-Allocation">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.9.11. Depolama Alanının Tahsisi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Çoğu dosya sistemi, büyük dosyaları bitişik olmayan alanlar halinde tahsis etmeyi destekler: dosya, sırayla tahis edilen parçalara bölünür, ancak parçaların kendileri de diske dağılabilir. Dosya sistemleri genellikle başarımı düşürdüğü için bu tür parçalanmalardan kaçınmaya çalışır, ancak bir dosyanın boyutu kademeli olarak artarsa, parçalamaktan başka seçenek olmayabilir. Ek olarak, birçok dosya sistemi delikli seyrek dosyaları da destekler: dosya sistemi tarafından depolama alanı tahsis edilmemiş boş baytlar içeren bölgeler. Eninde sonunda, deliklerin üzerine veriler yazıldığında, parçalanma ortaya çıkabilir.
+   </p>
+        <p>
+    Dosyanın henüz yazılmamış bölümleri için doğrudan depolama alanı tahsisi, sistemin parçalanmayı önlemesine yardımcı olabilir. Ek olarak, depolama ön tahsisi başarısız olursa, disk dolma hatasını erkenden, genellikle tüm diski doldurmadan bildirmek mümkündür. Ancak yinelenenleri kaldırma, yazma sırasında kopyalama ve dosya sıkıştırma nedeniyle, bu tür bir ön ayırma disk alanı yetersiz hatasının daha sonra oluşmasını güvenilir bir şekilde engelleyemeyebilir. Yazma hatalarının denetlenmesi hala gereklidir ve <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> ile oluşturulan bellek eşlemli bölgelere yazma işlemleri yine de <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGBUS"><strong class="varname"><code>SIGBUS</code></strong></a> ile sonuçlanabilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-posix_fallocate" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">posix_fallocate</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">offset</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <em class="parameter"><code>fd</code></em> tanıtıcısı için dosyada <em class="parameter"><code>offset</code></em> baytta başlayan <em class="parameter"><code>length</code></em> baytlık bölge için yedekleme deposu tahsis eder. Gerekirse dosya uzunluğu '<em class="parameter"><code>length</code></em> + <em class="parameter"><code>offset</code></em>' bayta artırılır.
+    </p>
+    <p>
+     <em class="parameter"><code>fd</code></em>, yazmak için açılmış normal bir dosyanın tanıtıcısı olmalıdır, yoksa <a href="glibc-Error-Codes.html#glibc-vr-EBADF"><strong class="varname"><code>EBADF</code></strong></a> döndürülür. Tahsis isteğini yerine getirmek için yeterli disk alanı yoksa, <a href="glibc-Error-Codes.html#glibc-vr-ENOSPC"><strong class="varname"><code>ENOSPC</code></strong></a> döndürülür.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+      <strong class="function"><code>fallocate</code></strong> kullanılabilir değilse (dosya sistemi desteklemediği için), işlevi <code class="code">posix_fallocate</code> taklit eder. Bunun sakıncaları:
+     </p><div class="itemizedlist"><ul style="list-style-type: disc; " class="itemizedlist"><li class="listitem"><p>
+        Çok verimsizdir, çünkü istenen aralıktaki tüm dosya sistemi dilimlerinin incelenmesi (daha önce tahsis edilmiş olsalar bile) ve belki de yeniden yazılması gerekir. Buna karşılık, uygun <strong class="function"><code>fallocate</code></strong> desteğiyle (aşağıya bakın), dosya sistemi dahili dosya tahsis veri yapılarını inceleyebilir ve delikleri doğrudan, hatta belki de diskte önceden tahsis edilmiş ancak yazılmamış kısımları kullanarak ortadan kaldırabilir.
+       </p></li><li class="listitem"><p>
+        Tahsis edilecek alandaki dosyayı başka bir evre veya süreç değiştirirse,  yarış durumu ortaya çıkar. Veri içeren baytların üzerine boş baytlar yazılabilir.
+       </p></li><li class="listitem"><p>
+        <em class="parameter"><code>fd</code></em>, <a href="glibc-Access-Modes.html#glibc-vr-O_WRONLY"><strong class="varname"><code>O_WRONLY</code></strong></a> seçeneğiyle açılmışsa, işlev  <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri <a href="glibc-Error-Codes.html#glibc-vr-EBADF"><strong class="varname"><code>EBADF</code></strong></a> ile başarısız olur.
+       </p></li><li class="listitem"><p>
+        <em class="parameter"><code>fd</code></em>, <a href="glibc-Operating-Modes.html#glibc-vr-O_APPEND"><strong class="varname"><code>O_APPEND</code></strong></a> seçeneğiyle açılmışsa, işlev  <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri <a href="glibc-Error-Codes.html#glibc-vr-EBADF"><strong class="varname"><code>EBADF</code></strong></a> ile başarısız olur.
+       </p></li><li class="listitem"><p>
+        <em class="parameter"><code>length</code></em> sıfırsa, dosya sistemi gerekli dilimleri tahsis etmeden dosya boyutunu istendiği gibi artırmak için <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> kullanılır. Dosyanın eşzamanlı olarak uzatılması durumunda, <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işlevinin dosyayı rastlantısal olarak küçültebileceği bir yarış durumu ortaya çıkar.
+       </p></li></ul></div></div></div>
+    <p>
+     Linux'ta, bir uygulama öykünmeden fayda sağlamıyorsa veya öykünme içsel yarış koşullarından dolayı zararlıysa, uygulama, sıfır değerli <em class="parameter"><code>mode</code></em> bağımsız değişkeniyle Linux'a özgü <strong class="function"><code>fallocate</code></strong> işlevini kullanabilir. <strong class="function"><code>fallocate</code></strong> işlevi için, dosya sistemi alan tahsisini desteklemiyorsa, GNU C Kütüphanesi tahsis öykünmesini uygulamaz. Bunun yerine, çağrıcıya <a href="glibc-Error-Codes.html#glibc-vr-EOPNOTSUPP"><strong class="varname"><code>EOPNOTSUPP</code></strong></a> hatası döndürülür.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-posix_fallocate64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">posix_fallocate64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">offset</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Tüm platformlarda 64 bitlik konumlar kabul etmesi dışında <code class="code">posix_fallocate</code> işleviyle aynıdır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.13.5. Yerleşik İşleyici İşlevler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Printf-Extension-Example.html')">Önceki</button>
+          <div class="dropdown-content">12.13.4. <code class="code">printf</code> Genişletme Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Input.html')">Sonraki</button>
+          <div class="dropdown-content">12.14. Biçimli Girdi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Predefined-Printf-Handlers">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.13.5. Yerleşik İşleyici İşlevler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    GNU C Kütüphanesi ayrıca <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işleyici oluşumunun somut ve kullanışlı bir uygulamasını içerir. Kayan noktalı sayıları özel bir yolla basmak için iki işlev vardır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-printf_size" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">printf_size</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">fp</code></strong><strong><code>, </code></strong><code class="type">const struct printf_info </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>, </code></strong><code class="type">const void *const </code><strong class="type">*</strong><strong><code class="parameter">args</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:fp</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Verilen kayan noktalı sayıyı <code class="code">%f</code> dönüşüm belirtecini kullanarak özel bir şekilde basar. Sayıyı 1000’den daha küçük bir sayı olarak ifade eden bir birim karakteri kullanılır. Bu birim karakteri bölene karşılıktır. Mümkün iki bölen vardır; biri 1000'in kuvvetleri diğeri 1024'ün kuvvetleri. Birim, küçük harf ise 1024'ün kuvvetleri, büyük harf ise 1000'in kuvvetleri kullanılır.
+    </p>
+    <p>
+     Birim bayt, kilobayt, megabayt, gigabayt, vs. karşılığı bir karakterdir. Tamamı tablo olarak:
+    </p>
+    <div class="informaltable"><table style="border-collapse: collapse; border-top: 1px solid ; border-bottom: 1px solid ; border-left: 1px solid ; border-right: 1px solid ; "><colgroup><col style="text-align: center; " /><col style="text-align: right; " /><col style="text-align: center; " /><col style="text-align: center; " /><col style="text-align: right; " /></colgroup><thead><tr><th style="text-align: center; border-right: 1px solid ; ">Birim</th><th style="text-align: right; border-right: 1px solid ; "> </th><th style="text-align: center; border-right: 1px solid ; ">Birim</th><th style="text-align: center; border-right: 1px solid ; ">Birim</th><th style="text-align: right; "> </th></tr><tr><th style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">harfi</th><th style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">Çarpan</th><th style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">ismi</th><th style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">harfi</th><th style="text-align: center; border-bottom: 1px solid ; ">Çarpan</th></tr></thead><tbody><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">' '</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">1</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; "> </td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">' '</td><td style="text-align: right; border-bottom: 1px solid ; ">1</td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">k</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>10</sup> (1024)</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">kilo</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">K</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>3</sup> (1000)</td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">m</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>20</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">mega</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">M</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>6</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">g</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>30</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">giga</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">G</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>9</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">t</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>40</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">tera</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">T</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>12</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">p</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>50</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">peta</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">P</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>15</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">e</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>60</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">egza</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">E</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>18</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">z</td><td style="text-align: right; border-right: 1px solid ; border-bottom: 1px solid ; ">2<sup>70</sup></td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">zeta</td><td style="text-align: center; border-right: 1px solid ; border-bottom: 1px solid ; ">Z</td><td style="text-align: right; border-bottom: 1px solid ; ">10<sup>21</sup></td></tr><tr><td style="text-align: center; border-right: 1px solid ; ">y</td><td style="text-align: right; border-right: 1px solid ; ">2<sup>80</sup></td><td style="text-align: center; border-right: 1px solid ; ">yotta</td><td style="text-align: center; border-right: 1px solid ; ">Y</td><td style="text-align: right; ">10<sup>24</sup></td></tr></tbody></table></div>
+   <p>
+    Öntanımlı hassasiyet 3’tür, örneğin 1024  sayısı için dönüşüm belirtimi küçük birim harfi ile <code class="code">%.3fk</code> olarak yazılır ve bunun çıktısı <code class="code">1.000k</code> olur.
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Registering-New-Conversions.html#glibc-fn-register_printf_function"><strong class="function"><code>register_printf_function</code></strong></a> işlevinin gereksinimlerinden dolayı bağımsız değişkenler hakkında bilgi döndüren bir işlev daha üretmek gerekir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-printf_size_info" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">printf_size_info</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct printf_info </code><strong class="type">*</strong><strong><code class="parameter">info</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">n</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">argtypes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev, <a href="glibc-Variable-Arguments-Output.html#glibc-fn-vfprintf"><strong class="function"><code>vfprintf</code></strong></a> gerçekleniminin beklediği şekilde, kullanılan bağımsız değişkenler hakkındaki bilgileri <em class="parameter"><code>argtypes</code></em> bağımsız değişkeninde döndürür. Biçim her zaman bir bağımsız değişken alır.
+    </p>
+   </div>
+        <p>
+    Bu iki işlev kullanılırken aşağıdakine benzer bir çağrı ile kaydedilmelidir:
+   </p>
+        <pre class="screen">register_printf_function ('B', printf_size, printf_size_info);
+</pre>
+        <p>
+    Burada <code class="code">'B'</code> belirteç karakteri büyük harf olduğundan sayıları 1000'in kuvveti olarak basacak bir işlevi kaydetmiş olduk. Buna ek olarak <code class="code">'b'</code> harfini de kullanmak için bir çağrı daha yapılmalıdır:
+   </p>
+        <pre class="screen">register_printf_function ('b', printf_size, printf_size_info);
+</pre>
+        <p>
+    Böylece 1024'ün kuvveti de basılabilecek. Burada dikkat edilirse iki işlevde dönüşüm belirteçleri farklıdır. <a href="glibc-Predefined-Printf-Handlers.html#glibc-fn-printf_size"><strong class="function"><code>printf_size</code></strong></a> işlevi sadece büyük ve küçük harfli biçim belirteçleri arasındaki farkı bilir.
+   </p>
+        <p>
+    <code class="code">'B'</code> ve <code class="code">'b'</code> kullanımı hiç de tesadüf değildir. Hatta bunları biçim belirteci olarak kullanan bazı sistemler de olduğundan bu işlevselliği kullanmak tercih edilen yoldur.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

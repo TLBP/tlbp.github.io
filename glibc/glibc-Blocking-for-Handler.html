@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.5. İşleyici Çalışırken Sinyallerin Engellenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Testing-for-Delivery.html')">Önceki</button>
+          <div class="dropdown-content">24.7.4. Sinyal Alımının Sınanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Checking-for-Pending-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">24.7.6. Bekleyen Sinyallerin Sınanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Blocking-for-Handler">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.5. İşleyici Çalışırken Sinyallerin Engellenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm128533" class="indexterm"></span>
+    Bir sinyal işleyici çalışmaya başladığında çalışmasının başka bir sinyal ile kesilmesi istenmez. İşleyici çalışmaya başlayıp, işini bitirene kadar çalışmasının ya da verisinin bozulmaması için sinyaller engellenmelidir.
+   </p>
+        <p>
+    Bir işleyici işlev bir sinyal ile çalıştırıldığında bu sinyal (ve sürecin sinyal maskesindeki diğer sinyaller) özdevinimli olarak engellenir. Örneğin, <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTSTP"><strong class="varname"><code>SIGTSTP</code></strong></a> sinyali için bir işleyici varsa, bu işleyici çalışmaya başlayınca daha sonra gelen <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTSTP"><strong class="varname"><code>SIGTSTP</code></strong></a> sinyalleri işleyicinin çalışması süresince bekletilir.
+    </p>
+        <p>
+     Bununla birlikte, ön tanımlı olarak, diğer çeşit sinyaller engellenmez ve işleyicinin çalışması sırasında gelebilir.
+    </p>
+        <p>
+     İşleyicinin çalışması sırasında gelen farklı sinyalleri engellemenin en güvenilir yolu <a href="glibc-Advanced-Signal-Handling.html#glibc-tp-sigaction"><strong class="type"><code>struct sigaction</code></strong></a> yapısının <code class="code">sa_mask</code> üyesini kullanmaktır.
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;stddef.h&gt;
+
+void catch_stop ();
+
+void
+install_handler (void)
+{
+  struct sigaction setup_action;
+  sigset_t block_mask;
+
+  sigemptyset (&amp;block_mask);
+  /* <em class="replaceable"><code>İşleyici çalışırken uçbirimden
+     kaynaklanan sinyaller engellensin.</code></em> */
+  sigaddset (&amp;block_mask, SIGINT);
+  sigaddset (&amp;block_mask, SIGQUIT);
+  setup_action.sa_handler = catch_stop;
+  setup_action.sa_mask = block_mask;
+  setup_action.sa_flags = 0;
+  sigaction (SIGTSTP, &amp;setup_action, NULL);
+}
+</pre>
+            <p>
+      Bu, diğer sinyallerin işleyiciyi kesintiye uğratmasını engellemenin daha güvenilir bir yoludur. Ancak, sinyaller işleyici içinden doğrudan engellenirse, işleyicinin başlangıcında kısa bir süre için bu engelleme etkin olmayacaktır.
+    </p>
+            <p>
+     Bu düzenek ile sürecin sinyal maskesinden sinyaller kaldırılamaz. Bununla birlikte, işleyici içinden yapılacak <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> çağrıları ile bazı sinyallerin engellenmesi ya da engellenmemesi tercih edilebilir.
+    </p>
+            <p>
+     Her durumda, işleyici işini bitirdiğinde sistem, işleyicinin çalışmaya başladığı andaki duruma geri dönecek ve bekletilen sinyaller varsa bu sinyaller gönderilecektir.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

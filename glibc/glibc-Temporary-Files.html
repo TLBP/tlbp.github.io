@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.11. Geçici Dosyalar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Making-Special-Files.html')">Önceki</button>
+          <div class="dropdown-content">14.10. Özel Dosyaların Oluşturulması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Pipes-and-FIFOs.html')">Sonraki</button>
+          <div class="dropdown-content">15. Ardışık Süreçler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Temporary-Files">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">14.11. Geçici Dosyalar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Yazılımda geçici bir dosya kullanmak gerekiyorsa, dosyayı açmak için  <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile"><strong class="function"><code>tmpfile</code></strong></a> işlevi ya da geçici dosyaya bir isim verip sonradan <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> ile açmak isteniyorsa <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> (daha iyisi: <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam_r"><strong class="function"><code>tmpnam_r</code></strong></a>) işlevi kullanılabilir.
+  </p>
+        <p>
+   <a href="glibc-Temporary-Files.html#glibc-fn-tempnam"><strong class="function"><code>tempnam</code></strong></a> işlevi <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> gibidir, ancak geçici dosyaların gideceği dizin belirtilebilir, bunun dışında dosya isimlendirmesi aynı yöntemle yapılır. Çok evreli yazılımlar açısından <a href="glibc-Temporary-Files.html#glibc-fn-tempnam"><strong class="function"><code>tempnam</code></strong></a> işlevinin evresel olması ama <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevinin duruk bir tampona gösterici döndürmesi nedeniyle evresel olmaması önemli bir farktır.
+  </p>
+        <p>
+   Bu oluşumlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir.
+   <span id="idm122341" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tmpfile" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">tmpfile</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    Bu işlev, <code class="code">"wb+"</code> kipinde (güncelleme kipi) <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> çağrısı ile açılmış gibi geçici ikil bir dosya oluşturur. Bu dosya kapatıldığında ya da yazılım sonlandığında dosya özdevinimli olarak silinir. (Bazı ISO C sistemlerinde eğer yazılım anormal şekilde sonlanırsa dosya silinmeyebilir.)
+   </p>
+   <p>
+    Bu işlev evreseldir.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev aslında <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile64"><strong class="function"><code>tmpfile64</code></strong></a> işlevidir, yani LFS arayüzü eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tmpfile64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">FILE </code><strong class="type">*</strong><strong><code class="function">tmpfile64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    Bu işlev <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile"><strong class="function"><code>tmpfile</code></strong></a> işlevine benzer, ancak dönen akım 32 bitlik makinelerde 2^31 bayttan daha büyük dosyalar için kullanılabilir.
+   </p>
+   <p>
+    Dönüş türünün hala <code class="type">FILE *</code> olduğuna, LFS arayüzüne özel bir <a href="glibc-Streams.html#glibc-tp-FILE"><strong class="type"><code>FILE</code></strong></a> türünün olmayışına dikkat edilmelidir.
+   </p>
+   <p>
+    Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile"><strong class="function"><code>tmpfile</code></strong></a> ismiyle bulunur ve eski gerçekleme tamamen LFS'ye uygun olarak değiştirilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tmpnam" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">tmpnam</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">result</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:tmpnam</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!result</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev herhangi bir mevcut dosyaya ait olmayan geçerli bir dosya ismi oluşturur ve bunu döndürür. <em class="parameter"><code>result</code></em> bağımsız değişkeni boş gösterici ise dönüş değeri dahili duruk bir dizgeye gösterici olup, işlevin daha sonraki çağrıları ile üzerine yazılabilir, dolayısıyla bu durumda işlev evresel olmaz. Aksi takdirde, <em class="parameter"><code>result</code></em> bağımsız değişkeni en az <code class="code">L_tmpnam</code> karakterlik bir diziye gösterici olmalıdır. Bu durumda sonuç bu diziye yazılacak ve işlev evresel olacaktır.
+   </p>
+   <p>
+    Önceden oluşturulmuş dosyaları silmeden defalarca <code class="code">tmpnam</code> çağrısı yapılırsa işlevin başarısız olma olasılığı vardır. Bu, geçici dosya isimlerine ayrılan uzunluğun sınırlı olması nedeniyle işlevin sadece sonlu sayıda farklı isme imkan vermesindendir. İşlev başarısız olursa boş gösterici döner.
+   </p>
+   <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+     Dosya isminin oluşturulması sırasında, başka bir süreç daha <code class="code">tmpnam</code> kullanarak aynı isimde bir dosya oluşturursa, bu güvenlik açığına yol açabilir. Gerçeklenim tahmini zor isimler üretir, fakat yine de dosyayı açarken <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneği kullanılmalıdır. Bu sorunla karşılaşmamak için en iyi yöntem <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile"><strong class="function"><code>tmpfile</code></strong></a> veya <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> kullanmaktır.
+    </p></div></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tmpnam_r" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">tmpnam_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">result</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>result</code></em> boş gösterici ise boş gösterici döndürmesi dışında <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevininin hemen hemen aynısıdır.
+   </p>
+   <p>
+    <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevinin evresel olmayan kullanımına karşı bir önlem içermesiyle bu işlevin evresel olması garanti edilmiştir.
+   </p>
+   <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+     Bu işlev de <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevinin oluşturabildiği güvenlik açığı sorunundan muzdariptir.
+    </p></div></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-L_tmpnam" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">L_tmpnam</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makronun değeri <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevi ile üretilen dosya ismini tutacak yeterli büyüklükteki dizge için en küçük uzunluğu veren bir tamsayı sabit ifadesidir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-TMP_MAX" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">TMP_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">TMP_MAX</code> makrosunun değeri <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevi ile oluşturulabilecek geçici dosya isimlerinin sayısının alt sınırıdır. <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> işlevi, çok fazla geçici dosya açıldığını belirterek başarısız olmadan en fazla bu kadar defa çağrılabilir.
+   </p>
+   <p>
+    GNU C Kütüphanesi ile çok büyük sayıda geçici dosya ismi oluşturulabilir. Eğer bu isimlerle gerçekten dosya oluşturmaya çalışılırsa daha isimler tükenmeden disk üzerinde yer kalmayabilir. Diğer sistemlerde sabit ve daha az sayıda geçici dosya ismi oluşturulabilir ve bu sınır asla <span class="command"><strong>25</strong></span>'i aşmaz.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tempnam" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">tempnam</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">dir</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">prefix</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev tamamen eşsiz geçici dosya ismi oluşturur. <em class="parameter"><code>prefix</code></em> boş gösterici değilse, bu dizgenin ilk beş karakteri dosya isminde önek olarak kullanılır. İşlevin dönüş değeri <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile ayrılmış bir dizgedir. Dolayısıyla tahsis edilen alan, artık kullanılmayacaksa <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> ile serbest bırakılmalıdır.
+   </p>
+   <p>
+    Dönen dizge özdevimli olarak ayrıldığından bu işlev evreseldir.
+   </p>
+   <p>
+    Geçici dosya isminin dizin öneki aşağıdaki listedeki maddeler sırayla uygulanarak saptanır. Dizin mevcut ve yazılabilir olmalıdır.
+    <span id="glibc-vr-TMPDIR" class="indexterm"></span>
+   </p>
+   <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+      Eğer tanımlıysa, <a href="glibc-Temporary-Files.html#glibc-vr-TMPDIR"><strong class="varname"><code>TMPDIR</code></strong></a> ortam değişkeni. Güvenlik kaygılarıyla bu sadece yazılım SUID ya da SGID etkin değilse uygulanır.
+     </p></li><li class="listitem"><p>
+      Boş gösterici değilse, <em class="parameter"><code>dir</code></em> bağımsız değişkeni.
+     </p></li><li class="listitem"><p>
+      <a href="glibc-Temporary-Files.html#glibc-vr-P_tmpdir"><strong class="varname"><code>P_tmpdir</code></strong></a> makrosunun değeri.
+     </p></li><li class="listitem"><p>
+      <code class="filename">/tmp</code> dizini.
+     </p></li></ul></div>
+   <p>
+    Bu işlev SVID uyumluluğu için tanımlanmıştır.
+   </p>
+   <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+     Dosya isminin oluşturulması sırasında, başka bir süreç daha <a href="glibc-Temporary-Files.html#glibc-fn-tmpnam"><strong class="function"><code>tmpnam</code></strong></a> kullanarak aynı isimde bir dosya oluşturursa, bu bir güvenlik açığına yol açabilir. Gerçeklenim tahmini zor isimler üretir, fakat yine de dosyayı açarken <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneği kullanılmalıdır. Bu sorunla karşılaşmamak için en iyi yöntem <a href="glibc-Temporary-Files.html#glibc-fn-tmpfile"><strong class="function"><code>tmpfile</code></strong></a> veya <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> kullanmaktır.
+    </p></div></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-P_tmpdir" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">P_tmpdir</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro geçici dosyalar için ön tanımlı dizin ismidir.
+   </p>
+  </div>
+        <p>
+   Eski Unix sistemleri buraya kadar bahsedilen işlevlere sahip değildi. Bunların yerine <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> ve <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> işlevleri kullanılırdı.  Bu işlevlerin her ikisi de aktarılan dosya ismi şablon dizgesini değiştirerek çalışır. Bu dizgenin son altı karakteri <code class="literal">XXXXXX</code> olmalıdır.  Bu altı <code class="literal">X</code> dizgenin eşsiz olmasını sağlamak üzere altı karakterle değiştirilir. Kullanılan şablon dizgesi şuna benzer:
+  </p>
+        <pre class="literallayout monospaced"><code class="code">/tmp/<em class="replaceable"><code>önek</code></em>XXXXXX</code>
+</pre>
+        <p>
+   Burada <em class="replaceable"><code>önek</code></em> yazılım tarafından belirlenen eşsiz bir dizgedir.
+  </p>
+        <div class="admon note">
+          <h3 class="admon-title">Bilginize</h3>
+          <div class="admon-contents">
+            <p>
+    <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> ve <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> işlevleri şablon dizgesini değiştirdiklerinden dolayı, dizge bir sabit olarak aktarılmamalıdır. Dizge sabitler normalde salt-okunur saklama alanına sahiptir. Bu bakımdan <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> ve <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> işlevleri dizge sabitini değiştirmeye çalışırsa yazılım çökebilir.
+   </p>
+          </div>
+        </div>
+        <p>
+   <span id="idm122571" class="indexterm"></span>
+   Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mktemp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">mktemp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">mktemp</code> işlevi, yukarıda açıklandığı gibi <em class="parameter"><code>template</code></em> dizgesini değiştirerek eşsiz bir dosya ismi üretir. İşlev başarılı olduğunda değiştirilen <em class="parameter"><code>template</code></em> ile döner. Eğer işlev eşsiz bir isim bulamazsa <em class="parameter"><code>template</code></em> dizgesini boş dizge haline getirip döner. Eğer <em class="parameter"><code>template</code></em> dizgesinin son altı karakteri <code class="literal">XXXXXX</code> değilse işlev boş gösterici döndürür.
+   </p>
+   <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+     Dosya isminin oluşturulması sırasında, başka bir süreç daha <code class="code">mktemp</code> kullanarak aynı isimde bir dosya oluşturursa, bu güvenlik açığına yol açabilir. Gerçeklenim tahmini zor isimler üretir, fakat yine de dosyayı açarken <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneği kullanılmalıdır. Bu sorunla karşılaşmamak için en iyi yöntem <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> kullanmaktır.
+    </p></div></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mkstemp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">mkstemp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">mkstemp</code> işlevi <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> işlevinin yaptığı gibi eşsiz dosya ismi oluşturur, fakat ek olarak dosyayı <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> (<a class="xref" href="glibc-Opening-and-Closing-Files.html" title="13.1. Dosyaların Açılması ve Kapatılması"><em>Dosyaların Açılması ve Kapatılması</em></a>) ile açar.  İşlev başarılı olursa, <em class="parameter"><code>template</code></em> dizgesini yerinde değiştirir ve dosyayı okuma ve yazma için açarak bir dosya tanıtıcı ile döner. Eğer işlev eşsiz dosya ismi oluşturamazsa, <code class="code">-1</code> ile döner. <em class="parameter"><code>template</code></em> dizgesi <code class="literal">XXXXXX</code> ile bitmiyorsa, işlev <code class="code">-1</code> ile döner ve <em class="parameter"><code>template</code></em> dizgesini değiştirmez.
+   </p>
+   <p>
+    Dosya <code class="code">0600</code> kipi ile açılır. Eğer dosyaya diğer kullanıcılarında erişebilmesi isteniyorsa bu kipin değiştirilmesi gerekir.
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> işlevinin aksine, <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> işlevi geçici dosya oluşturmaya çalışan başka yazılımlarla çatışmadan eşsiz bir dosya oluşturmayı garanti eder. Bu, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevinin <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneği ile kullanmasından dolayıdır (bu seçenek sayesinde, dosya oluşturulmak istenirse ve böyle bir dosya mevcutsa bir hata alınır).
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mkdtemp" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">mkdtemp</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">mkdtemp</code> işlevi, ismi eşsiz bir dizin oluşturur. Başarılı olursa dizinin ismini <em class="parameter"><code>template</code></em> bağımsız değişkenine yazar ve <em class="parameter"><code>template</code></em> ile döner. <a href="glibc-Temporary-Files.html#glibc-fn-mktemp"><strong class="function"><code>mktemp</code></strong></a> ve <a href="glibc-Temporary-Files.html#glibc-fn-mkstemp"><strong class="function"><code>mkstemp</code></strong></a> işlevindeki gibi <em class="parameter"><code>template</code></em> dizgesi <code class="literal">XXXXXX</code> ile bitmelidir.
+   </p>
+   <p>
+    <code class="code">mkdtemp</code> işlevi eşsiz isimli dizin oluşturamazsa, boş gösterici ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine ilgili hata durumunu atar.  <em class="parameter"><code>template</code></em> dizgesi <code class="literal">XXXXXX</code> ile bitmiyorsa, <code class="code">mkdtemp</code> işlevi <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ile döner ve <em class="parameter"><code>template</code></em> dizgesini değiştirmez.  Bu durumda <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <a href="glibc-Error-Codes.html#glibc-vr-EINVAL"><strong class="varname"><code>EINVAL</code></strong></a> atanır.
+   </p>
+   <p>
+    Dizin <code class="code">0700</code> kipiyle oluşturulur.
+   </p>
+  </div>
+        <p>
+   <a href="glibc-Temporary-Files.html#glibc-fn-mkdtemp"><strong class="function"><code>mkdtemp</code></strong></a> işlevi geçici dizin oluşturmaya çalışan başka yazılımlarla çatışmadan eşsiz bir dizin oluşturmayı garanti eder. Bu, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevini <a href="glibc-Open-time-Flags.html#glibc-vr-O_EXCL"><strong class="varname"><code>O_EXCL</code></strong></a> seçeneği ile kullanmasından dolayıdır. Bkz. <a class="xref" href="glibc-Creating-Directories.html" title="14.8. Dizinlerin Oluşturulması"><em>Dizinlerin Oluşturulması</em></a>.
+  </p>
+        <p>
+   <a href="glibc-Temporary-Files.html#glibc-fn-mkdtemp"><strong class="function"><code>mkdtemp</code></strong></a> işlevi OpenBSD'den gelir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

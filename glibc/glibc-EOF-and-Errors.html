@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.15. Dosya Sonu ve Hatalar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Variable-Arguments-Input.html')">Önceki</button>
+          <div class="dropdown-content">12.14.9. Değişken Bağımsız Değişkenli Girdi İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Recovery.html')">Sonraki</button>
+          <div class="dropdown-content">12.16. Hatalardan Kurtulma</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-EOF-and-Errors">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.15. Dosya Sonu ve Hatalar</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm109524" class="indexterm"></span>
+   Bu kısımda açıklanan işlevlerin birçoğu işlemin başarısızlıkla tamamlandığını belirten <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> makrosunun değerini döndürür. <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> hem dosya sonunu hem de birtakım hataların olduğunu belirttiğinden, dosya sonu için <a href="glibc-EOF-and-Errors.html#glibc-fn-feof"><strong class="function"><code>feof</code></strong></a>, hatalar için de <a href="glibc-EOF-and-Errors.html#glibc-fn-ferror"><strong class="function"><code>ferror</code></strong></a> işlevleri sağlanmıştır. Bunları kullanarak dosya sonu ile ilgili hatalar ayrı ayrı elde edilebilir. Bu işlevler akım nesnesinin dahili durumunun bir parçası olan durum belirteçlerine bakar, bu belirteçler akım üzerindeki önceki G/Ç işlemi tarafından uygun koşul saptanmışsa etkin olur.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-EOF" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">EOF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+   <p>
+    Bu makro dosya sonu veya bazı hata durumlarını gösteren ve dar yönlenimli akım işlevleri tarafından döndürülen bir tamsayı değerdir. Diğer kütüphanelerde değeri herhangi bir negatif değer olabilirse de GNU C Kütüphanesinde değeri <code class="code">-1</code>’dir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">WEOF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+   <p>
+    Bu makro dosya sonu veya bazı hata durumlarını gösteren ve geniş yönlenimli akım işlevleri tarafından döndürülen bir tamsayı değerdir. Diğer kütüphanelerde değeri herhangi bir negatif değer olabilirse de GNU C Kütüphanesinde değeri <code class="code">-1</code>’dir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-feof" class="indexterm"></span>
+   <span id="glibc-cp-feof" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">feof</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">feof</code> işlevi, <em class="parameter"><code>stream</code></em> akımında sadece ve sadece dosya sonu belirteci etkin ise sıfırdan farklı bir değerle döner.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-feof_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-feof_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">feof_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">feof_unlocked</code> işlevi akımı dolaylı olarak kilitlememesi dışında <a href="glibc-EOF-and-Errors.html#glibc-fn-feof"><strong class="function"><code>feof</code></strong></a> işlevi ile aynıdır.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-ferror" class="indexterm"></span>
+   <span id="glibc-cp-ferror" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ferror</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+   </div>
+   <p>
+    <code class="code">ferror</code> işlevi, <em class="parameter"><code>stream</code></em> akımında sadece ve sadece hata belirteci etkin ise sıfırdan farklı bir değerle döner. Hata belirteci, akımda bir önceki işlem sırasında bir hatanın oluştuğunu gösterir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-ferror_unlocked" class="indexterm"></span>
+   <span id="glibc-cp-ferror_unlocked" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ferror_unlocked</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">ferror_unlocked</code> işlevi akımı dolaylı olarak kilitlememesi dışında <a href="glibc-EOF-and-Errors.html#glibc-fn-ferror"><strong class="function"><code>ferror</code></strong></a> işlevi ile aynıdır.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <p>
+   Akım ile ilişkili hata belirtecine ek olarak, akımlar üzerinde işlem yapan işlevler, dosya tanıtıcılar üzerinde düşük seviyeli işlemler yapan eşdeğerleri ile aynı şekilde hata durumunu <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atar. Örneğin, <a href="glibc-Simple-Output.html#glibc-fn-fputc"><strong class="function"><code>fputc</code></strong></a>, <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> gibi bir akıma çıktılama yapan tüm işlevler temelde <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> üzerinden gerçeklendiklerinden bunlar için <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevi ile ilgili <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hataları anlamlı olmaktadır. Dosya tanıtıcı seviyesi G/Ç işlemleri ile ilgili daha fazla bilgi edinmek için bkz. <a class="xref" href="glibc-Low-Level-I-O.html" title="13. Düşük Seviyeli Girdi ve Çıktı">Düşük Seviyeli Girdi ve Çıktı</a>.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

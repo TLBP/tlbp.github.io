@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.5. Sinyallerle Kesilen İlkeller</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Atomic-Data-Access.html')">Önceki</button>
+          <div class="dropdown-content">24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Generating-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">24.6. Sinyallerin Üretilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Interrupted-Primitives">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">24.5. Sinyallerle Kesilen İlkeller</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm127825" class="indexterm"></span>
+   <span id="idm127828" class="indexterm"></span>
+   <span id="idm127830" class="indexterm"></span>
+   <span id="idm127832" class="indexterm"></span>
+   <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> benzeri bir G/Ç ilkeli bir G/Ç aygıtını beklerken bir sinyal alabilir ve bu sinyal işleme sokulabilir. Sinyalin işleyicisi işlemlerini bitirdikten sonra sistem bir sorunla başbaşa kalır: Şimdi ne olacak?
+  </p>
+        <p>
+   POSIX bir yaklaşım belirtir: bir ilkel başarısız olduğunda ne yapacaksan beklemeden yap. Bu çeşit başarısızlıklar için hata kodu <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a>'dir. Genellikle, sinyal işleyiciler kullanan POSIX uygulamalarının bu hatayı döndüren her işlev çağrısının dönüş durumuna mutlaka bakması gerekir. Çoğunlukla yazılımcılar bu genel hata kaynağına bakmayı unutur.
+  </p>
+        <p>
+   GNU C Kütüphanesi, geçici bir başarısızlığın ardından çağrının yinelenmesini sağlayan oldukça kullanışlı bir yöntem olan <a href="glibc-Interrupted-Primitives.html#glibc-fn-TEMP_FAILURE_RETRY"><strong class="varname"><code>TEMP_FAILURE_RETRY</code></strong></a> makrosunu içerir:
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-TEMP_FAILURE_RETRY" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">TEMP_FAILURE_RETRY</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><strong><code class="parameter">expression</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <p>
+    Bu makro <em class="parameter"><code>expression</code></em> ifadesini bir kere değerlendirir ve <code class="type">long int</code> türünde döner. Eğer değer <code class="code">-1</code> ise bu bir başarısızlık gösterir ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır. Eğer başarısız olursa ve <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> hata kodunu raporlarsa, <code class="code">TEMP_FAILURE_RETRY</code> onu tekrar değerlendirmeye tabi tutar ve bu işlem geçici başarısızlık durumu ortadan kalkana dek yinelenir.
+   </p>
+   <p>
+    <code class="code">TEMP_FAILURE_RETRY</code> makrosunun dönüş değeri <em class="parameter"><code>expression</code></em> ifadesininin sonucudur.
+   </p>
+  </div>
+        <p>
+   BSD, <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> hata kodunu hiç göstermez ve daha iyi bir yaklaşım yapar: kesintiye uğratılan ilkeli başarısız olarak döndürmez ve hep yeniden başlatır. Bu yaklaşım benimsenirse <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> ile ilgilenmek gerekmez.
+  </p>
+        <p>
+   GNU C Kütüphanesindeki yaklaşım seçilirse, bir sinyal işleyici <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> ile kurulabilir ve işleyicinin nasıl davranacağı belirtilebilir. <a href="glibc-Flags-for-Sigaction.html#glibc-vr-SA_RESTART"><strong class="varname"><code>SA_RESTART</code></strong></a> seçeneğini belirtilirse, işleyici döndükten sonra ilkel kaldığı yerden işleme devam eder, belirtilmezse işleyici <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> hatasının dönmesine sebep olur. Bkz. <a class="xref" href="glibc-Flags-for-Sigaction.html" title="24.3.5. sigaction Seçenekleri"><code class="code">sigaction</code> Seçenekleri</a>.
+  </p>
+        <p>
+   Seçimi belirtmenin diğer bir yolu da <a href="glibc-BSD-Signal-Handling.html#glibc-fn-siginterrupt"><strong class="function"><code>siginterrupt</code></strong></a> işlevidir. Bkz. ???.
+  </p>
+        <p>
+   Bir sinyal işleyicinin ne yapacağını <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> veya <a href="glibc-BSD-Signal-Handling.html#glibc-fn-siginterrupt"><strong class="function"><code>siginterrupt</code></strong></a> ile belirtilmezse, ön tanımlı seçim kullanılır. GNU C Kütüphanesinde ön tanımlı seçim yazılımcının tanımladığı sınama makrolarına bağlıdır. <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevini çağırmadan önce <code class="varname">_BSD_SOURCE</code> veya <code class="varname">_GNU_SOURCE</code> makrosu tanımlanırsa, ön tanımlı davranış ilkelin işlemi kaldığı yerden devam ettirmesidir; aksi takdirde, ön tanımlı davranış <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> ile başarısızlık olacaktır. (Kütüphane <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin diğer sürümlerini de içerir ve özellik sınama makroları gerçekte hangisinin kullanılacağının saptanmasını sağlar.) Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+  </p>
+        <p>
+   Bu kısımda bahsedilen her ilkel, hata kodu olarak <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> döndürebilen ilkellerden biridir.
+  </p>
+        <p>
+   Seçimden etkilenmeyen ve işlemin kaldığı yerden devamına konu olmayan tek bir durum vardır: <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> gibi bir veri aktarım işlevi verinin bir parçasını aktardıktan sonra bir sinyal aldığında. Bu durumda işlev zaten, kısmi başarıyı belirtmek üzere aktarılan baytların sayısı ile dönecektir.
+  </p>
+        <p>
+   Bunun en başta kayıt yönlenimli aygıtlarda (veri katarı soketleri gibi; bkz. ???) beklenmeyen davranışlara sebep olduğu görülür; bir <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işleminin ikiye bölünmesi iki okuma ya da yazmaya sebep olur. Aslında, bir sorun yoktur, çünkü böyle aygıtlarda bir kısmi aktarım sonrası kesme oluşamaz; bunlar bir kaydın tümünü veri aktarımı bir kez başladı mı beklemeksizin tek bir seferde aktarır.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

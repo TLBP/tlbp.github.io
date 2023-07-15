@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.14.5. Dizgeler için Girdi Dönüşümleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Numeric-Input-Conversions.html')">Önceki</button>
+          <div class="dropdown-content">12.14.4. Sayısal Girdi Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Input.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Dynamic-String-Input.html')">Sonraki</button>
+          <div class="dropdown-content">12.14.6. Dizge Dönüşümlerinde Özdevimli Tahsis</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-String-Input-Conversions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.14.5. Dizgeler için Girdi Dönüşümleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümde dizge ve karakterlerin okunması için ‘<code class="code">%s</code>’, ‘<code class="code">%S</code>’, ‘<code class="code">%[</code>’, ‘<code class="code">%c</code>’ ve ‘<code class="code">%C</code>’ girdi dönüşüm belirteçleri açıklanmıştır.
+   </p>
+        <p>
+    Bu dönüşümlerden girdilerin alınması için iki seçenek vardır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Girdiyi saklamak için bir tampon sağlanmalıdır. Bu ön tanımlıdır. Bu tampona ilişkin bağımsız değişken <code class="type">char *</code> veya <code class="type">wchar_t *</code> türünde olmalıdır (‘<code class="code">l</code>’ değiştiricisi varsa ikincisi olmalı).
+     </p>
+              <div class="admon warning">
+                <h3 class="admon-title">Uyarı</h3>
+                <div class="admon-contents">
+                  <p>
+       Sağlam bir yazılım için girdi (sonlandırıcı boş karakter dahil), sağlanan tamponun boyunu aşmamalıdır. Genelde, bunu yapmanın tek yolu, en büyük alan genişliğini tampon boyunun bir eksiği olarak vermektir. <em class="wordasword">Bir tampon oluşturuluyorsa, taşmalardan kaçınmak için uzunluğu daima en büyük alan genişliğine eşit uzunlukta seçilmelidir. </em>
+      </p>
+                </div>
+              </div>
+            </li>
+            <li class="listitem">
+              <p>
+      Ne kadar büyüklükte bir tampon gerektiği <span class="command"><strong>scanf</strong></span> işlevine ‘<code class="code">a</code>’ im karakteri belirtilerek sorulabilir. Bu bir GNU oluşumudur. Tampon adresi için bağımsız değişken <code class="type">char **</code> türünde olmalıdır. Bkz. <a class="xref" href="glibc-Dynamic-String-Input.html" title="12.14.6. Dizge Dönüşümlerinde Özdevimli Tahsis">Dizge Dönüşümlerinde Özdevimli Tahsis</a>.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    ‘<code class="code">%c</code>’ dönüşümü en basitidir: Daima sabit sayıda karakterle eşleşir. En büyük alan genişliği kaç karakter okunacağını söyler; en büyük alan genişliği belirtilmezse ön tanımlı olarak 1 değeri kullanılır. Bu dönüşüm okuduğu metnin sonuna boş karakter eklemez. Ayrıca metnin içindeki boşluk karakterlerini de atlar. Özellikle sonraki <em class="parameter"><code>n</code></em> karakteri okur, bu kadar karakter bulamazsa başarısız olur. ‘<code class="code">%c</code>’ dönüşümü daima sabit uzunlukta okuma yaptığından taşmadan kaçınmak için tampon yeterli uzunlukta oluşturulmalıdır.
+   </p>
+        <p>
+    ‘<code class="code">%lc</code>’ veya ‘<code class="code">%C</code>’ dönüşümleri akımın, harici bayt akımından açıldığı sırada saptanan dönüşüm kullanılarak dönüştürülen geniş karakterlerin saklanmasını sağlar. Ortamdan okunan baytların sayısı <code class="varname">MB_CUR_LEN</code> * <em class="parameter"><code>n</code></em> ile sınırlıdır ve çıktı dizgesinde saklanan en çok <em class="parameter"><code>n</code></em> geniş karakter alınır.
+   </p>
+        <p>
+    ‘<code class="code">%s</code>’ dönüşümü boşluk karakterleri dışındaki karakterlerden oluşan bir dizge ile eşleşir. Dahili boşlukları atlar ve iptal eder, fakat biraz okuma yaptıktan sonra çok fazla boşluk karakterine rastlarsa durur. Okuduğu metnin sonuna boş karakter ekler.
+   </p>
+        <p>
+    Örneğin, okunacak girdi,
+   </p>
+        <pre class="literallayout monospaced">hello, world
+</pre>
+        <p>
+    ise, ‘<code class="code">%10c</code>’ dönüşümü <code class="literal">" hello, wo"</code> üretir. Aynı girdi için ‘<code class="code">%10s</code>’ dönüşümü kullanılırsa, <code class="literal">"hello,"</code> üretilir.
+   </p>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+     ‘<code class="code">%s</code>’ dönüşümü için bir alan genişliği belirtilirse, okunan karakter sayısı boşluk karakterine rastlanan yer ile sınırlıdır. Bu hemen hemen kaçınılmaz olarak geçersiz bir girdinin yazılımınızın çökmesine sebep olacağı anlamına gelir ki bu bir yazılım hatasıdır.
+    </p>
+          </div>
+        </div>
+        <p>
+    ‘<code class="code">%ls</code>’ ve ‘<code class="code">%S</code>’ dönüşümleri ‘<code class="code">%s</code>’ gibi işlenir, bir farkla, dış bayt dizisi, kendi karakter kodlaması ile geniş karakterlere dönüşüm için akım ile ilişkili dönüşüm kullanılır. Biçim ile birlikte genişlik veya hassasiyet belirtilirse, bunlar geniş karakterleri ölçtüğünden, akımdan kaç bayt okunacağı doğrudan saptanmaz. Fakat genişlik değeri ile <a href="glibc-Selecting-the-Conversion.html#glibc-vr-MB_CUR_MAX"><strong class="varname"><code>MB_CUR_MAX</code></strong></a> çarpılarak üst sınır hesaplanabilir.
+   </p>
+        <p>
+    Seçime bağlı olarak karakterlerin okunmasının belli kurallara göre olması istenirse ‘<code class="code">%[</code>’ dönüşümü kullanılmalıdır. '<code class="code">[</code>' ve '<code class="code">]</code>' ayraçlarının arası düzenli ifadelerdeki sözdizimi kullanılarak yazılabilir. Özel durumlar olarak:
+   </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+      '<code class="code">]</code>' karakteri ifadenin ilk karakteri olarak belirtilebilir.
+    </li>
+            <li class="member">
+      Gömülü '<code class="code">-</code>' karakteri (ifadenin ilk veya son karakteri olamaz) bir karakter aralığını belirtmek için kullanılabilir.
+    </li>
+            <li class="member">
+      '<code class="code">^</code>' karakteri '<code class="code">[</code>' ayracından sonra kullanılırsa, girdi karakterleri burada listelenen karakterlerin dışındakilerdir.
+    </li>
+          </ul>
+        </div>
+        <p>
+    ‘<code class="code">%[</code>’ dönüşümü dahili boşluk karakterlerini atlamaz.
+   </p>
+        <p>
+    Aşağıda bazı ‘<code class="code">%[</code>’ dönüşüm örnekleri ve anlamları vardır:
+   </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">'<code class="code">%25[1234567890]</code>'</span>
+            </dt>
+            <dd>
+              <p>
+       25 basamağa kadar bir sayı ile eşleşir.
+      </p>
+            </dd>
+            <dt>
+              <span class="term">'<code class="code">%25[][]</code>'</span>
+            </dt>
+            <dd>
+              <p>
+       25 köşeli ayraca kadar bir dizge ile eşleşir.
+      </p>
+            </dd>
+            <dt>
+              <span class="term">'<code class="code">%25[^ \f\n\r\t\v]</code>'</span>
+            </dt>
+            <dd>
+              <p>
+       Hiçbir boşluk karakteri içermeyen 25 karaktere kadar bir dizge ile eşleşir. Bu ‘<code class="code">%s</code>' dönüşümünden tamamen farklıdır, çünkü girdi, boşluk karakterlerinden biri ile başlarsa bu ‘<code class="code">%[</code>’ dönüşümü bir eşleşme hatası bildirir ama ‘<code class="code">%s</code>' dönüşümü boşluk karakterlerini basitçe iptal eder.
+      </p>
+            </dd>
+            <dt>
+              <span class="term">'<code class="code">%25[a-z]</code>'</span>
+            </dt>
+            <dd>
+              <p>
+       25 karaktere kadar küçük harflerle eşleşir.
+      </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+    ‘<code class="code">%c</code>' ve ‘<code class="code">%s</code>' gibi ‘<code class="code">%[</code>’ dönüşümü de ‘<code class="code">l</code>' tür değiştiricisi varsa geniş karakterleri üretebilir. Yukarıda ‘<code class="code">%ls</code>' ile ilgili bahsedilen herşey ‘<code class="code">%l[</code>’ için de geçerlidir.
+   </p>
+        <div class="admon important">
+          <h3 class="admon-title">Bir hatırlatma daha</h3>
+          <div class="admon-contents">
+            <p>
+     En büyük genişlik belirtilmezse ya da ‘<code class="code">a</code>' imi kullanılmazsa ‘<code class="code">%s</code>' ve ‘<code class="code">%[</code>’ dönüşümleri <em class="wordasword">tehlikelidir</em>, çünkü girdi çok uzun olursa tampon taşar. Tamponun ne kadar uzunlukta olduğunun önemi yoktur, bir kullanıcı tamponu taşıracak kadar girdi yapabilir. İyi geliştirilmiş bir yazılım geçersiz bir girdiyi kapsamlı bir hata iletisi ile bildirir, çökerek değil.
+    </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

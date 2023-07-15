@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.7. Bir Sinyalin Eyleminin Sonradan Hatırlanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Checking-for-Pending-Signals.html')">Önceki</button>
+          <div class="dropdown-content">24.7.6. Bekleyen Sinyallerin Sınanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Waiting-for-a-Signal.html')">Sonraki</button>
+          <div class="dropdown-content">24.8. Sinyalin Beklenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Remembering-a-Signal">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.7. Bir Sinyalin Eyleminin Sonradan Hatırlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir sinyalin engellenmesi, kütüphane oluşumlarını kullanmak yerine daha sonra sinyalin engellenmediği bir sırada sınanacak bir değişkene sinyal işleyici içinde bir değer atanmak suretiyle yapılabilir.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">/* <em class="replaceable"><code>Bu değişkenin değeri sıfırdan farklıysa,
+   o sinyal bekletiliyor demektir.</code></em> */
+volatile sig_atomic_t signal_pending;
+
+/* <em class="replaceable"><code>Sinyal geldiğinde işleme sokulmayacaksa
+   bu değişkenin değeri sıfırdan farklı olacaktır.</code></em> */
+volatile sig_atomic_t defer_signal;
+
+void
+handler (int signum)
+{
+  if (defer_signal)
+    signal_pending = signum;
+  else
+    … /* <em class="replaceable"><code>"Gerçekten" sinyal yakalanmış.</code></em> */
+}
+
+…
+
+void
+update_mumble (int frob)
+{
+  /* <em class="replaceable"><code>Sinyallerin hemen etki etmesini engelle.</code></em> */
+  defer_signal++;
+  /* <em class="replaceable"><code>Şimdi kesmelerden korkmadan mumble'ı güncelle.</code></em> */
+  mumble.a = 1;
+  mumble.b = hack ();
+  mumble.c = frob;
+  /* <em class="replaceable"><code>mumble güncellendi. Gelen sinyali işleme sok.</code></em> */
+  defer_signal--;
+  if (defer_signal == 0 &amp;&amp; signal_pending != 0)
+    raise (signal_pending);
+}
+</pre>
+            <p>
+    Belli bir sinyal geldiğinde <em class="replaceable"><code>signal_pending</code></em> içinde nasıl saklandığına dikkat edilmelidir. Bu yolla, aynı düzenek kullanılarak farklı türdeki sinyaller yakalanabilir.
+   </p>
+            <p>
+    Kodun önemli yerlerinde <em class="replaceable"><code>defer_signal</code></em> değişkeninin değeri önce artırılıp sonra azaltılıyor; böylece <em class="replaceable"><code>signal_pending</code></em> sıfırdan farklıyken <code class="code">update_mumble</code> çağrıldığında sadece <code class="code">update_mumble</code> içinde değil ayrıca çağrıldığı işlev içinde de ertelenecektir. Bu nedenle, <em class="replaceable"><code>defer_signal</code></em> sıfırdan farklı olduğunda <em class="replaceable"><code>signal_pending</code></em>'e bakılmıyor.
+   </p>
+            <p>
+    <em class="replaceable"><code>defer_signal</code></em>'in artırılması ve eksiltilmesi bir işlemci komutundan fazlasını gerektirir; bu nedenle işlem tamamlanmamışken sinyal alınması olasılığı vardır. Fakat bu herhangi bir soruna yol açmaz. Arttırma ya da eksiltmenin başlamasından hemen önce bir sinyal gelirse bile çalışma bozulmayacaktır.
+   </p>
+            <p>
+    <em class="replaceable"><code>defer_signal</code></em>'in <em class="replaceable"><code>signal_pending</code></em> sınanmadan önce artırılması ölümcül öneme sahiptir. Bu çözümü zor bir yazılım hatasından kaçınmayı sağlar. Eğer bu işlemler aşağıdaki gibi farklı bir sırada yapılmış olsaydı,
+   </p>
+            <pre class="screen">if (defer_signal == 1 &amp;&amp; signal_pending != 0)
+  raise (signal_pending);
+defer_signal--;
+</pre>
+            <p>
+     <code class="code">if</code> deyimi ile artırım arasında gelen bir sinyal sonsuza kadar kaybolurdu. <em class="replaceable"><code>defer_signal</code></em>'e sadece sinyal işleyici değer atasa ve yazılım bu değişkene baksa işleyici bu değişkene bakmazdı.
+    </p>
+            <p>
+     <span id="idm128642" class="indexterm"></span>
+     Bu çeşit yazılım hatalarına <em class="wordasword">zamanlama hataları</em> adı verilir. Yaygın olarak oluştukları halde yeniden üretilmeleri imkansız olduğundan özellikle kötü hatalardır. Bu hata üretilemeyeceğinden bir hata ayıklayıcı ile bu hatalar bulunamaz. Bu nedenle onlardan kaçınmak için özellikle büyük dikkat sarfedilmelidir.
+    </p>
+            <p>
+     (<em class="replaceable"><code>defer_signal</code></em> değişkeni sayaç olarak kullanılıyorsa, kodu bu şekilde yazmak daha kolay gelebilir. Normalde bu değişkenin <em class="replaceable"><code>signal_pending</code></em> değişkeni ile birlikte sınanması gerekir. Her durumda bu sayacı sıfır değeri için sınamak, herhangi bir değer için sınamaktan daha basittir. Eğer <em class="replaceable"><code>defer_signal</code></em> değişkeni sayaç olarak kullanılmıyor ve sadece sıfır veya bir değerini alabiliyorsa, sınama sırası sınama işleminin karmaşıklığını pek etkilemez. Bu da <em class="replaceable"><code>defer_signal</code></em> değişkenini sayaç olarak kullanmanın bir diğer getirisidir: Kodu yanlış sırada yazmak suretiyle bulunması zor olacak bir hata yapma şansı azalır.)
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

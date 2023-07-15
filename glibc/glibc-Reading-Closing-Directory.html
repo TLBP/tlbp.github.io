@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.2.3. Dizin Akımlarının Okunması ve Kapatılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Opening-a-Directory.html')">Önceki</button>
+          <div class="dropdown-content">14.2.2. Dizin Akımlarının Açılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Simple-Directory-Lister.html')">Sonraki</button>
+          <div class="dropdown-content">14.2.4. Bir Dizinin İçeriğini Listeleyen Bir Örnek</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Reading-Closing-Directory">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.2.3. Dizin Akımlarının Okunması ve Kapatılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm118168" class="indexterm"></span>
+    Bu bölümde bir dizin akımından girdilerin nasıl okunacağı ve akımla işlemler bittiğinde nasıl kapatılacağı anlatılacaktır. Bu bölümdeki tüm simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-readdir" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct dirent </code><strong class="type">*</strong><strong><code class="function">readdir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev dizindeki sonraki girdiyi okur. Normalde dosya hakkında bilgi içeren yapıya gösterici ile döner. Bu yapı duruk olarak ayrıldığından işlevin sonraki çağrıları üzerine yazabilir.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+      Bazı sistemlerde <code class="code">readdir</code> işlevi '<code class="filename">.</code>' ve '<code class="filename">..</code>' için, bunlar her dizinde daima geçerli dosya isimleri oldukları halde, girdi döndürmez. Bkz. <a class="xref" href="glibc-File-Names.html#glibc-File-Name-Resolution" title="11.2.2. Dosya İsmi Çözümlemesi">Dosya İsmi Çözümlemesi</a>.
+     </p></div></div>
+    <p>
+     Eğer dizinde başka girdi kalmamışsa ya da bir hata saptanmışsa işlev boş gösterici ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EBADF</code></dt><dd><p>
+      <em class="parameter"><code>dirstream</code></em> bağımsız değişkeni geçersiz.
+     </p></dd></dl>
+    <p>
+     Dizin sonu durumunu ile bir hatayı ayırt etmek için, <code class="code">readdir</code> çağrılmadan önce <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine <code class="code">0</code> atanmalıdır. Sonsuz döngüye girmemek için ilk hatadan sonra dizinin okunması bırakılmalıdır.
+    </p>
+    <div class="admon caution"><h3 class="admon-title">Dikkat</h3><div class="admon-contents"><p>
+      <code class="code">readdir</code> tarafından döndürülen gösterici, <a href="glibc-Opening-a-Directory.html#glibc-tp-DIR"><strong class="type"><code>DIR</code></strong></a> nesnesi içindeki bir tampona göstericidir. Bu tampondaki verilerin üzerine bir sonraki <code class="code">readdir</code> çağrısı tarafından yazılacaktır. Örneğin,  <a href="glibc-Directory-Entries.html#glibc-tp-dirent"><strong class="type"><code>struct dirent</code></strong></a> yapısının <code class="code">d_name</code> alanının daha sonra kullanmak üzere saklanması gerekebilir.
+     </p><p>
+      Bu nedenle, <a href="glibc-Opening-a-Directory.html#glibc-tp-DIR"><strong class="type"><code>DIR</code></strong></a> nesnesini birden çok evre arasında paylaşmak, başka bir evre önceki aramadan gelen verileri kullanırken hiçbir evrenin <code class="code">readdir</code> çağrısı yapmamasını sağlamak için kilitler kullanılmadıkça, güvenli değildir. GNU C Kütüphanesinde, her evre kendi <a href="glibc-Opening-a-Directory.html#glibc-tp-DIR"><strong class="type"><code>DIR</code></strong></a> nesnesini kullandığı sürece birden çok evreden <code class="code">readdir</code> çağrısı yapmak güvenlidir. POSIX.1-2008, bunun güvenli olmasını gerektirmez, ancak çalışmadığı herhangi bir işletim sistemi bilinmemektedir.
+     </p><p>
+      <code class="code">readdir_r</code> işlevi, yazılımcının <a href="glibc-Directory-Entries.html#glibc-tp-dirent"><strong class="type"><code>struct dirent</code></strong></a> için tampon tahsis etmesine izin verir, ancak <code class="code">readdir</code> işlevinden daha az taşınabilirdir ve çok uzun dosya adlarıyla ilgili sorunları vardır (aşağıya bakın). Bu nedenle, <code class="code">readdir</code> kullanılması, ancak <a href="glibc-Opening-a-Directory.html#glibc-tp-DIR"><strong class="type"><code>DIR</code></strong></a> nesnelerinin paylaşılmaması önerilir.
+     </p></div></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-readdir_r" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">readdir_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>, </code></strong><code class="type">struct dirent </code><strong class="type">*</strong><strong><code class="parameter">entry</code></strong><strong><code>, </code></strong><code class="type">struct dirent </code><strong class="type">**</strong><strong><code class="parameter">result</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev, <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> işlevinin dahili kilitleme gerçekleştiren sürümüdür. <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> gibi, dizinden bir sonraki girdiyi döndürür. Aynı anda çalışan evreler arasındaki çakışmaları önlemek için sonuç <em class="parameter"><code>entry</code></em> nesnesinin içinde saklanır.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi:</h3><div class="admon-contents"><p>
+      Aşağıdaki nedenlerden dolayı <code class="code">readdir_r</code> yerine <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> kullanılması önerilir:
+     </p><div class="itemizedlist"><ul style="list-style-type: disc; " class="itemizedlist"><li class="listitem"><p>
+        <a href="glibc-Limits-for-Files.html#glibc-vr-NAME_MAX"><strong class="varname"><code>NAME_MAX</code></strong></a> sabitinin tanımlanmadığı sistemlerde, yazılımcı dizin girdisi için tampon uzunluğunu belirtemediğinden, <code class="code">readdir_r</code> kullanımı güvenilir olmayabilir.
+       </p></li><li class="listitem"><p>
+        Bazı sistemlerde <code class="code">readdir_r</code>, çok uzun adlara sahip dizin girdilerini okuyamaz. Böyle bir adla karşılaşılırsa, son dizin girdisi okunduktan sonra <code class="code">readdir_r</code> işlevinin GNU C Kütüphanesi gerçeklenimi <a href="glibc-Error-Codes.html#glibc-vr-ENAMETOOLONG"><strong class="varname"><code>ENAMETOOLONG</code></strong></a> hata koduyla döner. Diğer sistemlerde <code class="code">readdir_r</code> başarılı bir şekilde geri dönebilir, ancak <code class="code">d_name</code> üyesi boş karakter ile sonlandırılamaz veya kırpılabilir.
+       </p></li><li class="listitem"><p>
+        POSIX-1.2008 aynı <em class="parameter"><code>dirstream</code></em>'e erişim dizileştirildiğinde bile <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> işlevinin evresel olarak güvenilir olduğunu garanti etmez. Ancak mevcut gerçeklenimlerde (GNU C Kütüphanesi dahil), farklı dizin akımlarında aynı anda <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> çağrısı güvenlidir, bu nedenle çoğu çok evreli yazılımda <code class="code">readdir_r</code> kullanmaya gerek yoktur. Birden çok evrenin aynı dizin akımını okumasını gerektiren nadir durumlarda, yine de <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> ve harici eşzamanlama kullanmak daha iyidir.
+       </p></li><li class="listitem"><p>
+        POSIX'in gelecekteki sürümlerinin <code class="code">readdir_r</code> işlevini geçersiz kılması ve bugün GNU C Kütüphanesi ve diğer gerçeklenimler tarafından sağlanan <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> için evresel güvenilirliği zorunlu kılması beklenmektedir.
+       </p></li></ul></div></div></div>
+    <p>
+     Normalde <code class="code">readdir_r</code> sıfır döndürür ve <em class="parameter"><code>entry</code></em> bağımsız değişkenini *<em class="parameter"><code>result</code></em> göstericisine atar. Dizinde başka girdi yoksa veya bir hata algılanırsa, <code class="code">readdir_r</code> *<em class="parameter"><code>result</code></em>'a boş gösterici atar ve yine <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> için açıklandığı gibi <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninde sıfır olmayan bir hata kodu döndürür.
+    </p>
+    <p>
+     <a href="glibc-Directory-Entries.html#glibc-tp-dirent"><strong class="type"><code>struct dirent</code></strong></a> yapısının tanımına bakmak da önemlidir. <code class="code">readdir_r</code>'nin ikinci bağımsız değişkeni için bu türdeki bir nesneye basitçe bir gösterici aktarmak yeterli olmayabilir. Bazı sistemler, <code class="code">d_name</code> ögesini yeterince uzun tanımlamaz. Bu durumda kullanıcının ek alan sağlaması gerekir. <code class="code">d_name</code> dizisinde en az <a href="glibc-Limits-for-Files.html#glibc-vr-NAME_MAX"><strong class="varname"><code>NAME_MAX</code></strong></a><code class="code"> + 1</code> karakterlik yer olmalıdır. <code class="code">readdir_r</code> işlevini çağıracak kod şöyle görünebilir:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">union
+{
+  struct dirent d;
+  char b[offsetof (struct dirent, d_name) + NAME_MAX + 1];
+} u;
+
+if (readdir_r (dir, &amp;u.d, &amp;res) == 0)
+  …
+</pre></div></div><br class="example-break" />
+    <p>
+     32 bitlik makinelerde büyük dosya sistemlerini desteklemek için son iki işlevin LFS sürümleri de vardır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-readdir64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct dirent64 </code><strong class="type">*</strong><strong><code class="function">readdir64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">readdir64</code> işlevi <code class="type">struct dirent64</code> türünde bir gösterici döndürmesi dışında <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> işlevi gibidir. Bu veri türünün bazı üyeleri (özellikle <code class="code">d_ino</code> üyesi) büyük dosya sistemlerini desteklemek üzere farklı boyutta olabilir.
+    </p>
+    <p>
+     Diğer bakımlardan bu işlev <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> işleviyle eşdeğerdedir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-readdir64_r" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">readdir64_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>, </code></strong><code class="type">struct dirent64 </code><strong class="type">*</strong><strong><code class="parameter">entry</code></strong><strong><code>, </code></strong><code class="type">struct dirent64 </code><strong class="type">**</strong><strong><code class="parameter">result</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Kullanımı önerilmeyen <code class="code">readdir64_r</code> işlevi, 2. ve 3. bağımsız değişkenlerini <a href="glibc-Directory-Entries.html#glibc-tp-dirent"><strong class="type"><code>struct dirent</code></strong></a> yerine <code class="code">struct dirent64</code> türünde alması dışında, <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir_r"><strong class="function"><code>readdir_r</code></strong></a> işlevine eşdeğerdir. <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> işlevinin açıklamalarında dikkat çekilen hususlar bu işlev için de geçerlidir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-closedir" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">closedir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>dirstream</code></em> ile belirtilen dizin akımını kapatır. Başarılıysa <code class="code">0</code>, değilse <code class="code">-1</code> döndürür.
+    </p>
+    <p>
+     Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EBADF</code></dt><dd><p>
+      <em class="parameter"><code>dirstream</code></em> bağımsız değişkeni geçersiz.
+     </p></dd></dl>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

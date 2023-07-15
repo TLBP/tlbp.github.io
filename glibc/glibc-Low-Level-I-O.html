@@ -7,13 +7,14 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
       <div class="navbar">
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Streams-and-Threads.html')">Önceki</button>
-          <div class="dropdown-content">12.5. Akımlar ve Evreler</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Example.html')">Önceki</button>
+          <div class="dropdown-content">12.22.3. <code class="code">fmtmsg</code> ve <code class="code">addseverity</code> kullanımı</div>
         </div>
         <div style="width:34%" class="dropdown">
           <button class="dropbtn">Yukarı</button>
@@ -24,8 +25,8 @@
           </div>
         </div>
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Sonraki</button>
-          <div class="dropdown-content">14. Dosya Sistemi Arayüzü</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Opening-and-Closing-Files.html')">Sonraki</button>
+          <div class="dropdown-content">13.1. Dosyaların Açılması ve Kapatılması</div>
         </div>
       </div>
     </header>
@@ -49,16 +50,77 @@
               </div>
             </div>
           </div>
-          <p>This chapter describes functions for performing low-level input/output
-operations on file descriptors.  These functions include the primitives
-for the higher-level I/O functions described in <a class="xref" href="glibc-I-O-on-Streams.html" title="12. Akımlar Üzerinde Giriş/Çıkış">Akımlar Üzerinde Giriş/Çıkış</a>, as
-well as functions for performing low-level control operations for which
-there are no equivalents on streams.
-</p>
-          <p>Stream-level I/O is more flexible and usually more convenient;
-therefore, programmers generally use the descriptor-level functions only
-when necessary.  These are some of the usual reasons:
-</p>
+          <p>
+   Bu oylumda dosya tanıtıcı kimlikleri üzerinde düşük seviyeli girdi ve çıktı işlemlerini gerçekleştiren işlevlerden bahsedilecektir. Bu işlevler <a class="xref" href="glibc-I-O-on-Streams.html" title="12. Akımlar Üzerinde Giriş/Çıkış">Akımlar Üzerinde Giriş/Çıkış</a> bölümünde açıklanan daha yüksek seviyeli G/Ç işlemleri ile ilgili ilkeller ile akımlarda eşdeğeri olmayan düşük seviyeli denetim işlemlerini gerçekleştiren işlevlerdir.
+  </p>
+          <p>
+   Akım seviyesindeki G/Ç daha esnek ve daha kullanışlıdır; bununla birlikte, yazılımcılar gerektiğinde dosya tanıtıcı kimliği seviyesindeki işlevleri de kullanırlar. Bunların kullanım sebepleri genellikle şunlardır:
+  </p>
+          <div>
+            <ul class="simplelist">
+              <li class="member">
+    İkilik dosyaları büyük tomarlar halinde okumak için.
+   </li>
+              <li class="member">
+    Dosyanın tamamını çözümlemek amacıyla <code class="filename">core</code> dosyasına okumak için.
+   </li>
+              <li class="member">
+    Sadece dosya tanıtıcı kimlikleri ile yapılabilen veri aktarımı işlemlerini gerçekleştirmek için. (Bir akıma karşılık olan tanıtıcı kimliği <a href="glibc-Descriptors-and-Streams.html#glibc-fn-fileno"><strong class="varname"><code>fileno</code></strong></a> kullanılarak alınabilir.)
+   </li>
+              <li class="member">
+    Tanıtıcı kimliklerini alt süreçlere aktarmak için. (Bir alt süreç bir akımı miras alamadığından bir tanıtıcı kimliğini miras alıp onu kendi akımını oluşturmak için kullanır.)
+   </li>
+            </ul>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>13.1. <a href="glibc-Opening-and-Closing-Files.html">Dosyaların Açılması ve Kapatılması</a>  -  Dosya tanıtıcıların açılması ve kapatılması.</dt>
+            <dt>13.2. <a href="glibc-I-O-Primitives.html">Girdi ve Çıktı İlkelleri</a>  -  Verinin okunması ve yazılması.</dt>
+            <dt>13.3. <a href="glibc-File-Position-Primitive.html">Dosya Konumu İlkeli</a>  -  Bir tanıtıcının dosya konumunun belirtilmesi.</dt>
+            <dt>13.4. <a href="glibc-Descriptors-and-Streams.html">Tanıtıcılar ve Akımlar</a>  -  Tanıtıcılar ile akımların birbirine dönüştürülmesi.</dt>
+            <dt>13.5. <a href="glibc-Stream-Descriptor-Precautions.html">Akımlarla Tanıtıcıları Karıştırmanın Tehlikeleri</a>  -  Akımlar ve tanıtıcılar birlikte kullanılıyorsa dikkatli olunmalıdır.</dt>
+            <dd>
+              <dl>
+                <dt>13.5.1. <a href="glibc-Stream-Descriptor-Precautions.html#glibc-Linked-Channels">İlintili Kanallar</a>  -  Dosya konumunu paylaşan kanallarla çalışma.</dt>
+                <dt>13.5.2. <a href="glibc-Stream-Descriptor-Precautions.html#glibc-Independent-Channels">Bağımsız Kanallar</a>  -  Ayrı ayrı açılmış, ilintisiz kanallarla çalışma.</dt>
+                <dt>13.5.3. <a href="glibc-Stream-Descriptor-Precautions.html#glibc-Cleaning-Streams">Akımların Temizlenmesi</a>  -  Başka bir kanala güvence sağlamak için akımın temizlenmesi.</dt>
+              </dl>
+            </dd>
+            <dt>13.6. <a href="glibc-Scatter-Gather.html">G/Ç'yı Hızlı Dağıtıp Toplama</a>  -  Kesintili tamponlarda hızlı G/Ç.</dt>
+            <dt>13.7. <a href="glibc-Copying-File-Data.html">Dosya Verisinin Kopyalanması</a>  -  Verinin iki dosya arasında kopyalanması.</dt>
+            <dt>13.8. <a href="glibc-Memory-mapped-I-O.html">Bellek Eşlemli G/Ç</a>  -  Bellek benzeri dosyaların kullanımı.</dt>
+            <dt>13.9. <a href="glibc-Waiting-for-I-O.html">Girdi ve Çıktının Beklenmesi</a>  -  Çok sayıda dosya tanıtıcısı üzerinde girdi ve çıktı nasıl denetlenir.</dt>
+            <dt>13.10. <a href="glibc-Synchronizing-I-O.html">G/Ç İşlemlerinin Eşzamanlanması</a>  -  Tüm G/Ç işlemlerinin tamamlandığını bilmek.</dt>
+            <dt>13.11. <a href="glibc-Asynchronous-I-O.html">Eşzamansız G/Ç</a>  -  G/Ç işlemlerinin birarada yapılması.</dt>
+            <dd>
+              <dl>
+                <dt>13.11.1. <a href="glibc-Asynchronous-Reads-Writes.html">Eşzamansız Okuma ve Yazma İşlemleri</a></dt>
+                <dt>13.11.2. <a href="glibc-Status-of-AIO-Operations.html">Eşzamansız G/Ç İşlemlerinin Durumu</a>  -  Eşzamansız G/Ç işlemlerinin durumunu öğrenilmesi</dt>
+                <dt>13.11.3. <a href="glibc-Synchronizing-AIO-Operations.html">Eşzamansız G/Ç İşlemlerinin Eşzamanlanması</a>  -  İstikrarlı duruma geçme.</dt>
+                <dt>13.11.4. <a href="glibc-Cancel-AIO-Operations.html">Eşzamansız G/Ç İşlemlerinin İptal Edilmesi</a></dt>
+                <dt>13.11.5. <a href="glibc-Configuration-of-AIO.html">Eşzamansız G/Ç İşlemlerinin Yapılandırılması</a>  -  Eşzamansız G/Ç işlemleri nasıl en iyilenir</dt>
+              </dl>
+            </dd>
+            <dt>13.12. <a href="glibc-Control-Operations.html">Dosyalar Üzerindeki Denetim İşlemleri</a>  -  Dosya tanıtıcılardaki diğer işlemler.</dt>
+            <dt>13.13. <a href="glibc-Duplicating-Descriptors.html">Tanıtıcı Kimliklerinin Çoğaltılması</a>  -  Dosya tanıtıcı kimliklerini çoğullayan <code class="code">fcntl</code> komutları.</dt>
+            <dt>13.14. <a href="glibc-Descriptor-Flags.html">Dosya Tanıtıcı Kimliği Seçenekleri</a>  -  Dosya tanıtıcı kimlikleri ilgili seçenekleri değiştiren <code class="code">fcntl</code> komutları.</dt>
+            <dt>13.15. <a href="glibc-File-Status-Flags.html">Dosya Durum Seçenekleri</a>  -  Açık dosyalarla ilgili seçenekleri değiştiren <code class="code">fcntl</code> komutları.</dt>
+            <dd>
+              <dl>
+                <dt>13.15.1. <a href="glibc-Access-Modes.html">Dosya Erişim Kipleri</a>  -  Tanıtıcının okuyup yazabilmesi.</dt>
+                <dt>13.15.2. <a href="glibc-Open-time-Flags.html">Açış Anı Seçenekleri</a>  -  <code class="code">open</code> ile ilgili ayrıntılar.</dt>
+                <dt>13.15.3. <a href="glibc-Operating-Modes.html">G/Ç İşlem Kipleri</a>  -  G/Ç işlemlerini denetleyen özel kipler.</dt>
+                <dt>13.15.4. <a href="glibc-Getting-File-Status-Flags.html">Dosya Durum Seçeneklerinin Saptanması</a>  -  Dosya durum seçeneklerinin öğrenilmesi ve belirlenmesi.</dt>
+              </dl>
+            </dd>
+            <dt>13.16. <a href="glibc-File-Locks.html">Dosya Kilitleri</a>  -  Dosya kilitleme ile ilgili <code class="code">fcntl</code> komutları.</dt>
+            <dt>13.17. <a href="glibc-Open-File-Description-Locks.html">Açık Dosya Tanıtıcı Kilitleri</a>  -  Açık dosya tanıtıcı kilitlemeyi gerçekleştiren <code class="code">fcntl</code> komutları.</dt>
+            <dt>13.18. <a href="glibc-Open-File-Description-Locks-Example.html">Açık Dosya Tanıtıcı Kilitleri Örneği</a>  -  Açık dosya tanıtıcı kilitlemeyi gerçekleştiren <code class="code">fcntl</code> komutları için örnek.</dt>
+            <dt>13.19. <a href="glibc-Interrupt-Input.html">Sinyallerle Sürülen Girdi</a>  -  Girdi geldiğinde eşzamansız bir sinyalin alınması.</dt>
+            <dt>13.20. <a href="glibc-IOCTLs.html">G/Ç Denetim İşlemleri</a></dt>
+          </dl>
         </div>
       </section>
       <footer>

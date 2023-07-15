@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>29.1. NSS Temelleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Databases-and-Name-Service-Switch.html')">Önceki</button>
+          <div class="dropdown-content">29. Sistem Veritabanları ve İsim Hizmetleri Seçicisi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Databases-and-Name-Service-Switch.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-NSS-Configuration-File.html')">Sonraki</button>
+          <div class="dropdown-content">29.2. NSS Yapılandırma Dosyası</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-NSS-Basics">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">29.1. NSS Temelleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Anafikir, veritabanlarına erişmeye çalışan farklı hizmetlerin gerçeklemelerini ayrı modüllere koymaktır. Bunun bazı faydaları vardır:
+  </p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p>
+     Destekçiler yeni hizmetleri GNU C Kütüphanesine eklemeksizin NSS gerçeklenimine ekleyebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Modüller birbirinden bağımsız olarak güncellenebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     C kütüphanesi fazla şişmemiş olur.
+    </p>
+            </li>
+          </ol>
+        </div>
+        <p><span class="notfoot"></span>
+   Yukarıdaki ilk görevi yerine getirmek için modül arayüzü<a id="idm130732" href="#ftn.idm130732" class="footnote"><sup class="footnote">[81]</sup></a> aşağıda açıklanacaktır. Yeni bir hizmeti doğru gerçeklemek için modüller içinde işlevlerin nasıl çağrıldığını anlamak önemlidir. Yazılımcının doğrudan doğruya kullanabileceği bir yol yoktur. Yazılımcı veritabanlarına sadece belgelenmiş ve standartlaştırılmış işlevleri kullararak erişebilir.
+  </p>
+        <p>
+   NSS şemasında mevcut veritabanları şunlardır:
+   <span id="idm130735" class="indexterm"></span>
+   <span id="idm130738" class="indexterm"></span>
+   <span id="idm130741" class="indexterm"></span>
+   <span id="idm130744" class="indexterm"></span>
+   <span id="idm130747" class="indexterm"></span>
+   <span id="idm130750" class="indexterm"></span>
+   <span id="idm130753" class="indexterm"></span>
+   <span id="idm130756" class="indexterm"></span>
+   <span id="idm130759" class="indexterm"></span>
+   <span id="idm130762" class="indexterm"></span>
+   <span id="idm130765" class="indexterm"></span>
+   <span id="idm130768" class="indexterm"></span>
+   <span id="idm130771" class="indexterm"></span>
+   <span id="idm130774" class="indexterm"></span>
+   <span id="idm130777" class="indexterm"></span>
+  </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">
+                <code class="literal">aliases</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Posta takma adları.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">ethers</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Eternet numaraları.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">group</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Kullanıcı grupları, bkz. ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">hosts</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Konak isimleri ve numaraları, bkz. ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">initgroups</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Tamamlayıcı grup erişim listesi.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">netgroup</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Ağ çapında kullanıcılar, konaklar ve alt ağlar, bkz.???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">networks</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Ağ isimleri ve numaraları, bkz. ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">passwd</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Kullanıcı kimlikleri, bkz. ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">protocols</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Ağ protokolleri, ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">publickey</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Güvenli uzak yordam çağrıları için genel anahtarlar.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">rpc</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Uzak yordam çağrı isimleri ve numaraları.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">services</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Ağ hizmetleri, bkz. ???.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">
+                <code class="literal">shadow</code>
+              </span>
+            </dt>
+            <dd>
+              <p>
+      Kullanıcı parola aşları ve ilgili bilgiler.
+     </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   İleride başka veritabanları eklenebilir.
+  </p>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm130732" class="footnote">
+            <p><a href="#idm130732" class="para"><sup class="para">[81] </sup></a>ABI: (Application Binary Interface kısaltması) - Bir uygulama ile işletim sistemi ya da hizmetler arasında erişimi sağlayan arayüz.</p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

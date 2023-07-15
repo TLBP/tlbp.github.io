@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26.9. Süreç Oluşturma Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-BSD-Wait-Functions.html')">Önceki</button>
+          <div class="dropdown-content">26.8. BSD Süreç Bekletme İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Inter-Process-Communication.html')">Sonraki</button>
+          <div class="dropdown-content">27. Süreçler Arası İletişim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Process-Creation-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">26.9. Süreç Oluşturma Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Burada yerleşik <a href="glibc-Running-a-Command.html#glibc-fn-system"><strong class="function"><code>system</code></strong></a> işlevine benzer örnek bir yazılım bulunmaktadır. Kendi <em class="replaceable"><code>command</code></em> bağımsız değişkenini ‘<code class="code">sh -c </code><em class="replaceable"><code>command</code></em>’ komutunun eşdeğerini kullanarak çalıştırır.
+  </p>
+        <pre class="screen">#include &lt;stddef.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+
+/* <em class="replaceable"><code>Komutu bu kabukta çalıştır.</code></em>  */
+#define SHELL "/bin/sh"
+
+int
+my_system (const char *command)
+{
+  int status;
+  pid_t pid;
+
+  pid = fork ();
+  if (pid == 0)
+    {
+      /* <em class="replaceable"><code>Bu alt süreçtir.  Kabuk komutunu çalıştırır.</code></em> */
+      execl (SHELL, SHELL, "-c", command, NULL);
+      _exit (EXIT_FAILURE);
+    }
+  else if (pid &lt; 0)
+    /* <em class="replaceable"><code>Çatallama başarılamadı. Başarısızlığı bildir.</code></em>  */
+    status = -1;
+  else
+    /* <em class="replaceable"><code>Bu üst süreçtir.  Bitirmek için alt süreci bekle.</code></em>  */
+    if (waitpid (pid, &amp;status, 0) != pid)
+      status = -1;
+  return status;
+}
+</pre>
+        <p>
+   Bu örnekte dikkat edilmesi gereken birkaç nokta var.
+  </p>
+        <p>
+   Yazılıma sağlanan ilk <em class="parameter"><code>argv</code></em> bağımsız değişkeninin çalıştırılan yazılımın adı olduğu unutulmamalıdır. Bu nedenle, <a href="glibc-Executing-a-File.html#glibc-fn-execl"><strong class="function"><code>execl</code></strong></a> çağrısında, <span class="command"><strong>SHELL</strong></span> bir kere çalıştırılacak yazılım ismini sağlamak için, bir kere de <code class="code">argv[0]</code>'a değer sağlamak için kullanılmıştır.
+  </p>
+        <p>
+   Alt süreçteki <a href="glibc-Executing-a-File.html#glibc-fn-execl"><strong class="function"><code>execl</code></strong></a> çağrısı başarılıysa değer döndürmez. Başarısız olursa, alt sürecin sonlanması için bir şeyler yapılması gerekir. Sadece <code class="code">return</code> ile kötü durum kodu döndürülmesi, özgün yazılımı çalıştıran iki süreci bırakabilir. Bunun yerine, doğru davranış üst sürece alt süreç ile ilgili başarısızlığın bildirilmesidir.
+  </p>
+        <p>
+   Bunu başarmak için <strong class="function"><code>_exit</code></strong> işlevi çağrılır. <strong class="function"><code>_exit</code></strong> işlevini <strong class="function"><code>exit</code></strong> yerine kullanma nedeni <a href="glibc-Standard-Streams.html#glibc-vr-stdout"><strong class="varname"><code>stdout</code></strong></a> gibi tamamen tamponlanmış akımları boşaltmanın önüne geçmektir. Bu akımların tamponları büyük olasılıkla üst süreçten <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> ile kopyalanmış veri içerir, sonunda bu veri üst süreç tarafından çıktı alınır. Alt süreçte <strong class="function"><code>exit</code></strong> çağrısı verinin iki kez çıktı vermesine neden olabilir. Bkz ???.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

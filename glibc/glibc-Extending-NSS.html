@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>29.4. NSS'nin Genişletilmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-NSS-Module-Internals.html')">Önceki</button>
+          <div class="dropdown-content">29.3. NSS Modüllerinin Yapısı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Databases-and-Name-Service-Switch.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Users-and-Groups.html')">Sonraki</button>
+          <div class="dropdown-content">30. Kullanıcılar ve Gruplar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Extending-NSS">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">29.4. NSS'nin Genişletilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Evvelce bahsedildiği gibi NSS'nin getirilerinden biri kolayca genişletilebilmesidir. Genişletme iki yolla yapılabilir: İlki normalde sadece C kütüphanesi geliştiricileri tarafından yapılır. Burada önemli olan, başka bir veritabanının bağımsız olarak eklenmesi gerektiğini unutmamaktır. Çünkü bir hizmet tüm veritabanlarını ve arama işlevlerini desteklemek zorunda değildir.
+  </p>
+        <p>
+   Bir yeni hizmetin tasarımcısı/gerçekleştiricisi ilgilendiği veritabanlarını seçmekte özgür olduğu gibi kalanı daha sonraya da bırakabilir (veya tamamen terkedebilir).
+  </p>
+        <section class="sect1" id="glibc-Adding-another-Service-to-NSS">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">29.4.1. NSS'ye Başka Hizmetlerin Eklenmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Yeni hizmetle ilgili kaynaklar GNU C Kütüphanesinin parçası olmak zorunda değildir (hatta olmamalıdır). Geliştiricinin kaynaklar ve tasarım üzerinde tam hakimiyeti olmalıdır. C kütüphanesi ile yeni hizmet modülü arasındaki bağları sadece arayüz işlevleri oluşturur.
+   </p>
+          <p>
+    Her modül burada açıklanan özel arayüz belirtimine göre tasarlanır. Şimdilik sürümü 2'dir (arayüzün 1. sürümü yetersizdi) ve bu NSS modülünün paylaşımlı kütüphane nesnesinin sürüm numarası olarak belirtilir: bu nesnelerin isimleri <code class="code">.2</code> uzantısını içerir. Eğer arayüz şimdikiyle uyumsuz olarak değiştirilirse bu numara artacak ama eski arayüzü kullanan modüller hala kullanılabilir olacaktır.
+   </p>
+          <p>
+    Yeni hizmetin geliştiricileri modülün doğru arayüz numarası kullanılarak oluşturuduğundan emin olmak zorundadır. Yani, dosyanın ismi doğru tanımlanacak ve ELF sistemlerde paylaşımlı nesne ismi (<em class="emphasis">so uzantısı</em>) ayrıca bu numarayı içerecektir. Bir modül, bir ELF sisteminde GNU CC ile nesne dosyalarından şöyle derlenir:
+   </p>
+          <pre class="screen">gcc -shared -o libnss_<em class="replaceable"><code>İSİM</code></em>.so.2 -Wl,-soname,libnss_<em class="replaceable"><code>İSİM</code></em>.so.2 <em class="replaceable"><code>NESNELER</code></em>
+</pre>
+          <p>
+    Bu komut satırı hakkında daha fazla bilgi GNU CC belgelerinin <a class="link" href="https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#Link-Options" target="_top">İlintileme Seçenekleri</a> sayfasında bulunabilir.
+   </p>
+          <p>
+     Modülü kullanacak kütüphane yeni modülü bulabilmelidir. Bu özdevimli ilintileyici seçenekleri kullanılarak yapılabilir, böylece ikil nesne dosyasının yerleştirildiği dizini bulabilir. ELF sistemlerde bu, modülün bulunduğu dizin <code class="varname">LD_LIBRARY_PATH</code> ortam değişkenine eklenerek yapılır.
+   </p>
+          <p>
+    Fakat, bazı uygulamalar bu değişkeni yok saydığından (bunlar kullanıcının kimliğini kullanmaz) bu daima mümkün olmaz. Bu nedenle, modülün kararlı sürümünün özdevimli ilintileyicinin araştırdığı dizinlere konulması önem kazanır. Normalde bu dizin <code class="filename">$prefix/lib</code> dizini olmalıdır, burada <em class="replaceable"><code>$prefix</code></em> derleme öncesi yapılandırma sırasında <code class="option">--prefix</code> seçeneğinde belirtilen dizindir. Aman dikkat: bu sadece, modül herhangi bir bozukluğa yol açmıyorsa yapılabilir. Sistem yöneticisi bu bakımdan dikkatli olmalıdır.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-NSS-Module-Function-Internals">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">29.4.2. NSS Modül İşlevlerinin Özellikleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Şimdiye kadar NSS modülündeki işlevlerin sözdizimsel arayüzünden bahsedildi. Her işlevin gerçeklenmesi ister istemez farklı olacağında aslında söylenebilecek fazla bir şey yoktur. Fakat tüm işlevlerin uyması gereken birkaç genel kuraldan bahsedilebilir.
+   </p>
+          <p>
+    Aslında arayüzde görülebilecek dört farklı işlev çeşidi vardır. Hepsi sistem veritabanları için kullanılan geleneksel işlevlerden türetilir. Aşağıdaki gösterimde <em class="replaceable"><code>VT</code></em>, <em class="replaceable"><code>VERİTABANI</code></em> için kısaltmadır (örn, kullanıcı veritabanı için yerini <code class="code">pw</code> kısaltması alır).
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nss/nss.h;hb=HEAD" target="_top">nss.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum nss_status</code><code>_nss_<em class="replaceable"><code>VERİTABANI</code></em>_set<em class="replaceable"><code>VT</code></em>ent</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     Bu işlev hizmeti belirtilen işlemler için hazırlar. Basit bir dosya temelli arama için dosyaları açan, diğer hizmetlerde basitçe hiçbir işlem yapmayan bir işlev olabilir.
+    </p>
+    <p>
+     Bu işlev için özel bir durum, <strong class="function"><code>sethostent</code></strong> işlevindeki (???) gibi belirtilen bazı <em class="replaceable"><code>VERİTABANI</code></em> türleri için ek bağımsız değişkenler alabilmesidir. (işlev, <code class="code">set<em class="replaceable"><code>VT</code></em>ent</code> gösterimi ile karşılaştırılırsa "hosts" veritabanı için "host" kısaltmasının kullanıldığı görülür.)
+    </p>
+    <p>
+     Normal dönüş değeri <a href="glibc-NSS-Module-Internals.html#glibc-vr-NSS_STATUS_SUCCESS"><strong class="varname"><code>NSS_STATUS_SUCCESS</code></strong></a> olmalı; bir hata durumunda <a class="xref" href="glibc-NSS-Module-Internals.html#glibc-NSS-Modules-Interface" title="29.3.2. NSS Modüllerinde İşlev Arayüzü">NSS Modüllerinde İşlev Arayüzü</a> bölümündeki tabloda belirtilen değerlerden biri olmalıdır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nss/nss.h;hb=HEAD" target="_top">nss.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum nss_status </code><code>_nss_<em class="replaceable"><code>VERİTABANI</code></em>_end<em class="replaceable"><code>VT</code></em>ent</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     Bu işlev hala açık olan tüm dosyaları kapatır ya da bellekten tamponları kaldırır. Kaldırılacak bir tampon ya da kapatılacak bir dosya yoksa, işlev yine basitçe hiçbir işlem yapmayacaktır.
+    </p>
+    <p>
+     Normalde <a href="glibc-NSS-Module-Internals.html#glibc-vr-NSS_STATUS_SUCCESS"><strong class="varname"><code>NSS_STATUS_SUCCESS</code></strong></a>'dan farklı bir dönüş değeri olmaz.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nss/nss.h;hb=HEAD" target="_top">nss.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum nss_status </code><code>_nss_<em class="replaceable"><code>VERİTABANI</code></em>_get<em class="replaceable"><code>VT</code></em>ent</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong>YAPI<code> *</code><strong><code class="parameter">result</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">buflen</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">errnop</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     Bu işlev peşpeşe girdi almak için bir satırda defalarca çağrılacağından bir durum bilgisi tutmak zorundadır. Ama bu zorunluluk ayrıca işlevin gerçekte evresel olmayacağı anlamına da gelir. Sadece, bu işlev aynı anda yapılan başka çağrılarıyla verinin alındığı yere veri yazmayı denemeyecekse, <em class="parameter"><code>result</code></em> ile belirtilen tampona yazacaksa evresel olabilir. Fakat, bir ortak durumu paylaşan çağrıların varlığında ve bir dosya erişimi durumunda bu, dosyadaki komşu girdilerin dönmesi anlamına gelir.
+    </p>
+    <p>
+     <em class="parameter"><code>buffer</code></em> tamponunun uzunluğunu belirtmede kullanılan <em class="parameter"><code>buflen</code></em> sonuç ile ilgili bazı ek verilerin saklanması için kullanılabilir, ama bu durumda işlevin sonraki çağrılarının aynı tamponla yapılabilmesi mümkün olmaz. Ancak, bazı durum bilgilerini döndürmesinden hareketle bu tampon, bir çağrıdan diğerine durum bilgisini aktarmak için kullanılmaMAlıdır.
+    </p>
+    <p>
+     İşlev dönmeden önce, gerçekleme <em class="parameter"><code>errnop</code></em> ile gösterilen değeri <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkeninde saklamalıdır. Modülün durağan ilintili yazılımlarla da çalışabilmesini sağlamak için bunun böyle olması önemlidir.
+    </p>
+    <p>
+     Evvelce açıklandığı gibi bu işlev ayrıca bir ek bağımsız değişken alabilir. Bu kullanılan veritabanına bağlıdır; sadece <code class="code">hosts</code> ve <code class="code">networks</code> veritabanlarında görülür.
+    </p>
+    <p>
+     İşlev <a href="glibc-NSS-Module-Internals.html#glibc-vr-NSS_STATUS_SUCCESS"><strong class="varname"><code>NSS_STATUS_SUCCESS</code></strong></a> ile döneceği gibi başka değerlerle de dönebilir. Son girdi okunduktan sonra <a href="glibc-NSS-Module-Internals.html#glibc-vr-NSS_STATUS_NOTFOUND"><strong class="varname"><code>NSS_STATUS_NOTFOUND</code></strong></a> dönebilir. Belirtilen tampon gereğinden küçükse <a href="glibc-NSS-Module-Internals.html#glibc-vr-NSS_STATUS_TRYAGAIN"><strong class="varname"><code>NSS_STATUS_TRYAGAIN</code></strong></a> ile dönebilir. Bir <code class="code">_nss_<em class="replaceable"><code>VERİTABANI</code></em>_set<em class="replaceable"><code>VT</code></em>ent</code> çağrısı ile hizmet başta ilklendirilemediğinde bu işlev için izin verilen tüm dönüş değerleri burada ayrıca döndürülebilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=nss/nss.h;hb=HEAD" target="_top">nss.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum nss_status </code><code>_nss_<em class="replaceable"><code>VERİTABANI</code></em>_get<em class="replaceable"><code>VT</code></em>by<em class="replaceable"><code>XX</code></em>_r</code></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><strong><code class="parameter">BAĞIMSIZ_DEĞİŞKENLER</code></strong><strong><code>, </code></strong><strong><code class="parameter">YAPI</code></strong><code> *</code><strong><code class="parameter">result</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">buflen</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">errnop</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <p>
+     Bu işlev veritabanından <em class="replaceable"><code>BAĞIMSIZ_DEĞİŞKENLER</code></em> ile adreslenen girdiyi döndürür. Bu bağımsız değişkenlerin sayısı ve türü değişebilir. Bunlar tek tek kullanıcı seviyesi arayüz işlevlerine bakarak saptanır. İşlevin evresel olmayan sürümünde belirtilen tüm bağımsız değişkenler burada <em class="replaceable"><code>BAĞIMSIZ_DEĞİŞKENLER</code></em> alanında belirtilmelidir.
+    </p>
+    <p>
+     Sonuç <em class="parameter"><code>result</code></em> ile gösterilen yapıda saklanmalıdır. Eğer döndürülecek başka veriler varsa (örn, dizgeler <em class="parameter"><code>result</code></em> yapısında sadece göstericilerle içerilebilir) işlev <em class="parameter"><code>buffer</code></em> ya da &gt;<em class="parameter"><code>buflen</code></em> ile gösterilen tamponları kullanmalıdır. Sabitler biçiminde olmayan hiçbir genel değişkene başvuru olmamalıdır.
+    </p>
+    <p>
+     Bu işlevin gerçeklemesi bir fark oluşacaksa <code class="code">set<em class="replaceable"><code>VT</code></em>ent</code> işlevi  tarafından atanan <code class="varname">stayopen</code> seçeneği ile de ilgilenmelidir.
+    </p>
+    <p>
+     İşlev dönmeden önce, gerçekleme <em class="parameter"><code>errnop</code></em> ile gösterilen değeri <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> genel değişkeninde saklamalıdır. Modülün durağan ilintili yazılımlarla da çalışabilmesini sağlamak için bunun böyle olması önemlidir.
+    </p>
+    <p>
+     Evvelce açıklandığı gibi bu işlev <code class="code">hosts</code> ve <code class="code">networks</code> veritabanları için ayrıca ek bir bağımsız değişken alabilir.
+    </p>
+    <p>
+     İşlevin dönüş değerleri daima <a class="xref" href="glibc-NSS-Module-Internals.html#glibc-NSS-Modules-Interface" title="29.3.2. NSS Modüllerinde İşlev Arayüzü">NSS Modüllerinde İşlev Arayüzü</a> bölümünde açıklanan kurallara uygun olmalıdır.
+    </p>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

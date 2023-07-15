@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.3. Sürecin İşlemci Önceliği ve Zamanlama</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Limits-on-Resources.html')">Önceki</button>
+          <div class="dropdown-content">22.2. Kaynak Kullanımın Sınırlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Resource-Usage-And-Limitation.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Absolute-Priority.html')">Sonraki</button>
+          <div class="dropdown-content">22.3.1. Mutlak Öncelik</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Priority">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">22.3. Sürecin İşlemci Önceliği ve Zamanlama</h2>
+            </div>
+          </div>
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Ön Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm124397" class="indexterm"></span>
+    <span id="idm124400" class="indexterm"></span>
+    <span id="idm124403" class="indexterm"></span>
+    <span id="idm124406" class="indexterm"></span>
+    Çok sayıda süreç aynı anda işlemci zamanını kullanmak isterse, sistemin zamanlama kurallarına ve sürecin işlemci önceliğine bakılarak onu hangi sürecin alacağı saptanır. Bu kısımda GNU C Kütüphanesinde işlevlerle bu saptamanın nasıl yapıldığından bahsedilecektir.
+   </p>
+          <p>
+    İşlemci öz kaynağı ile ilgili olarak, işlemci zamanlamasından basitçe zamanlama ve sürecin işlemci önceliğinden ise sürecin önceliği olarak bahsetmek yaygındır. Bununla birlikte, işlemci zamanının sürecin kullandığı ya da süreçlerin kullanmak için yarıştıkları tek kaynak olduğu gibi bir anlam da çıkarılmamalıdır. Hatta bazı durumlarda özellikle önemli bile değildir. Bir sürece yüksek bir "öncelik" verilmesi bu sürecin diğer süreçlerden daha hızlı olmasına çok küçük bir etkisi olabilir. Bu bölümde öncelik deyince sadece işlemci zamanına uygulanan öncelikten bahsediliyor olacaktır.
+   </p>
+          <p>
+    İşlemci zamanlaması karmaşık bir konudur ve farklı sistemler bunu oldukça farklı yollarla yaparlar. Yeni fikirler sürekli geliştirilmekte ve çeşitli sistemlerin zamanlama algoritmalarının karmaşıklığı içinde yollar bulunmaya çalışılmaktadır. Bu bölümde genel kavramlar, GNU C Kütüphanesini kullanan sistemlerin bazı özellikleri ve standartlar üzerinde durulacaktır.
+   </p>
+          <p>
+    Basitleştirmek için, sistemde sadece bir işlemci ve o işlemci içinde sadece bir işlem birimi varmış gibi davranacağız. Ancak bazı prensipler bir işlemci birden fazla işlem birimi içerdiğinde uygulanır ve eşit sayıda işlem birimi içeren çok sayıda işlemci olduğunda bu bilgi kolayca genelleştirilebilir.
+   </p>
+          <p>
+    Bu bölümde bahsedilen işlevlerin hepsi POSIX.1 ve POSIX.1b standartlarında bulunur (<strong class="function"><code>sched…</code></strong> işlevleri, POSIX.1b'dedir). Bununla birlikte, POSIX bu işlevlerin okuduğu ya da belirlediği değerler için anlambilimsel bir tanım yapmamıştır. Bu kısımda, anlama dair kabuller POSIX standardının Linux çekirdeği gerçeklemesi üzerine oturtulmuştur. Görüleceği gibi, Linux gerçeklemesi POSIX sözdizimi yazarlarlarınınkilere göre biraz terstir.
+   </p>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>22.3.1. <a href="glibc-Absolute-Priority.html">Mutlak Öncelik</a>  -  Birinci öncelik katmanı.</dt>
+            <dd>
+              <dl>
+                <dt>22.3.1.1. <a href="glibc-Absolute-Priority.html#glibc-Using-Absolute-Priority">Mutlak Önceliğin Kullanımı</a></dt>
+              </dl>
+            </dd>
+            <dt>22.3.2. <a href="glibc-Realtime-Scheduling.html">Anlık Zamanlama</a>  -  Eş öncelikli süreçler arasında zamanlama</dt>
+            <dt>22.3.3. <a href="glibc-Basic-Scheduling-Functions.html">Temel Zamanlama İşlevleri</a>  -  Zamanlama kurallarını alınması/belirtilmesi, öncelik</dt>
+            <dt>22.3.4. <a href="glibc-Traditional-Scheduling.html">Geleneksel Zamanlama</a>  -  Kaba yığınlar arasında zamanlama</dt>
+            <dd>
+              <dl>
+                <dt>22.3.4.1. <a href="glibc-Traditional-Scheduling-Intro.html">Geleneksel Zamanlamaya Giriş</a></dt>
+                <dt>22.3.4.2. <a href="glibc-Traditional-Scheduling-Functions.html">Geleneksel Zamanlama İşlevleri</a>  -  Nezaket değerleri ile ilgili işlevler.</dt>
+              </dl>
+            </dd>
+            <dt>22.3.5. <a href="glibc-CPU-Affinity.html">İşlemciler Arasında İcra Sınırlaması</a></dt>
+          </dl>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

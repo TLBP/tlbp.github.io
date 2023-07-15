@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.8. Bellek Eşlemli G/Ç</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Copying-File-Data.html')">Önceki</button>
+          <div class="dropdown-content">13.7. Dosya Verisinin Kopyalanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Waiting-for-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13.9. Girdi ve Çıktının Beklenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Memory-mapped-I-O">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.8. Bellek Eşlemli G/Ç</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Günümüz işletim sistemlerinde, bir dosyayı bir bellek bölgesine eşlemek mümkündür. Bu yapıldığında dosyaya yazılım içinden bir dizi gibi erişilebilir.
+  </p>
+        <p>
+   Yazılımın bir dosyanın sadece yüklü bölümlerine erişim anlamında bu işlem <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> ile yapılan işlemlerden daha verimlidir. Henüz belleğe yüklenmemiş parçalara bellek sayfalarının takaslanmasına benzer bir yolla erişilir.
+  </p>
+        <p>
+   Belleğe eşlenmiş sayfalar, fiziksel bellek azaldığında tekrar dosyasında saklanabilir, belleğe eşlenmiş dosyaların boyutları büyüdükçe hem fiziksel bellekte hem de takas alanında eşlenebilir. Tek sınır adres alanıdır. Teorik sınır 32 bitlik makinelerde 4GB'dır. Başka amaçlarla ayrılan alanlardan dolayı gerçek sınır daha küçük olabilir. LFS arayüzü kullanan 32 bitlik dosya sistemlerinde dosya boyu 64 bitlik olabildiğinden  2GB ile sınırlı değildir (konumların işaretli tamsayılar olması halinde adreslenebilir alan 4GB'ın yarısına düşebilir); 64 bitlik arayüz kullanılabilir.
+  </p>
+        <p>
+   Bellek eşleme, bellekte sadece sayfalarla çalışır. Bu bakımdam, eşleşme adresleri sayfalara hizalanmış ve uzunluk değerleri de buna göre yuvarlanmış olmalıdır. Makinede kullanılan ön tanımlı sayfa boyutlarını saptamak için
+  </p>
+        <pre class="literallayout monospaced"><code class="code">size_t page_size = (size_t) <strong class="function"><code>sysconf</code></strong> (<a href="glibc-Sysconf.html#glibc-vr-SC_PAGESIZE"><strong class="varname"><code>_SC_PAGESIZE</code></strong></a>);</code>
+</pre>
+        <p>
+   kullanılabilir. Bazı sistemlerde, eşlemler belirli dosyalar için daha büyük sayfa boyutları kullanabilir ve uygulamalar da, isimsiz eşlemler için daha büyük sayfa boyutları talep edebilir (Bkz: <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_HUGETLB"><strong class="varname"><code>MAP_HUGETLB</code></strong></a> bayrağı).
+  </p>
+        <p>
+   Bu bölümdeki işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mmap" class="indexterm"></span>
+   <span id="glibc-cp-mmap" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">mmap</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">protect</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">mmap</code> işlevi <em class="parameter"><code>filedes</code></em> ile açılan dosya için yeni bir eşlem oluşturur. Eşlem <em class="parameter"><code>offset</code></em> baytta başlar, (<em class="parameter"><code>offset</code></em> + <em class="parameter"><code>length</code></em> - 1) baytta biter. <em class="parameter"><code>filedes</code></em> ile belirtilen dosya için dosya kapatıldığında bile kaldırılmayan yeni bir başvuru oluşturur.
+   </p>
+   <p>
+    <em class="parameter"><code>address</code></em> ile eşlem için tercih edilen adres belirtilir. <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> tercih belirtilmediğini gösterir. Adreste evvelce bir eşlem varsa özdevinimli olarak kaldırılır. <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_FIXED"><strong class="varname"><code>MAP_FIXED</code></strong></a> seçeneği kullanılmadıkça belirtilen adres değiştirilemeyebilir.
+   </p>
+   <p>
+    <span id="idm113750" class="indexterm"></span>
+    <span id="idm113752" class="indexterm"></span>
+    <span id="idm113754" class="indexterm"></span>
+    <em class="parameter"><code>protect</code></em> ne çeşit erişime izin verildiğini belirten seçenekleri içerir. Bunlar sırayla okuma, yazma ve çalıştırma izinlerini belirten <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a>, <a href="glibc-Memory-Protection.html#glibc-vr-PROT_WRITE"><strong class="varname"><code>PROT_WRITE</code></strong></a> ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> seçenekleri olabilir. Özel <a href="glibc-Memory-Protection.html#glibc-vr-PROT_NONE"><strong class="varname"><code>PROT_NONE</code></strong></a> seçeneği, adres bölgesini ileride kullanmak üzere ayırır. Koruma seçeneklerini değiştirmek için <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi kullanılabilir (bkz. <a class="xref" href="glibc-Memory-Protection.html" title="3.4. Belleğin Korunması"><em>Belleğin Korunması</em></a>).
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> bağımsız değişkeni eşlemin doğasını denetleyen seçenekleri içerir. Burada <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_SHARED"><strong class="varname"><code>MAP_SHARED</code></strong></a> veya <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_PRIVATE"><strong class="varname"><code>MAP_PRIVATE</code></strong></a> seçeneklerinden biri belirtilmelidir.
+   </p>
+   <p>
+    Bellek eşleminin doğasını denetleyen seçenekler:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MAP_PRIVATE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_PRIVATE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Eşlemle ilgili dosyaya yazılamasa da bellek bölgesine yazılabileceğini belirtir. Bunun yerine, süreç için bir kopya yapılır ve normal olarak bellek azsa bölge takaslanır. Başka hiçbir süreç değişiklikleri görmez.
+    </p>
+    <p>
+     Özel eşlemler üzerlerine yazıldıklarında fiilen sıradan belleğe konulduğundan eğer bu kip <a href="glibc-Memory-Protection.html#glibc-vr-PROT_WRITE"><strong class="varname"><code>PROT_WRITE</code></strong></a> ile kullanılıyorsa eşlemlenmiş bölgenin tamamının kopyası için yeterli sanal bellek olmalıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MAP_SHARED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_SHARED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölgeye yapılan yazmaların dosyaya da yazılacağını belirtir. Değişiklikler aynı dosyayı eşlemlemiş olan diğer süreçlerle anında paylaşılır.
+    </p>
+    <p>
+     Asıl yazma işlemlerinin herhangi bir anda olabileceği unutulmamalıdır. Diğer süreçlerin geleneksel G/Ç işlemlerini kullanarak dosyanın tutarlı bir görünümünü almaları önemliyse, aşağıda açıklanan <a href="glibc-Memory-mapped-I-O.html#glibc-fn-msync"><strong class="function"><code>msync</code></strong></a> işlevinin kullanılması gerekir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MAP_FIXED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_FIXED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sistemi, eşlem adresi olarak <em class="parameter"><code>address</code></em> ile belirtilen adresi kullanması için zorlar. Bu olmazsa işlev başarısız olur.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MAP_ANONYMOUS" class="indexterm"></span>
+    <span id="glibc-vr-MAP_ANON" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_ANONYMOUS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_ANON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sisteme, bir dosyaya bağlı olmayan isimsiz bir eşlem oluşturmasını söyler. <em class="parameter"><code>filedes</code></em> ve <em class="parameter"><code>offset</code></em> yok sayılır ve bölge sıfırlarla ilklendirilir.
+    </p>
+    <p>
+     İsimsiz eşlemler bazı sistemlerde özdevimli tahsis yapılabilen bellek bölgesinin genişletilmesinde temel ilkel olarak kullanılır. Ayrıca bir dosya oluşturmadan çok sayıda görev arasında veri paylaşmak için de kullanışlıdır.
+    </p>
+    <p>
+     Bazı sistemlerde büyük bellek blokları ile çalışırken özel isimsiz eşlemleri kullanmak <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanmaktan daha verimlidir. GNU C Kütüphanesi <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> gerektiği takdirde özdevinimli olarak <code class="code">mmap</code> işlevini kullanır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MAP_HUGETLB" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_HUGETLB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Sistemin eşlem için ön tanımlı sayfa boyutundan daha büyük başka bir sayfa boyutu kullanmasını ister. Bazı iş yüklerinde, büyük eşlemler için sayfa boyutunu artırmak, sistemin çok daha az sayfayı işlemesini gerektiğinden başarımı artırır. Azaltılmış sayfa ayrıntı düzeyi, depolama veya farklı düğümler arasında sık sık sayfa aktarımı gerektiren diğer iş yükleri için  artırılmış sayfa boyutu ve daha büyük aktarımlar nedeniyle başarım sorunlarına neden olabilir.
+    </p>
+    <p>
+     Eşlemin oluşturması sırasında, sistemin artırılmış sayfa boyutunda fiziksel olarak bitişik belleğe ihtiyacı vardır. Sonuç olarak, <code class="code">MAP_HUGETLB</code> eşlemleri belleğin saçılmasından etkilenir ve sistemde bol miktarda bellek bulunsa bile bunların oluşturulması başarısız olabilir.
+    </p>
+    <p>
+     Tüm dosya sistemleri, artırılmış sayfa boyutuna sahip eşlemleri desteklemez.
+    </p>
+    <p>
+     <code class="code">MAP_HUGETLB</code> seçeneği Linux'a özgüdür.
+    </p>
+   </div>
+   <p>
+    <code class="code">mmap</code> normalde yeni eşlemin adresi ile döner. <code class="code">-1</code> dönüş değeri bir hata oluştuğunu belirtir.
+   </p>
+   <p>Olası hatalar:</p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Ya <em class="parameter"><code>address</code></em> işe yaramaz (geçerli sayfa boyutunun katı olmadığı için) ya da belirtilen <em class="parameter"><code>flags</code></em> tutarsız.
+      </p><p>
+       <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_HUGETLB"><strong class="varname"><code>MAP_HUGETLB</code></strong></a> belirtilmişse, dosya veya sistem büyük sayfa boyutlarını desteklemiyordur.
+      </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> tanıtıcısı <em class="parameter"><code>protect</code></em> ile belirtilen adres türü için açılmamış.
+      </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+       Ya işlem için bellek yetersiz ya da süreç adres uzayının dışında.
+      </p></dd><dt><span class="term"><code class="code">ENODEV</code></span></dt><dd><p>
+       Dosya bellek eşlemini desteklemeyen türde.
+      </p></dd><dt><span class="term"><code class="code">ENOEXEC</code></span></dt><dd><p>
+       Dosya bellek eşlemini desteklemeyen dosya sistemi üzerinde.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mmap64" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">mmap64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">protect</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">offset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">mmap64</code> işlevi <em class="parameter"><code>offset</code></em> bağımsız değişkeninin <a href="glibc-File-Position-Primitive.html#glibc-tp-off64_t"><strong class="type"><code>off64_t</code></strong></a> türünde olması dışında <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> işlevine eşdeğerdir. 32 bitlik sistemlerde bu, tanıtıcısı <em class="parameter"><code>filedes</code></em> olan dosyanın 2GB'dan büyük olabilmesini mümkün kılar. <em class="parameter"><code>filedes</code></em>, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open64"><strong class="function"><code>open64</code></strong></a> veya <a href="glibc-Opening-Streams.html#glibc-fn-fopen64"><strong class="function"><code>fopen64</code></strong></a> ve <a href="glibc-Opening-Streams.html#glibc-fn-freopen64"><strong class="function"><code>freopen64</code></strong></a> çağrılarından dönen bir tanıtıcı olmalıdır.
+   </p>
+   <p>
+    Kaynak dosyaları <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse bu işleve <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> ismiyle erişilir. Yani, derleme sırasında 64 bitlik yeni arayüz eski arayüzün yerine geçer.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-munmap" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong class="type">*</strong><strong><code class="function">munmap</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">munmap</code> işlevi <em class="parameter"><code>address</code></em> adresinden (<em class="parameter"><code>address</code></em> + <em class="parameter"><code>length</code></em>) adresine kadar olan eşlemi siler. <em class="parameter"><code>length</code></em> eşlemin uzunluğu olmalıdır.
+   </p>
+   <p>
+    Aralık içinde eşlenmemiş alanlar olabilir, bu şekilde çok sayıda eşlem tek bir komutla silinebilir. Ayrıca mevcut eşlemin sadece bir bölümünü silmek de mümkündür. Ancak sadece tam sayfalar silinebilir. <em class="parameter"><code>length</code></em> sayfa sayısına denk değilse bile üste yuvarlanır.
+   </p>
+   <p>
+    Normal dönüş değeri sıfırdır, <code class="code">-1</code> ise hata oluşmuştur.
+   </p>
+   <p>
+    Olası hata:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Belirtilen bellek adresi aralığı kullanıcının bellek eşlem aralığının dışında ya da sayfa hizalı değil
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-msync" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">msync</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Paylaşımlı eşlemler kullanılırken, eşlem silinmeden önce çekirdek herhangi bir zamanda eşlemi dosyaya yazabilir. Değişmiş bir veri varsa, dosyaya bellek eşlemli olmayan G/Ç ile erişen süreçler veri dosyaya fiilen yazılana kadar bunları göremez. Bunun olmaması için bu işlevin kullanılması gerekir.
+   </p>
+   <p>
+    İşlev <em class="parameter"><code>address</code></em> adresinden (<em class="parameter"><code>address</code></em> + <em class="parameter"><code>length</code></em>) adresinde kadar olan bölgede çalışır. Bu bölge çok sayıda dosyanın eşlemlerini içerebileceği gibi bir dosyanın bir bölümünü içeren bir eşlem bölgesi de olabilir, ancak eşlemsiz alan içermemelidir.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> şunları içerebilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MS_SYNC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MS_SYNC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bu seçenek verinin "disk"e yazılmasını sağlar. Normalde <code class="code">msync</code> işlevi geleneksel G/Ç işlemleri ile bir dosyaya erişimde son yapılan değişikliklere dosyada mevcutmuş gibi erişilmesini sağlar.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MS_ASYNC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MS_ASYNC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     <code class="code">msync</code> işlevine eşzamanlamaya başlamasını söyler ama başlaması için beklemez.
+    </p>
+   </div>
+   <p>
+    <code class="code">msync</code> normalde sıfır ile hata oluştuğunda <code class="code">-1</code> ile döner. Olası hatalar:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Ya geçersiz bölge belirtilmiş ya da <em class="parameter"><code>flags</code></em> geçersiz.
+      </p></dd><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+       Belirtilen bölgenin en azından bir kısmında bile herhangi bir eşlem yok.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-mremap" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong class="type">*</strong><strong><code class="function">mremap</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">new_length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flag</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev mevcut bir bellek alanının boyunu değiştirmekte kullanılabilir. <em class="parameter"><code>address</code></em> ve <em class="parameter"><code>length</code></em> tamamen aynı <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> işleviyle eşlemlenmiş bölgeyi belirtmelidir. <em class="parameter"><code>new_length</code></em> ile belirtilen yeni eşlem aynı karakteristik özelliklerle dönecektir.
+   </p>
+   <p>
+    Tek bir seçenek, <code class="varname">MREMAP_MAYMOVE</code> belirtilebilir. Bu, <em class="parameter"><code>flag</code></em> içinde belirtilmişse, sistem mevcut eşlemi silip başka bir yerde belirtilen uzunlukta yeni bir eşlem oluşturur.
+   </p>
+   <p>
+    Normalde yeni eşlemin adresi ile bir hata oluştuğunda ise <code class="code">-1</code> ile döner. Olası hatalar:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+       Özgün eşlemin parçası olarak bile bir eşlem yok veya bölge bir veya daha fazla farklı eşlem içeriyor.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Belirtilen adres hizalı ya da uygun değil.
+      </p></dd><dt><span class="term"><code class="code">EAGAIN</code></span></dt><dd><p>
+       Bölge kilitli sayfalar içeriyor, eğer genişletmek gerekirse kilitli sayfalar için <a class="link" href="glibc-Limits-on-Resources.html" title="22.2. Kaynak Kullanımın Sınırlanması">sürecin öz kaynak sınırı</a> aşılabilir.
+      </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+       Bölge yazılabilir ama özel, ayrıca genişletmek için sanal bellek yetersiz. Bundan başka, <code class="varname">MREMAP_MAYMOVE</code> belirtilmemişse ve genişletme başka bir eşlemli bölge ile çatışacaksa bu hata oluşacaktır.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Bu işlev sadece birkaç sistemde kullanılabilir. İsteğe bağlı en iyilemeler gerçekleştirmek dışında bu işlev kullanılmamalıdır.
+  </p>
+        <p>
+   Tüm dosya tanıtıcılar bellek eşlemli olamaz. Soketler, ardışık süreçler ve çoğu aygıt için sadece sıralı erişim mümkündür ve eşlem soyutlaması uygun değildir. Ek olarak, bazı normal dosyalar da eşlemlenemez ve eski çekirdekler eşlemlemeyi hiç desteklemeyebilir. Bu bakımdan bu işlevi kullanacak yazılımların işlev başarısız olduğunda kullanılacak bir son çare yöntemi olmalıdır. Bkz. GNU Kodlama Standartlarında <a class="link" href="https://www.gnu.org/prep/standards/standards.html#Mmap" target="_top">Mmap</a>.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-madvise" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">madvise</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">advice</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev, sisteme <em class="parameter"><code>addr</code></em> adresinde başlayan <em class="parameter"><code>length</code></em> baytlık bellek bölgesinin düşünülen kullanım şekliyle ilgili bir öneri yapmak için kullanılabilir.
+   </p>
+   <p>
+    <em class="parameter"><code>advice</code></em> (öneri) için geçerli BSD değerleri şunlardır:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_NORMAL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_NORMAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölge özel bir şey yapmadan alınmalı.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_RANDOM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_RANDOM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölge rastgele sayfa başvuruları üzerinden erişilebilir olacak. Çekirdek her sayfalama hatası için en az sayıda sayfayı gerçek belleğe sayfalamalıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_SEQUENTIAL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_SEQUENTIAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölge ardışık sayfa başvuruları üzerinden erişilebilir olacak. Bu çekirdeğin bölge içindeki her sayfalama hatasından sonra bir ardışık başvuru umarak sürekli ileri doğru okumaya zorlanmasına sebep olur.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_WILLNEED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_WILLNEED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölge gerekli olacaktır. Bu bölge içindeki sayfalar çekirdek tarafından önceden gerçek belleğe sayfalanmış olmalıdır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_DONTNEED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_DONTNEED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Bölge artık gerekmeyecektir. Sayfa kaybına sebep olabilecek bir değişiklikte ya da sanal belleğe kopyalanması gerektiğinde bunun yapılmaması suretiyle çekirdek bu sayfaları serbest bırakabilir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_HUGEPAGE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_HUGEPAGE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Eşlem için sayfa boyutunu artırmanın yararlı olduğunu belirtir. Sistemin çok daha az sayfayı işlemesi gerektiğinden, daha büyük eşlemler için başarımı artırabilir. Bununla birlikte, eşlemnin bölümleri sık sık depolama veya farklı düğümler arasında aktarılırsa, artan sayfa boyutu nedeniyle bireysel aktarımlar önemli ölçüde büyüyebileceğinden başarım düşebilir.
+    </p>
+    <p>
+     Seçenek Linux'a özgüdür.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MADV_NOHUGEPAGE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MADV_NOHUGEPAGE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Önceki <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_HUGEPAGE"><strong class="varname"><code>MADV_HUGEPAGE</code></strong></a> önerisinin etkisini geri alır.
+    </p>
+    <p>
+     Seçenek Linux'a özgüdür.
+    </p>
+   </div>
+   <p>
+    POSIX isimleri biraz farklıdır ama isimler aynı anlama gelir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MADV_NORMAL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">POSIX_MADV_NORMAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     BSD'nin <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_NORMAL"><strong class="varname"><code>MADV_NORMAL</code></strong></a> seçeneğine karşılıktır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MADV_RANDOM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">POSIX_MADV_RANDOM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     BSD'nin <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_RANDOM"><strong class="varname"><code>MADV_RANDOM</code></strong></a> seçeneğine karşılıktır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MADV_SEQUENTIAL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">POSIX_MADV_SEQUENTIAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     BSD'nin <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_SEQUENTIAL"><strong class="varname"><code>MADV_SEQUENTIAL</code></strong></a> seçeneğine karşılıktır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MADV_WILLNEED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">POSIX_MADV_WILLNEED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     BSD'nin <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_WILLNEED"><strong class="varname"><code>MADV_WILLNEED</code></strong></a> seçeneğine karşılıktır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MADV_DONTNEED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">POSIX_MADV_DONTNEED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     BSD'nin <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MADV_DONTNEED"><strong class="varname"><code>MADV_DONTNEED</code></strong></a> seçeneğine karşılıktır.
+    </p>
+   </div>
+   <p>
+    <code class="code">madvise</code> başarı durumunda <code class="code">0</code>, hata durumunda <code class="code">-1</code> ile döner. Olası hatalar:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+       Özgün eşlemin parçası olarak bile bir eşlem yok veya bölge bir veya daha fazla farklı eşlem içeriyor.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Belirtilen bölge geçersiz ya da <em class="parameter"><code>advice</code></em> (öneri) geçersiz.
+      </p></dd><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+       Belirtilen bölgenin en azından bir kısmında bile herhangi bir eşlem yok.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-shm_open" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">shm_open</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">oflag</code></strong><strong><code>, </code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev, <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> aracılığıyla paylaşımlı belleği tahsis etmek için kullanılabilecek bir dosya tanıtıcı döndürür. İlişkisiz süreçler, mevcut paylaşılan bellek nesnelerini oluşturmak veya açmak için aynı adı (<em class="parameter"><code>name</code></em>) kullanabilir.
+   </p>
+   <p>
+    <em class="parameter"><code>name</code></em> bağımsız değişkeni, açılacak paylaşılan bellek nesnesini belirtir. GNU C Kütüphanesinde, isteğe bağlı bir eğik çizgi ile başlayan ancak başka eğik çizgi içermeyen <a href="glibc-Limits-for-Files.html#glibc-vr-NAME_MAX"><strong class="varname"><code>NAME_MAX</code></strong></a> bayttan daha küçük bir dizge olmalıdır.
+   </p>
+   <p>
+    <em class="parameter"><code>oflag</code></em> ve <em class="parameter"><code>mode</code></em> bağımsız değişkenleri <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevindeki gibi değerlendirilir.
+   </p>
+   <p>
+    <code class="code">shm_open</code> başarı durumunda dosya tanıtıcısını, hata durumunda <code class="code">-1</code> döndürür ve hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-shm_unlink" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">shm_unlink</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-init">init</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Bu işlev, <a href="glibc-Memory-mapped-I-O.html#glibc-fn-shm_open"><strong class="function"><code>shm_open</code></strong></a> işlevinin tersidir ve daha önce <a href="glibc-Memory-mapped-I-O.html#glibc-fn-shm_open"><strong class="function"><code>shm_open</code></strong></a> tarafından oluşturulan, adı <em class="parameter"><code>name</code></em> olan nesneyi kaldırır.
+   </p>
+   <p>
+    <code class="code">shm_unlink</code> başarı durumunda <code class="code">0</code>, hata durumunda <code class="code">-1</code> döndürür ve hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atar.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-memfd_create" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">memfd_create</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">memfd_create</code> işlevi, <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> işlevini kullanarak bellek eşlemleri oluşturmakta kullanılabilecek bir dosya tanıtıcı döndürür. Bu eşlemlerin gerçek dosyalar tarafından desteklenmemesi anlamında <a href="glibc-Memory-mapped-I-O.html#glibc-fn-shm_open"><strong class="function"><code>shm_open</code></strong></a> işlevine benzer. Ancak <code class="code">memfd_create</code> tarafından döndürülen tanıtıcı, isimli bir nesneye karşılık gelmez; <em class="parameter"><code>name</code></em> bağımsız değişkeni yalnızca hata ayıklama amacıyla kullanılır (örneğin, <code class="filename">/proc</code>'ta görünür) ve <code class="code">memfd_create</code> işlevinin aynı <em class="parameter"><code>name</code></em> kullanarak yapılan farklı çağrıları, aynı bellek bölgesi için tanıtıcılar döndürmez. Tanıtıcı, aynı süreç içinde takma adlı eşlemler oluşturmak için de kullanılabilir.
+   </p>
+   <p>
+    Tanıtıcı başlangıçta sıfır uzunluklu bir dosyaya atıfta bulunur. Bellek tarafından desteklenen eşlemler oluşturulmadan önce, dosya boyutunun <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işleviyle artırılması gerekir. Bkz. <a class="xref" href="glibc-File-Size.html" title="14.9.10. Dosya Boyu">Dosya Boyu</a>.
+   </p>
+   <p>
+    <em class="parameter"><code>flags</code></em> bağımsız değişken aşağıdaki bayrakların birleşimi olabilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MFD_CLOEXEC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MFD_CLOEXEC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Tanıtıcı <code class="varname">O_CLOEXEC</code> bayrağı ile oluşturulur.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MFD_ALLOW_SEALING" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MFD_ALLOW_SEALING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Tanıtıcı, <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevi kullanılarak mühür eklenmesini destekler.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-MFD_HUGETLB" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MFD_HUGETLB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Döndürülen dosya tanıtıcı kullanılarak oluşturulan eşlemlerin daha büyük sayfa boyutu kullanmasını ister. Ayrıntılar için bkz: <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_HUGETLB"><strong class="varname"><code>MAP_HUGETLB</code></strong></a>.
+    </p>
+    <p>
+     <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MFD_ALLOW_SEALING"><strong class="varname"><code>MFD_ALLOW_SEALING</code></strong></a> ile uyumsuzdur.
+    </p>
+   </div>
+   <p>
+    <code class="code">memfd_create</code> işlevi, başarı durumunda dosya tanıtıcısını, hata durumunda <code class="code">-1</code> döndürür ve hatayı <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atar. Bu işlev için tanımlanmış hata durumları:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>flags</code></em> ile geçersiz bir birleşim belirtilmiş veya <em class="parameter"><code>name</code></em> çok uzun.
+      </p></dd><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+       <em class="parameter"><code>name</code></em> bir dizge göstermiyor.
+      </p></dd><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+       İşlem, bu sürecin dosya tanıtıcı sınırını aşıyor.
+      </p></dd><dt><span class="term"><code class="code">ENFILE</code></span></dt><dd><p>
+       İşlem, sistem çapında dosya tanıtıcı sınırını aşıyor.
+      </p></dd><dt><span class="term"><code class="code">ENOMEM</code></span></dt><dd><p>
+       İşlem için bellek yetersiz.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

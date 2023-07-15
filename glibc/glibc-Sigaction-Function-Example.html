@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.3.4. sigaction Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-and-Sigaction.html')">Önceki</button>
+          <div class="dropdown-content">24.3.3. <code class="code">signal</code> ve <code class="code">sigaction</code> arasındaki etkileşim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Actions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Flags-for-Sigaction.html')">Sonraki</button>
+          <div class="dropdown-content">24.3.5. <code class="code">sigaction</code> Seçenekleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Sigaction-Function-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.3.4. <code class="code">sigaction</code> Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     <a class="xref" href="glibc-Basic-Signal-Handling.html" title="24.3.1. Basit Sinyal İşleme">Basit Sinyal İşleme</a> bölümünde sonlandırma sinyalleri için <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi kullanılan basit bir işleyici örneği verilmişti. Burada bu örneğin <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> eşdeğerine yer verilmiştir:
+    </p>
+            <pre class="screen">#include &lt;signal.h&gt;
+
+void
+sonlanma_isleyici (int signum)
+{
+  struct temp_file *p;
+
+  for (p = temp_file_list; p; p = p-&gt;next)
+    unlink (p-&gt;name);
+}
+
+int
+main (void)
+{
+  …
+  struct sigaction yeni_eylem, eski_eylem;
+
+  /* <em class="replaceable"><code>Yeni eylemi içeren yapıyı hazırla.</code></em> */
+  yeni_eylem.sa_handler = sonlanma_isleyici;
+  sigemptyset (&amp;yeni_eylem.sa_mask);
+  yeni_eylem.sa_flags = 0;
+
+  sigaction (SIGINT, NULL, &amp;eski_eylem);
+  if (eski_eylem.sa_handler != SIG_IGN)
+    sigaction (SIGINT, &amp;yeni_eylem, NULL);
+  sigaction (SIGHUP, NULL, &amp;eski_eylem);
+  if (eski_eylem.sa_handler != SIG_IGN)
+    sigaction (SIGHUP, &amp;yeni_eylem, NULL);
+  sigaction (SIGTERM, NULL, &amp;eski_eylem);
+  if (eski_eylem.sa_handler != SIG_IGN)
+    sigaction (SIGTERM, &amp;yeni_eylem, NULL);
+  …
+}
+</pre>
+            <p>
+     Yazılım, <em class="parameter"><code>yeni_eylem</code></em> veri yapısını istenen bağımsız değişkenlerle yükler ve onu <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> çağrısına aktarır. <a href="glibc-Signal-Sets.html#glibc-fn-sigemptyset"><strong class="function"><code>sigemptyset</code></strong></a> işlevinin kullanımı <a class="xref" href="glibc-Signal-Sets.html" title="24.7.2. Sinyal Kümeleri">Sinyal Kümeleri</a> bölümünde açıklanmıştır.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin kullanıldığı örnekte, evvelce yok sayılmaya ayarlanmış sinyallerin işlenmesinden kaçınılmıştı. Bu örnekte ise yeni eylemi etkin kılmadan önce evvelki eylemi <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> oluşumu sayesinde inceleme şansımız var. Böylece anlık bile olsa yok sayılmaya ayarlanmış bir sinyal işleyici değiştirilmemiş olur.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Burada başka bir örnek var. <a href="glibc-Termination-Signals.html#glibc-vr-SIGINT"><strong class="varname"><code>SIGINT</code></strong></a> sinyali için eylemi değiştirmeksizin mevcut eylem hakkında bilgi alınıyor:
+    </p>
+            <pre class="screen">struct sigaction query_action;
+
+if (sigaction (SIGINT, NULL, &amp;query_action) &lt; 0)
+  /* <em class="replaceable"><code><code class="code">sigaction</code> hata durumunda -1 döndürüyor.</code></em> */
+else if (query_action.sa_handler == SIG_DFL)
+  /* <em class="replaceable"><code><code class="code">SIGINT</code> ön tanımlı olarak yakalanıyor, ölümcül durum.</code></em> */
+else if (query_action.sa_handler == SIG_IGN)
+  /* <em class="replaceable"><code><code class="code">SIGINT</code> yok sayılıyor.</code></em> */
+else
+  /* <em class="replaceable"><code>Tanımlanan sinyal işleyici etkinleştiriliyor.</code></em> */
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

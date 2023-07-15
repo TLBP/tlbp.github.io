@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.2.5. Dizin Akımında Rastgele Erişim</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Simple-Directory-Lister.html')">Önceki</button>
+          <div class="dropdown-content">14.2.4. Bir Dizinin İçeriğini Listeleyen Bir Örnek</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Scanning-Directory-Content.html')">Sonraki</button>
+          <div class="dropdown-content">14.2.6. Dizin İçeriğinin Taranması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Random-Access-Directory">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.2.5. Dizin Akımında Rastgele Erişim</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm118417" class="indexterm"></span>
+    Bu bölümde açık bir dizin akımından zaten okunmuş olan bir dizin parçasının yeniden nasıl okunacağından bahsedilecektir. Bu bölümdeki tüm simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-rewinddir" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">rewinddir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     <code class="code">rewinddir</code> işlevi <em class="parameter"><code>dirstream</code></em> ile belirtilen dizin akımını yeniden ilklendirmekte kullanılır. Böylece bir <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a>  çağrısı ile dizindeki ilk girdi ile ilgili bilgi tekrar döndürülebilir. Dizin daha önce <a href="glibc-Opening-a-Directory.html#glibc-fn-opendir"><strong class="function"><code>opendir</code></strong></a> ile açılmış olduğundan bu arada silinmiş ya da eklenmiş dosyalar varsa onların da farkedilmesini sağlar. Yani son <a href="glibc-Opening-a-Directory.html#glibc-fn-opendir"><strong class="function"><code>opendir</code></strong></a> veya <code class="code">rewinddir</code> çağrısından sonra yapılan <a href="glibc-Reading-Closing-Directory.html#glibc-fn-readdir"><strong class="function"><code>readdir</code></strong></a> çağrılarıyla eklenmiş dosyalar varsa bunlarla ilgili bilgiler dönerken silinmiş dosyalarla ilgili bilgi dönmez.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-telldir" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">telldir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+    </div>
+    <p>
+     <code class="code">telldir</code> işlevi <em class="parameter"><code>dirstream</code></em> ile belirtilen dizin akımının dosya konumunu döndürür. Dizin akımının dosya konumunu tekrar bu noktaya getirmek için <a href="glibc-Random-Access-Directory.html#glibc-fn-seekdir"><strong class="function"><code>seekdir</code></strong></a> işlevi bu değerle kullanılabilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-seekdir" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">seekdir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">DIR </code><strong class="type">*</strong><strong><code class="parameter">dirstream</code></strong><strong><code>, </code></strong><code class="type">long int </code><strong><code class="parameter">pos</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+    </div>
+    <p>
+     <code class="code">seekdir</code> işlevi <em class="parameter"><code>dirstream</code></em> ile belirtilen dizin akımının dosya konumunu <em class="parameter"><code>pos</code></em> konumuna ayarlar. <em class="parameter"><code>pos</code></em> değeri bu akım için daha önceki bir <a href="glibc-Random-Access-Directory.html#glibc-fn-telldir"><strong class="function"><code>telldir</code></strong></a> çağrısından dönen değer olmalıdır. Ancak arada akım kapatılıp yeniden açılmışsa bu değer geçersiz olmuş olabilir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>29.2. NSS Yapılandırma Dosyası</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-NSS-Basics.html')">Önceki</button>
+          <div class="dropdown-content">29.1. NSS Temelleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Databases-and-Name-Service-Switch.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-NSS-Module-Internals.html')">Sonraki</button>
+          <div class="dropdown-content">29.3. NSS Modüllerinin Yapısı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-NSS-Configuration-File">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">29.2. NSS Yapılandırma Dosyası</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm130858" class="indexterm"></span>
+   <span id="idm130861" class="indexterm"></span>
+   Ne olursa olsun, NSS kodu kullanıcının isteklerini yerine getirmelidir. <code class="filename">/etc/nsswitch.conf</code> dosyası bu sebeple vardır. Bu dosyada her veritabanı için arama sürecinin nasıl çalışacağı ile ilgili bir belirtim vardır. Dosyanın içeriği şuna benzer:
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen"># /etc/nsswitch.conf
+#
+# Name Service Switch configuration file.
+#
+
+passwd:     db files
+shadow:     files
+group:      db files
+
+hosts:      files dns
+networks:   files
+
+ethers:     db files
+protocols:  db files
+rpc:        db files
+services:   db files
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+   lk sütunda veritabanının ismi bulunur. Satırın kalanında arama sürecinin nasıl çalışacağı belirtilir. Belirtilen yolun her veritabanı için ayrı olduğu unutulmamalıdır. Bu, eski yöntemle, bir tek parça gerçekleme ile yapılamaz.
+  </p>
+        <p>
+   Her veritabanı için yapılandırma belirtimi iki farklı öge içerebilir:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+    <code class="code">files</code>, <code class="code">db</code> veya <code class="code">nis</code> gibi bir hizmet belirtimi.
+   </li>
+            <li class="member">
+    <code class="code">[NOTFOUND=return]</code> gibi arama sonucuna verilen tepki.
+   </li>
+          </ul>
+        </div>
+        <section class="sect1" id="glibc-Services-in-the-NSS-configuration">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">29.2.1. NSS Yapılandırma Dosyasındaki Hizmetler</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     Önceki bölümdeki örnek dosyada beş farklı hizmet vardı: <code class="code">files</code>, <code class="code">db</code>, <code class="code">dns</code>, <code class="code">nis</code> ve <code class="code">nisplus</code>.  Bu, her yerde sadece bu hizmetlerin olduğu anlamına gelmediği gibi bunların her yerde bulunabilen hizmetler olduğu anlamına da gelmez.
+    </p>
+          <p>
+     Aslında, bu isimler NSS kodu tarafından dolaylı olarak adresli işlevleri bulmak için kullanılan basit dizgelerdir. Dahili arayüz daha sonra açıklanacaktır. Kullanıcıya görünür olan, her biri bir hizmeti gerçekleştiren modüllerdir.
+    </p>
+          <p>
+     <em class="replaceable"><code>isim</code></em> dizgesi arama için kullanılacak hizmet olduğu varsayılırsa bu hizmeti gerçekleştiren modülün dosyası  <code class="code">libnss_</code><em class="replaceable"><code>isim</code></em> adını alır. Paylaşımlı kütüphaneleri destekleyen sistemlerde ise bu isim (örneğin)  <code class="code">libnss_</code><em class="replaceable"><code>isim</code></em><code class="code">.so.2</code> olacaktır. Dosya isminin sonundaki sayı arayüzün o an geçerli ve pek sık değişmeyen sürümünü ifade eder. Normalde kullanıcılar bu dosyalarla ilgilenmezler, çünkü bunlar özdevinimli olarak bulunabilecekleri bir dizine konulur. Mevcut hizmetlerin sadece isimleri önemlidir.
+    </p>
+          <p>
+     Son olarak, bazı sistem yazılımları, benzer amaçlarla kendi yapılandırmalarını depolamak için NSS yapılandırma dosyasını kullanabilir. Bunun örnekleri, <code class="code">autofs</code> tarafından kullanılan <code class="code">automount</code> hizmetini içerir.
+    </p>
+        </section>
+        <section class="sect1" id="glibc-Actions-in-the-NSS-configuration">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">29.2.2. NSS Yapılandırmasındaki Eylemler</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     Belirtimdeki ikinci öge, kullanıcıya arama sürecini daha iyi denetleme imkanı verir. Eylem ögeleri iki hizmet ismi arasına yerleştirilir ve köşeli parantezlerin arasına yazılır. Genel biçimi şöyledir:
+    </p>
+          <pre class="literallayout monospaced">[ ( !? <em class="replaceable"><code>durum</code></em>=<em class="replaceable"><code>eylem</code></em> )+ ]
+</pre>
+          <p>Burada:</p>
+          <pre class="literallayout monospaced"><em class="replaceable"><code>durum</code></em> ⇒ success | notfound | unavail | tryagain
+<em class="replaceable"><code>eylem</code></em> ⇒ return | continue
+</pre>
+          <p>
+     olabilir. Sözcüklerin harf büyüklükleri önemsizdir. <em class="replaceable"><code>durum</code></em> değerleri belirli bir hizmetin arama işlevi çağrısının sonucudur. Bunların anlamları:
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">'<code class="literal">success</code>'</span>
+              </dt>
+              <dd>
+                <p>
+        Bir hata oluşmadan istenen girdi döndü. Öntanımlı eylem  <code class="code">return</code>, dön'dür.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">'<code class="literal">notfound</code>'</span>
+              </dt>
+              <dd>
+                <p>
+         Arama süreci tamamlandı ama gerekli değer bulunamadı. Öntanımlı eylem <code class="code">continue</code>, aramaya devam et'tir.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">'<code class="literal">unavail</code>'</span>
+              </dt>
+              <dd>
+                <p>
+         <span id="idm130927" class="indexterm"></span>
+         Hizmet geçici olarak kullanım dışıdır. Bu ya gerekli dosyanın olmadığı ya da DNS için, hizmetin kullanım dışı olduğunu veya sorguya izin vermediğini belirtir. Öntanımlı eylem <code class="code">continue</code>, aramaya devam et'tir.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">'<code class="literal">tryagain</code>'</span>
+              </dt>
+              <dd>
+                <p>
+        Hizmet geçici olarak kullanım dışıdır. Bu bir dosyanın kilitli olduğu ya da bir sunucunun o an artık bağlantı kabul edemediğini belirtir. Öntanımlı eylem  <code class="code">continue</code>, aramaya devam et'tir.
+       </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+     <em class="replaceable"><code>eylem</code></em> değerleri ve anlamları:
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">'<code class="literal">return</code>'</span>
+              </dt>
+              <dd>
+                <p>
+        <em class="replaceable"><code>durum</code></em> eşleşirse, bu hizmet belirtiminde arama işlemi durdurulur. Bir girdi varsa, uygulamaya aktarılır. Bir hata oluşursa,  uygulamaya bildirilir. Önceki bir ‘<code class="code">merge</code>’ (birleştirme) eylemi durumunda, veriler aşağıda açıklandığı gibi önceki arama sonuçlarıyla birleştirilir.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">'<code class="literal">continue</code>'</span>
+              </dt>
+              <dd>
+                <p>
+        <em class="replaceable"><code>durum</code></em> eşleşirse, mevcut aramanın sonucu (ve herhangi bir birleştirilmiş veri) atılarak arama işlemine bir sonraki girdiden devam edilir. Bir istisna, ‘<code class="code">initgroups</code>’ veritabanı ve ‘<code class="code">continue</code>’ (devam et) eyleminin aşağıdaki <code class="code">merge</code> (birleştir) gibi davrandığı ‘<code class="code">success</code>’ (başarı) durumudur.
+       </p>
+              </dd>
+              <dt>
+                <span class="term">'<code class="literal">merge</code>'</span>
+              </dt>
+              <dd>
+                <p>
+        Geçerli arama sonucu korunarak arama işlemine devam edilir. Bu <em class="replaceable"><code>eylem</code></em> yalnızca ‘<code class="code">success</code>’ (başarı) <em class="replaceable"><code>durum</code></em>unda yararlıdır. Sonraki bir hizmet araması başarılı olursa ve eşleşen bir ‘<code class="code">return</code>’ (dönüş) <em class="replaceable"><code>eylem</code></em>ine sahipse, sonuçlar birleştirilir, arama işlemi sona erer ve birleştirilen sonuçlar uygulamaya döndürülür. Aşağıdaki hizmetin eşleşen bir <code class="code">merge</code> (birleştir) <em class="replaceable"><code>eylem</code></em>i varsa, arama işlemi bu ve önceki aramalardan birleştirilmiş veriler korunarak devam eder.
+       </p>
+                <p>
+        <code class="code">merge</code> (birleştir) <em class="replaceable"><code>eylem</code></em>inden sonra, sonraki aramalardan gelen hatalar yok sayılır ve o ana kadar toplanan veriler döndürülür.
+       </p>
+                <p>
+        <code class="code">merge</code> (birleştir) yalnızca ‘<code class="code">success</code>’ (başarı) <em class="replaceable"><code>durum</code></em>unda uygulanır. Şu anda ‘<code class="filename">group</code>’ veritabanı ve onun grup üyeleri alanı <code class="filename">gr_mem</code>’ için uygulanmaktadır. Diğer veritabanları için belirtilirse, aramanın başarısız olmasına neden olur (<em class="replaceable"><code>durum</code></em> eşleşirse).
+       </p>
+                <p>
+        ‘<code class="filename">group</code>’ üyeliği için  <code class="code">merge</code> (birleştir) <em class="replaceable"><code>eylem</code></em>i yürürlükteyken, grup kimliği ve adı her iki girdi için de aynı olmalıdır. Yalnızca biri veya diğeri eşleşirse, davranış tanımsızdır.
+       </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+     Şöyle bir satırın varlığında:
+    </p>
+          <pre class="literallayout monospaced">ethers: nisplus [NOTFOUND=return] db files
+</pre>
+          <p>
+     Satır şuna eşdeğerdir (hepsinin bir satıra yazılması zorunluluğu dışında):
+    </p>
+          <pre class="literallayout monospaced">ethers: nisplus [SUCCESS=return NOTFOUND=return UNAVAIL=continue
+                 TRYAGAIN=continue]
+        db      [SUCCESS=return NOTFOUND=continue UNAVAIL=continue
+                 TRYAGAIN=continue]
+        files
+</pre>
+          <p>
+     Eylemlerin ön tanımlı değeri normalde ne istendiğini gösterir ve sadece olağan dışı durumlarda değiştirmek gerekir.
+    </p>
+          <p>
+     <em class="replaceable"><code>durum</code></em> dizgesinden önce bir <code class="code">!</code> varsa (isteğe bağlıdır), belirtilen eylemin dışındaki tüm eylemlerin geçerli olduğu anlamına gelir. Yani, <code class="code">!</code> işleci C dilindeki gibi "bundan farklı her şey" anlamına gelir.
+    </p>
+          <p>
+     Bu <em class="replaceable"><code>eylem</code></em> ögesini gerekli yapan olağan dışılığı açıklamadan önce birkaç yorum: <span class="command"><strong>files</strong></span> hizmetinden sonra bir eylem ögesi eklemenin bir faydası olmadığı açıktır. Eylem <em class="emphasis">daima</em> <code class="code">return</code> olacağından bundan sonra başka hizmet belirtilmez.
+    </p>
+          <p>
+     <span id="idm130997" class="indexterm"></span>
+     Şimdi, bu <code class="code">[NOTFOUND=return]</code> <em class="replaceable"><code>eylem</code></em>i neden kullanışlıdır? Sebebini anlayabilmek için <code class="code">nisplus</code> hizmetinin çoğunlukla bir bütünlük arzettiğini bilmemiz gerekir. Yani, bir girdi NIS+ tablolarında mevcut değilse başka hiçbir yerde bulunamaz. Bu durum bu eylem ögesinin neden böyle belirtildiğini açıklar: diğer hizmetler zaten bir sonuç vermeyeceğinden onlara bakmak yararsızdır.
+    </p>
+          <p>
+     <span id="idm131004" class="indexterm"></span>
+     NIS+ hizmetinin makinenin yeniden başlatılması nedeniyle yokluğu farklı bir durum olurdu. Bu durumda arama işlevinin dönüş değeri <code class="code">notfound</code> değil, <code class="code">unavail</code> olur. Yukarıdaki satırın açılımında da görüleceği gibi bu durumda <code class="code">db</code> ve <code class="code">files</code> hizmetleri kullanılır. Güzel değil mi? Sistem çalışmaya tamamen hazır olmadığı bir anda (sistem açılışı, kapanışı ya da bir ağ sorunu nedeniyle) sistem yöneticisinin özel bir çaba harcaması gerekmeyecektir.
+    </p>
+        </section>
+        <section class="sect1" id="glibc-Notes-on-NSS-Configuration-File">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">29.2.3. NSS Yapılandırma Dosyası için İpuçları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     Son olarak birkaç ipucu. <code class="filename">/etc/nsswitch.conf</code> dosyasının olmayışı durumunda NSS gerçeklemesi tamamen çaresiz bırakmaz. Desteklenen tüm veritabanları için bir ön tanımlı değer vardır, böylece dosya bozuk da olsa hiç olmasa da sistemin normal çalışması mümkün olur.
+    </p>
+          <p>
+     <span id="idm131017" class="indexterm"></span>
+      <code class="code">hosts</code> ve <code class="code">networks</code> veritabanları için ön tanımlı değer <code class="code">dns [!UNAVAIL=return] files</code> şeklindedir. Yani sistem DNS hizmeti olmaksızın hazırsa ama yanıt varsa dönüş kesindir.
+    </p>
+          <p>
+     <code class="code">passwd</code>, <code class="code">group</code> ve <code class="code">shadow</code> veritabanları geleneksel olarak özel bir yolla elde edilir. <code class="filename">/etc</code> dizinindeki ilgili dosyalar okunur, bunlar içinde <code class="code">+</code> ile başlayan bir isim varsa NIS kullanılır. Bu çeşit arama kaldırılmıştır ve artık hizmetler için ön tanımlı değer <code class="code">files</code>'tır. <code class="code">libnss_compat</code> artık <code class="code">libnsl</code>'ye bağlı değildir ve NIS olmadan kullanılabilmektedir.
+    </p>
+          <p>
+     Tüm diğer veritabanları için ön tanımlı değer <code class="code">files</code>'tır.
+    </p>
+          <p>
+     <span id="idm131035" class="indexterm"></span>
+     <span id="idm131038" class="indexterm"></span>
+     İkinci bir nokta da kullanıcının arama sürecini en iyilemeye çalışmasıdır. Her hizmetin kendine özgü bir yanıt süresi vardır. Basit dosya araması bir yerel dosya üzerinde hızlı olabilirdi ama dosya uzunsa ve gerekli girdi dosyanın sonlarına doğruysa bu biraz vakit alır. Bu durumda büyük veri kümelerine daha hızlı erişim sağlayan <code class="code">db</code> hizmetinin kullanılması daha iyi olabilir.
+    </p>
+          <p>
+     Sıkça rastlanan bir durum NIS gibi kapsamlı bilgi hizmetlerinin kullanıldığı durumdur. Bu durumda <code class="code">nis</code> vb. hizmet girdilerinin kullanılması kaçınılmazdır. Fakat bunun gibi yavaş hizmetlerden mümkün olduğunca kaçınılmalıdır.
+    </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.8. Sinyalin Beklenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Remembering-a-Signal.html')">Önceki</button>
+          <div class="dropdown-content">24.7.7. Bir Sinyalin Eyleminin Sonradan Hatırlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Stack.html')">Sonraki</button>
+          <div class="dropdown-content">24.9. Sinyal Yığıtı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Waiting-for-a-Signal">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">24.8. Sinyalin Beklenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm128654" class="indexterm"></span>
+   Yazılım harici olaylarla tetikleniyorsa ya da eşzamanlama için sinyaller kullanılıyorsa ve yapacak başka işi de yoksa bir sinyal gelene kadar beklemesi gerekir.
+  </p>
+        <section class="sect1" id="glibc-Using-Pause">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.8.1. <code class="code">pause</code> Kullanımı</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Sinyal gelene kadar beklemenin en basit yolu <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> çağrısı yapmaktır. Kullanmadan önce, aşağıda açıklanan <a class="link" href="glibc-Waiting-for-a-Signal.html#glibc-Pause-Problems" title="24.8.2. pause Sorunları">olumsuzluklar</a> okunmalıdır.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-pause" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pause</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:sigprocmask</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!bsd!linux</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+    </div>
+    <p>
+     <code class="code">pause</code> işlevi, bir sinyal işleyiciyi çalıştırmak ya da süreci sonlandırmak gibi bir eylemi yerine getirmek üzere bir sinyalin gelmesini beklemek için kullanılır.
+    </p>
+    <p>
+     Sinyal, bir işleyici işlevi tetikliyorsa <code class="code">pause</code> döner. Bu başarısız bir dönüş olarak ele alınır (başarılı davranış, süreci sonsuza dek bekletmektir) ve işlev <code class="code">-1</code> değeri ile döner. Hatta bir sinyal işleyici döndüğünde diğer ilkellerin çalışmalarına kaldıkları yerden devam edecekleri belirtilse bile (bkz, <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>), bunun <code class="code">pause</code> üzerinde bir etkisi yoktur; bir sinyal geldiğinde daima başarısız olarak dönecektir.
+    </p>
+    <p>
+     Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri bu işlev içindir:
+    </p>
+    <dl><dt><code class="code">EINTR</code></dt><dd><p>
+      İşlev bir sinyal alarak kesintiye uğradı.
+     </p></dd></dl>
+    <p>
+     Sinyal sürecin sonlanmasına sebep oluyorsa <code class="code">pause</code> dönmeyecektir (ister istemez).
+    </p>
+    <p>
+     Bu işlev çok evreli yazılımlar için bir iptal noktasıdır. Eğer evre <code class="code">pause</code> çağrısı sırasında bazı öz kaynakları (bellek, dosya tanımlayıcılar, semaforlar, v.s.) ayırıyorsa sorun çıkar. Evre iptal aldığı andan itibaren süreç sonlanana kadar bu öz kaynaklar ayrılmış olarak kalacaktır. Bu tür <code class="code">pause</code> çağrılarından kaçınmak için iptal işleyicileri kullanılarak korunulmalıdır.
+    </p>
+    <p>
+     <code class="code">pause</code> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Pause-Problems">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.8.2. <code class="code">pause</code> Sorunları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> basitleştirmesi, yazılımın sihirli bir şekilde çökmesine sebep olan bir sürü zamanlama hatasını gizleyebilir.
+   </p>
+          <p>
+    Eğer herşeyi yazılımınız yapıyorsa, yani kendi sinyal işleyicilerini kullanıyor ve yazılım <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> çağırmaktan başka bir şey yapmıyorsa <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> kullanmak güvenilirdir. Her sinyal alınışında sinyal işleyici bir sonraki işi yapar ve döner, böylece yazılımın ana döngüsü tekrar bir <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> çağrısı yapabilir.
+   </p>
+          <p>
+    Birden fazla sinyalin işlenmesi için <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> kullanarak beklemek ve sonra çalışmayı sürdürmek mümkün olmayabilir. Sinyal işleyici çalışmaya başladığında bir değişken ile bunu belirliyorsanız <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> kullanmak artık güvenilir olmaz.
+   </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">/* <em class="replaceable"><code><code class="code">usr_interrupt</code>'a sinyal işleyici değer atıyor.</code></em>  */
+if (!usr_interrupt)
+  pause ();
+
+/* <em class="replaceable"><code>Sinyal geldikten sonra yapılacaklar.</code></em>  */
+…
+</pre>
+              <p>
+     Bu bir yazılım hatasıdır: sinyal, <code class="code">usr_interrupt</code>'a bakıldıktan sonra ve <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> çağrılmadan önce gelmelidir. Eğer böyle bir sinyal gelmezse, süreç bu kod parçasını bir kez daha asla çalıştırmayacaktır.
+    </p>
+              <p>
+     <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> kullanmak yerine <strong class="function"><code>sleep</code></strong> kullanarak döngü içinde bekleme sınırlanabilir. <strong class="function"><code>sleep</code></strong> hakkında daha ayrıntılı bilgi için bkz, ???. Bu durumda kod şöyle olurdu:
+    </p>
+              <pre class="screen">/* <em class="replaceable"><code><code class="code">usr_interrupt</code>'a sinyal işleyici değer atıyor.</code></em>
+while (!usr_interrupt)
+  sleep (1);
+
+/* <em class="replaceable"><code>Sinyal geldikten sonra yapılacaklar.</code></em>  */
+…
+</pre>
+              <p>
+     Bazı amaçlar için bu yeterli olur. Ama biraz daha karmaşık olmakla beraber <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a> kullanarak belli bir sinyal işleyicinin çalıştırılması sağlanabilir.
+    </p>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect1" id="glibc-Sigsuspend">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">24.8.3. <code class="code">sigsuspend</code> Kullanımı</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir sinyali beklemenin en temiz ve güvenilir yolu sinyali engelleyip <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a> kullanmaktır. Bir döngü içinde <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a> kullanarak, her sinyal için farklı bir sinyal işleyici oluşturarak sinyaller beklenebilir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigsuspend" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigsuspend</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:sigprocmask</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/!bsd!linux</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+    </div>
+    <p>
+     Bu işlev sürecin sinyal maskesini <em class="parameter"><code>set</code></em> maskesi ile değiştirerek bir sinyal işleyiciyi çalıştıracak ya da süreci sonlandıracak bir sinyal alıncaya kadar süreci bekletir. Başka bir deyişle, süreç, <em class="parameter"><code>set</code></em> maskesinin üyesi olmayan sinyallerden biri gelene dek süreci bekletir.
+    </p>
+    <p>
+     Eğer süreç bir sinyal işleyiciyi çalıştıracak bir sinyalin alınması ve işleyici işlevin dönmesiyle işlemi sürdürüyorsa <code class="code">sigsuspend</code> ayrıca dönecektir.
+    </p>
+    <p>
+     <em class="parameter"><code>set</code></em> ile belirtilen maske <code class="code">sigsuspend</code> etkin olduğu sürece geçerli olur. İşlev döndüğünde eski maske tekrar etkin olur.
+    </p>
+    <p>
+     Dönüş değeri ve hata durumu  <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> ile aynıdır.
+    </p>
+   </div>
+          <p>
+    Önceki bölümdeki <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-pause"><strong class="function"><code>pause</code></strong></a> ve <strong class="function"><code>sleep</code></strong> ile ilgili örnekler <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a> kullanılarak tamamen güvenilir duruma getirilebilir:
+   </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">sigset_t mask, oldmask;
+
+…
+
+/* <em class="replaceable"><code>Geçici olarak engellenecek sinyallerin maskesini oluştur</code></em> */
+sigemptyset (&amp;mask);
+sigaddset (&amp;mask, SIGUSR1);
+
+…
+
+/* <em class="replaceable"><code>Sinyal gelmesini bekle.</code></em> */
+sigprocmask (SIG_BLOCK, &amp;mask, &amp;oldmask);
+while (!usr_interrupt)
+  sigsuspend (&amp;oldmask);
+sigprocmask (SIG_UNBLOCK, &amp;mask, NULL);
+</pre>
+              <p>
+     Kodun son parçası biraz dikkat gerektiriyor. Burada hatırlanması gereken nokta, <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a> döndüğünde sinyal maskesini çağrılmadan önceki değere ayarlamasıdır. Bu durumda <a href="glibc-Miscellaneous-Signals.html#glibc-vr-SIGUSR1"><strong class="varname"><code>SIGUSR1</code></strong></a> sinyali bir kere daha engellenir. İkinci <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> çağrısı bu sinyalin engellenmesini kaldırmak için gereklidir.
+    </p>
+              <p>
+     Bir diğer nokta: <code class="code">while</code> döngüsünün neden gerekli diye düşünülebilir. Öyle ya, yazılım sadece tek bir <a href="glibc-Miscellaneous-Signals.html#glibc-vr-SIGUSR1"><strong class="varname"><code>SIGUSR1</code></strong></a> sinyali bekliyor. Yanıt: <a href="glibc-Waiting-for-a-Signal.html#glibc-fn-sigsuspend"><strong class="function"><code>sigsuspend</code></strong></a>'e aktarılan maskeye bakılırsa yazılımın başka sinyalleri de beklediğini görülür--örneğin, iş denetim sinyalleri. Eğer <em class="replaceable"><code>usr_interrupt</code></em> değişkenine dokunmayan sinyal işleyiciler de varsa, değişkeni değiştiren bir sinyal işleyici çalıştırılana kadar döngü sürecektir.
+    </p>
+              <p>
+     Bu teknik birkaç satır daha gerektirir ama bu kullanım amacınıza uygun koşullara bağlı olacaktır. Kod aslında sadece bu dört satırda bekler.
+    </p>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

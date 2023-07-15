@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.6. Dosyaların Silinmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Symbolic-Links.html')">Önceki</button>
+          <div class="dropdown-content">14.5. Simgesel Bağlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Renaming-Files.html')">Sonraki</button>
+          <div class="dropdown-content">14.7. Dosya İsimlerinin Değiştirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Deleting-Files">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">14.6. Dosyaların Silinmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm119774" class="indexterm"></span>
+   Bir dosya <a href="glibc-Deleting-Files.html#glibc-fn-unlink"><strong class="function"><code>unlink</code></strong></a> veya <a href="glibc-Deleting-Files.html#glibc-fn-remove"><strong class="function"><code>remove</code></strong></a> ile silinebilir.
+  </p>
+        <p>
+   Silme işleminde aslında sadece dosyanın ismi silinir. Eğer dosya sadece isimden ibaretse dosyanın kendisi de silinmiş olur. Eğer dosyanın başka isimleri de varsa onlar bu isimler altında hala erişilebilir olur (bkz. <a class="xref" href="glibc-Hard-Links.html" title="14.4. Sabit Bağlar"><em>Sabit Bağlar</em></a>).
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-unlink" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">unlink</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">unlink</code> işlevi <em class="parameter"><code>filename</code></em> ile belirtilen dosya ismini siler.  Eğer dosya sadece isimden ibaretse dosyanın kendisi de silinir. (Aslında, eğer herhangi bir süreç dosyayı açmışsa silme işlemi süreçler dosyayı kapatıncaya kadar ertelenir.)
+   </p>
+   <p>
+    İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       Silinecek dosyanın bulunduğu dizinde yazma izniniz yok ya da dizinde yapışkan bit var ve dosya size ait değil.
+      </p></dd><dt><span class="term"><code class="code">EBUSY</code></span></dt><dd><p>
+       Bu hata dosyanın sistem tarafından kullanıldığından silinemeyeceğini belirtir. Örneğin, dosya ismi kök dizini ya da bir dosya sisteminin bağlı olduğu dizini belirtiyorsa bu hata oluşur.
+      </p></dd><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+       Silinecek dosya ismi mevcut değil.
+      </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+       Bazı sistemlerde <code class="code">unlink</code> bir dizini silmek için kullanılamaz ya da en azından sadece ayrıcalıklı kullanıcı bunu yapabilir. Böyle sorunlarla karşılaşmamak için dizinler silinirken <span class="command"><strong>rmdir</strong></span> kullanılmalıdır. (GNU sisteminde <code class="code">unlink</code> kesinlikle dizin ismini silemez.)
+      </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+       Silinecek dosya salt-okunur bağlı bir dosya sisteminde ve bu değiştirilemez.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-rmdir" class="indexterm"></span>
+   <span id="glibc-cp-rmdir" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">rmdir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">rmdir</code> işlevi belirtilen dizini siler. Silinecek dizin boş olmalıdır; başka bir deyişle, sadece '<code class="filename">.</code>' ve '<code class="filename">..</code>' girdilerini içermelidir.
+   </p>
+   <p>
+    Birçok bakımdan, <code class="code">rmdir</code> işlevi <a href="glibc-Deleting-Files.html#glibc-fn-unlink"><strong class="function"><code>unlink</code></strong></a> gibi davranır.  Bu işlev için iki hata durumu daha tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term">
+      <code class="code">ENOTEMPTY</code>
+      <br /><code class="code">EEXIST</code>
+     </span></dt><dd><p>
+       Silinecek dizin boş değil.
+      </p></dd></dl></div>
+   <p>
+    Bu iki hata kodu eşanlamlıdır, bazı sistemlerde biri, bazılarında öbürü kullanılır. GNU/Linux ve GNU/Hurd sistemlerinde daima <a href="glibc-Error-Codes.html#glibc-vr-ENOTEMPTY"><strong class="varname"><code>ENOTEMPTY</code></strong></a> kullanılır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-remove" class="indexterm"></span>
+   <span id="glibc-cp-remove" class="indexterm"></span>
+   <span id="glibc-cp-remove_" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">remove</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Dosya silmek için kullanılan bir ISO C işlevidir. Dosyalarla  <a href="glibc-Deleting-Files.html#glibc-fn-unlink"><strong class="function"><code>unlink</code></strong></a> gibi, dizinlerle <a href="glibc-Deleting-Files.html#glibc-fn-rmdir"><strong class="function"><code>rmdir</code></strong></a> gibi çalışır.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -7,6 +7,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
@@ -78,14 +79,14 @@
      <pre class="screen">printf (gettext ("Operation failed: %m\n"));
 </pre>
      <p>
-      Burada <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri, <code class="code">%m</code> biçem belirtimiyle işlenerek <strong class="function"><code>printf</code></strong> işlevinde kullanılmıştır. <code class="code">gettext</code> işlevi bu değeri değiştirmiş olsaydı, (<strong class="function"><code>printf</code></strong> işlevinden önce çağrılacağından) yanlış ileti alınırdı.
+      Burada <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri, <code class="code">%m</code> biçem belirtimiyle işlenerek <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevinde kullanılmıştır. <code class="code">gettext</code> işlevi bu değeri değiştirmiş olsaydı, (<a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevinden önce çağrılacağından) yanlış ileti alınırdı.
      </p>
      <p>
       Bu durumda, bir ileti kataloğunun mevcut olup olmadığını saptamanın bir yolu yoktur. Normalde katalogların bulunmasını sağlamak kullanıcının görevidir. Yazılımın geliştirildiği dili konuşan bir kullanıcı için iletinin herhangi bir çeviriye ihtiyacı olmadığından, yazılım bir ileti kataloğunun ne zaman gerçekten gerekli olduğunu tahmin edemez.
      </p>
     </div>
         <p>
-     İleti kataloğuna erişmekte kullanılan diğer iki işlev öntanımlı olmayan bir ileti kataloğunun seçilmesine yardımcı olur. Eğer yazılım birbirinden bağımsız olarak geliştirilmiş parçalardan oluşuyorsa, her parçanın kendi ileti kataloğu olabilir ve bunlar aynı anda kullanılabilir. C kütüphanesinin kendisi buna iyi bir örnektir: Dahili olarak <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevlerini kullanır, ancak o anda seçili olan öntanımlı ileti kataloğuna bağlı olmaması gerektiğinden, anlamı belirsiz tüm bilgileri belirtmesi gerekir.
+     İleti kataloğuna erişmekte kullanılan diğer iki işlev ön tanımlı olmayan bir ileti kataloğunun seçilmesine yardımcı olur. Eğer yazılım birbirinden bağımsız olarak geliştirilmiş parçalardan oluşuyorsa, her parçanın kendi ileti kataloğu olabilir ve bunlar aynı anda kullanılabilir. C kütüphanesinin kendisi buna iyi bir örnektir: Dahili olarak <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevlerini kullanır, ancak o anda seçili olan ön tanımlı ileti kataloğuna bağlı olmaması gerektiğinden, anlamı belirsiz tüm bilgileri belirtmesi gerekir.
     </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-dgettext" class="indexterm"></span>
@@ -97,7 +98,7 @@
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
      </div>
      <p>
-      <code class="code">dgettext</code> işlevi <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibi davranır.  Farklı olarak ilk bağımsız değişkeninde çevirinin aranacağı ileti kataloğu belirtilir. Eğer <em class="parameter"><code>domainname</code></em> ile boş gösterici belirtilmişse, katalog olarak öntanımlı katalog kullanıldığından <span class="command"><strong>dgettext</strong></span> işlevi tamamen <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibi davranır.
+      <code class="code">dgettext</code> işlevi <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibi davranır.  Farklı olarak ilk bağımsız değişkeninde çevirinin aranacağı ileti kataloğu belirtilir. Eğer <em class="parameter"><code>domainname</code></em> ile boş gösterici belirtilmişse, katalog olarak ön tanımlı katalog kullanıldığından <span class="command"><strong>dgettext</strong></span> işlevi tamamen <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevi gibi davranır.
      </p>
      <p>
       <a href="glibc-Translation-with-gettext.html#glibc-fn-gettext"><strong class="function"><code>gettext</code></strong></a> işlevinde olduğu gibi geçmişten gelen bir özellik olarak dönüş türü <code class="type">char *</code> olduğundan dönen dizgenin asla değiştirilmemesi gerekir.
@@ -105,7 +106,7 @@
     </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
      <span id="glibc-fn-dcgettext" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">dcgettext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domainname</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">category</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/libintl.h;hb=HEAD" target="_top">libintl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">dcgettext</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">domainname</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">msgid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">category</code></strong><strong><code>)</code></strong></td></tr></table></div>
      
      <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
        | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>

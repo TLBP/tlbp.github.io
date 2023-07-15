@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.3.5. sigaction Seçenekleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sigaction-Function-Example.html')">Önceki</button>
+          <div class="dropdown-content">24.3.4. <code class="code">sigaction</code> Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Actions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Initial-Signal-Actions.html')">Sonraki</button>
+          <div class="dropdown-content">24.3.6. Sinyal Eylemlerinin İlk Durumu</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Flags-for-Sigaction">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.3.5. <code class="code">sigaction</code> Seçenekleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127498" class="indexterm"></span>
+    <a href="glibc-Advanced-Signal-Handling.html#glibc-tp-sigaction"><strong class="type"><code>struct sigaction</code></strong></a> veri yapısının <code class="code">sa_flags</code> üyesi özel durumları belirtmek içindir. Çoğu durumda, <a href="glibc-Flags-for-Sigaction.html#glibc-vr-SA_RESTART"><strong class="varname"><code>SA_RESTART</code></strong></a> bu alanda kullanmak için iyi bir değerdir.
+   </p>
+        <p>
+    <code class="code">sa_flags</code> üyesinin değeri bir bit maskesi olarak yorumlanır. Böylece çok sayıda seçenek belirtilebilir.
+   </p>
+        <p>
+    Her sinyalin kendine has seçenekleri vardır. Her <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> çağrısı belli bir sinyal için yapılır ve belirtilen seçenekler de sadece bu sinyale uygulanır.
+   </p>
+        <p>
+    GNU C Kütüphanesinde, <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi ile kurulan işleyici için bu seçenekler, değeri <a href="glibc-BSD-Signal-Handling.html#glibc-fn-siginterrupt"><strong class="function"><code>siginterrupt</code></strong></a> kullanımına bağlı olan <a href="glibc-Flags-for-Sigaction.html#glibc-vr-SA_RESTART"><strong class="varname"><code>SA_RESTART</code></strong></a> haricinde sıfıra ayarlanır. Bu durumla ilgili bilgi  <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a> bölümünde bulunabilir.
+   </p>
+        <p>
+    Bu makrolar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında tanımlanmıştır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-pg-SA_NOCLDSTOP" class="indexterm"></span>
+    <span id="glibc-vr-SA_NOCLDSTOP" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SA_NOCLDSTOP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek sadece <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> sinyali için anlamlıdır. Bu seçenek etkin olduğunda sistem, durdurulan değil, sonlandırılan bir alt süreç olduğunda bu sinyali alır. Ön tanımlı olarak, <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> sinyali hem durdurulan hem de sonlandırılan bir alt süreç olduğunda alınır.
+    </p>
+    <p>
+     Bu seçenek <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> dışında bir sinyal için belirtildiğinde etkisizdir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SA_ONSTACK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SA_ONSTACK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek belli bir sinyal için etkin olduğunda, sistem bu çeşit sinyalleri aldığında <a class="link" href="glibc-Signal-Stack.html" title="24.9. Sinyal Yığıtı">sinyal yığıtını</a> kullanır. Bu seçeneğin etkin olduğu bir sinyal alınırsa ve yazılım bir sinyal yığıtı oluşturmamışsa, sistem yazılımı <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGILL"><strong class="varname"><code>SIGILL</code></strong></a> sinyali ile sonlandırır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SA_RESTART" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SA_RESTART</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a>, <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ve <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> gibi ilkellerin bir sinyal aldıklarında nasıl davranacaklarını belirler ve sinyal işleyici normal olarak döner. İki durum söz konusu olabilir: kütüphane işlevi ya çalışmasını sürdürür ya da <a href="glibc-Error-Codes.html#glibc-vr-EINTR"><strong class="varname"><code>EINTR</code></strong></a> hata kodu ile başarısız olur.
+    </p>
+    <p>
+     Seçimi belirleyen, sinyal alındığında <code class="code">SA_RESTART</code>'ın etkin olup olmadığıdır. Etkinse, kütüphane işlevi çalışmasını sürdürür, değilse sinyal işlevin başarısız olmasına sebep olur. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

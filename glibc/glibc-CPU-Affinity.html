@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.3.5. İşlemciler Arasında İcra Sınırlaması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Traditional-Scheduling-Functions.html')">Önceki</button>
+          <div class="dropdown-content">22.3.4.2. Geleneksel Zamanlama İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Priority.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Memory-Resources.html')">Sonraki</button>
+          <div class="dropdown-content">22.4. Bellek Özkaynakları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-CPU-Affinity">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">22.3.5. İşlemciler Arasında İcra Sınırlaması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Çok işlemcili bir sistemde, işletim sistemi sistemin en verimli çalışmasını mümkün kılan bir yolla farklı süreçleri mevcut işlemcilere dağıtır. Zamanlama işlevselliğini genişleterek hangi süreçlerin ve evrelerin çalışabileceği geçtiğimiz bölümlerde açıklanmıştı.  Fakat hangi işlemcinin sonuçta hangi süreç ya da evreyi çalıştıracağı incelenmemişti.
+   </p>
+        <p>
+    Bir yazılımın sistemi bu bakımdan denetimi altına almak zorunda bırakan bazı sebepler vardır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Mutlak olarak kritik bir işlemi yürütmekte olan bir süreç ya da evre hiçbir şart altında durdururulmamalı veya işlemci öz kaynakları kullanılarak başka süreçler tarafından engellenmemelidir. Bu durumda özel süreç için, hiçbir süreç ya da evre tarafından kullanılmasına izin verilmeyen bir işlemci tahsis edilmelidir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Belirli öz kaynaklara (RAM, G/Ç portları) farklı işlemcilerden erişim maliyetleri farklıdır. Böyle bir duruma NUMA (Non-Uniform Memory Architecture -- Tektip olmayan bellek mimarisi) makinelerde rastlanır. Tercihan, belleğe yerel olarak erişilmelidir fakat bu gereksinim genelde zamanlayıcıya görünür değildir. Bundan dolayı kullanılan belleğe yerel erişime sahip işlemcilerin belli bir sürece ya da evreye ayrılması başarımın belirgin biçimde artmasına yardımcı olur.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Çalışma anında denetim altında öz kaynak ayrılması ve toparlama çalışmalarında (örn, çöp toplama) başarım işlemcilerin yerel işlem yapmasına bağlıdır. Eğer öz kaynaklar farklı işlemcilerin rasgele erişimine karşı korunmamışsa, bu, kilitleme maliyetlerini düşürmeye yardımcı olur.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Şimdiye kadar POSIX standardı bu sorunun çözümüne pek yardımcı olmadı. Linux çekirdeği, bir işlemci için <em class="wordasword">akrabalık kümeleri</em> belirtilmesini mümkün kılan bir arayüz ailesi sağlar. Zamanlayıcı süreç ya da evreyi işlemciler üzerinde belirtilen akrabalık maskesine göre zamanlar. GNU C Kütüphanesindeki arayüzler Linux çekirdeğindeki arayüz biraz genişletilerek tanımlanmıştır.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-cpu_set_t" class="indexterm"></span>
+   <span id="glibc-cp-cpu_set_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">cpu_set_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri türü her biri bir işlemciyi ifade eden bit kümesidir. İşlemcilerin bit kümesinin hangi bitleriyle eşleneceği sisteme bağlıdır. Veri türünün genişliği sabittir; sistemdeki işlemcileri ifade etmek için veri türünün genişliğini yetersiz kaldığı durumda başka bir arayüz kullanılmalıdır.
+   </p>
+   <p>
+    Bu veri türü GNU oluşumudur.
+   </p>
+  </div>
+        <p>
+   Bit kümesiyle çalışmak, bitleri belirtmek ve sıfırlamak için bazı makrolar tanımlanmıştır. Makroların bazıları bağımsız değişken olarak bir işlemci numarası alır. Burada önemli olan bit kümesi genişliğinin aşılmamasıdır. Bu makro <a href="glibc-CPU-Affinity.html#glibc-tp-cpu_set_t"><strong class="type"><code>cpu_set_t</code></strong></a> bit kümesindeki bitlerin sayısını belirler:
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-CPU_SETSIZE" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">CPU_SETSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bir <a href="glibc-CPU-Affinity.html#glibc-tp-cpu_set_t"><strong class="type"><code>cpu_set_t</code></strong></a> nesnesi ile elde edilebilecek işlemci sayısıdır.
+   </p>
+  </div>
+        <p>
+   <a href="glibc-CPU-Affinity.html#glibc-tp-cpu_set_t"><strong class="type"><code>cpu_set_t</code></strong></a> veri türü şeffaf olmadığından bu veri türü ile ilgili çalışmalar aşağıdaki dört makro ile yürütülmelidir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-CPU_ZERO" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">CPU_ZERO</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu makro <em class="parameter"><code>set</code></em> işlemci kümesini bir boş küme olarak ilklendirir.
+   </p>
+   <p>
+    Bu makro GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-CPU_SET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">CPU_SET</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">cpu</code></strong><strong><code>, </code></strong><code class="type">cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>cpu</code></em> işlemcisini <em class="parameter"><code>set</code></em> işlemci kümesine ekler.
+   </p>
+   <p>
+    Defalarca işleme sokulacağından <em class="parameter"><code>cpu</code></em> bağımsız değişkeninin yan etkilere sebep olmayacak şekilde belirtilmesi önemlidir.
+   </p>
+   <p>
+    Bu makro GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-CPU_CLR" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">CPU_CLR</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">cpu</code></strong><strong><code>, </code></strong><code class="type">cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <em class="parameter"><code>cpu</code></em> işlemcisini <em class="parameter"><code>set</code></em> işlemci kümesinden kaldırır.
+   </p>
+   <p>
+    Defalarca işleme sokulacağından <em class="parameter"><code>cpu</code></em> bağımsız değişkeninin yan etkilere sebep olmayacak şekilde belirtilmesi önemlidir.
+   </p>
+   <p>
+    Bu makro GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-fn-CPU_ISSET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">CPU_ISSET</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">cpu</code></strong><strong><code>, </code></strong><code class="type">const cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Eğer <em class="parameter"><code>cpu</code></em> işlemcisi <em class="parameter"><code>set</code></em> işlemci kümesinin bir üyesi ise bu makro sıfırdan farklı bir değerle (doğru), değilse sıfırla (yanlış) döner.
+   </p>
+   <p>
+    Defalarca işleme sokulacağından <em class="parameter"><code>cpu</code></em> bağımsız değişkeninin yan etkilere sebep olmayacak şekilde belirtilmesi önemlidir.
+   </p>
+   <p>
+    Bu makro GNU oluşumudur.
+   </p>
+  </div>
+        <p>
+   İşlemci bit kümeleri ya sıfırdan oluşturulur ya da o an kurulu bir akrabalık maskesi olarak sistemden alınır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-sched_getaffinity" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_getaffinity</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">cpusetsize</code></strong><strong><code>, </code></strong><code class="type">cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">cpuset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev işlemci akrabalık maskesini kimliği <em class="parameter"><code>pid</code></em> ile belirtilen süreç ya da evre için genişliği <em class="parameter"><code>cpusetsize</code></em> bayt olarak belirtilen ve <em class="parameter"><code>cpuset</code></em> ile gösterilen bir nesne olarak döndürür. İşlev başarılı olduğunda daima <a href="glibc-CPU-Affinity.html#glibc-tp-cpu_set_t"><strong class="type"><code>cpu_set_t</code></strong></a> nesnesindeki tüm bitleri ilklendirir ve sıfırla döner.
+   </p>
+   <p>
+    <em class="parameter"><code>pid</code></em> bir süreç ya da evreye karşılık değilse ya da işlev bir sebeple başarısız olmuşsa <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ESRCH</code></span></dt><dd><p>
+        Belirtilen kimliğe sahip bir süreç ya da evre yok.
+       </p></dd><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+        <em class="parameter"><code>cpuset</code></em> göstericisi geçerli bir nesneyi göstermiyor.
+       </p></dd></dl></div>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <p>
+   Bu bilginin, farklı POSIX evreleri ile ilgili bilgi almak amacıyla kullanılmasının büyük ihtimalle taşınabilir olmayacağına dikkat edilmelidir. Bu durum için başka bir arayüz sağlanmalıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-sched_setaffinity" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_setaffinity</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">cpusetsize</code></strong><strong><code>, </code></strong><code class="type">const cpu_set_t </code><strong class="type">*</strong><strong><code class="parameter">cpuset</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev işlemci akrabalık maskesini kimliği <em class="parameter"><code>pid</code></em> ile belirtilen süreç ya da evre için genişliği <em class="parameter"><code>cpusetsize</code></em> bayt olarak belirtilen ve <em class="parameter"><code>cpuset</code></em> ile gösterilen bir nesneye göre belirler. İşlev başarılı olduğunda sıfırla dönecek ve zamanlayıcı bu akrabalık bilgisini gelecekte hesaba katacaktır.
+   </p>
+   <p>
+    İşlev bir sebeple başarısız olmuşsa <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ESRCH</code></span></dt><dd><p>
+        Belirtilen kimliğe sahip bir süreç ya da evre yok.
+       </p></dd><dt><span class="term"><code class="code">EFAULT</code></span></dt><dd><p>
+        <em class="parameter"><code>cpuset</code></em> göstericisi geçerli bir nesneyi göstermiyor.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        Bit kümesi geçersiz. Bu, akrabalık kümesindeki bir işlemcinin süreç ya da evre için bırakılmamış olabileceği anlamına gelebilir.
+       </p></dd></dl></div>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getcpu" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getcpu</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">unsigned int </code><strong class="type">*</strong><strong><code class="parameter">cpu</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong class="type">*</strong><strong><code class="parameter">node</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">getcpu</code> işlevi, çağrıldığı evrenin veya sürecin o an üzerinde çalıştığı işlemciyi ve düğümü tanımlar ve bunları <em class="parameter"><code>cpu</code></em> ve <em class="parameter"><code>node</code></em> ile gösterilen tamsayılara yazar. <em class="parameter"><code>cpu</code></em>, bir işlemciyi tanımlayan benzersiz, negatif olmayan bir tamsayıdır. <em class="parameter"><code>node</code></em>, bir NUMA düğümünü tanımlayan benzersiz, negatif olmayan bir tamsayıdır. <em class="parameter"><code>cpu</code></em> veya <em class="parameter"><code>node</code></em> <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> olduğunda, ilgili göstericiye hiçbir şey yazılmaz.
+   </p>
+   <p>
+    İşlev bir sebeple başarısız olmuşsa <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine hata durumu atanır.
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+        İşletim sistemi bu işlevi desteklemiyor.
+       </p></dd></dl></div>
+    <p>
+     Bu işlev Linux'a özgüdür.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

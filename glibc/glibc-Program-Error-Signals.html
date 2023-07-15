@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.2.1. Yazılım Hatalarının Sinyalleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Standard-Signals.html')">Önceki</button>
+          <div class="dropdown-content">24.2. Standart Sinyaller</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Standard-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Termination-Signals.html')">Sonraki</button>
+          <div class="dropdown-content">24.2.2. Sonlandırma Sinyalleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Program-Error-Signals">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.2.1. Yazılım Hatalarının Sinyalleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm126285" class="indexterm"></span>
+    Aşağıdaki sinyaller, bilgisayarın kendi ya da işletim sistemi tarafından ciddi bir yazılım hatası saptandığında üretilir. Genelde bu sinyallerin tümü yazılımın bir şeyleri önemli ölçüde bozacağı ya da sistemin bütünü açısından yazılımın çalışmasının sorun olacağı durumları belirtir.
+   </p>
+        <p>
+    Bazı yazılımlar yazılım hatası sinyallerini sonlanmadan önceki düzenlemeler sırasında işleme sokar; örneğin, uçbirim girdisinin yansılamasını kapatan bir yazılım yansılamayı tekrar açacağı sırada yazılım hatasını işleme sokmalıdır. Sinyalin işlenmesi, ön tanımlı eylemin bitirilmesinin ardından bu sinyalin tekrar yayınlanması şeklinde yapılır.  Bu, yazılımın bir sinyal işleyici yokmuşçasına bu sinyalle sonlanmasını sağlayacaktır. (Bkz. <a class="xref" href="glibc-Termination-in-Handler.html" title="24.4.2. Süreci Sonlandıran İşleyiciler">Süreci Sonlandıran İşleyiciler</a>.)
+   </p>
+        <p>
+    Sonlanma, çoğu yazılım için bir yazılım hatasının nihai sonucudur. Buna rağmen Lisp gibi bazı yazılım geliştirme sistemleri bir hataya maruz kalsa bile derlenmiş kullanıcı yazılımını çalışır halde tutabilir. Bu sistemler denetimi komut seviyesine döndürmek için <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> kullanan sinyal işleyicilere sahiptir.
+   </p>
+        <p>
+    Bu sinyallerin tümü için ön tanımlı eylem sürecin sonlandırılmasına sebep olmaktır. Bir gerçek hata yerine <a href="glibc-Signaling-Yourself.html#glibc-fn-raise"><strong class="function"><code>raise</code></strong></a> veya <a href="glibc-Signaling-Another-Process.html#glibc-fn-kill"><strong class="function"><code>kill</code></strong></a> tarafından üretilmedikçe oluşan sinyaller engellenir, yok sayılır ya da bir sinyal işleyici kurulup normale çevrilirse, büyük olasılıkla yazılım dehşet verici şekilde bozulacaktır.
+   </p>
+        <p>
+    <span id="glibc-vr-COREFILE" class="indexterm"></span>
+    Bu yazılım hatası sinyalleri bir süreci sonlandırırken, sonlanma sırasında sürecin durum kaydı olarak o an içinde bulunulan dizine <code class="filename">core</code> isimli bir dosya halinde bellek dökümü çıktılar. (GNU sistemlerinde dosyanın ismi kullanıcı tarafından <span class="command"><strong>COREFILE</strong></span> ortam değişkeni ile belirtilebilir.) Bu dosyanın çıktılanmasının amacı, dosyanın bir hata ayıklayıcı ile incelenerek hatanın sebebinin bulunmasını sağlamaktır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-SIGFPE" class="indexterm"></span>
+    <span id="glibc-vr-SIGFPE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGFPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">SIGFPE</code> sinyali ölümcül aritmetik hatalardan birini raporlar. Hatanın ismi "floating-point exception" kısaltması olsa da sinyal aslında sıfırla bölme ve taşma dahil tüm aritmetik hataları kapsar. Eğer bir yazılım, tamsayı veri sakladığı bir alanı daha sonra bir gerçek sayı işleminde kullanmaya çalışırsa bu, "geçersiz işlem" istisnasına sebep olur, çünkü işlemci veriyi bir gerçek sayı olarak ele alamaz.
+    </p>
+    <p>
+     Aslında gerçek sayı istisnaları oldukça karmaşık bir konudur, çünkü çok farklı anlamlara gelen çözümü zor çok çeşitli istisnalar vardır ve <code class="code">SIGFPE</code> sinyali onları ayıramaz. İkil Kayan Noktalı Aritmetik için IEEE standardında (ANSI/IEEE Std 754-1985 and ANSI/IEEE Std 854-1987) çeşitli istisnalar tanımlanmıştır ve oluşumlarını bildirmek için uygun bilgisayar sistemlerini gerektirir.  Ancak, bu standart istisnaların nasıl bildirileceğini ya da işletim sisteminin yazılımcıya ne çeşit bir işleme ve denetim imkanı vereceğini belirtmez.
+    </p>
+    <p>
+     BSD sistemleri <code class="code">SIGFPE</code> makrosunun yanında istisnanın çeşitli sebeplerini ayrımsamak için ek bir bağımsız değişken sağlar. Bu bağımsız değişkene erişim sırasında, sinyal işleyicinin iki bağımsız değişken kabul edecek şekilde tanımlanması gerekir. İşleyici kurulurken de tek bağımsız değişkenli işlev türüne dönüştürülmelidir. GNU C Kütüphanesi bu ek bağımsız değişkeni sağlar. Ancak bağımsız değişkenin değeri sadece bu bilgiyi sağlayan sistemler (GNU ve BSD) için anlamlıdır.
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_INTOVF_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_INTOVF_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_INTOVF_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Tamsayı taşması tuzağı (C yazılımlarında donanıma özel biçimde taşma tuzağı etkinleştirilmedikçe imkansızdır).
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_INTDIV_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_INTDIV_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_INTDIV_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Sıfırla tamsayı bölme tuzağı.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_SUBRNG_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_SUBRNG_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_SUBRNG_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İndisleme aralığı tuzağı (C yazılımlarında bazı şeyler hiç denetlenmez).
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_FLTOVF_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_FLTOVF_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_FLTOVF_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Gerçek sayı taşması tuzağı.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_FLTDIV_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_FLTDIV_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_FLTDIV_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Gerçek/tam sayılarda sıfırla bölme tuzağı.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_FLTUND_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_FLTUND_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_FLTUND_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Gerçek sayılarda alttan taşma tuzağı (Normalde etkin değildir).
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-cp-FPE_DECOVF_TRAP" class="indexterm"></span>
+     <span id="glibc-vr-FPE_DECOVF_TRAP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">FPE_DECOVF_TRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Ondalık taşma tuzağı (Sadece birkaç makine ondalık aritmetiğe sahiptir, C hiç kullanmaz).
+     </p>
+    </div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGILL" class="indexterm"></span>
+    <span id="glibc-cp-SIGILL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGILL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Sinyalin ismi "illegal instruction" sözcüklerinden türetilmiştir; yazılımın bozuk ya da ayrıcalıklı bir işlemci komutunu çalıştırmayı denediğini belirtir. C derleyicileri sadece geçerli işlemci komutları ürettiğinden <code class="code">SIGILL</code> sinyali genellikle çalıştırılabilir dosyanın zarar görmüş olabileceğini ya da çalıştırılabilir olmayan bir kodun çalıştırmasının denendiğini belirtir. İkinci durumun ortaya çıktığı çok bilinen durumlar şunlardır: bir işlev olarak ele alınacağı umulan bir göstericiyle geçersiz bir nesnenin aktarılması; bir özdevinimli dizinin sonundan sonrasına yazma denemesi (benzer durum özdevinimli değişkenlere göstericilerde de ortaya çıkabilir); yığıt üzerinde, yığıt çerçevesine dönüş adresi gibi birtakım verilerin bozulması.
+    </p>
+    <p>
+     <code class="code">SIGILL</code> sinyali bunlardan başka, yığıt taşmalarında ya da sistemde çalışan sorunlu bir sinyal işleyicinin varlığında da üretilebilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGSEGV" class="indexterm"></span>
+    <span id="glibc-cp-SIGSEGV" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGSEGV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sinyal, bir yazılımın kendine ayrılan bellek bölgesinin dışında okuma veya yazma denemesi yaptığında ya da salt okunur belleğe yazmaya çalıştığında oluşur. (Aslında bu sinyal sadece sistemin bellek koruma düzeneği tarafından saptanabilen, yazılımın kendi alanının dışında çok uzak bölgelere yazmaya çalıştığı durumlarda ortaya çıkar.) Sinyalin ismi "segmentation violation" sözcüklerinden türetilmiştir.
+    </p>
+    <p>
+     <code class="code">SIGSEGV</code> sinyalinin alındığı bilinen sorunlar: göstericinin boş ya da ilklendirilmemiş göstericiye dönüştürülmesi (dereferencing - dizi olmayan bir değişkenin göstericisi üzerinde gösterici aritmetiği uygulanması ya da ilklendirilmemiş bir yapı elemanını göstermek için -&gt; işleci ile sol taraf değeri olarak kullanılması); bir dizinin sonunu saptamadan dizi üzerinde gösterici aritmetiği ile işlem yapılması.  Bir göstericinin boş göstericiye dönüşmesi durumunu çeşitli sistemler <code class="code">SIGSEGV</code> ya da <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGBUS"><strong class="varname"><code>SIGBUS</code></strong></a> sinyali ile belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGBUS" class="indexterm"></span>
+    <span id="glibc-cp-SIGBUS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGBUS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sinyal geçersiz duruma gelmiş göstericiler kullanılmaya çalışıldığında ortaya çıkar. <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGSEGV"><strong class="varname"><code>SIGSEGV</code></strong></a> sinyalindeki gibi bu sinyalde geçersiz bir gösterici kullanımıyla ilgili olarak üretilir. İkisi arasındaki fark, <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGSEGV"><strong class="varname"><code>SIGSEGV</code></strong></a> sinyalinin geçerli belleğe geçersiz erişimi belirtmesi, <code class="code">SIGBUS</code> sinyalinin ise geçersiz bir adrese erişimi belirtmesidir. Kimi zaman <code class="code">SIGBUS</code> sinyali göstericinin hatalı hizalama ile kullanıldığı durumlarda da üretilir; örneğin dört sözcüklük bir tamsayı değerinin saklandığı adreste alanın dörde bölünememesi gibi (her bilgisayarın kendine özgü adres hizalaması vardır).
+    </p>
+    <p>
+     Sinyalin ismi "bus error" sözcüklerinden türetilmiştir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGABRT" class="indexterm"></span>
+    <span id="glibc-cp-SIGABRT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGABRT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sinyal yazılımın kendisi tarafından saptanan bir hatayı belirtir ve <strong class="function"><code>abort</code></strong> çağrısı ile raporlanır. Bkz, ???
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGIOT" class="indexterm"></span>
+    <span id="glibc-cp-SIGIOT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGIOT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     PDP-11 "iot" komutu tarafından üretilir.  Çoğu makinede, <a href="glibc-Program-Error-Signals.html#glibc-vr-SIGABRT"><strong class="varname"><code>SIGABRT</code></strong></a> sinyali olarak yer alır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGTRAP" class="indexterm"></span>
+    <span id="glibc-cp-SIGTRAP" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGTRAP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Makinenin "breakpoint" komutu ve bazı diğer yakalama komutları tarafından üretilir. Bu sinyal hata ayıklayıcılar tarafından kullanılır. Yazılım büyük ihtimalle sadece bazı hatalı işlemci komutlarından dolayı  <code class="code">SIGTRAP</code> sinyalini görecektir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGEMT" class="indexterm"></span>
+    <span id="glibc-cp-SIGEMT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGEMT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Öykünme tuzağı; bu sinyal henüz gerçeklenmemiş ama yazılım tarafından taklit edilen makine komutlarından ya da onların olması gerektiği gibi taklit edilememesinden dolayı işletim sistemi tarafından üretilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-SIGSYS" class="indexterm"></span>
+    <span id="glibc-cp-SIGSYS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SIGSYS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Hatalı sistem çağrısı; İşletim sisteminden çalıştırılması istenen ancak çağrı için belirtilen kod numarası işlemci komutlarında geçersiz olan çağrılarda üretilir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

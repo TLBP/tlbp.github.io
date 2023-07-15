@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.17. İkil ve Metin Akımları</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Error-Recovery.html')">Önceki</button>
+          <div class="dropdown-content">12.16. Hatalardan Kurtulma</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Positioning.html')">Sonraki</button>
+          <div class="dropdown-content">12.18. Dosyalarda Konumlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Binary-Streams">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.17. İkil ve Metin Akımları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   GNU sistemleri ve diğer POSIX uyumlu işletim sistemleri tüm dosyaları karakterlerin tektip dizisi olarak tanır. Diğer yandan, başka bazı sistemler metin içeren dosyalarla ikil veri içeren dosyalar arasında ayrım yapar; ISO C giriş ve çıkış oluşumları da bu ayrıma göredir. Bu kısımda böyle sistemler arasında taşınabilir yazılımların nasıl geliştirileceğinden bahsedilmiştir.
+  </p>
+        <p>
+   <span id="idm109737" class="indexterm"></span>
+   <span id="idm109740" class="indexterm"></span>
+   Bir akım açılırken ya <em class="wordasword">metin akımı</em> ya da <em class="wordasword">ikil akım</em> olarak belirtilebilir. Bir ikil akımı, <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> işlevinin <em class="parameter"><code>opentype</code></em> bağımsız değişkenine ‘<code class="code">b</code>’ değiştiricisini belirtilerek açılabilir; bkz. <a class="xref" href="glibc-Opening-Streams.html" title="12.3. Akımların Açılması"><em>Akımların Açılması</em></a>. Bu seçenek olmaksızın dosya metin akımı olarak açılır.
+  </p>
+        <p>
+   Metin akımları ile ikil akımlar çeşitli bakımlardan farklıdır:
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     <span id="idm109753" class="indexterm"></span>
+     Veri, bir ikil akımdan basitçe karakterlerin uzun bir dizisi olarak, bir metin akımından ise satır sonu  (<code class="code">'\n'</code>) karakterleri ile sonlandırılmış satırlara bölünerek okunur. Bazı sistemler, 254 karakterden (satır sonu karakteri dahil) uzun satırlar içeren metin akımlarında başarısız olabilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bazı sistemlerde, metin dosyaları sadece yazdırılabilen karakterleri, yatay sekme karekterlerini ve satır sonu karakterlerini içerebilir ve diğer karakterler desteklenmeyebilir. Buna karşın, ikil akımlar her türlü karakteri içerebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bir metin akımı içinde bir satır sonu karakteri ile öncelenmiş boşluk karakterleri, dosya tekrar okunduğunda görünmeyebilir.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Daha genel olarak, bir metin akımından okunan veya metin akımına yazılan karakterler arasında birebir eşleşme gerekli olmayabilir.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Bir ikil akım, bir metin akımına göre daha tahmin edilebilir ve daha yetenekli olduğuna göre metin akımlarının ne amaçla sunulduğu düşünülebilir. Niçin basitçe sadece ikil akımlar kullanılmaz? Yanıtı, bu işletim sistemlerinde, metin ve ikil akımların farklı dosya biçimlerini kullanması ve diğer metin yönlenimli uygulamalarla birlikte çalışırken sıradan bir metin dosyasının okumanın ve ona yazmanın tek yolunun bir metin akımı kullanmak olmasıdır.
+  </p>
+        <p>
+   GNU C Kütüphanesinde ve tüm POSIX sistemlerinde, ikil akımlar ile metin akımları arasında bir fark yoktur. Bir akımı açtığınızda ikil bir akım isteyip istemediğinize bakılmaksızın aynı çeşit akım alırsınız. Bu akım, metin akımlarının sahip olduğu bazı kısıtlamalar olmaksızın her türlü dosya içeriği ile kullanılabilir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

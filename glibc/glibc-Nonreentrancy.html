@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.6. Sinyal İşleme ve Evresel Olmayan İşlevler</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Merged-Signals.html')">Önceki</button>
+          <div class="dropdown-content">24.4.5. İşleyici Çalışmadan İkinci Bir Sinyalin Alınması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Atomic-Data-Access.html')">Sonraki</button>
+          <div class="dropdown-content">24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Nonreentrancy">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.6. Sinyal İşleme ve Evresel Olmayan İşlevler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127722" class="indexterm"></span>
+    <span id="idm127725" class="indexterm"></span>
+    <span id="idm127728" class="indexterm"></span>
+    Sinyal işleyici işlevler genelde çok zor değildir. En iyi çözüm, hiçbir şey yapmayan ama yazılımın sürekli sınadığı bir harici değişkene değer atayan ve bu değişkenle ilgili işlemleri yazılıma bırakan bir kod yazmaktır.  En iyisi budur çünkü, işleyici işlev rasgele, umulmadık bir zamanda, basit bir işlevin ortasında ve hatta çok sayıda işlemci komutu gerektiren C işleçlerinin başlangıcı ile sonu arasında çağrılabilir. Üzerinde çalışılan veri yapıları işleyici işlevler çağrıldığında kararsız durumda bile olabilirler.  <code class="type">int</code> türünden bir değişkenin diğerine kopyalanması çoğu makinede iki işlemci komutundan oluşur.
+   </p>
+        <p>
+    Yani, bir sinyal işleyici ile ne yapılacağına bağlı olarak çok dikkatli olmak gerekir.
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Eğer işleyici işlevin yazılımdan herhangi bir genel değişkene erişmesi gerekiyorsa bu değişkenler <code class="type">volatile</code> ile bildirilmelidir. Böylece, derleyiciye bu değişkenin herhangi bir anda değişebileceği ve bu tür değişikliklere göre değerlendirilmiş en iyilemelerin yapılmaması söylenmiş olur.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      İşleyici içinden bir işlev çağrılıyorsa, sinyallerle ilgili olarak <em class="wordasword">evresel</em> olduğundan, değilse, başka bir ilgili işlev tarafından sinyalin engellenmediğinden emin olunmalıdır.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    Bir işlev, yığıtı değil de belleği kullanıyorsa evresel olmayabilir.
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      Bir işlev duruk veya genel ya da sadece kendinin erişebildiği özdevimli tahsis edilmiş bir nesne kullanıyorsa, evresel olmayabilir ve işlevin herhangi iki çağrısı bir diğeri ile etkileşebilir.
+     </p>
+              <p>
+      Örneğin sinyal işleyici <strong class="function"><code>gethostbyname</code></strong> işlevini kullanıyor olsun. Bu işlev değerini duruk bir nesne içinde döndürür. Eğer <strong class="function"><code>gethostbyname</code></strong> çağrısı sırasında ya da çağrının ardından (yazılım hala bu değeri kullanıyorken) bir sinyal gelirse, sinyal yazılımın istediği değeri bozabilir.
+     </p>
+              <p>
+      Diğer yandan, yazılım <strong class="function"><code>gethostbyname</code></strong> işlevini ya da aynı nesnedeki bilgiyi döndüren herhangi bir başka işlev kullanmıyorsa ya da her kullanımda daima sinyaller engelleniyorsa sorun yok demektir.
+     </p>
+              <p>
+      Değeri sabit bir nesne içinde döndüren ve bu şekilde aynı nesnenin daima yeniden kullanılabilir olmasını sağlayan çok sayıda kütüphane işlevi vardır ve bunların tamamı aynı soruna yol açabilir. Bu kılavuzdaki işlev açıklamalarında bu davranış daima açıklanmıştır.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Eğer bir işlev, yazılımda tanımlanan bir nesneyi kullanıyor ve değiştiriyorsa, büyük ihtimalle işlev evresel değildir; bu işlevler, aynı nesneyi kullandıkları takdirde birbirlerini etkileyebilir.
+     </p>
+              <p>
+      Akımlarla G/Ç işlemleri yaparken bu durum ortaya çıkabilir. Bir sinyal işleyicinin <a href="glibc-Formatted-Output-Functions.html#glibc-fn-fprintf"><strong class="function"><code>fprintf</code></strong></a> işlevi ile bir ileti bastığı varsayılsın. Tam da aynı akımı kullanan bir <a href="glibc-Formatted-Output-Functions.html#glibc-fn-fprintf"><strong class="function"><code>fprintf</code></strong></a> çağrısının ortasında yazılım bir sinyal alırsa, hem sinyal işleyicinin hem de yazılımın verisi bozulurdu, çünkü her iki çağrı da kendi akımı üzerinde aynı veri yapısıyla çalışıyor olacaktı.
+     </p>
+              <p>
+      Bununla birlikte, işleyicinin kullandığı akımın sinyal geldiğinde yazılım tarafından kullanılması mümkün olmayabilir; bu durumda sorun yok demektir. Yazılım başka bir akımı kullanıyorsa zaten sorun yoktur.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Çoğu sistemde, serbest bırakılacak bellek dilimlerinin kaydı için aynı duruk veri yapısını kullandıkları için <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ve <a href="glibc-Freeing-after-Malloc.html#glibc-fn-free"><strong class="function"><code>free</code></strong></a> evresel değildir. Sonuç olarak, bellek tahsis eden ve serbest bırakan kütüphane işlevleri evresel olmayacaktır. Bu, sonucu saklayacağı alanı kendisi ayıran işlevleri de kapsar.
+     </p>
+              <p>
+      Bir işleyici işlev içinde bellek ayırma ihtiyacından kaçınmanın en iyi yolu, işlev için kullanılacak alanı önceden ayırmaktır.
+     </p>
+              <p>
+      Bir işleyici işlev içinde belleği serbest bırakma ihtiyacından kaçınmanın en iyi yolu ise, serbest bırakılacak nesneleri kaydetmek ya da imlemek ve yazılımda zaman zaman bu türde serbest bırakılmayı bekleyen nesneler olup olmadığına bakmaktır. Fakat bu dikkatli yapılmalıdır çünkü bir nesnenin bir zincire yerleştirilmesi işlemin bölünmezliğini bozar ve başka bir sinyal işleyici ile işlem kesmeye uğratılırsa nesnelerden birinin kaybedilmesi gibi şeyler olabilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenini değiştiren işlevler evresel değildir, fakat bu düzeltilebilir: işleyicide  <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkeninin özgün değerini kaydedilip normal olarak dönmeden önce bu değer yerine konabilir. Böylece, sistemin bir sinyalle tetiklediği işleyicinin çalışmaya başlamasıyla alınması engellenen hataların işleyicinin işi bittiğinde elde edilebilmesi sağlanmış olur.
+     </p>
+              <p>
+      Bu teknik genellikle uygulanabilir; belli bir nesneyi bellekte değiştiren bir işlevin bir sinyal işleyici içinden çağrılması durumunda, nesne kaydedilerek ve sonra eski değeri yerine konarak rahatça uygulanabilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Sadece, sinyal alındığında bir bellek nesnesinin okunması güvenli olabilir. Ancak, bazı veri türlerinde atama işleminin birden fazla işlemci komutuna malolduğu unutulmamalıdır, <a class="link" href="glibc-Atomic-Data-Access.html" title="24.4.7. Bölünmez Veri Erişimi ve Sinyal İşleme">bir değişkene yapılan atama bölünmez türde</a> değilse bir sinyal işleyici, çalışmaya başladığı anda böyle bir atamanın arasına girebilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      Bir sinyal alındığında, bir bellek nesnesine yazma işlemi sadece değer olabildiğince anlık değişiyorsa güvenli olabilir. Bu durumda işleyicinin çalışması bir şeyi bozmaz.
+     </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

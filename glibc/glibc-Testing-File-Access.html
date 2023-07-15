@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.9.8. Dosya Erişim İzinlerinin Sınanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Setting-Permissions.html')">Önceki</button>
+          <div class="dropdown-content">14.9.7. Dosya İzinlerinin Atanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Attributes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Times.html')">Sonraki</button>
+          <div class="dropdown-content">14.9.9. Dosya Zamanları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Testing-File-Access">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.9.8. Dosya Erişim İzinlerinin Sınanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm121540" class="indexterm"></span>
+    <span id="idm121544" class="indexterm"></span>
+    Bazı durumlarda kullanıcının erişim yetkisi olmayan bazı dosyalara ya da aygıtlara yazılım üzerinden erişebilmesi istenir. Olası bir çözüm yazılımın setuid bitini etkinleştirmektir. Böyle bir yazılım çalıştırılırsa, sürecin etkin kullanıcı kimliği yazılım dosyasının sahibi olarak değiştirilir. Böylece,  normalde sadece ayrıcalıklı kullanıcı tarafından erişilebilen <code class="filename">/etc/passwd</code> gibi dosyalara, yazılımın sahibi <code class="code">root</code> yapılıp setuid biti de etkinleştirilerek, yazma erişimi sağlanabilir.
+   </p>
+        <p>
+    Bunun yanında bir kullanıcının erişim izni olmayan dosyalara erişmesine izin vermeyecek bir düzenleme de düşünülebilir. Bu durumda yazılım, bir dosyayı okumadan ya da ona yazmadan önce <em class="emphasis">kullanıcının</em> gerekli erişim izinlerine sahip olup olmadığını sınamalıdır.
+   </p>
+        <p>
+    Bunu yapmak için, sürecin etkin kullanıcı kimliğine değil gerçek kullanıcı kimliğine dayalı erişim izinlerini sınayan <a href="glibc-Testing-File-Access.html#glibc-fn-access"><strong class="function"><code>access</code></strong></a> işlevi kullanılır. (Setuid özelliği gerçek kullanıcı kimliğini değiştirmez, böylece yazılımı gerçekte kimin çalıştırdığı saptanır.)
+   </p>
+        <p>
+    Bu erişimi sınamanın  daha kolay açıklanabilen bir yolu daha vardır, ama onun da kullanımı zordur. Bu yöntemde işlem, dosya kip bitlerini öğrenerek ve sistemin kendi erişim hesaplaması taklit edilerek yapılır. Bu yöntemin kullanılması pek tercih edilmez, çünkü birçok sistem ek erişim denetim özelliklerine sahiptir ve yazılımınız farklı sistemlerin farklı erişim özelliklerini taşınabilir olarak taklit etmek zorunda kalacaktır. <a href="glibc-Testing-File-Access.html#glibc-fn-access"><strong class="function"><code>access</code></strong></a> işlevi zaten bu işlemleri yapmaktadır.
+   </p>
+        <p>
+    <a href="glibc-Testing-File-Access.html#glibc-fn-access"><strong class="function"><code>access</code></strong></a> işlevi <em class="emphasis">sadece</em> ve sadece setuid yazılımlarda kullanmak için değildir. Setuid olmayan bir yazılım daima gerçek kimlik yerine etkin kimliği kullanır.
+   </p>
+        <p>
+    <span id="idm121560" class="indexterm"></span>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-access" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/stat.h;hb=HEAD" target="_top">sys/stat.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">access</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">how</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">access</code> işlevi ismi <em class="parameter"><code>filename</code></em> ile belirtilen dosyaya <em class="parameter"><code>how</code></em> ile belirtilen yolla erişilip erişilemeyeceğini sınar. <em class="parameter"><code>how</code></em> bağımsız değişkeninde belirtilebilecek değer ya <a href="glibc-Testing-File-Access.html#glibc-vr-R_OK"><strong class="varname"><code>R_OK</code></strong></a>, <a href="glibc-Testing-File-Access.html#glibc-vr-W_OK"><strong class="varname"><code>W_OK</code></strong></a> ve <a href="glibc-Testing-File-Access.html#glibc-vr-X_OK"><strong class="varname"><code>X_OK</code></strong></a> seçeneklerinin bitsel VEYA'lanmışı ya da <a href="glibc-Testing-File-Access.html#glibc-vr-F_OK"><strong class="varname"><code>F_OK</code></strong></a> varlık sınaması olabilir.
+    </p>
+    <p>
+     Bu işlev erişim izinlerini sınamak için sürecin etkin kullanıcı ve grup kimliklerini değil, gerçek kullanıcı ve grup kimliklerini kullanır. Sonuç olarak, bu işlev <code class="code">setuid</code> veya <code class="code">setgid</code> yazılımda (???) kullanılıyorsa, işlev yazılımı gerçekte hangi kullanıcı çalıştırıyorsa o kullanıcıya göre bilgi verir.
+    </p>
+    <p>
+     Erişime izin verilmişse işlev <code class="code">0</code> ile, aksi takdirde <code class="code">-1</code> ile döner.  (Başka bir deyişle, eğer istenen erişime <em class="emphasis">izin verilmezse</em>, <code class="code">access</code> işlevi, doğrulama işlevi gibi doğru ile döner.)
+    </p>
+    <p>
+     <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+        <em class="parameter"><code>how</code></em> ile belirtilen erişime izin verilmiyor.
+       </p></dd><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+        Dosya yok.
+       </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+        Salt-okunur bağlı dosya sistemindeki dosya için yazma erişimi istendi.
+       </p></dd></dl></div>
+   </div>
+        <p>
+    <span class="command"><strong>access</strong></span> işlevinin <em class="parameter"><code>how</code></em> bağımsız değişkeninde kullanmak için tasarlanmış olan bu makrolar tamsayı sabitler olarak <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında tanımlanmıştır:
+   </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-pg-R_OK" class="indexterm"></span>
+    <span id="glibc-vr-R_OK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">R_OK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Okuma izni için sınama seçeneği.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-W_OK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">W_OK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Yazma  izni için sınama seçeneği.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-X_OK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">X_OK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Çalıştırma/arama izni için sınama seçeneği.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-F_OK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">F_OK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dosyanın var olup olmadığını sınama seçeneği.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

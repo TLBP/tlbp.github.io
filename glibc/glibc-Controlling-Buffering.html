@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.20.3. Tamponlama Çeşidinin Seçimi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Flushing-Buffers.html')">Önceki</button>
+          <div class="dropdown-content">12.20.2. Tamponların Boşaltılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Stream-Buffering.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Other-Kinds-of-Streams.html')">Sonraki</button>
+          <div class="dropdown-content">12.21. Diğer Akım Çeşitleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Controlling-Buffering">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.20.3. Tamponlama Çeşidinin Seçimi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir akım açıldıktan sonra (ancak henüz başka hiçbir işlem yapılmadan), hangi tamponlama çeşidinin kullanılacağı <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevi kullanılarak belirtilebilir.
+   </p>
+        <p>
+    <span id="idm110529" class="indexterm"></span>
+    <span id="idm110532" class="indexterm"></span>
+    Bu bölümde sözü edilen oluşumlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setvbuf" class="indexterm"></span>
+    <span id="glibc-cp-setvbuf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setvbuf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">mode</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Bu işlev ile <em class="parameter"><code>stream</code></em> akımının hangi tamponlama kipini kullanacağı belirtilir. <em class="parameter"><code>mode</code></em> bağımsız değişkeninde, akımın tümünün tamponlanması isteniyorsa <a href="glibc-Controlling-Buffering.html#glibc-vr-IOFBF"><strong class="varname"><code>_IOFBF</code></strong></a>, satır tamponlu olması isteniyorsa <a href="glibc-Controlling-Buffering.html#glibc-vr-IOLBF"><strong class="varname"><code>_IOLBF</code></strong></a>, girdi/çıktının tamponlanması istenmiyorsa <a href="glibc-Controlling-Buffering.html#glibc-vr-IONBF"><strong class="varname"><code>_IONBF</code></strong></a> sabiti kullanılır.
+    </p>
+    <p>
+     <em class="parameter"><code>buf</code></em> bağımsız değişkenine boş gösterici belirtilirse, işlev <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> kullanarak tamponu kendisi ayırır. Akım serbest bırakılınca bu tampon da serbest bırakmış olur.
+    </p>
+    <p>
+     Aksi takdirde, <em class="parameter"><code>buf</code></em> en az <em class="parameter"><code>size</code></em> karakterlik bir karakter dizisini tutacak büyüklükte seçilmelidir. Akım açık olduğu sürece ve bu dizi akım tamponunda kaldığı sürece, dizi akım tarafından kullanılıyor olacağından diziye ayrılan alan bu süre zarfında serbest bırakılmamalıdır. Tamponun ya durağan olarak ya da <span class="command"><strong>malloc</strong></span> (<a class="xref" href="glibc-Unconstrained-Allocation.html" title="3.2.3. Kısıtlanmamış Bellek Tahsisi">Kısıtlanmamış Bellek Tahsisi</a>) kullanılarak ayrılması gerekir. Dizinin bildirildiği dilimden çıkmadan önce dosya kapatılmayacaksa özdevinimli dizi kullanımı önerilmez.
+    </p>
+    <p>
+     Dizi bir akım tamponu olarak kaldığı sürece, akım G/Ç işlevleri dahili amaçları için tamponu kullanacaktır. Akım diziyi tamponlama amacıyla kullanırken dizinin içeriğine doğrudan erişilmemelidir.
+    </p>
+    <p>
+     <code class="code">setvbuf</code> işlevi başarılı olduğunda sıfır ile döner. <em class="parameter"><code>mode</code></em> değeri geçersizse ya da istek yerine getirilememişse sıfırdan farklı bir değerle döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-IOFBF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_IOFBF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu makronun değeri <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>mode</code></em> bağımsız değişkeninde kullanılarak akımın tamamen tamponlanacağının belirtilmesini sağlayan bir tamsayı sabittir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-IOLBF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_IOLBF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu makronun değeri <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>mode</code></em> bağımsız değişkeninde kullanılarak akımın satır tamponlu olacağının belirtilmesini sağlayan bir tamsayı sabittir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-IONBF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_IONBF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu makronun değeri <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>mode</code></em> bağımsız değişkeninde kullanılarak akımın tamponlanmayacağının belirtilmesini sağlayan bir tamsayı sabittir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-BUFSIZ" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">BUFSIZ</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu makronun değeri <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>size</code></em> bağımsız değişkeninde kullanılmasının iyi olacağı bir tamsayı sabit ifadesidir. Bu değer en azından <code class="code">256</code> değerini garantiler.
+    </p>
+    <p>
+     <code class="code">BUFSIZ</code> değeri her sistemde akımın G/Ç verimliliğine uygun olarak seçilir. Bu bakımdan <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> çağrısında tampon boyu olarak <code class="code">BUFSIZ</code> kullanmak iyi bir fikirdir.
+    </p>
+    <p>
+     Aslında, <a href="glibc-Reading-Attributes.html#glibc-fn-fstat"><strong class="function"><code>fstat</code></strong></a> sistem çağrısından elde edilen bir değerin tampon boyu olarak kullanılması daha da iyi olacaktır: Dosya özniteliklerinin (<a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> yapısının) <strong class="structfield"><code>st_blksize</code></strong> alanı bu değeri içerir. Bkz.  <a class="xref" href="glibc-Attribute-Meanings.html" title="14.9.1. Dosya Özniteliklerinin Anlamları">Dosya Özniteliklerinin Anlamları</a>.
+    </p>
+    <p>
+     Bazıları <a href="glibc-Line-Input.html#glibc-fn-fgets"><strong class="function"><code>fgets</code></strong></a> (<a class="xref" href="glibc-Character-Input.html" title="12.8. Karakter Girdilerinin Alınması"><em>Karakter Girdilerinin Alınması</em></a>) ile girdi alınması gibi durumlarda tampon tahsis boyu olarak <code class="code">BUFSIZ</code> değerini kullanır. G/Ç işlemlerinin verimli olmasını sağlamak dışında herhangi bir tamsayı değer yerine <code class="code">BUFSIZ</code> kullanmanın geçerli bir sebebi yoktur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setbuf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">setbuf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <em class="parameter"><code>buf</code></em> bağımsız değişkeni boş gösterici olduğunda, bu işlev, <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>mode</code></em> bağımsız değişkenine <a href="glibc-Controlling-Buffering.html#glibc-vr-IONBF"><strong class="varname"><code>_IONBF</code></strong></a> belirtilerek çağrılmasına eşdeğerdedir. Aksi takdirde <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevinin <em class="parameter"><code>size</code></em> bağımsız değişkeninde <span class="command"><strong>BUFSIZ</strong></span> ve <em class="parameter"><code>mode</code></em> bağımsız değişkeninde <span class="command"><strong>_IOFBF</strong></span> kullanılarak tampon istendiği duruma eşdeğerdir.
+    </p>
+    <p>
+     <code class="code">setbuf</code> işlevi eski kod ile uyumluluk için vardır. Yeni yazılımlarda <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevi kullanılmalıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setbuffer" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">setbuffer</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <em class="parameter"><code>buf</code></em> boş gösterici ise bu işlev, <em class="parameter"><code>stream</code></em> akımını tamponsuz yapar. Aksi takdirde, <em class="parameter"><code>stream</code></em> akımı <em class="parameter"><code>buf</code></em> tamponuna tamamen tamponlanacaktır. <em class="parameter"><code>size</code></em> bağımsız değişkeni tamponunun boyunu belirtmekte kullanılır.
+    </p>
+    <p>
+     Bu işlev eski BSD kodu ile uyumluluk için vardır. Yeni yazılımlarda <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevi kullanılmalıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setlinebuf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">setlinebuf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>stream</code></em> akımını satır tamponlu yapar ve tamponu kendisi tahsis eder.
+    </p>
+    <p>
+     Bu işlev eski BSD kodu ile uyumluluk için vardır. Yeni yazılımlarda <a href="glibc-Controlling-Buffering.html#glibc-fn-setvbuf"><strong class="function"><code>setvbuf</code></strong></a> işlevi kullanılmalıdır.
+    </p>
+   </div>
+        <p>
+    Verilen bir akımın satır tamponlu mu yoksa Solaris’te standart-dışı ama GNU C Kütüphanesinde mevcut işlevin kullanılmamış mı olduğu sorgulanabilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-flbf__" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">__flbf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">__flbf</code> işlevi, <em class="parameter"><code>stream</code></em> akımı satır tamponlu ise sıfırdan farklı bir değerle döner. Aksi takdirde sıfır ile döner.
+    </p>
+   </div>
+        <p>
+    Tampon boyunu ve ne kadarının kullanılmş olsuğunu sorgulayan iki işlev daha vardır ve bunlar Solaris’te de vardır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fbufsize" class="indexterm"></span>
+    <span id="glibc-cp-fbufsize" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">__fbufsize</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">__fbufsize</code> işlevi, <em class="parameter"><code>stream</code></em> akımının tampon boyu ile döner. Bu değer akım kullanımını en iyilemek için kullanılabilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fpending" class="indexterm"></span>
+    <span id="glibc-cp-fpending" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">__fpending</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:stream</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">__fpending</code> işlevi, çıktı tamponunda o an bulunan karakterlerin sayısı ile döner. Geniş karakterli tamponlar için bu boyut geniş karakter cinsindendir. Bu işlev okuma kipindeki ya da salt okunur açılmış tamponlarda kulllanılmamalıdır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

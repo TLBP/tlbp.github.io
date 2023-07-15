@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.13.4. printf Genişletme Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-the-Output-Handler.html')">Önceki</button>
+          <div class="dropdown-content">12.13.3. İşleyici İşlevin Tanımlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Predefined-Printf-Handlers.html')">Sonraki</button>
+          <div class="dropdown-content">12.13.5. Yerleşik İşleyici İşlevler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Printf-Extension-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.13.4. <code class="code">printf</code> Genişletme Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Burada bir <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işleyici işlevinin nasıl tanımlanacağı örneklenmiştir. Bu yazılım <code class="code">Widget</code> isimli bir veri yapısı ve <code class="code">Widget *</code> bağımsız değişkenleri hakkında bilgi basacak '<code class="code">%W</code>' dönüşüm belirtecini tanımlar. '<code class="code">%W</code>' dönüşüm belirteci en küçük alan genişliği ile sola yanaştırma imini desteklemekte diğer herşeyi yok saymaktadır.
+    </p>
+            <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;printf.h&gt;
+
+typedef struct
+{
+  char *name;
+}
+Widget;
+
+int
+print_widget (FILE *stream,
+              const struct printf_info *info,
+              const void *const *args)
+{
+  const Widget *w;
+  char *buffer;
+  int len;
+
+  /* <em class="replaceable"><code>Bir dizgeye çıktılanacak biçim.</code></em> */
+  w = *((const Widget **) (args[0]));
+  len = asprintf (&amp;buffer, "&lt;Widget %p: %s&gt;", w, w-&gt;name);
+  if (len == -1)
+    return -1;
+
+  /* <em class="replaceable"><code>En küçük alan genişliğini doldurup akıma bas.</code></em> */
+  len = fprintf (stream, "%*s",
+                 (info-&gt;left ? -info-&gt;width : info-&gt;width),
+                 buffer);
+
+  /* <em class="replaceable"><code>Ortalığı temizle ve dön.</code></em> */
+  free (buffer);
+  return len;
+}
+
+
+int
+print_widget_arginfo (const struct printf_info *info, size_t n,
+                      int *argtypes)
+{
+  /* <em class="replaceable"><code>Daima tek bir bağımsız değişken alınıyor
+     ve bu, yapı için bir gösterici oluyor.</code></em> */
+  if (n &gt; 0)
+    argtypes[0] = PA_POINTER;
+  return 1;
+}
+
+
+int
+main (void)
+{
+  /* <em class="replaceable"><code>Basılacak aracı (mywidget) oluştur.</code></em> */
+  Widget mywidget;
+  mywidget.name = "mywidget";
+
+  /* <em class="replaceable"><code>Araçları basacak işlevi kaydet.</code></em> */
+  register_printf_function ('W', print_widget, print_widget_arginfo);
+
+  /* <em class="replaceable"><code>Aracı bas.</code></em> */
+  printf ("|%W|\n", &amp;mywidget);
+  printf ("|%35W|\n", &amp;mywidget);
+  printf ("|%-35W|\n", &amp;mywidget);
+
+  return 0;
+}
+</pre>
+            <p>Yazılımın çıktısı:</p>
+            <pre class="screen">|&lt;Widget 0xffeffb7c: mywidget&gt;|
+|      &lt;Widget 0xffeffb7c: mywidget&gt;|
+|&lt;Widget 0xffeffb7c: mywidget&gt;      |
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

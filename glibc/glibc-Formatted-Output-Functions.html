@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.12.7. Biçimli Çıktı İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Other-Output-Conversions.html')">Önceki</button>
+          <div class="dropdown-content">12.12.6. Diğer Çıktı Dönüşümleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Dynamic-Output.html')">Sonraki</button>
+          <div class="dropdown-content">12.12.8. Biçimli Çıktıya Özdevimli Tahsis</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Formatted-Output-Functions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.12.7. Biçimli Çıktı İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümde <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> ve ilgili işlevlerin nasıl çağrıldığı anlatılmıştır. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasında bildirilmiştir. Bu işlevlerin değişken sayıda bağımsız değişken almalarından dolayı, kullanılmadan önce ilk örnekleri ile bildirilmelidir. Şüphesiz bunu yapmanın en kolay yolu bu işlevlerin bildirildiği <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code> başlık dosyasının kaynak dosyasında içerilmesidir.
+    <span id="idm107019" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-printf" class="indexterm"></span>
+    <span id="glibc-cp-printf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">printf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">printf</code> işlevi <em class="parameter"><code>template</code></em> biçim dizgesinin denetimi altında isteğe bağlı bağımsız değişkenleri standart çıktıya basar ve basılan karakterlerin sayısı ile döner; bir çıktılama hatası oluşursa negatif değerle döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-wprintf" class="indexterm"></span>
+    <span id="glibc-cp-wprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">wprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">wprintf</code> işlevi <em class="parameter"><code>template</code></em> geniş biçim  dizgesinin denetimi altında isteğe bağlı bağımsız değişkenleri standart çıktıya basar ve basılan geniş karakterlerin sayısı ile döner; bir çıktılama hatası oluşursa negatif değerle döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fprintf" class="indexterm"></span>
+    <span id="glibc-cp-fprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> gibidir, tek farkla, çıktıyı standart çıktıya değil <em class="parameter"><code>stream</code></em> akımına yazar.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fwprintf" class="indexterm"></span>
+    <span id="glibc-cp-fwprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fwprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Formatted-Output-Functions.html#glibc-fn-wprintf"><strong class="function"><code>wprintf</code></strong></a> gibidir, tek farkla, çıktıyı standart çıktıya değil <em class="parameter"><code>stream</code></em> akımına yazar.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sprintf" class="indexterm"></span>
+    <span id="glibc-cp-sprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> gibidir, tek farkla, çıktıyı standart çıktıya değil <em class="parameter"><code>s</code></em> dizisine yazar. Dizge boş karakterle sonlandırılır.
+    </p>
+    <p>
+     <code class="code">sprintf</code> işlevi sonlandırıcı boş karakter hariç <em class="parameter"><code>s</code></em> dizisine yazılan karakterlerin sayısı ile döner.
+    </p>
+    <p>
+     Bu işlevin davranışı, birbirini kapsayan nesneler arasında kopyalama yapılırsa, örneğin, <code class="code">%s</code> belirtecinin bağımsız değişkeni olarak <em class="parameter"><code>s</code></em> dizgesi verilmişse, tanımsızdır. Bkz. <a class="xref" href="glibc-Copying-Strings-and-Arrays.html" title="5.4. Dizilerin ve Dizgelerin Kopyalanması"><em>Dizilerin ve Dizgelerin Kopyalanması</em></a>.
+    </p>
+    <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+      <span class="command"><strong>sprintf</strong></span> işlevi <em class="wordasword">tehlikeli</em> olabilir. <em class="parameter"><code>s</code></em> dizgesi için tahsis edilen yerin biçim dizgesinin ürettiği dizge için yetersiz olabilme olasılığı vardır. Alan genişliği bağımsız değişkeninin en küçük alan genişliğini belirttiği ve kimi zaman bu genişliğin aşılabildiği unutulmamalıdır.
+     </p><p>
+      Bu sorundan kaçımak için aşağıda açıklanacak olan <a href="glibc-Formatted-Output-Functions.html#glibc-fn-snprintf"><strong class="function"><code>snprintf</code></strong></a> veya <a href="glibc-Dynamic-Output.html#glibc-fn-asprintf"><strong class="function"><code>asprintf</code></strong></a> işlevleri kullanılabilir.
+     </p></div></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-swprintf" class="indexterm"></span>
+    <span id="glibc-cp-swprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">swprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wchar_t </code><strong class="type">*</strong><strong><code class="parameter">ws</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">const wchar_t </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Formatted-Output-Functions.html#glibc-fn-wprintf"><strong class="function"><code>wprintf</code></strong></a> gibidir, tek farkla, çıktıyı standart çıktıya değil <em class="parameter"><code>ws</code></em> geniş karakter dizisine yazar. Dizge boş geniş karakterle sonlandırılır. <em class="parameter"><code>size</code></em> bağımsız değişkeni ile üretilecek en büyük karakter sayısı belirtilir. Sonlandırıcı boş karakter de bu sınırın içinde olduğundan <em class="parameter"><code>ws</code></em> dizgesi için en az <em class="parameter"><code>size</code></em> geniş karakterlik yer ayrılmalıdır.
+    </p>
+    <p>
+     <code class="code">swprintf</code> işlevi sonlandırıcı boş geniş karakter hariç <em class="parameter"><code>ws</code></em> geniş karakter dizisine yazılan karakterlerin sayısı ile döner. Çıktı belirtilen tampona sığmazsa negatif değer ile döner. Bu davranışı ile işlev <a href="glibc-Formatted-Output-Functions.html#glibc-fn-snprintf"><strong class="function"><code>snprintf</code></strong></a> işlevinden farklıdır.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
+      Benzeri olan dar yönlenimli akım işlevleri daha az bağımsız değişken alır. <code class="code">swprintf</code> işlevi aslında <a href="glibc-Formatted-Output-Functions.html#glibc-fn-snprintf"><strong class="function"><code>snprintf</code></strong></a> işlevinin karşılığıdır. <a href="glibc-Formatted-Output-Functions.html#glibc-fn-sprintf"><strong class="function"><code>sprintf</code></strong></a> işlevi tehlikeli olabildiğinden, ISO C komitesi aynı yanlışı tekrar yapmaktan kaçınmalı ve <a href="glibc-Formatted-Output-Functions.html#glibc-fn-sprintf"><strong class="function"><code>sprintf</code></strong></a> işlevinin tam karşılığı olan bir işlevi tanımlamama kararı almalıdır.
+     </p></div></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-snprintf" class="indexterm"></span>
+    <span id="glibc-cp-snprintf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">snprintf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">s</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, …)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">snprintf</code> işlevi, <a href="glibc-Formatted-Output-Functions.html#glibc-fn-sprintf"><strong class="function"><code>sprintf</code></strong></a> gibidir, tek farkla, <em class="parameter"><code>size</code></em> bağımsız değişkeni ile üretilecek en büyük karakter sayısı belirtilir. Sonlandırıcı boş karakter de bu sınırın içinde olduğundan <em class="parameter"><code>s</code></em>dizgesi için en az <em class="parameter"><code>size</code></em> karakterlik yer tahsis edilmelidir.
+    </p>
+    <p>
+     <code class="code">snprintf</code> işlevi sonlandırıcı boş geniş karakter hariç <em class="parameter"><code>s</code></em> karakter dizisine yazılan karakterlerin sayısı ile döner. Bu değer <em class="parameter"><code>size</code></em> bayta eşit ya da ondan büyükse sonucun tüm karakterleri <em class="parameter"><code>s</code></em> dizisine yazılamamış demektir. Bu durumda daha büyük çıktı dizisi ile çağrı yinelenmelidir. Aşağıda bunun yapıldığı bir örnek vardır:
+    </p>
+    <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">/* <em class="replaceable"><code>'name' isminde ve 'value' değerinde
+    bir değişkenin değerini açıklayan bir ileti oluştur.</code></em> */
+char *
+make_message (char *name, char *value)
+{
+  /* <em class="replaceable"><code>Nasılsa 100 karakterden daha fazla yere ihtiyaç olmaz.</code></em> */
+  size_t size = 100;
+  char *buffer = xmalloc (size);
+  /* <em class="replaceable"><code>Tahsis edilen alana iletiyi yazmaya çalış.</code></em> */
+  int buflen = snprintf (buffer, size, "value of %s is %s",
+		         name, value);
+  if (! (0 &lt;= buflen &amp;&amp; buflen &lt; SIZE_MAX))
+    fatal ("integer overflow");
+  if (buflen &gt;= size)
+    {
+      /* <em class="replaceable"><code>Artık ne kadar yere ihtiyaç olduğu biliniyor.
+         O halde tamponu yeniden ayır.</code></em> */
+      size = buflen;
+      size++;
+      buffer = xrealloc (buffer, size);
+
+      /* <em class="replaceable"><code>Yeniden dene.</code></em> */
+      snprintf (buffer, size, "value of %s is %s",
+		name, value);
+    }
+  /* <em class="replaceable"><code>Son çağrı çalıştığından dizge ile dön.</code></em> */
+  return buffer;
+}
+</pre></div></div><br class="example-break" />
+    <p>
+     Aslında, <a href="glibc-Dynamic-Output.html#glibc-fn-asprintf"><strong class="function"><code>asprintf</code></strong></a> işlevini kullanmak çok daha kolaydır.
+    </p>
+    <div class="admon caution"><h3 class="admon-title">Dikkat</h3><div class="admon-contents"><p>
+      GNU C Kütüphanesinin 2.1 öncesi sürümlerinde dönüş değeri, sonlandırıcı boş karakter hariç saklanan karakterlerin sayısıydı. <em class="parameter"><code>s</code></em> dizisinde yeterli yer yoksa <code class="code">-1</code> dönüyordu. Bu, ISO C99 standardına uyum sırasında değiştirildi.
+     </p></div></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.3.2. Gelişmiş Sinyal İşleme</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Basic-Signal-Handling.html')">Önceki</button>
+          <div class="dropdown-content">24.3.1. Basit Sinyal İşleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Actions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-and-Sigaction.html')">Sonraki</button>
+          <div class="dropdown-content">24.3.3. <code class="code">signal</code> ve <code class="code">sigaction</code> arasındaki etkileşim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Advanced-Signal-Handling">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.3.2. Gelişmiş Sinyal İşleme</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127332" class="indexterm"></span>
+    <span id="idm127335" class="indexterm"></span>
+    <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi ile aynı temel etkiye sahiptir: bir sinyalin süreç tarafından nasıl işleneceği belirtilir. Farklı olarak, sinyalin üretilmesi ve işleyicinin çağrılması ile ilgili çeşitli denetim seçenekleri belirtilebilir.
+   </p>
+        <p>
+    <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-sigaction" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">sigaction</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">struct sigaction</code> türündeki yapılar, <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevinde belli bir sinyalin nasıl işleneceği hakkındaki bilgilerin belirtilmesi için kullanılır. Bu yapı en azından aşağıdaki üyeleri içerir:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">sighandler_t </code><strong class="structfield"><code>sa_handler</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevindeki <em class="parameter"><code>action</code></em> bağımsız değişkeninin yerine geçer. Değer olarak, <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_DFL"><strong class="varname"><code>SIG_DFL</code></strong></a>, <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_IGN"><strong class="varname"><code>SIG_IGN</code></strong></a> veya bir işlev göstericisi alır. Bkz, <a class="xref" href="glibc-Basic-Signal-Handling.html" title="24.3.1. Basit Sinyal İşleme">Basit Sinyal İşleme</a>.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">sigset_t </code><strong class="structfield"><code>sa_mask</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        İşleyici çalışırken engellenecek sinyalleri belirtmek içindir. Sinyallerin engellenmesi <a class="xref" href="glibc-Blocking-for-Handler.html" title="24.7.5. İşleyici Çalışırken Sinyallerin Engellenmesi">İşleyici Çalışırken Sinyallerin Engellenmesi</a> bölümünde anlatılmıştır. Alınan bir sinyal, işleyicisi başlatılmadan önce ön tanımlı olarak özdevinimli engellenir; bu, <code class="code">sa_mask</code>'ın değerine bakılmaksızın böyledir. Bir sinyalin işleyicisi nedeniyle engellenmemesi isteniyorsa işleyici içindeki kodun, sinyalin engellenmemesini sağlayacak şekilde yazılması gerekir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>sa_flags</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Burada, sinyalin davranışını etkileyebilen çeşitli seçenekler belirtilebilir. Bunlar <a class="xref" href="glibc-Flags-for-Sigaction.html" title="24.3.5. sigaction Seçenekleri"><code class="code">sigaction</code> Seçenekleri</a> bölümünde daha ayrıntılı olarak açıklanmıştır.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigaction" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigaction</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>, </code></strong><code class="type">const struct sigaction *restrict </code><strong><code class="parameter">action</code></strong><strong><code>, </code></strong><code class="type">struct sigaction *restrict </code><strong><code class="parameter">old-action</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <em class="parameter"><code>action</code></em> bağımsız değişkeni ile <em class="parameter"><code>signum</code></em> sinyali için yeni bir eylem belirtilirken, <em class="parameter"><code>old-action</code></em> bağımsız değişkeni, bu simgeyle ilişkili önceki eylem hakkında bilgi döndürmek için kullanılır. (başka bir deyişle, <em class="parameter"><code>old-action</code></em> bağımsız değişkeni <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin dönüş değeri gibi kullanılmıştır. Bununla eski eylemin ne olduğuna bakılabilir ve istenirse bu eylem tekrar yerinde bırakılmak anlamında etkinleştirilebilir.)
+    </p>
+    <p>
+     Hem <em class="parameter"><code>action</code></em> hem de <em class="parameter"><code>old-action</code></em> birer boş gösterici olabilir. <em class="parameter"><code>old-action</code></em> boş gösterici ise, <em class="parameter"><code>signum</code></em> sinyali ile ilişkili eylem değişmez; bu, bir sinyalin işlenme şeklini değiştirilmeksizin o sinyalin işlenmesi ile ilgili bilgi edinilmesini olanaklı kılar.
+    </p>
+    <p>
+     <code class="code">sigaction</code> başarılı olduğunda sıfır ile aksi takdirde <code class="code">-1</code> ile döner. Aşağıdaki bu işlev ile ilişkili <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerleri bulunmaktadır:
+    </p>
+    <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+      <em class="parameter"><code>signum</code></em> bağımsız değişkeni geçersiz; ya da <a href="glibc-Termination-Signals.html#glibc-vr-SIGKILL"><strong class="varname"><code>SIGKILL</code></strong></a> veya <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGSTOP"><strong class="varname"><code>SIGSTOP</code></strong></a> sinyali yok sayılmaya ya da yakalanmaya çalışılıyor.
+     </p></dd></dl>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

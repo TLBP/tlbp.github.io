@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.22.3. fmtmsg ve addseverity kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Adding-Severity-Classes.html')">Önceki</button>
+          <div class="dropdown-content">12.22.2. Önem Derecelerinin Eklenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Messages.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Sonraki</button>
+          <div class="dropdown-content">13. Düşük Seviyeli Girdi ve Çıktı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.22.3. <code class="code">fmtmsg</code> ve <code class="code">addseverity</code> kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Burada, bu kısımda bahsedilmiş olan <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> ve <a href="glibc-Adding-Severity-Classes.html#glibc-fn-addseverity"><strong class="function"><code>addseverity</code></strong></a> işlevlerinin kullanımı örneklenmiştir. (Ç.N.: Bağımsız değişken değerleri değişmez alanları göstermesi açısından Türkçe’ye çevrilmiştir.).
+   </p>
+        <pre class="screen">#include &lt;fmtmsg.h&gt;
+
+int
+main (void)
+{
+  addseverity (5, "BİLGİ2");
+  fmtmsg (MM_PRINT, "tek1alan", MM_INFO, "metin2", "eylem2", "etiket2");
+  fmtmsg (MM_PRINT, "UX:cat", 5, "sözdizimi geçersiz", "belgelere bakınız",
+          "UX:cat:001");
+  fmtmsg (MM_PRINT, "isim:foo", 6, "metin", "eylem", "etiket");
+  return 0;
+}
+</pre>
+        <p>
+    <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> işlevinin ikinci çağrısı genelde bu işlevin ağırlıkla kullanıldığı System V sistemlerinde görülen kullanımını örneklemektedir. Bu sistemin System V üzerinde nasıl çalıştığına burada kısaca değinmek iyi olacaktır. <em class="parameter"><code>label</code></em> alanındaki <code class="code">UX:cat</code>, bir Unix uygulaması olan <tt><a href="../man/man1/man1-cat.html"><b>cat</b></a>(1)</tt>'in bir hata verdiğini belirtir. Devamında hatanın açıklaması ile <em class="parameter"><code>action</code></em> bağımsız değişkeni olarak <code class="code">"belgeye bakınız"</code> değeri yer alır. Gerekiyorsa daha özel bir şeyler yazılabilirdi. <em class="parameter"><code>tag</code></em> alanı evvelce de bahsedildiği gibi <em class="parameter"><code>label</code></em> bağımsız değişkeninin değerine ek olarak eşsiz bir kimlik (burada '<code class="code">001</code>') dizgesinden oluşur. GNU ortamında bu dizge uygulamanın info belgesindeki bu konuya karşılık düşen düğümünü içermeliydi.
+   </p>
+        <p>
+    <a href="glibc-Printing-Formatted-Messages.html#glibc-vr-MSGVERB"><strong class="varname"><code>MSGVERB</code></strong></a> ve <a href="glibc-Printing-Formatted-Messages.html#glibc-vr-SEV_LEVEL"><strong class="varname"><code>SEV_LEVEL</code></strong></a> ortam değişkenleri tanımlanmadan yazılım çalıştırılırsa aşağıdaki çıktı üretilir:
+   </p>
+        <pre class="screen">UX:cat: BİLGİ2: sözdizimi geçersiz
+TO FIX: belgelere bakınız UX:cat:001
+</pre>
+        <p>
+    Burada iletinin farklı alanlarının iki nokta üstüste ve '<code class="code">TO FIX</code>' dizgesi ile birlikte nasıl basıldığı görülmektedir. Ama üç <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> çağrısından yalnız biri bu çıktıyı üretti. İlk çağrı <em class="parameter"><code>label</code></em> bağımsız değişkeni doğru biçimde olmadığından hiçbir çıktı üretmedi. Dizge iki nokta üstüste ile ayrılmış iki alan içermeliydi (<a class="xref" href="glibc-Printing-Formatted-Messages.html" title="12.22.1. Biçimli İletilerin Basılması">Biçimli İletilerin Basılması</a>). Üçüncü <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> çağrısı da sayısal değeri <code class="code">6</code> olan önem derecesi tanımlanmadığı için çıktı üretmedi. Sayısal değeri <code class="code">5</code> olan önem derecesi ayrıca ön tanımlı olarak tanımlanmadığı halde <a href="glibc-Adding-Severity-Classes.html#glibc-fn-addseverity"><strong class="function"><code>addseverity</code></strong></a> çağrısı ile tanımlanmış ve ikinci <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> çağrısı yukarıdaki çıktıyı üretmiştir.
+   </p>
+        <p>
+    Uygulamamız çalışırken ortamı <code class="code">SEV_LEVEL=XXX,6,BİLGİ</code> ile değiştirirsek aşağıdaki sonucu alırız:
+   </p>
+        <pre class="screen">UX:cat: BİLGİ2: sözdizimi geçersiz
+TO FIX: belgelere bakınız UX:cat:001
+isim:foo: BİLGİ: metin
+TO FIX: eylem etiket
+</pre>
+        <p>
+    Böylece üçüncü <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> çağrısı da çıktı üretti ve ortam değişkenindeki <code class="code">BİLGİ</code> dizgesinin ileti içinde nasıl kullanıldığı da görülmüş oldu.
+   </p>
+        <p>
+    Sadece gerekli alanlarla çıktı üretmek için <a href="glibc-Printing-Formatted-Messages.html#glibc-vr-MSGVERB"><strong class="varname"><code>MSGVERB</code></strong></a> ortam değişkenine <code class="code">severity:label:action</code> (önem:isim:eylem) değeri atanırsa aşağıdaki çıktı alınır:
+   </p>
+        <pre class="screen">UX:cat: BİLGİ2
+TO FIX: belgelere bakınız
+isim:foo: BİLGİ
+TO FIX: eylem
+</pre>
+        <p>
+    Böylece, <a href="glibc-Printing-Formatted-Messages.html#glibc-fn-fmtmsg"><strong class="function"><code>fmtmsg</code></strong></a> işlevinin <em class="parameter"><code>text</code></em> ve <em class="parameter"><code>tag</code></em> bağımsız değişkenleri kullanılmamış oldu. Dikkat edilirse <code class="code">BİLGİ</code> ve <code class="code">BİLGİ2</code> dizgelerinden sonra iki nokta üstüste kullanılmamıştır. Bu satırlarda bu dizgelerden sonra gösterilecek metin çıktılanmayacağından bu karakter kullanılmamıştır.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

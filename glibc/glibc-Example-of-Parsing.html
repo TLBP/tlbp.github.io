@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.12.11. Kalıp Dizgesinin Çözümlenmesi Örneği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Parsing-a-Template-String.html')">Önceki</button>
+          <div class="dropdown-content">12.12.10. Kalıp Dizgesinin Çözümlenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Customizing-Printf.html')">Sonraki</button>
+          <div class="dropdown-content">12.13. <code class="code">printf</code> İşlevinin Özelleştirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Example-of-Parsing">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.12.11. Kalıp Dizgesinin Çözümlenmesi Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu örnekte bir biçim dizgesi için gereken bağımsız değişken türleri çözümlenmektedir. Bu örneğe özel olarak bağımsız değişken türlerini <code class="code">NUMBER</code>, <code class="code">CHAR</code>, <code class="code">STRING</code> ve <code class="code">STRUCTURE</code> isimleri ile sınıflandırdık (başka türlerde var tabii ama bu sadece bir örnek).
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">/* Belirtilen 'nargs' adet nesne kalıp dizgesi için
+   geçerli mi, değil mi?
+   Geçerliyse 1,
+   değilse 0 dönsün ve bir hata iletisi bassın.  */
+
+int
+validate_args (char *format, int nargs, OBJECT *args)
+{
+  int *argtypes;
+  int nwanted;
+
+  /* <em class="replaceable"><code>Bağımsız değişkenler hakkında bilgi al.
+     Her dönüşüm belirtimi en az iki karakterlik olmalı,
+     o halde dizgenin yarı uzunluğundan daha fazla sayıda
+     belirtim olamaz.</code></em>  */
+
+  argtypes = (int *) alloca (strlen (format) / 2 * sizeof (int));
+  nwanted = parse_printf_format (format, nargs, argtypes);
+
+  /* <em class="replaceable"><code>Bağımsız değişken sayısına bak.</code></em>  */
+  if (nwanted &gt; nargs)
+    {
+      error ("Çok az bağımsız değişken (en azından %d gerekir)", nwanted);
+      return 0;
+    }
+
+  /* <em class="replaceable"><code>Her bağımsız değişkenin C türüne ve</code></em>
+     <em class="replaceable"><code>belirtilen nesnenin uygunluğuna bak.</code></em>  */
+  for (i = 0; i &lt; nwanted; i++)
+    {
+      int istenen;
+
+      if (argtypes[i] &amp; PA_FLAG_PTR)
+	istenen = STRUCTURE;
+      else
+	switch (argtypes[i] &amp; ~PA_FLAG_MASK)
+	  {
+	  case PA_INT:
+	  case PA_FLOAT:
+	  case PA_DOUBLE:
+	    istenen = NUMBER;
+	    break;
+	  case PA_CHAR:
+	    istenen = CHAR;
+	    break;
+	  case PA_STRING:
+	    istenen = STRING;
+	    break;
+	  case PA_POINTER:
+	    istenen = STRUCTURE;
+	    break;
+	  }
+      if (TYPE (args[i]) != istenen)
+	{
+	  error ("%d. bağımsız değişken için tür uyumsuz", i);
+	  return 0;
+	}
+    }
+  return 1;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

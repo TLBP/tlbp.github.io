@@ -7,6 +7,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
@@ -81,7 +82,7 @@
             </div>
           </div>
           <p>
-     Kullanılabilir dönüşümler hakkındaki bilgilerin tamamı <code class="filename">gconv-modules</code> adı verilen bir dosyanın içinde yeralır. Bu dosyanın yeri <code class="varname">GCONV_PATH</code> ortam değişkeninde kayıtlıdır. <code class="filename">gconv-modules</code> dosyaları satırlardan oluşan metin dosyalarıdır. Dosyadaki her satır şöyle yorumlanır:
+     Kullanılabilir dönüşümler hakkındaki bilgilerin tamamı <code class="filename">gconv-modules</code> adı verilen bir dosyanın içinde yer alır. Bu dosyanın yeri <code class="varname">GCONV_PATH</code> ortam değişkeninde kayıtlıdır. <code class="filename">gconv-modules</code> dosyaları satırlardan oluşan metin dosyalarıdır. Dosyadaki her satır şöyle yorumlanır:
     </p>
           <div class="itemizedlist">
             <ul class="itemizedlist" style="list-style-type: disc; ">
@@ -103,7 +104,7 @@
        <code class="code">module</code> ile başlayan satırlar mevcut dönüşüm modüllerini içerir. Bu satırlar üç veya dört sözcük içermelidir.
       </p>
                 <p>
-       İlk sözcük kaynak karakter kümesini, ikincisi hedef karakter kümesini, üçüncüsü ise bu dönüşümde yüklenecek olan modülün dosya ismini belirtir. Dosya ismi paylaşımlı nesne dosyalarının uzantısını (normalde <code class="filename">.so</code>) içermemelidir. Bu dosyaların <code class="filename">gconv-modules</code> dosyasının bulunduğu dizinde olduğu varsaylır. Satırdaki son sözcük isteğe bağlıdır. Dönüşüm bedelini gösteren bir tamsayıdır ve belirtilmemişse öntanımlı değeri olan 1 olduğu varsayılır. Dönüşümü gerçekletirecek alt dönüşümlerin sayısını belirtir. Aşağıda bedel değerinin kullanımı ayrıntılı olarak açıklanmıştır.
+       İlk sözcük kaynak karakter kümesini, ikincisi hedef karakter kümesini, üçüncüsü ise bu dönüşümde yüklenecek olan modülün dosya ismini belirtir. Dosya ismi paylaşımlı nesne dosyalarının uzantısını (normalde <code class="filename">.so</code>) içermemelidir. Bu dosyaların <code class="filename">gconv-modules</code> dosyasının bulunduğu dizinde olduğu varsaylır. Satırdaki son sözcük isteğe bağlıdır. Dönüşüm bedelini gösteren bir tamsayıdır ve belirtilmemişse ön tanımlı değeri olan 1 olduğu varsayılır. Dönüşümü gerçekletirecek alt dönüşümlerin sayısını belirtir. Aşağıda bedel değerinin kullanımı ayrıntılı olarak açıklanmıştır.
       </p>
               </li>
             </ul>
@@ -136,7 +137,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
      <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> gerçeklemesinin neden örneğin ISO-2022-JP ve EUC-JP karakter kümeleri arasındaki dönüşümlerde kütüphane ile gelen dönüşümler yerine <code class="filename">gconv-modules</code> dosyalarında belirtilen dönüşüm modülünü kullandığını açıklamak artık kolaydır. Kütüphane ile gelen dönüşümler, dönüşümü iki adımda gerçekleştirir (ISO-2022-JP -&gt; ISO 10646 ve ISO 10646 -&gt; EUC-JP). Bu durumda bedel <code class="code">1 + 1 = 2</code> olur. Yukarıda ise <code class="filename">gconv-modules</code> dosyasında bu dönüşümün bedeli <code class="code">1</code> olan bir dönüşüm modülü ile gerçekleştirilebileceği belirtilmişti.
     </p>
           <p>
-     Yukarıdaki (ve ayrıca GNU C Kütüphanesi ile gelen) <code class="filename">gconv-modules</code> dosyası ile ilgili gizemli bir öğe <code class="code">module</code> satırlarında belirtilmiş karakter kümesi isimleridir. Bu isimlerin bazıları neden <code class="code">//</code> ile biter? Bu şekilde biten isimler birer düzenli ifade olduklarından öyle biter. Heceleme ile ilgilenmiyorsanız bu size bir şey ifade etmeyecektir. <em class="emphasis">Kusura bakmayın! Gerçeklenimin bu kısmı henüz bitmedi. Şimdilik sadece örnekleri izlemekle yetinin, lütfen. Gerçeklenim tamamlanınca herşey daha iyi olacak. -drepper</em>
+     Yukarıdaki (ve ayrıca GNU C Kütüphanesi ile gelen) <code class="filename">gconv-modules</code> dosyası ile ilgili gizemli bir öge <code class="code">module</code> satırlarında belirtilmiş karakter kümesi isimleridir. Bu isimlerin bazıları neden <code class="code">//</code> ile biter? Bu şekilde biten isimler birer düzenli ifade olduklarından öyle biter. Heceleme ile ilgilenmiyorsanız bu size bir şey ifade etmeyecektir. <em class="emphasis">Kusura bakmayın! Gerçeklenimin bu kısmı henüz bitmedi. Şimdilik sadece örnekleri izlemekle yetinin, lütfen. Gerçeklenim tamamlanınca herşey daha iyi olacak. -drepper</em>
     </p>
           <p>
      <code class="filename">gconv-modules</code> hakkındaki son düşünceler <code class="code">//</code> ile bitmeyen isimlerle ilgilidir. <code class="code">INTERNAL</code>  diye bir karakter kümesi ismi sık sık geçer. Bu karakter kümesi ismi yukarıdaki dönüşüm tartışmasında üçlemenin ara adımını oluşturan karakter kümesini nitelemek için seçilmiştir. Bunun aslında UCS-4 olduğundan bahsetmişsek de bu tamamen doğru değildir. UCS-4 belirtimi, kendi içinde bayt sıralaması için kullanılan bir belirtim daha içerir. Bir UCS-4 değeri 4 bayttan oluştuğundan saklanan değer bayt sıralamasından etkilenir. Eğer işlemcinin (en azından çalışan sürecin) bayt sıralaması UCS-4 için gerekenle aynı değilse, değerin dahili gösterimi UCS-4’teki ile aynı olmayacaktır. Dönüşüm sırasında ara dönüşüm ürününün durumu ile ilgilenmeyen biri için bayt takaslama işlemlerine zaman harcamanın gereği yoktur. Bayt sıralama sorunlarından kaçınmak için, en kıymetli baytın en düşük adrese yerleştirildiği bayt sıralamasını kullanan sistemlerle aynı bayt sıralamasına sahip dahili karakter kümesine <code class="code">INTERNAL</code> ismi verilmiştir.
@@ -151,7 +152,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
             </div>
           </div>
           <p>
-     <span id="idm96905" class="indexterm"></span>
+     <span id="idm96921" class="indexterm"></span>
      Bu bölüme kadar modüllerin yerlerinin kullanımı açıklandı. Burada yeni bir modül yazmak için kullanılacak arayüz açıklanacaktır. Bu bölümde açıklanacak arayüz Ocak 1999'dan beri kullanılmaktadır. Arayüz gelecekte biraz değişecekse de bu değişiklik uyumluluk korunarak yapılacaktır.
     </p>
           <p>
@@ -165,7 +166,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
     </p>
           <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-gconv_step" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code> <strong><code class="function">__gconv_step</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">__gconv_step</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      
      <p>
       Bu veri yapısı bir modülün gerçekleştirdiği bir dönüşümü açıklar. Dönüşüm işlevleri ile yüklenen bir modüldeki her işlev için bu türde tek bir nesne vardır (bu nesne asıl dönüşüme ilişkin bir bilgi içermez, sadece dönüşümün kendisini tanımlar).
@@ -216,7 +217,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
     </div>
           <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-gconv_step_data" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code> <strong><code class="function">__gconv_step_data</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">__gconv_step_data</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      
      <p>
       Bu veri türü, dönüşüm işlevlerinin kullanımına özel bilgileri içerir.
@@ -266,7 +267,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
      Veri yapıları hakkında bilgi edindikten sonra dönüşüm işlevlerinin açıklamalarına girilebilir. Arayüzü anlayabilmek için dönüşüm nesnelerini yükleyen C kütüphanesindeki işlevsellik hakkında biraz önbilgi vermek gerekir.
     </p>
           <p>
-     Bir dönüşümün defalarca kullanıldığı duruma sıklıkla rastlanır (yazılımın çalışması esnasında aynı karakter kümesi için çok sayıda <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> çağrısı yapılması). GNU C Kütüphanesindeki <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> ve benzeri işlevler de aynı işlevin kullanım sayısını arttıran <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevselliğini kullanır.
+     Bir dönüşümün defalarca kullanıldığı duruma sıklıkla rastlanır (yazılımın çalışması esnasında aynı karakter kümesi için çok sayıda <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv_open"><strong class="function"><code>iconv_open</code></strong></a> çağrısı yapılması). GNU C Kütüphanesindeki <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> ve benzeri işlevler de aynı işlevin kullanım sayısını artıran <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevselliğini kullanır.
      </p>
           <p>
       Dönüşümlerin böyle defalarca kullanılabilmesinden dolayı modüller her dönüşüm için tekrar yüklenmez. Modül bir kere yüklendikten sonra aynı <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> veya <a href="glibc-Converting-Strings.html#glibc-fn-mbsrtowcs"><strong class="function"><code>mbsrtowcs</code></strong></a> çağrıları defalarca yapılabilir. Bilgilerin işleve özel dönüşüm bilgileri ve dönüşüm verisi bilgileri olarak ayrılabilmesi sayesinde bu mümkün olur. Bunun yapılmasını sağlayan iki veri yapısından önceki bölümde bahsedilmişti.
@@ -297,7 +298,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
               </dt>
               <dd>
                 <p>
-        <strong class="function"><code>gconv_end</code></strong> işlevi, <strong class="function"><code>gconv_init</code></strong> işlevi ile ayrılan tüm özkaynakları serbest bırakmak için kullanılır. Böyle bir işlem gerekmiyorsa bu işlev tanımlanmayabilir. Modül birden fazla dönüşümü gerçekleştirebiliyorsa ve <strong class="function"><code>gconv_init</code></strong> işlevi her dönüşüm için aynı özkaynakları ayırmıyorsa bu işlevi tanımlarken dikkatli olunmalıdır.
+        <strong class="function"><code>gconv_end</code></strong> işlevi, <strong class="function"><code>gconv_init</code></strong> işlevi ile ayrılan tüm öz kaynakları serbest bırakmak için kullanılır. Böyle bir işlem gerekmiyorsa bu işlev tanımlanmayabilir. Modül birden fazla dönüşümü gerçekleştirebiliyorsa ve <strong class="function"><code>gconv_init</code></strong> işlevi her dönüşüm için aynı öz kaynakları ayırmıyorsa bu işlevi tanımlarken dikkatli olunmalıdır.
        </p>
               </dd>
               <dt>
@@ -319,7 +320,7 @@ module  EUC-JP//        ISO-2022-JP//   ISO2022JP-EUCJP    1
     </p>
           <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-gconv_init_fct" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">(*__gconv_init_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">(*__gconv_init_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>)</code></strong></td></tr></table></div>
      
      <p>
       Modülün gerçekleştirdiği her dönüşüm için sadece bir kere çağrılan ilklendirme işlevinin arayüzünü belirler.
@@ -439,10 +440,10 @@ gconv_init (struct __gconv_step *step)
     </p>
           <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-gconv_end_fct" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code> <strong><code class="function">(*__gconv_end_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">(*__gconv_end_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>)</code></strong></td></tr></table></div>
      
      <p>
-      Bu işlevin görevi ilklendirme işlevinin ayırdığı tüm özkaynakları serbest bırakmaktır. Bu nedenle bağımsız değişken olarak nesnenin sadece <strong class="structfield"><code>__data</code></strong> elemanını kullanır. İlklendirme işlevi ile ilgili örneğe devam edilirse dönüşümü sonlandıran işlev şöyle olurdu:
+      Bu işlevin görevi ilklendirme işlevinin ayırdığı tüm öz kaynakları serbest bırakmaktır. Bu nedenle bağımsız değişken olarak nesnenin sadece <strong class="structfield"><code>__data</code></strong> elemanını kullanır. İlklendirme işlevi ile ilgili örneğe devam edilirse dönüşümü sonlandıran işlev şöyle olurdu:
      </p>
      <pre class="screen">void
 gconv_end (struct __gconv_step *data)
@@ -456,7 +457,7 @@ gconv_end (struct __gconv_step *data)
     </p>
           <div class="csynopsis"><div class="cstype">  veri türü</div>
      <span id="glibc-tp-gconv_fct" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">(*__gconv_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>, </code></strong><code class="type">struct __gconv_step_data *</code><strong><code>, </code></strong><code class="type">const char **</code><strong><code>, </code></strong><code class="type">const char *</code><strong><code>, </code></strong><code class="type">size_t *</code><strong><code>, </code></strong><code class="type">int</code><strong><code>)</code></strong></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=iconv/gconv.h;hb=HEAD" target="_top">gconv.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">(*__gconv_fct)</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct __gconv_step *</code><strong><code>, </code></strong><code class="type">struct __gconv_step_data *</code><strong><code>, </code></strong><code class="type">const char **</code><strong><code>, </code></strong><code class="type">const char *</code><strong><code>, </code></strong><code class="type">size_t *</code><strong><code>, </code></strong><code class="type">int</code><strong><code>)</code></strong></td></tr></table></div>
      
      <p>
       Dönüşüm işlevinin çağrılmasını gerektiren iki sebep olabilir: Metni dönüştürmek ya da durumu sıfırlamak. <a href="glibc-Generic-Conversion-Interface.html#glibc-fn-iconv"><strong class="function"><code>iconv</code></strong></a> işlevinin açıklamasına bakılırsa boşaltma kipinin neden gerekli olduğu görülebilir. Hangi kipin seçilmiş olduğu bir tamsayı olan altıncı bağımsız değişkene bakılarak saptanır. Boşaltma kipi seçilmişse bu bağımsız değişkenin değeri sıfırdan farklı olacaktır.
@@ -465,7 +466,7 @@ gconv_end (struct __gconv_step *data)
       Çıktı tamponunun yerinin her iki kip için ortak olduğu görülür. Bu tampon hakkındaki bilgi dönüşüm adım verisinde saklanır. Bu bilgiye ilişkin gösterici işleve ikinci bağımsız değişken olarak aktarılır. <a href="glibc-iconv-Implementation.html#glibc-tp-gconv_step_data"><strong class="type"><code>struct __gconv_step_data</code></strong></a> yapısının açıklaması dönüşüm adım verisi hakkında daha fazla bilgi içerir.
      </p>
      <p>
-      Boşaltma için ne yapılacağı kaynak karakter kümesine bağlıdır. Eğer kaynak karakter kümesi durumsal değilse birşey yapmak gerekmez. Aksi takdirde, işlev durum nesnesini ilk duruma getirecek bir bayt dizilimini göndermek zorundadır. Bu yapıldıktan sonra dönüşüm zincirindeki diğer dönüşüm işlevlerine de bu imkan tanınmalıdır. Bu işlevi başka bir adımın izleyip izlemeyeceği ilk bağımsız değişkene adım verisinin <strong class="structfield"><code>__is_last</code></strong> elemanındaki bilgi aktarılarak saptanabilir.
+      Boşaltma için ne yapılacağı kaynak karakter kümesine bağlıdır. Eğer kaynak karakter kümesi durumsal değilse bir şey yapmak gerekmez. Aksi takdirde, işlev durum nesnesini ilk duruma getirecek bir bayt dizilimini göndermek zorundadır. Bu yapıldıktan sonra dönüşüm zincirindeki diğer dönüşüm işlevlerine de bu imkan tanınmalıdır. Bu işlevi başka bir adımın izleyip izlemeyeceği ilk bağımsız değişkene adım verisinin <strong class="structfield"><code>__is_last</code></strong> elemanındaki bilgi aktarılarak saptanabilir.
      </p>
      <p>
       Metnin dönüştürüldüğü kip daha ilginçtir. Bu kipteki ilk adımda girdi tamponundaki metnin olabildiğince büyük bir kısmı dönüştürülür ve sonuç çıktı tamponunda saklanır. Girdi tamponunun başlangıcı, tamponun başlangıcını gösteren bir göstericiye gösterici olan üçüncü bağımsız değişkenden saptanır. Dördüncü bağımsız değişken tampondaki son bayttan sonraki bayta göstericidir.
@@ -474,7 +475,7 @@ gconv_end (struct __gconv_step *data)
       Dönüşüm, eğer karakter kümesi durumsal ise mevcut duruma bağlı olarak uygulanır. Durum bilgisi adım verisinin <strong class="structfield"><code>__statep</code></strong> elemanı tarafından gösterilen bir nesnede saklanır (ikinci bağımsız değişken). Girdi tamponu boşsa ya da çıktı tamponu dolmuşsa dönüşüm durdurulur. Bu durumda üçüncü bağımsız değişkendeki gösterici değişkeni son işlenen bayttan sonraki baytı göstermelidir (eğer tüm girdi tüketilmişse, bu gösterici ve dördüncü bağımsız değişken aynı değerde olur).
      </p>
      <p>
-      Sonra ne yapılacağı bu adımın son adım olup olmamasına bağlıdır. Eğer bu adım son adımsa yapılacak tek şey, adım verisi yapısının <strong class="structfield"><code>__outbuf</code></strong> elemanının son yazılan bayttan sonraki baytı gösterecek şekilde güncellenmesidir. Ek olarak, beşinci bağımsız değişken tarafından gösterilen <code class="type">size_t</code> türündeki değişken geri dönüşümsüz olarak dönüştürülen karakter sayısı (bayt sayısı değil) kadar arttırılmalıdır. Bundan sonra işlev dönebilir.
+      Sonra ne yapılacağı bu adımın son adım olup olmamasına bağlıdır. Eğer bu adım son adımsa yapılacak tek şey, adım verisi yapısının <strong class="structfield"><code>__outbuf</code></strong> elemanının son yazılan bayttan sonraki baytı gösterecek şekilde güncellenmesidir. Ek olarak, beşinci bağımsız değişken tarafından gösterilen <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> türündeki değişken geri dönüşümsüz olarak dönüştürülen karakter sayısı (bayt sayısı değil) kadar artırılmalıdır. Bundan sonra işlev dönebilir.
      </p>
      <p>
       Eğer bu adım son adım değilse, sonraki dönüşüm işlevlerine kendi görevlerini yerine getirebilmeleri imkanı sağlanmalıdır. Bu nedenle uygun dönüşüm işlevi çağrısı yapılmalıdır. İşlevler hakkındaki bilgiler dönüşüm veri yapılarında saklanır ve ilk bağımsız değişken olarak aktarılır. Bu bilgi ve adım verisi dizilerde saklanır, bu durumda sonraki eleman her iki halde de basit olarak gösterici aritmetiği ile bulunabilir:
@@ -502,7 +503,7 @@ gconv (struct __gconv_step *step, struct __gconv_step_data *data,
       Girdi tamponunun düzeltilmesi, eğer girdi ve çıktı karakter kümelerindeki tüm karakterler sabit genişlikteyse kolaydır. Bu durumda, çıktı tamponunda kaç karakter kaldığı hesaplanabilir ve bu sonuçtan hareketle girdi tampon göstericisi benzer bir hesaplamayla elde edilebilir. Zor olan, karakter kümelerinin değişken genişlikte karakterler içermesi ve dönüşüm bir de durumsal ise işlemin daha da karmaşıklaşmasıdır. Bu durumlarda dönüşüm, ilk dönüşümden önceki bilinen durumdan bir daha başlatılır (gerekliyse, dönüşüm durumu sıfırlanmalı ve dönüşüm döngüsü tekrar çalıştırılmalıdır). Burada farklı olan ne kadar girdi oluşturulması gerektiğinin bilinmesi ve dönüşümün ilk işe yaramaz karakterden önce durdurulabilmesidir. Bu yapıldıktan sonra girdi tamponu göstericileri tekrar güncellenmelidir. Bundan sonra işlev dönebilir.
      </p>
      <p>
-      Üstünde durulması gereken son bir şey daha var. Dönüşümün ilk çağrısında bir iletinin çıktılanması gerektiği durumlar için çağrının ilk çağrı olup olmadığının bilinmesi için dönüşüm işlevi adım verisi yapısının <strong class="structfield"><code>__invocation_counter</code></strong> elmanının değerini çağrıcıya dönmeden önce arttırmalıdır. Bunun nasıl kullanıldığı hakkında daha fazla bilgi edinmek isterseniz <a href="glibc-iconv-Implementation.html#glibc-tp-gconv_step_data"><strong class="type"><code>struct __gconv_step_data</code></strong></a> yapısının açıklamasına bakılabilir.
+      Üstünde durulması gereken son bir şey daha var. Dönüşümün ilk çağrısında bir iletinin çıktılanması gerektiği durumlar için çağrının ilk çağrı olup olmadığının bilinmesi için dönüşüm işlevi adım verisi yapısının <strong class="structfield"><code>__invocation_counter</code></strong> elmanının değerini çağrıcıya dönmeden önce artırmalıdır. Bunun nasıl kullanıldığı hakkında daha fazla bilgi edinmek isterseniz <a href="glibc-iconv-Implementation.html#glibc-tp-gconv_step_data"><strong class="type"><code>struct __gconv_step_data</code></strong></a> yapısının açıklamasına bakılabilir.
      </p>
      <p>
       Dönüş değeri şunlardan biri olmalıdır:
@@ -560,7 +561,7 @@ gconv (struct __gconv_step *step, struct __gconv_step_data *data,
 
           /* <em class="replaceable"><code>Dönüşüm döngüsü çalıştır ve durumu uygun değere ayarla.</code></em>  */
 
-          /* <em class="replaceable"><code>Bu son adımsa, döngüden çık. Yapacak birşey kalmamış.</code></em>  */
+          /* <em class="replaceable"><code>Bu son adımsa, döngüden çık. Yapacak bir şey kalmamış.</code></em>  */
           if (data-&gt;__is_last)
             {
               /* <em class="replaceable"><code>Kullanılabilir kaç bayt kaldı bilgisini sakla.</code></em>  */

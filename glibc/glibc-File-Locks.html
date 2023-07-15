@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.16. Dosya Kilitleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Getting-File-Status-Flags.html')">Önceki</button>
+          <div class="dropdown-content">13.15.4. Dosya Durum Seçeneklerinin Saptanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Open-File-Description-Locks.html')">Sonraki</button>
+          <div class="dropdown-content">13.17. Açık Dosya Tanıtıcı Kilitleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-File-Locks">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.16. Dosya Kilitleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm116945" class="indexterm"></span>
+   <span id="idm116947" class="indexterm"></span>
+   Bu bölümde, süreçle ilişkili kayıt kilitleri açıklanmaktadır. Süreç yerine açık dosya tanıtıcısı ile ilişkilendirilen farklı bir kayıt kilidi türü daha vardır. Bkz. <a class="xref" href="glibc-Open-File-Description-Locks.html" title="13.17. Açık Dosya Tanıtıcı Kilitleri"><em>Açık Dosya Tanıtıcı Kilitleri</em></a>.
+  </p>
+        <p>
+   Geri kalan <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> komutları, çok sayıda süreçle işbirliği yapan bir sürecin diğerlerini, bir dosyanın bölümlerine aynı anda hataya açık yollarla erişmesini engellemesini sağlayan kayıt kilitlemeyi desteklemek için kullanılır.
+  </p>
+        <p>
+   <span id="idm116954" class="indexterm"></span>
+   <span id="idm116957" class="indexterm"></span>
+   Bir <em class="wordasword">ayrıcalıklı kilit</em> ya da <em class="wordasword">yazma kilidi</em> sürecin dosyanın belli bir parçasına yazma amacıyla ayrıcalıklı erişimini mümkün kılar. Bir yazma kilidi etkinken başka hiçbir süreç dosyanın kilitli bölümünü kilitleyemez.
+  </p>
+        <p>
+   <span id="idm116963" class="indexterm"></span>
+   <span id="idm116966" class="indexterm"></span>
+   Bir <em class="wordasword">paylaşımlı kilit</em> veya <em class="wordasword">okuma kilidi</em> başka hiçbir sürecin dosyanın okuma kilitli parçasında bir yazma kilidi isteği yapamamasını sağlar, ancak okuma kilidi isteği engellenmez.
+  </p>
+        <p>
+   Aslında <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ve <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevleri dosyanın bir yerinde bir kilit var mı, yok mu diye bakmaz. Üzerinde birden çok süreç tarafından işlem yapılan bir dosya için kilit uygulaması yapılmak istenirse, uygun noktalarda kilitleri istemek ve temizlemek için doğrudan <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> çağrıları yapılması gerekir.
+  </p>
+        <p>
+   Kilitler süreçlerle ilişkilendirilir. Bir süreç belirtilen bir dosyanın her baytı için sadece bir çeşit kilitleme yapabilir. Bir dosya ile ilişkili dosya tanıtıcı kimliklerinden herhangi biri süreç tarafından kapatıldığında, diğer dosya tanıtıcı kimlikleri açık bile olsa, süreçte bu dosya ile ilişkilendirilmiş tüm kilitler iptal edilir.  Benzer şekilde bir süreç sonlandığında da kilitler iptal edilir, ayrıca <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> ile <a class="link" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması">oluşturulan alt süreçler</a> bu kilitleri miras almaz.
+  </p>
+        <p>
+   <span id="idm116979" class="indexterm"></span>
+   Bir kilit oluşturulurken ne çeşit kilidin nerede oluşturulacağını belirtmek için <a href="glibc-File-Locks.html#glibc-tp-flock"><strong class="type"><code>struct flock</code></strong></a> yapısı kullanılır. Bu veri türü ve kilitlerle ilgili  <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> makroları <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-flock" class="indexterm"></span>
+   <span id="glibc-cp-flock" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/ginclude/stddef.h;hb=HEAD" target="_top">stddef.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">flock</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu yapı <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevi ile bir dosya kilidini yapılandırmakta kullanılır. Şu üyelere sahiptir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">short int </code><strong class="structfield"><code>l_type</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Kilidin türünü belirtir; <a href="glibc-File-Locks.html#glibc-vr-F_RDLCK"><strong class="varname"><code>F_RDLCK</code></strong></a>, <a href="glibc-File-Locks.html#glibc-vr-F_WRLCK"><strong class="varname"><code>F_WRLCK</code></strong></a> veya <a href="glibc-File-Locks.html#glibc-vr-F_UNLCK"><strong class="varname"><code>F_UNLCK</code></strong></a> makrolarından biri olabilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">short int </code><strong class="structfield"><code>l_whence</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       <a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a> veya <a href="glibc-File-Position-Primitive.html#glibc-fn-lseek"><strong class="function"><code>lseek</code></strong></a> işlevinin <em class="parameter"><code>whence</code></em> bağımsız değişkeninde kullanıldığı gibi dosya konumunun nereye göre belirlendiğini belirtir. Değeri <a href="glibc-File-Positioning.html#glibc-vr-SEEK_SET_"><strong class="varname"><code>SEEK_SET</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-vr-SEEK_CUR_"><strong class="varname"><code>SEEK_CUR</code></strong></a> veya <a href="glibc-File-Positioning.html#glibc-vr-SEEK_END_"><strong class="varname"><code>SEEK_END</code></strong></a> olabilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">off_t </code><strong class="structfield"><code>l_start</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Kilidin uygulanacağı bölümün başlangıcından uzaklığını belirler ve yapının <strong class="structfield"><code>l_whence</code></strong> üyesinde belirtilen noktaya göre bayt cinsinden ifade edilir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">off_t </code><strong class="structfield"><code>l_len</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Kilitlenecek bölgenin uzunluğunu belirler. <code class="code">0</code> değerinin özel bir anlamı vardır, bölgenin dosyanın sonuna kadar genişleyebileceğini belirtir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">pid_t </code><strong class="structfield"><code>l_pid</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Kilidi tutan sürecin <a class="link" href="glibc-Process-Creation-Concepts.html" title="26.2. Süreç Oluşturma Kavramları">süreç kimliğidir</a>. Bu alan kilidi oluştururken yok sayılır, sadece <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <a href="glibc-File-Locks.html#glibc-vr-F_GETLK"><strong class="varname"><code>F_GETLK</code></strong></a> komutu ile yapılan çağrısı ile doldurulur. Çakışan kilit, açık dosya tanıtıcı kilidi ise, bu alana <code class="code">-1</code> atanır. Bkz. <a class="xref" href="glibc-Open-File-Description-Locks.html" title="13.17. Açık Dosya Tanıtıcı Kilitleri"><em>Açık Dosya Tanıtıcı Kilitleri</em></a>.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-F_GETLK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_GETLK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <em class="parameter"><code>command</code></em> bağımsız değişkeninde kullanılır ve bir kilit hakkında bilgi istendiğini belirtir. Bu komut <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinde <code class="code">struct flock *</code> türünde üçüncü bir bağımsız değişken gerektirir:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">fcntl (<em class="replaceable"><code>tanıtıcı-kimliği</code></em>, F_GETLK, <em class="replaceable"><code>kilit_gst</code></em>)</code>
+</pre>
+   <p>
+    <em class="replaceable"><code>kilit_gst</code></em> bağımsız değişkeni ile belirtilen yerde bir kilit varsa, kilit ile ilgili bilgi *<em class="replaceable"><code>kilit_gst</code></em>'ye yazılır. Mevcut kilitler, belirtilen yeni kilitle uyumluysa  raporlanmaz. Bu bakımdan, hem okuma hem de yazma ile ilgili kilitleri bulmak için <a href="glibc-File-Locks.html#glibc-vr-F_WRLCK"><strong class="varname"><code>F_WRLCK</code></strong></a> türünde bir kilit, sadece yazma ile ilgili kilitleri bulmak için ise, <a href="glibc-File-Locks.html#glibc-vr-F_RDLCK"><strong class="varname"><code>F_RDLCK</code></strong></a> türünde bir kilit belirtilmelidir.
+   </p>
+   <p>
+    <em class="replaceable"><code>kilit_gst</code></em> tarafından belirtilen bölgeyi etkileyen birden fazla kilit varsa bunlardan sadece biri raporlanır. <em class="replaceable"><code>kilit_gst</code></em> yapısının <strong class="structfield"><code>l_whence</code></strong> üyesine <a href="glibc-File-Positioning.html#glibc-vr-SEEK_SET_"><strong class="varname"><code>SEEK_SET</code></strong></a> atanır, <strong class="structfield"><code>l_start</code></strong> ve <strong class="structfield"><code>l_len</code></strong> üyelerine de kilitli bölgeyi tanımlayan değerler atanır.
+   </p>
+   <p>
+    Bir kilit yoksa, <em class="replaceable"><code>kilit_gst</code></em> yapısının sadece <strong class="structfield"><code>l_type</code></strong> üyesine <a href="glibc-File-Locks.html#glibc-vr-F_UNLCK"><strong class="varname"><code>F_UNLCK</code></strong></a> atanır.
+   </p>
+   <p>
+    <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin bu komut ile ilgili dönüş değeri hata oluştuğunu belirten <code class="code">-1</code> değeri dışında belirsizdir. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu komut için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="replaceable"><code>tanıtıcı-kimliği</code></em> geçersiz.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Ya <em class="replaceable"><code>kilit_gst</code></em> bağımsız değişkeni geçerli bir kilit belirtmiyor ya da <em class="replaceable"><code>tanıtıcı-kimliği</code></em> kilitleri desteklemiyor.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-F_SETLK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_SETLK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <em class="parameter"><code>command</code></em> bağımsız değişkeninde bir kilit oluşturmak ya da kaldırmak amacıyla kullanır. Bu komut <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinde <code class="code">struct flock *</code> türünde  üçüncü bir bağımsız değişken gerektirir:
+   </p>
+   <pre class="literallayout monospaced"><code class="code">fcntl (<em class="replaceable"><code>dosya-tanıtıcı</code></em>, F_SETLK, <em class="replaceable"><code>kilit_gst</code></em>)</code>
+</pre>
+   <p>
+    Süreç dosyanın belirtilen bölgesinde bir kilide sahipse eski kilit yenisiyle değiştirilir. Mevcut kilit <a href="glibc-File-Locks.html#glibc-vr-F_UNLCK"><strong class="varname"><code>F_UNLCK</code></strong></a> türünde bir kilit belirterek kaldırılabilir.
+   </p>
+   <p>
+    Kilit oluşturulamazsa <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> <code class="code">-1</code> değeriyle döner. Bu işlev başka bir sürecin kilidi bırakması için beklemez.  <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevi başarılı olduğunda <code class="code">-1</code>'den farklı bir değerle döner.
+   </p>
+   <p>
+    Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu komut için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term">
+      <code class="code">EAGAIN</code>
+      <br /><code class="code">EACCES</code>
+     </span></dt><dd><p>
+       Dosya üzerindeki başka bir kilit tarafından engellendiğinden kilit oluşturulamıyor. Bazı sistemler bu durumda <a href="glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="varname"><code>EAGAIN</code></strong></a> kullanırken başkaları  <a href="glibc-Error-Codes.html#glibc-vr-EACCES"><strong class="varname"><code>EACCES</code></strong></a> kullanır; her ikisi için de aynı davranış gerekir. (GNU/Hurd sistemleri daima <a href="glibc-Error-Codes.html#glibc-vr-EAGAIN"><strong class="varname"><code>EAGAIN</code></strong></a> kullanır.)
+      </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="replaceable"><code>tanıtıcı-kimliği</code></em> bağımsız değişkeni geçersiz; ya okuma erişimi için açılmamış <em class="replaceable"><code>tanıtıcı-kimliği</code></em> için bir okuma kilidi istenmiş ya da yazma erişimi için açılmamış bir <em class="replaceable"><code>tanıtıcı-kimliği</code></em> için yazma kilidi istenmiş.
+     </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       Ya <em class="replaceable"><code>kilit_gst</code></em> bağımsız değişkeni geçerli kilit bilgisi içermiyor ya da <em class="replaceable"><code>tanıtıcı-kimliği</code></em> ile ilişkili dosya, kilitleri desteklemiyor.
+     </p></dd><dt><span class="term"><code class="code">ENOLCK</code></span></dt><dd><p>
+       Sistemde dosya kilidi öz kaynakları tükendi; dosya kilidi istenen yerde zaten fazlasıyla dosya kilidi var.
+      </p><p>
+       İyi tasarlanmış dosya sistemleri bu hatayı hiç raporlamaz, çünkü dosya kilitleri ile ilgili bir sınır yoktur. Yine de, bir dosya sisteminin ağ üzerinden eriştiği başka bir dosya sistemi bu hatayı verebileceğinden bu hatayı hesaba katmak gerekir.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-F_SETLKW" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_SETLKW</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu makro <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinin <em class="parameter"><code>command</code></em> bağımsız değişkeninde bir kilit oluşturmak ya da kaldırmak amacıyla kullanır. <a href="glibc-File-Locks.html#glibc-vr-F_SETLK"><strong class="varname"><code>F_SETLK</code></strong></a> komutu gibi olmakla birlikte farklı olarak kilidi ayırana ya da kilit serbest kalıncaya kadar süreci bekletir.
+  </p>
+  <p>
+   Bu komut da <a href="glibc-File-Locks.html#glibc-vr-F_SETLK"><strong class="varname"><code>F_SETLK</code></strong></a> komutu gibi <code class="code">struct flock *</code> türünde bir bağımsız değişken gerektirir.
+  </p>
+  <p>
+   <a href="glibc-File-Locks.html#glibc-vr-F_SETLK"><strong class="varname"><code>F_SETLK</code></strong></a> komutu için <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevindeki hata durumlarına ek olarak aşağıdaki hata durumları bu komut için tanımlanmıştır:
+  </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       İşlev beklerken bir sinyal ile durduruldu. Bkz. <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd><dt><span class="term"><code class="code">EDEADLK</code></span></dt><dd><p>
+       Belirtilen bölge başka bir süreç tarafından kilitlenmiş. Ama süreç, başka sürecin kilitlediği bölgeyi kendisi kilitleyene dek bekler, bu da kilit isteğinin sonsuza kadar beklenmesi anlamına gelebilir. Sistem tüm durumlarda bu hatanın saptanmasını garanti etmez ama yine de bu konuda bir uyarı gelme şansı vardır.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Aşağıdaki makrolar, <a href="glibc-File-Locks.html#glibc-tp-flock"><strong class="type"><code>struct flock</code></strong></a> yapısının <code class="code">l_type</code> üyesinde değer olarak kullanılmak üzere tanımlanmıştır. Değerler tam sayı sabitleridir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-F_RDLCK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_RDLCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bir okuma kilidi (ya da paylaşımlı kilit) belirtir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-F_WRLCK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_WRLCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bir yazma kilidi (ya da ayrıcalıklı kilit) belirtir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+   <span id="glibc-vr-F_UNLCK" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=io/fcntl.h;hb=HEAD" target="_top">fcntl.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">F_UNLCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bölgeden kilidin kaldırılmasını belirtir.
+   </p>
+  </div>
+        <p>
+   Dosya kilitlemenin faydalı olduğu bir duruma örnek olarak, bir yazılımın çok sayıda kullanıcı tarafından aynı anda çalıştırıldığı ve bu süreçlerin durum bilgisini ortak bir dosyaya yazdıkları varsayılabilir. Bu tür bir örnek, oyuncuların aldıkları puanları bir dosyaya kaydeden oyunlar olabilir. Buna başka bir örnek de hesap bilgilerini ve kullanımlarını kaydeden bir yazılım olabilir.
+  </p>
+        <p>
+   Bir yazılımın çok sayıda kopyasının bir dosyaya aynı anda yazması dosya içeriğinin karışmasına sebep olur. Bu çeşit sorunların oluşması, dosyaya yapılacak bir yazma işleminden önce bir yazma kilidi oluştururarak önlenebilir.
+  </p>
+        <p>
+   Yazılımın dosyayı tutarlı bir durumda iken okuması önemliyse bir okuma kilidi kullanılabilir. Bir okuma kilidinin varlığı başka bir sürecin dosyanın bir bölümünü yazmak için kilitlemesini önler.
+  </p>
+        <p>
+   Dosya kilitlerinin bir dosyaya erişiminin denetlenmesinin "isteğe bağlı" bir protokol olduğu unutulmamalıdır. Kilitleme protokolünü kullanmayan başka süreçlerin dosyaya erişimi hala mümkün olacaktır.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,1340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>32.4. sysconf Kullanımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Version-Supported.html')">Önceki</button>
+          <div class="dropdown-content">32.3. Desteklenen POSIX Sürümü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Configuration-Parameters.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Minimums.html')">Sonraki</button>
+          <div class="dropdown-content">32.5. Asgari Değerler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Sysconf">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">32.4. <code class="code">sysconf</code> Kullanımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Sistem, yapılandırılabilen sistem sınırlarına sahipse, herhangi bir makinede bu değerler <strong class="function"><code>sysconf</code></strong> işlevi ile saptanabilir. Bu işlev ve bu işlevle ilgili <em class="parameter"><code>parameter</code></em> sabitleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <section class="sect1" id="glibc-Sysconf-Definition">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">32.4.1. <code class="code">sysconf</code> Tanımı</h2>
+              </div>
+            </div>
+          </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sysconf" class="indexterm"></span>
+    <span id="glibc-cp-sysconf" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">long int </code><strong><code class="function">sysconf</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">parameter</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Bu islev çalışma anında sistem değişkenlerini sorgulamak için kullanılır. <em class="parameter"><code>parameter</code></em> bağımsız değişkeni olarak aşağıda listelenen <code class="code">_SC_</code> simgelerinden biri kullanılır.
+    </p>
+    <p>
+     İşlevin normal dönüş değeri işlevden istenen değerdir. <code class="code">-1</code> değeri dönmüşse bu gerçeklenimin böyle bir sınır içermediğini belirtebileceği gibi bir hata durumunu da gösterebilir.
+    </p>
+    <p>
+     Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+      <em class="parameter"><code>parameter</code></em> değeri geçersiz.
+     </p></dd></dl>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Constants-for-Sysconf">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">32.4.2. <code class="code">sysconf</code> Sabitleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Buradaki simgesel sabitler <strong class="function"><code>sysconf</code></strong> işlevinin <em class="parameter"><code>parameter</code></em> bağımsız değişkeninde belirtmek içindir. Değerlerin tümü tamsayı sabitlerdir (daha doğrusu, sayılama değerleridir).
+   </p>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_ARG_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_ARG_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_ARG_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-ARG_MAX"><strong class="varname"><code>ARG_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_CHILD_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_CHILD_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CHILD_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-CHILD_MAX"><strong class="varname"><code>CHILD_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_OPEN_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_OPEN_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_OPEN_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-OPEN_MAX"><strong class="varname"><code>OPEN_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_STREAM_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_STREAM_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_STREAM_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-STREAM_MAX"><strong class="varname"><code>STREAM_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_TZNAME_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_TZNAME_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_TZNAME_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-TZNAME_MAX"><strong class="varname"><code>TZNAME_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_NGROUPS_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NGROUPS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NGROUPS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-General-Limits.html#glibc-vr-NGROUPS_MAX"><strong class="varname"><code>NGROUPS_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_JOB_CONTROL" class="indexterm"></span>
+    <span id="glibc-vr-SC_JOB_CONTROL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_JOB_CONTROL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-System-Options.html#glibc-vr-POSIX_JOB_CONTROL"><strong class="varname"><code>_POSIX_JOB_CONTROL</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_SAVED_IDS" class="indexterm"></span>
+    <span id="glibc-vr-SC_SAVED_IDS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SAVED_IDS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-System-Options.html#glibc-vr-POSIX_SAVED_IDS"><strong class="varname"><code>_POSIX_SAVED_IDS</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_VERSION" class="indexterm"></span>
+    <span id="glibc-vr-SC_VERSION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_VERSION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi GNU C Kütüphanesinin ve çekirdeğin desteklediği POSIX.1 sürüm numarası ile ilgili <a href="glibc-Version-Supported.html#glibc-vr-POSIX_VERSION"><strong class="varname"><code>_POSIX_VERSION</code></strong></a> makrosu hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_CLK_TCK" class="indexterm"></span>
+    <span id="glibc-vr-SC_CLK_TCK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CLK_TCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="varname">CLOCKS_PER_SEC</code> makrosu ile ilgili bilgi döndürür. Bkz. ???. <code class="code">CLK_TCK</code> atıldır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-cp-SC_CHARCLASS_NAME_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_CHARCLASS_NAME_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CHARCLASS_NAME_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi genişletilmiş bir yerel belirtiminde bir karakter sınıf ismi için izin verilen olası en büyük uzunluk ile ilgili bilgi döndürür. Bu genişletmeler henüz standartlaştırılmamıştır ve dolayısıyla bu seçenek de standartlaştırılmamıştır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_REALTIME_SIGNALS" class="indexterm"></span>
+    <span id="glibc-vr-POSIX_REALTIME_SIGNALS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_REALTIME_SIGNALS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_REALTIME_SIGNALS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_PRIORITY_SCHEDULING" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PRIORITY_SCHEDULING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Asynchronous-I-O.html#glibc-vr-POSIX_PRIORITY_SCHEDULING"><strong class="varname"><code>_POSIX_PRIORITY_SCHEDULING</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_TIMERS" class="indexterm"></span>
+    <span id="glibc-vr-SC_TIMERS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_TIMERS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_TIMERS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_ASYNCHRONOUS_IO" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_ASYNCHRONOUS_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Asynchronous-I-O.html#glibc-vr-POSIX_ASYNCHRONOUS_IO"><strong class="varname"><code>_POSIX_ASYNCHRONOUS_IO</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PRIORITIZED_IO" class="indexterm"></span>
+    <span id="glibc-vr-SC_PRIORITIZED_IO" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PRIORITIZED_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PRIORITIZED_IO</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SYNCHRONIZED_IO" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SYNCHRONIZED_IO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Synchronizing-AIO-Operations.html#glibc-vr-POSIX_SYNCHRONIZED_IO"><strong class="varname"><code>_POSIX_SYNCHRONIZED_IO</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_FSYNC" class="indexterm"></span>
+    <span id="glibc-vr-SC_FSYNC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_FSYNC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_FSYNC</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MAPPED_FILES" class="indexterm"></span>
+    <span id="glibc-vr-SC_MAPPED_FILES" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MAPPED_FILES</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MAPPED_FILES</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MEMLOCK" class="indexterm"></span>
+    <span id="glibc-vr-SC_MEMLOCK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MEMLOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MEMLOCK</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MEMLOCK_RANGE" class="indexterm"></span>
+    <span id="glibc-vr-SC_MEMLOCK_RANGE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MEMLOCK_RANGE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MEMLOCK_RANGE</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MEMORY_PROTECTION" class="indexterm"></span>
+    <span id="glibc-vr-SC_MEMORY_PROTECTION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MEMORY_PROTECTION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MEMORY_PROTECTION</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MESSAGE_PASSING" class="indexterm"></span>
+    <span id="glibc-vr-SC_MESSAGE_PASSING" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MESSAGE_PASSING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MESSAGE_PASSING</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SEMAPHORES" class="indexterm"></span>
+    <span id="glibc-vr-SC_SEMAPHORES" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SEMAPHORES</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SEMAPHORES</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SHARED_MEMORY_OBJECTS" class="indexterm"></span>
+    <span id="glibc-vr-SC_SHARED_MEMORY_OBJECTS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SHARED_MEMORY_OBJECTS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SHARED_MEMORY_OBJECTS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_AIO_LISTIO_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_AIO_LISTIO_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Minimums.html#glibc-vr-POSIX_AIO_LISTIO_MAX"><strong class="varname"><code>_POSIX_AIO_LISTIO_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_AIO_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_AIO_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Minimums.html#glibc-vr-POSIX_AIO_MAX"><strong class="varname"><code>_POSIX_AIO_MAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-AIO_PRIO_DELTA_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_AIO_PRIO_DELTA_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_AIO_PRIO_DELTA_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bir sürecin eşzamansız G/Ç öncelik seviyesini, kendi zamanlama önceliğinden itibaren azaltabileceği değer. Bu bir çalışma anı değeri olan <code class="code">AIO_PRIO_DELTA_MAX</code>'ın karşılığıdır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_DELAYTIMER_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_DELAYTIMER_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_DELAYTIMER_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_DELAYTIMER_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MQ_OPEN_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_MQ_OPEN_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MQ_OPEN_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MQ_OPEN_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_MQ_PRIO_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_MQ_PRIO_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MQ_PRIO_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_MQ_PRIO_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_RTSIG_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_RTSIG_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_RTSIG_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_RTSIG_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SEM_NSEMS_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_SEM_NSEMS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SEM_NSEMS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SEM_NSEMS_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SEM_VALUE_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_SEM_VALUE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SEM_VALUE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SEM_VALUE_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SIGQUEUE_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_SIGQUEUE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SIGQUEUE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SIGQUEUE_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_TIMER_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_TIMER_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_TIMER_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_TIMER_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_XTI" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_XTI" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_XTI</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_XTI</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_SOCKET" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_SOCKET" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_SOCKET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_SOCKET</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_INTERNET" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_INTERNET" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_INTERNET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_INTERNET</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_OSI" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_OSI" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_OSI</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_OSI</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_SELECT" class="indexterm"></span>
+    <span id="glibc-vr-SC_SELECT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SELECT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_SELECT</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_UIO_MAXIOV" class="indexterm"></span>
+    <span id="glibc-vr-SC_UIO_MAXIOV" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_UIO_MAXIOV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_UIO_MAXIOV</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_INTERNET_STREAM" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_INTERNET_STREAM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_INTERNET_STREAM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_INTERNET_STREAM</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_INTERNET_DGRAM" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_INTERNET_DGRAM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_INTERNET_DGRAM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_INTERNET_DGRAM</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_OSI_COTS" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_OSI_COTS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_OSI_COTS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_OSI_COTS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_OSI_CLTS" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_OSI_CLTS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_OSI_CLTS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_OSI_CLTS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_PII_OSI_M" class="indexterm"></span>
+    <span id="glibc-vr-SC_PII_OSI_M" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PII_OSI_M</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_PII_OSI_M</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-T_IOV_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_T_IOV_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_T_IOV_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">T_IOV_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREADS" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREADS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREADS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREADS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_SAFE_FUNCTIONS" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_SAFE_FUNCTIONS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_SAFE_FUNCTIONS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_SAFE_FUNCTIONS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_GETGR_R_SIZE_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_GETGR_R_SIZE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_GETGR_R_SIZE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_GETGR_R_SIZE_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_GETPW_R_SIZE_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_GETPW_R_SIZE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_GETPW_R_SIZE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_GETPW_R_SIZE_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_LOGIN_NAME_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_LOGIN_NAME_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LOGIN_NAME_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_LOGIN_NAME_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_TTY_NAME_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_TTY_NAME_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_TTY_NAME_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_TTY_NAME_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_DESTRUCTOR_ITERATIONS" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_DESTRUCTOR_ITERATIONS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_DESTRUCTOR_ITERATIONS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_DESTRUCTOR_ITERATIONS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_KEYS_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_KEYS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_KEYS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_KEYS_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_STACK_MIN" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_STACK_MIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_STACK_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_STACK_MIN</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_THREADS_MAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_THREADS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_THREADS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_THREADS_MAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_ATTR_STACKADDR" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_ATTR_STACKADDR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_ATTR_STACKADDR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_ATTR_STACKADDR</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_ATTR_STACKSIZE" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_ATTR_STACKSIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_ATTR_STACKSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_ATTR_STACKSIZE</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_PRIORITY_SCHEDULING" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_PRIORITY_SCHEDULING" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_PRIORITY_SCHEDULING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_PRIORITY_SCHEDULING</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_PRIO_INHERIT" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_PRIO_INHERIT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_PRIO_INHERIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_PRIO_INHERIT</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_PRIO_PROTECT" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_PRIO_PROTECT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_PRIO_PROTECT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_PRIO_PROTECT</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-POSIX_THREAD_PROCESS_SHARED" class="indexterm"></span>
+    <span id="glibc-vr-SC_THREAD_PROCESS_SHARED" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_THREAD_PROCESS_SHARED</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_POSIX_THREAD_PROCESS_SHARED</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_C_DEV" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_C_DEV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, sistemin <tt><b>c89</b>(1)</tt> POSIX.2 C derleyici komutunu içerip içermediği hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_FORT_DEV" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_FORT_DEV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, sistemin <tt><b>fort77</b>(1)</tt> POSIX.2 Fortran derleyici komutunu içerip içermediği hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_FORT_RUN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_FORT_RUN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, sistemin POSIX.2 Fortran taşıma denetimini yorumlayacak <tt><b>asa</b>(1)</tt> komutunu içerip içermediği hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_LOCALEDEF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_LOCALEDEF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, sistemin POSIX.2 <tt><b>localedef</b>(1)</tt> komutunu içerip içermediği hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_SW_DEV" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_SW_DEV</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi , sistemin POSIX.2 <tt><b>ar</b>(1)</tt>, <tt><b>make</b>(1)</tt> ve <tt><b>strip</b>(1)</tt> komutlarını içerip içermediği hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_BC_BASE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_BC_BASE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <tt><a href="../man/man1/man1-bc.html"><b>bc</b></a>(1)</tt> aracındaki azami <code class="code">obase</code> değeri hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_BC_DIM_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_BC_DIM_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <tt><a href="../man/man1/man1-bc.html"><b>bc</b></a>(1)</tt> aracındaki azami dizi boyutu hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_BC_SCALE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_BC_SCALE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <tt><a href="../man/man1/man1-bc.html"><b>bc</b></a>(1)</tt> aracındaki azami <code class="code">scale</code> değeri hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_BC_STRING_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_BC_STRING_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <tt><a href="../man/man1/man1-bc.html"><b>bc</b></a>(1)</tt> aracındaki bir dizge sabitin azami boyutu hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_COLL_WEIGHTS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_COLL_WEIGHTS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, bir yerelin karşılaştırma dizilimlerini tanımlarken zorunlu olarak kullanılabilecek azami önem sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_EXPR_NEST_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_EXPR_NEST_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <tt><a href="../man/man1/man1-expr.html"><b>expr</b></a>(1)</tt> aracı kullanıldığında yaylı ayraçlar içine alınarak iç içe kullanılabilecek ifadelerin azami sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LINE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LINE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, POSIX.2 metin araçları ile işlenebilecek bir metin satırının azami uzunluğu hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_EQUIV_CLASS_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_EQUIV_CLASS_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, yerel tanımında <a href="glibc-Locale-Categories.html#glibc-vr-LC_COLLATE"><strong class="varname"><code>LC_COLLATE</code></strong></a> sınıfının <code class="code">order</code> anahtar sözcüğünün bir girdisine atanabilecek azami önem sayısı hakkında bilgi döndürür. GNU C Kütüphanesi halen yerel tanımlarını desteklememektedir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_2_VERSION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_2_VERSION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, sistem araçlarının desteklediği POSIX.2 sürüm numarası hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_PAGESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PAGESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, makinenin sanal bellek sayfası genişliği hakkında bilgi döndürür. <a href="glibc-Memory-Resources.html#glibc-fn-getpagesize"><strong class="function"><code>getpagesize</code></strong></a> işlevi de bu bilgi ile döner; bkz.<a class="xref" href="glibc-Memory-Resources.html#glibc-Query-Memory-Parameters" title="22.4.2. Bellek Bağımsız değişkenlerinin Sorgulanması">Bellek Bağımsız değişkenlerinin Sorgulanması</a>.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_NPROCESSORS_CONF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NPROCESSORS_CONF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi yapılandırılmış işlemci sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_NPROCESSORS_ONLN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NPROCESSORS_ONLN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi kullanılabilir işlemci sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_PHYS_PAGES" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_PHYS_PAGES</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi sistemdeki fiziksel bellek sayfalarının sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_AVPHYS_PAGES" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_AVPHYS_PAGES</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi sistemdeki kullanılabilir fiziksel bellek sayfalarının sayısı hakkında bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_ATEXIT_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_ATEXIT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <strong class="function"><code>atexit</code></strong> ile sonlanma sırasında çalışmak üzere kaydedilecek işlevlerin sayısı hakkında bilgi döndürür; bkz. ???.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_ICACHE_SIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_ICACHE_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye talimat önbelleğinin boyutu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_ICACHE_ASSOC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_ICACHE_ASSOC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye talimat önbelleğinin ilişkiselliği ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_ICACHE_LINESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_ICACHE_LINESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye talimat önbelleğinin satır uzunluğu ile ilgili bilgi döndürür.
+    </p>
+    <p>
+     aarch64'te döndürülen önbellek satırı boyutu, kullanıcı alanı tarafından gözlemlenebilen talimat önbellek satırının en küçük boyutudur. Genellikle, L1 icache boyutuyla aynıdır, ancak bazı çekirdeklerde böyle olmayabilir. Ancak, önbellek satırını geçersiz kılma gibi işlemlerin bu değişkenle bildirilen boyutla tutarlı olduğu mimarilerde belirtilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_DCACHE_SIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_DCACHE_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye veri önbelleğinin boyutu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_DCACHE_ASSOC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_DCACHE_ASSOC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye veri önbelleğinin ilişkiselliği ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL1_DCACHE_LINESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL1_DCACHE_LINESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 1. seviye veri önbelleğinin satır uzunluğu ile ilgili bilgi döndürür.
+    </p>
+    <p>
+     aarch64'te döndürülen önbellek satırı boyutu, kullanıcı alanı tarafından gözlemlenebilen veri önbellek satırının en küçük boyutudur. Genellikle, L1 dcache boyutuyla aynıdır, ancak bazı çekirdeklerde böyle olmayabilir. Ancak, önbellek satırını geçersiz kılma gibi işlemlerin bu değişkenle bildirilen boyutla tutarlı olduğu mimarilerde belirtilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL2_CACHE_SIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL2_CACHE_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 2. seviye önbelleğinin boyutu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL2_CACHE_ASSOC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL2_CACHE_ASSOC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 2. seviye önbelleğinin ilişkiselliği ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL2_CACHE_LINESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL2_CACHE_LINESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 2. seviye önbelleğinin satır uzunluğu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL3_CACHE_SIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL3_CACHE_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 3. seviye önbelleğinin boyutu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL3_CACHE_ASSOC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL3_CACHE_ASSOC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 3. seviye önbelleğinin ilişkiselliği ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL3_CACHE_LINESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL3_CACHE_LINESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 3. seviye önbelleğinin satır uzunluğu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL4_CACHE_SIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL4_CACHE_SIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 4. seviye önbelleğinin boyutu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL4_CACHE_ASSOC" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL4_CACHE_ASSOC</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 4. seviye önbelleğinin ilişkiselliği ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LEVEL4_CACHE_LINESIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LEVEL4_CACHE_LINESIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi 4. seviye önbelleğinin satır uzunluğu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_VERSION" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_VERSION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_VERSION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_VERSION</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_XCU_VERSION" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_XCU_VERSION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_XCU_VERSION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_XCU_VERSION</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_UNIX" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_UNIX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_UNIX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_UNIX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_REALTIME" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_REALTIME" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_REALTIME</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_REALTIME</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_REALTIME_THREADS" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_REALTIME_THREADS" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_REALTIME_THREADS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_REALTIME_THREADS</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_LEGACY" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_LEGACY" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_LEGACY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_LEGACY</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_CRYPT" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_CRYPT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_CRYPT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_CRYPT</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+    <p>
+     GNU C Kütüphanesi artık <code class="code">_XOPEN_CRYPT</code> eklentilerini gerçeklememektedir. Bu nedenle, ‘<code class="code">sysconf (_SC_XOPEN_CRYPT)</code>’ çağrısı her zaman <code class="code">-1</code> döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_ENH_I18N" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_ENH_I18N" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_ENH_I18N</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_ENH_I18N</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_SHM" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_SHM" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_SHM</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_SHM</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_XPG2" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_XPG2" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_XPG2</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_XPG2</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_XPG3" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_XPG3" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_XPG3</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_XPG3</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-XOPEN_XPG4" class="indexterm"></span>
+    <span id="glibc-vr-SC_XOPEN_XPG4" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_XOPEN_XPG4</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">_XOPEN_XPG4</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_CHAR_BIT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CHAR_BIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">char</code> türünde bir değişkendeki bit sayısı ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_CHAR_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CHAR_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">char</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_CHAR_MIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_CHAR_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">char</code> türünde bir değişkende saklanabilecek en küçük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_INT_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_INT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">int</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_INT_MIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_INT_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">int</code> türünde bir değişkende saklanabilecek en küçük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_LONG_BIT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_LONG_BIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">long int</code> türünde bir değişkendeki bit sayısı ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_WORD_BIT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_WORD_BIT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">register word</code> tür bildirimli bir değişkendeki bit sayısı ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_MB_LEN_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MB_LEN_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi bir geniş karakter değerinin çok baytlı gösteriminin azami uzunluğu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_NZERO" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NZERO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, bir sürecin yürütülmesi için sıfır öncelik seviyesini dahili olarak temsil etmek için kullanılan değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SSIZE_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SSIZE_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <a href="glibc-I-O-Primitives.html#glibc-tp-ssize_t"><strong class="type"><code>ssize_t</code></strong></a> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SCHAR_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SCHAR_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">signed char</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SCHAR_MIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SCHAR_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">signed char</code> türünde bir değişkende saklanabilecek en küçük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SHRT_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SHRT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">short int</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SHRT_MIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SHRT_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">short int</code> türünde bir değişkende saklanabilecek en küçük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_UCHAR_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_UCHAR_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">unsigned char</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_UINT_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_UINT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">unsigned int</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_ULONG_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_ULONG_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">unsigned long int</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_USHRT_MAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_USHRT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, <code class="type">unsigned short int</code> türünde bir değişkende saklanabilecek en büyük değer ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_NL_ARGMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_ARGMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <a href="glibc-Output-Conversion-Syntax.html#glibc-vr-NL_ARGMAX"><strong class="varname"><code>NL_ARGMAX</code></strong></a> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-NL_LANGMAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NL_LANGMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_LANGMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">NL_LANGMAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-NL_MSGMAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NL_MSGMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_MSGMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">NL_MSGMAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-NL_NMAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NL_NMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_NMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">NL_NMAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-NL_SETMAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NL_SETMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_SETMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">NL_SETMAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-NL_TEXTMAX" class="indexterm"></span>
+    <span id="glibc-vr-SC_NL_TEXTMAX" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_NL_TEXTMAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi <code class="code">NL_TEXTMAX</code> makrosu ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_MINSIGSTKSZ" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_MINSIGSTKSZ</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, işleyicisi boş bir işlev olan tek bir sinyalin iç içe olmayan şekilde başarıyla işlenmesini garanti etmek için gereken boş yığıt alanının asgari bayt sayısı ile ilgili bilgi döndürür.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SC_SIGSTKSZ" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_SC_SIGSTKSZ</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <strong class="function"><code>sysconf</code></strong> işlevi, bir sinyal yığıtı için gerekli yığıt alanının önerilen asgari bayt sayısı ile ilgili bilgi döndürür.
+    </p>
+    <p>
+     Bunun, tek, iç içe olmayan, boş bir işleyicinin çağrılması dışında herhangi bir özel amaç için yeterli olduğu garanti edilmez, ancak yine de basit sinyal işleyicileri ve çok düşük düzeyde (örneğin, 2 veya en fazla 3 seviye) iç içe sinyal içeren temel senaryolar için yeterli olmalıdır.
+    </p>
+    <p>
+     Bu değer, geliştiriciye kolaylık sağlamak ve eski <code class="code">SIGSTKSZ</code> sabitinden geçişi kolaylaştırmak için sağlanmıştır. Daha güçlü garantiler gerektiren yazılımlarda, mümkünse bunu kullanmaktan kaçınılmalıdır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Examples-of-Sysconf">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">32.4.3. <code class="code">sysconf</code> Örnekleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Önce ilgili bağımsız değişken için makro tanımı sınandıktan sonra, yalnızca makro tanımlı değilse <strong class="function"><code>sysconf</code></strong> çağrısı yapılmalıdır. Örneğin, burada sistemde iş denetimi desteği olup olmadığı sınanmaktadır:
+   </p>
+          <pre class="screen">int
+have_job_control (void)
+{
+#ifdef _POSIX_JOB_CONTROL
+  return 1;
+#else
+  int value = sysconf (_SC_JOB_CONTROL);
+  if (value &lt; 0)
+    /* <em class="replaceable"><code>Sistem hata verdiğine göre denenecek
+       başka bir şey kalmadı.</code></em>  */
+    fatal (strerror (errno));
+  return value;
+#endif
+}
+</pre>
+          <p>
+    Burada ise bir sayısal sınırın değeri alınmaktadır:
+   </p>
+          <pre class="screen">int
+get_child_max ()
+{
+#ifdef CHILD_MAX
+  return CHILD_MAX;
+#else
+  int value = sysconf (_SC_CHILD_MAX);
+  if (value &lt; 0)
+    fatal (strerror (errno));
+  return value;
+#endif
+}
+</pre>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>22.3.3. Temel Zamanlama İşlevleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Realtime-Scheduling.html')">Önceki</button>
+          <div class="dropdown-content">22.3.2. Anlık Zamanlama</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Priority.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Traditional-Scheduling.html')">Sonraki</button>
+          <div class="dropdown-content">22.3.4. Geleneksel Zamanlama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Basic-Scheduling-Functions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">22.3.3. Temel Zamanlama İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümdeki işlevler, mutlak önceliği ve bir sürecin zamanlama kuralını ayarlamakta kullanılan GNU C Kütüphanesindeki işlevlerdir.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     Bu işlevlere sahip sistemlerde <a href="glibc-Asynchronous-I-O.html#glibc-vr-POSIX_PRIORITY_SCHEDULING"><strong class="varname"><code>_POSIX_PRIORITY_SCHEDULING</code></strong></a> makrosu <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında tanımlanmıştır.
+    </p>
+          </div>
+        </div>
+        <p>
+    Zamanlama kurallarının geleneksel zamanlama ile ilgili olduğu durumda zamanlamayı daha hassas ayarlayabilen işlevler <a class="xref" href="glibc-Traditional-Scheduling.html" title="22.3.4. Geleneksel Zamanlama">Geleneksel Zamanlama</a> bölümünde bulunabilir.
+   </p>
+        <p>
+    Bu işlevlerin yapısı ve isimlendirilmesi bakımından denenecek çok fazla bir şey yoktur. Bunlar POSIX.1b tarafından tanımlanmış olduğundan bu kılavuzda bahsedilen kavramlarla uyuşmamaları normaldir. Çünkü GNU C Kütüphanesinin kullanıldığı sistemlerdeki gerçekleme POSIX yapısı ile ilgili kavramsallaştırmanın tersidir. POSIX şeması birincil zamanlama bağımsız değişkeninin zamanlama kuralları olduğunu ve öncelik değerinin (varsa), zamanlama kurallarının bir bağımsız değişkeni olduğunu kabul eder. Gerçeklemede ise ister istemez, öncelik değeri başattır ve zamanlama kuralları, eğer varsa, önceliği etkileyen ince bir ayardır.
+   </p>
+        <p>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     POSIX'te, aşağıdaki işlevlerin <a href="glibc-Process-Identification.html#glibc-tp-pid_t"><strong class="type"><code>pid_t</code></strong></a> türündeki bağımsız değişkenleri süreç kimlikleri ile ilgilidir. Linux'ta bunlar aslında evresel kimliklerdir ve tüm sistemle ilgili olarak belirli evrelerin denetlenebilmesini sağlar. Ortaya çıkan davranış, POSIX'e uymaz. Bu nedenle, aşağıdaki açıklama, süreçler ve süreç kimlikleri ile değil, görevler ve görev kimlikleri ile ilgilidir.
+    </p>
+          </div>
+        </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-sched_param" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">sched_param</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu yapı bir mutlak önceliği tanımlar.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>sched_priority</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Mutlak öncelik değeri.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_setscheduler" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_setscheduler</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">policy</code></strong><strong><code>, </code></strong><code class="type">const struct sched_param </code><strong class="type">*</strong><strong><code class="parameter">param</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev bir görevin hem mutlak önceliğini hem de zamanlama kuralını ayarlar.
+    </p>
+    <p>
+     Görev kimliği <code class="varname">pid</code> olan görevin ya da <code class="varname">pid</code> olarak sıfır verildiğinde çağrıldığı görevin mutlak önceliğini <em class="parameter"><code>param</code></em> ile, zamanlama kuralını <em class="parameter"><code>policy</code></em> ile belirtilen değere ayarlar. Eğer <em class="parameter"><code>policy</code></em> negatifse işlev mevcut zamanlama kuralını değiştirmez.
+    </p>
+    <p>
+     İşlevin <em class="parameter"><code>policy</code></em> bağımsız değişkeninde belirtilebilecek değerler şunlardır:
+    </p>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SCHED_OTHER" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SCHED_OTHER</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Geleneksel zamanlama.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SCHED_FIFO" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SCHED_FIFO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      İlk gelen alır.
+     </p>
+    </div>
+    <div class="csynopsis"><div class="cstype">      sabit</div>
+     <span id="glibc-vr-SCHED_RR" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SCHED_RR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <p>
+      Döner turnuva.
+     </p>
+    </div>
+    <p>
+     İşlevin normal dönüş değeri sıfırdır, <code class="code">-1</code> dönüş değeri bir hata oluştuğunu gösterir. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">EPERM</code></span></dt><dd class="glossdef"><div><ul class="simplelist"><li class="member">
+         Çağıran görev <code class="varname">CAP_SYS_NICE</code> yetkisine sahip değil ve  <em class="parameter"><code>policy</code></em> değeri <a href="glibc-Basic-Scheduling-Functions.html#glibc-vr-SCHED_OTHER"><strong class="varname"><code>SCHED_OTHER</code></strong></a> değil (ya da değeri negatif ve geçerli kural <a href="glibc-Basic-Scheduling-Functions.html#glibc-vr-SCHED_OTHER"><strong class="varname"><code>SCHED_OTHER</code></strong></a> değil).
+        </li><li class="member">
+         Çağıran görev <code class="varname">CAP_SYS_NICE</code> yetkisine sahip değil ve sahibi hedef görevin sahibi değil. Yani çağıran görevin etkin kullanıcı kimliği <em class="parameter"><code>pid</code></em> kimlikli görevin ne etkin ne de gerçek kullanıcı kimliğidir.
+        </li></ul></div></dd><dt><span class="glossterm"><code class="code">ESRCH</code></span></dt><dd class="glossdef"><p>
+        <em class="parameter"><code>pid</code></em> sıfırdan farklı olduğu halde <em class="parameter"><code>pid</code></em> kimlikli bir görev yok.
+       </p></dd><dt><span class="glossterm"><code class="code">EINVAL</code></span></dt><dd class="glossdef"><div><ul class="simplelist"><li class="member">
+         <em class="parameter"><code>policy</code></em> geçerli bir zamanlama kuralını ifade etmiyor.
+        </li><li class="member">
+         *<em class="parameter"><code>param</code></em> ile belirtilen mutlak öncelik <em class="parameter"><code>policy</code></em> zamanlama kuralı için (ya da <em class="parameter"><code>policy</code></em> negatifse geçerli zamanlama kuralı için) geçerli aralığın dışında ya da <em class="parameter"><code>param</code></em> boş gösterici. Geçerli aralığın ne olduğu <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_get_priority_max"><strong class="function"><code>sched_get_priority_max</code></strong></a> ve <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_get_priority_min"><strong class="function"><code>sched_get_priority_min</code></strong></a> işlevleri ile öğrenilebilir.
+        </li><li class="member">
+         <em class="parameter"><code>pid</code></em> negatif.
+        </li></ul></div></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_getscheduler" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_getscheduler</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Görev kimliği <em class="parameter"><code>pid</code></em> olan görevin ya da <em class="parameter"><code>pid</code></em> olarak sıfır verildiğinde çağrıldığı göreve atanmış zamanlama kuralını döndürür.
+    </p>
+    <p>
+     İşlevin normal dönüş değeri zamanlama kuralıdır. Olası değerler için bkz. <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_setscheduler"><strong class="function"><code>sched_setscheduler</code></strong></a>.
+    </p>
+    <p>
+     İşlev başarısız olursa <code class="code">-1</code> döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine şu hata durumlarından biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ESRCH</code></span></dt><dd><p>
+        <em class="parameter"><code>pid</code></em> sıfırdan farklı ve böyle bir görev yok.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <code class="varname">pid</code> negatif.
+       </p></dd></dl></div>
+    <p>
+     Bu işlevin <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_setscheduler"><strong class="function"><code>sched_setscheduler</code></strong></a> işlevinin tam karşılığı olmadığına dikkat edilmelidir, <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_setscheduler"><strong class="function"><code>sched_setscheduler</code></strong></a> işlevi hem zamanlama kuralını hem de mutlak önceliği belirlemek için kullanılabilirken bu işlev sadece zamanlama kuralını döndürür. Mutlak önceliği öğrenmek için  <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_getparam"><strong class="function"><code>sched_getparam</code></strong></a> işlevi kullanılabilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_setparam" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_setparam</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">const struct sched_param </code><strong class="type">*</strong><strong><code class="parameter">param</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev görevin mutlak önceliğini değiştirmekte kullanılır.
+    </p>
+    <p>
+     İşlevselliği <em class="parameter"><code>policy</code></em> = <code class="code">-1</code> olduğunda <a href="glibc-Basic-Scheduling-Functions.html#glibc-fn-sched_setscheduler"><strong class="function"><code>sched_setscheduler</code></strong></a> işlevindeki ile aynıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_getparam" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_getparam</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">struct sched_param </code><strong class="type">*</strong><strong><code class="parameter">param</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev görevin mutlak önceliği ile döner.
+    </p>
+    <p>
+     <em class="parameter"><code>pid</code></em>, mutlak önceliği öğrenilmek istenen görevin görev kimliğidir.
+    </p>
+    <p>
+     <em class="parameter"><code>param</code></em> ise görevin mutlak önceliğini içeren yapıya bir göstericidir.
+    </p>
+    <p>
+     Başarı durumunda işlevin dönüş değeri <code class="code">0</code>'dır. Aksi takdirde <code class="code">-1</code> döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine şu değerler biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ESRCH</code></span></dt><dd><p>
+        <em class="parameter"><code>pid</code></em> sıfırdan farklı ve böyle bir görev yok.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>pid</code></em> negatif.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_get_priority_min" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_get_priority_min</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">policy</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>policy</code></em> zamanlama kuralı için bir görevin alabileceği en düşük mutlak öncelik değeri ile döner.
+    </p>
+    <p>
+     Linux'ta, <a href="glibc-Basic-Scheduling-Functions.html#glibc-vr-SCHED_OTHER"><strong class="varname"><code>SCHED_OTHER</code></strong></a> için <code class="code">0</code> diğerleri için <code class="code">1</code>'dir.
+    </p>
+    <p>
+     Başarı durumunda işlevin dönüş değeri <code class="code">0</code>'dır. Aksi takdirde <code class="code">-1</code> döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine şu değerler biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>policy</code></em> mevcut bir zamanlama kuralı değil.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_get_priority_max" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_get_priority_max</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">policy</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>policy</code></em> zamanlama kuralı için bir görevin alabileceği en yüksek mutlak öncelik değeri ile döner.
+    </p>
+    <p>
+     Linux'ta, <a href="glibc-Basic-Scheduling-Functions.html#glibc-vr-SCHED_OTHER"><strong class="varname"><code>SCHED_OTHER</code></strong></a> için <code class="code">0</code> diğerleri için <code class="code">99</code>'dur.
+    </p>
+    <p>
+     Başarı durumunda işlevin dönüş değeri <code class="code">0</code>'dır. Aksi takdirde <code class="code">-1</code> döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine şu değerler biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>policy</code></em> mevcut bir zamanlama kuralı değil.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_rr_get_interval" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_rr_get_interval</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">pid_t </code><strong><code class="parameter">pid</code></strong><strong><code>, </code></strong><code class="type">struct timespec </code><strong class="type">*</strong><strong><code class="parameter">interval</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev turnuva zamanlama kuralı kullanıldığında <em class="parameter"><code>pid</code></em> kimlikli görevin işlemciyi kullanabileceği süreyi döndürür.
+    </p>
+    <p>
+     Sonuç <em class="parameter"><code>interval</code></em> ile döner.
+    </p>
+    <p>
+     Linux çekirdeği için turnuva zaman dilimi daima 150 mikrosaniyedir ve  <em class="parameter"><code>pid</code></em> değerinin gerçek bir görev kimliği olması bile gerekmez.
+    </p>
+    <p>
+     Başarı durumunda işlevin dönüş değeri <code class="code">0</code>'dır. Aksi takdirde, imkansız olsa bile <code class="code">-1</code> dönebilir. Ancak <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanmak üzere belirlenmiş bu işleve özgü özel bir hata durumu yoktur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sched_yield" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=posix/sched.h;hb=HEAD" target="_top">sched.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sched_yield</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev, görevin işlemci üzerindeki haklarından vazgeçilmesini sağlar.
+    </p>
+    <p>
+     Teknik olarak, <code class="code">sched_yield</code> işlevi görevin hemen tekrar çalışmaya hazır duruma (işlev çağrıldığında çalışmakta olmanın tersine) gelmesine sebep olur. Yani, görevin mutlak önceliği sıfırdan farklıysa, mutlak önceliği ile aynı olan görevlerin bulunduğu görev listesinin kuyruğuna çalışmaya hazır görev olarak eklenip sırasının gelmesini bekler. Mutlak önceliği sıfırsa bu işlem daha karmaşıklaşır, ancak işlemcinin başka bir göreve bırakılması yine de gerçekleşir.
+    </p>
+    <p>
+     Eğer mutlak öncelik bakımından eşdeğerde başka bir görev yoksa bu işlev hiçbir şey yapmaz.
+    </p>
+    <p>
+     İşlevi içeren görev açısından görev, başka bir görevin ne yaptığı ya da ne kadar hızlı çalıştığının farkında değildir, işlev bu bakımdan işlevsizdir.
+    </p>
+    <p>
+     Başarı durumunda işlevin dönüş değeri <code class="code">0</code>'dır. Aksi takdirde, imkansız olsa bile <code class="code">-1</code> dönebilir. Ancak <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine atanmak üzere belirlenmiş bu işleve özgü özel bir hata durumu yoktur.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

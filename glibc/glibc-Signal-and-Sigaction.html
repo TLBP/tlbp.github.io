@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.3.3. signal ve sigaction arasındaki etkileşim</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Advanced-Signal-Handling.html')">Önceki</button>
+          <div class="dropdown-content">24.3.2. Gelişmiş Sinyal İşleme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Actions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sigaction-Function-Example.html')">Sonraki</button>
+          <div class="dropdown-content">24.3.4. <code class="code">sigaction</code> Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Signal-and-Sigaction">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.3.3. <code class="code">signal</code> ve <code class="code">sigaction</code> arasındaki etkileşim</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> ve <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevlerini aynı yazılım içinde kullanmak mümkündür. Ancak tuhaf bir yolla bu iki işlev birbirinden etkilenir, bu nedenle bu ikisi aynı yazılım içinde kullanılıyorsa dikkatli olmak gerekir.
+   </p>
+        <p>
+    <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinden daha fazla bilgi içerir. Yani, <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin dönüş değeri <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevinin döndürdüğünden daha az bilgi döndürür. Diğer taraftan, bir eylemi kaydedip daha sonra etkinleştirmek için <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi kullanılırsa, tekrar kurulan işleyici <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> tarafından yeniden kurulan işleyici kadar düzgün oluşmayacaktır.
+   </p>
+        <p>
+    Sonuç olarak, sorunlardan kaçınmak için, yazılımda her yerde <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> kullanılmışsa, bir eylemi kaydetmek ve yeniden oluşturmak için yine <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi kullanılmalıdır. Hatta, <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> daha genel olduğundan, bir eylem hangi işlev ile kurulmuş olursa olsun, eylemi özgün haliyle saklamak ve yeniden oluşturmak için daima <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi kullanılmaldır.
+   </p>
+        <p>
+    Bazı sistemlerde, eğer bir eylem <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> ile oluşturulup daha sonra <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> ile incelenirse işleyici işlevin adresinin <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin bağımsız değişkeni olarak belirtilen adresle aynı olmadığı görülebilir. Hatta <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevinin bağımsız değişkeni olarak kullanmak için bile uygun olmayabilir. Ama <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevinde bağımsız değişken olarak kullanılabilir. Bu sorun GNU sistemlerinde asla görülmez.
+   </p>
+        <p>
+    Bu durumda, bir yazılım içinde sürekli olarak bu düzeneklerden sadece birini kullanmak en iyisidir.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> işlevi POSIX.1'in parçası olduğu halde, <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi bir ISO C oluşumudur. Yazılımın POSIX olmayan sistemlere taşınabilirliği bakımından kaygılar varsa, <a href="glibc-Advanced-Signal-Handling.html#glibc-fn-sigaction"><strong class="function"><code>sigaction</code></strong></a> yerine <a href="glibc-Basic-Signal-Handling.html#glibc-fn-signal"><strong class="function"><code>signal</code></strong></a> işlevi tercih edilmelidir.
+    </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

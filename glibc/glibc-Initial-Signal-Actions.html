@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.3.6. Sinyal Eylemlerinin İlk Durumu</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Flags-for-Sigaction.html')">Önceki</button>
+          <div class="dropdown-content">24.3.5. <code class="code">sigaction</code> Seçenekleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Actions.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Sonraki</button>
+          <div class="dropdown-content">24.4. Sinyal İşleyicilerin Tanımlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Initial-Signal-Actions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.3.6. Sinyal Eylemlerinin İlk Durumu</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127564" class="indexterm"></span>
+    <a class="link" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması">Yeni bir süreç oluşturulduğunda</a>, sinyal işleyiciler onu oluşturan süreçten miras alınır. Bununla birlikte, yeni süreç <strong class="function"><code>exec</code></strong> işlevi ile yüklendiğinde (bkz, <a class="xref" href="glibc-Executing-a-File.html" title="26.5. Bir Dosyanın Çalıştırılması"><em>Bir Dosyanın Çalıştırılması</em></a>), her sinyali <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_DFL"><strong class="varname"><code>SIG_DFL</code></strong></a> eylemine döndürecek işleyici tanımlanmış olur. (Biraz düşünülürse, bunun farklı bir şey olduğu görülür; eski yazılımın işleyici işlevleri ona özeldir ve yeni yazılımın adres alanında bunlar mevcut değildir.) Şüphesiz, yeni yazılım kendi işleyicilerini oluşturabilir.
+   </p>
+        <p>
+    Bir yazılım bir kabukta çalıştırıldığında, normalde kabuk, oluşturduğu alt sürecin eylemlerini duruma göre <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_DFL"><strong class="varname"><code>SIG_DFL</code></strong></a> ya da <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_IGN"><strong class="varname"><code>SIG_IGN</code></strong></a> olarak ayarlar. Sinyal işleyici oluşturulmadan önce, kabuğun alt sürece başlangıç olarak <a href="glibc-Basic-Signal-Handling.html#glibc-vr-SIG_IGN"><strong class="varname"><code>SIG_IGN</code></strong></a> eylemini belirtmediğinden emin olunursa iyi olur.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Bu örnekte,  eğer yok sayılmıyorsa <a href="glibc-Termination-Signals.html#glibc-vr-SIGHUP"><strong class="varname"><code>SIGHUP</code></strong></a> sinyali için bir işleyicinin nasıl kurulacağı gösterilmiştir:
+    </p>
+            <pre class="screen">…
+struct sigaction temp;
+
+sigaction (SIGHUP, NULL, &amp;temp);
+
+if (temp.sa_handler != SIG_IGN)
+  {
+    temp.sa_handler = handle_sighup;
+    sigemptyset (&amp;temp.sa_mask);
+    sigaction (SIGHUP, &amp;temp, NULL);
+  }
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

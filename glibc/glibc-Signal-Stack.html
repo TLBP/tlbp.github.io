@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.9. Sinyal Yığıtı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Waiting-for-a-Signal.html')">Önceki</button>
+          <div class="dropdown-content">24.8. Sinyalin Beklenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signal-Handling.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-BSD-Signal-Handling.html')">Sonraki</button>
+          <div class="dropdown-content">24.10. BSD Usulü Sinyal İşleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Signal-Stack">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">24.9. Sinyal Yığıtı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bir sinyal yığıtı, sinyal işleyicilerin icra yığıtı olarak kullanılan özel bir bellek alanıdır. Taşmalardan kaçınmak için oldukça büyük olmalıdır; boyutunu belirlemek amacıyla <a href="glibc-Signal-Stack.html#glibc-vr-SIGSTKSZ"><strong class="varname"><code>SIGSTKSZ</code></strong></a> makrosu tanımlanmıştır. Yığıt için gereken alan <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilebilir. Bundan sonra yapılacak bir <a href="glibc-Signal-Stack.html#glibc-fn-sigaltstack"><strong class="function"><code>sigaltstack</code></strong></a> veya <a href="glibc-Signal-Stack.html#glibc-fn-sigstack"><strong class="function"><code>sigstack</code></strong></a> çağrısı ile sisteme bu alanın sinyal yığıtı olarak kullanılacağı belirtilebilir.
+  </p>
+        <p>
+   Sinyal yığıtını kullanmaları için sinyal işleyicileri oluşturulurken farklı bir şey yapmak gerekmez. Bir yığıttan diğerine geçilmesi özdevinimli gerçekleşir. (Bazı makinelerde bir sinyal işleyicisinin sinyal yığıtını kullandığı durumda GNU hata ayıklayıcıları dışındaki bazı hata ayıklayıcılar  yığıt izlemesini başarıyla yapamayabilir.)
+  </p>
+        <p>
+   Sisteme ayrı bir sinyal yığıtı kullanmasını belirtmenin iki yolu vardır. 4.2 BSD ile gelen <a href="glibc-Signal-Stack.html#glibc-fn-sigstack"><strong class="function"><code>sigstack</code></strong></a> biraz eski bir arayüzdür. 4.4 BSD ile gelen <a href="glibc-Signal-Stack.html#glibc-fn-sigaltstack"><strong class="function"><code>sigaltstack</code></strong></a> daha yenidir. <a href="glibc-Signal-Stack.html#glibc-fn-sigaltstack"><strong class="function"><code>sigaltstack</code></strong></a> işlevinin bir getirisi vardır; makineye ve işletim sistemine bağlı olan yığıt büyümesinin yönü ile ilgilenmek zorunda kalınmaz.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-stack_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">stack_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri yapısı bir sinyal yığıtı hakkında bilgi içerir. Aşağıdaki üyelere sahiptir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">void *</code><strong class="structfield"><code>ss_sp</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Sinyal yığıtının taban adresidir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">size_t </code><strong class="structfield"><code>ss_size</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       <code class="code">ss_sp</code>'den başlayan sinyal yığıtının boyutudur. Yığıt için ne kadar yer ayrılacağı bu üye ile belirtilir.
+      </p><p>
+       Yığıt için gereken alanı hesaplamak için <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında tanımlanmış iki makro vardır:
+      </p><div class="csynopsis"><div class="cstype">      makro</div>
+       <span id="glibc-vr-SIGSTKSZ" class="indexterm"></span>
+       <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SIGSTKSZ</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+       <p>
+        Bir sinyal yığıtı için olması gereken boyuttur. Normal kullanımlar için yeterli olabilecek kadardır.
+       </p>
+      </div><div class="csynopsis"><div class="cstype">      makro</div>
+       <span id="glibc-vr-MINSIGSTKSZ" class="indexterm"></span>
+       <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MINSIGSTKSZ</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+       <p>
+        İşletim sisteminin sinyal göndermeyi gerçekleştirebileceği sinyal yığıtı boyutudur. Tahsis edilecek sinyal yığıtı boyutu bu değerden <em class="emphasis">BÜYÜK</em> olmalıdır.
+       </p>
+       <p>
+        Çoğu durumda, <code class="code">ss_size</code> için <a href="glibc-Signal-Stack.html#glibc-vr-SIGSTKSZ"><strong class="varname"><code>SIGSTKSZ</code></strong></a> kullanmak yeterlidir. Ama yazılımın sinyal işleyicilerinin ne kadar yığıt alanı kullanacakları biliniyorsa, bundan farklı bir değer de kullanılabilir. Bu durumda en az <code class="code">MINSIGSTKSZ</code> baytlık yer tahsis etmek gerekir. <code class="code">ss_size</code> ile bu değerden büyük herhangi bir değer atanabilir.
+       </p>
+      </div></dd><dt><span class="glossterm">
+      <code class="type">int </code><strong class="structfield"><code>ss_flags</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu üye şu seçeneklerin bitsel VEYAlanmış değerini içerir:
+      </p><div class="csynopsis"><div class="cstype">      sabit</div>
+       <span id="glibc-vr-SS_DISABLE" class="indexterm"></span>
+       <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SS_DISABLE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+       <p>
+        Sisteme sinyal yığıtını kullanmaMAsını belirtir.
+       </p>
+      </div><div class="csynopsis"><div class="cstype">      sabit</div>
+       <span id="glibc-vr-SS_ONSTACK" class="indexterm"></span>
+       <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">SS_ONSTACK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+       <p>
+        Sistem tarafından atanır ve sinyal yığıtının o an kullanılmakta olduğunu belirtir. Bu bit etkin değilse sinyaller, normal kullanıcı yığıtını kullanıyor demektir.
+       </p>
+      </div></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-sigaltstack" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigaltstack</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const stack_t *restrict </code><strong><code class="parameter">stack</code></strong><strong><code>, </code></strong><code class="type">stack_t *restrict </code><strong><code class="parameter">oldstack</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+   </div>
+   <p>
+    <code class="code">sigaltstack</code> işlevi, sinyal işleyicilerin ayrı bir sinyal yığıtı kullanacağını belirtir. Süreç tarafından bir sinyal alındığında sinyal eylemi sinyal yığıtı üzerinden işlenecekse, sistem, sinyal işleyici çalışırken bu sinyal yığıtının kullanılması için gerekli düzenlemeyi yapar.
+   </p>
+   <p>
+    <em class="parameter"><code>oldstack</code></em> boş gösterici değilse, kurulu sinyal yığıtının bilgileri bu adreste döndürülür. <em class="parameter"><code>stack</code></em> boş gösterici değilse, bu, sinyal işleyiciler tarafından kullanılacak yeni yığıtı belirtir.
+   </p>
+   <p>
+    İşlev başarılı olduğunda <code class="code">0</code> ile döner, aksi takdirde <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerleri bu işlev için tanımlanmıştır:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm"><code class="code">EINVAL</code></span></dt><dd class="glossdef"><p>
+       Kullanımda olan yığıt iptal edilmeye çalışıldı.
+      </p></dd><dt><span class="glossterm"><code class="code">ENOMEM</code></span></dt><dd class="glossdef"><p>
+       Yeni yığıtın boyu <a href="glibc-Signal-Stack.html#glibc-vr-MINSIGSTKSZ"><strong class="varname"><code>MINSIGSTKSZ</code></strong></a> değerinden küçük.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Burada eski arayüz olan <a href="glibc-Signal-Stack.html#glibc-fn-sigstack"><strong class="function"><code>sigstack</code></strong></a> işlevi de anlatılacaktır. Ancak, sistem bu işlevi içerse bile bunun yerine <a href="glibc-Signal-Stack.html#glibc-fn-sigaltstack"><strong class="function"><code>sigaltstack</code></strong></a> işlevi kullanılmalıdır.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-sigstack" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">sigstack</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri yapısı bir sinyal yığıtı hakkında bilgi içerir. Aşağıdaki üyelere sahiptir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">void *</code><strong class="structfield"><code>ss_sp</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Yığıt göstericisidir. Yığıt aşağı doğru büyüyorsa bu değer yığıtın tepesini, yukarı doğru büyüyorsa yığıtın tabanını gösterir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">int </code><strong class="structfield"><code>ss_onstack</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Sistem o an bu yığıtı kullanıyorsa bu alanın değeri "doğru"dur.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-sigstack" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigstack</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct sigstack </code><strong class="type">*</strong><strong><code class="parameter">stack</code></strong><strong><code>, </code></strong><code class="type">struct sigstack </code><strong class="type">*</strong><strong><code class="parameter">oldstack</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+   </div>
+   <p>
+    <code class="code">sigstack</code> işlevi, sinyal işleyicilerin ayrı bir sinyal yığıtı kullanacağını belirtir. Süreç tarafından bir sinyal alındığında sinyal eylemi sinyal yığıtı üzerinden işlenecekse, sistem, sinyal işleyici çalışırken bu sinyal yığıtının kullanılması için gerekli düzenlemeyi yapar.
+   </p>
+   <p>
+    <em class="parameter"><code>oldstack</code></em> boş gösterici değilse, kurulu sinyal yığıtının bilgileri bu adreste döndürülür. <em class="parameter"><code>stack</code></em> boş gösterici değilse, bu, sinyal işleyiciler tarafından kullanılacak yeni yığıtı belirtir.
+   </p>
+   <p>
+    İşlev başarılı olduğunda <code class="code">0</code> ile döner, aksi takdirde <code class="code">-1</code> ile döner.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

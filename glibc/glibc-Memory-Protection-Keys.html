@@ -7,6 +7,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <header>
@@ -43,9 +44,9 @@
           </div>
         </div>
         <p>
-    <span id="idm88886" class="indexterm"></span>
-    <span id="idm88889" class="indexterm"></span>
-    <span id="idm88892" class="indexterm"></span>
+    <span id="idm88902" class="indexterm"></span>
+    <span id="idm88905" class="indexterm"></span>
+    <span id="idm88908" class="indexterm"></span>
     Bazı sistemlerde, <em class="emphasis">bellek koruma anahtarları</em> kullanılarak belirli sayfalara daha fazla kısıtlama eklenebilir. Bu kısıtlamalar şu şekilde çalışır:
    </p>
         <div class="itemizedlist">
@@ -62,16 +63,16 @@
             </li>
             <li class="listitem">
               <p>
-      Bir bellek erişimi sırasında, erişilen sayfa için koruma anahtarını sistem sağlar ve geçerli evre için yapılandırıldığı şekliyle geçerli erişim haklarını belirlemek için bunu kullanır. Erişimin kısıtlanması, parçalanma arızası ile sonuçlanır (bkz. ???). Bu denetimler, <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> veya <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> tarafından atanan <code class="code">PROT_*</code> koruma bayraklarına ek olarak yapılır.
+      Bir bellek erişimi sırasında, erişilen sayfa için koruma anahtarını sistem sağlar ve geçerli evre için yapılandırıldığı şekliyle geçerli erişim haklarını belirlemek için bunu kullanır. Erişimin kısıtlanması, parçalanma arızası ile sonuçlanır (bkz. <a class="xref" href="glibc-Program-Error-Signals.html" title="24.2.1. Yazılım Hatalarının Sinyalleri">Yazılım Hatalarının Sinyalleri</a>). Bu denetimler, <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> veya <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> tarafından atanan <code class="code">PROT_*</code> koruma bayraklarına ek olarak yapılır.
      </p>
             </li>
           </ul>
         </div>
         <p>
-    Yeni evreler ve alt süreçler, geçerli evre erişim haklarını devralır. Daha sonra bir koruma anahtarı tahsis edilirse, mevcut evreler (geçerli olan hariç), yeni tahsis edilen anahtarlarla ilişkili erişim hakları için belirtilmemiş olan sistem öntanımlısını kullanır.
+    Yeni evreler ve alt süreçler, geçerli evre erişim haklarını devralır. Daha sonra bir koruma anahtarı tahsis edilirse, mevcut evreler (geçerli olan hariç), yeni tahsis edilen anahtarlarla ilişkili erişim hakları için belirtilmemiş olan sistem ön tanımlısını kullanır.
    </p>
         <p>
-    Bir sinyal işleyiciye girildiğinde, sistem geçerli evrenin erişim haklarını sıfırlar, böylece öntanımlı anahtara sahip sayfalara erişilebilir, ancak diğer koruma anahtarları için erişim hakları belirtilmez.
+    Bir sinyal işleyiciye girildiğinde, sistem geçerli evrenin erişim haklarını sıfırlar, böylece ön tanımlı anahtara sahip sayfalara erişilebilir, ancak diğer koruma anahtarları için erişim hakları belirtilmez.
    </p>
         <p>
     Uygulamaların bir kez <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanarak bir anahtar tahsis etmesi ve anahtarı <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> ile özel koruma gerektiren bellek bölgelerine uygulaması beklenir:
@@ -95,7 +96,7 @@ if (pkey_mprotect (region, region_length,
         </div>
         <br class="example-break" />
         <p>
-    Bellek koruma anahtarları için destek olmaması nedeniyle anahtar tahsisi başarısız olursa, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağrısı genellikle atlanabilir. Bu durumda, bölge öntanımlı olarak korunmaz. <code class="code">-1</code> anahtar değeri ile  <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağırmak da mümkündür, işlev bu durumda <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi gibi davranacaktır.
+    Bellek koruma anahtarları için destek olmaması nedeniyle anahtar tahsisi başarısız olursa, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağrısı genellikle atlanabilir. Bu durumda, bölge ön tanımlı olarak korunmaz. <code class="code">-1</code> anahtar değeri ile  <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağırmak da mümkündür, işlev bu durumda <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi gibi davranacaktır.
    </p>
         <p>
     Bellek sayfalarına anahtar tahsisi atamasından sonra, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_set"><strong class="function"><code>pkey_set</code></strong></a> bellek bölgesine geçici olarak erişim elde edip vazgeçmek için kullanılabilir:
@@ -123,7 +124,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
    </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-pkey_alloc" class="indexterm"></span>
-    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pkey_alloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">unsigned int </code> <strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code> <strong><code class="parameter">restrictions</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pkey_alloc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">unsigned int </code><strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">restrictions</code></strong><strong><code>)</code></strong></td></tr></table></div>
     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -155,7 +156,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
    </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-pkey_free" class="indexterm"></span>
-    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pkey_free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pkey_free</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -176,7 +177,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
    </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-pkey_mprotect" class="indexterm"></span>
-    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pkey_mprotect</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code> <strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">protection</code></strong><strong><code>, </code></strong><code class="type">int </code> <strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pkey_mprotect</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">address</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">protection</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -186,10 +187,10 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
      <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a>'e benzer, ancak aynı zamanda <em class="parameter"><code>key</code></em> anahtarını bellek bölgesi için bellek koruma anahtarı yapar.
     </p>
     <p>
-     Bazı sistemler, belirli koruma bayrağı birleşimlerini taklit etmek için bellek koruma anahtarları kullanır. Bu gibi durumlarda, koruma anahtarının doğrudan belirtilmesi, öntanımlı koruma anahtarında gerçekleşmese bile, <em class="parameter"><code>protection</code></em> bağımsız değişkeninde ek bayraklar belirtilmiş gibi davranabilir. Örneğin, bazı sistemler yalnızca <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> eşlemlerini yalnızca öntanımlı koruma anahtarıyla destekleyebilir ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a> olmadan <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> belirtilirse, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanılarak tahsis edilmiş anahtara sahip bellek yine de okunabilir olacaktır.
+     Bazı sistemler, belirli koruma bayrağı birleşimlerini taklit etmek için bellek koruma anahtarları kullanır. Bu gibi durumlarda, koruma anahtarının doğrudan belirtilmesi, ön tanımlı koruma anahtarında gerçekleşmese bile, <em class="parameter"><code>protection</code></em> bağımsız değişkeninde ek bayraklar belirtilmiş gibi davranabilir. Örneğin, bazı sistemler yalnızca <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> eşlemlerini yalnızca ön tanımlı koruma anahtarıyla destekleyebilir ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a> olmadan <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> belirtilirse, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanılarak tahsis edilmiş anahtara sahip bellek yine de okunabilir olacaktır.
     </p>
     <p>
-     <em class="parameter"><code>key</code></em> bağımsız değişkeni <code class="code">-1</code> ise, öntanımlı koruma anahtarı <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> çağrılmış gibi eşleme uygulanır.
+     <em class="parameter"><code>key</code></em> bağımsız değişkeni <code class="code">-1</code> ise, ön tanımlı koruma anahtarı <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> çağrılmış gibi eşleme uygulanır.
     </p>
     <p>
      <code class="code">pkey_mprotect</code> işlevi başarı durumunda <code class="code">0</code>, başarısızlık durumunda <code class="code">-1</code> döndürür. <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> için tanımlı hata durumlarına ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
@@ -203,7 +204,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
    </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-pkey_set" class="indexterm"></span>
-    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pkey_set</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code> <strong><code class="parameter">rights</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pkey_set</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">key</code></strong><strong><code>, </code></strong><code class="type">unsigned int </code><strong><code class="parameter">rights</code></strong><strong><code>)</code></strong></td></tr></table></div>
     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
@@ -214,7 +215,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
     </p>
     <div class="csynopsis"><div class="cstype">      sabit</div>
      <span id="glibc-vr-PKEY_DISABLE_WRITE" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">PKEY_DISABLE_WRITE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PKEY_DISABLE_WRITE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      <p>
       Belirtilen koruma anahtarıyla belleğe sonraki yazma denemeleri hata verecektir.
      </p>
@@ -222,7 +223,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
     </div>
     <div class="csynopsis"><div class="cstype">      sabit</div>
      <span id="glibc-vr-PKEY_DISABLE_ACCESS" class="indexterm"></span>
-     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"> <strong><code class="function">PKEY_DISABLE_ACCESS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PKEY_DISABLE_ACCESS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      <p>
       Belirtilen koruma anahtarıyla belleğe yazma veya bellekten okumaya yönelik sonraki girişimler hata verecektir.
      </p>
@@ -247,7 +248,7 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
    </div>
         <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-pkey_get" class="indexterm"></span>
-    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code> <strong><code class="function">pkey_get</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code> <strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/mman.h;hb=HEAD" target="_top">sys/mman.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">pkey_get</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">key</code></strong><strong><code>)</code></strong></td></tr></table></div>
     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>

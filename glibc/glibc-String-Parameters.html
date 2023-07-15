@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>32.12. Dizge Değerli Sistem Değişkenleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Utility-Minimums.html')">Önceki</button>
+          <div class="dropdown-content">32.11. Bazı Araçların Sınırları için Asgari Değerler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-System-Configuration-Parameters.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Cryptographic-Functions.html')">Sonraki</button>
+          <div class="dropdown-content">33. Şifrelemeyle İlgili İşlevler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-String-Parameters">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">32.12. Dizge Değerli Sistem Değişkenleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   POSIX.2, işletim sisteminden dizge değerli sistem değişkenlerinin değerlerinin öğrenilmesi için <a href="glibc-String-Parameters.html#glibc-fn-confstr"><strong class="function"><code>confstr</code></strong></a> işlevini tanımlamıştır:
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-confstr" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">confstr</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">parameter</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">len</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev bir dizge değerli sistem değişkeninin değerini okur ve <em class="parameter"><code>buf</code></em>'da başlayan bellek alanının <em class="parameter"><code>len</code></em> baytına bu dizgeyi yerleştirerek döner. <em class="parameter"><code>parameter</code></em> bağımsız değişkeni aşağıda listelenen <code class="code">_CS_</code> simgelerinden biri olmalıdır.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri istenen dizgenin uzunluğudur. <em class="parameter"><code>buf</code></em> olarak boş dizge verilmişse işlev dizgeyi buraya yerleştirmeye çalışmaz, sadece dizgenin uzunluğu ile döner. <code class="code">0</code> dönüş değeri hata oluştuğunu gösterir.
+   </p>
+   <p>
+    Eğer istenen dizge için tamponda yeterince yer yoksa (yani <em class="parameter"><code>len</code></em><code class="code"> - 1</code>'den daha uzunsa), işlev dizgenin ilk <em class="parameter"><code>len</code></em><code class="code"> - 1</code> baytını (sonlandırıcı boş karaktere yer bırakarak) yerleştirir. Bu durumun oluştuğunu, işlev  <em class="parameter"><code>len</code></em> bayta eşit ya da daha büyük bir değerle dönerek bildirir.
+   </p>
+   <p>
+    Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumu bu işlev için tanımlanmıştır:
+   </p>
+   <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+     <em class="parameter"><code>parameter</code></em> sistem değişkeninin değeri geçersiz.
+    </p></dd></dl>
+  </div>
+        <p>
+   <a href="glibc-String-Parameters.html#glibc-fn-confstr"><strong class="function"><code>confstr</code></strong></a> işlevinin okuyabileceği sistem değişkenleri:
+  </p>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_PATH" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_PATH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Çalıştırılabilir dosyaların aranacağı ön tanımlı dosya yollarının önerilen değeridir. Kullanıcı sisteme oturum açtığında ön tanımlı olarak bu dosya yollarına sahip olur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS_CFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS_CFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE_SOURCE"><strong class="varname"><code>_LARGEFILE_SOURCE</code></strong></a> kullanarak derlenmişse, C derleyiciye hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS_LDFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS_LDFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE_SOURCE"><strong class="varname"><code>_LARGEFILE_SOURCE</code></strong></a> kullanarak derlenmişse, ilintileyiciye hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS_LIBS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS_LIBS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE_SOURCE"><strong class="varname"><code>_LARGEFILE_SOURCE</code></strong></a> kullanarak derlenmişse, uygulamanın hangi ek kütüphanelerle ilintileneceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS_LINTFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS_LINTFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE_SOURCE"><strong class="varname"><code>_LARGEFILE_SOURCE</code></strong></a> kullanarak derlenmişse, <tt><b>lint</b>(1)</tt> aracına hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS64_CFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS64_CFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE64_SOURCE"><strong class="varname"><code>_LARGEFILE64_SOURCE</code></strong></a> kullanarak derlenmişse, C derleyiciye hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS64_LDFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS64_LDFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE64_SOURCE"><strong class="varname"><code>_LARGEFILE64_SOURCE</code></strong></a> kullanarak derlenmişse, ilintileyiciye hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS64_LIBS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS64_LIBS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE64_SOURCE"><strong class="varname"><code>_LARGEFILE64_SOURCE</code></strong></a> kullanarak derlenmişse, uygulamanın hangi ek kütüphanelerle ilintileneceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+   <span id="glibc-vr-CS_LFS64_LINTFLAGS" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">_CS_LFS64_LINTFLAGS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Eğer bir kaynak <a href="glibc-Feature-Test-Macros.html#glibc-vr_LARGEFILE64_SOURCE"><strong class="varname"><code>_LARGEFILE64_SOURCE</code></strong></a> kullanarak derlenmişse, <tt><b>lint</b>(1)</tt> aracına hangi ek seçeneklerin verileceğini belirten dizge döner. Bkz. <a class="xref" href="glibc-Feature-Test-Macros.html" title="1.4.4. Özellik Sınama Makroları">Özellik Sınama Makroları</a>.
+   </p>
+  </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+    <a href="glibc-String-Parameters.html#glibc-fn-confstr"><strong class="function"><code>confstr</code></strong></a> işlevini, dönecek dizgeye keyfi bir sınır belirtmeden kullanmanın tek yolu işlevi iki kere çağırmaktır. İlk çağrıda dizgenin uzunluğu döner, buna göre tampon ayırıp tamponu doldurması için işlevi tekrar çağırmak gerekir:
+   </p>
+            <pre class="screen">char *
+get_default_path (void)
+{
+  size_t len = confstr (_CS_PATH, NULL, 0);
+  char *buffer = (char *) xmalloc (len);
+
+  if (confstr (_CS_PATH, buf, len + 1) == 0)
+    {
+      free (buffer);
+      return NULL;
+    }
+
+  return buffer;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.9.10. Dosya Boyu</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Times.html')">Önceki</button>
+          <div class="dropdown-content">14.9.9. Dosya Zamanları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Attributes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Storage-Allocation.html')">Sonraki</button>
+          <div class="dropdown-content">14.9.11. Depolama Alanının Tahsisi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-File-Size">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.9.10. Dosya Boyu</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Normalde dosya boyu özdevinimli olarak belirlenir. Bir dosya <code class="code">0</code> boyda başlar ve veri yazıldıkça özdevinimli olarak uzar. Ayrıca, bir <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> ya da <a href="glibc-Opening-Streams.html#glibc-fn-fopen"><strong class="function"><code>fopen</code></strong></a> çağrısı ile de bir dosyanın içeriğini silmek ve boş duruma getirmek mümkündür.
+   </p>
+        <p>
+    Yine de, kimi zaman bir dosyanın boyunu küçültmek gerekebilir. Bu işlem <a href="glibc-File-Size.html#glibc-fn-truncate"><strong class="function"><code>truncate</code></strong></a> ve <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işlevleri ile yapılır. Bunlar BSD Unix'den gelir. <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işlevi daha sonra POSIX.1'e eklenmiştir.
+   </p>
+        <p>
+    Bazı sistemler bu işlevlerle bir dosyayı uzatmaya da (delikler oluşturarak) izin verir. Dosyalar özdevinimli uzatılamadığında <a class="link" href="glibc-Memory-mapped-I-O.html" title="13.8. Bellek Eşlemli G/Ç">bellek eşlemli G/Ç</a> kullanılırken yararlı olur. Ancak, taşınabilir değildir ve <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> dosyaların eşlenmesine izin veriyorsa (yani, <a href="glibc-Sysconf.html#glibc-vr-POSIX_MAPPED_FILES"><strong class="varname"><code>_POSIX_MAPPED_FILES</code></strong></a> tanımlıysa) gerçeklenmelidir.
+   </p>
+        <p>
+    Bu işlevlerin normal dosyalar dışında kullanılması <em class="emphasis">tanımlanmamış</em> sonuçlara yol açabilir. Çoğu sistemde böyle bir çağrı, aslında hiçbir işlem yapmakszın başarılı görünecektir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-truncate" class="indexterm"></span>
+    <span id="glibc-fn-truncate" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">truncate</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">truncate</code> işlevi, <em class="parameter"><code>filename</code></em> ile belirtilen dosyanın uzunluğunu <em class="parameter"><code>length</code></em> yapar. <em class="parameter"><code>length</code></em> önceki uzunluktan küçükse dosyanın sonundaki veri kaybedilir. Bu işlemin uygulanabilmesi için kullanıcının dosyaya yazma izni olmalıdır.
+    </p>
+    <p>
+     <em class="parameter"><code>length</code></em> önceki uzunluktan daha büyükse dosyanın sonuna delikler eklenir. Ancak, bazı sistemler bu işlemi desteklemez ve dosya değişmeden kalır.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik bir sistemde bu işlev aslında <a href="glibc-File-Size.html#glibc-fn-truncate64"><strong class="function"><code>truncate64</code></strong></a> işlevidir ve <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türü 2^63 bayt uzunluğa kadar dosyaları mümkün kılan 64 bitlik bir türdür.
+    </p>
+    <p>
+     İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+        Dosya ya bir dizin ya da yazılabilir değil.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>length</code></em> negatif.
+       </p></dd><dt><span class="term"><code class="code">EFBIG</code></span></dt><dd><p>
+        Dosya boyu, işletim sisteminin sınırlarından fazlasına genişletiliyor.
+       </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+        Donamım G/Ç hatası oluştu.
+       </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Dosya ya sona eklemeli ya da değiştirilemez türde.
+       </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+        İşlem bir sinyal ile engellendi.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-truncate64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">truncate64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-File-Size.html#glibc-fn-truncate"><strong class="function"><code>truncate</code></strong></a> işlevinin benzeridir.  Farkı, <em class="parameter"><code>length</code></em> bağımsız değişkeninin 32 bitlik makinelerde bile 64 bitlik genişlikte olmasıdır. Böylece 2^63 bayta kadar dosya uzunlukları belirtilebilir.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev <a href="glibc-File-Size.html#glibc-fn-truncate"><strong class="function"><code>truncate</code></strong></a> ismiyle bulunur ve eski gerçekleme tamamen LFS'ye uygun olarak değiştirilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ftruncate" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ftruncate</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">off_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-File-Size.html#glibc-fn-truncate"><strong class="function"><code>truncate</code></strong></a> gibidir, ancak açık dosya tanıtıcısı ile çalışır. Dosya yazma amacıyla açılmış olmalıdır.
+    </p>
+    <p>
+     POSIX standardı, dosyanın yeni <em class="parameter"><code>length</code></em> değerinin özgün dosya boyundan daha büyük olduğu durumda ne yapılacağını gerçeklemeye bırakmıştır. <code class="code">ftruncate</code> işlevi ya dosyayı hiçbir şey yapmadan bırakır ya da istenen boya artırır. İkinci durumda uzatılan bölge sıfırlarla doldurulur. <code class="code">ftruncate</code> işlevi ile dosya boyunun artırılması pek güvenilir olmasa da eğer uzatılabiliyorsa bu olası en hızlı yöntemdir. Bu işlev ayrıca eğer sistem tarafından gerçeklenmişse POSIX paylaşımlı bellek bölütleri üzerinde de çalışır.
+    </p>
+    <p>
+     <code class="code">ftruncate</code> işlevi özellikle <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> ile birlikte kullanıldığında yararlıdır. Dosya ile eşlenen bellek bölgeleri sabit uzunlukta olduğundan son eşlenen sayfaya daha fazla bilgi yazarak dosya boyu büyütülemez. Dosya boyunu büyütmek için dosya yeni boyutla yeniden belleğe eşlenmelidir. Bunun nasıl yapıldığı aşağıda bir örnekle gösterilmiştir.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev aslında <a href="glibc-File-Size.html#glibc-fn-ftruncate64"><strong class="function"><code>ftruncate64</code></strong></a> işlevidir ve <a href="glibc-File-Position-Primitive.html#glibc-tp-off_t"><strong class="type"><code>off_t</code></strong></a> türü 2^63 bayt uzunluğa kadar dosyaları mümkün kılan 64 bitlik bir türdür.
+    </p>
+    <p>
+     İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>fd</code></em> açık bir dosya ile ilgili değil.
+       </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+        <em class="parameter"><code>fd</code></em> ya bir dizin ya da yazımak için açılmamış.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>length</code></em> negatif.
+       </p></dd><dt><span class="term"><code class="code">EFBIG</code></span></dt><dd><p>
+        Dosya boyu, işletim sisteminin sınırlarından fazlasına genişletiliyor.
+       </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+        Donamım G/Ç hatası oluştu.
+       </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Dosya ya sona eklemeli ya da değiştirilemez türde.
+       </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+        İşlem bir sinyal ile engellendi.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ftruncate64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ftruncate64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fd</code></strong><strong><code>, </code></strong><code class="type">off64_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işlevinin benzeridir.  Farkı, <code class="varname">uzunluk</code> bağımsız değişkeninin 32 bitlik makinelerde bile 64 bitlik genişlikte olmasıdır. Böylece 2^63 bayta kadar dosya uzunlukları belirtilebilir.
+    </p>
+    <p>
+     Kaynakların <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlendiği 32 bitlik sistemlerde bu işlev <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> ismiyle bulunur ve eski gerçekleme tamamen LFS'ye uygun olarak değiştirilir.
+    </p>
+   </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <p>
+     Yukarıda bahsedildiği gibi burada <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> işlevinin <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> ile birlikte kullanılışına küçük bir örnek vardır:
+    </p>
+            <pre class="screen">int fd;
+void *start;
+size_t len;
+
+int
+add (off_t at, void *block, size_t size)
+{
+  if (at + size &gt; len)
+    {
+    /* <em class="replaceable"><code>Dosyayı yeniden boyutlandır ve yeniden eşle.</code></em>  */
+      size_t ps = sysconf (_SC_PAGESIZE);
+      size_t ns = (at + size + ps - 1) &amp; ~(ps - 1);
+      void *np;
+      if (ftruncate (fd, ns) &lt; 0)
+        return -1;
+      np = mmap (NULL, ns, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+      if (np == MAP_FAILED)
+        return -1;
+      start = np;
+      len = ns;
+    }
+  memcpy ((char *) start + at, block, size);
+  return 0;
+}
+</pre>
+            <p>
+     <code class="code">add</code> işlevi dosyada keyfi bir konuma bellek bloğunu yazar. Eğer dosyanın mevcut uzunluğu yetersizse dosya uzatılır. Uzatmanın sayfa sayısına yuvarlanacağına dikkat edilmelidir. Bu <a href="glibc-Memory-mapped-I-O.html#glibc-fn-mmap"><strong class="function"><code>mmap</code></strong></a> işlevinin bir gereksinimidir. Yazılım gerçek boyutu daima izler ve işlem bittiğinde son bir <a href="glibc-File-Size.html#glibc-fn-ftruncate"><strong class="function"><code>ftruncate</code></strong></a> çağrısıyla dosyanın gerçek boyunu belirler.
+    </p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

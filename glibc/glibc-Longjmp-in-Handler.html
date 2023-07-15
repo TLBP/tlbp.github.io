@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.3. İşleyici İşlevlerde Denetimin Aktarımı</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Termination-in-Handler.html')">Önceki</button>
+          <div class="dropdown-content">24.4.2. Süreci Sonlandıran İşleyiciler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signals-in-Handler.html')">Sonraki</button>
+          <div class="dropdown-content">24.4.4. İşleyici Çalışırken Sinyal Alınması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Longjmp-in-Handler">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.3. İşleyici İşlevlerde Denetimin Aktarımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127633" class="indexterm"></span>
+    Bir sinyal işleyici için <a href="glibc-Non-Local-Details.html#glibc-fn-setjmp"><strong class="function"><code>setjmp</code></strong></a> ve <a href="glibc-Non-Local-Details.html#glibc-fn-longjmp"><strong class="function"><code>longjmp</code></strong></a> oluşumları kullanılarak denetim başka bir yere aktarılabilir. Bkz,  <a class="xref" href="glibc-Non-Local-Exits.html" title="23. Yerel Olmayan Çıkışlar">Yerel Olmayan Çıkışlar</a>.
+   </p>
+        <p>
+    Bir işleyici denetimi dışarı aktardığı zaman, çalışmakta olan yazılım kalan işlemi biteremez. Örneğin yazılım o anda önemli bir veri yapısını güncelliyorsa, veri yapısı belirsiz bir durumda kalacaktır. Süreç sonlandırıldığından belirsizlik daha sonra benzer şekilde bildirilecektir.
+   </p>
+        <p>
+    Bu sorundan kaçınmanın iki yolu vardır. Biri, önemli veri yapısının güncellenmesi bitene kadar sinyalin engellenmesidir. Bkz,  <a class="xref" href="glibc-Blocking-Signals.html" title="24.7. Sinyallerin Engellenmesi"><em>Sinyallerin Engellenmesi</em></a>.
+   </p>
+        <p>
+    Diğer yol ise, önemli veri yapısını işleyici içinde yeniden ilklendirmek ve değerlerini belirli yapmaktır.
+   </p>
+        <p>
+    Örnekte, bir genel değişkenin yeniden ilklendirilmesi gösterilmiştir:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;setjmp.h&gt;
+
+jmp_buf return_to_top_level;
+
+volatile sig_atomic_t waiting_for_input;
+
+void
+handle_sigint (int signum)
+{
+  /* <em class="replaceable"><code>Sinyal alındığında girdi için beklemek gerekir,
+     ama denetim aktarılacağından artık beklenemez.</code></em> */
+  waiting_for_input = 0;
+  longjmp (return_to_top_level, 1);
+}
+
+int
+main (void)
+{
+  …
+  signal (SIGINT, sigint_handler);
+  …
+  while (1) {
+    prepare_for_command ();
+    if (setjmp (return_to_top_level) == 0)
+      read_and_execute_command ();
+  }
+}
+
+/* <em class="replaceable"><code>Bunun çeşitli komutlar için kullanılan
+   bir yordam olduğu varsayılsın.</code></em> */
+char *
+read_data ()
+{
+  if (input_from_terminal) {
+    waiting_for_input = 1;
+    …
+    waiting_for_input = 0;
+  } else {
+    …
+  }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>26.3. Süreç Kimliği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Creation-Concepts.html')">Önceki</button>
+          <div class="dropdown-content">26.2. Süreç Oluşturma Kavramları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Creating-a-Process.html')">Sonraki</button>
+          <div class="dropdown-content">26.4. Bir Sürecin Oluşturulması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Process-Identification">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">26.3. Süreç Kimliği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Her süreç, <a href="glibc-Process-Identification.html#glibc-tp-pid_t"><strong class="type"><code>pid_t</code></strong></a> türünde bir değer olan bir süreç kimlik numarasıyla adlandırılır. Oluşturulduğunda her sürece bir <em class="wordasword">süreç kimliği</em>  atanır. Süreç kimlikleri zaman zaman yeniden kullanılır. Bir sürecin ömrü, üst süreci süreç kimliğinde beklerken, süreç sonlandırıldığında sona erer. Bkz. <a class="xref" href="glibc-Process-Completion.html" title="26.6. Süreç Tamamlama"><em>Süreç Tamamlama</em></a> (Üst süreç, böyle bir beklemenin örtük olarak gerçekleşmesini sağlayabilir.) Bir süreç kimliği, bir süreci yalnızca sürecin ömrü boyunca eşsiz bir şekilde tanımlar. Genel bir kural olarak, bu, sürecin hala çalışıyor olması gerektiği anlamına gelir.
+  </p>
+        <p>
+   Süreç kimlikleri, süreç gruplarını ve oturumlarını da ifade edebilir. Bkz. <a class="xref" href="glibc-Job-Control.html" title="28. İş Denetimi">İş Denetimi</a>.
+   </p>
+        <p>
+   <span id="idm129295" class="indexterm"></span>
+   <span id="idm129298" class="indexterm"></span>
+   <span id="idm129301" class="indexterm"></span>
+   <span id="idm129304" class="indexterm"></span>
+   Linux'ta, <strong class="function"><code>pthread_create</code></strong> tarafından oluşturulan evreler bunun yanında bir de <em class="wordasword">evre kimliği</em> alır. İlk (ana) evrenin evre kimliği, tüm sürecin süreç kimliği ile aynıdır. Daha sonra oluşturulan evreler için evre kimlikleri farklıdır. Evre kimlikleri, süreç kimlikleriyle aynı numaralandırma alanından tahsis edilir. Süreç kimlikleri ve evre kimlikleri bazen toplu olarak <em class="wordasword">görev kimlikleri</em> olarak da anılır. Süreçlerin aksine, evreler hiçbir zaman açıkça bekletilmez, bu nedenle bir evre kimliği, evre çıkar çıkmaz veya iptal edilir edilmez yeniden kullanıma uygun hale gelir. Bu, yalnızca kopan evreler için değil, eklemlenebilir evreler için bile geçerlidir. Evreler bir <em class="wordasword">evre grubu</em>na atanır. Linux üzerinde çalışan GNU C Kütüphanesi gerçekleniminde, süreç kimliği, süreçteki tüm evreler için <em class="wordasword">evre grup kimliği</em>dir.
+  </p>
+        <p>
+   Bir sürecin süreç kimliği <a href="glibc-Process-Identification.html#glibc-fn-getpid"><strong class="function"><code>getpid</code></strong></a> çağrısıyla alınabilir. Geçerli sürecin <em class="wordasword">üst süreç kimliği</em> ise <a href="glibc-Process-Identification.html#glibc-fn-getppid"><strong class="function"><code>getppid</code></strong></a> çağrısıyla alınabilir. Bu işlevleri kullanmak için yazılımın <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code> başlık dosyalarını içermesi gerekir.
+   <span id="idm129318" class="indexterm"></span>
+   <span id="idm129320" class="indexterm"></span>
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-pid_t" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">pid_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    <code class="code">pid_t</code> veri türü süreç kimliğini gösterebilen imli bir tamsayıdır. GNU C Kütüphanesinde, bu <code class="type">int</code> türüne eşlenir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getpid" class="indexterm"></span>
+   <span id="glibc-cp-getpid" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">getpid</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">getpid</code> işlevi geçerli sürecin süreç kimliğini döndürür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getppid" class="indexterm"></span>
+   <span id="glibc-cp-getppid" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">getppid</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">getpid</code> işlevi geçerli sürecin üst süreç kimliğini döndürür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-gettid" class="indexterm"></span>
+   <span id="glibc-cp-gettid" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">pid_t </code><strong><code class="function">gettid</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">getpid</code> işlevi geçerli evrenin evre kimliğini döndürür. Döndürülen değer, Linux çekirdeğinden alınır ve önbellekte saklanmaz. Sonlanan veya iptal olan evrelerin kimlikleri yukarıda açıklandığı gibi yeniden kullanıma hazır hale gelir.
+   </p>
+   <p>
+    Bu işlev Linux'a özgüdür.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.11.5. Eşzamansız G/Ç İşlemlerinin Yapılandırılması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Cancel-AIO-Operations.html')">Önceki</button>
+          <div class="dropdown-content">13.11.4. Eşzamansız G/Ç İşlemlerinin İptal Edilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Asynchronous-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Control-Operations.html')">Sonraki</button>
+          <div class="dropdown-content">13.12. Dosyalar Üzerindeki Denetim İşlemleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Configuration-of-AIO">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">13.11.5. Eşzamansız G/Ç İşlemlerinin Yapılandırılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    POSIX standardı eşzamansız G/Ç işlevlerinin nasıl gerçekleneceğini belirtmez. Bunlar sistem çağrıları olabileceği gibi ayrıca kullanıcı seviyesinde de gerçekleştirilmiş olabilir.
+   </p>
+        <p>
+    Bu kılavuzun yazılması sırasında geçerli olan gerçeklenim, kuyruğa alınmış işlemlerin gerçeklenmesinde evrelerin kullanıldığı bir kullanıcı seviyesi gerçeklenimiydi. Bu gerçeklenim sınırlamalarla ilgili bazı kararlar vermeyi gerektirirken, değiştirilemeyen sınırlamaların bazılarından GNU C Kütüphanesinde en iyi biçimde kaçınılmıştır. Bununla birlikte, GNU C Kütüphanesi bireysel kullanımla ilgili olarak eşzamansız G/Ç gerçekleniminde bazı ayarlamalar yapılabilmesini sağlamıştır.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-aioinit" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">aioinit</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu veri türü yapılandırmayı ya da ayarlanabilir bağımsız değişkenleri gerçeklenime aktarmakta kullanılır. Bir yazılım bu yapının üyelerini ilklendirdikten sonra bunu gerçeklenime <a href="glibc-Configuration-of-AIO.html#glibc-fn-aio_init"><strong class="function"><code>aio_init</code></strong></a> işlevini kullanarak aktarmalıdır.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>aio_threads</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Herhangi bir anda kullanılabilen azami evre sayısını belirler.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>aio_num</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Aynı anda kuyruğa alınabilecek isteklerin azami sayısına bir yaklaşıklık sağlar.
+       </p></dd><dt><span class="glossterm">
+       
+        <code class="type">int </code><strong class="structfield"><code>aio_locks</code></strong>
+       
+       <br />
+        <code class="type">int </code><strong class="structfield"><code>aio_usedba</code></strong>
+       
+       <br />
+        <code class="type">int </code><strong class="structfield"><code>aio_debug</code></strong>
+       
+       <br />
+        <code class="type">int </code><strong class="structfield"><code>aio_numusers</code></strong>
+       
+       <br />
+        <code class="type">int </code><strong class="structfield"><code>aio_reserved</code></strong><code class="code">[2]</code>
+       
+      </span></dt><dd class="glossdef"><p>
+        Kullanılmadı.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_init" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">aio_init</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct aioinit </code><strong class="type">*</strong><strong><code class="parameter">init</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+    </div>
+    <p>
+     Bu işlev herhangi bir eşzamansız G/Ç işlevinden önce çağrılmalıdır. Çağrılması tamamen isteğe bağlıdır, sadece eşzamansız G/Ç işlemleri gerçekleniminin daha iyi işlem yapmasına yardımcı olunması için kullanılabilir.
+    </p>
+    <p>
+     <code class="code">aio_init</code> çağrısı yapılmadan önce, <a href="glibc-Configuration-of-AIO.html#glibc-tp-aioinit"><strong class="type"><code>struct aioinit</code></strong></a> yapısının üyeleri ilklendirilmelidir. Bu yapıldıktan sonra yapı işleve bağımsız değişken olarak aktarılır.
+    </p>
+    <p>
+     İşlev bir dönüş değerine sahip olmadığı gibi işlevle ilgili atanmış bir hata da yoktur. Irix 6'daki SGI gerçeklenimindeki bir öneriden kaynaklanan bir oluşumdur. POSIX.1b veya Unix98 standartlarının kapsamında değildir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.4.5. İşleyici Çalışmadan İkinci Bir Sinyalin Alınması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Signals-in-Handler.html')">Önceki</button>
+          <div class="dropdown-content">24.4.4. İşleyici Çalışırken Sinyal Alınması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Defining-Handlers.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Nonreentrancy.html')">Sonraki</button>
+          <div class="dropdown-content">24.4.6. Sinyal İşleme ve Evresel Olmayan İşlevler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Merged-Signals">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.4.5. İşleyici Çalışmadan İkinci Bir Sinyalin Alınması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm127672" class="indexterm"></span>
+    <span id="idm127674" class="indexterm"></span>
+    <span id="idm127677" class="indexterm"></span>
+    Süreç, bir sinyal işleyicinin çalışmasından hemen önce aynı türden çok sayıda sinyal alırsa, işleyici tek bir sinyal alınmış gibi sadece bir kere çalıştırılabilir. Gerçekte ise, sinyaller tek bir sinyal içine katıştırılmış olur. Bu durum, sinyal engellendiğinde ya da çok süreçli bir ortam da sistemin başka bir süreçle meşgul olduğu bir sırada ortaya çıkabilir. Bu, örneğin, bir sinyal işleyicinin bir sinyal sayacı olarak kullanılamayacağı anlamına gelir. Ayırdına varılacak tek şey, bir kerede en azından bir sinyal alınmış olduğudur.
+   </p>
+        <p>
+    Aşağıda, alt süreç tarafından üretilen sinyallerin alınan sinyallerin sayısına eşit olmayışını telafi eden bir <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> işleyici örneği verilmiştir. Burada yazılımın, alt süreçlerin izini sürmek için bir yapı zinciri kullandığı varsayılmıştır:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">struct process
+{
+  struct process *next;
+  /* <em class="replaceable"><code>Bu alt sürecin süreç kimliği.</code></em>  */
+  int pid;
+  /* <em class="replaceable"><code>Bu alt süreçten gelen çıktıların yönlendirileceği
+     uçbirim ya da ardışık süreç akımının tanıtıcısı.</code></em>  */
+  int input_descriptor;
+  /* <em class="replaceable"><code>Bu süreç durdurulursa ya da sonlandırılırsa
+     değişkenin değeri sıfırdan farklı olacak.</code></em>  */
+  sig_atomic_t have_status;
+  /* <em class="replaceable"><code>Bu sürecin durumu; çalışıyorsa sıfırdır,
+     aksi takdirde <code class="code">waitpid</code>'deki durum değeridir.</code></em>  */
+  int status;
+};
+
+struct process *process_list;
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    Bu örnek, hemen öncesinde bazı sinyallerin alınmasına bağlı olarak bir değişken de kullanıyor. Her seferinde yazılımın sonunda bu sıfırlanıyor.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">/* <em class="replaceable"><code>Sıfırdan farklı bir değer alt sürecin durumunun
+   değiştiği anlamına gelir. Bu durumla ilgili ayrıntılar
+   için <code class="code">process_list</code>'e bakılmalı.</code></em>  */
+int process_status_change;
+</pre>
+            <p>İşleyici:</p>
+            <pre class="screen">void
+sigchld_handler (int signo)
+{
+  int old_errno = errno;
+
+  while (1) {
+    register int pid;
+    int w;
+    struct process *p;
+
+    /* <em class="replaceable"><code>Tanımlanabilir bir sonuç alana kadar sorguyu sürdür.</code></em>  */
+    do
+      {
+        errno = 0;
+        pid = waitpid (WAIT_ANY, &amp;w, WNOHANG | WUNTRACED);
+      }
+    while (pid &lt;= 0 &amp;&amp; errno == EINTR);
+
+    if (pid &lt;= 0) {
+      /* <em class="replaceable"><code>Bir alt süreç kalmamışsa çık.</code></em>  */
+      errno = old_errno;
+      return;
+    }
+
+    /* <em class="replaceable"><code>Sinyal gönderen süreci bul ve durumunu kaydet.</code></em>  */
+
+    for (p = process_list; p; p = p-&gt;next)
+      if (p-&gt;pid == pid) {
+        p-&gt;status = w;
+        /* <em class="replaceable"><code>Durum alanının bir veri içerdiğini belirt.
+           Bunu onu sakladıktan sonra yap. </code></em>  */
+        p-&gt;have_status = 1;
+
+        /* <em class="replaceable"><code>Süreç sonlandırılmışsa çıktısını beklemekten vazgeç.</code></em>  */
+        if (WIFSIGNALED (w) || WIFEXITED (w))
+          if (p-&gt;input_descriptor)
+            FD_CLR (p-&gt;input_descriptor, &amp;input_wait_mask);
+
+        /* <em class="replaceable"><code>Yazılım arasıra bu değişkene süreç listesinde
+           yeni bir süreç var mı diye bakmalı.</code></em>  */
+        ++process_status_change;
+      }
+
+    /* <em class="replaceable"><code>Söyleyecek bir şeyleri var mı diye
+       tekrar dönüp tüm süreçlere bak.</code></em>  */
+  }
+}
+</pre>
+            <p>
+     <code class="code">process_status_change</code> değişkenini denetlemek için bir yöntem:
+    </p>
+            <pre class="screen">if (process_status_change) {
+  struct process *p;
+  process_status_change = 0;
+
+  for (p = process_list; p; p = p-&gt;next)
+    if (p-&gt;have_status) {
+    … <em class="replaceable"><code><code class="code">p-&gt;status</code> incelemesi</code></em> …
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+     Listeyi incelemeye başlamadan önce seçeneğin temizlenmesi hayati önemdedir; aksi takdirde, seçeneğin temizlenmesinden önce bir sinyal alınırsa ve süreç listesinin ilgili elemanı etkinse, bu seçenekle ilgili olarak sinyal hakkında bir uyarı alınamayacaktır. Bu sorundan kaçınmak için listeyi taramaya başlamadan önce seçeneği temizlemek gerekir; bazı işlemleri doğru sırada yapmak önemlidir.
+    </p>
+        <p>
+     Döngüde <code class="code">p-status</code> alanı incelenerek, sürecin durumu hakkında bilgi edinilmeye çalışılır. <code class="code">p-&gt;have_status</code> etkin bir değere sahipse, süreç durdurulmuş ya da sonlandırılmıştır; değilse, yazılım tekrar uyarı alana kadar durdurulamamış ya da sonlandırılamamıştır. Bir değişkene erişim sırasındaki kesmelerin kaydedilmesi hakkında daha fazla bilgi için bkz, <a class="xref" href="glibc-Atomic-Data-Access.html#glibc-Atomic-Usage" title="24.4.7.3. Veriye Erişimde Kesintiden Kaçınma Yöntemleri">Veriye Erişimde Kesintiden Kaçınma Yöntemleri</a>.
+    </p>
+        <p>
+     Başka bir yol da, sinyal işleyicinin son sınamadan beri çalıştırılıp çalıştırılmadığına bakmaktır. Bu teknikte, sinyal işleyicinin dışında değiştirilmeyen bir sayaç kulanılır. Sayacı sıfırlamak yerine, yazılım sayacın son değerini hatırlayarak önceki sınamadan beri bir değişiklik olup olmadığına bakılır. Bu yöntemin bir faydası da, yazılımın parçalarının birbirinden bağımsız olarak denetlenebilmesidir.
+    </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">sig_atomic_t process_status_change;
+
+sig_atomic_t last_process_status_change;
+
+…
+{
+  sig_atomic_t prev = last_process_status_change;
+  last_process_status_change = process_status_change;
+
+  if (last_process_status_change != prev) {
+    struct process *p;
+
+    for (p = process_list; p; p = p-&gt;next)
+      if (p-&gt;have_status) {
+        … <em class="replaceable"><code><code class="code">p-&gt;status</code> incelemesi</code></em> …
+      }
+  }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

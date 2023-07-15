@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.12.10. Kalıp Dizgesinin Çözümlenmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Variable-Arguments-Output.html')">Önceki</button>
+          <div class="dropdown-content">12.12.9. Değişkin Çıktı İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatted-Output.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Example-of-Parsing.html')">Sonraki</button>
+          <div class="dropdown-content">12.12.11. Kalıp Dizgesinin Çözümlenmesi Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Parsing-a-Template-String">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">12.12.10. Kalıp Dizgesinin Çözümlenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <a href="glibc-Parsing-a-Template-String.html#glibc-fn-parse_printf_format"><strong class="function"><code>parse_printf_format</code></strong></a> işlevini kullanılarak bir kalıp dizgesindeki dönüşüm belirteçlerinin karşılığı olan bağımsız değişkenlerin sayısı ve türü hakkında bilgi alınabilir. Bu işlevi kullanarak kullanıcının uygulamadan geçersiz bağımsız değişkenler girerek bir çökmeye sebep olmasından kaçınmak için <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> işlevine bir arayüz oluşturulabilir.
+   </p>
+        <p>
+    <span id="idm107794" class="indexterm"></span>
+    Bu bölümde açıklanan tüm işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-parse_printf_format" class="indexterm"></span>
+    <span id="glibc-cp-parse_printf_format" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">parse_printf_format</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">template</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">n</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">argtypes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>template</code></em> biçim dizgesi tarafından kullanılacak  bağımsız değişkenlerin sayısı ve türleri hakkında bilgi ile döner. Bu bilgi her elemanı bir bağımsız değişken için olmak üzere <em class="parameter"><code>argtypes</code></em> dizisine kaydedilir. Bu bilgi aşağıda listelenen çeşitli <code class="code">PA_</code> makroları kullanılarak kodlanır.
+    </p>
+    <p>
+     <em class="parameter"><code>n</code></em> bağımsız değişkeni ile <em class="parameter"><code>argtypes</code></em> dizisindeki eleman sayısı belirtilir. Bu sayı, <code class="code">parse_printf_format</code> işlevinin yazmayı deneyeceği azami eleman sayısıdır.
+    </p>
+    <p>
+     <code class="code">parse_printf_format</code> işlevi <em class="parameter"><code>template</code></em> dizgesinin gerektirdiği bağımsız değişken sayısı ile döner. Bu sayı <em class="parameter"><code>n</code></em> ile belirtilenden büyükse dönen bilgi sadece ilk <em class="parameter"><code>n</code></em> bağımsız değişken içindir. Tüm bağımsız değişkenler için bilgi alınmak istenirse, daha büyük bir dizi tahsis edip işlev tekrar çağrılmalıdır.
+    </p>
+   </div>
+        <p>
+    Bağımsız değişken türleri temel tür ile değiştirici seçenek bitlerinin birleşimi olarak kodlanır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-vr-PA_FLAG_MASK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">PA_FLAG_MASK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu makro tür değiştirici seçenek bitleri için bit maskesidir. Bir bağımsız değişkenin seçenek bitlerini çıkarmak için <code class="code">(argtypes[i] &amp; PA_FLAG_MASK)</code> ifadesi, temel tür kodunu çıkarmak için <code class="code">(argtypes[i] &amp; ~PA_FLAG_MASK)</code> ifadesi kullanılabilir.
+    </p>
+   </div>
+        <p>
+    Tamsayı değerler olarak temel türleri ifade eden simgesel sabitler:
+   </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_INT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_INT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="type">int</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_CHAR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_CHAR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="type">char</code> türüne dönüşen <code class="type">int</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_STRING" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_STRING</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Boş karakter sonlandırmalı dizge gösteren <code class="type">char *</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_POINTER" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_POINTER</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Herhangi bir gösterici olarak <code class="type">void *</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLOAT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLOAT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="type">float</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_DOUBLE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_DOUBLE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="type">double</code> temel türünü belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_LAST" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_LAST</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Yazılımcı <code class="code">PA_LAST</code>'ın artan değerleri olarak ek temel türler tanımlayabilir. Örneğin, <code class="code">foo</code> ve <code class="code">bar</code> veri türlerinin kodlaması özelleştirilmiş <a href="glibc-Formatted-Output-Functions.html#glibc-fn-printf"><strong class="function"><code>printf</code></strong></a> dönüşümleri ile şöyle tanımlanmalıdır:
+    </p>
+    <pre class="screen">#define PA_FOO  PA_LAST
+#define PA_BAR  (PA_LAST + 1)
+</pre>
+   </div>
+        <p>
+    Aşağıda temel türü değiştiren seçenek bitleri listelenmiştir. Bunları temel türlerle VEYA'lanarak birleştirilebilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLAG_PTR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLAG_PTR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit 1 ise kodlanan türün değere değil temel türe gösterici olduğunu belirtir. Örneğin, <code class="code">PA_INT|PA_FLAG_PTR</code> ifadesi <code class="type">int *</code> türü içindir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLAG_SHORT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLAG_SHORT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit 1 ise temel türün <code class="type">short</code> ile değiştirildiğini belirtir. ('<code class="code">h</code>' tür değiştiricisine karşılıktır.)
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLAG_LONG" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLAG_LONG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit 1 ise temel türün <code class="type">long</code> ile değiştirildiğini belirtir. ('<code class="code">l</code>' tür değiştiricisine karşılıktır.)
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLAG_LONG_LONG" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLAG_LONG_LONG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit 1 ise temel türün <code class="type">long long</code> ile değiştirildiğini belirtir. ('<code class="code">L</code>' tür değiştiricisine karşılıktır.)
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-PA_FLAG_LONG_DOUBLE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=stdio-common/printf.h;hb=HEAD" target="_top">printf.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">PA_FLAG_LONG_DOUBLE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu <a href="glibc-Parsing-a-Template-String.html#glibc-vr-PA_FLAG_LONG_LONG"><strong class="varname"><code>PA_FLAG_LONG_LONG</code></strong></a> ile eşanlamlıdır ve teamülen <code class="type">long double</code> türü belirten <a href="glibc-Parsing-a-Template-String.html#glibc-vr-PA_DOUBLE"><strong class="varname"><code>PA_DOUBLE</code></strong></a> temel türü ile kullanılır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

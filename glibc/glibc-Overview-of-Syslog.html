@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>18.1. Syslog'a Bir Bakış</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Syslog.html')">Önceki</button>
+          <div class="dropdown-content">18. Syslog</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Syslog.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Submitting-Syslog-Messages.html')">Sonraki</button>
+          <div class="dropdown-content">18.2. Syslog İletilerinin Teslim Edilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Overview-of-Syslog">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">18.1. Syslog'a Bir Bakış</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Sistem yöneticileri her sistemin içindeki bir yığın alt sistemden ve bazı başka sistemlerden gelen farklı çeşitte iletiyle uğraşmak zorunda kalır. Örneğin, bir FTP sunucu aldığı her bağlantıyı raporlayabilir. Çekirdek bir disk sürücüsündeki donanımsal hataları raporlayabilir. Bir DNS sunucusu düzenli aralıklarla istatistikleri raporlayabilir.
+  </p>
+        <p>
+   Bu iletilerden bazıları bir sistem yöneticisinin dikkatinin hemen çekilmesini gerektirebilir. Ve o sadece herhangi bir sistem yöneticisi olmayabilir - belli ileti çeşitleri ile uğraşan belli sistem yöneticileri olabilir. Diğer iletilerin sadece ileride gerektiğinde bakılmak üzere sadece kaydedilmesi gerekebilir. Kalan diğerlerinin aylık raporlar üreten kendiliğinden çalışan süreçler tarafından çıkarılan bilgiler olması gerekebilir.
+  </p>
+        <p>
+   Bu iletilerle uğraşmak için çoğu Unix sisteminde "Syslog" diye bilinen bir oluşum vardır ve genellikle "Syslogd" diye bilinen artalan süreci olarak çalışır. Syslogd iletiler için, <code class="filename">/dev/log</code> isminde bir Unix alan soketini dinler. İletilerdeki sınıflama bilgisine ve yapılandırma dosyasına (genellikle <code class="filename">/etc/syslog.conf</code>) bağlı olarak Syslogd onları çeşitli yollara yönlendirir. Çok bilinen bazı yöntemler:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">Sistem konsoluna yazma
+   </li>
+            <li class="member">Belli bir kullanıcıya ileti postalama
+   </li>
+            <li class="member">Bir günlük dosyasına yazma
+   </li>
+            <li class="member">Başka bir artalan sürecine aktarma
+   </li>
+            <li class="member">İptal etme
+   </li>
+          </ul>
+        </div>
+        <p>
+   Syslogd ayrıca başka sistemlerdeki iletileri de işleyebilir. İletiler için   <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> hem UDP portunu hem de yerel soketi dinler.
+  </p>
+        <p>
+   Syslog çekirdeğin kendisinden gelen iletileri de işleyebilir. Fakat çekirdek <code class="filename">/dev/log</code>'a yazmaz; onun yerine başka bir artalan süreci (kimi zaman "Klogd" denir) çekirdekten iletileri çıkarır ve  onları herhangi bir başka sürecin yaptığı gibi Syslog'a aktarır (ve iletilerin çekirdekten geldiğini belirtir).
+  </p>
+        <p>
+   Syslog çekirdeğin Syslogd ve Klogd çalıştırılmadan önce çıktıladığı iletileri de işleyebilir. Örneğin Linux çekirdeği başlatma iletilerini bir çekirdek ileti zincirinde saklar ve daha sonra Klogd başlatıldığında onlar normal olarak hala orada duruyor olur. Klogd başlatıldığında Syslogd'nin de başlatılmış olduğu varsayımıyla ileti zincirindeki herşeyi ona aktarır.
+  </p>
+        <p>
+   Düzenlemek amacıyla iletilerin sınıflanması için, Syslogd her sürecin bir iletiyi teslim ederken iki parçalı sınıflama bilgisini iletiyle birlikte sağlamasını gerektirir:
+  </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">oluşum</span>
+            </dt>
+            <dd>
+              <p>
+      İletiyi kimin teslim ettiğini belirtir. Tanımlı çok az sayıda oluşum vardır. Çekirdek, posta altsistemi ve FTP sunucusu tanınan oluşumlara birer örnektir. Tam bir liste için <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-syslog-vsyslog" title="18.2.2. syslog, vsyslog">syslog, vsyslog</a> bölümüne bakınız. Bunların tamamen keyfi bir sınıflama olduğunu unutulmamalıdır. "Posta altsistemi" denince sistem yöneticisinin ona verdiğinden daha fazla bir anlam içermez.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">öncelik</span>
+            </dt>
+            <dd>
+              <p>
+      Bu teslim edilen iletinin ne kadar önemli olduğunu gösterir. Tanımlı önceliklere örnekler: hata ayıklama, bilgilendirme, uyarı, ölümcül. Tam bir liste için  <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-syslog-vsyslog" title="18.2.2. syslog, vsyslog">syslog, vsyslog</a> bölümüne bakılabilir.  Önceliklerin tanımlı bir sıralamasının dışında bu önceliklerin anlamları sistem yöneticisi tarafından belirlenir.
+     </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   Bir "oluşum/öncelik" çifti hem oluşumu hem de önceliği belirten bir sayıdır.
+  </p>
+        <div class="admon warning">
+          <h3 class="admon-title">Uyarı</h3>
+          <div class="admon-contents">
+            <p>
+    Bu terminoloji evrensel değildir. Bazıları önceliğe "seviye", öncelikle oluşumun oluşturduğu birleşime "öncelik" der. Linux çekirdeğinde ise bir iletinin seviyesi hem Syslog önceliği hem de Syslog oluşum/öncelik çiftine karşılık gelir (oluşum kodu çekirdek için sıfır olduğundan her ikisi de aslında aynı değere sahip olur).
+   </p>
+          </div>
+        </div>
+        <p>
+   GNU C Kütüphanesi iletileri Syslog'a teslim etmek için işlevler içerir. Bu işlemi <code class="filename">/dev/log</code> soketine yazarak yapar. Bkz. <a class="xref" href="glibc-Submitting-Syslog-Messages.html" title="18.2. Syslog İletilerinin Teslim Edilmesi"><em>Syslog İletilerinin Teslim Edilmesi</em></a>.
+  </p>
+        <p>
+   GNU C Kütüphanesi işlevleri iletileri sadece aynı sistemdeki Syslog oluşumuna teslim eder. Syslog iletilerini başka bir sistemdeki Syslog oluşumuna teslim etmek için sistemdeki <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> UDP portuna bir UDP ver katarı yazan soket G/Ç işlevleri kullanılır. Bkz. <a class="xref" href="glibc-Sockets.html" title="16. Soketler">Soketler</a>.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.2. Sinyal Kümeleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Why-Block.html')">Önceki</button>
+          <div class="dropdown-content">24.7.1. Sinyalleri Engellemenin Amaçları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Signal-Mask.html')">Sonraki</button>
+          <div class="dropdown-content">24.7.3. Sürecin Sinyal Maskesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Signal-Sets">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.2. Sinyal Kümeleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm128237" class="indexterm"></span>
+     Sinyal engeleme işlevlerinin tümü <em class="wordasword">sinyal kümesi</em> adı verilen bir veri yapısını kullanır. Bu işlem iki aşamada yapılır: Sinyal kümesi oluşturulur ve bağımsız değişken üzerinden bir kütüphane işlevine aktarılır.
+    </p>
+        <p>
+     Bu oluşumlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında bildirilmiştir.
+     <span id="idm128242" class="indexterm"></span>
+    </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+     <span id="glibc-tp-sigset_t" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">sigset_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="code">sigset_t</code> veri türü bir sinyal kümesi oluşturmak için kullanılır. Kütüphane içinde bir tamsayı tür ya da bir yapı olarak gerçekleştirilmiş olabilir.
+    </p>
+    <p>
+     Taşınabilirlik açısından, <code class="code">sigset_t</code> nesnesi içindeki veriyi okuma ve değiştirme işlemleri doğrudan değil, bu bölümde açıklanan işlevler kullanılarak yapılmalıdır.
+    </p>
+   </div>
+        <p>
+    Bir sinyal kümesini oluşturmanın iki yolu vardır. <a href="glibc-Signal-Sets.html#glibc-fn-sigemptyset"><strong class="function"><code>sigemptyset</code></strong></a> ile boş olduğunu belirtilip sinyaller tek tek eklenir. Ya da, <a href="glibc-Signal-Sets.html#glibc-fn-sigfillset"><strong class="function"><code>sigfillset</code></strong></a> ile tüm sinyallerin içerildiği belirtilip sinyaller tek tek silinir.
+   </p>
+        <p>
+    Herhangi bir işlem yapmadan önce sinyal kümesi bu iki işlevden biri kullanılarak ilklendirilmelidir. Sinyal kümesinde bu işlevler kullanılmadan sinyal ekleme ya da silme yapılmamalıdır, çünkü <a href="glibc-Signal-Sets.html#glibc-tp-sigset_t"><strong class="type"><code>sigset_t</code></strong></a> nesnesinde ilklendirilmesi gereken başka alanlar da (sürüm alanı gibi) olabilir. (Ek olarak, sistemin bilinenler dışında sinyaller içermediği kabulünü yapmak pek akıllıca olmayacaktır.)
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigemptyset" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigemptyset</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>set</code></em> sinyal kümesini tanımlı hiçbir sinyali içermeden ilklendirir. Daima <code class="code">0</code> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigfillset" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigfillset</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>set</code></em> sinyal kümesini tanımlı tüm sinyalleri içererek ilklendirir. Daima <code class="code">0</code> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigaddset" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigaddset</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>signum</code></em> sinyalini <em class="parameter"><code>set</code></em> sinyal kümesine ekler. Tüm <code class="code">sigaddset</code> çağrıları sadece <em class="parameter"><code>set</code></em> sinyal kümesini değiştirir, sinyal engelleme/engellememe yapmaz.
+    </p>
+    <p>
+     Başarılı olursa <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+      <em class="parameter"><code>signum</code></em> bağımsız değişkeni geçerli bir sinyal belirtmiyor.
+     </p></dd></dl>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigdelset" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigdelset</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>signum</code></em> sinyalini <em class="parameter"><code>set</code></em> sinyal kümesine ekler. Tüm <code class="code">sigaddset</code> çağrıları sadece <em class="parameter"><code>set</code></em> sinyal kümesini değiştirir, sinyal engelleme/engellememe yapmaz. Dönüş değeri ve hata durumları <a href="glibc-Signal-Sets.html#glibc-fn-sigaddset"><strong class="function"><code>sigaddset</code></strong></a> işlevi ile aynıdır.
+    </p>
+   </div>
+        <p>
+    Son olarak, bir sinyalin sinyal kümesinde olup olmadığına bakmak için kullanılan bir işlev vardır:
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigismember" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigismember</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">signum</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">sigismember</code> işlevi <em class="parameter"><code>signum</code></em> sinyalinin <em class="parameter"><code>set</code></em> sinyal kümesinin bir üyesi olup olmadığına bakmak için kullanılır. Sinyal, kümenin bir elemanı ise <code class="code">1</code> ile, değilse <code class="code">0</code> ile, bir hata oluşmuşsa <code class="code">-1</code> ile döner.
+    </p>
+    <p>
+     Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değeri bu işlev için tanımlanmıştır:
+    </p>
+    <dl><dt><code class="code">EINVAL</code></dt><dd><p>
+      <em class="parameter"><code>signum</code></em> bağımsız değişkeni geçerli bir sinyal belirtmiyor.
+     </p></dd></dl>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

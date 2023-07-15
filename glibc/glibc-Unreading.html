@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>12.10. Okunmamış Yapmak</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Line-Input.html')">Önceki</button>
+          <div class="dropdown-content">12.9. Satır Yönlenimli Girdi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-on-Streams.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Block-Input-Output.html')">Sonraki</button>
+          <div class="dropdown-content">12.11. Sabit Uzunlukta Giriş ve Çıkış</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Unreading">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">12.10. Okunmamış Yapmak</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm105968" class="indexterm"></span>
+   <span id="idm105970" class="indexterm"></span>
+   <span id="idm105972" class="indexterm"></span>
+   Çözümleyici yazılımlarda akımdaki sonraki karakterin ne olduğuna bakmak ama onu akımdan silmeksizin okumak çoğunlukla kullanışlıdır. Buna girdide "ileriye bakış" denir, çünkü yazılımınız daha sonra okuyacağı girdinin anlık bir görüntüsünü alır.
+  </p>
+        <p>
+   Akım G/Ç işlemlerini kullanarak, girdiyi akımdan önce okuyup sonra da okunmamış yaparak (buna girdiyi "geri itme" de denir) girdiye öncesinden bakabilirsiniz. Bir karakterin okunmamış yapılması onu akımdan tekrar okunabilmesi için kullanılabilir yapar. Sonraki bir <a href="glibc-Character-Input.html#glibc-fn-fgetc"><strong class="function"><code>fgetc</code></strong></a> çağrısı ya da diğer bir girdi işlevi ile akımdan okunabilir.
+  </p>
+        <section class="sect1" id="glibc-Unreading-Idea">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">12.10.1. Okunmamış Yapmak Ne Demek</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Okunmamış yapma işlemi burada görsel örneklerle açıklanmaya çalışılmıştır. Bir dosyayı okuyan bir akımın olduğunu ve dosyanın altı karakter içerdiği varsayılsın. Bu karakterler '<code class="literal">foobar</code>' olsun. İlk üç karakter okunmuş olsun. Durum bunun gibi olacaktır:
+   </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">
+f  o  o  b  a  r
+         ^
+</pre>
+              <p>
+    Yani sonraki girdi karakteri '<code class="code">b</code>' olacaktır.
+    </p>
+              <p>
+     '<code class="code">b</code>' harfini okumak yerine '<code class="code">o</code>' harfi okunmamış yapılırsa durum şöyle olur:
+    </p>
+              <pre class="screen">
+f  o  o  b a r
+         |
+      o--
+      ^
+</pre>
+              <p>
+     Böylece sonraki girdi karakterleri '<code class="code">o</code>' ve '<code class="code">b</code>' olacaktır.
+    </p>
+              <p>
+     '<code class="code">o</code>' harfi yerine '<code class="code">9</code>' karakteri okunmamış yapılırsa durum şöyle olur:
+    </p>
+              <pre class="screen">
+f  o  o  b a r
+         |
+      9--
+      ^
+</pre>
+              <p>
+     Burada sonraki girdi karakterleri '<code class="code">9</code>' ve '<code class="code">b</code>' olacaktır.
+    </p>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect1" id="glibc-How-Unread">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">12.10.2. Okunmamış Nasıl Yapılır</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <a href="glibc-Unreading.html#glibc-fn-ungetc"><strong class="function"><code>ungetc</code></strong></a> işlevi bir karakteri okunmamış yapar, çünkü <span class="command"><strong>getc</strong></span> işlevinin eylemini tersine çevirir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ungetc" class="indexterm"></span>
+    <span id="glibc-cp-ungetc" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio.h;hb=HEAD" target="_top">stdio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ungetc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">c</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">ungetc</code> işlevi, <em class="parameter"><code>stream</code></em> akımına sıradaki karakterden önce okunacak ilk girdi olarak <em class="parameter"><code>c</code></em> karakterini yerleştirir.
+    </p>
+    <p>
+     <em class="parameter"><code>c</code></em> karakteri olarak <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> verilirse işlev hiçbir işlem yapmaz ve <a href="glibc-EOF-and-Errors.html#glibc-vr-EOF"><strong class="varname"><code>EOF</code></strong></a> ile döner. Bu özelliğini kullanarak, <em class="parameter"><code>c</code></em> karakteri olarak <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> işlevinin dönüş değerini vererek <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a>’den dönen değer üzerinde hata denetimi yapılması gerekmez.
+    </p>
+    <p>
+     Akıma gönderilen karakterin son okunan karakter olması gerekmez. Hatta <span class="command"><strong>ungetc</strong></span> kullanmak için akımdan son karakteri okumak da gerekmez. Ancak bir akımdan hiçbir okuma yapmadan bir karakteri akıma geri itmenin de bir anlamı yoktur. GNU C Kütüphanesinde ikil kipte açılmış dosyalar için de bu destek vardır, diğer sistemlerde olmayabilir.
+    </p>
+    <p>
+     GNU C Kütüphanesi akıma sadece tek bir karakterin geri itilmesini destekler. Hiçbir okuma yapmadan işlev ard arda iki defa kullanılamaz. Diğer sistemlerde çok sayıda karakter akıma geri itilebilir ve akıma itilen karakterler ters sırada okunabilir; yani, son itilen karakter ilk olarak okunur.
+    </p>
+    <p>
+     Karakterlerin akıma geri itilmesi dosyada bir değişiklik yapmaz, sadece dahili tampon etkilenir. Bir dosya konumlama işlevi (<a href="glibc-File-Positioning.html#glibc-fn-fseek"><strong class="function"><code>fseek</code></strong></a>, <a href="glibc-File-Positioning.html#glibc-fn-fseeko"><strong class="function"><code>fseeko</code></strong></a> ve <a href="glibc-File-Positioning.html#glibc-fn-rewind"><strong class="function"><code>rewind</code></strong></a> işlevlerinden biri; bkz. <a class="xref" href="glibc-File-Positioning.html" title="12.18. Dosyalarda Konumlama"><em>Dosyalarda Konumlama</em></a>) çağrılırsa geri itilmiş olarak bekleyen karakterler iptal edilir.
+    </p>
+    <p>
+     Okunmamış karakter olarak bir akıma itilen karakter dosya sonuna denk gelirse, akımın dosya sonu belirteci temizlenir, çünkü artık akımda okunacak bir karakter vardır. Karakteri okuduktan sonra tekrar dosya sonu saptanacaktır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ungetwc" class="indexterm"></span>
+    <span id="glibc-cp-ungetwc" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/wchar.h;hb=HEAD" target="_top">wchar.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">wint_t </code><strong><code class="function">ungetwc</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">wint_t </code><strong><code class="parameter">wc</code></strong><strong><code>, </code></strong><code class="type">FILE </code><strong class="type">*</strong><strong><code class="parameter">stream</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a>
+    </div>
+    <p>
+     <code class="code">ungetwc</code> işlevi tek bir geniş karakteri geri itmesi dışında <a href="glibc-Unreading.html#glibc-fn-ungetc"><strong class="function"><code>ungetc</code></strong></a> işlevi ile tamamen aynıdır.
+    </p>
+   </div>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <p>
+     Aşağıdaki örnekte <a href="glibc-Character-Input.html#glibc-fn-getc"><strong class="function"><code>getc</code></strong></a> ve <a href="glibc-Unreading.html#glibc-fn-ungetc"><strong class="function"><code>ungetc</code></strong></a>  işlevleri akımdaki boşluk karakterlerini ayıklamakta kullanılmıştır. İşlev rastladığı boşluk olmayan her karakteri akıma geri iter. Böylece akım daha sonra okunduğunda bu karakterler okunmamış olarak yeniden okunabilir.
+    </p>
+              <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+void
+skip_whitespace (FILE *stream)
+{
+  int c;
+  do
+    /* <em class="replaceable"><code>EOF için bir sınama yapmaya gerek yoktur,
+       çünkü ungetc EOF'u yok sayar.</code></em>  */
+    c = getc (stream);
+  while (isspace (c));
+  ungetc (c, stream);
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

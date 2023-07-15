@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.5. Akımlarla Tanıtıcıları Karıştırmanın Tehlikeleri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Descriptors-and-Streams.html')">Önceki</button>
+          <div class="dropdown-content">13.4. Tanıtıcılar ve Akımlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Scatter-Gather.html')">Sonraki</button>
+          <div class="dropdown-content">13.6. G/Ç'yı Hızlı Dağıtıp Toplama</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Stream-Descriptor-Precautions">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">13.5. Akımlarla Tanıtıcıları Karıştırmanın Tehlikeleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm112973" class="indexterm"></span>
+   <span id="idm112976" class="indexterm"></span>
+   <span id="idm112978" class="indexterm"></span>
+   <span id="idm112981" class="indexterm"></span>
+   Aynı dosyaya bağlı çok sayıda dosya tanıtıcısı ve akıma (bunların ikisine birden <em class="wordasword">kanallar</em> diyebiliriz) sahip olabilirsiniz ama bu iki kanalın birbirlerinin yerine kullanımından kaçınmak gerekir. Ele alınacak iki durum vardır: tek bir dosya konumunu paylaşan <em class="wordasword">ilintili kanallar</em> ile kendi dosya konumları olan <em class="wordasword">bağımsız kanallar</em>.
+  </p>
+        <p>
+   Tüm erişimin girdi amacıyla olması dışında, bir dosyayla veri iletimi için yazılımda sadece bir kanal kullanmak en iyisidir. Örneğin, bazı şeylerin sadece dosya tanıtıcılarla yapılabildiği bir ardışık komut açılırsa, tüm G/Ç işlemleri hem dosya tanıtıcı ile hem de bu dosya tanıtıcı için <a href="glibc-Descriptors-and-Streams.html#glibc-fn-fdopen"><strong class="function"><code>fdopen</code></strong></a> ile oluşturulacak akım ile yapılabilir.
+  </p>
+        <section class="sect1" id="glibc-Linked-Channels">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">13.5.1. İlintili Kanallar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm112993" class="indexterm"></span>
+    Tek bir açılışta aynı dosya konumunu paylaşan kanallara <em class="wordasword">ilintili kanallar</em> denir. <a href="glibc-Descriptors-and-Streams.html#glibc-fn-fdopen"><strong class="function"><code>fdopen</code></strong></a> kullanarak bir tanıtıcıdan akım oluşturunca, <a href="glibc-Descriptors-and-Streams.html#glibc-fn-fileno"><strong class="function"><code>fileno</code></strong></a> kullanarak bir akım ile ilişkili dosya tanıtıcısına erişildiğinde, <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup"><strong class="function"><code>dup</code></strong></a> veya <a href="glibc-Duplicating-Descriptors.html#glibc-fn-dup2"><strong class="function"><code>dup2</code></strong></a> ile bir dosya tanıtıcısı çoğaltıldığında ve <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> ile dosya tanıtıcılar üst süreçten miras alındığında ilintili bir kanal elde edilmiş olur. Uçbirimler ve ardışık komutlar gibi rastgele erişimi desteklemeyen dosyalar için <em class="emphasis">tüm</em> kanallar zorunlu olarak ilintilidir. Rasgele erişimli dosyalarda, sona ekleme yapan akımlar da zorunlu olarak diğeri ile ilintilidir.
+   </p>
+          <p>
+    <span id="idm113004" class="indexterm"></span>
+    G/Ç için akım kullanılıyorsa (sadece akım açılmışsa) ve onunla ilintili diğer kanalla (bir akım ya da tanıtıcı olabilir) G/Ç yapılmak istenirse, kullanılmadan önce <a class="link" href="glibc-Stream-Descriptor-Precautions.html#glibc-Cleaning-Streams" title="13.5.3. Akımların Temizlenmesi">akımın temizlenmesi</a> gerekir.
+   </p>
+          <p>
+    Bir sürecin sonladırılması ya da süreç içinde yeni bir yazılımın çalıştırılması süreç içindeki tüm akımların ortadan kaldırılmasına sebep olur. Bu akımlarla ilintili tanıtıcılar diğer süreçte kalır, dolayısıyla dosya konumları tanımsız duruma gelir. Bundan kaçınmak için ortadan kaldırılmadan önce akımların temizlenmesi gerekir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Independent-Channels">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">13.5.2. Bağımsız Kanallar</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm113013" class="indexterm"></span>
+    Dosya konumlaması yapılabilen bir dosya için ayrı kanallar (akım ya da tanıtıcı) açtığınızda her kanalın kendi dosya konumu olur. Bu tür kanallara <em class="wordasword">bağımsız kanallar</em> denir.
+   </p>
+          <p>
+    Sistem her kanalı bağımsız olarak elde eder. Çoğu zaman, bu tahmin edilebilir ve (özellikle girdi için) doğal bir sonuçtur: her kanal, kendi dosyasında ve kendi konumunda sıralı okuma ya da yazma yapabilir. Bununla birlikte, birer akım olan bazı kanallarda şunlara dikkat etmeniz gerekir:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+      Dosyanın aynı parçasında okuma ya da yazma yapılacaksa, bir şey yapmadan önce ve kullandıktan sonra çıktı akımının temizlenmesi gerekir.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      Bağımsız kanal kullanılarak değiştirilmekte olan verinin okunmasından önce girdi akımının temizlenmesi gerekir. Aksi takdirde, akımın tamponunda kalmış eski veri okunabilir.
+     </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+    Bir dosyanın sonunda tek bir kanala çıktılama yapılırsa, diğer bağımsız kanalların dosya sonuna göre yaptıkları konumlama alakasız bir noktaya taşınmış olur. Dosya konumlaması ile dosyaya yazma arasında başka bir sürecin aynı şeyi yapması engellenemediği gibi bunun tersine olarak diğer süreçlerin dosya konumları doğru yere kaydırılamaz. Ama tanıtıcı ya da akım dosya sonuna ekleme yapan türde açılırsa, daima geçerli dosya sonuna ekleme yapılır. Dosya sonu konumlamasını doğru yapabilmek için çıktı kanalının, kanal bir akımsa temizlenmesi gerekir.
+   </p>
+          <p>
+    Rastgele erişimi desteklemeyen bir dosya için farklı dosya konumları olan iki kanal açmak mümkündür. Bu şekilde dosyaya okuma ve yazma amacıyla açılan kanallar bağımsız açılsa bile ilintili olur. Dosya sonuna ekleme türünde açılan kanallar daima ilintilidir. Bu kanallar için <a class="link" href="glibc-Stream-Descriptor-Precautions.html#glibc-Linked-Channels" title="13.5.1. İlintili Kanallar">ilintili kanallarla ilgili kurallar</a> uygulanır.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Cleaning-Streams">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">13.5.3. Akımların Temizlenmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Çoğu durumda akımı temizlemek için <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> kullanılabilir.
+   </p>
+          <p>
+    Akımın zaten temiz olduğu biliniyorsa <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> çağrısı yapılmayabilir. Örneğin, tamponsuz bir akım daima temizdir. Dosya sonundaki girdi akımı daima temizdir. Son çıktılanan karakter satır sonu karakteri ise satır tamponlu bir akım daima temizdir. Bununla birlikte girdi akımı açıldığı anda, girdi tamponu boş olmayabileceğinden, temiz olmayabilir.
+   </p>
+          <p>
+    Çoğu sistemde bir akımı temizlemenin mümkün olmadığı bir durum vardır. Bu, rastgele erişimli olmayan bir dosyadan girdi yapan bir akımın varlığıdır. Böyle akımlar genellikle sürekli okur ama dosya rastgele erişimli olmadığında, okunmuş olan veriye tekrar erişmenin bir yolu yoktur. Girdi akımı rastgele erişimli bir dosyadan okuduğu zaman, <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> akımı temizler ama dosya konumlayıcıyı alakasız bir yerde bırakır; bu bakımdan, herhangi bir G/Ç işlemi yapmadan önce dosya konumlayıcı doğru yere konumlanmalıdır.
+   </p>
+          <p>
+    Sadece çıktılama yapan bir akımın kapatılması da <a href="glibc-Flushing-Buffers.html#glibc-fn-fflush"><strong class="function"><code>fflush</code></strong></a> çağrısına sebep olur, dolayısıyla bir çıktı akımının temizlenmesinde bu yöntem de kullanılabilir.
+   </p>
+          <p>
+    Uçbirim kipini ayarlamak gibi denetim işlemleri için tanıtıcısını kullanmadan önce akım temizlenemez; bu işlemler dosya konumunu etkilemez ve dosya konumundan etkilenmez. Bu işlemler için her tanıtıcı kullanılabilir ve tüm kanallar aynı anda etkilenir. Bununla birlikte, metin zaten bir akıma çıktılanıp hemen ardından boşaltılıyorsa, yeni uçbirim kiplerine konu olacak akım tarafından hala tamponlu olur. Yapılan çıktılamanın o anda etkili olan uçbirim ayarları tarafından kapsandığından emin olmak için kipi ayarlanmadan önce uçbirimin çıktı akımları boşaltılır. Bkz. ???.
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

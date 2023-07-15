@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.9.4. Dosya İyeliği</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Testing-File-Type.html')">Önceki</button>
+          <div class="dropdown-content">14.9.3. Dosyanın Türünün Sınanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-Attributes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Permission-Bits.html')">Sonraki</button>
+          <div class="dropdown-content">14.9.5. Erişim İzinleri için Kip Bitleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-File-Owner">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.9.4. Dosya İyeliği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm120995" class="indexterm"></span>
+    <span id="idm120998" class="indexterm"></span>
+    <span id="idm121002" class="indexterm"></span>
+    Her dosyanın sistemde kayıtlı kullanıcı olarak tanımlı bir <em class="firstterm">sahibi</em> ve sistemde tanımlı gruplardan biri olarak bir <em class="firstterm">grubu</em> vardır. Dosya sahibi çoğunlukla dosyayı düzenleyebilen kullanıcı olarak ele alınırsa da asıl amaç erişim denetimidir.
+    </p>
+        <p>
+     Dosya sahibi ve grubu erişimi saptamakta kullanılır. Bunlar için her dosyada erişim izin bitleri tanımlanmıştır; ilk bit kümesi dosyanın sahibinin yetkilerini, ikinci bit kümesi dosyaya erişim yetkisi olan gruba tanınan yetkileri, üçüncüsü bit kümesi ise diğerlerine tanınan yetkileri belirlemekte kullanılır. Bu veriye dayalı olarak erişime nasıl karar verildiği <a class="xref" href="glibc-Access-Permission.html" title="14.9.6. Erişim İzinleri">Erişim İzinleri</a> bölümünde ayrıntılı olarak açıklanmıştır.
+    </p>
+        <p>
+     Bir dosya oluşturulurken, sahibi, sürecin etkin kullanıcı kimliği yapılarak dosya oluşturulur. Dosyanın grup kimliği dosyayı içerecek dosya sistemine bağlı olarak ya sürecin etkin grup kimliği ya da dosyayı içeren dizinin grup kimliği yapılır. Uzak bir dosya sistemine erişildiğinde uygulanan kurallar yerel dosya sisteminin değil uzak dosya sisteminin kuralları olacaktır. Bu bakımdan yazılım, üzerinde çalıştığı sistemin davranış çeşidine bakmaksızın her davranış çeşidine uyum sağlamaya hazır olmalıdır.
+    </p>
+        <p>
+     <span id="idm121013" class="indexterm"></span>
+     <span id="idm121015" class="indexterm"></span>
+     Mevcut bir dosyanın sahibi ve/veya grubu <strong class="function"><code>chown</code></strong> işlevi kullanılarak değiştirilebilir. Bu işlev <tt><a href="../man/man1/man1-chown.html"><b>chown</b></a>(1)</tt> ve <tt><a href="../man/man1/man1-chgrp.html"><b>chgrp</b></a>(1)</tt> kabuk komutlarının ilkelidir.
+    </p>
+        <p>
+     <span id="idm121021" class="indexterm"></span>
+     Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-chown" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">chown</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>, </code></strong><code class="type">uid_t </code><strong><code class="parameter">owner</code></strong><strong><code>, </code></strong><code class="type">gid_t </code><strong><code class="parameter">group</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">chown</code> işlevi ismi belirtilen <em class="parameter"><code>filename</code></em> dosyasının sahibini <em class="parameter"><code>owner</code></em> ve grubunu <em class="parameter"><code>group</code></em> olarak değiştirir.
+    </p>
+    <p>
+     Bazı sistemlerde dosyanın iyeliğinin değiştirilmesi suid ve sgid bitlerinin temizlenmesine yol açar (Bu bitlerin dosyanın yeni sahipleri için uygun olmayabileceğinden dolayı). Diğerleri ile ilişkili izin bitleri değişmez.
+    </p>
+    <p>
+     İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">Dosya ismi hatalarına</a> ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Bu sürecin yetkileri istenen değişikliği yapmak için yetersiz.
+       </p><p>
+        Sadece ayrıcalıklı kullanıcı ve dosyanın sahibi dosyanın grubunu değiştirebilir. Çoğu sistemde dosyanın sahibini sadece ayrıcalıklı kullanıcı değiştirebilirken bazı sistemlerde ise dosya sahibine dosya sahipliğini değiştirme izni verilebilir. Uzak dosya sistemine erişildiğinde uygulanan kurallar yerel dosya sisteminin değil uzak dosya sisteminin kuralları olacaktır.
+       </p><p>
+        <a href="glibc-Options-for-Files.html#glibc-vr-POSIX_CHOWN_RESTRICTED"><strong class="varname"><code>_POSIX_CHOWN_RESTRICTED</code></strong></a> makrosu hakkında bilgi edinmek için bkz. <a class="xref" href="glibc-Options-for-Files.html" title="32.7. Dosya Desteği Seçenekleri"><em>Dosya Desteği Seçenekleri</em></a>.
+       </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+        Dosya, salt-okunur bağlı bir dosya sisteminde.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-fchown" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fchown</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">uid_t </code><strong><code class="parameter">owner</code></strong><strong><code>, </code></strong><code class="type">gid_t </code><strong><code class="parameter">group</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev bir dosyanın ismini değil <em class="parameter"><code>filedes</code></em> ile belirtilen  açık dosya tanıtıcısını alması dışında <strong class="function"><code>chown</code></strong> işlevi gibidir.
+    </p>
+    <p>
+     İşlev başarılı olduğunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> bağımsız değişkeni normal bir dosyayla değil, ardışık süreç ya da soket ile ilişkili.
+       </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Bu sürecin yetkileri istenen değişikliği yapmak için yetersiz. Ayrıntılar için yukarı, <a href="glibc-Setting-Permissions.html#glibc-fn-chmod"><strong class="function"><code>chmod</code></strong></a> işlevine bakınız.
+       </p></dd><dt><span class="term"><code class="code">EROFS</code></span></dt><dd><p>
+        Dosya, salt-okunur bağlı bir dosya sisteminde.
+       </p></dd></dl></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

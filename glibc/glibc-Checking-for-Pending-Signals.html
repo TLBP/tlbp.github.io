@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.6. Bekleyen Sinyallerin Sınanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-for-Handler.html')">Önceki</button>
+          <div class="dropdown-content">24.7.5. İşleyici Çalışırken Sinyallerin Engellenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Remembering-a-Signal.html')">Sonraki</button>
+          <div class="dropdown-content">24.7.7. Bir Sinyalin Eyleminin Sonradan Hatırlanması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Checking-for-Pending-Signals">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.6. Bekleyen Sinyallerin Sınanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm128555" class="indexterm"></span>
+    <span id="idm128559" class="indexterm"></span>
+    <span id="idm128563" class="indexterm"></span>
+    Bekleyen sinyallerin hangileri olduğu herhangi bir anda yapılacak <a href="glibc-Checking-for-Pending-Signals.html#glibc-fn-sigpending"><strong class="function"><code>sigpending</code></strong></a> çağrıları ile öğrenilebilir. Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sigpending" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/signal.h;hb=HEAD" target="_top">signal.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">sigpending</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">sigset_t </code><strong class="type">*</strong><strong><code class="parameter">set</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/hurd</a></code>
+    </div>
+    <p>
+     <code class="code">sigpending</code> işlevi bekleyen sinyallere ilişkin bilgileri  <em class="parameter"><code>set</code></em> kümesi içinde saklar.  Alınması engellenmiş bir sinyal varsa, bu sinyal dönen kümenin bir üyesidir. (Bir sinyalin bu kümenin üyesi olup olmadığı <a class="xref" href="glibc-Signal-Sets.html" title="24.7.2. Sinyal Kümeleri">Sinyal Kümeleri</a> bölümünde açıklanan  <a href="glibc-Signal-Sets.html#glibc-fn-sigismember"><strong class="function"><code>sigismember</code></strong></a> işlevi kullanılarak öğrenilebilir.)
+    </p>
+    <p>
+     Dönen değer bir hata oluşmamışsa <code class="code">0</code>, aksi takdirde <code class="code">-1</code>'dir.
+    </p>
+   </div>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;signal.h&gt;
+#include &lt;stddef.h&gt;
+
+sigset_t base_mask, waiting_mask;
+
+sigemptyset (&amp;base_mask);
+sigaddset (&amp;base_mask, SIGINT);
+sigaddset (&amp;base_mask, SIGTSTP);
+
+/* <em class="replaceable"><code>Diğer işlemler yapılırken kullanıcı kesmeleri engellensin.</code></em> */
+sigprocmask (SIG_SETMASK, &amp;base_mask, NULL);
+…
+
+/* <em class="replaceable"><code>Bir süre sonra, bekleyen sinyal var mı bak.</code></em> */
+sigpending (&amp;waiting_mask);
+if (sigismember (&amp;waiting_mask, SIGINT)) {
+  /* <em class="replaceable"><code>Kullanıcı süreci sonlandırmayı denedi.</code></em> */
+}
+else if (sigismember (&amp;waiting_mask, SIGTSTP)) {
+  /* <em class="replaceable"><code>Kullanıcı süreci durdurmayı denedi.</code></em> */
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    Süreç için bekleyen belli bir sinyal varsa, sonradan gelen aynı türdeki sinyallerin iptal edilebileceği unutulmamalıdır. Örneğin, bir <a href="glibc-Termination-Signals.html#glibc-vr-SIGINT"><strong class="varname"><code>SIGINT</code></strong></a> sinyali askıya alınmışsa başka bir <a href="glibc-Termination-Signals.html#glibc-vr-SIGINT"><strong class="varname"><code>SIGINT</code></strong></a> sinyali geldiğinde yazılım bu sinyali engellenmesi durdurulduktan sonra alacaktır.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     <a href="glibc-Checking-for-Pending-Signals.html#glibc-fn-sigpending"><strong class="function"><code>sigpending</code></strong></a> işlevi POSIX.1 ile gelmiştir.  Daha eski sistemler eşdeğeri bir oluşuma sahip değildir.
+    </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

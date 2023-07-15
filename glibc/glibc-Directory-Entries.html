@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.2.1. Dizin Girdileri</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Önceki</button>
+          <div class="dropdown-content">14.2. Dizinlere Erişim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Opening-a-Directory.html')">Sonraki</button>
+          <div class="dropdown-content">14.2.2. Dizin Akımlarının Açılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Directory-Entries">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">14.2.1. Dizin Girdileri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm117831" class="indexterm"></span>
+    Bu bölümde bir dizin akımından sağlanan tek bir dizin girdisinde bulunanlar açıklanacaktır. Bu bölümdeki tüm simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-dirent" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">dirent</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dizin girdileri hakkında bilgi döndürmekte kullanılan yapıdır. Şu alanları içerir:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">char </code><strong class="structfield"><code>d_name[]</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Boş karakter sonlandırmalı dosya ismi elemanıdır. Bu yapının üyesi olarak tüm POSIX sistemlerinde bulunabilecek tek üyedir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">ino_t </code><strong class="structfield"><code>d_fileno</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Dosyanın seri numarasıdır. BSD uyumluluğu için bu üyeye
+        <strong class="structfield"><code>d_ino</code></strong> ismiyle de erişilebilir. GNU/Linux ve GNU/Hurd sistemlerinde ve çoğu POSIX sisteminde, bu üye, çoğu dosya için <a href="glibc-Reading-Attributes.html#glibc-fn-stat"><strong class="function"><code>stat</code></strong></a> çağrısından dönen <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> yapısının <strong class="structfield"><code>st_ino</code></strong> üyesi ile aynıdır. Bkz. <a class="xref" href="glibc-Attribute-Meanings.html" title="14.9.1. Dosya Özniteliklerinin Anlamları">Dosya Özniteliklerinin Anlamları</a>.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">unsigned char </code><strong class="structfield"><code>d_namlen</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-DIRENT_HAVE_D_NAMLEN" class="indexterm"></span>
+        Dosya isminin sonlandırıcı boş karakter içermeyen <code class="type">unsigned char</code> türünden uzunluğudur. Bu üye varsa, <code class="code">_DIRENT_HAVE_D_NAMLEN</code> simgesi tanımlıdır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">unsigned char </code><strong class="structfield"><code>d_type</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Dosyanın türüdür. Değeri için tanımlanmış sabitler:
+       </p><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_UNKNOWN" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_UNKNOWN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Dosya türü bilinmiyor. Yalnızca bazı dosya sistemleri, dosya türünü döndürmek için tam desteğe sahiptir, diğerleri her zaman bu değeri döndürebilir.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_REG" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_REG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Normal dosya.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_DIR" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_DIR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Dizin.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_FIFO" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_FIFO</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         İsimli ardışık süreç. Bkz. <a class="xref" href="glibc-Pipes-and-FIFOs.html#glibc-FIFO-Special-Files" title="3. Ardışık Süreç Dosyaları">Ardışık Süreç Dosyaları</a>.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_SOCK" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_SOCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Yerel alan soketi.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_CHR" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_CHR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Karakter aygıtı.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_BLK" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_BLK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Blok aygıtı.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      sabit</div>
+        <span id="glibc-vr-DT_LNK" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">DT_LNK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+        <p>
+         Simgesel bağ.
+        </p>
+       </div><p></p><p>
+        <span id="glibc-vr-DIRENT_HAVE_D_TYPE" class="indexterm"></span>
+        Bu üye bir GNU oluşumudur. Eğer bu üye varsa,   <code class="code">_DIRENT_HAVE_D_TYPE</code> tanımlıdır. Kullanıldığı sistemlerde <a href="glibc-Attribute-Meanings.html#glibc-tp-stat"><strong class="type"><code>struct stat</code></strong></a> yapısının <code class="code">st_mode</code> üyesindeki dosya türü bitlerine karşı düşer. Eğer değer saptanamazsa üyenin değeri <a href="glibc-Directory-Entries.html#glibc-vr-DT_UNKNOWN"><strong class="varname"><code>DT_UNKNOWN</code></strong></a> olur. Şu iki makro <code class="code">d_type</code> ile <code class="code">st_mode</code> değerleri arasında dönüşüm yapar:
+       </p><div class="csynopsis"><div class="cstype">      işlev</div>
+        <span id="glibc-fn-IFTODT" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">IFTODT</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">mode_t </code><strong><code class="parameter">mode</code></strong><strong><code>)</code></strong></td></tr></table></div>
+        
+        <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+        </div>
+        <p>
+         Belirtilen <code class="code">st_mode</code> değerine karşı düşen <code class="code">d_type</code> değeri ile döner.
+        </p>
+       </div><div class="csynopsis"><div class="cstype">      işlev</div>
+        <span id="glibc-fn-DTTOIF" class="indexterm"></span>
+        <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/dirent.h;hb=HEAD" target="_top">dirent.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">mode_t </code><strong><code class="function">DTTOIF</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">dtype</code></strong><strong><code>)</code></strong></td></tr></table></div>
+        
+        <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+          | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+        </div>
+        <p>
+         Belirtilen <code class="code">dtype</code> değerine karşı düşen <code class="code">st_mode</code> değeri ile döner.
+        </p>
+       </div></dd></dl></div>
+    <p>
+     Bu yapı ileride ek üyeler içerebilir. Yeni üyeler olduğunda derleme ortamında daima<code class="code">_DIRENT_HAVE_D_<em class="replaceable"><code>xxx</code></em></code> biçiminde bir makro ismiyle görünecektir. Burada <em class="replaceable"><code>xxx</code></em> yeni üyenin ismidir. Örneğin, bazı sistemlerde <code class="code">d_reclen</code> diye bir üye vardır ve bu sistemlerde <code class="code">_DIRENT_HAVE_D_RECLEN</code> makrosu tanımlıdır.
+    </p>
+    <p>
+     Bir dosyanın çok sayıda ismi varsa, her ismin kendi dizin girdisi olur.  Böyle dosya isimlerinin tek bir dosyaya ait olup olmadığı <code class="code">d_fileno</code> alanındaki değere bakarak anlaşılır. Bu üyenin değeri bu tür girdilerde aynıdır.
+    </p>
+    <p>
+     Boyut, değişiklik zamanı gibi dosya öznitelikleri dosyanın kendisinde bulunur, dizin girdisinin elemenları değildir. Bkz. <a class="xref" href="glibc-File-Attributes.html" title="14.9. Dosya Öznitelikleri"><em>Dosya Öznitelikleri</em></a>.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

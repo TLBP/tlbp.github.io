@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>14.1. Çalışma dizini</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Önceki</button>
+          <div class="dropdown-content">14. Dosya Sistemi Arayüzü</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-File-System-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accessing-Directories.html')">Sonraki</button>
+          <div class="dropdown-content">14.2. Dizinlere Erişim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Working-Directory">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">14.1. Çalışma dizini</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm117570" class="indexterm"></span>
+   <span id="idm117573" class="indexterm"></span>
+   Her sürecin kendisiyle ilişkili bir dizini vardır. Bu dizine <em class="wordasword">çalışma dizini</em> denir ve göreli dosya isimlerinin çözümlenmesinde kullanılır (bkz. <a class="xref" href="glibc-File-Names.html#glibc-File-Name-Resolution" title="11.2.2. Dosya İsmi Çözümlemesi">Dosya İsmi Çözümlemesi</a>).
+  </p>
+        <p>
+   Kullanıcı sisteme oturum açtığında, sistem veritabanındaki kullanıcı hesabıyla ilişkili ev dizini çalışma dizini yapılır. Kullanıcının ev dizini <strong class="function"><code>getpwuid</code></strong> veya <strong class="function"><code>getpwnam</code></strong> işleviyle bulunabilir; bkz. ???.
+  </p>
+        <p>
+   <span id="idm117583" class="indexterm"></span>
+   <span id="idm117585" class="indexterm"></span>
+   Kullanıcılar çalışma dizinlerini <code class="code">cd</code> gibi kabuk komutlarını kullanarak değiştirebilir. Bu bölümde açıklanan işlevler bu komutlarda ve çalışma dizinini değiştirmek ve incelemek için başka yazılımlarda kullanılan ilkellerdir. Bu işlevlerin prototipleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-getcwd" class="indexterm"></span>
+   <span id="glibc-fn-getcwd" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">getcwd</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">getcwd</code> işlevi yazılımcı tarafınızdan sağlanan <em class="parameter"><code>buffer</code></em> karakter dizisine geçerli çalışma dizinini ifade eden mutlak dosya ismini kaydederek döner. <em class="parameter"><code>size</code></em> bağımsız değişkeni ile sisteme <em class="parameter"><code>buffer</code></em> için ayrılan boyut bildirilir.
+   </p>
+   <p>
+    Bu işlevin GNU C Kütüphanesindeki sürümü <em class="parameter"><code>buffer</code></em> bağımsız değişkeni olarak boş gösterici belirtebilmeyi mümkün kılar. Bu durumda <code class="code">getcwd</code> işlevi <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tamponu kendisi ayırır (bkz. <a class="xref" href="glibc-Unconstrained-Allocation.html" title="3.2.3. Kısıtlanmamış Bellek Tahsisi">Kısıtlanmamış Bellek Tahsisi</a>).  Eğer <em class="parameter"><code>size</code></em> sıfırdan büyükse, tampon belirtilen boyutta olur, aksi takdirde tampon sonucu tutmaya yetecek büyüklükte olur.
+   </p>
+   <p>
+    İşlev başarılı olursa <em class="parameter"><code>buffer</code></em> tamponunu döndürür. Başarısızlık halinde boş gösterici döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>size</code></em> bağımsız değişkeni sıfır ve <em class="parameter"><code>buffer</code></em> boş gösterici değil.
+      </p></dd><dt><span class="term"><code class="code">ERANGE</code></span></dt><dd><p>
+       <em class="parameter"><code>size</code></em> bağımsız değişkeni ile belirtilen uzunluk çalışma dizini isminden daha kısa. Daha büyük dizi tahsis edilerek yeniden denenmelidir.
+      </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       Dosya isminin bir elemanını aramak ya da okumak için izin verilmedi.
+      </p></dd></dl></div>
+   <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><p>
+     GNU'nun <code class="code">getcwd (NULL, 0)</code> davranışını sadece <code class="code">getcwd</code> işlevinin standart davranışı kullanılarak gerçeklenebilir:
+    </p><pre class="screen">char *
+gnu_getcwd ()
+{
+  size_t size = 100;
+
+  while (1)
+    {
+      char *buffer = (char *) xmalloc (size);
+      if (getcwd (buffer, size) == buffer)
+        return buffer;
+      free (buffer);
+      if (errno != ERANGE)
+        return 0;
+      size *= 2;
+    }
+}
+</pre></div></div><br class="example-break" />
+   <p>
+    Bir kütüphane işlevi olmayan ama çoğu GNU yazılımında kullanılan, özelleştirilmiş bir isim olan <strong class="function"><code>xmalloc</code></strong> hakkında daha fazla bilgi için bkz. <a class="xref" href="glibc-Malloc-Examples.html" title="3.2.3.2. malloc Örnekleri"><code class="code">malloc</code> Örnekleri</a>.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getwd" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">getwd</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-i18n">i18n</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    Tampon için boyut belirtilmemesi dışında <a href="glibc-Working-Directory.html#glibc-fn-getcwd"><strong class="function"><code>getcwd</code></strong></a> işlevinin benzeridir. <code class="code">getwd</code> işlevi sadece BSD uyumluluğu için GNU C Kütüphanesine dahil edilmiştir.
+   </p>
+   <p>
+    <em class="parameter"><code>buffer</code></em> bağımsız değişkeni en azından  <a href="glibc-Limits-for-Files.html#glibc-vr-PATH_MAX"><strong class="varname"><code>PATH_MAX</code></strong></a> bayt uzunluktaki bir tampona gösterici olmalıdır (bkz. <a class="xref" href="glibc-Limits-for-Files.html" title="32.6. Dosya Sistemi Sığa Sınırları"><em>Dosya Sistemi Sığa Sınırları</em></a>).  GNU sisteminde dosya ismi için bir sınırlama yoktur, yani dizin ismini içerecek yeterli alan için bu gereksizdir ve bu işlevin kullanılmasının önerilmeme sebebi budur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-PWD" class="indexterm"></span>
+   <span id="glibc-fn-get_current_dir_name" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">get_current_dir_name</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+   </div>
+   <p>
+    <code class="code">get_current_dir_name</code> işlevi temel olarak <code class="code">getcwd (NULL, 0)</code> çağrısının eşdeğeridir, ancak ilk önce <code class="code">PWD</code> ortam değişkeninin değeri incelenir ve gerçekten geçerli dizine karşılık geliyorsa bu değer döndürülür. Bu, <code class="code">PWD</code>'deki değer bir veya daha fazla simgesel bağ içerdiğinde görülebilen ince bir farktır; bu durumda <a href="glibc-Working-Directory.html#glibc-fn-getcwd"><strong class="function"><code>getcwd</code></strong></a> tarafından döndürülen değer simgesel bağları çözümler ve bu nedenle farklı bir sonuç döner.
+   </p>
+   <p>
+    Bu işlev GNU oluşumudur.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-chdir" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">chdir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">filename</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev sürecin çalışma dizinini <em class="parameter"><code>filename</code></em> yapar.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri <code class="code">0</code>'dır. <code class="code">-1</code> değeri dönmüşse bir hata oluşmuş demektir. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata değerleri <a class="link" href="glibc-File-Names.html#glibc-File-Name-Errors" title="11.2.3. Dosya İsmi Hataları">dosya ismi sözdizimi hatalarına</a> ek olarak, <em class="parameter"><code>filename</code></em> ismi bir dizin değilse <a href="glibc-Error-Codes.html#glibc-vr-ENOTDIR"><strong class="varname"><code>ENOTDIR</code></strong></a>'dır.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-fchdir" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/unistd.h;hb=HEAD" target="_top">unistd.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">fchdir</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    Bu işlev sürecin çalışma dizinini <em class="parameter"><code>filedes</code></em> tanıtıcısı ile ilişkili dizin yapar.
+   </p>
+   <p>
+    İşlevin normal dönüş değeri <code class="code">0</code>'dır. <code class="code">-1</code> değeri dönmüşse bir hata oluşmuş demektir. Bu işlev için tanımlanmış <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+       <em class="parameter"><code>dizinadı</code></em> dizini için okuma izni reddedildi.
+      </p></dd><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> geçerli bir dosya tanıtıcısı değil.
+      </p></dd><dt><span class="term"><code class="code">ENOTDIR</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı bir dizin ile ilişkili değil.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       İşlev çağrısı bir sinyal ile engellendi.
+      </p></dd><dt><span class="term"><code class="code">EIO</code></span></dt><dd><p>
+       Bir G/Ç hatası oluştu.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

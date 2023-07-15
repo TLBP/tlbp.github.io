@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>13.11.4. Eşzamansız G/Ç İşlemlerinin İptal Edilmesi</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Synchronizing-AIO-Operations.html')">Önceki</button>
+          <div class="dropdown-content">13.11.3. Eşzamansız G/Ç İşlemlerinin Eşzamanlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Asynchronous-I-O.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Configuration-of-AIO.html')">Sonraki</button>
+          <div class="dropdown-content">13.11.5. Eşzamansız G/Ç İşlemlerinin Yapılandırılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Cancel-AIO-Operations">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">13.11.4. Eşzamansız G/Ç İşlemlerinin İptal Edilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir ya da daha fazla istek eşzamansız olarak işlenirken, yazılması istenen bir verinin artık geçersiz hale gelmesi ve dolayısıyla bu verinin daha sonra düzeltilmesinin gerekmesi gibi bazı durumlarda seçilen bir işlemin iptal edilmesi gerekebilir. Bir örnek olarak, gelen veriyi dosyalara yazan bir uygulamanın, bir dosyaya yazılmak üzere gelmiş bir verinin kuyruğa alınacak bir başka istek ile güncellenmek istemesi verilebilir. POSIX eşzamansız G/Ç gerçeklemesi böyle bir işlev içerir, fakat bu işlevin bir isteği iptale zorlama yeteneği yoktur. Sadece bir isteğin iptalinin mümkün olup olmadığına karar vermeye yardımcı olur.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_cancel" class="indexterm"></span>
+    <span id="glibc-cp-aio_cancel" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_cancel</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fildes</code></strong><strong><code>, </code></strong><code class="type">struct aiocb </code><strong class="type">*</strong><strong><code class="parameter">aiocbp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">aio_cancel</code> işlevi askıdaki bir ya da daha fazla isteği iptal etmek için kullanılabilir. <em class="parameter"><code>aiocbp</code></em> bağımsız değişkeni <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ise <em class="parameter"><code>fildes</code></em> ile ilgili askıdaki tüm işlemleri iptal etmeye çalışır. <em class="parameter"><code>aiocbp</code></em> bağımsız değişkeni <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> değilse, <em class="parameter"><code>aiocbp</code></em> ile gösterilen belli bir isteği iptal etmeye çalışır.
+    </p>
+    <p>
+     Başarıyla iptal edilen istekler için isteğin sonlanması ile ilgili normal uyarı yapılmalıdır. Bunu denetleyen <a href="glibc-Asynchronous-I-O.html#glibc-tp-sigevent"><strong class="type"><code>struct sigevent</code></strong></a> nesnesine bağlı olarak hiçbir şey yapılmaz, bir sinyal gönderilir ya da evre başlatılır. İstek iptal edilemezse, işlem, gerçekleştikten sonra normal yolla sonlanır.
+    </p>
+    <p>
+     Bir istek başarıyla iptal edildikten sonra, bu istek için yapılan bir <a href="glibc-Status-of-AIO-Operations.html#glibc-fn-aio_error"><strong class="function"><code>aio_error</code></strong></a> çağrısı <a href="glibc-Error-Codes.html#glibc-vr-ECANCELED"><strong class="varname"><code>ECANCELED</code></strong></a> ile, <a href="glibc-Status-of-AIO-Operations.html#glibc-fn-aio_return"><strong class="function"><code>aio_return</code></strong></a> ise <code class="code">-1</code> ile döner. Eğer istek iptal edilmemişse ve hala işlenmekteyse hata durumu <a href="glibc-Error-Codes.html#glibc-vr-EINPROGRESS"><strong class="varname"><code>EINPROGRESS</code></strong></a> olur.
+    </p>
+    <p>
+     Sonlanmadan iptal edilmiş bir istek varsa, işlevin dönüş değeri <code class="varname">AIO_CANCELED</code> olur. İptal edilmemiş istek ya da istekler varsa, dönüş değeri <code class="varname">AIO_NOTCANCELED</code> olur. Bu durumda (<em class="parameter"><code>aiocbp</code></em>'nin <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> olarak belirtildiği durum) iptal edilemeyen istekleri bulmak için <a href="glibc-Status-of-AIO-Operations.html#glibc-fn-aio_error"><strong class="function"><code>aio_error</code></strong></a> kullanılmalıdır. Tüm istekler iptal edilmişse <code class="code">aio_cancel</code> işlevinin dönüş değeri <code class="varname">AIO_ALLDONE</code> olacaktır.
+    </p>
+    <p>
+     <code class="code">aio_cancel</code> çağrısı sırasında bir hata oluşmuşsa işlev <code class="code">-1</code> ile döner ve <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değişkenine aşağıdaki durumlardan biri atanır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>fildes</code></em> tanıtıcısı geçersiz.
+       </p></dd><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+        <code class="code">aio_cancel</code> işlevi gerçeklenmedi.
+       </p></dd></dl></div>
+    <p>
+     Kaynak dosyası <code class="code">_FILE_OFFSET_BITS == 64</code> ile derlenmişse 32 bitlik sistemlerde bu işlev aslında <a href="glibc-Cancel-AIO-Operations.html#glibc-fn-aio_cancel64"><strong class="function"><code>aio_cancel64</code></strong></a> işlevine karşılıktır. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-aio_cancel64" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=rt/aio.h;hb=HEAD" target="_top">aio.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">aio_cancel64</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">fildes</code></strong><strong><code>, </code></strong><code class="type">struct aiocb64 </code><strong class="type">*</strong><strong><code class="parameter">aiocbp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev, bağımsız değişkeninin <a href="glibc-Asynchronous-I-O.html#glibc-tp-aiocb64"><strong class="type"><code>struct aiocb64</code></strong></a> türünde bir değişken olması dışında <a href="glibc-Cancel-AIO-Operations.html#glibc-fn-aio_cancel"><strong class="function"><code>aio_cancel</code></strong></a> işlevine benzer.
+    </p>
+    <p>
+     Kaynak dosyası <span class="command"><strong>_FILE_OFFSET_BITS == 64</strong></span> ile derlenmişse 32 bitlik sistemlerde bu işleve <a href="glibc-Cancel-AIO-Operations.html#glibc-fn-aio_cancel"><strong class="function"><code>aio_cancel</code></strong></a> ismiyle erişilir. Yani 32 ve 64 bitlik arayüzler yer değiştirilir.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

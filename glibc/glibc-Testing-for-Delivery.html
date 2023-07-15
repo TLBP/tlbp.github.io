@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>24.7.4. Sinyal Alımının Sınanması</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Process-Signal-Mask.html')">Önceki</button>
+          <div class="dropdown-content">24.7.3. Sürecin Sinyal Maskesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-Signals.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Blocking-for-Handler.html')">Sonraki</button>
+          <div class="dropdown-content">24.7.5. İşleyici Çalışırken Sinyallerin Engellenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Testing-for-Delivery">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">24.7.4. Sinyal Alımının Sınanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Basit bir örnek; yazılımda <a href="glibc-Alarm-Signals.html#glibc-vr-SIGALRM"><strong class="varname"><code>SIGALRM</code></strong></a> sinyali için bir işleyici oluşturulduğu, bununla bir değişkene değer atandığı ve zaman zaman yazılım içinde bu değişkene bakıldığı ve sıfırlandığı varsayılsın. Kodun önemli parçaları yürütülürken <a href="glibc-Alarm-Signals.html#glibc-vr-SIGALRM"><strong class="varname"><code>SIGALRM</code></strong></a> sinyallerinin alınması <a href="glibc-Process-Signal-Mask.html#glibc-fn-sigprocmask"><strong class="function"><code>sigprocmask</code></strong></a> çağrıları ile aşağıdaki gibi engellenebilir:
+   </p>
+        <pre class="screen">/* <em class="replaceable"><code>Bu değişkene SIGALRM sinyal işleyicisi değer atayacak.</code></em> */
+volatile sig_atomic_t flag = 0;
+
+int
+main (void)
+{
+  sigset_t block_alarm;
+
+  …
+
+  /* <em class="replaceable"><code>Sinyal maskesini ilklendir.</code></em> */
+  sigemptyset (&amp;block_alarm);
+  sigaddset (&amp;block_alarm, SIGALRM);
+
+  while (1)
+    {
+      /* <em class="replaceable"><code>Bir sinyal gelmiş mi bak.
+         Gelmişse değişkeni sıfırla.</code></em> */
+      sigprocmask (SIG_BLOCK, &amp;block_alarm, NULL);
+      if (flag)
+        {
+          <em class="replaceable"><code>sinyal alınmamışsa yapılacak işlemler burada</code></em>
+          flag = 0;
+        }
+      sigprocmask (SIG_UNBLOCK, &amp;block_alarm, NULL);
+
+      …
+    }
+}
+</pre>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

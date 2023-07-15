@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>A.5.3.2. Gerçek Sayılar ile İlgili Makrolar</title>
+    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Floating-Point-Concepts.html')">Önceki</button>
+          <div class="dropdown-content">A.5.3.1. Gerçek Sayı Gösterimi ile İlgili Kavramlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Floating-Type-Macros.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-IEEE-Floating-Point.html')">Sonraki</button>
+          <div class="dropdown-content">A.5.3.3. IEEE Gerçek Sayı Gösterimleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Floating-Point-Parameters">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">A.5.3.2. Gerçek Sayılar ile İlgili Makrolar</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm139685" class="indexterm"></span>
+     Bu makroların tanımları <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code> başlık dosyasında bulunabilir.
+    </p>
+        <p>
+     
+     <code class="code">FLT_</code> ile başlayan makro isimleri <code class="type">float</code> türü ile, <code class="code">DBL_</code> ile başlayanlar <code class="type">double</code> türü ile ve <code class="code">LDBL_</code> ile başlayanlar da <code class="type">long double</code> türü ile ilgilidir. (GCC hedef makinede bir veri türü olarak <code class="type">long double</code> türünü desteklemezse, <code class="code">LDBL_</code> ile başlayan sabitler <code class="type">double</code> türüne karşılık olan sabitlere eşitlenir.)
+    </p>
+        <p>
+     Bu makrolardan sadece <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_RADIX"><strong class="varname"><code>FLT_RADIX</code></strong></a> bir sabit ifadesi olarak garantilidir. Burada listelenmiş diğer sabitler <code class="code">#if</code> önişlemci komutu ya da durağan dizilerin boyutları gibi yerlerde sabit ifadesi olarak güvenilir olamaz.
+    </p>
+        <p>
+     ISO C standardı bu bağımsız değişkenlerin en küçük ve en büyük değerlerini belirtse de, GNU C gerçeklenimi hedef makinede desteklenen gerçek sayı gösterimlerini açıklayan değerleri kullanır. Yani GNU C prensip olarak ISO C gereksinimlerini hedef makinenin yapabildiği kadarıyla karşılar. Uygulamada tüm makinelerde bu destekler zaten vardır.
+    </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_ROUNDS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_ROUNDS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu değer gerçek sayı toplamasında yuvarlama kipini belirler. Standart yuvarlama kiplerinin değerleri:
+     </p>
+     <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">-1</code></span></dt><dd><p>
+         Bu kip belirlenebilir değildir.
+        </p></dd><dt><span class="term"><code class="code">0</code></span></dt><dd><p>
+         Sıfıra yuvarlar.
+        </p></dd><dt><span class="term"><code class="code">1</code></span></dt><dd><p>
+         En yakın sayıya yuvarlar.
+        </p></dd><dt><span class="term"><code class="code">2</code></span></dt><dd><p>
+         Pozitif sonsuza yuvarlar.
+        </p></dd><dt><span class="term"><code class="code">3</code></span></dt><dd><p>
+         Negatif sonsuza yuvarlar.
+        </p></dd></dl></div>
+     <p>
+      Diğer değerler, eğer varsa, makine bağımlı standart dışı yuvarlama kiplerini belirtir.
+     </p>
+     <p>
+      Gerçek sayılar için IEEE standardı gereğince çoğu makinede <code class="code">1</code> değeri kullanılır.
+     </p>
+     <p>
+      
+      
+      Aşağıdaki tabloda <code class="code">FLT_ROUNDS</code> sabitinin olası değerleri ile yuvarlamanın nasıl yapıldığı gösterilmiştir. Yuvarlama IEEE tek hassasiyetli gerçek sayılar standardına uygun olarak yapılmıştır.
+     </p>
+     <pre class="literallayout monospaced">                0      1             2             3
+ 1.00000003    1.0    1.0           1.00000012    1.0
+ 1.00000007    1.0    1.00000012    1.00000012    1.0
+-1.00000003   -1.0   -1.0          -1.0          -1.00000012
+-1.00000007   -1.0   -1.00000012   -1.0          -1.00000012
+</pre>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_RADIX" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_RADIX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bit gösteriminde üstel kısmın tabanına karşılık gelen değerdir. Bu bölümde açıklanan diğer makroların aksine bir sabit ifadesi olarak garantilidir. IBM 360 ve türevleri dışında bilinen tüm makineler için değeri 2 dir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MANT_DIG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MANT_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">float</code> veri türü için gerçek sayının ondalık kısmındaki taban-<a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_RADIX"><strong class="varname"><code>FLT_RADIX</code></strong></a> basamağın basamak sayısıdır. Aşağıdaki ifade ondalık kısım basamaklarının sınırlı olmasından dolayı <code class="code">1.0</code>'a gider (matematiksel olarak olmasa da):
+     </p>
+     <pre class="screen">float radix = FLT_RADIX;
+
+1.0f + 1.0f / radix / radix / … / radix
+</pre>
+     <p>
+      Burada <em class="replaceable"><code>radix</code></em>, <code class="code">FLT_MANT_DIG</code> kere uygulanır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MANT_DIG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MANT_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MANT_DIG" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MANT_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri için gerçek sayının ondalık kısmındaki taban-<a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_RADIX"><strong class="varname"><code>FLT_RADIX</code></strong></a> basamağın basamak sayısıdır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_DIG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">float</code> türü için hassasiyeti belirleyen ondalık basamakların sayısıdır. Teknik olarak <em class="replaceable"><code>h</code></em> ve <em class="replaceable"><code>t</code></em> sırasıyla ikilik gösterimdeki hassasiyet ve taban ise onluk gösterimdeki hassasiyet <em class="replaceable"><code>o</code></em> ondalık basamakların sayısıdır, örneğin, <em class="replaceable"><code>o</code></em> tabanındaki 10 basamaklı bir gerçek sayı <em class="replaceable"><code>t</code></em> tabanındaki <em class="replaceable"><code>h</code></em> basamağa yuvarlanır ve <em class="replaceable"><code>o</code></em> ondalık basamak sayısı değiştirilmeksizin korunur.
+     </p>
+     <p>
+      Bu makronun değerinin ISO C gereksinimlerini karşılamak üzere en azından <code class="code">6</code> olacağı varsayılır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_DIG" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_DIG" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_DIG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_DIG"><strong class="varname"><code>FLT_DIG</code></strong></a> makrosuna benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir. Bu makroların değerlerinin en azından <code class="code">10</code> olacağı varsayılır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MIN_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MIN_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">double</code> türü için ikil gösterimdeki mümkün en küçük üs değeridir. Daha ayrıntılı ifade etmek gerekirse, <code class="type">double</code> türündeki normalleştirilmiş bir gerçek sayı olarak <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_RADIX"><strong class="varname"><code>FLT_RADIX</code></strong></a> değerinin bu değerden bir eksiğinin artan kuvvetlerinden elde edilebilecek en küçük değerini sağlayacak olan en küçük negatif tamsayıdır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MIN_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MIN_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MIN_EXP" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MIN_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MIN_EXP"><strong class="varname"><code>FLT_MIN_EXP</code></strong></a>'ye benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MIN_10_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MIN_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">float</code> türü için onluk tabanda üssün en küçük negatif değeri olan bir tamsayıdır. Normalleştirilmiş gerçek sayıların mümkün en küçük değeri için <code class="code">10</code>'un bu değerden <code class="code">1</code> eksiği artan kuvvetindeki değerine karşılıktır. Bu değerin <code class="code">-37</code> veya daha az olduğu varsayılır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MIN_10_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MIN_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MIN_10_EXP" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MIN_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MIN_10_EXP"><strong class="varname"><code>FLT_MIN_10_EXP</code></strong></a>'ye benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MAX_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MAX_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">float</code> türü için ikilik gösterimdeki mümkün en büyük üs değeridir. Daha ayrıntılı ifade etmek gerekirse, <code class="type">float</code> türündeki normalleştirilmiş bir gerçek sayı olarak <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_RADIX"><strong class="varname"><code>FLT_RADIX</code></strong></a> değerinin bu değerden bir eksiğinin artan kuvvetlerinden elde edilebilecek en büyük değerini sağlayacak olan en büyük pozitif tamsayıdır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MAX_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MAX_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MAX_EXP" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MAX_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MAX_EXP"><strong class="varname"><code>FLT_MAX_EXP</code></strong></a>'ye benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MAX_10_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MAX_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <code class="type">float</code> türü için onluk tabanda üssün en büyük değeri olan pozitif tamsayıdır. Normalleştirilmiş gerçek sayıların mümkün en küçük değeri için <code class="code">10</code>'un bu değerden <code class="code">1</code> eksiği artan kuvvetindeki değerine karşılıktır. Bu değerin en azından <code class="code">37</code> olduğu varsayılır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MAX_10_EXP" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MAX_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MAX_10_EXP" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MAX_10_EXP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MAX_10_EXP"><strong class="varname"><code>FLT_MAX_10_EXP</code></strong></a>'ye benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MAX" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu makronun değeri <code class="type">float</code> türünde ifade edilebilecek en büyük gerçek sayının değeridir. Bu değerin en azından <code class="code">1E+37</code> olacağı varsayılır ve bu değer <code class="type">float</code> türündendir.
+     </p>
+     <p>
+      İfade edilebilir en küçük sayı ise <code class="code">- FLT_MAX</code>'tır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MAX" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MAX" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MAX</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MAX"><strong class="varname"><code>FLT_MAX</code></strong></a>'a benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir. Makro değerinin veri türü kendi türü ile aynıdır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_MIN" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu makronun değeri <code class="type">float</code> türünde ifade edilebilecek en küçük gerçek sayının değeridir. Bu değerin <code class="code">1E-37</code>'den daha büyük olmayacağı varsayılır ve bu değer <code class="type">float</code> türündendir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_MIN" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_MIN" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_MIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_MIN"><strong class="varname"><code>FLT_MIN</code></strong></a>'a benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir. Makro değerinin veri türü kendi türü ile aynıdır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-FLT_EPSILON" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FLT_EPSILON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu, <code class="code">1</code> ile <code class="type">float</code> türünün <code class="code">1</code>'den büyük en küçük kayan noktalı sayısı arasındaki farktır. <code class="code">1E-5</code>'ten büyük olmayacağı varsayılır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-DBL_EPSILON" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/float.h;hb=HEAD" target="_top">float.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">DBL_EPSILON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     <span id="glibc-vr-LDBL_EPSILON" class="indexterm"></span>
+     <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">LDBL_EPSILON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Floating-Point-Parameters.html#glibc-vr-FLT_EPSILON"><strong class="varname"><code>FLT_EPSILON</code></strong></a>'a benzerler ancak sırasıyla <code class="type">double</code> ve <code class="type">long double</code> veri türleri içindir. Makro değerinin veri türü kendi türü ile aynıdır. <code class="code">1E-0</code>'dan büyük olmayacağı varsayılır.
+     </p>
+    </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>
