@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.4.6. Denetim Kipleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Output-Modes.html')">Önceki</button>
+          <div class="dropdown-content">17.4.5. Çıktı Kipleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Terminal-Modes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Local-Modes.html')">Sonraki</button>
+          <div class="dropdown-content">17.4.7. Yerel Kipler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Control-Modes">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">17.4.6. Denetim Kipleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bu bölümde eşzamansız seri veri iletimi ile ilgili denetim değişkenleri olan uçbirim seçenekleri ve alanlarından bahsedilecektir. Bu seçenekler diğer uçbirim port çeşitlerinde etkisiz olabilir (örneğin, bir ağ bağlantısı olarak sözde uçbirimler). Bu seçeneklerin tamamı <a href="glibc-Mode-Data-Types.html#glibc-tp-termios"><strong class="type"><code>struct termios</code></strong></a> yapısının <code class="code">c_cflag</code> üyesinin bitleridir.
+   </p>
+        <p>
+    <code class="code">c_cflag</code> üyesi bir tamsayıdır ve bu seçenekler <span class="command"><strong>&amp;</strong></span>, <span class="command"><strong>|</strong></span> ve <span class="command"><strong>^</strong></span> işleçleri ile değiştirilebilir. <code class="code">c_cflag</code> üyesinin değeri toptan değiştirilmemelidir; ilgisiz bitlere dokunmadan sadece ilgili bitler değiştirilmelidir (bkz. <a class="xref" href="glibc-Setting-Modes.html" title="17.4.3. Uçbirim Kiplerinin Doğru Dürüst Belirtilmesi">Uçbirim Kiplerinin Doğru Dürüst Belirtilmesi</a>).
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CLOCAL" class="indexterm"></span>
+    <span id="glibc-cp-CLOCAL1" class="indexterm"></span>
+    <span id="glibc-cp-CLOCAL2" class="indexterm"></span>
+    <span id="glibc-vr-CLOCAL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CLOCAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, uçbirimin "yerel olarak" bağlı olduğu ve modem durum satırlarının (örneğin, taşıyıcının saptanması) yok sayıldığı anlaşılır.
+    </p>
+    <p>
+     Bu bit yoksa, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevi <a href="glibc-Open-time-Flags.html#glibc-vr-O_NONBLOCK"><strong class="varname"><code>O_NONBLOCK</code></strong></a> seçeneğinin yokluğunda çağrılırsa, çoğu sistemde <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-open"><strong class="function"><code>open</code></strong></a> işlevi bir modem bağlantısı sağlanıncaya kadar engellenir.
+    </p>
+    <p>
+     Bu bit yoksa ve modem bağlantısı saptanamazsa, (eğer varsa) uçbirim için denetim süreç grubuna <a href="glibc-Termination-Signals.html#glibc-vr-SIGHUP"><strong class="varname"><code>SIGHUP</code></strong></a> sinyali gönderilir. Bir bağlantı kesilmesinden sonraki okuma işlemleri dosya sonu durumuna, yazma işlemleri ise <a href="glibc-Error-Codes.html#glibc-vr-EIO"><strong class="varname"><code>EIO</code></strong></a> hatasının dönmesine sebep olur. Bu durumu ortadan kaldırmak için uçbirim aygıtı kapatılıp yeniden açılmalıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-HUPCL" class="indexterm"></span>
+    <span id="glibc-vr-HUPCL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">HUPCL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, açık uçbirim aygıtı olan tüm süreçler çıktığında ya da dosyalarını kapattıklarında <em class="wordasword">modem bağlantı kesmesi</em> üretilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CREAD" class="indexterm"></span>
+    <span id="glibc-vr-CREAD" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CREAD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, girdi uçbirimden okunabilir. Aksi takdirde, girdi geldiği anda iptal edilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CSTOPB" class="indexterm"></span>
+    <span id="glibc-vr-CSTOPB" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CSTOPB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, iki durdurma biti kullanılır. Aksi takdirde, sadece bir durdurma biti kullanılır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-PARENB" class="indexterm"></span>
+    <span id="glibc-vr-PARENB" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">PARENB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, eşlik bitinin üretimi ve saptanması etkinleştirilir. Girdideki eşlik hatalarının nasıl ele alındığı <a class="xref" href="glibc-Input-Modes.html" title="17.4.4. Girdi Kipleri">Girdi Kipleri</a> bölümünde anlatılmıştır.
+    </p>
+    <p>
+     Bu bit yoksa, çıktı karakterlerinde eşlik biti eklenmez ve girdi karakterlerinde eşlik bitlerinin doğruluğuna bakılmaz.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-PARODD" class="indexterm"></span>
+    <span id="glibc-vr-PARODD" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">PARODD</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit sadece <a href="glibc-Control-Modes.html#glibc-vr-PARENB"><strong class="varname"><code>PARENB</code></strong></a> biti varsa anlamlıdır. <code class="code">PARODD</code> biti varsa tek eşlik kullanılır, aksi takdirde çift eşlik kullanılır.
+    </p>
+    <p>
+     Denetim kipi seçenekleri ayrıca karakter başına bit sayısı için bir alan içerir. Bu değeri çıkarmak için <a href="glibc-Control-Modes.html#glibc-vr-CSIZE"><strong class="varname"><code>CSIZE</code></strong></a> makrosu maske olarak kullanılabilir: <code class="code">settings.c_cflag &amp; CSIZE</code>.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CSIZE" class="indexterm"></span>
+    <span id="glibc-vr-CSIZE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CSIZE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Karakter başına bit sayısı için maskedir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CS5" class="indexterm"></span>
+    <span id="glibc-vr-CS5" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CS5</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Her baytın beş bit olduğunu belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CS6" class="indexterm"></span>
+    <span id="glibc-vr-CS6" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CS6</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Her baytın altı bit olduğunu belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CS7" class="indexterm"></span>
+    <span id="glibc-vr-CS7" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CS7</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Her baytın yedi bit olduğunu belirtir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CS8" class="indexterm"></span>
+    <span id="glibc-vr-CS8" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CS8</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Her baytın sekiz bit olduğunu belirtir.
+    </p>
+   </div>
+        <p>
+    Aşağıdaki dört bit BSD oluşumudur; sadece BSD sistemlerinde ve GNU/Hurd sistemlerinde vardır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CCTS_OFLOW" class="indexterm"></span>
+    <span id="glibc-vr-CCTS_OFLOW" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CCTS_OFLOW</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, CTS teline (RS232 protokolü) göre çıktı akış denetimi etkin olur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CRTS_IFLOW" class="indexterm"></span>
+    <span id="glibc-vr-CRTS_IFLOW" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CRTS_IFLOW</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, RTS teline (RS232 protokolü) göre girdi akış denetimi etkin olur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-MDMBUF" class="indexterm"></span>
+    <span id="glibc-vr-MDMBUF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">MDMBUF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, taşıyıcı bazlı çıktı akış denetimi etkin olur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-CIGNORE" class="indexterm"></span>
+    <span id="glibc-vr-CIGNORE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">CIGNORE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, denetim kiplerinin ve hat hızı değerlerinin tamamen yok sayıldığı anlamına gelir. Bu sadece bir <a href="glibc-Mode-Functions.html#glibc-fn-tcsetattr"><strong class="function"><code>tcsetattr</code></strong></a> çağrısı ile anlam kazanır.
+    </p>
+    <p>
+     <a href="glibc-Line-Speed.html#glibc-fn-cfgetispeed"><strong class="function"><code>cfgetispeed</code></strong></a> ve <a href="glibc-Line-Speed.html#glibc-fn-cfgetospeed"><strong class="function"><code>cfgetospeed</code></strong></a> çağrılarından dönen hız değerleri ile <code class="code">c_cflag</code> üyesi çağrı ile etkisiz olacaktır. <code class="code">c_cflag</code> içindeki donanımla ilgili ayrıntılara dokunmadan diğer üyelerdeki yazılımsal kiplerin tamamı değiştirilmek istenirse <code class="code">CIGNORE</code> faydalıdır. (Bu, <a href="glibc-Mode-Functions.html#glibc-fn-tcsetattr"><strong class="function"><code>tcsetattr</code></strong></a> ile <a href="glibc-Mode-Functions.html#glibc-vr-TCSASOFT"><strong class="varname"><code>TCSASOFT</code></strong></a> seçeneğinin atanması ile ilgilidir.)
+    </p>
+    <p>
+     Bu bit <a href="glibc-Mode-Functions.html#glibc-fn-tcgetattr"><strong class="function"><code>tcgetattr</code></strong></a> tarafından döndürülen yapıda asla bulunmaz.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.5. Veri Aktarımı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Who-is-Connected.html')">Önceki</button>
+          <div class="dropdown-content">16.9.4. Bana Kim Bağlı?</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Byte-Stream-Example.html')">Sonraki</button>
+          <div class="dropdown-content">16.9.6. Bayt Akımlı Soket Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Transferring-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.5. Veri Aktarımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm126255" class="indexterm"></span>
+    <span id="idm126258" class="indexterm"></span>
+    Soket bir kez karşıya bağlandığında, veri aktarımı için sıradan <em class="wordasword">okuma</em> ve <em class="wordasword">yazma</em> işlemleri (<a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>) yapılabilir. Bir soket iki yönlü iletişim kanalıdır, böylece okuma ve yazma işlemleri her iki uçta da gerçekleştirilebilir.
+   </p>
+        <p>
+    Soket işlemlerine özgü bazı G/Ç kipleri de vardır. Bu kipleri belirtmek için, daha genel olan <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ve <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevleri yerine <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> ve <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevlerini  kullanmak gerekir. <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> ve <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevleri, özel G/Ç kiplerinin denetlenmesi için çeşitli bayrakların belirtilebileceği, ek bir bağımsız değişken alır. Örneğin, <a href="glibc-Transferring-Data.html#glibc-vr-MSG_OOB"><strong class="varname"><code>MSG_OOB</code></strong></a> bayrağı belirtilerek sıra dışı veri okunup yazılabilir, <a href="glibc-Transferring-Data.html#glibc-vr-MSG_PEEK"><strong class="varname"><code>MSG_PEEK</code></strong></a> bayrağı girdiyi gözetlemek için,  <a href="glibc-Transferring-Data.html#glibc-vr-MSG_DONTROUTE"><strong class="varname"><code>MSG_DONTROUTE</code></strong></a> bayrağı yönlendirme bilgisinin çıktıda içerilmesini denetlemek için kullanılabilir.
+   </p>
+        <section class="sect2" id="glibc-Sending-Data">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">16.9.5.1. Veri Gönderimi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span id="idm126279" class="indexterm"></span>
+     <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında bildirilmiştir. Eğer <em class="parameter"><code>flags</code></em> bağımsız değişkeni sıfır ise, <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> yerine <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> kullanılabilir; bkz. <a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>. Eğer soket bağlıyken bağlantısı koparsa, <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> işlevinin herhangi bir kullanımında <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGPIPE"><strong class="varname"><code>SIGPIPE</code></strong></a> sinyali alınır (bkz, <a class="xref" href="glibc-Miscellaneous-Signals.html" title="24.2.7. Çeşitli Sinyaller">Çeşitli Sinyaller</a>).
+    </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-send" class="indexterm"></span>
+     <span id="glibc-cp-send" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">send</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      <code class="code">send</code> işlevi <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> gibidir, ancak fazladan <em class="parameter"><code>flags</code></em> bağımsız değişkeni vardır. <em class="parameter"><code>flags</code></em> bağımsız değişkeni için olası değerler <a class="xref" href="glibc-Transferring-Data.html#glibc-Socket-Data-Options" title="16.9.5.3. Soket Verisi Seçenekleri">Soket Verisi Seçenekleri</a> bölümünde bulunabilir.
+     </p>
+     <p>
+      Bu işlev aktarılan bayt miktarı ile veya hata durumunda <code class="code">-1</code> ile döner. Soket engellemesiz kipteyse <code class="code">send</code> (<a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> gibi) verinin henüz bir kısmını gönderdikten sonra dönebilir. Engellemesiz kip hakkında daha fazla bilgi için bkz, <a class="xref" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri"><em>Dosya Durum Seçenekleri</em></a>.
+     </p>
+     <p>
+      Başarılı bir dönüş değeri her ne kadar verinin hatasız bir şekilde gönderildiğini belirtse de, hatasız bir şekilde alındığını belirtmez.
+     </p>
+     <p>
+      Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+     </p>
+     <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+        </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+         Veri gönderilmeden önce işlem bir sinyal tarafından kesildi. Bkz, <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+        </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+        </p></dd><dt><span class="term"><code class="code">EMSGSIZE</code></span></dt><dd><p>
+         Soket türü verinin bütün olarak gönderilmesini gerektiriyor, fakat veri bunun için çok büyük.
+        </p></dd><dt><span class="term"><code class="code">EWOULDBLOCK</code></span></dt><dd><p>
+         Soket engellemesiz kipte ve yazma işlemi soketi engeller. (Normalde <code class="code">send</code> işlem bitinceye kadar soketi engeller.)
+        </p></dd><dt><span class="term"><code class="code">ENOBUFS</code></span></dt><dd><p>
+         Dahili tamponlar yeterli değil.
+        </p></dd><dt><span class="term"><code class="code">ENOTCONN</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> soketi bu işlemi desteklemiyor.
+        </p></dd><dt><span class="term"><code class="code">EPIPE</code></span></dt><dd><p>
+         Bu soket bağlıydı ancak bağlantı koptu. Bu durumda, <code class="code">send</code> öncelikle bir <a href="glibc-Operation-Error-Signals.html#glibc-vr-SIGPIPE"><strong class="varname"><code>SIGPIPE</code></strong></a> sinyali üretir; sinyal yok sayılır veya engellenirse ya da bu sinyal işleyicisi dönerse <code class="code">send</code> işlevi <a href="glibc-Error-Codes.html#glibc-vr-EPIPE"><strong class="varname"><code>EPIPE</code></strong></a> hatası ile başarısız olur.
+        </p></dd></dl></div>
+     <p>
+      Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanıtıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+     </p>
+    </div>
+        </section>
+        <section class="sect2" id="glibc-Receiving-Data">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">16.9.5.2. Veri Alımı</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span id="idm126392" class="indexterm"></span>
+     <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında bildirilmiştir. <em class="parameter"><code>flags</code></em> bağımsız değişkeni sıfırsa, <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> yerine <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> kullanılabilir; bkz. <a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>.
+    </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-recv" class="indexterm"></span>
+     <span id="glibc-cp-recv" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">recv</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+     </div>
+     <p>
+      <code class="code">recv</code> işlevi <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> gibidir, ancak fazladan <em class="parameter"><code>flags</code></em> bağımsız değişkeni vardır. <em class="parameter"><code>flags</code></em> bağımsız değişkeni için olası değerler <a class="xref" href="glibc-Transferring-Data.html#glibc-Socket-Data-Options" title="16.9.5.3. Soket Verisi Seçenekleri">Soket Verisi Seçenekleri</a> bölümünde bulunabilir.
+     </p>
+     <p>
+      Eğer <em class="parameter"><code>socket</code></em> için engellemesiz kip seçildiyse ve okunacak veri yoksa, <code class="code">recv</code> beklemeden hemen döner. Engellemesiz kip hakkında daha fazla bilgi için bkz, <a class="xref" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri"><em>Dosya Durum Seçenekleri</em></a>.
+     </p>
+     <p>
+      Bu işlev aktarılan bayt miktarı ile veya hata durumunda <code class="code">-1</code> ile döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+     </p>
+     <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+        </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+         Veri alınmadan önce işlem bir sinyal tarafından kesildi. Bkz, <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+        </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+        </p></dd><dt><span class="term"><code class="code">EWOULDBLOCK</code></span></dt><dd><p>
+         Soket engellemesiz kipte ve okuma işlemi soketi engeller. (Normalde <code class="code">recv</code> işlem bitinceye kadar soketi engeller.)
+        </p></dd><dt><span class="term"><code class="code">ENOTCONN</code></span></dt><dd><p>
+         <em class="parameter"><code>socket</code></em> soketi bu işlemi desteklemiyor.
+        </p></dd></dl></div>
+     <p>
+      Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanıtıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+     </p>
+    </div>
+        </section>
+        <section class="sect2" id="glibc-Socket-Data-Options">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">16.9.5.3. Soket Verisi Seçenekleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span id="idm126482" class="indexterm"></span>
+     <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> ve <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevlerindeki <em class="parameter"><code>flags</code></em> bağımsız değişkeni bit maskesidir. Aşağıdaki makroların değerleri bitsel VEYAlanarak bu bağımsız değişken için değer elde edilebilir. Hepsi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlıdır.
+    </p>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-MSG_OOB" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">MSG_OOB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Sıra-dışı-veri gönderilir ve alınır; bkz. <a class="xref" href="glibc-Out-of-Band-Data.html" title="16.9.8. Sıra-Dışı-Veri Aktarımı">Sıra-Dışı-Veri Aktarımı</a>.
+     </p>
+    </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-MSG_PEEK" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">MSG_PEEK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Veriye bakılır ancak girdi kuyruğundan çıkarılmaz. Bu sadece <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> gibi girdi işlevleri için anlamlıdır (<a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> ile anlamlı değildir).
+     </p>
+    </div>
+          <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-MSG_DONTROUTE" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">MSG_DONTROUTE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Yönlendirme bilgisi iletinin içinde bulunmaz. Bu sadece çıktı işlevlerinde anlamlıdır ve genellikle sadece tanı veya yönlendirme amaçlı yazılımlarda kullanılır. Bu konu burada anlatılmayacaktır.
+     </p>
+    </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

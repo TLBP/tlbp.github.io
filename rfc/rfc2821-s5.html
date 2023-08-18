@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5. Adres Çözümleme ve Posta Yönetimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s45.html')">Önceki</button>
+          <div class="dropdown-content">4.5. Gerçeklenimle İlgili Ek Hususlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s6.html')">Sonraki</button>
+          <div class="dropdown-content">6. Sorun Saptama ve Giderme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2821-s5">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5. Adres Çözümleme ve Posta Yönetimi</h2>
+            </div>
+          </div>
+        </div>
+        <p><span class="rfcmust">Bir SMTP istemcisi işlenmek üzere (<a class="xref" href="rfc2821-s36.html" title="3.6. Alanlar">Alanlar</a> ve <a class="xref" href="rfc2821-s37.html" title="3.7. Röleleme">Röleleme</a> bölümünde açıklandığı gibi) posta gönderebileceği bir alanı sözdizimsel olarak tanımladığında, alan adını çözümlemek için bir DNS sorgusu yapmalıdır *ZORUNLU*</span> [<a class="xref" href="rfc2821-s9.html#rfc2821-bib22" title="STD 13, Domain names - implementation and specification">22</a>]. İsimlerin tam nitelikli alan adları (FQDN) olması beklenir: kısmi isimlerden veya yerel takma adlardan tam nitelikli alan adlarını elde etme mekanizmaları bu belirtimin kapsamı dışında olup, sorunlarla dolu bir geçmişten dolayı genellikle tavsiye edilmez. Sorgu öncelikle isimle ilişkili bir <code class="literal">MX</code> kaydı bulmak için yapılır. Eğer bunun yerine bir <code class="literal">CNAME</code> kaydı bulunursa, sonuçlanan isim bir ilk isimmiş gibi işleme sokulur. Eğer hiç <code class="literal">MX</code> kaydı bulunmaz da bir <code class="literal">A</code> kaydı bulunursa, <code class="literal">A</code> kaydı <code class="literal">0</code> tercihli örtük bir <code class="literal">MX</code> kaydı ile ilişkiliymiş gibi ele alınır. <span class="rfcmust">Belirtilen isim için bir veya daha fazla <code class="literal">MX</code> kaydı bulunursa, <code class="literal">MX</code> kayıtlarında aynı isim belirtilmiş olmadıkça, SMTP sistemlerinin bu alan adıyla bir <code class="literal">A</code> kaydını ilişkilendirmemeleri gerekir *ZORUNLU*</span>; yukarıdaki "örtük <code class="literal">MX</code>" kuralı sadece mevcut bir <code class="literal">MX</code> kaydının bulunmaması durumunda uygulanır. <span class="rfcmust">Eğer <code class="literal">MX</code> kayıtları varsa, fakat hiçbiri kullanışlı değilse, bu durum bir hata olarak raporlanmalıdır *ZORUNLU*</span>.
+</p>
+        <p>
+Sorgu başarılı olabilir ve çok sayıda <code class="literal">MX</code> kaydı, çok evlilik veya her ikisinin de varlığından dolayı tek bir adres yerine birbirlerinin yerlerine kullanılabilecek birden fazla adres içeren bir liste ile eşleşme sağlanabilir. <span class="rfcmust">Güvenilir posta aktarımı sağlamak için SMTP istemcisi, başarılı bir teslimat gerçekleştirene kadar bu listedeki her adresi deneyebilmelidir (hatta tekrar tekrar) *ZORUNLU*</span>. Yine de, <span class="rfcmaybe">denenebilecek adres sayısı ile ilgili yapılandırılabilir bir sınır konulabilir *SEÇİMLİK*</span>. Ancak ne olursa olsun, <span class="rfcshould">SMTP istemcisinin en azından iki adresi denemesi gerekir *ÖNERİ*</span>.
+</p>
+        <p>
+Konak adreslerinin sıralanmasında iki tür bilgi kullanılır: çoklu <code class="literal">MX</code> kaydı ve çok evli konaklar.
+</p>
+        <p><span class="rfcmust">Çoklu <code class="literal">MX</code> kaydı, sıralı erişilme gereğini *ZORUNLU*</span> belirten bir tercih gösterimi içerir (aşağıya bakınız). Küçük sayılar büyüklere göre öncelik belirtir. <span class="rfcmust">Aynı tercihe sahip birden fazla hedef varsa ve birinin tercih edilmesi için aleni bir sebep (örneğin, kolay erişilen bir adresin saptanması) yoksa, gönderici SMTP sisteminin yükü çok sayıda posta aktarımcısı arasında onlara özel bir örgütlenime göre dağıtması gerekir *ZORUNLU*</span>.
+</p>
+        <p>
+Hedef konak (şüphesiz, tercihli bir <code class="literal">MX</code> kaydından alınmış olarak) çok evli olabilir, yani, alan adı çözümleyici aynı konak için hepsi birbirinin yerine kullanılabilen birden fazla IP adresi döndürebilir. Gerektiğinde listenin azalan tercihli sıralamaya tabi tutulması alan adı çözümleme arayüzünün sorumluluğundadır. <span class="rfcmust">SMTP listeyi sunulduğu sıraya göre denemelidir *ZORUNLU*</span>.
+</p>
+        <p>
+Birbirlerinin yerine kullanılabilen çok sayıda adresi deneyebilme yeterliliğinin gerekliliğinden dolayı, bazı kurulumlar bu tür adres kullanımını sınırlamak hatta tamamen iptal etmek isteyebilir. Bir gönderici çok evli bir konağın farklı adreslerini kullanarak gönderiyi yinelemeli midir sorusu tartışmalıdır. Çok sayıda adres kullanımını savunanların ana bağımsız değişkeni zamanında teslimat olasılığını ve hatta bazan da herhangi bir teslimat olasılığını azamileştirmesidir; karşıtların bağımsız değişkeni ise, gereğinden fazla özkaynak kullanımına yolaçmasıdır. <a class="xref" href="rfc2821-s45.html#rfc2821-s4541" title="4.5.4.1. Gönderme Stratejisi">Gönderme Stratejisi</a> bölümünde açıklanan gönderi stratejisi kullanılarak ek olarak özkaynak kullanımının da kesin olarak saptanabileceğini dikkatinize sunarız.
+</p>
+        <p><span class="rfcmaybe">Bir SMTP sunucusu, hedefi, tasarlanmış bir posta aktarımcısı (<code class="literal">MX</code>) olan bir ileti alırsa, iletiyi röleleyebilir *SEÇİMLİK*</span> (mumtemelen <code class="code">MAIL FROM</code> ve/veya <code class="code">RCPT TO</code> adreslerini yeniden yazdıktan sonra), <span class="rfcmaybe">iletinin son teslimatını yapabilir *SEÇİMLİK*</span> ya da <span class="rfcmaybe">SMTP dışı bir aktarım mekanizmasını kullanarak elden çıkarabilir *SEÇİMLİK*</span>. Tabii ki, sonuncuya dahil olanların hiçbiri <code class="literal">MX</code> kayıtları listesinin bir şekilde incelenmesini gerektirmez.
+</p>
+        <p><span class="rfcmust">Eğer iletinin, adresler yeniden yazılmaksızın rölelenmesi gerektiği saptanırsa, teslimat adaylarını saptamak için <code class="literal">MX</code> kayıtlarının sıralanması gerekir *ZORUNLU*</span>. En küçük numaralı kayıt en tercihli kayıt olmak üzere kayıtlar önce tercih sırasına sokulur. Röleleme konağı daha sonra bu listeyi posta aktarımı yapılabilecek isim ve adresleri saptamak için inceler. <span class="rfcmust">Bir eşleşen kayıt bulunursa, tercih seviyesindeki ve daha yüksek numaralı tercihlere sahip tüm kayıtlar gözden çıkarılmalıdır *ZORUNLU*</span>. <span class="rfcmust">Bu noktada hiçbir kayıt kalmazsa, bu bir hata durumudur ve ileti teslim edilemediği gerekçesiyle geri gönderilmelidir *ZORUNLU*</span>. <span class="rfcshould">Eğer elde kayıt kalırsa, bunlar yukarıda açıklandığı gibi en tercihlisinden başlanarak denenmelidir *ÖNERİ*</span>.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

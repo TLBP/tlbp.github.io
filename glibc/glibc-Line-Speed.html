@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.4.8. Hat Hızı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Local-Modes.html')">Önceki</button>
+          <div class="dropdown-content">17.4.7. Yerel Kipler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Terminal-Modes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Special-Characters.html')">Sonraki</button>
+          <div class="dropdown-content">17.4.9. Özel Karakterler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Line-Speed">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">17.4.8. Hat Hızı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm128854" class="indexterm"></span>
+    Uçbirim hat hızı, bilgisayara uçbirime ne kadar hızlı okuma ve yazma yapacağını belirtmek için kullanılır.
+   </p>
+        <p>
+    Uçbirim gerçek bir seri hatta bağlıysa, belirtilen uçbirim hızı aslında hat hızını denetler (Eğer hat hızı ile uçbirimin kendi hızı eşleşmezse iletişim gerçekleşmez). Gerçek seri portlar sadece belirli standart hızları kabul eder. Ayrıca, bazı donanımlar standart hızların tamamını desteklemeyebilir. Hızın sıfır olarak belirtilmesi bir çevirmeli ağ bağlantısının kesilmesine ve modem denetim sinyallerinin durdurulmasına sebep olur.
+   </p>
+        <p>
+    Eğer uçbirim gerçek bir seri hat değilse (örneğin, bir ağ bağlantısı), hat hızı gerçekte iletim hızını etkilemez ama bazı uygulamalar boşluk doldurma miktarını saptayabilmek için bu değeri kullanabilecektir. En iyisi hat hızını, asıl uçbirimin asıl hızı ile eşleşen bir değer olarak belirtmektir, ancak boşluk doldurma miktarını değiştiren farklı değerler hakkında deneyimli olmak gerekir.
+   </p>
+        <p>
+    Esas olarak her uçbirim için iki hat hızı vardır: girdi hızı ve çıktı hızı. Bunları birbirinden bağımsız olarak ayarlamak mümkünse de çoğunlukla her iki yönde de aynı hızlar kullanılır.
+   </p>
+        <p>
+    Hız değerleri <a href="glibc-Mode-Data-Types.html#glibc-tp-termios"><strong class="type"><code>struct termios</code></strong></a> yapısında saklanır ama doğrudan yapı üzerinden erişmeye çalışılmamalıdır. Bu değerleri yapı içinde değiştirmek ya da okumak için aşağıdaki işlevler kullanılmalıdır:
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfgetospeed" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">cfgetospeed</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     *<em class="parameter"><code>termios-p</code></em> yapısında saklanan çıktı hat hızı ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfgetispeed" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">cfgetispeed</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     *<em class="parameter"><code>termios-p</code></em> yapısında saklanan girdi hat hızı ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfsetospeed" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">cfsetospeed</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>, </code></strong><code class="type">speed_t </code><strong><code class="parameter">speed</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>speed</code></em> hız değerini *<em class="parameter"><code>termios-p</code></em> yapısında çıktı hızı olarak saklar. Normal dönüş değeri sıfırdır, <code class="code">-1</code> değeri bir hata oluştuğunu gösterir. <em class="parameter"><code>speed</code></em> değişkeninin hız değeri belirtmediği durumda da işlev <code class="code">-1</code> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfsetispeed" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">cfsetispeed</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>, </code></strong><code class="type">speed_t </code><strong><code class="parameter">speed</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>speed</code></em> hız değerini *<em class="parameter"><code>termios-p</code></em> yapısında girdi hızı olarak saklar. Normal dönüş değeri sıfırdır, <code class="code">-1</code> değeri bir hata oluştuğunu gösterir. <em class="parameter"><code>speed</code></em> değişkeninin hız değeri belirtmediği durumda da işlev <code class="code">-1</code> ile döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfsetspeed" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">cfsetspeed</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>, </code></strong><code class="type">speed_t </code><strong><code class="parameter">speed</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>speed</code></em> hız değerini *<em class="parameter"><code>termios-p</code></em> yapısında hem girdi ve hem de çıktı hızı olarak saklar. Normal dönüş değeri sıfırdır, <code class="code">-1</code> değeri bir hata oluştuğunu gösterir. <em class="parameter"><code>speed</code></em> değişkeninin hız değeri belirtmediği durumda da işlev <code class="code">-1</code> ile döner. Bu işlev BSD-4.4 oluşumudur.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-speed_t" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">speed_t</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">speed_t</code> hat hızını göstermek için kullanılan imsiz tamsayı veri türüdür.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Line-Speed.html#glibc-fn-cfsetospeed"><strong class="function"><code>cfsetospeed</code></strong></a> ve <a href="glibc-Line-Speed.html#glibc-fn-cfsetispeed"><strong class="function"><code>cfsetispeed</code></strong></a> işlevleri hataları sadece hat hızları sistem tarafından desteklenmediğinde bildirir. Eğer hat hızları temel olarak kabul edilebilir değerlerde belirtilirse bu işlevler başarılı olur. Fakat bu işlevler belli bir donanım aygıtının bu hat hızlarını destekleyip desteklemediğine bakmaz, aslında hangi aygıtın kullanılacağı ile de ilgilenmez. <a href="glibc-Mode-Functions.html#glibc-fn-tcsetattr"><strong class="function"><code>tcsetattr</code></strong></a> işlevi ile belli bir aygıta desteklemediği bir hız belirtilirse işlev <code class="code">-1</code> ile döner.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     GNU C Kütüphanesinde, yukarıda bahsedilen işlevler hızları saniyede bit sayısı olarak kabul eder ve saniyede bit sayısı olarak döndürür. Diğer kütüphanelerde hızların belirli kodlarla belirtilmesi gerekir. POSIX.1 taşınabilirliği için, hat hızı aşağıdaki simgeler kullanılarak belirtilmelidir, bu simgelerin sayısal değerleri sisteme bağımlıdır fakat her isim belli bir anlama gelir: <code class="code">B110</code> =&gt; 100 bps, <code class="code">B300</code> =&gt; 300 bps gibi. Bu hızları taşınabilir olarak belirtmenin başka yolu yoktur. Bunlar sadece seri hatların desteklediği, sıklıkla kullanılan hızlarını belirtir.
+     <span id="glibc-vr-B0" class="indexterm"></span>
+     <span id="glibc-vr-B50" class="indexterm"></span>
+     <span id="glibc-vr-B75" class="indexterm"></span>
+     <span id="glibc-vr-B110" class="indexterm"></span>
+     <span id="glibc-vr-B134" class="indexterm"></span>
+     <span id="glibc-vr-B150" class="indexterm"></span>
+     <span id="glibc-vr-B200" class="indexterm"></span>
+     <span id="glibc-vr-B300" class="indexterm"></span>
+     <span id="glibc-vr-B600" class="indexterm"></span>
+     <span id="glibc-vr-B1200" class="indexterm"></span>
+     <span id="glibc-vr-B1800" class="indexterm"></span>
+     <span id="glibc-vr-B2400" class="indexterm"></span>
+     <span id="glibc-vr-B4800" class="indexterm"></span>
+     <span id="glibc-vr-B9600" class="indexterm"></span>
+     <span id="glibc-vr-B19200" class="indexterm"></span>
+     <span id="glibc-vr-B38400" class="indexterm"></span>
+     <span id="glibc-vr-B57600" class="indexterm"></span>
+     <span id="glibc-vr-B115200" class="indexterm"></span>
+     <span id="glibc-vr-B230400" class="indexterm"></span>
+     <span id="glibc-vr-B460800" class="indexterm"></span>
+    </p>
+          </div>
+        </div>
+        <pre class="literallayout monospaced">
+B0      B50     B75     B110    B134
+B150    B200    B300    B600    B1200
+B1800   B2400   B4800   B9600   B19200
+B38400  B57600  B115200 B230400 B460800
+</pre>
+        <p>
+    <span id="glibc-vr-EXTA" class="indexterm"></span>
+    <span id="glibc-vr-EXTB" class="indexterm"></span>
+    BSD bunlara ek olarak iki hız simgesini takma ad olarak tanımlar: <code class="code">EXTA</code> simgesi <code class="code">B19200</code> için, <code class="code">EXTB</code> simgesi de <code class="code">B38400</code> için takma addır. Bu simgeler artık kullanılmamaktadır.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

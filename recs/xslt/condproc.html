@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="date" content="2015-10-21T16:15:44+03:00" /><link rel="start" href=".." title="W3C Önergeleri" /><link rel="up" href="index.html#index-toc" title="XSL Dönüşümleri (XSLT) Sürüm 1.0" /><link rel="previous" href="for-each.html" title="Yineleme" /><link rel="next" href="sorting.html" title="Sıralama" /><link rel="stylesheet" type="text/css" href="../recs.css" /><style type="text/css">/* Belgeye özel bir CSS yoksa burası boş olabilir. */</style><title>Koşullu İşlem</title></head><body><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><th colspan="3" align="center">XSL Dönüşümleri (XSLT) Sürüm 1.0</th></tr><tr><td width="5%"><a href="for-each.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="5%" align="right"><a href="sorting.html">Sonraki</a></td></tr></table><div class="div1"><h2><a name="condproc" id="condproc"></a>9 Koşullu İşlem</h2><b>İçindekiler</b><p class="toc"><div class="tocline">    9.1 <a href="condproc.html#idp24698256">xsl:if ile Koşullu İşlem</a></div><div class="tocline">    9.2 <a href="condproc.html#idp24708112">xsl:choose ile Koşullu İşlem</a></div></p><p>XSLT'de bir örneklenim içinde koşullu işlemi destekleyen iki yönerge vardır: <a href="condproc.html#element-if"><span class="elemref"><tt>xsl:if</tt></span></a> ve <a href="condproc.html#element-choose"><span class="elemref"><tt>xsl:choose</tt></span></a>. <a href="condproc.html#element-if"><span class="elemref"><tt>xsl:if</tt></span></a> yönergesi basit if-then koşullu işlemi içindir; <a href="condproc.html#element-choose"><span class="elemref"><tt>xsl:choose</tt></span></a> yönergesi ise çeşitli olasılıklardan birinin seçilebilmesini sağlar.</p><div class="div2"><h3><a name="idp24698256" id="idp24698256"></a>9.1 <a href="condproc.html#element-if"><span class="elemref"><tt>xsl:if</tt></span></a> ile Koşullu İşlem</h3><a id="element-if" name="element-if"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto">&lt;!-- Grubu: yönerge --&gt;
+<span class="element">&lt;xsl:if</span>
+  <b>test</b> = <var>mantıksal-ifade</var><span class="element"> &gt;</span>
+  &lt;!-- İçeriği: <var>örneklenim</var> --&gt;
+<span class="element">&lt;/xsl:if&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><p><a href="condproc.html#element-if"><span class="elemref"><tt>xsl:if</tt></span></a> elemanı <a title="İfade tanımı" href="expr.html#dt-expression">ifade</a> belirtmekte kullanılan bir <code>test</code> özniteliğine sahiptir. İfade değerlendirildikten sonra elde edilen sonuç <a href="../xpath#function-boolean"><b><code>boolean</code></b></a> işlevinin yaptığı gibi bir mantıksal değere dönüştürülür. Eğer sonuç doğruysa, elemanının içeriğindeki örneklenim nesnelleştirilir; aksi takdirde, hiçbir şey yapılmaz. Aşağıdaki örnekte, bir isim grubundaki isimler bir virgül ayraçlı liste haline getirilmektedir:</p><div class="example"><pre>&lt;xsl:template match="isimlistesi/isim"&gt;
+  &lt;xsl:apply-templates/&gt;
+  &lt;xsl:if test="not(position()=last())"&gt;, &lt;/xsl:if&gt;
+&lt;/xsl:template&gt;</pre></div><p>Bu örnekte bir tablonun satırları birer atlayarak sarıya boyanmaktadır:</p><div class="example"><pre>&lt;xsl:template match="item"&gt;
+  &lt;tr&gt;
+    &lt;xsl:if test="position() mod 2 = 0"&gt;
+       &lt;xsl:attribute name="bgcolor"&gt;yellow&lt;/xsl:attribute&gt;
+    &lt;/xsl:if&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/tr&gt;
+&lt;/xsl:template&gt;</pre></div><p></p></div><div class="div2"><h3><a name="idp24708112" id="idp24708112"></a>9.2 <a href="condproc.html#element-choose"><span class="elemref"><tt>xsl:choose</tt></span></a> ile Koşullu İşlem</h3><a id="element-choose" name="element-choose"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto">&lt;!-- Grubu: yönerge --&gt;
+<span class="element">&lt;xsl:choose&gt;</span>
+  &lt;!-- İçeriği: (<a href="condproc.html#element-when">&lt;xsl:when&gt;</a>+ | <a href="condproc.html#element-otherwise">&lt;xsl:otherwise&gt;</a>?) --&gt;
+<span class="element">&lt;/xsl:choose&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><a id="element-when" name="element-when"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto"><span class="element">&lt;xsl:when</span>
+  <b>test</b> = <var>mantıksal-ifade</var><span class="element"> &gt;</span>
+  &lt;!-- İçeriği: <var>örneklenim</var> --&gt;
+<span class="element">&lt;/xsl:when&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><a id="element-otherwise" name="element-otherwise"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto"><span class="element">&lt;xsl:otherwise&gt;</span>
+  &lt;!-- İçeriği: <var>örneklenim</var> --&gt;
+<span class="element">&lt;/xsl:otherwise&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><p><a href="condproc.html#element-choose"><span class="elemref"><tt>xsl:choose</tt></span></a> elemanı bir miktar olasılık arasından uygun olanını seçer. Bir veya daha fazla sayıda <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanı ile varlığı isteği bağlı olan <a href="condproc.html#element-otherwise"><span class="elemref"><tt>xsl:otherwise</tt></span></a> elemanını içerebilir. Her <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanının bir <a title="İfade tanımı" href="expr.html#dt-expression">ifade</a> belirtmekte kullanılan tek bir <code>test</code> özniteliği vardır. <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> ve <a href="condproc.html#element-otherwise"><span class="elemref"><tt>xsl:otherwise</tt></span></a> elemanlarının içerikleri birer örneklenimdir. Bir <a href="condproc.html#element-choose"><span class="elemref"><tt>xsl:choose</tt></span></a> elemanı işleme sokulduğunda, <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanlarının içerdiği ifadeler sırayla değerlendirilip elde edilen sonuçlar <a href="../xpath#function-boolean"><b><code>boolean</code></b></a> işlevinin yaptığı gibi birer mantıksal değere dönüştürülerek denenir. <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanlarından doğru sonucu veren ilkinin içeriği nesnelleştirilir, diğerlerine bakılmaz. Eğer hiçbir <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanı doğru sonuç vermemişse, <a href="condproc.html#element-otherwise"><span class="elemref"><tt>xsl:otherwise</tt></span></a> elemanının içeriği nesnelleştirilir. Eğer hiçbir <a href="condproc.html#element-when"><span class="elemref"><tt>xsl:when</tt></span></a> elemanı doğru sonuç vermemişse ve <a href="condproc.html#element-otherwise"><span class="elemref"><tt>xsl:otherwise</tt></span></a> elemanı da yoksa hiçbir nesnelleştirme yapılmaz.</p><p>Aşağıdaki örnekte, alt listeleri de olan sıralı bir listenin üyeleri, alt liste derinliğine bağlı olarak arap rakamları, harfler ve yunan rakamları kullanılarak numaralanmaktadır:</p><div class="example"><pre>&lt;xsl:template match="orderedlist/listitem"&gt;
+  &lt;fo:list-item indent-start='2pi'&gt;
+    &lt;fo:list-item-label&gt;
+      &lt;xsl:variable name="level"
+                    select="count(ancestor::orderedlist) mod 3"/&gt;
+      &lt;xsl:choose&gt;
+        &lt;xsl:when test='$level=1'&gt;
+          &lt;xsl:number format="i"/&gt;
+        &lt;/xsl:when&gt;
+        &lt;xsl:when test='$level=2'&gt;
+          &lt;xsl:number format="a"/&gt;
+        &lt;/xsl:when&gt;
+        &lt;xsl:otherwise&gt;
+          &lt;xsl:number format="1"/&gt;
+        &lt;/xsl:otherwise&gt;
+      &lt;/xsl:choose&gt;
+      &lt;xsl:text&gt;. &lt;/xsl:text&gt;
+    &lt;/fo:list-item-label&gt;
+    &lt;fo:list-item-body&gt;
+      &lt;xsl:apply-templates/&gt;
+    &lt;/fo:list-item-body&gt;
+  &lt;/fo:list-item&gt;
+&lt;/xsl:template&gt;</pre></div><p></p></div></div><p></p><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><td width="30%"><a href="for-each.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="30%" align="right"><a href="sorting.html">Sonraki</a></td></tr><tr><td width="30%">Yineleme</td><td width="*" align="center">Bir <a href="http://belgeler.org.tr">Linux Kitaplığı</a> Sayfası</td><td width="30%" align="right">Sıralama</td></tr></table></body></html>

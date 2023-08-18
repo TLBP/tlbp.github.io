@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek A. Toplu ABNF</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-sd.html')">Önceki</button>
+          <div class="dropdown-content">13. Kaynakça</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-appb.html')">Sonraki</button>
+          <div class="dropdown-content">Ek B. Çeşitli Örnekler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-appa">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek A. Toplu ABNF</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu bölüm uyulması zorunlu bölümlendendir ve önceki metindeki ABNF dizilimleri ile ilgili her çelişki bu dilbilgisinin yardımıyla çözümlenir.
+  </p>
+        <p>
+   ABNF gösterimi için [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC4234" title="Augmented BNF for Syntax Specifications: ABNF">RFC4234</a>]'e bakınız. Bu ABNF tanımına göre, dizgesel sabitlerin (tırnak içine alınmış olanlar) harf büyüklüğüne duyarsız oluşuna lütfen dikkat ediniz. Yani, "mx" ile "mx", "MX", "mX" ve "Mx" eşleşir.
+  </p>
+        <pre class="literallayout monospaced">
+kayıt            = sürüm terimler *BOŞLUK
+sürüm            = "v=spf1"
+
+terimler         = *( 1*BOŞLUK ( yönerge / değiştirici ) )
+
+yönerge          = [ niteleyici ] mekanizma
+niteleyici       = "+" / "-" / "?" / "~"
+mekanizma        = ( tümü / dahili
+                   / A / MX / PTR / IP4 / IP6 / exists )
+
+tümü             = "all"
+dahili           = "include"  ":" alan-belirtimi
+A                = "a"      [ ":" alan-belirtimi ] [ çifte-cidr-uzun ]
+MX               = "mx"     [ ":" alan-belirtimi ] [ çifte-cidr-uzun ]
+PTR              = "ptr"    [ ":" alan-belirtimi ]
+IP4              = "ip4"      ":" ip4-ağı   [ ip4-cidr-uzun ]
+IP6              = "ip6"      ":" ip6-ağı   [ ip6-cidr-uzun ]
+mevcut           = "exists"   ":" alan-belirtimi
+
+değiştirici      = sevket / izahat / bilinmeyen-değiştirici
+sevket           = "redirect" "=" alan-belirtimi
+izahat           = "exp" "=" alan-belirtimi
+bilinmeyen-değiştirici = isim "=" makro-dizgesi
+
+ip4-cidr-uzun    = "/" 1*RAKAM
+ip6-cidr-uzun    = "/" 1*RAKAM
+çifte-cidr-uzun  = [ ip4-cidr-uzun ] [ "/" ip6-cidr-uzun ]
+
+ip4-ağı          = dörtlü "." dörtlü "." dörtlü "." dörtlü
+dörtlü           = RAKAM                 ; 0-9
+                   / %x31-39 RAKAM       ; 10-99
+                   / "1" 2RAKAM          ; 100-199
+                   / "2" %x30-34 RAKAM   ; 200-249
+                   / "25" %x30-35        ; 250-255
+                   ; bilinen noktalı dörtlü gösterim, 192.0.2.0 gibi
+ip6-ağı          = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3513" title="Internet Protocol Version 6 (IPv6) Addressing Architecture">RFC3513</a>], 2.2. bölüme göre&gt;
+                   ; örn, 2001:DB8::CD30
+
+alan-belirtimi   = makro-dizgesi alan-sonu
+alan-sonu        = ( "." tepeyafta [ "." ] ) / makro-genleş
+tepeyafta        = ( *harfrakam HARF *harfrakam ) /
+                   ( 1*harfrakam "-" *( harfrakam / "-" ) harfrakam )
+                   ; HRT kuralı artı ek TLD kısıtlamaları
+                   ; (bkz, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3696" title="Application Techniques for Checking and Transformation of Names">RFC3696</a>], 2. Bölüm)
+
+harfrakam        = HARF / RAKAM
+
+izahat-dizgesi   = *( makro-dizgesi / SP )
+
+makro-dizgesi    = *( makro-genleş / makro-sabiti )
+makro-genleş     = ( "%{" makro-harfi dönüştürücüler *ayraç "}" )
+                   / "%%" / "%_" / "%-"
+makro-sabiti     = %x21-24 / %x26-7E
+                   ; "%" hariç görünür karakterler
+makro-harfi      = "s" / "l" / "o" / "d" / "i" / "p" / "h" /
+                   "c" / "r" / "t"
+dönüştürücüler   = *RAKAM [ "r" ]
+ayraç            = "." / "-" / "+" / "," / "/" / "_" / "="
+
+name             = HARF *( HARF / RAKAM / "-" / "_" / "." )
+
+başlık-alanı     = "Received-SPF:" [AKBOŞ] sonuç KBOŞ [açıklama KBOŞ]
+                   [ anah-değer-list ] CRLF
+
+sonuç            = "Pass" / "Fail" / "SoftFail" / "Neutral" /
+                   "None" / "TempError" / "PermError"
+
+anah-değer-list  = anah-değer-çifti *( ";" [AKBOŞ] anah-değer-çifti )
+                   [";"]
+
+anah-değer-çifti = anahtar [AKBOŞ] "=" ( nokta-atom / tırnaklı-dizge )
+
+anahtar          = "client-ip" / "envelope-from" / "helo" /
+                   "problem" / "receiver" / "identity" /
+                    mekanizma / "x-" isim / isim
+
+kimlik           = "mailfrom"   ; "MAIL FROM" kimliği için
+                   / "helo"     ; "HELO"kimliği için
+                   / isim       ; diğer kimlikler
+
+nokta-atom       = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre tırnaksız sözcük&gt;
+tırnaklı-dizge   = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre tırnaklı dizge&gt;
+açıklama         = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre açıklama dizgesi&gt;
+AKBOŞ            = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre açıklamalı katlama boşlukları&gt;
+KBOŞ             = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre katlama boşlukları&gt;
+CRLF             = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre standart satır sonu dizgeciği&gt;
+</pre>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2. İşlem</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s1.html')">Önceki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s3.html')">Sonraki</button>
+          <div class="dropdown-content">3. SPF Kayıtları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s2">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">2. İşlem</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc4408-s21">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.1. HELO Kimliği</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+"HELO" kimliği ya SMTP HELO ya da EHLO komutundan türetilir (bkz, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]). Bu komutlar SMTP oturumundaki SMTP istemcisinden (gönderici konak) kaynaklanır. HELO ya da EHLO komutunda sağlanan alan adı ile ilgili gereksinimlerin gönderici taraf açısından her zaman belirgin olmadığına ve SPF istemcilerinin "HELO" kimliğinin bozuk olmasına veya bir IP adres sabiti olmasına hazırlıklı olmaları gerekir. Bu belgenin yazımı sırasında, meşru postaların çoğu hala geçersiz HELO alanları ile teslim ediliyordu.
+</p>
+          <p>
+SPF istemcilerinin sadece "MAIL FROM" kimliğini sınamakla yetinmeyip, ayrıca, <code class="literal">&lt;gönderici&gt;</code> olarak <code class="literal">check_host()</code> işlevini (<a class="xref" href="rfc4408-s4.html" title="4. check_host() İşlevi"><code class="literal">check_host()</code> İşlevi</a>) uygulayarak "HELO" kimliğini de sınamaları tavsiye olunur *ÖNERİ*.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s22">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.2. MAIL FROM Kimliği</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+"MAIL FROM" kimliği ya SMTP MAIL komutundan türetilir (bkz, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]). Bu komut, bir iletinin, genellikle göndericinin posta kutusundan oluşan ve teslimatla ilgili bir sorun olduğunda teslimat durum bildirimi iletisinin gönderileceği "dönüş yolu"nu sağlar.
+</p>
+          <p>
+[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>] dönüş yolunun boş olmasına izin verir (RFC 2821'in <a class="xref" href="rfc2821-s45.html#rfc2821-s455" title="4.5.5. Dönüş yolu boş olan iletiler">Dönüş yolu boş olan iletiler</a> bölümüne bakınız). Bu durumda  belirgin bir posta kutusu yoktur ve böyle bir iletinin posta sisteminin kendisinden kaynaklanan bir bildirim iletisi olduğu varsayılır. Dönüş yolu boş olduğunda, bu belge, "MAIL FROM" kimliğinin "postmaster" yerel kısmından ve "HELO" kimliğinden (evvelce sınanmış olsun olmasın) oluşan bir posta kutusu olacağı varsayılır.
+</p>
+          <p>
+SPF istemcilerinin "MAIL FROM" kimliğini sınamaları gerekir *ZORUNLU*. SPF istemcileri "MAIL FROM" kimliğini <code class="literal">check_host()</code> işlevini  <code class="literal">&lt;gönderici&gt;</code>yi "MAIL FROM" kimliğine uygulayarak sınarlar.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s23">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.3. Yetkilendirmenin Yayınlanması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir SPF uyumlu alanın <a class="xref" href="rfc4408-s3.html" title="3. SPF Kayıtları">SPF Kayıtları</a> bölümünde açıklandığı gibi geçerli bir SPF kaydı yayınlaması gerekir. Bu kayıt, posta aktarım aracıları tarafından  "HELO" ve "MAIL FROM" kimliklerinde alan adını kullanmaya yetkili konakları belirtir.
+</p>
+          <p>
+Eğer alan sahipleri SPF kayıtlarını yayınlamayı tercih ederlerse, bu kayıtların "-all" ile bitmesi veya bunu yapan başka kayıtlara yönlendirilmesi önerilir *ÖNERİ*, böylece yetkilendirmenin tanımsal belirlemesi yapılmış olur.
+</p>
+          <p>
+Alan sahipleri SPF kayıtlarını bu alanı kullanarak asla posta gönderemeyecek konakları belirtmek için de kullanabilirler.
+</p>
+          <p>
+SPF kayıtlarını değiştirirken, tüm meşru postalar sınanıncaya kadar eski kuralın geçerli kalacağı bir geçiş sürecinin olacağı hesaba katılmalıdır.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s24">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.4. Yetkilendirmenin Sınanması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir posta alıcısı aldığı her posta iletisi için bir SPF kaydı sınaması yapabilir. Bir SPF sınamasında, konağın belirtilen kimlikle posta bırakmaya yetkili bir istemci olup olmadığına bakılır. Genellikle böyle sınamalar alıcı posta aktarımcısı tarafından yapılır, fakat posta işleme zincirinin, gerekli bilginin elverişli ve güvenilir olduğu  başka bir yerinde de yapılabilir. En azından "MAIL FROM" kimliği sınanmalı *ZORUNLU* ve "HELO" kimliği de bunun öncesinde ayrıca sınanmış olmalıdır *ÖNERİ*.
+</p>
+          <p>
+Alan sahibinin açık onayı olmaksızın, SPF'nin 1. sürümü kayıtlara karşın diğer kimliklerin sınanması, yanlış sonuçlar verdiği bilinen durumların varlığı nedeniyle tavsiye edilmez *ÖNERİ*. Örneğin, hemen hemen tüm posta listeleri "MAIL FROM" kimliğini yeniden yazar (bkz, <a class="xref" href="rfc4408-s9.html#rfc4408-s92" title="9.2. Postalama Listeleri">Postalama Listeleri</a>), fakat bazıları iletideki diğer kimlikleri değiştirmez. <a class="xref" href="rfc4408-s9.html#rfc4408-s93" title="9.3. Yönlendirme Hizmetleri ve Takma Adlar">Yönlendirme Hizmetleri ve Takma Adlar</a> bölümünde 1.2 şıkkındaki açıklama diğer bir örnektir. Diğer kimlikleri tanımlayan belgeler belirgin bir onay için gereken yöntemi tanımlamalıdır.
+</p>
+          <p>
+SPF sınamalarını gelen posta üzerinde yapılan daha geniş çaplı sınamaların bir parçası olarak kullanmak da mümkündür. Diğer sınamaların sonuçları hangi  SPF sınamalarının yapılacağının belirleyicisi olabilir. Örneğin, gönderen konağın IP adresinin yerel aklistede bulunuyor olması tüm diğer sınamaların atlanmasına ve bu konaktan gelen postanın tümünün kabul edilmesine sebep olabilir.
+</p>
+          <p>
+Bir posta alıcısı bir SPF sınaması yapmaya karar verdiğinde, doğru gerçeklenmiş bir <code class="literal">check_host()</code> işlevini (<a class="xref" href="rfc4408-s4.html" title="4. check_host() İşlevi"><code class="literal">check_host()</code> İşlevi</a>) doğru bağımsız değişkenlerle kullanmalıdır *ZORUNLU*. Sınama bir bütün olarak isteğe bağlı olsa da, bir sınama bir kere uygulanmaya karar verildi mi, belirtildiği gibi uygulanmalı, yani yayıncı ile alıcı arasında doğru anlamsallık korunmalıdır.
+</p>
+          <p>
+Sınamayı yaparken, posta alıcı <code class="literal">check_host()</code> işlevini işlevin bağımsız değişkenlerine aşağıdaki atamaları yaparak değerlendirmelidir *ZORUNLU*:
+</p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">
+      <code class="literal">&lt;ip&gt;</code>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+postayı teslim etmeye çalışan SMTP istemcisinin IP adresi, IPv4 veya IPv6.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <code class="literal">&lt;alan&gt;</code>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"MAIL FROM" veya "HELO" kimliğinin <code class="literal">alan</code> kısmı.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <code class="literal">&lt;gönderici&gt;</code>
+     </span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"MAIL FROM" veya "HELO" kimliği.
+</p>
+              </dd>
+            </dl>
+          </div>
+          <p><code class="literal">&lt;alan&gt;</code> bağımsız değişkeninin iyi biçimlenmiş bir alan ismi olmayabileceğine dikkat ediniz. Örneğin, eğer dönüş yolu boşsa, EHLO/HELO alanı kendiyle ilgili sorunlarla birlikte kullanılır (bkz, <a class="xref" href="rfc4408-s2.html#rfc4408-s21" title="2.1. HELO Kimliği">HELO Kimliği</a>). Bu durumlarda,  <code class="literal">check_host()</code> işlevi, <a class="xref" href="rfc4408-s4.html#rfc4408-s43" title="4.3. İlk İşlem">İlk İşlem</a> bölümünde bir "<code class="literal">None</code>" sonucu döndürmek üzere tanımlanmıştır.
+</p>
+          <p>
+Bir SPF kaydı olmaması sebebiyle, geçersiz, bozuk ve mevcut olmayan alanlar SPF sınamalarının "<code class="literal">None</code>" döndürmelerine sebep olsalar bile, hala çoğu MTA'nın önlemi böyle alanlardan gelen epostayı reddetmektir; özellikle, geçersiz "MAIL FROM" durumunda. SPF kayıtlarında bozmadan kaçınma sırasında, eposta reddinin geçersiz alanlardan kaynaklandığı varsayılmalıdır.
+</p>
+          <p>
+Gerçeklenimler, SMTP MAIL FROM komutu ile verilen veriden <code class="literal">&lt;alan&gt;</code>ı doğru düzgün elde etmek konusunu dikkatle almalıdırlar, çünkü çoğu MTA, güvenlik sistemlerini aşmak için kötü niyetlerle kullanılmakta olan kaynak rotaları ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]'in <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a> bölümüne bakınız), yüzde kotarımları [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC1123" title="Requirements for Internet Hosts - Application and Support">RFC1123</a>] ve ünlemli yollar [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC1983" title="Internet Users' Glossary">RFC1983</a>] gibi şeyleri hala kabul etmektedir.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s25">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.5. Sonucun Yorumlanması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu bölümde yetkilendirme uygulayan yazılımların, <code class="literal">check_host()</code> işlevinin sonuçlarını nasıl yorumlamaları gerektiği açıklanacaktır. Yetkilendirme sınaması SMTP aktarım işlemi sınasında yapılmalıdır *ÖNERİ*. Bu, hataların gönderen MTA'ya doğrudan doğruya SMTP yanıtları yoluyla dönmesini mümkün kılar.
+</p>
+          <p>
+Yetkilendirmenin SMTP aktarımı bittikten sonra sınanması şu gibi sonuçlara yol açar: (1) aldatıcı olması muhtemel başlıklardan gerekli bilginin kusursuz olarak elde edilmesi zor olabilir; (2) göndericinin yetkilendirme kuralı bu arada değişebileceğinden dolayı meşru eposta reddedilebilir.
+</p>
+          <p>
+Yetkilendirme sınaması başarısız olmuş taklit kimliklerle ilgili teslimatın kabul edilmediğine dair bildirimlerin üretilmesi genellikle istismarcılık olarak görülür ve kimlik sahibinin isteklerine açıkça aykırıdır.
+</p>
+          <section class="sect3" id="rfc4408-s251">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.1. 
+     <code class="literal">None</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">None</code>" sonucu, alanda yayınlanmış bir kaydın bulunmadığını veya verilen kimlikten sınanabilir bir gönderici alanı saptanamadığını belirtir. Sınama yazılımı, istemci konağın yetkili olup olmadığını araştıramamıştır.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s252">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.2. 
+     <code class="literal">Neutral</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Alan sahibi, IP adresinin yetkili olup olmadığı konusunda belirleyici olmak istememekte veya belirleyici olamamakta olduğunu belirtmiştir. "<code class="literal">Neutral</code>" (tarafsız) sonucu, bir "<code class="literal">None</code>" sonucu gibi ele alınmamalıdır *ZORUNLU*; sadece bilgilendirici amaçlarla bir ayrım mevcuttur. "<code class="literal">Neutral</code>" sonucunun, bir "<code class="literal">None</code>" sonucundan daha sertçe ele alınması, alan adı sahiplerini SPF kayıtları kullanımını denemekten vazgeçirirdi (<a class="xref" href="rfc4408-s9.html#rfc4408-s91" title="9.1. Gönderici Alanlar">Gönderici Alanlar</a> bölümüne bakınız).
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s253">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.3. 
+     <code class="literal">Pass</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">Pass</code>" sonucu, istemcinin belirttiği kimlikle posta teslimine yetkili olduğu anlamına gelir. <code class="literal">Alan</code>, inkar bağlamında, artık, ileti göndermekte yetkili olarak ele alınabilir ve ilgili politik sınamalar kimliğin meşruluğundan emin olarak yapılabilir.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s254">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.4. 
+     <code class="literal">Fail</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">Fail</code>" sonucu, istemcinin belirttiği kimlikle posta teslimine yetkili olmadığı anlamına gelir. Sınama yazılımı postayı imleyerek kabul edebilir veya derhal reddedebilir.
+</p>
+            <p>
+Eğer sınama yazılımı SMTP aktarımı sırasında postayı reddetmeyi seçerse, bir 550 SMTP yanıt koduyla (bkz, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]), ek olarak, eğer destekleniyorsa, 5.7.1 Teslimat Durum Bildirimi (DSN) kodlu (bkz, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3464" title="An Extensible Message Format for Delivery Status Notifications">RFC3464</a>]) bir red yanıtı vermelidir *ÖNERİ*. <code class="literal">check_host()</code> işlevi ya öntanımlı ya da SPF kaydı yayınlamış alanlardan birinin açıklama dizgesini döndürmelidir (bkz, <a class="xref" href="rfc4408-s6.html#rfc4408-s62" title="6.2. İzahat (exp)">İzahat (<code class="literal">exp</code>)</a>). Eğer bilgi, sınama yazılımından kaynaklanmıyorsa, göndericinin alanı tarafından sağlanan metin açıkça belirtilmelidir. Örnek: (Dikkat: Örnek dilimize çevrilmiş olduğundan us-ascii olmayan karakterler içermektedir, dolayısıyla bir SMTP yanıtı olarak uygulanabilir değildir)
+</p>
+            <pre class="literallayout monospaced">
+550-5.7.1 SPF MAIL FROM sınaması başarısız oldu:
+550-5.7.1 example.com'un açıklaması için, lütfen:
+550-5.7.1 http://www.example.com/posta-politikasi.html
+550 5.7.1 adresine bakınız.
+</pre>
+          </section>
+          <section class="sect3" id="rfc4408-s255">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.5. 
+     <code class="literal">SoftFail</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">SoftFail</code>" sonucu, "<code class="literal">Fail</code>" ile "<code class="literal">Neutral</code>" arasında kalan bir sonuç gibi ele alınmalıdır. Alan sahibi konağın yetkili olmadığına inanmakta, ama kesin bir beyanattan kaçınmaktadır. Alıcı yazılım sırf bu sonuca bakarak iletiyi reddetmemelidir *ÖNERİ*, fakat normalden daha dikkatli bir incelemeye konu edebilir *SEÇİMLİK*.
+</p>
+            <p>
+"<code class="literal">SoftFail</code>" sonucu alındığında, alan sahibinin bu konağı kullanmaktan vazgeçmek istediği ve bu nedenle sınırlı bir geribesleme istediği anlamı çıkarılabilir. Örneğin, alıcının MTA'sı "<code class="literal">SoftFail</code>" durumuna dikkat çekebilir veya alıcı MTA göndericiye "grilisteleme" denilen tekniği kullanarak yanıt verebilir; bu teknikte, alıcı MTA bir 451 SMTP yanıt kodu (4.3.0 DSN kodu) ile isteğin alınmış olduğunu ama ikinci bir teslimat denemesinde iletinin kabul edileceğini belirterek postanın ilk teslimatını reddeder.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s256">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.6. 
+     <code class="literal">TempError</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">TempError</code>" (geçici hata) sonucu, SPF istemcisinin sınamayı yaparken geçici bir hata saptadığı anlamına gelir. Sınayan yazılım iletiyi ya kabul eder ya da geçici olarak reddeder. Eğer ileti SMTP aktarımı sırasında bu sebeple reddedilmişse, yazılım 451 yanıt kodunu ve destekleniyorsa 4.4.3 DSN kodunu kullanmalıdır *ÖNERİ*.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s257">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.5.7. 
+     <code class="literal">PermError</code>
+    </h4>
+                </div>
+              </div>
+            </div>
+            <p>
+"<code class="literal">PermError</code>" sonucu, alanın yayınladığı kaydın gerektiği gibi yorumlanamadığı anlamına gelir. Bu sonuç, "<code class="literal">TempError</code>" sonucunun aksine, çözümlenmesi için elle müdahalenin gerekli olduğu bir hata durumunu belirtir. Haberiniz olsun, eğer alan sahibi makro kullanıyorsa (bkz, <a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a>), bu sonuç sınanan kimliklerin beklenmedik bir biçime sahip olmasından kaynaklanabilir.
+</p>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

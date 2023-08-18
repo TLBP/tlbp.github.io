@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.11. inetd Artalan Süreci</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Datagrams.html')">Önceki</button>
+          <div class="dropdown-content">16.10. Bağlantısız Soket İşlemleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Socket-Options.html')">Sonraki</button>
+          <div class="dropdown-content">16.12. Socket Seçenekleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Inetd">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.11. <code class="code">inetd</code> Artalan Süreci</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Önceki bölümde kendi dinleme işlemini yapan bir sunucu yazılımınının nasıl yazıldığı anlatılmıştı. Bu tür bir sunucu bağlanacaklar için çalışıyor durumda olmalıdır.
+  </p>
+        <p>
+   Bir İnternet portunda bir hizmet sunmanın diğer bir yolu ise bir artalan süreç yazılımı olan <span class="command"><strong>inetd</strong></span>'nin dinlemesidir. <span class="command"><strong>inetd</strong></span>, sürekli çalışan ve belirli portlardan gelecek iletiler için bekleyen bir yazılımdır. Bir ileti aldığında, bağlantıyı kabul eder (eğer soket tarzı bağlantı kabul ediyorsa) ve ilgili sunucu yazılımını çalıştırmak için <a href="glibc-Creating-a-Process.html#glibc-fn-fork"><strong class="function"><code>fork</code></strong></a> ile bir alt süreç oluşturur. Port ve ilgili yazılımlar <code class="filename">/etc/inetd.conf</code> dosyasında tanımlanmalıdır.
+  </p>
+        <section class="sect1" id="glibc-Inetd-Servers">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.11.1. <code class="code">inetd</code> Sunucuları</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span class="command"><strong>inetd</strong></span> ile çalışacak bir sunucu yazmak oldukça basittir. Her seferinde birileri uygun porttan bağlantı isteğinde bulunur ve yeni bir sunucu süreci başlar. Bu durumda bağlantı zaten vardır; soket, sunucu sürecinde standart girdi ve çıktı tanıtıcısı (0 ve 1) olarak bulunmaktadır. Böylece sunucu yazılımı okuma ve yazma işlemlerine başlayabilir. Genelde yazılım sadece sıradan G/Ç imkanlarına ihtiyaç duyar; aslında, genel kullanıma yönelik, soketten bir şey anlamayan bir süzme yazılımı <span class="command"><strong>inetd</strong></span> ile bayt akımlı sunucu olarak çalışabilir.
+   </p>
+          <p>
+    <span class="command"><strong>inetd</strong></span> aynı zamanda bağlantısız iletişim tarzlarını kullanan sunucular için de kullanılabilir. Bu sunucular için, <span class="command"><strong>inetd</strong></span> bağlantı kabul etmeye çalışmaz çünkü bağlantı imkanı yoktur. Sadece, 0 tanıtıcısından gelen veri katarı paketini okuyabilen sunucu yazılımını başlatır. Sunucu yazılımı bir isteği ele alıp sonra çıkabilir veya daha fazla istek gelmeden, yazması sağlanabilir. <span class="command"><strong>inetd</strong></span> yapılandırılırken sunucunun kullandığı bu iki teknikten biri belirtilmelidir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Configuring-Inetd">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.11.2. <code class="code">inetd</code> Yapılandırması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <code class="filename">/etc/inetd.conf</code> dosyası <span class="command"><strong>inetd</strong></span>'ye hangi portları dinleyeceğini ve bunlarda hangi sunucu yazılımlarını çalıştıracağını söyler. Normalde dosya içindeki her girdi bir satırdır, bunlar çoklu satırlara bölünmek istenirse girdinin ilk satırını boşlukla başlatmak gerekir. <code class="code">#</code> ile başlayan satırlar açıklama satırlarıdır.
+   </p>
+          <p>
+    Aşağıda <code class="filename">/etc/inetd.conf</code> dosyasındaki iki standart girdi görülmektedir:
+   </p>
+          <pre class="literallayout monospaced">ftp     stream  tcp     nowait  root    /libexec/ftpd   ftpd
+talk    dgram   udp     wait    root    /libexec/talkd  talkd
+</pre>
+          <p>
+    Her girdi aşağıdaki yapıdadır:
+   </p>
+          <pre class="literallayout monospaced"><em class="replaceable"><code>hizmet tarz protokol bekleme kullanıcı yazılım seçenekler</code></em>
+</pre>
+          <p>
+    <em class="replaceable"><code>hizmet</code></em> alanı bu yazılımın hangi hizmeti desteklediğini söyler. Bu <code class="filename">/etc/services</code> içinde tanımlı hizmet isimlerinden biri olmalıdır. <span class="command"><strong>inetd</strong></span>, <em class="replaceable"><code>hizmet</code></em>i bu girdi için hangi portun dinleneceğine karar vermek için kullanır.
+   </p>
+          <p>
+    <em class="replaceable"><code>tarz</code></em> ve <em class="replaceable"><code>protokol</code></em> alanları soketi dinlemek için kullanılan iletişim tarzını ve protokolünü belirler. <em class="replaceable"><code>tarz</code></em>, küçük harflere çevrilmiş ve başındaki <code class="code">SOCK_</code> kaldırılmış, '<code class="code">stream</code>' veya '<code class="code">dgram</code>' gibi bir iletişim tarzı adı olmalıdır. <em class="replaceable"><code>protokol</code></em>, <code class="filename">/etc/protocols</code> içinde listelenen protokollerden biri olmalıdır. Genelde protokol isimleri bayt akımlı bağlantılar için <code class="code">tcp</code> ve güvensiz veri katarları için <code class="code">udp</code>'dir.
+   </p>
+          <p>
+    <em class="replaceable"><code>bekleme</code></em> alanı ya <code class="code">wait</code> ya da <code class="code">nowait</code> olmalıdır. Eğer bağlantısız iletişim tarzı kullanılıyorsa ve sunucu başladığında gelen çoklu istekler ele alınıyorsa <code class="code">wait</code> kullanılır. <span class="command"><strong>inetd</strong></span>'nin gelen her ileti veya istek için yeni bir süreç başlatması gerekiyorsa <code class="code">nowait</code> kullanılır. <em class="replaceable"><code>tarz</code></em> bağlantıları kullanıyorsa, <em class="replaceable"><code>bekleme</code></em> alanı <code class="code">nowait</code> olmalıdır.
+   </p>
+          <p>
+    <em class="replaceable"><code>kullanıcı</code></em> sunucunun hangi kullanıcı altında çalışması gerektiğidir. <span class="command"><strong>inetd root</strong></span> olarak çalışır, böylece çocuklarına istediği kullanıcı kimliğini verebilir. Yapılabilirse, <em class="replaceable"><code>kullanıcı</code></em> için <span class="command"><strong>root</strong></span> kullanmamak en iyisidir; fakat bazı sunucular, örneğin Telnet ve FTP, kendisi için kullanıcı adı ve parola okur. Bu sunucuların ilk başta <span class="command"><strong>root</strong></span> olması gerekir böylece ağ üzerinden gelen verinin yönlendirdiği şekilde giriş yapabilir.
+   </p>
+          <p>
+    <em class="replaceable"><code>seçenekler</code></em> ile birlikte <em class="replaceable"><code>yazılım</code></em> sunucuyu başlatacak komutu belirtir. <em class="replaceable"><code>yazılım</code></em> çalıştırılabilir bir dosyanın tam dosya ismi olmalıdır. <em class="replaceable"><code>seçenekler</code></em> boşluklarla ayrılmış herhangi sayıda sözcükten oluşur; bunlar <em class="replaceable"><code>yazılım</code></em>'ın komut satırı seçenekleri olur. <em class="replaceable"><code>seçenekler</code></em> içindeki ilk sözcüğün bağımsız değişken numarası sıfırdır ve bu yazılım isminin kendisidir (dizinsiz olarak).
+   </p>
+          <p>
+    <code class="filename">/etc/inetd.conf</code> dosyası değiştirilirse, <span class="command"><strong>inetd</strong></span>'ye <a href="glibc-Termination-Signals.html#glibc-vr-SIGHUP"><strong class="varname"><code>SIGHUP</code></strong></a> sinyali göndererek dosyayı tekrar okuması ve yeni içeriğe uyması söylenebilir. <tt><a href="../man/man1/man1-ps.html"><b>ps</b></a>(1)</tt> ile <span class="command"><strong>inetd</strong></span>'nin süreç kimliği (PID) saptanabilir.
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

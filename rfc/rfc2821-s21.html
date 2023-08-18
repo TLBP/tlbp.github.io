@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2.1. Temel Yapı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s2.html')">Önceki</button>
+          <div class="dropdown-content">2. SMTP Modeli</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s2.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s22.html')">Sonraki</button>
+          <div class="dropdown-content">2.2. Eklenti Modeli</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s21">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">2.1. Temel Yapı</h3>
+            </div>
+          </div>
+        </div>
+        <p>SMTP tasarımı şöyle resmedilebilir:
+</p>
+        <div class="figure">
+          <div class="figure-title">Şekil 1. </div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+                +-----------+                   +----------+
++-----------+   |           |                   |          |
+| Kullanıcı |&lt;-----&gt;|           |      SMTP         |          |
++-----------+   |    SMTP   |Komutları/Yanıtları|   SMTP   |
++-----------+   | istemcisi |&lt;---------------------&gt;| sunucusu |   +-------+
+|   Dosya   |&lt;-----&gt;|           |    ve Posta       |          |&lt;-----&gt;| Dosya |
+|  Sistemi  |   |           |                   |          |   |Sistemi|
++-----------+   +-----------+                   +----------+   +-------+
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p>
+SMTP istemcisinin iletilmek üzere bir iletisi olduğunda, bir SMTP sunucusuna iki yollu bir aktarım kanalı kurar. SMTP istemcisinin sorumluluğu, posta iletilerini bir veya daha fazla sayıda SMTP sunucusuna aktarmak ve eğer varsa hataları raporlamaktır.
+</p>
+        <p>
+Bir posta iletisinin SMTP istemcisine sunulması ve istemci tarafından hangi posta iletilerinin hangi alan isimlerine aktarılacağının tespiti yerel konulardan olup bu belgede bu konulara değinilmeyecektir. Bazı durumlarda, alan isimlerinin SMTP istemcisine aktarılması ya da istemci tarafından saptanması durumlarında posta iletisinin son hedefini SMTP istemcisi tayin edecektir. SMTP istemcisinin yalıtılmış bir aktarım hizmeti ortamının içinde kaldığı veya POP [<a class="xref" href="rfc2821-s9.html#rfc2821-bib3" title="Posta Office Protocol - version 2">3</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib26" title="STD 53, Post Office Protocol - Version 3">26</a>] veya IMAP [<a class="xref" href="rfc2821-s9.html#rfc2821-bib6" title="Internet Message Access Protocol - Version 4">6</a>] gerçeklenimleri ile ilişkili SMTP istemcileriyle ortaklaşılan bazı durumlarda, saptanan alan ismi tüm posta iletilerinin rölelelenmesini sağlayan ara hedefi tayin edecektir.  Tek tek iletilerle ilişkilendirilmiş hedef alan isimlerine bakmaksızın tüm trafiği aktaran veya dahili olarak tamamlanamayan aktarımlara iletileri yeniden göndermek için kuyruklar sağlayan SMTP istemcileri, bu protokola bir şekilde uyum sağlayabilir fakat tamamen yetkin sayılmaz. Tamamen yetkin SMTP gerçeklenimlerinin, daha az yetkin olanlardan röleleme kullananlar da dahil olmak üzere, bu belirtimde açıklanan tüm kuyruklama, yeniden gönderme ve diğer adres işlevlerini destekleyeceği umulur.
+</p>
+        <p>
+Bir SMTP istemcisinin, bir hedef alan ismi saptayıp, iletinin bir kopyasının aktarılacağı SMTP sunucusunun kimliğini saptaması ve aktarımı gerçekleştirmesi bu belgenin kapsamına girmektedir. Bu anlamda, bir SMTP sunucusuna bir posta aktarımı için bir SMTP istemcisi SMTP sunucusuna iki yollu bir aktarım kanalı kurar. SMTP istemcisi bir SMTP sunucusu çalıştıran uygun bir konağın adresini, bir ara posta aktarımcısı (<code class="literal">MX</code>) veya son alıcı konağın alan adı olarak çözümleyerek saptar.
+</p>
+        <p>
+Bir SMTP sunucusu ya bir nihai hedef ya bir ara "röle" (iletiyi aldıktan sonra aktaran bir SMTP istemcisinin rölesi olarak da kabul edilebilir) ya da bir "ağ geçidi" olabilir (iletiyi SMTP dışında bir protokol kullanarak aktaran anlamında ele alınabilir). SMTP komutları SMTP istemcisi tarafından üretilir ve SMTP sunucusuna gönderilir. SMTP yanıtları ise SMTP sunucusundan SMTP istemcisine komutlara yanıt olarak gönderilir.
+</p>
+        <p>
+Başka bir deyişle, ileti aktarımı özgün SMTP göndericisi ile nihai SMTP alıcısı arasındaki tek bir bağlantıda oluşabileceği gibi bir sürü ara bağlantı üzerinden hoplaya hoplaya da gerçekleşebilir. Her iki durumda da, biçimsel olarak iletinin sorumluluğunun terki durumu ortaya çıkar: protokol, ya bir iletinin teslimi ya da yapamıyorsa başarısızlığın düzgün olarak raporlanması anlamında bir sunucunun sorumluluğu kabul etmesini gerektirir.
+</p>
+        <p>
+Aktarım kanalı kurulup ilk el sıkışma tamamlandıktan sonra, SMTP istemcisi normal olarak posta aktarımını başlatır. Böyle bir hareket, postanın oluşturucusu ve hedefi ile iletinin kendisinin (başlıklar ve bir takım başka yapıları da içererek) aktarımını belirten bir sürü komuttan oluşur. Aynı ileti çok sayıda alıcıya gönderildiği zaman, bu protokol, aynı hedef konaktaki (veya ara rölelerdeki) tüm alıcılar için verinin sadece tek bir kopyasının aktarımını destekler.
+</p>
+        <p>
+Sunucu her komutu bir cevapla yanıtlar; yanıtlar, komutların kabul edildiğini, ek komutların beklendiğini veya bir geçici yahut kalıcı bir hata durumunun mevcut olduğunu belirtebilir. Gönderici veya alıcı belirtilerek komutlarda  <a class="xref" href="rfc2821-s22.html" title="2.2. Eklenti Modeli">Eklenti Modeli</a> bölümünde açıklandığı gibi sunucu izinli SMTP ek hizmet istekleri bulunabilir. Komut borulama [<a class="xref" href="rfc2821-s9.html#rfc2821-bib13" title="SMTP Service Extension for Command Pipelining">13</a>] gibi ek isteklerde bulunarak karşılıklı kabullerle değiştirilebilir olsa bile görüşme, amaca uygun olarak her seferinde tek bir adımı gerçekleştirmek biçiminde yapılır.
+</p>
+        <p>
+Bir posta iletisi aktarımının bitmesinin ardından istemci bağlantının kapatılmasını isteyebileceği gibi başka bir postanın aktarımını da başlatabilir. Ek olarak, bir SMTP istemcisi bir SMTP sunucusuyla olan bağlantıyı, eposta adreslerinin doğrulanması veya posta listesinin üye adreslerinin alınması gibi yan hizmetler için de kullanabilir.
+</p>
+        <p>
+Yukarıda değinildiği gibi, bu protokol posta aktarımı için mekanizmaları sağlar. Bu aktarım normal olarak, gönderen kullanıcının konağı ile alan kullanıcının konağı arasında ancak her iki konak da aynı aktarım hizmetine bağlı olduğunda doğrudan doğruya gerçekleşir. Aynı aktarım hizmetine bağlı olmadıkları takdirde, aktarım bir veya daha fazla SMTP sunucusunun postayı rölelemesi ile mümkün olur. Bir SMTP rölesi veya başka aktarım ortamlarına bir ağ geçidi olarak davranan bir ara konak genellikle alan adı hizmetinin (DNS) posta aktarımcısı mekanizması (<code class="literal">MX</code>) kullanılarak seçilir.
+</p>
+        <p>
+Çoğunlukla ara konaklar açıkça "kaynak" yönlendirme ile değil, DNS <code class="literal">MX</code> kaydı sayesinde tespit edilir (<a class="xref" href="rfc2821-s5.html" title="5. Adres Çözümleme ve Posta Yönetimi">Adres Çözümleme ve Posta Yönetimi</a>, <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a> ve <a class="xref" href="rfc2821-appf.html#rfc2821-appf2" title="Kaynak Yönlendirme"> “Kaynak Yönlendirme”</a> bölümlerine bakınız).
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

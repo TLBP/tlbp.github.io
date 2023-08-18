@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek-F. RFC 821'in Önerilmeyen Özellikleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-appe.html')">Önceki</button>
+          <div class="dropdown-content">Ek-E. Diğer Ağ geçidi Konuları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-cl.html')">Sonraki</button>
+          <div class="dropdown-content">Ek-G. Tam Telif Hakkı Beyanı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2821-appf">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek-F. RFC 821'in Önerilmeyen Özellikleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+RFC 821'in bir kaç özelliğinin sorunlu olduğu kanıtlanmıştır ve <span class="rfcshould">Genel Ağ postasında kullanılmaması gerekir *ÖNERİ*</span>.
+</p>
+        <h4 id="rfc2821-appf1"><code class="literal">TURN</code> Komutu</h4>
+        <p>
+RFC 821'de açıklanan bu komut, istemci ve sunucunun rol değiştirmesini talep eden konağın kimliğinin kesinlikle kanıtlanması gereği yerine getirilmedikçe bu durum, postayı kolayca doğru hedefinden saptırmak için kullanılabileceğinden önemli güvenlik kaçaklarını arttırır. Kullanımı önerilmez; <span class="rfcshould">sunucu tarafından istemci kimliğinin kanıtlanması sağlanmadıkça SMTP sistemlerinin bu komutu kullanmaması gerekir *ÖNERİ*</span>.
+</p>
+        <h4 id="rfc2821-appf2">Kaynak Yönlendirme</h4>
+        <p>
+RFC 821, postanın bir konaktan diğerine bir röleleme silsilesinden sonra aktarılması anlamına gelen doğrudan kaynak yönlendirme kavramından yararlanır. Sıradan posta trafiğinde kaynak rotalardan yararlanma gereksinimi, alan adı sistemine "<code class="literal">MX</code>" kaydının girişiyle ve bunların son derece önemli bir ayarlaması da, RFC 1123'e, adreslerde "<code class="literal">@</code>" imini izleyen kısmın tamamen nitelenmiş alan isimleri içermesi şeklindeki açık gereksinimin girişiyle ortadan kalkmıştır.
+</p>
+        <p>
+Netice olarak, kaynak rota kullanımı için sadece hizalamanın kalması, çok eski SMTP istemcileri ile kullanıcı postalama araçları ve posta sistemi hata ayıklaması için desteklenmektedir. Bunlar yine de, son durumla ilgili olarak ve maksada uygun DNS kayıtları gibi ciddi ama geçici sorunların çevresinden dolanarak posta yönlendirme için hala kullanışlıdır.
+</p>
+        <p><span class="rfcmust">Bu belgenin ana gövdesinde ve RFC 1123'te belirtildiği gibi SMTP sunucuları kaynak rota sözdizimini kabul etmeye devam etmelidir *ZORUNLU*</span>. <span class="rfcmaybe">Bunlar gerekirse rotaları yoksayarak sadece adresteki hedef alandan yararlanabilir *SEÇİMLİK*</span>. <span class="rfcmust">Eğer kaynak rotadan yararlanırlarsa, iletinin adreste gösterilen ilk alana gönderilmesi gerekir *ZORUNLU*</span>. <span class="rfcmust">Özellikle bir sunucu kaynak rota içindeki kısayollarda tahmin yapmamalıdır *ZORUNLU*</span>.
+</p>
+        <p><span class="rfcshould">Posta sistemi yapılandırma hataları veya güvenlik duvarı etrafından dolaşmak için röleleme olasılığı veya hata ayıklama gibi olumsuz durumlar haricinde istemcilerin doğrudan kaynak yönlendirmeden yararlanmamaları gerekir *ÖNERİ*</span>.
+</p>
+        <h4 id="rfc2821-appf3"><code class="literal">HELO</code> Komutu</h4>
+        <p><a class="xref" href="rfc2821-s31.html" title="3.1. Oturum İlklendirme">Oturum İlklendirme</a> ve <a class="xref" href="rfc2821-s41.html#rfc2821-s411" title="4.1.1. Komut Sözdizimi ve Anlamlandırma">Komut Sözdizimi ve Anlamlandırma</a> bölümünde bahsedildiği gibi, sunucu <code class="code">EHLO</code> komutunu kabul edebilecekse, <code class="code">EHLO</code> komutu daima/mutlaka <code class="code">HELO</code> komutuna tercih edilir. Sunucuların eski istemcileri desteklemek için <code class="code">HELO</code> komutunu kabul etmeye ve işleme sokmaya devam etmesi gerekir.
+</p>
+        <h4 id="rfc2821-appf4"><code class="literal">#</code> imli sabitler</h4>
+        <p>
+RFC 821, bir Genel Ağ adresinin, bir "<code class="literal">#</code>" imi ile başlayan ve konak numarasını ifade eden bir ondalık tamsayı ile belirtilmesine izin verir. <span class="rfcmust">Uygulamada, TCP/IP'ye geçildiğinden beri, bu biçim artık kullanılmamaktadır ve kullanılmamalıdır *ZORUNLU*</span>.
+</p>
+        <h4 id="rfc2821-appf5">Tarihler ve Yıllar</h4>
+        <p><span class="rfcmust">SMTP istemcileri ve sunucuları tarafından iletilere tarih yerleştirilmek istendiğinde (örn, izleme alanlarına), dört rakamlı yıl gösterimi kullanılmalıdır *ZORUNLU*</span>. İki rakamlı yıllar önerilmemektedir; üç rakamlı yıllara ise Genel Ağ posta sisteminde hiçbir zaman izin verilmemiştir.
+</p>
+        <h4 id="rfc2821-appf6">Postalamayıp Gönderivermek</h4>
+        <p>
+İletilerin kullanıcıların posta kutularına teslimatı için bir mekanizma belirtilmesine ek olarak, RFC 821, iletileri doğrudan kullanıcının uçbirim ekranına teslim eden isteğe bağlı ek komutlar sağlamıştır. Bu komutlar (<code class="code">SEND</code>, <code class="code">SAML</code>, <code class="code">SOML</code>) nadiren gerçeklenmiş, iş istasyonu teknolojisindeki değişiklikler ve diğer protokollerin devreye girmesiyle gerçeklendikleri yerlerde bile kullanılmayarak atıl olmuşlardır.
+</p>
+        <p><span class="rfcshould">İstemciler hizmet olarak <code class="code">SEND</code>, <code class="code">SAML</code>, <code class="code">SOML</code> komutlarını bulundurmamalıdır *ÖNERİ*</span>. <span class="rfcmust">Bunlar sunucular tarafından gerçeklenirse, RFC 821'de belirtilen gerçeklenim modeli kullanılmalı *ZORUNLU*</span> ve <span class="rfcmust">komut isimleri <code class="code">EHLO</code> komutunun yanıtında yayınlanmalıdır *ZORUNLU*</span>.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

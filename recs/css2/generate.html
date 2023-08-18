@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="date" content="2015-10-21T16:48:04+03:00" /><link rel="start" href=".." title="W3C Önergeleri" /><link rel="up" href="index.html#index-toc" title="Bütünleşik Biçembentler, 2. Aşama" /><link rel="previous" href="visufx.html" title="Görsel sonuçlar" /><link rel="next" href="page.html" title="Sayfalı Ortam" /><link rel="stylesheet" type="text/css" href="../recs.css" /><style type="text/css">
+table.propinfoheader,
+table.propinfo {  width: 100%; background-color: #e5f0e3;
+                  border:1px dotted #999999;
+                  padding: 4px 1em; margin: 0em 0em 1em; }
+
+table.propinfo tr td { padding: 0px 10px;}
+table.propinfoheader {  margin: 0em;  }
+/* Belgeye özel bir CSS yoksa burası boş olabilir. */</style><title>Üretilen içerik, özdevinimli numaralama ve listeler</title></head><body><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><th colspan="3" align="center">Bütünleşik Biçembentler, 2. Aşama</th></tr><tr><td width="5%"><a href="visufx.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="5%" align="right"><a href="page.html">Sonraki</a></td></tr></table><div class="div1"><h2><a name="generate" id="generate"></a>12 Üretilen içerik, özdevinimli numaralama ve listeler</h2><b>İçindekiler</b><p class="toc"><div class="tocline">    12.1 <a href="generate.html#before-after-content">:before ve :after sözde elemanları</a></div><div class="tocline">    12.2 <a href="generate.html#content-prop">content niteliği</a></div><div class="tocline">    12.3 <a href="generate.html#compact-run-in-gen">:before ve :after ile gömme ve girintili başlık çerçeveleri arasındaki etkileşim</a></div><div class="tocline">    12.4 <a href="generate.html#quotes">Tırnak imleri</a></div><div class="tocline">          12.4.1 <a href="generate.html#quotes-specify">Tırnakların quotes niteliği ile belirtilmesi</a></div><div class="tocline">          12.4.2 <a href="generate.html#quotes-insert">Tırnakların content niteliği ile yerleştirilmesi</a></div><div class="tocline">    12.5 <a href="generate.html#counters">Özdevinimli sayaçlar ve numaralama</a></div><div class="tocline">          12.5.1 <a href="generate.html#scope">Sayaçlarda iç içelik ve etki alanı</a></div><div class="tocline">          12.5.2 <a href="generate.html#counter-styles">Sayaç biçemleri</a></div><div class="tocline">          12.5.3 <a href="generate.html#generate53">Gösterilmeyen elemanlardaki sayaçlar</a></div><div class="tocline">    12.6 <a href="generate.html#markers">İmleyiciler ve listeler</a></div><div class="tocline">          12.6.1 <a href="generate.html#marker-offset">İmleyiciler: marker-offset niteliği</a></div><div class="tocline">          12.6.2 <a href="generate.html#lists">Listeler: the list-style-type, list-style-image, list-style-position ve list-style nitelikleri</a></div></p><p>Bazı durumlarda yazarlar <a title="&#10;belge ağacı&#10;Belge ağacı tanımı" href="conform.html#doctree">belge ağacında</a> yer almayan içeriği kullanıcı arayüzlerinin oluşturabilmesini isterler. Buna çok bilinen bir örnek numaralı listelerdir. Yazarlar bunları numaralamak istemezler bu numaraları kullanıcı arayüzlerinin üretmesini isterler. Benzer şekilde, yazarlar, bir şekil başlığının öncesine "Şekil" sözcüğünü veya yedinci kısmın başlığına "7. Kısım" dizgesini kullanıcı arayüzünün yazmasını isteyebilirler. İşitsel ve dokunsal ortamlar için de benzer şeyler istenebilir.</p><p>BB2'de içerik çeşitli mekanizmalarla üretilebilir:</p><ul><li><p><a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları ile birlikte <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği.</p></li><li><p><a href="aural.html#propdef-cue-before"><code><b>cue-before</b></code></a>, <a href="aural.html#propdef-cue-after"><code><b>cue-after</b></code></a> işitsel nitelikleri (<a href="aural.html"><b>İşitsel Biçembentler</b></a> bölümüne bakınız). <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği işitsel niteliklerle birlikte kullanıldığında içerik oluşturma şu sırayı izler: <a href="selector.html#seldef-before"><code>:before</code></a>, <a href="aural.html#propdef-cue-before"><code><b>cue-before</b></code></a>, (<a href="aural.html#propdef-pause-before"><code><b>pause-before</b></code></a>), elemanın içeriği, (<a href="aural.html#propdef-pause-after"><code><b>pause-after</b></code></a>), <a href="aural.html#propdef-cue-after"><code><b>cue-after</b></code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a>.</p></li><li><p><a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğinin değeri <a href="visuren.html#value-def-list-item"><code>list-item</code></a> olan elemanlar.</p></li></ul><p><a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği ile ilişkili mekanizmalar aşağıda açıklanmıştır.</p><div class="div2"><a id="idx498" name="idx498"></a><a id="idx499" name="idx499"></a><a id="idx500" name="idx500"></a><a id="idx501" name="idx501"></a><a id="idx502" name="idx502"></a><a id="idx503" name="idx503"></a><h3><a name="before-after-content" id="before-after-content"></a>12.1 <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları</h3><p>Yazarlar üretilen içeriğin biçemini ve yerini <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanlarıyla belirtirler. İsimlerinden de anlaşılacağı gibi, <a href="selector.html#seldef-before"><code>:before</code></a> (:önce) ve <a href="selector.html#seldef-after"><code>:after</code></a> (:sonra) sözde elemanları üretilen içeriğin yerini elemanın <a title="&#10;belge ağacı&#10;Belge ağacı tanımı" href="conform.html#doctree">belge ağacı</a>ndaki içeriğinden önce ve sonra olarak belirtirler. Bu sözde elemanlarla birlikte <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin değerinde neyin yerleştirileceği belirtilir.</p><dl class="note"><dt class="prefix"><b>Çevirmenin notu: </b></dt><dd>Buradaki örneklerden başka güncel Türkçe bir örnek için ayrıca <a href="intro.html#bb2-xml"><b>XML için kısa bir BB2 öğretici</b></a> bölümündeki örneğe de bakınız (<code>translator:before { content: "\c7 eviren: " }</code> kuralına dikkat!).</dd></dl><a name="idp28318656" id="idp28318656"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki kuralla, değeri "note" olan '<tt>class</tt>' özniteliğine sahip her <code>&lt;p&gt;</code> elemanının içeriğinden önce "Note: " dizgesi yerleştirilir:<p></p><pre>
+p.note:before { content: "Note: " }
+</pre><p></p></dd></dl><p>Bir eleman tarafından üretilen biçimleme nesneleri (çerçeveler gibi) de <a href="generate.html">üretilen içerik</a> içerebilir.</p><a name="idp28323664" id="idp28323664"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Yukarıdaki biçembenti şöyle değiştirelim:<p></p><pre>p.note:before { content: "Note: " }
+p.note        { border: solid green }
+</pre><p>Bu kurallar, "Note: " dizgesini de içeren paragrafın çevresine kesintisiz yeşil bir çizgi çizilmesine sebep olur.</p></dd></dl><p><a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları eklendikleri elemandan kalıtsal özellikleri <a href="cascade.html#inheritance">miras</a> alırlar.</p><a name="idp28329504" id="idp28329504"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki kurallar <code>&lt;q&gt;</code> elemanının öncesine bir sol tırnak imi yerleştirir. Tırnak iminin rengi kırmızı olmasına rağmen yazıtipi <code>&lt;q&gt;</code> elemanının kalanı ile aynı olacaktır:<p></p><pre>q:before {
+  content: open-quote;
+  color: red
+}</pre><p></p></dd></dl><p>Bir <a href="selector.html#seldef-before"><code>:before</code></a> veya <a href="selector.html#seldef-after"><code>:after</code></a> sözde eleman bildiriminde, miras alınmayan nitelikler <a title="İlk değer tanımı" href="cascade.html#initial-value">ilk değerlerini</a> alırlar.</p><a name="idp28334976" id="idp28334976"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğinin ilk değeri <a href="visuren.html#value-def-inline"><code>inline</code></a> olduğundan önceki örnekteki tırnak, elemanın içeriğiyle aynı satıra bir satıriçi çerçeve olarak yerleştirilir. Aşağıdaki örnekte ise, <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğine açıkça <a href="visuren.html#value-def-block"><code>block</code></a> değeri atanmakta, dolayısıyla yerleştirilen metin bir blok haline gelmektedir:<p></p><pre>
+body:after {
+    content: "Bitti";
+    display: block;
+    margin-top: 2em;
+    text-align: center;
+}
+</pre><p>Bir işitsel kullanıcı arayüzü <code>&lt;body&gt;</code> içeriğinin seslendirmesini tamamladıktan sonra "Bitti" diyecektir.</p></dd></dl><p>Kullanıcı arayüzlerinin <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları ile kullanıldıklarında şu nitelikleri yoksaymaları gerekir: <a href="visuren.html#propdef-position"><code><b>position</b></code></a>, <a href="visuren.html#propdef-float"><code><b>float</b></code></a>, <a href="generate.html#lists">liste</a> nitelikleri ve <a href="tables.html">tablo</a> nitelikleri.</p><p><a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğinin değerlerine şöyle izin verir:</p><ul><li><p>Eğer bir seçicinin <a title="Konu tanımı" href="selector.html#subject">konusu </a> <a title=" tanımı" href="visuren.html#block-level"> blok seviyesinden</a> bir elemansa, izin verilen değerler: <tt>none</tt>, <a href="visuren.html#value-def-inline"><code>inline</code></a>, <a href="visuren.html#value-def-block"><code>block</code></a> ve <a href="visuren.html#value-def-marker"><code>marker</code></a>. Eğer <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliği bunlardan başka bir değere sahipse, sözde eleman <a href="visuren.html#value-def-block"><code>block</code></a> değeri verilmiş gibi davranacaktır.</p></li><li><p>Eğer bir seçicinin <a title="Konu tanımı" href="selector.html#subject">konusu </a> <a title=" tanımı" href="visuren.html#inline-level"> satıriçi seviyeden</a> bir elemansa, izin verilen değerler: <tt>none</tt> ve <a href="visuren.html#value-def-inline"><code>inline</code></a>. Eğer <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliği bunlardan başka bir değere sahipse, sözde eleman <a href="visuren.html#value-def-inline"><code>inline</code></a> değeri verilmiş gibi davranacaktır.</p></li></ul><p></p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>BB'nin ileri aşamalarında başka değerlere de izin verilebilir.<p></p></dd></dl><p></p></div><div class="div2"><h3><a name="content-prop" id="content-prop"></a>12.2 <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği</h3><a id="idx504" name="idx504"></a><a id="idx505" name="idx505"></a><a id="propdef-content" name="propdef-content"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>content</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td>[ <a href="syndata.html#value-def-dizge"><var>dizge</var></a> | <a href="syndata.html#value-def-tanım-yeri"><var>tanım-yeri</var></a> | <a href="syndata.html#value-def-sayaç"><var>sayaç</var></a> | <tt>attr(</tt><var>özn</var><tt>)</tt> | <a href="generate.html#value-def-open-quote"><code>open-quote</code></a> | <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> | <a href="generate.html#value-def-no-open-quote"><code>no-open-quote</code></a> | <a href="generate.html#value-def-no-close-quote"><code>no-close-quote</code></a> ]+ | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td>boş dizge</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>hayır</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="toptan ortam grubu tanımı" href="media.html#all-media-group">hepsi</a></td></tr>
+</table><p>Bu nitelik, bir belgede içerik üretmek için <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları ile birlikte kullanılır. Değerlerin anlamları:</p><dl class="varlist"><dt class="label"><a id="idx506" name="idx506"></a>
+<a href="syndata.html#value-def-dizge"><var>dizge</var></a></dt><dd>Metin içerik (<a href="syndata.html#strings"><b>Dizgeler</b></a> bölümüne bakınız).<p></p></dd><dt class="label">
+<a id="idx507" name="idx507"></a>
+<a href="syndata.html#value-def-tanım-yeri"><var>tanım-yeri</var></a></dt><dd>Değer harici bir özkaynağın tanım-yeridir. Bir kullanıcı arayüzü <a href="media.html">ortam türleri</a>nin desteklemesinden ötürü özkaynağı destekleyemezse, özkaynağı yoksaymalıdır.<p></p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>BB2 gömülü bir nesnenin boyutlarını değiştirecek mekanizmalar belirtmez veya HTML'deki '<tt>alt</tt>' veya '<tt>longdesc</tt>' özniteliklerindeki gibi bir metinsel açıklama  sağlamaz. Bu BB'nin gelecekteki aşamalarında değişebilir.<p></p></dd></dl><p></p></dd><dt class="label"><a id="idx508" name="idx508"></a>
+<a href="syndata.html#value-def-sayaç"><var>sayaç</var></a></dt><dd><a href="syndata.html#counter">Sayaçlar</a> iki farklı işlevle belirtilebilir: <tt>counter()</tt> veya <tt>counters()</tt>.<p> İlkinin iki biçimi vardır: <tt>counter</tt><code>(</code><var>ad</var><code>)</code> veya
+<code>counter(<var>ad</var>, <var>biçem</var>)</code>. Üretilen metin, biçimleme yapısında bu noktadaki isimli sayacın değeridir. Belirtilen <a href="generate.html#counter-styles">biçem</a>de (öntanımlı olarak <a href="generate.html#value-def-decimal"><code>decimal</code></a>) biçimlenir.</p><p>İkinci işlevin de iki biçimi vardır:<code>counters(<var>ad</var>,
+<var>dizge</var>)</code> veya <code>counters(<var>ad</var>, <var>dizge</var>, <var>biçem</var>)</code>. Üretilen metin, biçimleme yapısında bu noktadaki adı belirtilen tüm sayaçların değeridir. Sayaçlar belirtilen <a href="generate.html#counter-styles">biçem</a>de (öntanımlı olarak <a href="generate.html#value-def-decimal"><code>decimal</code></a>) oluşturulur. Daha fazla bilgi için <a href="generate.html#counters"><b>Özdevinimli sayaçlar ve numaralama</b></a> bölümüne bakınız.</p></dd><dt class="label"><a id="idx509" name="idx509"></a>
+<a id="idx510" name="idx510"></a>
+<a href="generate.html#value-def-open-quote"><code>open-quote</code></a></dt><dt class="label"><a href="generate.html#value-def-close-quote"><code>close-quote</code></a></dt><dd>Bu dizgeler <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> niteliğindeki uygun dizgelerle değiştirilir.<p></p></dd><dt class="label"><a id="idx511" name="idx511"></a>
+<a id="idx512" name="idx512"></a>
+<a href="generate.html#value-def-no-open-quote"><code>no-open-quote</code></a></dt><dt class="label"><a href="generate.html#value-def-no-close-quote"><code>no-close-quote</code></a></dt><dd>Hiçbir şey yerleştirmez (boş dizge), fakat tırnakların iç içelik seviyesini azaltır (ya da arttırır).<p></p></dd><dt class="label"><a id="idx513" name="idx513"></a>
+<code>attr(</code><var>özn</var><code>)</code></dt><dd>Bu işlev seçicinin konusu için <var>özn</var> özniteliğinin değerini bir dizge olarak döndürür. Dizge BB işlemcisi tarafından çözümlenmez. Eğer seçicinin konusu  <var>özn</var> özniteliğine sahip değilse bir boş dizge döner. Öznitelik isimlerinin harf büyüklüğüne duyarlılığı belge diline bağlıdır.<p></p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>BB2'de, seçicinin diğer elemanları için öznitelik değerlerine atıfta bulunmak olanaklı değildir.<p></p></dd></dl><p></p></dd></dl><p><a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanları <a href="visuren.html#propdef-display"><code><b>display</b></code></a> özniteliğinin değerlerine şöyle izin verir:</p><ul><li><p>Eğer seçicinin konusu <a title=" tanımı" href="visuren.html#block-level">blok seviyesinden</a> bir elemansa, izin verilen değerler: <tt>none</tt>, <a href="visuren.html#value-def-inline"><code>inline</code></a>, <a href="visuren.html#value-def-block"><code>block</code></a> ve <a href="visuren.html#value-def-marker"><code>marker</code></a>. Eğer sözde elemanın <tt>display</tt> niteliğinin değeri bunlardan farklı bir değerse sözde eleman niteliğin değeri <a href="visuren.html#value-def-block"><code>block</code></a>'muş gibi davranmalıdır.</p></li><li><p>Eğer seçicinin konusu satıriçi seviyeden bir elemansa, izin verilen değerler: <tt>none</tt> ve <a href="visuren.html#value-def-inline"><code>inline</code></a>. Eğer sözde elemanın <tt>display</tt> niteliğinin değeri bunlardan farklı bir değerse sözde eleman niteliğin değeri <a href="visuren.html#value-def-inline"><code>inline</code></a>'mış gibi davranmalıdır.</p></li></ul><p><a id="idx514" name="idx514"></a>
+İçerik ortama duyarlıysa, biçembent yazarlarının <a href="generate.html#propdef-content"><code><b>content</b></code></a> bildirimlerini <a href="media.html#at-media-rule"><code>@media</code></a> kurallarına koymaları gerekir. Örneğin dizgesel sabitler her ortam grubunda kullanılabilirken, resimler sadece görsel + biteşlemli ortam gruplarına ve ses dosyaları da sadece işitsel ortam gruplarına uygulanabilir.</p><a name="idp28432480" id="idp28432480"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki kural, bir tırnaklı blokun sonunda bir ses dosyasının çalınmasına sebep olur (ek mekanizmalar için <a href="aural.html"><b>İşitsel Biçembentler</b></a> bölümüne bakınız):<p></p><pre>@media aural {
+   blockquote:after { content: url("harika-musiki.wav") }
+   }</pre><p></p></dd></dl><a name="idp28434992" id="idp28434992"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki kural, HTML '<tt>alt</tt>' özniteliğinin metnini resmin öncesine yerleştirir. Resim gösterilmese bile okuyucu '<tt>alt</tt>' özniteliğinin metnini görecektir.<p></p><pre>img:before { content: attr(alt) }</pre><p></p></dd></dl><a name="newlined-string" id="newlined-string"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><a id="idx515" name="idx515"></a>
+Biçembent yazarları <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin değeri içinde "\A" öncelemlerini satırı sonlandırmak istedikleri yerlere yerleştirerek çok satırlı  metin üretebilirler. Bu işlem, HTML'deki <code>&lt;br&gt;</code> elemanlarının yaptığına benzer şekilde bir <b>zorlanmış satırsonu</b> yerleştirir. "\A" öncelemleri hakkında ayrıntılı bilgi edinmek için <a href="syndata.html#strings"><b>Dizgeler</b></a> bölümüne ve <a title="tersbölü öncelemeli karakterler tanımı" href="syndata.html#escaped-characters">karakter öncelemi</a> tanımına bakınız.<p></p><pre>H1:before {
+    display: block;
+    text-align: center;
+    content: "chapter\A hoofdstuk\A chapitre"
+}</pre><p></p></dd></dl><p><a href="generate.html">üretilen içerik</a> belge ağacını değiştirmez. Özellikle, belge dili işlemcisini harekete geçirmez (yeniden çözümleme gibi).</p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>BB'nin gelecekteki aşamalarında, <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği üretilen içeriğin parçalarının biçemlerini değiştirecek ek değerler kabul edebilir, fakat BB2'de <a href="selector.html#seldef-before"><code>:before</code></a> veya <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanının içeriği tamamen aynı biçeme sahiptir.<p></p></dd></dl><p></p></div><div class="div2"><a id="idx516" name="idx516"></a><a id="idx517" name="idx517"></a><h3><a name="compact-run-in-gen" id="compact-run-in-gen"></a>12.3 <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> ile gömme ve girintili başlık çerçeveleri arasındaki etkileşim</h3><p>Aşağıdaki durumlar sözkonusu olabilir:</p><ol class="enumar"><li><p>Bir <a href="visuren.html#run-in">gömme</a> veya <a href="visuren.html#compact">girintide</a> başlık çerçevesi olarak <b>satıriçi</b> türünde bir <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanı varsa: sözde eleman, başlık çerçevesinin boyutları (<a href="visuren.html#value-def-compact"><code>compact</code></a> için) hesaplanırken dikkate alınır ve elemanla aynı blok çerçevesi içinde oluşturulur.</p></li><li><p>Bir gömme veya girintide başlık çerçevesi olarak <b>satıriçi</b> türünde bir <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanı varsa: önceki maddenin kuralları uygulanır.</p></li><li><p>Bir gömme veya girintide başlık çerçevesi olarak <b>blok</b> türünde bir <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanı varsa: sözde eleman başlık çerçevesinin yukarısında bir blok çerçevesi olarak oluşturulur ve başlık çerçevesinin boyutlarının hesabında (<a href="visuren.html#value-def-compact"><code>compact</code></a> için) dikkate alınmaz.</p></li><li><p>Bir <a href="visuren.html#run-in">gömme</a> veya <a href="visuren.html#compact">girintide</a> başlık çerçevesi olarak <b>blok</b> türünde bir <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanı varsa: Başlık çerçevesi ve <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanı blok çerçevesi olarak biçimlenir. Başlık çerçevesi kendi <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanı içindeki bir satıriçi çerçeve olarak biçimlenmez.</p></li><li><p>Bir gömme veya girintide başlık çerçevesi olarak <b>blok</b> türünde bir <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanından sonra bir eleman varsa: başlık çerçevesinin nasıl biçimleneceği kararı <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanından elde edilen blok çerçevesine göre verilir.</p></li><li><p>Bir gömme veya girintide başlık çerçevesi olarak <b>satıriçi</b> türünde bir <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanından sonra bir eleman varsa: başlık çerçevesinin nasıl biçimleneceği kararı, <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanının eklemlendiği elemanın <a href="visuren.html#propdef-display"><code><b>display</b></code></a> değerine bağlıdır.</p></li></ol><a name="idp28478112" id="idp28478112"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Burada, gömme başlıklı (<a href="visuren.html#value-def-run-in"><code>run-in</code></a>) bir <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanından sonra <a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanlı bir paragrafın gelmesi durumu örneklenmiştir. Bu örnekteki tüm sözde elemanlar satıriçi (öntanımlı) seviyedendir. Biçembent şöyle olsun:<p></p><pre>
+h3       { display: run-in }
+h3:after { content: ": " }
+p:before { content: "... " }
+</pre><p>ve şu belgeye uygulanmış olsun:</p><pre>&lt;H3&gt;Atlar&lt;/H3&gt;
+&lt;p&gt;yelesi vardır
+&lt;p&gt;bir kuyruğu olur</pre><p>Sonuç şöyle olurdu:</p><pre>Atlar: ... yelesi vardır
+... bir kuyruğu olur</pre><p></p></dd></dl></div><div class="div2"><h3><a name="quotes" id="quotes"></a>12.4 Tırnak imleri</h3><p>BB2'de biçembent yazarları kullanıcı arayüzlerinin tırnak imlerini bağlama bağlı ve biçeme duyarlı manada nasıl biçimlemesi gerektiğini belirtebilirler. <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> niteliğinde her iç içelik seviyesinden tırnak için tırnak imi çiftleri belirtilir. <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği ise bu tırnak imlerine erişim verir ve bunların bir tırnağın öncesine veya sonrasına yerleştirilmesine sebep olur.</p><div class="div3"><h4><a name="quotes-specify" id="quotes-specify"></a>12.4.1 Tırnakların <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> niteliği ile belirtilmesi</h4><a id="idx518" name="idx518"></a><a id="idx519" name="idx519"></a><a id="propdef-quotes" name="propdef-quotes"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>quotes</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td>[ <a href="syndata.html#value-def-dizge"><var>dizge</var></a> <a href="syndata.html#value-def-dizge"><var>dizge</var></a> ]+ | <tt>none</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td>kullanıcı arayüzüne bağlı</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td>tüm elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>evet</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p>Bu nitelik çok seviyeli tırnaklama için tırnak çiftlerini belirtmekte kullanılır. Değerlerin anlamları:</p><dl class="varlist"><dt class="label"><a id="idx520" name="idx520"></a>
+<tt>none</tt></dt><dd><a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin <a href="generate.html#value-def-open-quote"><code>open-quote</code></a> ve <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> değerleri hiçbir tırnak imi üretmez.<p></p></dd><dt class="label"><a id="idx521" name="idx521"></a>
+<code>[ </code><a href="syndata.html#value-def-dizge"><var>dizge</var></a> <a href="syndata.html#value-def-dizge"><var>dizge</var></a> <code>]+</code></dt><dd><a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin <a href="generate.html#value-def-open-quote"><code>open-quote</code></a> ve <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> değerleri bu tırnak (açan ve kapatan) çiftleri  listesinden alınır. İlk (en soldaki) çift en dış tırnaklama seviyesi için, ikinci çift ilkinin içinde kalır ve böyle gider. Kullanıcı arayüzleri tırnak çiftlerini belirtilen seviyelere uygun olarak kullanmalıdır.<p></p></dd></dl><a name="idp28508768" id="idp28508768"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bu biçembendin:<p></p><pre>/* Çiftler iki dil ve iki seviye için belirtiliyor */
+Q:lang(tr) { quotes: '"' '"' "'" "'" }
+Q:lang(no) { quotes: "«" "»" "&lt;" "&gt;" }
+/* Tırnakları Q elemanının öncesine ve sonrasına yerleştir */
+Q:before { content: open-quote }
+Q:after  { content: close-quote }</pre><p>bu HTML belgeye uygulandığını varsayalım:</p><pre>&lt;HTML lang="tr"&gt;
+  &lt;head&gt;
+  &lt;title&gt;Tırnaklar&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;Q&gt;Beni tırnak içine al!&lt;/Q&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Sonuç şöyle olurdu:</p><pre>"Beni tırnak içine al!"</pre><p>Böyle bir HTML belgeye uygulansaydı:</p><pre>&lt;HTML lang="no"&gt;
+  &lt;head&gt;
+  &lt;title&gt;Quotes&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;Q&gt;Trøndere gråter når &lt;Q&gt;Vinsjan på kaia&lt;/Q&gt; blir deklamert.&lt;/Q&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Sonuç böyle olurdu:</p><pre>«Trøndere gråter når &lt;Vinsjan på kaia&gt; blir deklamert.»</pre><p></p></dd></dl><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>Yukarıdaki örneklerde <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> tarafından belirtilen tırnak imleri bilgisayar klavyesinden kolayca elde edilen tırnaklardır; yüksek kalitede tırnakların gerektiği durumlarda ISO 10646 tırnak karakterleri kullanılabilir. Aşağıdaki bilgilendirici tablo bazı ISO 10646 tırnak karakterlerini listelemektedir:<p></p><table border="1" cellpadding="3" cellspacing="0"><tr><th>Yaklaşık biçimleme</th><th>ISO 10646 kodu (onaltılık)</th><th>Açıklama (Karakterlerin ISO 10646 isimleri tercüme edilmemiştir)</th></tr><tr><td>"</td><td>0022</td><td>QUOTATION MARK [ASCII çift tırnak imi]</td></tr><tr><td>'</td><td>0027</td><td>APOSTROPHE [ASCII tek tırnak imi]</td></tr><tr><td>‹</td><td>2039</td><td>SINGLE LEFT-POINTING ANGLE QUOTATION MARK</td></tr><tr><td>›</td><td>203A</td><td>SINGLE RIGHT-POINTING ANGLE QUOTATION MARK</td></tr><tr><td>«</td><td>00AB</td><td>LEFT-POINTING DOUBLE ANGLE QUOTATION MARK</td></tr><tr><td>»</td><td>00BB</td><td>RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK</td></tr><tr><td>‘</td><td>2018</td><td>LEFT SINGLE QUOTATION MARK [single high-6]</td></tr><tr><td>’</td><td>2019</td><td>RIGHT SINGLE QUOTATION MARK [single high-9]</td></tr><tr><td>“</td><td>201C</td><td>LEFT DOUBLE QUOTATION MARK [double high-6]</td></tr><tr><td>”</td><td>201D</td><td>RIGHT DOUBLE QUOTATION MARK [double high-9]</td></tr><tr><td>„</td><td>201E</td><td>DOUBLE LOW-9 QUOTATION MARK [double low-9]</td></tr></table><p></p></dd></dl><p></p></div><div class="div3"><a id="idx522" name="idx522"></a><a id="idx523" name="idx523"></a><h4><a name="quotes-insert" id="quotes-insert"></a>12.4.2 Tırnakların <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği ile yerleştirilmesi</h4><p><a name="value-def-open-quote" id="value-def-open-quote" title="open-quote değeri"></a><span title="open-quote değeri tanımı" class="termdef">Bir belgedeki tırnak imleri <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin <code>open-quote</code></span> ve <a name="value-def-close-quote" id="value-def-close-quote" title="close-quote değeri"></a><span title="close-quote değeri tanımı" class="termdef"><code>close-quote</code> değerlerine uygun olarak yerleştirilir</span>. <a href="generate.html#value-def-open-quote"><code>open-quote</code></a> veya <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> değerlerinin varlığı iç içelik seviyesine bağlı olarak <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> değerindeki dizgelerden birinin yerleştirilmesine sebep olur.</p><p><a href="generate.html#value-def-open-quote"><code>open-quote</code></a> tırnak çiftinin ilkinin, <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> ise ikincisinin yerleştirilmesine sebep olur. Hangi tırnak çiftlerinin kullanılacağı tırnakların iç içelik seviyesine bağlıdır: geçerli <a href="generate.html#value-def-open-quote"><code>open-quote</code></a>'tan önceki <a href="generate.html#value-def-open-quote"><code>open-quote</code></a>'ların sayısı eksi <a href="generate.html#value-def-close-quote"><code>close-quote</code></a>'ların sayısı. Derinlik 0 ise ilk çift kullanılır, 1 ise ikincisi, böyle gider. Eğer derinlik, çiftlerin sayısından fazlaysa son çift yinelenir. Bir <a href="generate.html#value-def-close-quote"><code>close-quote</code></a>'un derinliği negatif yapması bir hatadır ve yoksayılır: derinlik 0'da kalır ve bir tırnak imi konmaz (ise de, <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin değeri hala yerleştirilmeye devam edilir).</p><p>Bu tırnaklama derinliğinin kaynak belgenin veya biçimleme yapısının iç içeliğinden bağımsız oluşuna dikkat ediniz.</p><p><a id="idx524" name="idx524"></a>
+<a name="value-def-no-close-quote" id="value-def-no-close-quote" title="no-close-quote değeri"></a><span title="no-close-quote değeri tanımı" class="termdef">Bazı dizgisel (typographic) biçemler açan tırnak imlerinin her paragrafın başında yinelenmesini ve kapatan tırnağın sadece son paragrafın sonuna konmasını gerektirebilir. BB2'de böyle durumlar için kullanılmak üzere bir tırnak imi yerleştirilmesine yol açmayan bir "hayalet" açan tırnak imi değeri (<code>no-close-quote</code>) vardır</span>.</p><a name="idp28576608" id="idp28576608"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki biçembent bir <code>&lt;blockquote&gt;</code> içindeki paragrafların her birinin başına bir açan tırnak imi, son paragrafın sonuna da bir kapatan tırnak imi yerleştirir:<p></p><pre>blockquote P:before     { content: open-quote }
+blockquote P:after      { content: no-close-quote }
+blockquote P.last:after { content: close-quote }</pre><p>Son kural, son paragrafa "last" değerli bir '<tt>class</tt>' özniteliği atanmış olmasını gerektirir (bir elemanın son çocuğuyla eşleşecek bir seçici olmadığından).</p></dd></dl><p><a id="idx525" name="idx525"></a>
+<a name="value-def-no-open-quote" id="value-def-no-open-quote" title="no-open-quote değeri"></a><span title="no-open-quote değeri tanımı" class="termdef">Bakışım gereği, tırnaklama derinliğini bir arttırdığı halde hiçbir tırnak imi yerleştirilmemesine sebep olan bir <code>no-open-quote</code> değeri de mevcuttur</span>.</p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>Sarmalanan metnin dili sarmalayan metnin dilinden farklıysa, adet olduğu üzere sarmalanan metin, sarmalayan metnin dilinde sarmalanır(tırnaklanır), kendi dilinde değil.<p></p></dd></dl><p></p><a name="idp28583728" id="idp28583728"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Fransızca tırnaklı metin İngilizce metnin içinde:<p></p><blockquote>
+The device of the order of the garter is “Honi soit qui mal y pense.”<p></p>
+</blockquote><p>İngilizce tırnaklı metin Fransızca metnin içinde:</p><blockquote>
+Il disait: « Il faut mettre l'action en ‹ fast forward ›.»<p></p>
+</blockquote><p><a id="idx526" name="idx526"></a>
+Aşağıdaki gibi bir biçembent <a href="generate.html#propdef-quotes"><code><b>quotes</b></code></a> niteliğini, <a href="generate.html#value-def-open-quote"><code>open-quote</code></a> ve <a href="generate.html#value-def-close-quote"><code>close-quote</code></a> değerleri tüm elemanlarla düzgün çalışacak şekilde ayarlar. Bu kurallar, sadece İngilizce, sadece Fransızca veya her ikisini de içeren belgeler içindir. Her ek dil için bir kural gerekir. Tırnakları sarmalanan metnin diline göre ayarlamak için çocuk <a title="bağdaştırıcı tanımı" href="selector.html#combinator">bağdaştırıcı</a> ("&gt;") kullanımına dikkat ediniz:</p><pre>[LANG|=fr] &gt; *  { quotes: "«" "»" "\2039" "\203A" }
+[LANG|=en] &gt; *  { quotes: "\201C" "\201D" "\2018" "\2019" }</pre><p>Yukarıdaki tırnak imleri çoğunlukla klavyeden yazılabilecek karakterlerden seçilmiştir. Doğrudan yazmak isterseniz şöyle görünürler::</p><pre>[LANG|=fr] &gt; * { quotes: "«" "»" "‹" "›" }
+[LANG|=en] &gt; * { quotes: "“" "”" "‘" "’" }</pre><p></p></dd></dl></div></div><div class="div2"><a id="idx527" name="idx527"></a><h3><a name="counters" id="counters"></a>12.5 Özdevinimli sayaçlar ve numaralama</h3><p>BB2'de özdevinimli numaralama iki niteliğin denetimi altındadır:
+<a href="generate.html#propdef-counter-increment"><code><b>counter-increment</b></code></a> ve <a href="generate.html#propdef-counter-reset"><code><b>counter-reset</b></code></a>. Bu niteliklerle tanımlanan sayaçlar <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinin <code>counter()</code> ve <code>counters()</code> işlevlerinde kullanılır.</p><a id="idx528" name="idx528"></a><a id="idx529" name="idx529"></a><a id="propdef-counter-reset" name="propdef-counter-reset"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>counter-reset</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td>[ <a href="syndata.html#value-def-betimleyici"><var>betimleyici</var></a> <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a> ]+ | <tt>none</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><tt>none</tt></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td>tüm elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>hayır</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="toptan ortam grubu tanımı" href="media.html#all-media-group">hepsi</a></td></tr>
+</table><a id="idx530" name="idx530"></a><a id="idx531" name="idx531"></a><a id="propdef-counter-increment" name="propdef-counter-increment"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>counter-increment</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td>[ <a href="syndata.html#value-def-betimleyici"><var>betimleyici</var></a> <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a> ]+ | <tt>none</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><tt>none</tt></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td>tüm elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>hayır</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="toptan ortam grubu tanımı" href="media.html#all-media-group">hepsi</a></td></tr>
+</table><p><a href="generate.html#propdef-counter-increment"><code><b>counter-increment</b></code></a> niteliği değer olarak bir veya daha fazla sayıda sayaç ismi (<a href="syndata.html#value-def-betimleyici"><var>betimleyici</var></a>) ile birlikte isteğe bağlı olarak bir <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a> kabul eder. <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a>, elemanın her nesnelleştirimi için sayacın ne kadar arttırılacağını belirler. Öntanımlı artış 1'dir. Sıfır ve negatif değerlere izin verilir.</p><p><a href="generate.html#propdef-counter-reset"><code><b>counter-reset</b></code></a> niteliği de değer olarak bir veya daha fazla sayıda sayaç ismi (<a href="syndata.html#value-def-betimleyici"><var>betimleyici</var></a>) ile birlikte isteğe bağlı olarak bir <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a> kabul eder. <a href="syndata.html#value-def-tamsayı"><var>tamsayı</var></a>, elemanın her nesnelleştirimi için sayaca hangi değerin atanacağını belirler. Öntanımlı değer 0'dır.</p><p><a href="generate.html#propdef-counter-increment"><code><b>counter-increment</b></code></a> niteliği, bir <a href="generate.html#propdef-counter-reset"><code><b>counter-reset</b></code></a> niteliğinin <a href="generate.html#scope">etki alanında</a> bulunmayan bir sayaca atıfta bulunuyorsa, sayaca ilk değer olarak kök eleman tarafından 0 atandığı varsayılır.</p><a name="idp28626384" id="idp28626384"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bu örnekte fasıl ve bölümlerin "1. Fasıl", "1.1 ", "1.2 ", vb. şeklinde numaralanmasının yolu gösterilmiştir.<p></p><pre>h1:before {
+    content: counter(chapter) ". Fasıl ";
+    counter-increment: chapter;  /* chapter sayacını 1 arttır*/
+    counter-reset: section;      /* section sayacına 0 ata */
+}
+h2:before {
+    content: counter(chapter) "." counter(section) " ";
+    counter-increment: section;  /* section sayacını 1 arttır */
+}</pre><p></p></dd></dl><p>Eğer bir eleman bir sayacı arttırır/sıfırlarsa ve ayrıca kullanırsa (<a href="selector.html#seldef-before"><code>:before</code></a> veya <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanının <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliğinde), sayaç artış/sıfırlama yapıldıktan <em>sonra</em> kullanılır.</p><p>Eğer bir eleman bir sayacı hem sıfırlar hem de arttırısa, sayaç önce sıfırlanıp sonra arttırılır.</p><p><a href="generate.html#propdef-counter-reset"><code><b>counter-reset</b></code></a> niteliği bütünleşim kurallarına uyar. Bu bakımdan, bütünleşim nedeniyle aşağıdaki biçembent sadece 'imagenum' sayacını sıfırlayacaktır:</p><div class="example"><pre>h1 { counter-reset: section -1 }
+h1 { counter-reset: imagenum 99 }</pre></div><p>Her iki sayacı da sıfırlamak için birlikte belirtilmeleri gerekir:</p><div class="example"><pre>h1 { counter-reset: section -1 imagenum 99 }</pre></div><p></p><div class="div3"><h4><a name="scope" id="scope"></a>12.5.1 Sayaçlarda iç içelik ve etki alanı</h4><p>Sayaçlar "kendinden iç içelik" özelliğine sahiptir, yani her yeni çocuk eleman için sayaç kendinin yeni bir kopyasını yapar. HTML'deki listeler gibi listelerin keyfi derinliklerde olduğu  durumlarda bu özellik önem kazanır. Keyfi iç içelikte her yeni seviye için eşsiz isimli sayaçlar tanımlamak söz konusu olamazdı.</p><a name="idp28638016" id="idp28638016"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki kurallar iç içe liste öğelerini numaralamak için sonek oluşturur. Elde edilen sonuç <code>&lt;li&gt;</code> elemanı için <code>display:list-item</code> ve <code>list-style: inside</code> atamalarının sonuçlarının benzeridir:<p></p><pre>ol { counter-reset: madde }
+li { display: block }
+li:before { content: counter(madde) ". "; counter-increment: madde }</pre><p></p></dd></dl><p><a id="idx532" name="idx532"></a>
+Kendinden iç içelik şu ilkeye dayanır: bir X sayacı için bir <a href="generate.html#propdef-counter-reset"><code><b>counter-reset</b></code></a> niteliğine sahip her eleman taze bir X sayacı oluşturur; sayacın <b>etki alanı</b> elemanın kendi içeriği, elemanın büyük kardeşleri ve elemanın tüm astsallarıdır.</p><p>Yukarıdaki örnekte, <code>&lt;ol&gt;</code> elemanı bir sayaç oluşturacak ve <code>&lt;ol&gt;</code>'nin tüm çocukları bu sayaca atıf yapacaktır.</p><a name="idp28645008" id="idp28645008"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki HTML kodunda <code>madde[n]</code> ile <tt>madde</tt> sayacının <code>n.</code> nesnelleştirimi, <tt>(</tt> ve <tt>)</tt> ile de etki alanının başlangıcı ve sonu gösterilmiştir (bu örnek için yukarıdaki örneğin biçembendinin kullanıldğı varsayılmıştır)<p></p><pre>
+&lt;OL&gt;                &lt;!-- (madde[0] =&gt; 0       --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[0]++ (= 1)    --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[0]++ (= 2)    --&gt;
+    &lt;OL&gt;            &lt;!--  (madde[1] =&gt; 0      --&gt;
+      &lt;LI&gt;madde     &lt;!--   madde[1]++ (= 1)   --&gt;
+      &lt;LI&gt;madde     &lt;!--   madde[1]++ (= 2)   --&gt;
+      &lt;LI&gt;madde     &lt;!--   madde[1]++ (= 3)   --&gt;
+        &lt;OL&gt;        &lt;!--   (madde[2] =&gt; 0     --&gt;
+          &lt;LI&gt;madde &lt;!--    madde[2]++ (= 1)  --&gt;
+        &lt;/OL&gt;       &lt;!--   )                  --&gt;
+        &lt;OL&gt;        &lt;!--   (madde[3] =&gt; 0     --&gt;
+          &lt;LI&gt;madde &lt;!--    madde[3]++ (= 1)  --&gt;
+        &lt;/OL&gt;       &lt;!--   )                  --&gt;
+      &lt;LI&gt;madde     &lt;!--   madde[1]++ (= 4)   --&gt;
+    &lt;/OL&gt;           &lt;!--  )                   --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[0]++ (= 3)    --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[0]++ (= 4)    --&gt;
+&lt;/OL&gt;               &lt;!-- )                    --&gt;
+&lt;OL&gt;                &lt;!-- (madde[4] =&gt; 0       --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[4]++ (= 1)    --&gt;
+  &lt;LI&gt;madde         &lt;!--  madde[4]++ (= 2)    --&gt;
+&lt;/OL&gt;               &lt;!-- )                    --&gt;
+</pre><p></p></dd></dl><p><tt>counters()</tt> işlevi aynı isimli sayaçların değerlerinin arasına belirtilen dizgenin yerleştirilmesiyle elde edilen dizge ile döner.</p><a name="idp28649824" id="idp28649824"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki biçembent liste öğelerini "1", "1.1", "1.1.1", vb. olarak numaralar:<p></p><pre>OL { counter-reset: madde }
+LI { display: block }
+LI:before { content: counters(madde, "."); counter-increment: madde }</pre><p></p></dd></dl></div><div class="div3"><h4><a name="counter-styles" id="counter-styles"></a>12.5.2 Sayaç biçemleri</h4><p>Öntanımlı olarak, sayaçlar onluk tabandaki sayılarla biçimlenir, ancak <a href="generate.html#propdef-list-style-type"><code><b>list-style-type</b></code></a> niteliğinde geçerli tüm biçemler sayaçlar için de geçerlidir. Öntanımlı biçem için sözdizimi şöyledir:</p><div class="example"><pre class="layout">counter(<var>ad</var>)</pre></div><p>Biçem belirtmek gerekirse, sözdizimi şöyle olur:</p><div class="example"><pre class="layout">counter(<var>ad</var>, <a href="generate.html#value-def-list-style-type"><var>list-style-type</var></a>)</pre></div><p><a href="generate.html#value-def-disc"><code>disc</code></a>, <a href="generate.html#value-def-circle"><code>circle</code></a>,
+<a href="generate.html#value-def-square"><code>square</code></a> ve <tt>none</tt> dahil bütün biçemlere izin verilir.</p><div class="example"><pre>h1:before        { content: counter(chno, upper-latin) ". " }
+h2:before        { content: counter(section, upper-roman) " - " }
+blockquote:after { content: " [" counter(bq, hebrew) "]" }
+div.note:before  { content: counter(notecntr, disc) " " }
+p:before         { content: counter(p, none) }</pre></div><p></p></div><div class="div3"><h4><a name="generate53" id="generate53"></a>12.5.3 Gösterilmeyen elemanlardaki sayaçlar</h4><p>Gösterilmeyen (<a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğinin değeri <tt>none</tt> olan) bir eleman bir sayacı sıfırlayamaz veya arttıramaz.</p><a name="idp28665360" id="idp28665360"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıdaki biçembentte "secret" değerli <tt>class</tt> özniteliklerine sahip <code>&lt;h2&gt;</code> elemanları 'count2' sayacını arttırmayacaktır:<p></p><pre>h2.secret {counter-increment: count2; display: none}</pre><p></p></dd></dl><p><a href="visufx.html#propdef-visibility"><code><b>visibility</b></code></a> niteliğinin değeri <tt>hidden</tt> olan elemanlar da sayaçları arttıramaz.</p></div></div><div class="div2"><h3><a name="markers" id="markers"></a>12.6 İmleyiciler ve listeler</h3><p>BB'de <a title=" tanımı" href="visuren.html#block-level">blok seviyesinden</a> elemanların çoğu bir <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel blok çerçevesi</a> üretir. Bu bölümde bir elemanın iki çerçeve üretmesine sebep olan iki BB mekanizması inceleyeceğiz. Üretilen çerçevelerden biri <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel blok çerçevesi</a> (elemanın içeriği için), diğeri ayrı bir <b>imleyici çerçevesi</b>dir (imleyici olarak bir şekil, harf veya numara). İmleyici çerçevesi, ilkesel çerçevenin içinde veya dışında konumlanabilir. <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> içeriğinin tersine, imleyici çerçevesi, konumlama şeması ne olursa olsun ilkesel çerçevenin konumunu etkilemez.</p><p><a id="idx533" name="idx533"></a>
+İki mekanizmanın daha genel olanı BB2 ile gelen <b>imleyiciler</b> mekanizmasıdır. Daha sınırlı mekanizma ise BB1'in <a title=" tanımı" href="generate.html#lists">liste</a> nitelikleridir. Liste nitelikleri biçembent yazarlarına çoğu sıralı ve sırasız liste senaryosu için hızlı ve kolay sonuçlar üretir. Bununla birlikte imleyiciler biçembent yazarlarına imleyici içeriği ve konumu üzerinde daha hassas bir denetim sunar. İmleyiciler, yeni liste biçemleri oluşturma, kenar dış boşluklarındaki notları numaralama ve daha bir çok şey için <a title=" tanımı" href="generate.html#counters">sayaçları</a> kullanabilirler.</p><a name="idp28680528" id="idp28680528"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Aşağıda, her numaralı liste öğesinden sonra nokta eklemek için imleyicilerin nasıl kullanılacağı gösterilmiştir:<p></p><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"&gt;
+&lt;html&gt;
+   &lt;head&gt;
+     &lt;title&gt;İmleyicilerle bir listenin oluşturulması&lt;/title&gt;
+     &lt;style type="text/css"&gt;
+          li:before {
+              display: marker;
+              content: counter(sayacim, lower-roman) ".";
+              counter-increment: sayacim;
+          }
+     &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ol&gt;
+      &lt;li&gt; Bu birinci madde.
+      &lt;li&gt; Bu ikinci madde.
+      &lt;li&gt; Bu üçüncü madde.
+    &lt;/ol&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Bu HTML belgenin şöyle bir sonuç üretmesi gerekir:</p><pre>   i. Bu birinci madde.
+  ii. Bu ikinci madde.
+ iii. Bu üçüncü madde.</pre><p></p></dd></dl><p><a href="selector.html#descendant-selectors"><b>Astsal seçiciler</b></a> ve <a href="selector.html#child-selectors"><b>Çocuk seçiciler</b></a> ile, iç içe listelerin derinliğine bağlı olarak farklı imleyici türleri belirtmek mümkündür.</p><div class="div3"><h4><a name="marker-offset" id="marker-offset"></a>12.6.1 İmleyiciler: <a href="generate.html#propdef-marker-offset"><code><b>marker-offset</b></code></a> niteliği</h4><p>İmleyiciler bir <a href="selector.html#seldef-before"><code>:before</code></a> veya <a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanının <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliğine <a href="visuren.html#value-def-marker"><code>marker</code></a> değeri atanarak oluşturulurlar. Blok ve satıriçi <a href="selector.html#seldef-before"><code>:before</code></a> ve <a href="selector.html#seldef-after"><code>:after</code></a> içeriği eleman tarafından üretilen <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel çerçevenin</a> parçasıyken, <a href="visuren.html#value-def-marker"><code>marker</code></a> içeriği ilkesel çerçevenin dışında, bağımsız bir imleyici çerçevesinde biçimlenir. İmleyici çerçeveleri tek bir satır (yani bir <a title="satır çerçevesi tanımı" href="visuren.html#line-box">satır çerçevesi</a>) olarak biçimlenir, dolayısıyla <a href="visuren.html#floats">yüzen elemanlar</a> kadar esnek değildirler. İmleyici çerçevesi sadece, içeriği üreten sözde elemanın <a href="generate.html#propdef-content"><code><b>content</b></code></a> niteliği olduğu takdirde üretilir.</p><p>İmleyici çerçevelerinin kenar iç boşlukları (padding) ve kenar çizgileri (border) vardır ama kenar dış boşlukları (margin) yoktur.</p><p><a href="selector.html#seldef-before"><code>:before</code></a> sözde elemanı için, imleyici çerçevesinin taban çizgisi (baseline) ile ilkesel çerçevenin ilk satır çerçevesinin taban çizgisi düşey olarak hizalanır. Eğer ilkesel çerçevenin ilk satır çerçevesi yoksa veya ilkesel çerçevenin içinde ilk satır çerçevesinden önce bir blok çerçevesi varsa, imleyici çerçevesinin üst kenarı ile ilkesel çerçevenin üst kenarı hizalanır.</p><p><a href="selector.html#seldef-after"><code>:after</code></a> sözde elemanı için, imleyici çerçevesinin taban çizgisi  ile ilkesel çerçevenin son satır çerçevesinin taban çizgisi düşey olarak hizalanır. Eğer ilkesel çerçeve bir son satır çerçevesine sahip değilse veya ilkesel çerçevenin içinde son satır çerçevesinden sonra bir blok çerçevesi varsa, imleyici çerçevesinin alt kenarı ile ilkesel çerçevenin alt kenarı hizalanır.</p><p>İmleyici çerçevesinin yüksekliği <a href="visudet.html#propdef-line-height"><code><b>line-height</b></code></a> niteliği ile verilir. <a href="selector.html#seldef-before"><code>:before</code></a> (<a href="selector.html#seldef-after"><code>:after</code></a>) imleyici çerçevesi ilkesel çerçevenin ilk (son) satır çerçevesinin yükseklik hesabıyla etkileşir. Bu bakımdan, imleyiciler ayrı satır çerçevelerinde bulunsalar bile bir elemanın içeriğinin ilk ve son satırı ile hizalanırlar. İlkesel çerçevenin ilk satır çerçevesinin yokluğunda imleyici çerçevesi kendi satır çerçevesini tek başına oluşturur.</p><p>Bir imleyici çerçevenin kendi satır çerçevesi içindeki düşey hizası <a href="visudet.html#propdef-vertical-align"><code><b>vertical-align</b></code></a> niteliği ile belirtilir.</p><p><a href="visudet.html#propdef-width"><code><b>width</b></code></a> niteliğinin değeri <tt>auto</tt> olduğu takdirde imleyici çerçevesinin <a title="İçerik genişliği tanımı" href="box.html#content-width">içerik genişliği</a> içeriğin kendi genişliği olur; aksi takdirde, <a href="visudet.html#propdef-width"><code><b>width</b></code></a> niteliğinin değeri geçerlidir. İçerik genişliğinden daha küçük <a href="visudet.html#propdef-width"><code><b>width</b></code></a> değerleri için, taşma davranışını <a href="visufx.html#propdef-overflow"><code><b>overflow</b></code></a> niteliği belirler. İmleyici çerçevesi ile ilkesel çerçeve bir miktar birbirlerinin için girebilirler. İçerik genişliğinden daha büyük <a href="visudet.html#propdef-width"><code><b>width</b></code></a> değerleri için, imleyici çerçevesi içindeki yatay hiza <a href="text.html#propdef-text-align"><code><b>text-align</b></code></a> niteliği ile belirlenir.</p><p><a href="generate.html#propdef-marker-offset"><code><b>marker-offset</b></code></a> niteliği, bir imleyici çerçevesinin ilişkili olduğu <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel çerçeve</a> ile arasındaki yatay mesafeyi belirtir. Bu mesafe, bunların en yakın <a title="&#10;kenar çizgisi sınırı&#10;kenar çizgisi sınırı tanımı" href="box.html#border-edge">kenar çizgileri</a> arasındaki uzaklıktır.</p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>Soldan sağa biçimlenen bir bağlamda, bir imleyici bir yüzen çerçevenin sağından akıyorsa, ilkesel çerçeve yüzen çerçevenin sağından aşağı doğru akacak, fakat imleyici çerçeve yüzen elemanın solunda görünecektir. İlkesel çerçevenin sol kenarı yüzen çerçevenin soluna düştüğünden (<a href="visuren.html#floats"><b>Yüzen çerçeveler</b></a> bölümündeki açıklamaya bakınız) ve imleyici çerçevesi ilkesel çerçevenin kenarının dışında kaldığından, imleyici ayrıca yüzen çerçevenin de solunda kalacaktır. Sağdan sola biçimlenen, imleyici çerçevesinin yüzen çerçevenin solundan aktığı bağlamda benzer bir davranış uygulanır.<p></p></dd></dl><p><code>display: list-item</code>'lı bir eleman tarafından <a href="generate.html">üretilen içerik</a> için <a href="visuren.html#propdef-display"><code><b>display</b></code></a> niteliği <a href="visuren.html#value-def-marker"><code>marker</code></a> değerine sahip olduğu takdirde, <a href="selector.html#seldef-before"><code>:before</code></a> için üretilen bir imleyici çerçevesi normal liste öğesi imleyicisinin yerine geçer.</p><a name="idp28722592" id="idp28722592"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bu örnekte, içerik, sabit genişlikteki bir imleyici çerçevesi içinde ortalanmaktadır:<p></p><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"&gt;
+ &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;İmleyici çerçevesinde içeriğin hizalanması&lt;/title&gt;
+      &lt;style type="text/css"&gt;
+           li:before {
+               display: marker;
+               content: "(" counter(sayac) ")";
+               counter-increment: sayac;
+               width: 6em;
+               text-align: center;
+           }
+      &lt;/style&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;ol&gt;
+       &lt;li&gt; Bu madde, listenin birinci maddesidir.
+       &lt;li&gt; Bu madde, listenin ikinci maddesidir.
+       &lt;li&gt; Bu madde, listenin üçüncü maddesidir.
+     &lt;/ol&gt;
+   &lt;/body&gt;
+ &lt;/html&gt;</pre><p>Bu belge şöyle bir çıktı üretecektir:</p><pre>  (1)    Bu madde, listenin
+         birinci maddesidir.
+  (2)    Bu madde, listenin
+         ikinci maddesidir.
+  (3)    Bu madde, listenin
+         üçüncü maddesidir.</pre><p></p></dd></dl><p>Sonraki örnekte imleyiciler liste öğelerinden önce ve sonra oluşturulmaktadır.</p><a name="idp28727056" id="idp28727056"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Liste öğelerinden önceki ve sonraki imleyiciler&lt;/title&gt;
+    &lt;style type="text/css"&gt;
+      @media screen, print {
+         li:before {
+              display: marker;
+              content: url("smiley.gif");
+         }
+         li:after {
+              display: marker;
+              content: url("sad.gif");
+         }
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Birinci madde birinci gelir
+      &lt;li&gt;İkinci madde ikinci gelir
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Bu belge şöyle bir çıktı üretir (duygu belirten resimlerin yerine ascii karşılıkları kullanılmıştır):</p><pre>  :-) Birinci madde
+      birinci gelir    :-(
+  :-) İkinci madde
+      ikinci gelir     :-(</pre><p></p></dd></dl><p>Aşağıdaki örnekte, imleyiciler uyarıları (paragrafları) numaralamakta kullanılmaktadır:</p><a name="idp28730768" id="idp28730768"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Uyarıları numaralayan imleyiciler&lt;/title&gt;
+    &lt;style type="text/css"&gt;
+      p { margin-left: 12 em; }
+      @media screen, print {
+         p.warn:before  {
+              display: marker;
+              content: url("warn.gif")
+                       "Uyar\131 " counter(warn-counter) ":";
+              counter-increment: warn-counter;
+              text-align: left;
+              width: 10em;
+         }
+     }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Burası belgenin ilk paragrafıdır.&lt;/p&gt;
+    &lt;p class="warn"&gt;Burada bir şeylere dikkat çekilmektedir.&lt;/p&gt;
+    &lt;p&gt;Belge bu paragrafla bitmektedir.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Bu belge şöyle bir çıktı üretir:</p><pre>            Burası belgenin
+            ilk paragrafıdır.
+
+ Uyarı 1:   Burada bir şeylere
+            dikkat çekilmektedir.
+
+            Belge bu paragrafla
+            bitmektedir.</pre><p></p></dd></dl><a id="idx534" name="idx534"></a><a id="idx535" name="idx535"></a><a id="propdef-marker-offset" name="propdef-marker-offset"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>marker-offset</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td><a href="syndata.html#value-def-uzunluk"><var>uzunluk</var></a> | <tt>auto</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><tt>auto</tt></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><code>display: marker</code> bildirimli elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>hayır</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p><a id="idx536" name="idx536"></a>
+Bu nitelik, bir imleyici çerçevesinin ilişkili olduğu <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel çerçeve</a> ile arasındaki yatay mesafeyi belirtir. Bu mesafe, ya kullanıcı arayüzü tarafından seçilir (<tt>auto</tt>) ya da kullanıcı tarafından belirtilir (<a href="syndata.html#value-def-uzunluk"><var>uzunluk</var></a>). Uzunluk negatif olabilir ama gerçeklenime özgü sınırlamalar olabilir.</p><a name="idp28745280" id="idp28745280"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bu örnekte imleyicilerin liste öğelerinin numaralarından sonra nokta koymak için kullanılışı gösterilmektedir:<p></p><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;
+ &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;İmleyiciler 5. örnek&lt;/title&gt;
+      &lt;style type="text/css"&gt;
+           p { margin-left: 8em } /* İmleyiciler için boşluk bırak */
+           li:before {
+               display: marker;
+               marker-offset: 3em;
+               content: counter(hepsayar, lower-roman) ".";
+               counter-increment: hepsayar;
+           }
+      &lt;/style&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;p&gt; Burası listeden önceki uuupuzun paragraftır.
+     &lt;ol&gt;
+       &lt;li&gt; Listenin birinci maddesi.
+       &lt;li&gt; Listenin ikinci maddesi.
+       &lt;li&gt; Listenin üçüncü maddesi.
+     &lt;/ol&gt;
+     &lt;p&gt; Burası listeden sonraki uuupuzun paragraftır.
+   &lt;/body&gt;
+ &lt;/html&gt;</pre><p>Bu belge şöyle bir çıktı üretir:</p><pre>        Burası listeden önceki
+        uuupuzun paragraftır.
+
+   i.   Listenin birinci maddesi.
+  ii.   Listenin ikinci maddesi.
+ iii.   Listenin üçüncü maddesi.
+
+        Burası listeden sonraki
+        uuupuzun paragraftır.</pre><p></p></dd></dl></div><div class="div3"><a id="idx537" name="idx537"></a><h4><a name="lists" id="lists"></a>12.6.2 Listeler: the <a href="generate.html#propdef-list-style-type"><code><b>list-style-type</b></code></a>, <a href="generate.html#propdef-list-style-image"><code><b>list-style-image</b></code></a>, <a href="generate.html#propdef-list-style-position"><code><b>list-style-position</b></code></a> ve <a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> nitelikleri</h4><p><b>Liste nitelikleri</b> listelerin temel görsel biçimini sağlar. Daha genel imleyicilerde olduğu gibi, <code>display: list-item</code>'lı bir eleman, içeriği ve seçimlik imleyici çerçevesi için bir <a title="İlkesel blok çerçevesi tanımı" href="visuren.html#principal-box">ilkesel çerçeve</a> üretir. Diğer liste nitelikleri sayesinde biçembent yazarları bu ilkesel çerçeveyle ilgili imleyici türünü (resim, harf, rakam) ve konumunu belirtebilirler (içerikten önce içerde veya dışarda). Biçembent yazarlarının liste imleyicisi için ayrı ayrı biçem (renk, yazıtipi, hiza, vb.) ve ilkesel çerçeveye göre konum belirtmesine izin verilmez.</p><p>Öte yandan, (<code>display: marker</code> ile oluşturulan) bir M imleyicisi liste nitelikleri tarafından oluşturulan bir liste öğesi ile kullanılırken, M, standart liste öğesi imleyicisinin yerine geçer.</p><p>Liste nitelikleri ile birlikte, ilkesel çerçeveye sadece <a href="colors.html#background-properties">artalan nitelikleri</a> uygulanır; bir <tt>outside</tt> imleyici çerçevesi saydamdır. İmleyiciler imleyici çerçevesi biçemi üzerinde daha fazla denetim sunarlar.</p><a id="idx538" name="idx538"></a><a id="idx539" name="idx539"></a><a id="idx540" name="idx540"></a><a id="propdef-list-style-type" name="propdef-list-style-type"></a><a id="value-def-list-style-type" name="value-def-list-style-type"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>list-style-type</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td><a href="generate.html#value-def-disc"><code>disc</code></a> | <a href="generate.html#value-def-circle"><code>circle</code></a> | <a href="generate.html#value-def-square"><code>square</code></a> | <a href="generate.html#value-def-decimal"><code>decimal</code></a> | <a href="generate.html#value-def-decimal-leading-zero"><code>decimal-leading-zero</code></a> | <a href="generate.html#value-def-lower-roman"><code>lower-roman</code></a> | <a href="generate.html#value-def-upper-roman"><code>upper-roman</code></a> | <a href="generate.html#value-def-lower-greek"><code>lower-greek</code></a> | <a href="generate.html#value-def-lower-alpha"><code>lower-alpha</code></a> | <a href="generate.html#value-def-lower-latin"><code>lower-latin</code></a> | <a href="generate.html#value-def-upper-alpha"><code>upper-alpha</code></a> | <a href="generate.html#value-def-upper-latin"><code>upper-latin</code></a> | <a href="generate.html#value-def-hebrew"><code>hebrew</code></a> | <a href="generate.html#value-def-armenian"><code>armenian</code></a> | <a href="generate.html#value-def-georgian"><code>georgian</code></a> | <a href="generate.html#value-def-cjk-ideographic"><code>cjk-ideographic</code></a> | <a href="generate.html#value-def-hiragana"><code>hiragana</code></a> | <a href="generate.html#value-def-katakana"><code>katakana</code></a> | <a href="generate.html#value-def-hiragana-iroha"><code>hiragana-iroha</code></a> | <a href="generate.html#value-def-katakana-iroha"><code>katakana-iroha</code></a> | <tt>none</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><a href="generate.html#value-def-disc"><code>disc</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><code>display: list-item</code> bildirimli elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>evet</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p><a href="generate.html#propdef-list-style-image"><code><b>list-style-image</b></code></a> niteliği <tt>none</tt> değerine sahipse veya <a href="syndata.html#value-def-tanım-yeri"><var>tanım-yeri</var></a> ile belirtilen resim gösterilemezse, bu nitelik liste öğesi imleyicisinin görünümünü belirler. <tt>none</tt> değeri hiçbir imleyici belirtmez, aksi takdirde üç tür imleyici vardır: şekiller, numaralama sistemleri ve alfabetik sistemler. <b>Ek Bilgi:</b> Numaralı listeler, gezinmeyi kolaylaştırarak belge erişilebilirliğini arttırırlar.</p><p><a id="idx541" name="idx541"></a>
+<a id="idx542" name="idx542"></a>
+<a id="idx543" name="idx543"></a>
+<a name="value-def-disc" id="value-def-disc" title="disk şekli"></a><span title="disk şekli tanımı" class="termdef">Şekiller <code>disc</code> (içi dolu daire)</span>, <a name="value-def-circle" id="value-def-circle" title="daire şekli"></a><span title="daire şekli tanımı" class="termdef"><code>circle</code> (içi boş daire)</span> ve <a name="value-def-square" id="value-def-square" title="kare şekli"></a><span title="kare şekli tanımı" class="termdef"><code>square</code> (kare) değerleriyle belirtilirler</span>. Şekillerin yorumlanışı kullanıcı arayüzüne bağlıdır.</p><p>Numaralama sistemleri şöyle belirtilir:</p><dl class="varlist"><dt class="label"><a name="value-def-decimal" id="value-def-decimal"></a>
+<a id="idx544" name="idx544"></a>
+<code>decimal</code></dt><dd>Onluk tabandaki sayılar 1'den başlar.<p></p></dd><dt class="label"><a name="value-def-decimal-leading-zero" id="value-def-decimal-leading-zero"></a> <a id="idx545" name="idx545"></a>
+<code>decimal-leading-zero</code></dt><dd>Önlerine sıfır konmuş onluk tabandaki sayılar (01, 02, 03, ...,
+98, 99 gibi).<p></p></dd><dt class="label"><a name="value-def-lower-roman" id="value-def-lower-roman"></a>
+<a id="idx546" name="idx546"></a>
+<code>lower-roman</code></dt><dd>Küçük harflerle romen rakamları (i, ii, iii, iv, v, vs.).<p></p></dd><dt class="label"><a name="value-def-upper-roman" id="value-def-upper-roman"></a>
+<a id="idx547" name="idx547"></a>
+<code>upper-roman</code></dt><dd>Büyük harflerle romen rakamları (I, II, III, IV, V, vs.).<p></p></dd><dt class="label"><a name="value-def-hebrew" id="value-def-hebrew"></a>
+<a id="idx548" name="idx548"></a>
+<code>hebrew</code></dt><dd>Geleneksel İbranice numaralama (Alef, Bet, ... Tet Vav, Tet Zayin, ... Yod Tet, Kaf ...).<p></p></dd><dt class="label"><a name="value-def-georgian" id="value-def-georgian"></a>
+<a id="idx549" name="idx549"></a>
+<code>georgian</code></dt><dd>Geleneksel Gürcüce numaralama (an, ban, gan, ..., he, tan, in,
+in-an, ...).<p></p></dd><dt class="label"><a name="value-def-armenian" id="value-def-armenian"></a>
+<a id="idx550" name="idx550"></a>
+<code>armenian</code></dt><dd>Geleneksel Ermenice numaralama.<p></p></dd><dt class="label"><a name="value-def-cjk-ideographic" id="value-def-cjk-ideographic"></a>
+<a id="idx551" name="idx551"></a>
+<code>cjk-ideographic</code></dt><dd>Düz sembolik (Çince/Japonca) numaralama<p></p></dd><dt class="label"><a name="value-def-hiragana" id="value-def-hiragana"></a>
+<a id="idx552" name="idx552"></a>
+<code>hiragana</code></dt><dd>a, i, u, e, o, ka, ki, ...<p></p></dd><dt class="label"><a name="value-def-katakana" id="value-def-katakana"></a>
+<a id="idx553" name="idx553"></a>
+<code>katakana</code></dt><dd>A, I, U, E, O, KA, KI, ...<p></p></dd><dt class="label"><a name="value-def-hiragana-iroha" id="value-def-hiragana-iroha"></a>
+<a id="idx554" name="idx554"></a>
+<code>hiragana-iroha</code></dt><dd>i, ro, ha, ni, ho, he, to, ...<p></p></dd><dt class="label"><a name="value-def-katakana-iroha" id="value-def-katakana-iroha"></a>
+<a id="idx555" name="idx555"></a>
+<code>katakana-iroha</code></dt><dd>I, RO, HA, NI, HO, HE, TO, ...<p></p></dd></dl><p>Numaralama sistemini tanımayan bir kullanıcı arayüzünün <a href="generate.html#value-def-decimal"><code>decimal</code></a> değeri belirtilmiş gibi davranması gerekir.</p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>Bu belge numaralama sistemlerinin algoritmalarını (romen rakamlarının oluşturuluşu gibi) belirtmez. Gelecekte bir W3C notu olarak bu bilgi sağlanabilir.<p></p></dd></dl><p>Alfabetik sistemler şöyle belirtilir:</p><dl class="varlist"><dt class="label"><a name="value-def-lower-latin" id="value-def-lower-latin"></a>
+<a id="idx556" name="idx556"></a>
+<a id="idx557" name="idx557"></a>
+<code>lower-latin</code></dt><dt class="label"><a name="value-def-lower-alpha" id="value-def-lower-alpha"></a><code>lower-alpha</code></dt><dd>Küçük ascii harfleri (a, b, c, ... z).<p></p></dd><dt class="label"><a name="value-def-upper-latin" id="value-def-upper-latin"></a>
+<a id="idx558" name="idx558"></a>
+<a id="idx559" name="idx559"></a>
+<code>upper-latin</code></dt><dt class="label"><a name="value-def-upper-alpha" id="value-def-upper-alpha"></a><code>upper-alpha</code></dt><dd>Büyük ascii harfleri (A, B, C, ... Z).<p></p></dd><dt class="label"><a name="value-def-lower-greek" id="value-def-lower-greek"></a>
+<a id="idx560" name="idx560"></a>
+<code>lower-greek</code></dt><dd>Küçük Yunan harfleri (α, β, γ, ...)<p></p></dd></dl><p>Bu belirtim alfabetik karakterleri sıralamada alfabenin sonuna gelindiğinde nasıl devam edileceğini tanımlamaz. Örneğin, <a href="generate.html#value-def-lower-latin"><code>lower-latin</code></a> için 27. liste öğesinin nasıl imleneceği tanımsızdır. Uzun listelerde yazarların gerçek sayılar belirtmelerini öneririz.</p><a name="idp28838176" id="idp28838176"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"&gt;
+&lt;html&gt;
+   &lt;head&gt;
+     &lt;title&gt;Küçük latin harfli numaralama&lt;/title&gt;
+     &lt;style type="text/css"&gt;
+          ol { list-style-type: lower-roman }
+     &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ol&gt;
+      &lt;li&gt; Birinci şık.
+      &lt;li&gt; İkinci şık.
+      &lt;li&gt; Üçüncü şık.
+    &lt;/ol&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Bu belge şöyle bir çıktı üretir:</p><pre>  i Birinci şık.
+ ii İkinci şık.
+iii Üçüncü şık.</pre><p>Liste imleyicisinin hizalamasının (burada sağa yanaşıktır) kullanıcı arayüzüne bağlı oluşuna dikkat ediniz.</p></dd></dl><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>BB'nin gelecekteki sürümlerinde uluslararası numaralama için daha karmaşık mekanizmalar sağlanabilir.<p></p></dd></dl><p></p><a id="idx561" name="idx561"></a><a id="idx562" name="idx562"></a><a id="idx563" name="idx563"></a><a id="propdef-list-style-image" name="propdef-list-style-image"></a><a id="value-def-list-style-image" name="value-def-list-style-image"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>list-style-image</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td><a href="syndata.html#value-def-tanım-yeri"><var>tanım-yeri</var></a> | <tt>none</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><a href="generate.html#value-def-disc"><code>disc</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><code>display: list-item</code> bildirimli elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>evet</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p>Bu nitelik, liste öğesi imleyicisi olarak kullanılacak resmi atamak için kullanılır. Resim elde edilebilirse, <a href="generate.html#propdef-list-style-type"><code><b>list-style-type</b></code></a> ile atanan imleyicinin yerine kullanılır.</p><a name="idp28852768" id="idp28852768"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bu örnekte, her liste öğesinin başlangıcına imleyici olarak "ellipse.png" resmi yerleştirilmektedir:<p></p><pre>ul { list-style-image: url("http://png.com/ellipse.png") }</pre><p></p></dd></dl><a id="idx564" name="idx564"></a><a id="idx565" name="idx565"></a><a id="idx566" name="idx566"></a><a id="propdef-list-style-position" name="propdef-list-style-position"></a><a id="value-def-list-style-position" name="value-def-list-style-position"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>list-style-position</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td><tt>inside</tt> | <tt>outside</tt> | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td><tt>outside</tt></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><code>display: list-item</code> bildirimli elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>evet</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p>Bu nitelik imleyici çerçevesinin ilkesel blok çerçevesindeki konumunu belirler. Değerlerin anlamları:</p><dl class="varlist"><dt class="label"><a id="idx567" name="idx567"></a>
+<tt>outside</tt> [dışarısı]</dt><dd>İmleyici çerçevesi, ilkesel blok çerçevesinin dışındadır.<br />
+<b>Bilgi: </b> BB1 imleyici çerçevesinin konumunu hassas olarak belirlemezdi ve geriye uyumluluktan dolayı, BB2 belirsizlikte eşdeğer kalır. İmleyici çerçevelerinin denetiminde hassasiyet istiyorsanız lütfen imleyicileri kullanınız.<p></p></dd><dt class="label"><a id="idx568" name="idx568"></a>
+<tt>inside</tt> [içerisi]</dt><dd>İmleyici çerçevesi, ilkesel blok çerçevesinin ilk satır çerçevesidir.<p></p></dd></dl><a name="idp28870448" id="idp28870448"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><pre>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;İç ve dış imleyiciler&lt;/title&gt;
+    &lt;style type="text/css"&gt;
+      ul         { list-style: outside }
+      ul.compact { list-style: inside }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ul&gt;
+      &lt;li&gt;birinci liste maddesi birinci gelir
+      &lt;li&gt;ikinci liste maddesi ikinci gelir
+    &lt;/ul&gt;
+
+    &lt;uL class="compact"&gt;
+      &lt;li&gt;birinci liste maddesi birinci gelir
+      &lt;li&gt;ikinci liste maddesi ikinci gelir
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre><p>Bu belgenin çıktısı şöyle olurdu:</p><div class="figure"><a id="img-list-inout" name="img-list-inout"></a>
+<img src="images/list-inout.png" alt="İç ve dış imleyicili listelerin farkı" title="İç ve dış imleyicili listelerin farkı" /><br />
+[<a href="images/longdesc/list-inout-desc.html" title="İç ve dış liste imleyicileri arasındaki farkı gösteren örneğin geniş açıklaması">Açıklama</a>]
+</div></dd></dl><p>Sağdan sola yazılan metinlerde imleyiciler çerçevenin sağ tarafında kalır.</p><a id="idx569" name="idx569"></a><a id="idx570" name="idx570"></a><a id="propdef-list-style" name="propdef-list-style"></a><table class="propinfoheader" width="100%" cellspacing="0" cellpadding="0"><tr><td><code><b>list-style</b></code></td><td align="right"><em class="rfc2119">NİTELİK</em></td></tr></table><table class="propinfo" width="100%" cellspacing="0" cellpadding="0"><colgroup><col width="5%" /><col width="*" /></colgroup>
+  
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Değer:</em></td><td>[ <a href="generate.html#value-def-list-style-type"><var>list-style-type</var></a> || <a href="generate.html#value-def-list-style-position"><var>list-style-position</var></a> || <a href="generate.html#value-def-list-style-image"><var>list-style-image</var></a> ] | <a href="cascade.html#value-def-inherit"><code>inherit</code></a></td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>İlk değer:</em></td><td>kestirme nitelikler için tanımlanmaz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Uygulama yeri:</em></td><td><code>display: list-item</code> bildirimli elemanlar</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Kalıtsallık:</em></td><td>evet</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Yüzdelik değerler:</em></td><td>Elverişsiz</td></tr>
+  <tr valign="top"><td align="right" style="font-size: 90%"><em>Ortam:</em></td><td><a title="görsel ortam grubu tanımı" href="media.html#visual-media-group">görsel</a></td></tr>
+</table><p><a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> niteliği <a href="generate.html#propdef-list-style-type"><code><b>list-style-type</b></code></a>, <a href="generate.html#propdef-list-style-image"><code><b>list-style-image</b></code></a> ve <a href="generate.html#propdef-list-style-position"><code><b>list-style-position</b></code></a> nitelikleri için kestirme niteliktir.</p><div class="example"><pre>ul { list-style: upper-roman inside }   /* Bir "ul" elemanı */
+ul &gt; li &gt; ul { list-style: circle outside } /* Bir "ul" elemanının
+                                            "li" çocuğunun "ul" çocuğu */</pre></div><p>Yazarlar <a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> bilgisini doğrudan liste öğesi elemanlarında (örn, HTML'de <code>&lt;li&gt;</code>) belirtebiliyor olsalar da, bunu dikkatli yapmalıdırlar. Aşağıdaki kurallar benzer olmakla beraber, ilki bir <a href="selector.html#descendant-selectors">astsal seçici</a> belirtirken ikincisi (daha özgü) bir <a href="selector.html#child-selectors">çocuk seçici</a> belirtir.</p><div class="example"><pre>
+ol.alpha li   { list-style: lower-alpha } /* Bir <b>ol</b>'nin bir <b>li</b> astsalı */
+ol.alpha &gt; li { list-style: lower-alpha } /* Bir <b>ol</b>'nin bir <b>li</b> çocuğu */</pre></div><p>Sadece <a href="selector.html#descendant-selectors">astsal seçicileri</a> kullanan yazarlar umduklarını bulamayabilirler. Aşağıdaki kuralları ele alalım:</p><div class="example"><pre>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;UYARI: Bütünleşimden dolayı beklenmedik sonuçlar&lt;/title&gt;
+    &lt;style type="text/css"&gt;
+      ol.alpha li  { list-style: lower-alpha }
+      ul li        { list-style: disc }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ol class="alpha"&gt;
+      &lt;li&gt;seviye 1&lt;/li&gt;
+      &lt;ul&gt;
+         &lt;li&gt;seviye 2&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/ol&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></div><p>Bu belge şu sonucu üretir:</p><div class="example"><pre>a. seviye 1
+    a. seviye 2</pre></div><p>Halbuki istenen "seviye 2" nin imleyicisinin bir <a href="generate.html#value-def-disc"><code>disc</code></a> olmasıydı. <a href="cascade.html#cascading-order">Bütünleşim sırasından</a> dolayı ilk kural (daha özgü sınıf bilgisi içerdiğinden) ikincisini gölgeler. Aşağıdaki kurallar bir <a href="selector.html#child-selectors">çocuk seçici</a> belirterek sorunu çözer:</p><div class="example"><pre>ol.alpha &gt; li  { list-style: lower-alpha }
+ul li   { list-style: disc }</pre></div><p>Başka bir çözüm de <a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> bilgisini sadece liste türü elemanlarında belirtmektir:</p><div class="example"><pre>ol.alpha  { list-style: lower-alpha }
+ul        { list-style: disc }</pre></div><p>Kalıtım <a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> değerlerini <code>&lt;ol&gt;</code> ve <code>&lt;ul&gt;</code> elemanlarından <code>&lt;li&gt;</code> elemanlarına aktaracaktır. Liste biçemi bilgisini belirmek için önerilen yol budur.</p><a name="idp28913328" id="idp28913328"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Tanım-yeri değerinin başka bir değerle birlikte kullanımı:<p></p><pre>UL { list-style: url("http://png.com/ellipse.png") disc }</pre><p>Burada belirtilen <a href="generate.html#value-def-disc"><code>disc</code></a>, resim bulunamazsa kullanılacaktır.</p></dd></dl><p><a href="generate.html#propdef-list-style"><code><b>list-style</b></code></a> niteliğinde belirtilen bir <tt>none</tt> değeri hem <a href="generate.html#propdef-list-style-type"><code><b>list-style-type</b></code></a> hem de
+<a href="generate.html#propdef-list-style-image"><code><b>list-style-image</b></code></a> niteliğine <tt>none</tt> değeri atanmasına sebep olur.</p><a name="idp28919344" id="idp28919344"></a><dl class="example"><dt><b>Örnek: </b></dt><dd><pre>UL { list-style: none }</pre><p>Bu kural hiçbir liste öğesi imleyicisi gösterilmemesiyle sonuçlanacaktır.</p></dd></dl></div></div></div><p></p><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><td width="30%"><a href="visufx.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="30%" align="right"><a href="page.html">Sonraki</a></td></tr><tr><td width="30%">Görsel sonuçlar</td><td width="*" align="center">Bir <a href="http://belgeler.org.tr">Linux Kitaplığı</a> Sayfası</td><td width="30%" align="right">Sayfalı Ortam</td></tr></table></body></html>

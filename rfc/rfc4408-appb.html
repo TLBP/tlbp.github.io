@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek B. Çeşitli Örnekler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-appa.html')">Önceki</button>
+          <div class="dropdown-content">Ek A. Toplu ABNF</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-appc.html')">Sonraki</button>
+          <div class="dropdown-content">Ek C. Bu Belge Hakkında</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-appb">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek B. Çeşitli Örnekler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Buradaki örnekler aşağıdaki DNS ayarlarına dayandırılmıştır:
+  </p>
+        <pre class="literallayout monospaced">
+; İki posta sunuculu bir alan,
+; alan adında iki konak ve iki sunucu
+$ORIGIN example.com.
+@           MX  10 mail-a
+            MX  20 mail-b
+            A   192.0.2.10
+            A   192.0.2.11
+amy         A   192.0.2.65
+bob         A   192.0.2.66
+mail-a      A   192.0.2.129
+mail-b      A   192.0.2.130
+www         CNAME example.com.
+
+; İlişkili alan
+$ORIGIN example.org.
+@           MX  10 mail-c
+mail-c      A   192.0.2.140
+
+; Bu adresler için tersinir IP
+$ORIGIN 2.0.192.in-addr.arpa.
+10          PTR example.com.
+11          PTR example.com.
+65          PTR amy.example.com.
+66          PTR bob.example.com.
+129         PTR mail-a.example.com.
+130         PTR mail-b.example.com.
+140         PTR mail-c.example.org.
+
+; birşeylere ait olmayı istemeyen
+; muzip bir tersinir IP alanı
+$ORIGIN 0.0.10.in-addr.arpa.
+4           PTR bob.example.com.
+</pre>
+        <div class="example" id="rfc4408-appb1">
+          <div class="example-title">Örnek: Basit Örnekler</div>
+          <div class="example-contents">
+            <p>
+    Bu örnekler, <code class="literal">check_host()</code> işlevinin "Pass" döndürmesine sebep olan <code class="literal">&lt;ip</code> değerleri ve example.com için yayınlanması olası çeşitli kayıtlardan oluşmaktadır. <code class="literal">&lt;alan&gt;</code>'ın "example.com" olduğuna dikkat ediniz.
+   </p>
+            <pre class="literallayout monospaced"><code class="code">v=spf1 +all</code>
+   -- her &lt;ip&gt; geçer
+
+<code class="code">v=spf1 a -all</code>
+   -- gönderen konak 192.0.2.10 ve 192.0.2.11 ise posta geçer
+
+<code class="code">v=spf1 a:example.org -all</code>
+   -- example.org bir A kaydı içermediğinden
+      hiçbir gönderen konak için posta geçmez
+
+<code class="code">v=spf1 mx -all</code>
+   -- gönderen konak 192.0.2.129 ve 192.0.2.130 ise posta geçer
+
+<code class="code">v=spf1 mx:example.org -all</code>
+   -- gönderen konak 192.0.2.140 ise posta geçer
+
+<code class="code">v=spf1 mx mx:example.org -all</code>
+   -- gönderen konak 192.0.2.129, 192.0.2.130 ve 192.0.2.140
+      ise posta geçer
+
+<code class="code">v=spf1 mx/30 mx:example.org/30 -all</code>
+   -- 192.0.2.128/30 veya 192.0.2.140/30 içindeki
+      her gönderen konak için posta geçer
+
+<code class="code">v=spf1 ptr -all</code>
+   -- gönderen konak 192.0.2.65 ise posta geçer
+      (ters DNS geçerlidir ve konak example.com içindedir)
+   -- gönderen konak 192.0.2.140 ise posta geçmez
+      (ters DNS geçerlidir, ama konak example.com içinde değildir)
+   -- gönderen konak 10.0.0.4 ise posta geçmez
+      (tersinir IP geçersizdir)
+
+<code class="code">v=spf1 ip4:192.0.2.128/28 -all</code>
+   -- gönderen konak 192.0.2.65 ise posta geçmez
+   -- gönderen konak 192.0.2.129 ise posta geçer
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="example" id="rfc4408-appb2">
+          <div class="example-title">Örnek: Çok Alanlı Örnek</div>
+          <div class="example-contents">
+            <p>
+    Bu örnekler etkilerini bu kayıtla ilgili olarak gösterirler:
+   </p>
+            <pre class="literallayout monospaced">
+example.org: "v=spf1 include:example.com include:example.net -all"
+</pre>
+            <p>
+    Bu kayıt, eğer example.org'dan gelen postayı aslında example.com ve example.net sunucularından geliyorsa kullanılır. Example.org'un tasarlanmış sunucuları example.com and example.net'in tasarlanmış sunucularının birleşimidir.
+   </p>
+            <pre class="literallayout monospaced">
+la.example.org: "v=spf1 redirect=example.org"
+ny.example.org: "v=spf1 redirect=example.org"
+sf.example.org: "v=spf1 redirect=example.org"
+</pre>
+            <p>
+    Bu kayıtlar bir alanlar kümesinin hepsinin aynı posta sistemini, o sistemin kaydından yararlanarak kullanmasını mümkün kılar. Bu yolla, posta ayarlarında değişiklik yapmak gerektiğinde sadece posta sisteminin kaydının güncellenmesi yeterli olur. Bu alanların kayıtları hiçbir zaman değişmez.
+   </p>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="example" id="rfc4408-appb3">
+          <div class="example-title">Örnek: DNSBL Tarzı Örnek</div>
+          <div class="example-contents">
+            <p>
+    Farzedelim ki, yukarıda listelenmiş alan kayıtlarına ek olarak bunlar da olsun:
+   </p>
+            <pre class="literallayout monospaced">
+$ORIGIN _spf.example.com.  mary.mobile-users                   A
+127.0.0.2 fred.mobile-users                   A 127.0.0.2
+15.15.168.192.joel.remote-users     A 127.0.0.2
+16.15.168.192.joel.remote-users     A 127.0.0.2
+</pre>
+            <p>
+    Aağıdaki kayıtlar postalarını keyfi sunuculardan veya kişisel sunucularından gönderen kullanıcıları açıklamaktadır.
+   </p>
+            <p>example.com:</p>
+            <pre class="literallayout monospaced">
+v=spf1 mx
+       include:mobile-users._spf.%{d}
+       include:remote-users._spf.%{d}
+       -all
+</pre>
+            <p>
+    mobile-users._spf.example.com:
+   </p>
+            <pre class="literallayout monospaced">
+v=spf1 exists:%{l1r+}.%{d}
+
+remote-users._spf.example.com:
+
+v=spf1 exists:%{ir}.%{l1r+}.%{d}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <div class="example" id="rfc4408-appb4">
+          <div class="example-title">Örnek: Çok Gereksinimli Örnek</div>
+          <div class="example-contents">
+            <p>
+Diyelim ki, gönderici kurallarınız, hem IP adreslerinin belli bir aralık içinde kalmasını hem de bu IP'ler için ters DNS kayıtlarının eşleşmesini gerektirsin. Bu çeşitli yollardan yapılabilir, örnek:
+</p>
+            <pre class="literallayout monospaced">
+example.com.           SPF  ( "v=spf1 "
+                              "-include:ip4._spf.%{d} "
+                              "-include:ptr._spf.%{d} "
+                              "+all" )
+ip4._spf.example.com.  SPF  "v=spf1 -ip4:192.0.2.0/24 +all"
+ptr._spf.example.com.  SPF  "v=spf1 -ptr +all"
+</pre>
+            <p>
+Bu örnekler "<code class="literal">-include</code>" mekanizmasının ne kadar kullanışlı olabileceğini, "<code class="literal">+all</code>" ile biten bir SPF kaydının nasıl çok sınırlayıcı olabileceğini ve De Morgan Kuralının kullanımını göstermektedir.
+</p>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

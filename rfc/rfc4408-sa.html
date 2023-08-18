@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>10. Güvenlik Değerlendirmeleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s9.html')">Önceki</button>
+          <div class="dropdown-content">9. Etkilenimler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-sb.html')">Sonraki</button>
+          <div class="dropdown-content">11. Teşekkür</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-sa">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">10. Güvenlik Değerlendirmeleri</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc4408-sa1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.1. İşlem Sınırları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Eposta ile ilgili pekçok şey gibi, kötü niyetlilerin protokolü hizmet reddi (DoS) saldırıları için bir bulvar olarak kullanabileceği bazı yöntemler vardır. Burada anahatlarıyla ele alınacak olan işlem sınırları şu tür saldırılardan korunmak için tasarlanmıştır:
+</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+Kötü niyetli biri, mağdurun alanına atıflarda bulunan bir SPF kaydı oluşturabilir ve farklı SPF istemcilerine çok sayıda posta gönderebilir; bu SPF istemcileri bir hizmet reddi saldırısı oluştururlar. Aslında, SMTP oturumunda DNS sorgularında kullanılandan daha az bayt kullanılmasını sağlayarak, SPF istemcileri saldırganın band genişliğini arttırmakta kullanılmış olurlar.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+DNS sorgularının sayısını sınırladığı varsayılan <code class="literal">check_host()</code> gerçeklenimlerinin olduğu yerlerde, kötü niyetli alanlar posta gönderdikleri zaman, hedeflerinde boş hesaplama çabasına yol açarak bu sınırların aşılmasına sebep olan kayıtlar yayınlayabilirler. Kötü niyetli alanlar ayrıca, bazı gerçeklenimlerin üşırı bellek ve işlemci kullanmasına veya hataların tetiklenmesine yol açan SPF kayıtları tasarlayabilirler.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Kötü niyetli alanlar, geniş çaplıa meşru posta konaklarından geliyormuş gibi görünen büyük hacimde posta gönderebilirler. Bu meşru makineler ilgili kayıtları almak isterken aşırı bir DNS yükü oluşmasına sebebiyet verirler.
+</p>
+              </li>
+            </ul>
+          </div>
+          <p>
+    Bunlardan dolayı, SPF kaydında bir üçüncü tarafa atıfta bulunulması durumu bir hizmet reddi saldırısı için en kolay istismar edilen durumdur. Sonuç olarak, tek başına bir posta sunucusu için makul görünebilen sınırlar, çok sayıda konak bir araya geldiğinde kabul edilemez miktarda band genişliği harcanmasını sebep olabilir. Bu bakımdan, işlem sınırlarının oldukça düşük tutulmasına ihtiyaç duyulur.
+   </p>
+          <p>
+    SPF gerçeklenimleri, DNS sorgusuna yol açan mekanizmaların ve değiştiricilerin sayısını SPF sınaması başına en fazla 10 sorgu olabilecek şekildi sınırlamalıdır. Bunlara, kullanımları ek sorgulara yol açan "include" mekanizması ve "<code class="literal">redirect</code>" değiştiricisi dahildir. Bir sınama sırasında bu miktar aşılırsa, bir "<code class="literal">PermError</code>" dönmelidir *ZORUNLU*. "<code class="literal">redirect</code>" değiştiricisinden başka "<code class="literal">include</code>", "<code class="literal">a</code>", "<code class="literal">mx</code>", "<code class="literal">ptr</code>" ve "<code class="literal">exists</code>" mekanizmaları da bu sınırla ilgilidir. "<code class="literal">all</code>", "<code class="literal">ip4</code>" ve "<code class="literal">ip6</code>" mekanizmaları DNS sorgusu gerektirmezler ve dolayısıyla bu sınırla ilgili sayıya dahil edilmezler. "<code class="literal">exp</code>" değiştiricisi de bu sayıya dahil edilmez, çünkü bunun DNS sorgusu SPF kaydı değerlendirildikten sonra yapılır.
+   </p>
+          <p>
+    "<code class="literal">mx</code>" ve "<code class="literal">ptr</code>" mekanizmaları veya <code class="literal">%{p}</code> makrosu değerlendirilirken 10'dan fazla MX ve PTR kaydı sorgusu ve sınaması yapılamaması için bir sınırlama olmalıdır *ZORUNLU*.
+   </p>
+          <p>
+    SPF gerçeklenimleri, DNS sorgularından sağlanacak toplam veri miktarını sınırlamalıdırlar *ÖNERİ*. Örneğin, TCP üzerinden DNS veya EDNS0 mümkün olduğunda, aşırı band genişliği veya bellek kullanımından veya hizmet reddi saldırılarından kaçınmak için ne kadar veri kabul edilebileceği ile ilgili açıkça bir sınırlama koymak ihtiyacı ortaya çıkabilir.
+   </p>
+          <p>
+    MTA'lar veya işlemciler ayrıca, <code class="literal">check_host()</code> işlevinin işlem yapma süresine bir sınırlama getirebilirler. Böyle bir sınırlamanın en azından 20 saniyelik bir süre sağlaması gerekir *ÖNERİ*. Bu sınır aşıldığında, sınama sonucu "<code class="literal">TempError</code>" olmalıdır *ÖNERİ*.
+   </p>
+          <p>
+    Kayıt yayınlayan alanlar "<code class="literal">include</code>" mekanizması sayısını ve "<code class="literal">redirect</code>" değiştiricisi zincirini olası en düşük miktarda tutmaya çalışmalıdırlar *ÖNERİ*. Alanlar ayrıca, bir kaydın değerlendirilme ihtiyacını ortaya çıkaran DNS bilgisi mitarını da azaltmaya çalışmalıdırlar *ÖNERİ*. Bu, daha az DNS bilgisi gerektiren yönergeler seçilerek ve SPF kayıtlarına ucuz maliyetli mekanizmalar yerleştirilerek yapılabilir.
+   </p>
+          <p>
+    Örneğin, şöyle bir alan ayarlaması yapılmış olsun:
+   </p>
+          <pre class="literallayout monospaced">
+example.com.      IN MX   10 mx.example.com.
+mx.example.com.   IN A    192.0.2.1
+a.example.com.    IN TXT  "v=spf1 mx:example.com -all"
+b.example.com.    IN TXT  "v=spf1 a:mx.example.com -all"
+c.example.com.    IN TXT  "v=spf1 ip4:192.0.2.1 -all"
+</pre>
+          <p>
+    "a.example.com" alanı için <code class="literal">check_host()</code> işlevinin değerlendirmesi, "example.com" için <code class="literal">MX</code> kayıtlarını ve ardından listelenen konaklar için <code class="literal">A</code> kayıtlarını gerektirir. "b.example.com" için yapılan değerlendirme ise, sadece <code class="literal">A</code> kayıtları gerektirir. "c.example.com" için ise hiçbir şey gerekmez.
+   </p>
+          <p>
+    Bununla birlikte, yönetimsel değerlendirmeler sözkonusu olabilir: "ip4" yerine "a" kullanımı konakların yeniden numaralanmasını kolaylaştırır. "a" yerine "mx" kullanmak da posta konaklarında kolayca değişiklik yapılabilmesini sağlar.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4408-sa2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.2. SPF Yetkilendirmeli Eposta Yanlış Kimlikler İçerebilir</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    "MAIL FROM" ve "HELO" kimlikleri ile ilgili yetkilendirmeye olabildiğinden daha fazla anlam yüklemeye çalışılmamalıdır. Alanın SPF kaydı gönderen konağı yetkilendirdiğinden ve ileti diğer kimlikleri başlığında listeleyebildiğinden, kötü niyetli bir göndericinin SPF tarafından kullanılan kimliklerde kendi alanını kullanarak bir ileti teslim etmeye çalışması mümkündür. Kullanıcı veya MUA, yetkili kimliğin diğer varlığı bilinen kimliklerle (örn, From: başlık alanında) eşleşip eşleşmediğine dikkat etmedikçe, kullanıcı güvenlik konusunda bir yanlışa düşebilir.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4408-sa3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.3. Taklit Edilmiş DNS ve IP Verisi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    Kötü niyetli kişiler bu protokolü, <code class="literal">check_host()</code> işlevinin altını oyacak şekilde iki bakımdan istismar edebilirler:
+   </p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+      <code class="literal">check_host()</code> değerlendirmesi önemli derecede DNS'ye bağlıdır. Bir saldırgan, DNS alt yapısına saldırıp <code class="literal">check_host()</code> işlevinin taklit DNS verisi görmesine ve yanlış sonuçlar döndürmesine sebep olabilir. Asıl alan kaydı "<code class="literal">Fail</code>" ile sonuçlanacak bir <code class="literal">&lt;ip&gt;</code> değeri için "Pass" döndürülmesini sağlayabilir. DNS zayıflıkları ile ilgili bilgi edinmek için [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3833" title="Threat Analysis of the Domain Name System (DNS)">RFC3833</a>]'e bakınız.
+     </p>
+              </li>
+              <li class="listitem">
+                <p>
+      İstenci IP adresi olarak <code class="literal">&lt;ip&gt;</code>'nin doğru olduğu varsayılır. Saldırgan TCP sıra numaralarını taklit ederek postanın bir alan için yetkilendirilmiş bir konaktan geliyormuş gibi görünmesini sağlayabilir.
+     </p>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="sect2" id="rfc4408-sa4">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.4. Çapraz-Kullanıcı Sahtekarlığı</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    Tanımı gereği, SPF kuralları alan isimleri ile yetkili konakları eşler, eposta adresleri ile yetkili kullanıcıları eşlemez. "l" makrosu, belli eposta adresleri için yetkili konakları tek tek tanımlayacak bir yol sağlasa da (bkz, <a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a>),  belli eposta adreslerinin aynı konağın bireysel kullanıcıları tarafından kullanıldığını SPF üzerinden doğrulamak genelde imkansızdır.
+   </p>
+          <p>
+    Posta hizmetleri ve onların MTA'ları doğrudan doğruya çapraz-kullanıcı sahtekarlığından korunabilir: SMTP AUTH'a ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2554" title="SMTP Service Extension for Authentication">RFC2554</a>]) dayanarak, kullanıcılar sadece kendi denetimleri altındaki eposta adreslerini kullanmaya zorlanmalıdırlar ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC4409" title="Message Submission for Mail">RFC4409</a>]'un 6.1. bölümüne bakınız). Başka bir anlamda kullanıcıların tek tek kimlik doğrulaması PGP ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2440" title="OpenPGP Message Format">RFC2440</a>]) veya S/MIME ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3851" title="Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 3.1 Message Specification">RFC3851</a>]) gibi bir ileti şifrelemesi ile yapılabilir.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4408-sa5">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.5. Güvenilmez Bilgi Kaynakları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    SPF, üçüncü şahıslar tarafından sağlanan bilgi kaynaklarını kullanır: "HELO" alan adı, "MAIL FROM" adresi ve SPF kayıtları gibi. Bu bilgi daha sonra "Received-SPF:" izleme alanında alıcıya aktarılır ve bir ihtimal, bir SMTP red iletisi biçiminde istemcinin MTA'sına döndürülür. Bu bilginin geçersiz karakterler ve aşırı uzunluktaki satırlar bakımından sınanması gerekir.
+   </p>
+          <p>
+    Yetkilendirme sınaması başarısız olduğunda, red yanıtında bir izahat dizgesi bulunabilir. Hem alıcının hem de reddedilen göndericinin bu izahatın alıcı tarafından değil, SPF kaydının yayıncısı tarafından sağlandığından haberdar edilmeleri gerekir. Bu izahat kötü niyetli URL'ler içerebileceği gibi taciz edici veya yanıltıcı olabilir.
+   </p>
+          <p>
+    Böyle iletiler göndericisine döndüğünden ve izahat dizgeleri göndericinin ta kendisi tarafından iddia olunan kimlikteki alan tarafından yayınlanan gönderici kurallarına göre geldiğinden bu belki de göründüğünden daha az kaygı verici olabilir. DSN asıl göndericiden başkasına yönlenmediği sürece kötü niyetli izahat dizgelerini gören kişiler, iletilerinin, böyle dizgeleri kendi SPF kayıtlarında yayınlayan alanlardan gelmesi gerektiğini iddia eden kişiler olacaktır. Uygulamada ise, DSN'ler yanlış yönlenebilir; bir MTA bir postayı kabul ettikten sonra sahte bir adrese bir DSN üretebilir veya bir eposta yönlendiricisi DSN'yi geriye özgün göndericisine yönlendirmeyebilir.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4408-sa6">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">10.6. Mahremiyetin İfşası</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    SPF kayıtlarının sınanması DNS sorgularının alan sahibine gönderilmesine sebep olur. Bu DNS sorguları, özellikle "<code class="literal">exists</code>" mekanizmasından kaynaklanmışlarsa, epostayı gönderen ve epostanın gönderildiği MTA hakkında bilgi içerebilirler. Bu noktada gizlilikle ilgili bazı endişeler devreye girebilir; bunlar, yerel kanunlara ve alan sahibi ile epostayı gönderen kişi arasında ilişkiye az veya çok bağlı konular olabilir.
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

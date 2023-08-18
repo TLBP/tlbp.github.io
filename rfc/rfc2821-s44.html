@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.4. İzleme Bilgisi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s43.html')">Önceki</button>
+          <div class="dropdown-content">4.3. Komutların ve Yanıtların Sıralanışı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s4.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s45.html')">Sonraki</button>
+          <div class="dropdown-content">4.5. Gerçeklenimle İlgili Ek Hususlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s44">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">4.4. İzleme Bilgisi</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Bir SMTP sunucusu teslim etmek veya işleme koymak için bir ileti aldığında, <a class="xref" href="rfc2821-s41.html#rfc2821-s4114" title="4.1.1.4. Posta Verisi (DATA komutu)">Posta Verisi (<code class="code">DATA</code> komutu)</a> bölümünde açıklandığı gibi ileti içeriğinin başlangıcına bir izleme bilgisi ("zaman damgası" veya "<code class="literal">Received</code>" satırı) yerleştirmelidir.
+</p>
+        <p><span class="rfcmust">Bu satır şöyle yapılandırılmalıdır *ZORUNLU*</span>:
+</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p><span class="rfcmust">Bir SMTP ortamından kaynaklanması gereken <code class="literal">FROM</code> alanı *ZORUNLU*</span>, <span class="rfcshould">şunların ikisini birden içermelidir *ÖNERİ*</span>: (1) <code class="code">EHLO</code> komutunda sunulduğu gibi kaynak konağın ismi ve (2) TCP bağlantısından saptanan, kaynak IP adresiyle kodlanmış adres.
+</p>
+            </li>
+            <li class="listitem">
+              <p><span class="rfcmaybe">RFC 822'de tavsiye edildiği gibi <code class="literal">ID</code> alanı "<code class="literal">@</code>" içerebilir *SEÇİMLİK*</span>, fakat bu gerekli değildir.
+</p>
+            </li>
+            <li class="listitem">
+              <p><span class="rfcmaybe">Çok sayıda <code class="code">RCPT</code> komutu verildiğinde <code class="literal">FOR</code> alanı &lt;yol&gt; girdilerinden oluşmuş bir liste içerebilir *SEÇİMLİK*</span>. Bu bazı güvenlik sorunlarını arttırabilir ve genellikle de istenen bir şey değildir; bkz, <a class="xref" href="rfc2821-s7.html#rfc2821-s72" title="7.2. &quot;Gizli&quot; Kopyalar">"Gizli" Kopyalar</a>.
+</p>
+            </li>
+          </ul>
+        </div>
+        <p><span class="rfcmust">Bir Genel Ağ posta programı, evvelce ileti başlığına eklenmiş bir "<code class="literal">Received:</code>" satırını değiştirmemelidir *ZORUNLU*</span>. <span class="rfcmust">SMTP sunucuları "<code class="literal">Received:</code>" satırlarını iletilerin başlarına eklemeli *ZORUNLU*</span>; <span class="rfcmust">mevcut satırların sırasını değiştirmemeli *ZORUNLU*</span> veya <span class="rfcmust">"<code class="literal">Received:</code>" satırlarını başka bir yerlere yerleştirmemelidir *ZORUNLU*</span>.
+</p>
+        <p>
+Genel Ağ'ın büyümesiyle, <code class="literal">Received</code> alanlarının karşılaştırılabilirliği, sorunları, özellikle de yavaş röle sorunlarını saptamada önem kazanmaktadır. <span class="rfcshould"><code class="literal">Received</code> alanlarını oluşturan SMTP sunucuları zaman dilimi isimlerinden ziyade doğrudan doğruya saat farklarını (-0800 gibi) kullanmalıdır *ÖNERİ*</span>. Uygulanabilir olduğunda, yerel zamanı evrensel zamana (UT) göre saat farkıyla belirtmek tercih edilmelidir. Bu yöntem, belirtilecek yerel durumlar hakkında biraz daha fazla bilgiyi mümkün kılar. Evrensel zaman (UT) gerekliyse, alıcının değer dönüşümü için sadece basit işlemler yapmaya ihtiyacı olur. Evrensel zaman (UT) kullanımı, sunucunun yeri-zaman dilimi hakkındaki bilgiyi kaybeder. <span class="rfcshould">Bir zaman dilimi ismi sağlanması isteniyosa, ismin bir açıklamanın içinde bulunması gerekir *ÖNERİ*</span>.
+</p>
+        <p>
+Teslimatçı SMTP sunucusu bir iletinin "son teslimat"ını yaparken, posta veririnin başına bir "<code class="literal">Return-Path</code>" (Dönüş Yolu) satırı yerleştirir. <span class="rfcmust">Bu "<code class="literal">Return-Path</code>" satırı kullanımı gereklidir ve posta sistemleri bunu desteklemelidir *ZORUNLU*</span>. "<code class="literal">Return-Path</code>" satırı <code class="code">MAIL</code> komutundaki &lt;dönüş-yolu&gt; bilgisinin korunmasını sağlar. Burada, "son teslimat" ile iletinin SMTP ortamında kaldığı anlatılmak istenmektedir. Normalde, bu, postanın hedef kullanıcıya veya posta ile ilişkili bir yere teslim edileceği, ancak bazı durumlarda başka bir posta sistemine aktarılabileceği ve orada işleme sokulacağı anlamına gelirdi.
+</p>
+        <p>
+Dönüş yolundaki posta kutusunun asıl göndericininkinden farklı olması olasıdır, örneğin, hata yanıtlarının ileti göndericisinden ziyade özel bir hata iletileri alıcısı posta kutusuna teslimi gerekiyorsa, bu yararlıdır. Olaya postalama listeleri karıştığında bu düzenleme sıradandır ve hataların iletiyi yazana değil de listeyi yönetene yönlendirilmesi anlamında yararlıdır.
+</p>
+        <p>
+Yukarıdaki metinde ima edilen, son posta verisinin dönüş yolu satırı ile başladığı, bir ya da daha fazla zaman damgası satırı ile devam ettiğidir. Bu satırları posta verisi başlıkları ve gövdesi izler [<a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>].
+</p>
+        <p>
+Sevk ve diğer işlemler ileti teslimat için kabul edildikten sonra yapıldığından teslimatın ne amaçla yapıldığının tespiti bir SMTP sunucusu için bazan zor olur. Sonuç olarak, <span class="rfcmaybe">ilgili (sevk, ağ geçidi, röle) sistemler dönüş yolunu silebilir *SEÇİMLİK*</span> ve <code class="code">MAIL</code> komutunu, teslim edilen iletide tam olarak böyle tek bir satırın görünmesini temin edecek şekilde yeniden kurgulayabilir.
+</p>
+        <p><span class="rfcshould">İletinin kaynaklandığı SMTP sistemi, iletiyi, başlığında bir "<code class="literal">Return-Path</code>" satırı mevcut olarak göndermemelidir *ÖNERİ*</span>. <span class="rfcmust">Bir röleleme işlemi uygulayan SMTP sunucuları ileti verisini incelememeli *ZORUNLU*</span> ve özellikle de bir "<code class="literal">Return-Path</code>" satırı mevcut mu, diye bakmamalıdır. <span class="rfcmaybe">Son teslimatı yapan SMTP sunucuları ise, kendilerininkini eklemeden önce "<code class="literal">Return-Path</code>" satırlarını silebilir *SEÇİMLİK*</span>.
+</p>
+        <p>
+Dönüş yolunun birincil amacı, yapılmayan teslimatı belirten iletinin veya gönderilecek başka bir posta sistemi başarısızlık bildiriminin adresini tayin etmektir. <span class="rfcshould">Bir belirsizlik oluşturmaması için, iletinin teslimatı sırasında sadece ve sadece bir dönüş yolu mevcut olmalıdır *ÖNERİ*</span>. <span class="rfcshould">SMTPdışı aktarımlarda RFC 822 sözdizimini kullanan sistemler hataların (örn, teslim edilmeyen iletiler) raporlanması gerektiğinde, aktarım zarfıyla ilişkili ve belirsizlik oluşturmayan bir adres tayin etmelidir *ÖNERİ*</span>.
+</p>
+        <div class="admon note">
+          <h3 class="admon-title">Tarihsel Bilgi</h3>
+          <div class="admon-contents">
+            <p>
+Hata iletileri için hedef olarak "<code class="literal">Return-Path</code>" başlığının (veya <code class="code">MAIL</code> komutundaki zarf dönüş yolu adresinin) kullanımını yalanlar görünen RFC 822'deki metin Genel Ağ'da uygulanabilir değildir. <span class="rfcmust">Dönüş yolu adresi (Return-path içine kopyalanmış olanı), teslimat hatalarını içeren hata iletilerinin hedefi olarak kullanılmalıdır *ZORUNLU*</span>.
+</p>
+          </div>
+        </div>
+        <p>Özellikle:</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p><span class="rfcshould">SMTP'den bir "başka yere" ağ geçidi olan bir konağın, bu "başka yer" aktarımının Genel Ağ alan adreslerini kullanıp zarf göndericisi adresini de ayrıca sağladığı bilinmedikçe bir dönüş yolu başlığı yerleştirmesi gerekir *ÖNERİ*</span>.
+</p>
+            </li>
+            <li class="listitem">
+              <p><span class="rfcshould">bir "başka yerden" SMTP'ye ağ geçidi olan bir konak, iletide mevcut bir dönüş yolu başlığı varsa silmeli ve bilgiyi ya SMTP zarfına kopyalamalı ya da SMTP zarfındaki <code class="code">MAIL</code> komutunun dönüş yolu bağımsız değişkenini oluşturacak diğer aktarım sisteminin zarfındaki mevcut bilgiyle biraraya getirmelidir *ÖNERİ*</span>.
+</p>
+            </li>
+          </ul>
+        </div>
+        <p>
+Sunucu, posta verisi sonu belirtecini izleyen işlemlerin sadece kısmen başarılı olduğu durumlarda özel muamele yapmalıdır. Bu, bir miktar alıcı ve posta verisi kabul edildikten sonra SMTP sunucunun posta verisini alıcıların tamamına olmasa bile, bir kısmına başarıyla teslim edebileceğini saptarsa olur. <span class="rfcmust">Bu durumlarda, <code class="code">DATA</code> komutuna OK yanıtı verilmelidir *ZORUNLU*</span>.  Bununla birlikte, <span class="rfcmust">SMTP sunucusu iletinin oluşturucusuna bir "teslim edilemeyen posta" uyarı iletisi oluşturup göndermesi gerekir *ZORUNLU*</span>.
+</p>
+        <p><span class="rfcmust">Başarısız olunmuş her alıcı için ya ayrı ayrı uyarı iletileri ya da bunları listeleyen tek bir uyarı iletisi gönderilmelidir *ZORUNLU*</span>. İşlemin gönderici açısından ekonomik olması için mümkün olduğunca ikincisi tercih edilir. Tüm teslim edilemeyen posta uyarı iletileri <a class="xref" href="rfc2821-s37.html" title="3.7. Röleleme">Röleleme</a> bölümünde açıklandığı gibi boş dönüş yollu <code class="code">MAIL</code> komutu kullanılarak gönderilir (artık kullanılmayan <code class="code">SEND</code>, <code class="code">SOML</code> veya <code class="code">SAML</code> komutlarının işleme sokulmasının sonucu olsalar bile).
+</p>
+        <p>
+Zaman damgası ve dönüş yolu satırları biçimsel olarak şöyle tanımlanır:
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced">
+Dönüş-yolu-satırı = "Return-Path:" KBOŞ Dönüş-yolu &lt;CRLF&gt;
+
+Zaman-damgası-satırı = "Received:" KBOŞ Damga &lt;CRLF&gt;
+
+Damga = Kimden-alanı Tarafından-alanı İstemlik-bilgi ";"  KBOŞ tarih-saat
+
+      ; buradaki "tarih-saat" [<a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>]'de açıklandığı gibidir.
+      ; fakat "atıl-" biçimler, özellikle iki haneli yıllar
+      ; SMTP'de yasaklanmıştır ve kullanılmamalıdır *ZORUNLU*.
+
+Kimden-alanı = "FROM" KBOŞ Genişletilmiş-alan AKBOŞ
+
+Tarafından-alanı = "BY" KBOŞ Genişletilmiş-alan AKBOŞ
+
+Genişletilmiş-alan = Alan /
+                   ( Alan KBOŞ "(" TCP-bilgisi ")" ) /
+                   ( IP-kodlu-ad KBOŞ "(" TCP-bilgisi ")" )
+
+TCP-bilgisi = IP-kodlu-ad  / ( Alan KBOŞ IP-kodlu-adı )
+      ; Bilgi sunucu tarafından TCP bağlantısından üretilir,
+      ; istemci EHLO komutundan değil.
+
+İstemlik-bilgi = [Üzerinden] [İle] [Kimlik] [İçin]
+
+Üzerinden = "VIA" KBOŞ Bağ AKBOŞ
+
+İle = "WITH" KBOŞ Protokol AKBOŞ
+
+Kimlik = "ID" KBOŞ Dizge / İleti-kimliği AKBOŞ
+
+İçin = "FOR" KBOŞ 1*( Yol / Posta-kutusu ) AKBOŞ
+
+Bağ = "TCP" / Ek-Bağ
+Ek-Bağ = Atom
+      ; Bağlarla ilgili ek standart isimler Genel Ağ Atanmış
+      ; Numaralar Yetkilisi (IANA) tarafından kayıt altına
+      ; alınır. SMTP sunucularının kayıtdışı isimler kullanmaması
+      ; gerekir *ÖNERİ*. "Üzerinden" değeri asıl olarak,
+      ; Genel Ağ dışı aktarımlarla ilgilidir.
+Protokol = "ESMTP" / "SMTP" / Ek-Protokol
+Ek-Protokol = Atom
+      ; Protokollerle ilgili ek standart isimler Genel Ağ Atanmış
+      ; Numaralar Yetkilisi (IANA) tarafından kayıt altına
+      ; alınır. SMTP sunucularının kayıtdışı isimler
+      ; kullanmaması gerekir *ÖNERİ*.
+</pre>
+        <p>
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

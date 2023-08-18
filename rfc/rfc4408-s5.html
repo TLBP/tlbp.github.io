@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5. Mekanizma Tanımları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s4.html')">Önceki</button>
+          <div class="dropdown-content">4. <code class="literal">check_host()</code> İşlevi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s6.html')">Sonraki</button>
+          <div class="dropdown-content">6. Değiştirici Tanımları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s5">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5. <code class="literal">Mekanizma</code> Tanımları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+Bu bölümde iki tür <code class="literal">mekanizma</code> tanımlanmaktadır.
+</p>
+        <p>
+Temel mekanizmalar dil çerçevesi dahilinde destek verir. Belli bir yetkilendirme şeması türü belirtmezler.
+</p>
+        <pre class="literallayout monospaced">
+tümü
+dahili
+</pre>
+        <p>
+Tasarlanmış gönderici mekanizmaları, posta gönderimi için <code class="literal">&lt;alan&gt;</code>'ı kullanmaya izin verilmiş veya verilmemiş bir <code class="literal">&lt;ip&gt;</code> adresi kümesini tasarlamakta kullanılır.
+</p>
+        <pre class="literallayout monospaced">
+a
+mx
+ptr
+ip4
+ip6
+mevcut
+</pre>
+        <p>
+Aşağıdaki uzlaşımlar <code class="literal">&lt;ip&gt;</code> ile herhangi bir noktadaki IP adresi arasında bir karşılaştırma yapacak tüm mekanizmalara uygulanır:
+</p>
+        <p><code class="literal">yönerge</code>de bir CIDR uzunluğu belirtilmemişse, <code class="literal">&lt;ip&gt;</code> ve IP adresi eşitlik için karşılaştırılır. (Burada CIDR, "sınıfsız alanlar arası yönlendirme" anlamına gelen "Classless Inter-Domain Routing" kısaltmasıdır.)
+</p>
+        <p>
+Bir CIDR uzunluğu belirtilmişse, <code class="literal">&lt;ip&gt;</code> ve IP adresinin sadece belirtilen sayıda yüksek biti eşitlik için karşılaştırılır.
+</p>
+        <p>
+Bir mekanizma <code class="literal">&lt;ip&gt;</code> ile karşılaştırmak için konak adreslerini alırken, <code class="literal">&lt;ip&gt;</code> bir IPv4 adresi ise <code class="literal">A</code> kayıtlarını alır, bir IPv6 adresi ise <code class="literal">AAAA</code> kayıtlarını alır. SMTP bağlantısı IPv6 üzerinden bile olsa, bir IPv4 eşlemli IPv6 adresi ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3513" title="Internet Protocol Version 6 (IPv6) Addressing Architecture">RFC3513</a>]'ün 2.5.5. bölümüne bakınız) yine de bir IPv4 adresi sayılmalıdır *ZORUNLU*.
+</p>
+        <p>
+Birçok mekanizma DNS'den alınan bilgiye bel bağlar. Bu DNS sorguları için, aksi belirtilmedikçe, eğer DNS sunucusu bir hata döndürüyorsa (0 ve 3 dışında bir RCODE) veya sorgu zamanaşımına uğruyorsa, mekanizma "TempError" verir. Eğer sunucu "alan mevcut değil" (RCODE 3) diyorsa, sanki hata alınmamış (RCODE 0) gibi mekanizmanın değerlendirilmesi sürer ve sıfır yanıt kaydedilir.
+</p>
+        <section class="sect2" id="rfc4408-s51">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.1. "<code class="literal">all</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <pre class="literallayout monospaced">tümü             = "all"
+</pre>
+          <p>
+"<code class="literal">all</code>" mekanizması daima eşleşen bir sınamadır. Bir kayıttakı en sağdaki mekanizma açık bir öntanım sağlayacakmış gibi kullanılır.
+</p>
+          <p>
+Örnek:
+</p>
+          <pre class="literallayout monospaced">v=spf1 a mx -all
+</pre>
+          <p>
+"<code class="literal">all</code>"dan sonra gelen mekanizmalar asla sınanmaz. Bir "<code class="literal">all</code>" mekanizmasi varsa, hiçbir "<code class="literal">redirect</code>" değiştiricisinin (<a class="xref" href="rfc4408-s6.html#rfc4408-s61" title="6.1. Yönlendirilmiş Sorgu (redirect)">Yönlendirilmiş Sorgu (<code class="literal">redirect</code>)</a>) etkisi yoktur.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s52">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.2. "<code class="literal">include</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <pre class="literallayout monospaced">
+dahili          = "include"  ":" alan-belirtimi
+</pre>
+          <p>
+"<code class="literal">include</code>" mekanizması <code class="literal">check_host()</code> işlevinin ardışık değerlendirilmesini tetikler. <code class="literal">alan-belirtimi</code> <a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a> bölümündeki gibi yorumlanır ve <code class="literal">check_host()</code> işlevi, sonuçlanan dizgeyi <code class="literal">&lt;alan&gt;</code> olarak değerlendirir. <code class="literal">&lt;ip&gt;</code> ve <code class="literal">&lt;gönderici&gt;</code> bağımsız değişkenleri o an ki <code class="literal">check_host()</code> değerlendirmesindekiyle aynı kalır.
+</p>
+          <p>
+Önemine ve niteliğine bakarak, bu mekanizma için "include" ismi yetersiz kalmıştır. Atıf yapılan SPF kaydı ilk kayıtta harfiyen içerilmiş gibi davranılacağı yerde, sadece atıf yapılan SPF kaydının değerlendirilen sonucu kullanılır. Örneğin, atıf yapılan alandaki bir "<code class="literal">all</code>" yönergesinin değerlendirilmesi işlemin tamamını sonlandırmaz ve sonucun bir bütün olarak "<code class="literal">Fail</code>" olmasını gerekli kılmaz. (Bu mekanizma için "if-pass", "on-pass", vb. bir isim daha uygun olurdu.)
+</p>
+          <p>
+"<code class="literal">include</code>" mekanizması, çok sayıda yönetimsel olarak bağımsız alanı tek bir alanda tasarlamayı mümkün kılar. Örneğin, sözde alan "example.net" yönetimsel olarak bağımsız alanlar olan example.com ve example.org sunucularını kullanarak posta gönderebilir.
+</p>
+          <p>
+Example.net şöyle bir kayıt içerirse,
+</p>
+          <pre class="literallayout monospaced">
+IN TXT "v=spf1 include:example.com include:example.org -all"
+</pre>
+          <p>
+bu kayıt, <code class="literal">check_host()</code> işlevini bir "<code class="literal">Pass</code>" sonucu için example.com ve example.org'un kayıtlarını sınamaya yöneltir. Sadece, konak bu alanların ikisinde de izinli değilse sonuç "<code class="literal">Fail</code>" olurdu.
+</p>
+          <p><code class="literal">check_host()</code> işlevinin ardışık değerlendirmesinin sonucunda bu mekanizmanın davranış tarzı:
+</p>
+          <pre class="literallayout monospaced">
++--------------------------------+-------------------------------+
+| Ardışık check_host() sonucunun | "include" mekanizması bunlara |
+| bunlar olması için:            | sebep olmalıdır:              |
++--------------------------------+-------------------------------+
+| Pass                           | eşleşir                       |
+|                                |                               |
+| Fail                           | eşleşmez                      |
+|                                |                               |
+| SoftFail                       | eşleşmez                      |
+|                                |                               |
+| Neutral                        | eşleşmez                      |
+|                                |                               |
+| TempError                      | TempError verir               |
+|                                |                               |
+| PermError                      | PermError verir               |
+|                                |                               |
+| None                           | PermError verir               |
++--------------------------------+-------------------------------+
+</pre>
+          <p>
+"<code class="literal">include</code>" mekanizması yönetimsel sınırları çaprazlamak için düşünülmüştür. "<code class="literal">include</code>" mekanizması çok sayıda alanın aynı konak kümesini paylaşmak üzere birleştirilmesi için kullanılması olasılığına rağmen, alanlar mümkün olduğunca "<code class="literal">redirect</code>"'leri kullanmaya, tek bir yönetimsel alan içinde "<code class="literal">include</code>"'ların sayısını azaltmaya teşvik edildiler. Örneğin, example.com ve example.org aynı öğe tarafından yönetiliyor ve eğer her iki alan "mx:example.com" konaklarına izin veriyorsa, example.org için "include:example.com" belirtmek mümkün olurdu, ama "redirect=example.com" hatta "mx:example.com" belirtmek tercih edilmektedir.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s53">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.3. "<code class="literal">a</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Eğer <code class="literal">&lt;ip&gt;</code>, <code class="literal">&lt;hedef-ismi&gt;</code>nin IP adreslerinden biriyse bu mekanizma eşleşir.
+</p>
+          <pre class="literallayout monospaced">
+A                = "a"      [ ":" alan-belirtimi ] [ çifte-cidr-uzun ]
+</pre>
+          <p><code class="literal">&lt;hedef-ismi&gt;</code> üzerinde bir adres sorgusu yapılır ve dönen adresler <code class="literal">&lt;ip&gt;</code> ile karşılaştırılır. Eğer adreslerden biri eşleşirse, mekanizma eşlemiş olur.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s54">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.4. "<code class="literal">mx</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Eğer <code class="literal">&lt;ip&gt;</code>, alan adının MX konaklarından birine aitse bu mekanizma eşleşir.
+</p>
+          <pre class="literallayout monospaced">
+MX               = "mx"     [ ":" alan-belirtimi ] [ çifte-cidr-uzun ]
+</pre>
+          <p><code class="literal">check_host()</code> işlevi önce <code class="literal">&lt;hedef-ismi&gt;</code> üzerinde bir MX sorgusu ve dönen her MX ismi üzerinde bir adres sorgusu yapar. Dönen adresler <code class="literal">&lt;ip&gt;</code> ile karşılaştırılır. Eğer adreslerden biri eşleşirse, mekanizma eşlemiş olur. Hizmet reddi (DoS) saldırısına dönüşmemesi için "<code class="literal">mx</code>" mekanizmasının değerlendirilmesi sırasında 10 taneden fazla MX ismi sorgusu yapılmamalıdır *ZORUNLU* (bkz, <a class="xref" href="rfc4408-sa.html" title="10. Güvenlik Değerlendirmeleri">Güvenlik Değerlendirmeleri</a>).
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Örtük MX'ler hakkında</h3>
+            <div class="admon-contents">
+              <p>
+Eğer <code class="literal">&lt;hedef-ismi&gt;</code> hiç MX kaydı içermiyorsa, <code class="literal">check_host()</code> işlevi hedefin tek bir MX'i varmış gibi yapmamalı *ZORUNLU* ve <code class="literal">&lt;hedef-ismi&gt;</code>'ne doğrudan bir <code class="literal">A</code> sorgusu yöneltmemelidir *ZORUNLU*. Bu davranış standart "örtük MX" kuralını bozar ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]'in <a class="xref" href="rfc2821-s5.html" title="5. Adres Çözümleme ve Posta Yönetimi">Adres Çözümleme ve Posta Yönetimi</a> bölümüne bakınız). Böyle bir davranış isteniyorsa, kaydı tasarlayanın bir "<code class="literal">a</code>" yönergesi belirtmesi gerekir.
+</p>
+            </div>
+          </div>
+        </section>
+        <section class="sect2" id="rfc4408-s55">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.5. "<code class="literal">ptr</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu mekanizma, DNS'nin <code class="literal">&lt;ip&gt;</code> için tersine eşleşmesi olup olmadığını yani alan içindeki belli bir alan adını gösterip göstermediğini sınar.
+</p>
+          <pre class="literallayout monospaced">
+PTR              = "ptr"    [ ":" alan-belirtimi ]
+</pre>
+          <p>
+Önce, <code class="literal">&lt;ip&gt;</code>'nin ismi şu yordamla aranır: <code class="literal">&lt;ip&gt;</code> için, eğer adres bir IPv4 adresi ise "in-addr.arpa." içinde, IPv6 adresi ise "ip6.arpa." içinde ilgili PTR kaydını aramak suretiyle bir DNS tersine eşleşme sorgusu uygulanır. Dönen her kayıt için, alan adının IP adresi <code class="literal">&lt;ip&gt;</code> ile karşılaştırılır.  Hizmet reddi (DoS) saldırısına dönüşmemesi için "<code class="literal">ptr</code>" mekanizmasının değerlendirilmesi sırasında 10 taneden fazla PTR sorgusu yapılmamalıdır *ZORUNLU* (bkz, <a class="xref" href="rfc4408-sa.html" title="10. Güvenlik Değerlendirmeleri">Güvenlik Değerlendirmeleri</a>). Eğer adreslerden biri eşleşirse, mekanizma eşlemiş olur. Şu sözde kod içinde:
+</p>
+          <pre class="literallayout monospaced">
+gönderen_alan_adları := ptr_sorgusu (gönderen_konak_ip_adresi);
+Eğer gönderen_alan_adı_sayısı &gt; 10 ise
+   gönderen_alan_adı_sayısı := 10;
+gönderen_alan_adı_sayısı isim için {
+   ip_adresleri := a_sorgusu (isim);
+   Eğer gönderen_alan_ip_adresi == ip_adresleri'nden biri ise {
+       doğrulanmış_gönderen_alan_adları += isim;
+   }
+}
+</pre>
+          <p>
+Tüm doğrulanmış alan adlarına, <code class="literal">&lt;hedef-ismi&gt;</code> alanı ile eşleşiyor mu diye bakılır. Eğer bir eşleşme bulunursa, bu mekanizma eşleşmiş olur. Eğer doğrulanmış hiç alan adı yoksa ya da doğrulanmış olup da <code class="literal">&lt;hedef-ismi&gt;</code> ile eşleşen biri yoksa, bu mekanizma eşleşmemiş olur. Eğer PTR sorgusu sırasında bir DNS hatası oluşursa, bu mekanizma eşleşmemiş olur. Bir A sorgusu yaparken bir DNS hatası oluşursa, alan ismi atlanır ve arama devam eder.
+</p>
+          <p>
+Sözde kod:
+</p>
+          <pre class="literallayout monospaced">
+doğrulanmış_gönderen_alan_adları içindeki her ad için {
+  Eğer ad &lt;alan-belirtimi&gt; ile bitiyorsa, eşleşme döndür;
+  Eğer ad &lt;alan-belirtimi&gt; ile aynıysa, eşleşme döndür;
+}
+eşleşmeme döndür;
+</pre>
+          <p>
+Eğer <code class="literal">&lt;hedef-ismi&gt;</code>, doğrulanmış alan adlarından birinin atasıysa ya da onlardan biri ile aynıysa bu mekanizma eşleşir. Örneğin, "posta.iyi-misal.çom" adı "iyi-misal.çom" alanı altındadır ama "posta.berbat-misal.çom" değildir.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Yavaş olduğundan bu mekanizmanın kullanımı teşvik edilmemektedir. DNS hataları bakımından diğer mekanizmalar kadar güvenilir değildir ve arpa isim sunucularına ağır bir yük getirir. Eğer kullanılırsa, alanın konakları için doğru PTR kayıtları bulunmalı ve "<code class="literal">ptr</code>" mekanizması sınanması gereken son mekanizmalardan biri olmalıdır.
+</p>
+            </div>
+          </div>
+        </section>
+        <section class="sect2" id="rfc4408-s56">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.6. "<code class="literal">ip4</code>" ve "<code class="literal">ip6</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu mekanizma, <code class="literal">&lt;ip&gt;</code>, belirtilen IP ağında mıymış acaba diye bakar.
+</p>
+          <pre class="literallayout monospaced">
+IP4              = "ip4"      ":" ip4-ağı   [ ip4-cidr-uzun ]
+IP6              = "ip6"      ":" ip6-ağı   [ ip6-cidr-uzun ]
+
+ip4-cidr-uzun    = "/" 1*RAKAM
+ip6-cidr-uzun    = "/" 1*RAKAM
+çifte-cidr-uzun  = [ ip4-cidr-uzun ] [ "/" ip6-cidr-uzun ]
+
+ip4-network      = dörtlü "." dörtlü "." dörtlü "." dörtlü
+dörtlü             = RAKAM                 ; 0-9
+                   / %x31-39 RAKAM       ; 10-99
+                   / "1" 2RAKAM          ; 100-199
+                   / "2" %x30-34 RAKAM   ; 200-249
+                   / "25" %x30-35        ; 250-255
+                   ; bilinen noktalı dörtlü gösterim.  192.0.2.0 gibi
+ip6-ağı      = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3513" title="Internet Protocol Version 6 (IPv6) Addressing Architecture">RFC3513</a>], 2.2. bölüme göre&gt;
+                   ; örn, 2001:DB8::CD30
+</pre>
+          <p><code class="literal">&lt;ip&gt;</code> belirtilen ağ (IP bloğu) ile karşılaştırılır.  Eğer CIDR uzunluğunun yüksek seviyeli bitleri eşleşiyorsa (Türkçesi, <code class="literal">&lt;ip&gt;</code> belirtilen IP bloğunun üyesi ise) mekanizma eşleşir.
+</p>
+          <p>
+Eğer <code class="literal">ip4-cidr-uzun</code> verilmemişse "/32" olduğu,  <code class="literal">ip6-cidr-uzun</code> verilmemişse  "/128" olduğu varsayılır.  CIDR gösterimi yerine IP parçalarının kullanımına, örneğin 192.0.2.0/24 yerine 192.0.2 belirtilmesine izin verilmez.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s57">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.7. "<code class="literal">exists</code>"</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu mekanizma, bir DNS <code class="literal">A</code> kaydı sorgusu için kullanılmak üzere keyfi bir alan adı oluşturmakta kullanılır. Neye izin verildiğini saptamak için posta zarfının keyfi parçalarının oluşturduğu karmaşık şemaları mümkün kılar.
+</p>
+          <pre class="literallayout monospaced">
+exists           = "exists"   ":" alan-belirtimi
+</pre>
+          <p><code class="literal">alan-belirtimi</code><a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a> bölümüne göre yorumlanır. Sonuçlanan alan adı DNS <code class="literal">A</code> kaydı sorgusu için kullanılır. Eğer bir <code class="literal">A</code> kaydı dönerse bu mekanizma eşleşmiş olur. Bağlantı türü IPv6 bile olsa, DNS sorgu türü <code class="literal">A</code>'dır.
+</p>
+          <p>
+Alanlar bu mekanizmayı keyfi karmaşık sorguları belirtmek için kullanırlar. Örneğin, example.com'un şöyle bir kaydı olsun:
+</p>
+          <pre class="literallayout monospaced">
+v=spf1 exists:%{ir}.%{l1r+-}._spf.%{d} -all
+</pre>
+          <p><code class="literal">&lt;hedef-ismi&gt;</code> "1.2.0.192.someuser._spf.example.com" olarak yorumlanabilirdi.  Bu, kullanıcı ve istemci IP adresi seviyesinde ayrıntılı kararlar verilmesini mümkün kılar.
+</p>
+          <p>
+Bu mekanizma mevcut antispam DNS karalistelerinin (DNSBL) kullandığı sınama tarzını taklit eden sorguları etkinleştirir.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

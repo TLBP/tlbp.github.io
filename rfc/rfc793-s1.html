@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>1. Giriş</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793.html')">Önceki</button>
+          <div class="dropdown-content">RFC 793 - Aktarım Denetim Protokolü (TCP)</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s2.html')">Sonraki</button>
+          <div class="dropdown-content">2. FELSEFE</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc793-s1">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">1. Giriş</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+Aktarım Denetim Protokolü (TCP) paket anahtarlamalı bilgisayar ağlarındaki ve bu tür ağların birbirine bağlı sistemlerindeki konaklar arasında çok güvenilir bir konaktan konağa protokol olarak kullanılmak üzere tasarlanmıştır.
+</p>
+        <p>
+Bu belge Aktarım Denetim Protokolü ve protokolün kullanıcılara veya uygulamalara arayüzünü ve kendisini gerçekleyen programlar tarafından yerine getirilen işlevleri açıklar.
+</p>
+        <section class="sect2" id="rfc793-s11">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.1. Güdülenme</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bilgisayar iletişim sistemleri gerek orduda gerek idari teşkilatta ve gerekse sivil çevrelerde gittikçe
+önemi artan bir konudur. Bu belgede öncelikle askeri bilgisayarların iletişim gereksinimleri, özelikle bir tıkanıklıkta ve güvenilir olmayan bir bağlantı durumunda güvenilirliği sağlama konularına dikkat edilecektir. Ama bu sorunların çoğu sivil ve devlet sektöründe de bulunmaktadır.
+</p>
+          <p><span class="notfoot"></span>
+Stratejik ve taktiksel olarak bilgisayar iletişim ağları esasen bilgisayarları birbirine bağlamak ve çok sayıda uygulamayı destekleyen standart süreçler arası iletişim protokollerinin tüm gereksinimlerini sağlamak için geliştirilir ve konuşlandırılır. Bu tür standartlarla ilgili gereksinimi karşılamak için Savunma Bakanlığının Araştırma ve Mühendislik Dairesi<a id="idm151545" href="#ftn.idm151545" class="footnote"><sup class="footnote">[86]</sup></a> Savunma Bakanlığı bünyesinde süreçler arası iletişim protokolünün standartlaştırılması temelinde burada açıklanan Aktarım Denetim Protokolünü (TCP) bildirmiştir.
+</p>
+          <p>
+TCP, çok ağlı çalışmayı destekleyen uygulamaları destekleyen protokollerin katmanlı hiyerarşisine uyum sağlamak için tasarlanmış bağlantı yönelimli, uçtan uca güvenilir iletişim sağlayan bir protokoldür. Birbirine bağlı bilgisayar iletişim ağlarına konak olarak bağlı bilgisayar çiftlerindeki süreçler arasında süreçler arası güvenilir iletişim için gerekenleri sağlar. TCP katmanı altındaki iletişim protokollerinin güvenilirliği ile ilgili pek az önkabul yapılmıştır. TCP'nin daha düşük seviyeli protokollerden basit ve potansiyel olarak güvensiz bir veri katarı hizmeti sağlayabileceği varsayılır. TCP'nin doğrudan bağlantılı ağlardan paket anahtarlamalı veya devre anahtarlamalı ağlara kadar geniş bir tayftaki iletişim sistemleri üzerinde çalışabilmesi prensip olarak mümkün olmalıdır.
+</p>
+          <p>
+TCP temel olarak ilk defa Cerf ve Kahn tarafından [<a class="xref" href="rfc793-refs.html#rfc793-bib1" title="A Protocol for Packet Network Intercommunication">1</a>] içinde açıklanan kavramlara oturtulmuştur. TCP katmanlı protokol mimarisinde, Genel Ağ veri katarı "zarfları" halinde zarflanmış değişik uzunluktaki veri bölütlerini almak ve göndermek için TCP'ye bir yöntem sağlayan temel Genel Ağ Protokolünün hemen üstüne oturur. Genel Ağ veri katarı farklı ağlardaki kaynak ve hedef TCP'lerin adreslenmesini sağlar. Genel Ağ protokolü ayrıca çoklu ağlar ve bağlantılı ağ geçitlerinden taşınmasını ve teslimatını sağlamak için TCP veri bölütlerinin parçalanması ve yeniden birleştirilmesi ile de ilgilenir. Genel Ağ protokolü ayrıca öncelik, güvenlik sınıflandırması ve TCP veri bölütlerinin bölümlere ayrılması ile ilgili bilgileri de taşır, böylece bu bilgi çok sayıda ağ arasında bir uçtan bir uca iletilebilir.
+</p>
+          <div class="figure" id="rfc793-fig1">
+            <div class="figure-title">Şekil 1. Protokol Katmanları</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
++---------------------+
+|      üstdüzey       |
++---------------------+
+|        TCP          |
++---------------------+
+| Genel Ağ protokolü  |
++---------------------+
+|    iletişim ağı     |
++---------------------+
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+          <p>
+Bu belge çoğunlukla, konak bilgisayarlarda daha yüksek seviyeli protokollerle birlikte yerleşik olan TCP gerçeklenimleri bağlamında kaleme alınmıştır. Bazı bilgisayar sistemleri ağlara bağlanmak için üzerlerinde ağa özel yazılımlara ek olarak TCP ve IP katmanlarını barındıran bilgisayarları kullanır. TCP belirtimi, bağlanma noktasında bile gerçeklenebilir görünen daha yüksek seviyeli protokollere bir arayüzden başka bağlanma noktası protokolü olarak da gerçeklenmeye uygun bir arayüz tanımlar (Burada bağlantı noktasından kasıt, sistemin ağa bağlantısını sağlayan bilgisayardır).
+</p>
+        </section>
+        <section class="sect2" id="rfc793-s12">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.2. Etki Alanı</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP, çok ağlı bir ortamda iki süreç arasında güvenilir bir iletişim sağlamak için düşünülmüştür. TCP, çoklu ağlarda ortak kullanım için iki konak arası protokol olarak tasarlanmıştır.
+</p>
+        </section>
+        <section class="sect2" id="rfc793-s13">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.3. Belge Hakkında</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu belgede bir TCP gerçekleniminin, gerek daha yüksek seviyeli protokollerle etkileşim gerekse diğer TCP gerçeklenimleriyle etkileşimin gerektirdiği davranışın bir belirtimi sunulmaktadır. Bu bölümün kalanında protokol arayüzlerine ve işlemlerine kısaca bir gözatılmıştır. <a class="xref" href="rfc793-s2.html" title="2. FELSEFE">FELSEFE</a> bölümünde TCP tasarımının felsefi temeli özetlenmiştir. <a class="xref" href="rfc793-s3.html" title="3. İşlevsel Belirtim">İşlevsel Belirtim</a> bölümünde ise TCP veri bölütlerinin biçimlerinin ayrıntıları ile oluşan çeşitli olaylarda (yeni veri bölütlerin gelişi, kullanıcı çağrıları, hatalar, vs.) TCP'nin verdiği tepkilerin ayrıntıları açıklanmıştır.
+</p>
+        </section>
+        <section class="sect2" id="rfc793-s14">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.4. Arayüzler</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP arayüzlerinin bir tarafı Genel Ağ Protokolü gibi daha düşük seviyede bir protokole bakarken, diğer tarafı kullanıcıya veya uygulama süreçlerine bakar.
+</p>
+          <p>
+Uygulama süreçleri ve TCP arasındaki arayüz makul derecede bir ayrıntıyla ele alınmıştır. Bu arayüz bir işletim sisteminin dosyaları işlemesi için bir uygulama sürecine sağladığı çağrılara çok benzeyen bir çağrı kümesinden oluşur. Örneğin, bağlantıları kurmak ve kapamak, kurulu bağlantılar üzerinden veri göndermek ve almak için çağrılar vardır. Ayrıca TCP'nin uygulama programları ile eşzamansız haberleşmesi beklenir. TCP gerçeklenimcilerine belli bir işletim sistemine uygun arayüzlerin tasarlanması için epeyce özgürlük tanınmış olsa da, TCP/kullanıcı arayüzünde geçerli bir gerçeklenim için asgari bir işlevsellik gereklidir.
+</p>
+          <p>
+TCP ile daha düşük seviyeli protokol arasındaki arayüz aslında belirlenmemiştir, ancak iki seviyenin birbirlerine eşzamansız olarak bilgi aktarabilecekleri bir mekanizmanın olduğu varsayılır. Genel olarak, bu arayüzü daha düşük seviyedeki protokolün belirleyeceği umulur. TCP birbirine bağlı ağlardan oluşan çok genel bir ortamda çalışmak üzere tasarlanmıştır. Bu belge boyunca, daha düşük seviyeli protokolün Genel Ağ Protokolü [<a class="xref" href="rfc793-refs.html#rfc793-bib2" title="Internet Protocol - DARPA Internet Program Protocol Specification">2</a>] olduğu varsayılmıştır.
+</p>
+        </section>
+        <section class="sect2" id="rfc793-s15">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">1.5. İşlemler</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Evvelce belirtildiği üzere, TCP'nin birincil amacı süreç çiftleri arasında  güvenilir ve güvenli olabilen mantıksal bir devre veya bağlantı hizmeti sağlamaktır. Bir az güvenilir ağ iletişim sisteminin tepesinde bu hizmeti sağlamak için aşağıdaki alanlardaki oluşumlara ihtiyaç vardır:
+</p>
+          <div>
+            <ul class="simplelist">
+              <li class="member">Temel Veri Aktarımı</li>
+              <li class="member">Güvenilirlik</li>
+              <li class="member">Akış Denetimi</li>
+              <li class="member">Çoğullama</li>
+              <li class="member">Bağlantılar</li>
+              <li class="member">Öncelik ve Güvenlik</li>
+            </ul>
+          </div>
+          <p>
+TCP'nin bu alanların her birindeki temel işlemleri aşağıdaki paragraflarda açıklanmıştır.
+</p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">Temel Veri Aktarımı:</span>
+              </dt>
+              <dd>
+                <p>
+TCP, Genel Ağ sistemi üzerinden aktarım için bazı sayıları veri bölütleri içinde sekizliler şeklinde paketleyen kullanıcılar arasında iki yönlü olarak sürekli bir sekizliler akımı olarak aktarabilir. Genelde, TCP verinin ne zaman durdurulacağına ve ne zaman bırakılacağına kendi kuralları dahilinde karar verir.
+</p>
+                <p>
+Bazen kullanıcılar gönderilmesi için TCP'ye teslim ettikleri verilerin tamamının iletildiğinden emin olmak ister. İşte bu amaçla bir gitsin işlevi tanımlanmıştır. TCP'ye teslim edilmiş verinin gerçekten iletildiğinden emin olmak için gönderici tarafın bu verinin alıcı tarafa doğru itilmesi gerektiğini belirtmesi gerekir. Bir <code class="literal">GİT</code>sin, TCP'nin hemen bu noktada alıcıya verileri göndermesine ve teslim etmesine sebep olur. gitme noktası alıcı tarafa görünür olmayabileceği gibi gitsin işlevi bir kayıt sınırlama işaretçisi de sağlamaz.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Güvenilirlik:</span>
+              </dt>
+              <dd>
+                <p>
+TCP'nin Genel Ağ iletişim sistemi tarafından hasar verilmiş, kaybedilmiş, yinelenmiş veya sırası değiştirilerek teslim edilmiş verileri kurtarması gerekir. Bunu sağlamak için aktarılacak her sekizliye alıcı TCP tarafından olumlu bir alındı (<code class="literal">ALN</code>) gönderilmesini gerektiren bir sıra numarası atanır. Eğer bir zaman aşımı süresi içinde <code class="literal">ALN</code> alınmazsa veri yeniden aktarılır. Alıcı tarafta bu sıra numarası gönderilen veri bölütlerin doğru sıraya konması (veri bölütleri karışık bir sırada gelmiş olabilir) ve gelen veri bölütlerinin içinden yinelenmiş olanların ayıklanması için kulanılır. Aktarılan veri bölütlerinde meydana gelen hasarı saptamak için her veri bölütüne, alıcı tarafta sınanması ve bozuksa veri bölütünün iptal edilebilmesi için bir sağlama özeti eklenir.
+</p>
+                <p>
+TCP'ler düzgün olarak işlediği sürece ve Genel Ağ sistemi tamamen parçalanmadıkça verinin düzgün teslimatını etkileyecek hiçbir aktarım hatası olmaz.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Akış Denetimi:</span>
+              </dt>
+              <dd>
+                <p>
+TCP alıcıya gönderici tarafından gönderilmiş verinin miktarını yönetme imkanı da sağlar. Bunun için her <code class="literal">ALN</code> ile bir "pencere" döndürülür ve bu pencere son veri bölütün başarıyla alındığını belirtmekten başka alıcıdan bir izin alınmasını gerektirmeden gönderilebilecek sekizlilerin sayısını belirten bir sıra numarası aralığı içerir.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Çoğullama:</span>
+              </dt>
+              <dd>
+                <p>
+Tek bir konak içinde birden fazla sürecin TCP iletişim oluşumlarını aynı anda kullanabilmelerini mümkün kılmak için TCP her konağa bir takım adresler ve portlar sağlar. Genel Ağ iletişim katmanındaki ağ ve konak adreslerine kademeli eklenerek bu bir soketi şekillendirir.  Bir bağlantı bir soket çifti gerektirdiğinden bir soket aynı anda çok sayıda bağlantıda kullanılabilir.
+</p>
+                <p>
+Süreçlerin portlara bağlanması her konak tarafından bağımsız olarak yürütülür. Yine de, sıklıkla kullanılan süreçleri (örn, bir günlük kayıtçısı veya zaman paylaşım hizmeti) herkesin bildiği hep aynı soketlere bağlamak kullanışlılık sağlar.  Bu hizmetlere böylece bilinen adreslerden erişilebilir. Diğer süreçlerin port adreslerinin kurulması ve öğrenilmesi daha anlık mekanizmaların işe karışmasını gerektirebilir.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Bağlantılar:</span>
+              </dt>
+              <dd>
+                <p>
+Yukarıda açıklanan güvenilirlik ve akış denetim mekanizmaları TCP'lerin her veri akımı için ilklendirilmesini ve belli bir durum bilgisinin sürekli sağlanmasını gerektirir. Soketleri, sıra numaralarını ve pencere boyutlarını da içererek bu bilgi bütününe bağlantı adı verilir. Her bağlantı her biri bir ucu belirten bir çift soket tarafından eşsiz olarak belirlenir.
+</p>
+                <p>
+İki süreç haberleşmek istediklerinde, kendi TCP'leri önce bir bağlantı oluşturmalıdır (her iki uçta da durum bilgileri ilklendirilmelidir). Haberleşme tamamlandığında, özkaynakları başkalarının kullanımı için serbest bırakmak için  bağlantı sonlandırıldıktan sonra kapatılır.
+</p>
+                <p>
+Bağlantılar güvenilir olmayan makinalar arasında ve güvenilir olmayan Genel Ağ iletişim sistemi üzerinden yapılmak zorunda olunduğu için, bağlantıların hatalı ilklendirilmesinden kaçınmak için  saate dayalı sıra numaraları ile bir uzlaşma mekanizması kulanılır.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Öncelik ve Güvenlik:</span>
+              </dt>
+              <dd>
+                <p>
+TCP kullanıcıları iletişimlerinin önceliğini ve güvenliğini belirleyebilir. Gerekli önlemler bu özellikler gerekli olmadığında kullanılan öntanımlı değerler için alınır.
+</p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm151545" class="footnote">
+            <p><a href="#idm151545" class="para"><sup class="para">[86] </sup></a>Deputy Undersecretary of Defense for Research and Engineering</p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

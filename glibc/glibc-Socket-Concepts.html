@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.1. Soket Kavramları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Önceki</button>
+          <div class="dropdown-content">16. Soketler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Communication-Styles.html')">Sonraki</button>
+          <div class="dropdown-content">16.2. İletişim Tarzları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Socket-Concepts">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.1. Soket Kavramları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm123025" class="indexterm"></span>
+   <span id="idm123028" class="indexterm"></span>
+   Bir soket oluşturulduğunda, kullanılmak istenen iletişim tarzının ve bunu uygulayacak protokol türünün belirtilmesi gerekir. Bir soketin <em class="wordasword">iletişim tarzı</em>, soket üzerinde veri gönderimi ve alımının kullanıcı-seviyesindeki anlamını tanımlar. İletişim tarzının seçimi aşağıdaki sorulara yanıt olur:
+  </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">Veri iletimi birimleri nelerdir?
+     <span id="idm123035" class="indexterm"></span>
+     <span id="idm123037" class="indexterm"></span>
+     <span id="idm123039" class="indexterm"></span>
+     <span id="idm123042" class="indexterm"></span>
+    </span>
+            </dt>
+            <dd>
+              <p>
+      Bazı iletişim tarzları veriye büyük bir yapısı olmayan bir dizi bayt olarak bakar; bazıları da bu baytları gruplayarak birer kayıt olarak ele alır (bu bağlamda bunlara <em class="wordasword">paket</em> denir).
+     </p>
+            </dd>
+            <dt>
+              <span class="term">Normal bir işlem sırasında veri kaybı olur mu?
+     <span id="idm123050" class="indexterm"></span>
+     <span id="idm123053" class="indexterm"></span>
+    </span>
+            </dt>
+            <dd>
+              <p>
+      Bazı iletişim tarzları gönderilen her verinin ulaştığını garanti eder (sistem veya ağ çökmediği takdirde); diğer tarzlar ara sıra gerçekleşen veri kaybını normal karşılayıp, bazı paketleri defalarca veya yanlış sırada gönderebilir.
+     </p>
+              <p>
+      Güvenilmez bir iletişim tarzını kullanan bir yazılım tasarımı genellikle kayıp veya yanlış sırada gönderilen paketleri tespit edecek, gerektiğinde veriyi tekrar gönderecek tedbirler içerir.
+     </p>
+            </dd>
+            <dt>
+              <span class="term">İletişim sadece tek eşle mi gerçekleştirilir?</span>
+            </dt>
+            <dd>
+              <p>
+      Bazı iletişim tarzları telefon konuşmasına benzer; karşı soket ile <em class="wordasword">bağlantı</em> kurulur ve veri alışverişi gerçekleştirilir. Diğer tarzlar ise mektuba benzer; gönderilecek her ileti için adres belirtmek gerekir.
+     </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+   
+   
+   
+   <span id="idm123074" class="indexterm"></span>
+   <span id="idm123077" class="indexterm"></span>
+   <span id="idm123080" class="indexterm"></span>
+   <span id="idm123082" class="indexterm"></span>
+   Ayrıca, soketi isimlendirmek için bir <em class="wordasword">isim alanı</em> seçilmelidir. Soket adı ("adresi") sadece belirli bir isim alanı içerisinde anlamlıdır. Aslında, soket ismi için kullanılacak veri türü bile isim alanına bağlı olabilir. İsim alanları "Etki Alanı" (domain) olarak da adlandırılır, ancak kavram karmaşası yaratmamak için bu kullanımdan kaçınılmıştır. Her isim alanının <code class="code">PF_</code> ile başlayan simgesel bir ismi vardır. Buna ilişkin <code class="code">AF_</code> ile başlayan simgesel isim bu isim alanının adres biçimini gösterir.
+  </p>
+        <p>
+   <span id="idm123088" class="indexterm"></span>
+   <span id="idm123090" class="indexterm"></span>
+   <span id="idm123093" class="indexterm"></span>
+   <span id="idm123096" class="indexterm"></span>
+   <span id="idm123098" class="indexterm"></span>
+   Son olarak iletişimi sağlayacak protokolün seçilmesi gerekir. <em class="wordasword">Protokol</em> veri gönderim ve alımında hangi alt seviye düzeneğin kullanılacağını belirler. Her protokol belirli bir isim alanı ve iletişim tarzı için geçerlidir; bir isim alanı zaman zaman <em class="wordasword">protokol ailesi</em> olarak adlandırıldığı için, isim alanının simgesel ismi <code class="code">PF_</code>  ("Protocol Family" kısaltması) ile başlar.
+  </p>
+        <p>
+   Protokol kuralları iki yazılım, belki de iki ayrı bilgisayar arasında geçen veriye uygulanır; bu kuralların birçoğu işletim sistemi tarafından halledilir ve işletim sistemi tarafından halledilenler konumuzun dışındadır. Protokoller ile ilgili bilinmesi gerekenler:
+  </p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+    İki soket arasında iletişimin gerçekleşmesi için, soketler <em class="emphasis">aynı</em> protokolü kullanmalıdır.
+   </li>
+            <li class="member">
+    Her protokol belirli bir tarz ve isim alanının birleşimi olarak anlam kazanır ve uygun olmayan bileşimlerle kullanılamaz. Örneğin TCP protokolü sadece bayt akımı tarzında iletişim ile İnternet isim alanına uyar.
+   </li>
+            <li class="member">
+    Her tarz ve isim alanı bileşimi için bir <em class="wordasword">varsayılan protokol</em> vardır, protokol numarasına 0 belirtilerek istenebilir. Normalde yapılması gereken de budur; varsayılan protokol kullanılmalıdır.
+   </li>
+          </ul>
+        </div>
+        <p>
+   Bu kısımdaki açıklamaların başından sonuna çeşitli yerlerde değişken/bağımsız değişken boyutunu göstermek gerekmektedir. Ve işte burada sorun başlar. İlk uygulamalarda bu değişkenlerin değişken türü basitçe <code class="type">int</code> idi. Zamanımızda birçok makinede <code class="type">int</code> 32 bit genişliğindedir ve <em class="emphasis">fiilen</em> 32 bitlik bir değişken standardı yaratmıştır. Bu tür değişken göstericileri, çekirdeğe aktarıldığı için önemlidir.
+  </p>
+        <p>
+   Ardından POSIX'çiler, "bütün büyüklük değerleri <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> türündedir" sözleriyle arayüzü birleştirmiştir. 64 bitlik makinelerde <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> 64 bit genişliğindedir, böylece değişkenlere göstericiler ortadan kalkmıştır.
+  </p>
+        <p>
+   Unix98 belirtimi <code class="type">socklen_t</code> türü ile bir çözüm üretmiştir. Bu tür, POSIX'in <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> olarak değiştirdiği tüm hallerde kullanılır. Bu türün tek gereksinimi işaretsiz en az 32 bittir. Bu nedenle 32 bitlik değişkenlere aktarılacak göstericiler, 64 bitlik değerler kullanan gerçeklenimlerle kolayca aktarılabilir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

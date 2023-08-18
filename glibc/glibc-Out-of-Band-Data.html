@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.8. Sıra-Dışı-Veri Aktarımı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Server-Example.html')">Önceki</button>
+          <div class="dropdown-content">16.9.7. Bayt Akımlı Bağlantı Sunucusu Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Datagrams.html')">Sonraki</button>
+          <div class="dropdown-content">16.10. Bağlantısız Soket İşlemleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Out-of-Band-Data">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.8. Sıra-Dışı-Veri Aktarımı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm126563" class="indexterm"></span>
+    <span id="idm126565" class="indexterm"></span>
+    <span id="idm126568" class="indexterm"></span>
+    Bağlantılı akımlar, sıradan veriye nazaran teslim edilme önceliğine sahip <em class="wordasword">sıra-dışı-veri</em> aktarımına izin vermektedir. Sıra dışı veri gönderiminin asıl kullanılma nedeni, özel durumlarda uyarı gönderme ihtiyacıdır. Sıra dışı veri göndermek için <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevi <a href="glibc-Transferring-Data.html#glibc-vr-MSG_OOB"><strong class="varname"><code>MSG_OOB</code></strong></a> bayrağıyla kullanılır (Bkz. <a class="xref" href="glibc-Transferring-Data.html#glibc-Sending-Data" title="16.9.5.1. Veri Gönderimi">Veri Gönderimi</a>).
+   </p>
+        <p>
+    Sıra dışı veriler yüksek öncelikle alınır çünkü alıcı işlem onu sırayla almak zorunda değildir; bir sonraki sıra dışı veriyi okumak için, <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevi <a href="glibc-Transferring-Data.html#glibc-vr-MSG_OOB"><strong class="varname"><code>MSG_OOB</code></strong></a> bayrağıyla kullanılır (Bkz. <a class="xref" href="glibc-Transferring-Data.html#glibc-Receiving-Data" title="16.9.5.2. Veri Alımı">Veri Alımı</a>). Sıradan okuma işlemleri sıra dışı veriyi okumaz; sadece sıradan veriyi okur.
+   </p>
+        <p>
+    <span id="idm126580" class="indexterm"></span>
+    Soket, sıra dışı verinin geldiğini görünce, kendi sürecine ya da süreç grubuna <a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGURG"><strong class="varname"><code>SIGURG</code></strong></a> sinyalini gönderir. Soket sahibi <a href="glibc-Control-Operations.html#glibc-fn-fcntl"><strong class="function"><code>fcntl</code></strong></a> işlevinde <a href="glibc-Interrupt-Input.html#glibc-vr-F_SETOWN"><strong class="varname"><code>F_SETOWN</code></strong></a> komutu kullanılarak belirtilebilir; bkz. <a class="xref" href="glibc-Interrupt-Input.html" title="13.19. Sinyallerle Sürülen Girdi"><em>Sinyallerle Sürülen Girdi</em></a>. Sıra dışı veriyi okuma gereksinimi gibi bir durumda uygun hareketi yapmak için bu sinyalin işleyicisinin kurulması gerekir, bkz. <a class="xref" href="glibc-Signal-Handling.html" title="24. Sinyal İşleme">Sinyal İşleme</a>.
+   </p>
+        <p>
+    Diğer bir seçenek olarak, sokette özel durum oluşması için bekleyebilen <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevini kullanarak sıra dışı veri olana kadar beklenebilir ya da bekleyen sıra dışı veri var mı diye bakılabilir.  <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi hakkında daha fazla bilgi için bkz, <a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>.
+   </p>
+        <p>
+    Sıra dışı verinin bildirilmesi (<a href="glibc-Asynchronous-I-O-Signals.html#glibc-vr-SIGURG"><strong class="varname"><code>SIGURG</code></strong></a> veya <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> ile) sıra dışı verinin gelmek üzere olduğunu gösterir; veri daha sonra ulaşabilir. Eğer sıra dışı veri daha gelmeden okunmaya çalışılırsa, <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevi <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a> hatası ile sonlanır.
+   </p>
+        <p>
+    Sıra dışı veri gönderilince, akımdaki sıradan veri otomatik olarak "im"lenir, bu da sıra dışı verinin "ne durumda olabileceğini" gösterir. Bu sıra dışı verinin anlamı "şimdiye kadar gönderdiklerimi iptal et" ise kullanışlıdır. Buradaki alıcı işlemde, imlenmeden önce sıradan verinin gönderilip gönderilmediğini sınanabilir:
+   </p>
+        <p>
+    </p>
+        <pre class="screen">success = ioctl (socket, SIOCATMARK, &amp;imgeldi);</pre>
+        <p>
+   </p>
+        <p>
+    Eğer soketin okuma göstericisine "im" ulaştıysa bir tamsayı değişken olan <em class="replaceable"><code>imgeldi</code></em> sıfır olmayan bir değer yapılır.
+   </p>
+        <p>
+    Burada sıra dışı iminden önce gelen sıradan veriyi iptal eden bir işlev görülmektedir:
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">int
+discard_until_mark (int socket)
+{
+  while (1)
+    {
+      /* <em class="replaceable"><code>Bu isteğe bağlı bir sınır değildir;
+         herhangi bir büyüklük olabilir.</code></em>  */
+      char buffer[1024];
+      int imgeldi, success;
+
+      /* <em class="replaceable"><code>im geldiyse işlev dönsün.</code></em>  */
+      success = ioctl (socket, SIOCATMARK, &amp;imgeldi);
+      if (success &lt; 0)
+        perror ("ioctl");
+      if (result)
+        return;
+
+      /* <em class="replaceable"><code>Aksi takdirde, bir miktar sıradan veriyi
+         oku ve iptal et. Bu imden sonrasını okumamayı
+         garantiler, tabii ki imden önce başlıyorsa.</code></em>  */
+      success = read (socket, buffer, sizeof buffer);
+      if (success &lt; 0)
+        perror ("read");
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+        <p>
+    Eğer imden önceki verinin iptali istenmiyorsa, sıra dışı veriye sistem içi tampon bölgesinde yer açmak için bir kısmı okunabilir. Eğer sıra dışı veri okunmaya çalışılır ve <a href="glibc-Error-Codes.html#glibc-vr-EWOULDBLOCK"><strong class="varname"><code>EWOULDBLOCK</code></strong></a> hatası alınırsa, bir miktar sıradan veri okunmaya çalışılır (kaydederek daha sonra istendiğinde kullanılabilir) ve yer açıldığı görülür.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">struct buffer
+{
+  char *buf;
+  int size;
+  struct buffer *next;
+};
+
+/* <em class="replaceable"><code>Sıra dışı veriyi SOKET'ten oku ve verinin adresini
+   ve büyüklüğünü `struct buffer' içinde döndür.
+
+   Sıra dışı veriye yer açmak için bir miktar sıradan
+   veri okumak gerekebilir. Bu durumda, sıradan veri
+   'next' alanında bulunan tamponlar zincirine
+   kaydedilir.</code></em>  */
+
+struct buffer *
+read_oob (int socket)
+{
+  struct buffer *tail = 0;
+  struct buffer *list = 0;
+
+  while (1)
+    {
+      /* <em class="replaceable"><code>Bu keyfi bir sınırdır.
+         Bunu sınırsız yapmayı bilen var mı?</code></em>  */
+#define BUF_SZ 1024
+      char *buf = (char *) xmalloc (BUF_SZ);
+      int success;
+      int atmark;
+
+      /* <em class="replaceable"><code>Sıra dışı veriyi tekrar okumaya çalış</code></em>  */
+      success = recv (socket, buf, BUF_SZ, MSG_OOB);
+      if (success &gt;= 0)
+        {
+          /* <em class="replaceable"><code>Alındı, dön.</code></em>  */
+          struct buffer *link
+            = (struct buffer *) xmalloc (sizeof (struct buffer));
+          link-&gt;buf = buf;
+          link-&gt;size = success;
+          link-&gt;next = list;
+          return link;
+        }
+
+      /* <em class="replaceable"><code>Yoksa, imin (atmark) gelip gelmediğine bak.</code></em>  */
+      success = ioctl (socket, SIOCATMARK, &amp;atmark);
+      if (success &lt; 0)
+        perror ("ioctl");
+      if (atmark)
+        {
+          /* <em class="replaceable"><code>İm (atmark) gelmiş; geriye kalan sıradan
+             verinin faydası olmaz. Bir süre bekle.</code></em>  */
+          sleep (1);
+          continue;
+        }
+
+      /* <em class="replaceable"><code>Aksi takdirde, bir miktar sıradan veriyi
+         okuyup kaydet. Bu imden sonrasını okumamayı
+         garantiler, tabii ki imden önce başlıyorsa.</code></em>  */
+      success = read (socket, buf, BUF_SZ);
+      if (success &lt; 0)
+        perror ("read");
+
+      /* <em class="replaceable"><code>Bu veriyi tampon listesine kaydet.</code></em>  */
+      {
+        struct buffer *link
+          = (struct buffer *) xmalloc (sizeof (struct buffer));
+        link-&gt;buf = buf;
+        link-&gt;size = success;
+
+        /* <em class="replaceable"><code>Yeni veriyi listenin sonuna ekle.</code></em>  */
+        if (tail)
+          tail-&gt;next = link;
+        else
+          list = link;
+        tail = link;
+      }
+    }
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

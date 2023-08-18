@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.1. Bağlantının Oluşturulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Önceki</button>
+          <div class="dropdown-content">16.9. Soketlerin Bağlantıda Kullanılması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Listening.html')">Sonraki</button>
+          <div class="dropdown-content">16.9.2. Bağlantıların Dinlenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Connecting">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.1. Bağlantının Oluşturulması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm125885" class="indexterm"></span>
+    <span id="idm125888" class="indexterm"></span>
+    <span id="idm125891" class="indexterm"></span>
+    <span id="idm125894" class="indexterm"></span>
+    Bir bağlantının kurulmasında, sunucu bağlantı için beklerken istemci bağlanır ve sunucu kabul eder. Burada tartışılan şey istemci yazılımın <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlı <a href="glibc-Connecting.html#glibc-fn-connect"><strong class="function"><code>connect</code></strong></a> işleviyle ne yapması gerektiği ile ilgilidir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-connect" class="indexterm"></span>
+    <span id="glibc-cp-connect" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">connect</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">struct sockaddr </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">connect</code> işlevi <em class="parameter"><code>socket</code></em> dosya tanıtıcılı soketten <em class="parameter"><code>addr</code></em> adresli ve <em class="parameter"><code>length</code></em> adres uzunluklu sokete bağlantı başlatır. (Bu soketin normal olarak başka bir makinede ve sunucu olarak kurulmuş olması gerekir.) Bu bağımsız değişkenlerin nasıl yorumlandıkları konusunda bilgi için bkz, <a class="xref" href="glibc-Socket-Addresses.html" title="16.3. Soket Adresleri"><em>Soket Adresleri</em></a>.
+    </p>
+    <p>
+     Normalde, <code class="code">connect</code> sunucu isteğe yanıt verene kadar bekler. <code class="code">connect</code> işlevinin yanıt beklemeden hemen dönmesini sağlamak için <em class="parameter"><code>socket</code></em> soketinde <a class="link" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri">engellemesiz kip</a> seçilebilir.
+    </p>
+    <p>
+     <code class="code">connect</code> işlevi başarı durumunda <code class="code">0</code>, başarısızlıkta <code class="code">-1</code> döndürür. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+       </p></dd><dt><span class="term"><code class="code">EADDRNOTAVAIL</code></span></dt><dd><p>
+        Belirtilen adres uzak makinede yok.
+       </p></dd><dt><span class="term"><code class="code">EAFNOSUPPORT</code></span></dt><dd><p>
+        <em class="parameter"><code>addr</code></em> isim alanı bu soket tarafından desteklenmiyor.
+       </p></dd><dt><span class="term"><code class="code">EISCONN</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi zaten bağlı.
+       </p></dd><dt><span class="term"><code class="code">ETIMEDOUT</code></span></dt><dd><p>
+        Bağlantı girişimi zaman aşımına uğradı.
+       </p></dd><dt><span class="term"><code class="code">ECONNREFUSED</code></span></dt><dd><p>
+        Sunucu bağlantı isteğini açıkça reddetti.
+       </p></dd><dt><span class="term"><code class="code">ENETUNREACH</code></span></dt><dd><p>
+        <em class="parameter"><code>addr</code></em> ile belirtilen ağa bu konak erişemez.
+       </p></dd><dt><span class="term"><code class="code">EADDRINUSE</code></span></dt><dd><p>
+        <em class="parameter"><code>addr</code></em> ile belirtilen soket adresi zaten kullanımda.
+       </p></dd><dt><span class="term"><code class="code">EINPROGRESS</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi engellemesiz kipte olduğundan bağlantı hemen kurulamıyor. <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> ile bağlantının tam olarak ne zaman kurulabileceği tespit edilebilir; Bkz. <a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>. Bağlantı tam kurulamadan aynı sokete tekrar bir <code class="code">connect</code> çağrısı yapılırsa, çağrı <a href="glibc-Error-Codes.html#glibc-vr-EALREADY"><strong class="varname"><code>EALREADY</code></strong></a> hatası ile sonlanır.
+       </p></dd><dt><span class="term"><code class="code">EALREADY</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi engellemesiz kipte ve zaten askıda bekleyen bir bağlantı var (bkz, üstteki <code class="code">EINPROGRESS</code> açıklaması).
+       </p></dd></dl></div>
+    <p>
+     Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanıtıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

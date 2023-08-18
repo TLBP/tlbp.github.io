@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.3. Tarih ve Saat Belirtimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822-s32.html')">Önceki</button>
+          <div class="dropdown-content">3.2. Sözdizimsel Dizgecikler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822-s34.html')">Sonraki</button>
+          <div class="dropdown-content">3.4. Adres Belirtimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2822-s33">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.3. Tarih ve Saat Belirtimi</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Tarih ve saat çeşitli başlık alanlarında görülür. Bu bölümde tam tarih ve saat belirtimi için sözdizimi belirtilmiştir. <span class="rfcshould"><code class="literal">tarih-saat</code> belirtimi boyunca katlanan boşluklara izin verildiğinden <code class="literal">KBOŞ</code> görünen her yerde (gerekli veya seçimlik oluşuna bağlı olarak) tek bir boşluk kullanılması önerilir *ÖNERİ*</span>; bazı eski gerçeklenimler katlanan boşlukların diğer oluşumlarını düzgün olarak yorumlayamayabilirler.
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced">
+tarih-saat   =       [ hafta-günü "," ] tarih KBOŞ saat [AKBOŞ]
+
+hafta-günü   =       ([KBOŞ] gün-ismi) / atıl-hafta-günü
+
+gün-ismi     =       "Mon" / "Tue" / "Wed" / "Thu" /
+                     "Fri" / "Sat" / "Sun"
+
+tarih        =       gün ay sene
+
+sene         =       4*RAKAM / atıl-sene
+
+ay           =       (KBOŞ ay-ismi KBOŞ) / atıl-ay
+
+ay-ismi      =       "Jan" / "Feb" / "Mar" / "Apr" /
+                     "May" / "Jun" / "Jul" / "Aug" /
+                     "Sep" / "Oct" / "Nov" / "Dec"
+
+gün          =       ([KBOŞ] 1*2RAKAM) / atıl-gün
+
+saat         =       günün-saati KBOŞ zdilimi
+
+günün-saati  =       saat ":" dakika [ ":" saniye ]
+
+saat         =       2RAKAM / atıl-saat
+
+dakika       =       2RAKAM / atıl-dakika
+
+saniye       =       2RAKAM / atıl-saniye
+
+zdilimi      =       (( "+" / "-" ) 4RAKAM) / atıl-zdilimi
+</pre>
+        <p>
+   </p>
+        <p><code class="literal">gün</code>, ayın sayısal günüdür. <code class="literal">sene</code> ise 1900'den başlayarak herhangi bir sayısal değerdir.
+</p>
+        <p><code class="literal">günün-saati</code>, belirtilen <code class="literal">tarih</code>in geceyarısından itibaren geçen <code class="literal">saat</code>, <code class="literal">dakika</code> ve isteğe bağlı olarak <code class="literal">saniye</code> sayısı olarak belirtilir.
+</p>
+        <p><span class="rfcshould"><code class="literal">tarih</code> ve <code class="literal">günün-saati</code> yerel zamanı ifade etmelidir *ÖNERİ*</span>.
+</p>
+        <p><code class="literal">zdilimi</code>, <code class="literal">tarih</code> ve <code class="literal">günün-saati</code> ile birlikte Koordinatlı Evrensel Zamana (Greenwich saati olarak da bilinen UTC) göre saat farkı olarak belirtilir. "+" ve "-" imleri <code class="literal">günün-saati</code>nin Evrensel Zamana göre ileri mi (doğuda mı) yoksa geri mi (batıda mı) olduğunu belirtir. İlk iki rakam evrensel zamandan saat olarak farkı, son iki rakam ise dakika olarak farkı belirtir. (Dolayısıyla, <code class="literal">+hhmm = +(hh * 60 + mm)</code> dakika, <code class="literal">-hhmm = -(hh * 60 + mm)</code> dakika demektir.) <span class="rfcshould">"<code class="literal">+0000</code>" biçimi Evrensel Zamandaki bir <code class="literal">zdilimi</code>ni belirtmekte kullanılmalıdır *ÖNERİ*</span>. "<code class="literal">-0000</code>" biçimi de evrensel zamanı gösterirse de, yerel zamanı evrensel zamandan farklı olabilen bir sistem üzerinde üretilen saati belirtmekte kullanılır ve bu bakımdan belirtilen <code class="literal">tarih-saat</code>in yerel <code class="literal">zdilimi</code> hakkında hiçbir bilgi içermediğini belirtir.
+</p>
+        <p>
+<span class="rfcmust">Bir <code class="literal">tarih-saat</code> belirtimi anlambilimsel olarak geçerli olmalıdır *ZORUNLU*</span>. Yani, <span class="rfcmust"><code class="literal">hafta-günü</code> belirtilen <code class="literal">tarih</code>in gerektirdiği <code class="literal">gün</code> olmalı *ZORUNLU*, sayısal <code class="literal">ayın-günü</code> 1 ve belirtilen <code class="literal">ay</code> (ve <code class="literal">sene</code>) için mümkün gün sayısı arasında olmalı *ZORUNLU*, <code class="literal">günün-saati</code> ise 00:00:00'dan 23:59:60'a kadar bir aralık içinde olmalı *ZORUNLU* (saniye sayısı artık saniyeye izin vermelidir; bkz,[<a class="xref" href="rfc2822-s6.html#rfc2822-STD12" title="Network Time Protocol">STD12</a>]) ve <code class="literal">zdilimi</code> -9959 ile +9959 arasında olmalıdır *ZORUNLU*</span>.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

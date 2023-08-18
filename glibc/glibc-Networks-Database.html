@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.13. Ağ İsimleri Veritabanı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Socket-Options.html')">Önceki</button>
+          <div class="dropdown-content">16.12. Socket Seçenekleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Sonraki</button>
+          <div class="dropdown-content">17. Düşük Seviyeli Uçbirim Arayüzü</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Networks-Database">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.13. Ağ İsimleri Veritabanı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm127208" class="indexterm"></span>
+   <span id="idm127210" class="indexterm"></span>
+   <span id="idm127212" class="indexterm"></span>
+   <span id="idm127214" class="indexterm"></span>
+   <span id="idm127216" class="indexterm"></span>
+   Birçok sistem bilinen ağ isimlerinin listesini kaydederek bunları sistem geliştiricisine sunan bir veritabanı ile beraber gelir. Bu bilgi genellikle <code class="filename">/etc/networks</code> dosyası içerisinde veya eşdeğer bir isim sunucusunda tutulur. Bu veritabanı <tt><a href="../man/man8/man8-route.html"><b>route</b></a>(8)</tt> gibi yönlendirme yazılımları için kullanışlıdır. Ancak ağ üzerinde basitçe haberleşen yazılımlar için değildir. Bu veritabanına erişmek için gerekli işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code> başlık dosyasında bildirilmiştir.
+  </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+   <span id="glibc-tp-netent" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">netent</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    Bu veri türü ağ veritabanındaki girdi bilgilerininin gösterimi için kullanılır. Aşağıdaki üyelere sahiptir:
+   </p>
+   <div class="glosslist"><dl><dt><span class="glossterm">
+      <code class="type">char *</code><strong class="structfield"><code>n_name</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       "Resmi" ağ ismidir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">char **</code><strong class="structfield"><code>n_aliases</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bunlar bir dizgeler dizisi olarak ağ takma adlarıdır. Diziyi boş gösterici sonlandırır.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">int </code><strong class="structfield"><code>n_addrtype</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu ağ numarasının türüdür; İnternet ağları için herzaman <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a>'e eşittir.
+      </p></dd><dt><span class="glossterm">
+      <code class="type">unsigned long int </code><strong class="structfield"><code>n_net</code></strong>
+     </span></dt><dd class="glossdef"><p>
+       Bu ağ numarasıdır. Ağ numaraları <a class="link" href="glibc-Byte-Order.html" title="16.6.5. Bayt Sırası Dönüşümü">konak bayt sırası</a> ile döndürülür.
+      </p></dd></dl></div>
+  </div>
+        <p>
+   Ağ veritabanında belirli bir ağ hakkında arama yapıp bilgi edinmek için  <a href="glibc-Networks-Database.html#glibc-fn-getnetbyname"><strong class="function"><code>getnetbyname</code></strong></a> veya <a href="glibc-Networks-Database.html#glibc-fn-getnetbyaddr"><strong class="function"><code>getnetbyaddr</code></strong></a> işlevi kullanılır. Bilgi duruk olarak tahsis edilmiş bir yapıda döner; saklamak gerekiyorsa bilginin kopyalanması gerekir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getnetbyname" class="indexterm"></span>
+   <span id="glibc-cp-getnetbyname" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct netent </code><strong class="type">*</strong><strong><code class="function">getnetbyname</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netbyname</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">getnetbyname</code> işlevi <em class="parameter"><code>name</code></em> adlı ağ hakkında bilgi döndürür. Öyle bir ağ yoksa boş gösterici döndürür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getnetbyaddr" class="indexterm"></span>
+   <span id="glibc-cp-getnetbyaddr" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct netent </code><strong class="type">*</strong><strong><code class="function">getnetbyaddr</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">uint32_t </code><strong><code class="parameter">net</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">type</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netbyaddr</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    <code class="code">getnetbyaddr</code> işlevi <em class="parameter"><code>type</code></em> türünde ve <em class="parameter"><code>net</code></em> numarasındaki ağ hakkında bilgi döndürür. İnternet ağları için <em class="parameter"><code>type</code></em> bağımsız değişkenine  <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a> değeri belirtilmelidir.
+   </p>
+   <p>
+    İşlev öyle bir ağ yoksa boş gösterici döndürür.
+   </p>
+  </div>
+        <p>
+   Ayrıca <a href="glibc-Networks-Database.html#glibc-fn-setnetent"><strong class="function"><code>setnetent</code></strong></a>, <a href="glibc-Networks-Database.html#glibc-fn-getnetent"><strong class="function"><code>getnetent</code></strong></a> ve <a href="glibc-Networks-Database.html#glibc-fn-endnetent"><strong class="function"><code>endnetent</code></strong></a> kullanarak ağ veritabanı taranabilir. Bu işlevleri kullanırken dikkatli olunmalıdır, çünkü bunlar evresel işlevler değildir.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-setnetent" class="indexterm"></span>
+   <span id="glibc-cp-setnetent" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">setnetent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">stayopen</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev ağ veritabanını açar ve sayacı başa getirir.
+   </p>
+   <p>
+    <em class="parameter"><code>stayopen</code></em> bağımsız değişkeni sıfır ise bir bayrak etkin olur, böylece sonraki <a href="glibc-Networks-Database.html#glibc-fn-getnetbyname"><strong class="function"><code>getnetbyname</code></strong></a> veya <a href="glibc-Networks-Database.html#glibc-fn-getnetbyaddr"><strong class="function"><code>getnetbyaddr</code></strong></a> işlev çağrıları veritabanını kapatmaz (normalde olması gerektiği gibi). Eğer bu işlevleri çok kez çağrılıyorsa, her çağrıda veritabanını tekrar açmak gerekmez ve daha verimli sonuç elde edilir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-getnetent" class="indexterm"></span>
+   <span id="glibc-cp-getnetent" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct netent </code><strong class="type">*</strong><strong><code class="function">getnetent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netent</a></code> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netentbuf</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev ağ veritabanındaki sonraki girdiyi döndürür. Eğer sonraki girdi yoksa boş gösterici döndürür.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-endnetent" class="indexterm"></span>
+   <span id="glibc-cp-endnetent" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">endnetent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:netent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+   </div>
+   <p>
+    Bu işlev ağ veritabanını kapatır.
+   </p>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

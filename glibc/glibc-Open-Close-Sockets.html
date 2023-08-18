@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.8. Soketlerin Açılması ve Kapatılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Misc-Namespaces.html')">Önceki</button>
+          <div class="dropdown-content">16.7. Diğer İsim Alanları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Sonraki</button>
+          <div class="dropdown-content">16.9. Soketlerin Bağlantıda Kullanılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Open-Close-Sockets">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.8. Soketlerin Açılması ve Kapatılması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu bölümde soket açma ve kapatma amacıyla kullanılan asıl kütüphane işlevleri açıklanmaktadır. Aynı işlevler tüm isim alanları ve bağlantı türleri için çalışır.
+  </p>
+        <section class="sect1" id="glibc-Creating-a-Socket">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.8.1. Soketin Oluşturulması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm125603" class="indexterm"></span>
+    Soket oluşturmanın en ilkel yöntemi <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlı <a href="glibc-Open-Close-Sockets.html#glibc-fn-socket"><strong class="function"><code>socket</code></strong></a> işlevini kullanmaktır.
+    <span id="idm125608" class="indexterm"></span>
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-socket" class="indexterm"></span>
+    <span id="glibc-cp-socket" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">socket</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">namespace</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">style</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">protocol</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Bu işlev soket oluşturur. <em class="parameter"><code>style</code></em> iletişim tarzını belirler; <a class="xref" href="glibc-Communication-Styles.html" title="16.2. İletişim Tarzları"><em>İletişim Tarzları</em></a> bölümünde listelenen soket tarzlarından biri olmalıdır. <em class="parameter"><code>namespace</code></em> isim alanını belirtir; <a href="glibc-Local-Namespace.html#glibc-vr-PF_LOCAL"><strong class="varname"><code>PF_LOCAL</code></strong></a> (Bkz. <a class="xref" href="glibc-Local-Namespace.html" title="16.5. Yerel İsim Alanı"><em>Yerel İsim Alanı</em></a>) veya <a href="glibc-Internet-Namespace.html#glibc-vr-PF_INET"><strong class="varname"><code>PF_INET</code></strong></a> (Bkz. <a class="xref" href="glibc-Internet-Namespace.html" title="16.6. İnternet İsim Alanı"><em>İnternet İsim Alanı</em></a>) olmak zorundadır. <em class="parameter"><code>protocol</code></em> belirli bir protokolü gösterir (Bkz. <a class="xref" href="glibc-Socket-Concepts.html" title="16.1. Soket Kavramları"><em>Soket Kavramları</em></a>); <em class="parameter"><code>protocol</code></em> için sıfır genellikle doğru değerdir.
+    </p>
+    <p>
+     <code class="code">socket</code> işlevinin dönüş değeri yeni soket için bir dosya tanıtıcıdır. Hata durumunda <code class="code">-1</code> değeri döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EPROTONOSUPPORT</code></span></dt><dd><p>
+        <em class="parameter"><code>protocol</code></em> veya <em class="parameter"><code>style</code></em> belirtilen <em class="parameter"><code>namespace</code></em> tarafından desteklenmiyor.
+       </p></dd><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+        Süreç zaten çok sayıda açık dosya tanıtıcısına sahip.
+       </p></dd><dt><span class="term"><code class="code">ENFILE</code></span></dt><dd><p>
+        Sistem zaten çok sayıda açık dosya tanıtıcısına sahip.
+       </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+        Süreç belirtilen <em class="parameter"><code>protocol</code></em> veya <em class="parameter"><code>style</code></em> ile soket açma yetkisine sahip değil.
+       </p></dd><dt><span class="term"><code class="code">ENOBUFS</code></span></dt><dd><p>
+        Sistem dahili tampon alanını tüketti.
+       </p></dd></dl></div>
+    <p>
+     <code class="code">socket</code> işlevinin döndürdüğü dosya tanıtıcı hem okuma hem de yazma işlemlerini desteklemektedir. Fakat, ardışık süreçler gibi, soketler de dosya içi konumlama işlemlerini desteklemez.
+    </p>
+   </div>
+          <p>
+    <a href="glibc-Open-Close-Sockets.html#glibc-fn-socket"><strong class="function"><code>socket</code></strong></a> işlevinin kullanımına ilişkin örnekler <a class="xref" href="glibc-Local-Namespace.html#glibc-Local-Socket-Example" title="16.5.3. Soketlerde Yerel İsim Alanı Örneği">Soketlerde Yerel İsim Alanı Örneği</a> ya da <a class="xref" href="glibc-Inet-Example.html" title="16.6.7. İnternet Soketi Örneği">İnternet Soketi Örneği</a> bölümünde bulunabilir.
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Closing-a-Socket">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.8.2. Soketin Kapatılması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm125695" class="indexterm"></span>
+    Soketin kullanımı sona erdiğinde,  dosya tanıtıcısı basitçe <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> işlevi ile kapatılabilir; bkz. <a class="xref" href="glibc-Opening-and-Closing-Files.html" title="13.1. Dosyaların Açılması ve Kapatılması"><em>Dosyaların Açılması ve Kapatılması</em></a>. Bağlantı üzerinde hala aktarılmayı bekleyen veri varsa, normalde <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> aktarımın tamamlanmasına çalışır. Bu davranış, bir zaman aşımı değeri belirtmek için <a href="glibc-Socket-Options.html#glibc-vr-SO_LINGER"><strong class="varname"><code>SO_LINGER</code></strong></a> soket seçeneği kullanılarak denetlenebilir; bkz. <a class="xref" href="glibc-Socket-Options.html" title="16.12. Socket Seçenekleri"><em>Socket Seçenekleri</em></a>.
+   </p>
+          <p>
+    <span id="idm125704" class="indexterm"></span>
+    Ayrıca, sadece aktarım veya alım durdurulmak istenirse, <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> içerisinde tanımlı <a href="glibc-Open-Close-Sockets.html#glibc-fn-shutdown"><strong class="function"><code>shutdown</code></strong></a> işlevi çağrılabilir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-shutdown" class="indexterm"></span>
+    <span id="glibc-cp-shutdown" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">shutdown</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">how</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">shutdown</code> işlevi <em class="parameter"><code>socket</code></em> soketinin bağlantısını kapatır. <em class="parameter"><code>how</code></em> bağımsız değişkeni yapılacak işlem türünü belirler:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">0</code></span></dt><dd><p>
+        Soketin veri alımını durdur. Eğer veri hala geliyorsa, reddedilir.
+       </p></dd><dt><span class="term"><code class="code">1</code></span></dt><dd><p>
+        Soketten veri gönderimini durdur. Aktarım için bekleyen veri iptal edilir. Gönderilmiş veri için ulaştı bilgisi beklenmez, eğer veri kaybolduysa tekrar gönderilmez.
+       </p></dd><dt><span class="term"><code class="code">2</code></span></dt><dd><p>
+        Hem alımı hem de gönderimi durdur.
+       </p></dd></dl></div>
+    <p>
+     Başarı halinde dönüş değeri <code class="code">0</code>, başarısızlıkta <code class="code">-1</code>'dir. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> bir soket değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTCONN</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> bağlı değil.
+       </p></dd></dl></div>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Socket-Pairs">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.8.3. Soket Çiftleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm125781" class="indexterm"></span>
+    <span id="idm125784" class="indexterm"></span>
+    <span id="idm125787" class="indexterm"></span>
+    <span id="idm125790" class="indexterm"></span>
+    Bir <em class="wordasword">soket çifti</em> bir çift bağlı (ancak isimsiz) soketten oluşur. Bu yapı ardışık süreçlere çok benzer ve çoğunlukla da böyle kullanılır. Soket çifti <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlı <a href="glibc-Open-Close-Sockets.html#glibc-fn-socketpair"><strong class="function"><code>socketpair</code></strong></a> işleviyle oluşturulur. Soket çifti ardışık süreçlere çok benzer; ana fark soket çifti çift yönlü olduğu halde; ardışık süreçlerde bir ucun yalnızca-girdi ve diğer ucun ise yalnızca-çıktı için kullanılabilmesidir (Bkz. <a class="xref" href="glibc-Pipes-and-FIFOs.html" title="15. Ardışık Süreçler">Ardışık Süreçler</a>).
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-socketpair" class="indexterm"></span>
+    <span id="glibc-cp-socketpair" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">socketpair</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">namespace</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">style</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">protocol</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">filedes[2]</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>filedes[0]</code></em> ve <em class="parameter"><code>filedes[1]</code></em> içine dosya tanıtıcıları yerleştirerek bir soket çifti oluşturur. Soket çifti aynı anda iki yönlü (full-duplex) iletişim yapılabilen bir iletişim kanalıdır, böylece her iki ucundan da hem okuma hem yazma gerçekleşebilmektedir.
+    </p>
+    <p>
+     <em class="parameter"><code>namespace</code></em>, <em class="parameter"><code>style</code></em> ve <em class="parameter"><code>protocol</code></em> bağımsız değişkenleri <a href="glibc-Open-Close-Sockets.html#glibc-fn-socket"><strong class="function"><code>socket</code></strong></a> işlevindeki gibi kullanılmaktadır. <em class="parameter"><code>style</code></em> <a class="xref" href="glibc-Communication-Styles.html" title="16.2. İletişim Tarzları"><em>İletişim Tarzları</em></a> bölümünde listelenen iletişim tarzlarından biri olmalıdır. <em class="parameter"><code>namespace</code></em> bağımsız değişkeni isim alanını belirler ve <a href="glibc-Address-Formats.html#glibc-vr-AF_LOCAL"><strong class="varname"><code>AF_LOCAL</code></strong></a> olmalıdır; <em class="parameter"><code>protocol</code></em> iletişim protokolünü belirler, fakat tek anlamlı değer sıfırdır.
+    </p>
+    <p>
+     Eğer <em class="parameter"><code>style</code></em> bağlantısız bir iletişim tarzını belirtiyorsa, elde edilen iki soket bağlı değildir, fakat her ikisi de diğerini varsayılan hedef adres olarak bilir, böylece her ikisi de diğerine paket gönderebilir.
+    </p>
+    <p>
+     <code class="code">socketpair</code> işlevi başarı durumunda <code class="code">0</code>, başarısızlıkta <code class="code">-1</code> döndürür. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EMFILE</code></span></dt><dd><p>
+        Süreç çok fazla açık dosya tanıtıcısına sahip.
+       </p></dd><dt><span class="term"><code class="code">EAFNOSUPPORT</code></span></dt><dd><p>
+        Belirtilen isim alanı desteklenmiyor.
+       </p></dd><dt><span class="term"><code class="code">EPROTONOSUPPORT</code></span></dt><dd><p>
+        Belirtilen protokol desteklenmiyor.
+       </p></dd><dt><span class="term"><code class="code">EOPNOTSUPP</code></span></dt><dd><p>
+        Belirtilen protokol, soket çifti oluşturmayı desteklemiyor.
+       </p></dd></dl></div>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

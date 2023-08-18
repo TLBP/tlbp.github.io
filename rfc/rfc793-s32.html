@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.2. Terminoloji</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s31.html')">Önceki</button>
+          <div class="dropdown-content">3.1. Başlık Biçimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s33.html')">Sonraki</button>
+          <div class="dropdown-content">3.3. Sıra Numaraları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s32">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.2. Terminoloji</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+TCP işlemlerine çok fazla dalmadan önce terminoloji üzerinde ayrıntılı olarak durmak istiyoruz. Bir TCP bağlantısının sürdürülmesi çeşitli değişkenlerin hatırlanmasını gerektirir. Bu değişkenlerin saklanacağı yer olarak Aktarım Denetim Bloğu (ADB) adını verdiğimiz bir bağlantı kaydı tasarladık. Yerel ve uzak soket numaralarını, bağlantı önceliği ve güvenliği, kullanıcıların gönderim ve alım tamponların göstericileri yeniden aktarım kuyruğunun göstericisi ve o anki veri bölütü, ADB'de saklanan değişkenler arasında sayılabilir. Ek olarak gönderim ve alım sıra numaraları ile ilgili çeşitli değişkenler de ADB'de saklanır.
+</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">Gönderi Sıra Numaraları Değişkenleri</span>
+            </dt>
+            <dd>
+              <pre class="literallayout monospaced">
+GÖN.OLM - gönderi alınmadı
+GÖN.SNR - sonraki gönderi
+GÖN.PEN - gönderi penceresi
+GÖN.ACL - gönderi aciliyet göstericisi
+GÖN.WL1 - son pencere güncellemesinde kullanılan veri bölütü sıra numarası
+GÖN.WL2 - son pencere güncellemesinde kullanılan veri bölütü alındı numarası
+İGS     - ilk gönderi sıra numarası
+</pre>
+            </dd>
+            <dt>
+              <span class="term">Alım Sıra Numaraları Değişkenleri</span>
+            </dt>
+            <dd>
+              <pre class="literallayout monospaced">
+ALM.SNR - sonraki alım
+ALM.PEN - alım penceresi
+ALM.UP  - alım aciliyet göstericisi
+İAS     - ilk alım sıra numarası
+</pre>
+            </dd>
+          </dl>
+        </div>
+        <p>
+Bu değişkenlerden bazılarının sıra değişkenleri uzayıyla ilişkilendirlmesinde aşağıdaki şeklin yardımı olabilir.
+</p>
+        <div class="figure" id="rfc793-fig4">
+          <div class="figure-title">Şekil 4. Gönderi Sıra Numaraları Uzayı</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+         1         2          3          4
+    ----------|----------|----------|----------
+           GÖN.OLM    GÖN.SNR    GÖN.OLM
+                                +GÖN.PEN
+
+1 - alındı'lanmış eski sıra numaraları
+2 - alındı'lanmamış sıra numaraları
+3 - yeni veri aktarımı için izin verilen sıra numaraları
+4 - henüz izin verilmemiş gelecekteki sıra numaraları
+
+          Gönderi Sıra Numaraları Uzayı
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p>
+Gönderi penceresi <a class="xref" href="rfc793-s32.html#rfc793-fig4" title="Şekil 4. Gönderi Sıra Numaraları Uzayı">Şekil 4</a>'teki sıra numaraları uzayının 3 ile etiketlenmiş bölümüdür.
+</p>
+        <div class="figure" id="rfc793-fig5">
+          <div class="figure-title">Şekil 5. Alım Sıra Numaraları Uzayı</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+        1         2          3
+   ----------|----------|----------
+          ALM.SNR    ALM.SNR
+                    +ALM.PEN
+
+1 - alındı'lanmış eski sıra numaraları
+2 - yeni alım için izin verilen sıra numaraları
+3 - henüz izin verilmemiş gelecekteki sıra numaraları
+
+        Alım Sıra Numaraları Uzayı
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p>
+Alım penceresi <a class="xref" href="rfc793-s32.html#rfc793-fig5" title="Şekil 5. Alım Sıra Numaraları Uzayı">Şekil 5</a>'teki sıra numaraları uzayının 2 ile etiketlenmiş bölümüdür.
+</p>
+        <p>
+Ayrıca değerlerini o anki veri bölütündeki alanlardan alan ve incelememizde sıkça kullanılacak olan birtakım değişkerler daha vardır.
+</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">O anki Veri bölütü Değişkenleri</span>
+            </dt>
+            <dd>
+              <pre class="literallayout monospaced">
+VBL.SIRA - veri bölütü sıra numarası
+VBL.ALN  - veri bölütü alındı numarası
+VBL.UZN  - veri bölütü uzunluğu
+VBL.PEN  - veri bölütü penceresi
+VBL.ACL  - veri bölütü aciliyet göstericisi
+VBL.PRC  - veri bölütü öncelik değeri
+</pre>
+            </dd>
+          </dl>
+        </div>
+        <p>
+Bir bağlantı yaşamı boyunca bir seri durumdan geçer.  Bu durumlar: <code class="literal">DİNLE</code>, <code class="literal">EŞZ-GÖNDER</code>, <code class="literal">EŞZ-ALINDI</code>, <code class="literal">KURULU</code>, <code class="literal">SON-BEKLE-1</code>, <code class="literal">SON-BEKLE-2</code>, <code class="literal">KAPAT-BEKLE</code>, <code class="literal">KAPANIŞ</code>, <code class="literal">SON-ALN</code>, <code class="literal">ZMN-BEKLE</code> ve kurgusal durum <code class="literal">KAPALI</code>. <code class="literal">KAPALI</code> kurgusaldır, çünkü hiç ADB'nin olmadığı zamanı ve dolayısıyla bağlantı yokluğunu ifade eder. Durumların kısaca anlamları:
+</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">
+      <code class="literal">DİNLE</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Bir porttan bir TCP bağlantısının beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">EŞZ-GÖNDER</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Bir bağlantı isteği gönderildikten sonra bununla eşleşen bir bağlantı isteğinin beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">EŞZ-ALINDI</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Bir bağlantı isteği gönderilip alındıktan sonra onaylayıcı bağlantı isteği alındısının beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">KURULU</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Alınan verinin kullanıcıya teslim edilebileceği bir açık bağlantıyı gösterir. Bu bağlantının veri aktarımının yapıldığı normal fazıdır.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">SON-BEKLE-1</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Uzak TCP'den bir bağlantı sonlandırma isteğinin ya da evvelce gönderilmiş bağlantı sonlandırma isteğinin alındısının beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">SON-BEKLE-2</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Uzak TCP'den bir bağlantı sonlandırma isteğinin beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">KAPAT-BEKLE</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Yerel kullanıcıdan bir bağlantı sonlandırma isteğinin beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">KAPANIŞ</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Uzak TCP'den bir bağlantı sonlandırma isteği alındısının beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">SON-ALN</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Uzak TCP'ye evvelce gönderilmiş (bir bağlantı sonlandırma isteği alındısı içeren) bağlantı sonlandırma isteğinin alındısının beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">ZMN-BEKLE</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Uzak TCP'nin bağlantı sonlandırma isteğinin alındısını almasına kadar geçecek sürenin beklendiğini gösterir.
+</p>
+            </dd>
+            <dt>
+              <span class="term">
+      <code class="literal">KAPALI</code>
+     </span>
+            </dt>
+            <dd>
+              <p>Artık bir bağlantının olmadığını gösterir.
+</p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+Bir TCP bağlantısı yanıtlarla bir durumdan diğerine geçilen bir süreçtir. Yanıtların sebepleri  <span class="command"><strong>AÇ</strong></span>, <span class="command"><strong>GÖNDER</strong></span>, <span class="command"><strong>AL</strong></span>, <span class="command"><strong>KAPAT</strong></span>, <span class="command"><strong>TERKET</strong></span> ve <span class="command"><strong>DURUM</strong></span> kullanıcı çağrıları; özellikle <code class="literal">EŞZ</code>, <code class="literal">ALN</code>, <code class="literal">BŞT</code> ve <code class="literal">SON</code> bayraklarını içeren gelen veri bölütleri; ve zaman aşımlarıdır.
+</p>
+        <p><a class="xref" href="rfc793-s32.html#rfc793-fig6" title="Şekil 6. TCP Bağlantı Durumları Şeması">Şekil 6</a>'daki durum şeması sadece sebepleri ve sonuçlarıyla durum değişikliklerini görselleştirir. Fakat durum değişikliklerine bağlı hata durumları ve eylemler dikkate alınmamıştır. Sonraki bölümde TCP'nin olaylara tepkisi daha ayrıntılı incelenecektir.
+</p>
+        <div class="admon caution">
+          <h3 class="admon-title">Dikkat</h3>
+          <div class="admon-contents">
+            <p>
+Bu şema sadece bir özettir ve belirtimin tamamı olarak ele alınmamalıdır.
+</p>
+          </div>
+        </div>
+        <div class="figure" id="rfc793-fig6">
+          <div class="figure-title">Şekil 6. TCP Bağlantı Durumları Şeması</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+                             +----------+ ---------------\  doğrudan AÇ
+                             |  KAPALI  |                 \ -----------
+                             +----------+&lt;---------------\   \ ADB oluştur
+                                |    ^                  \   \ EŞZ gönder
+                   edilgen AÇ   |    |   KAPA            \   \
+                   -----------  |    | ----------         \   \
+                   ADB oluştur  |    | ADB'yi sil          \   \
+                                V    |                      \   \
+                             +----------+           KAPA     |   \
+                             |   DİNLE  |         ---------- |    |
+                             +----------+         ADB'yi sil |    |
+                    EŞZ al      |    |    GÖNDER             |    |
+               --------------   |    |    -------            |    V
++--------+     EŞZ,ALN gönder  /      \   EŞZ gönder       +--------+
+|        |&lt;---------------------          --------------------&gt;|        |
+|  EŞZ   |                    EŞZ al                       |   EŞZ  |
+| ALINDI |&lt;------------------------------------------------- | GÖNDER |
+|        |                   EŞZ gönder                    |        |
+|        |--------------------          -------------------|        |
++--------+ EŞZ'nin ALN'sini al \      /  EŞZ,ALN al        +--------+
+  |        -------------------  |    |  ------------
+  |                  x          |    |   ALN gönder
+  |                             V    V
+  |  KAPA                    +----------+
+  | -------                  |  KURULU  |
+  | SON gönder               +----------+
+  |                   KAPA      |    |      SON al
+  V                ----------   |    |    ---------
++---------+        SON gönder  /      \   ALN gönder   +-------------+
+|  SON    |&lt;--------------------          ---------------&gt;| KAPAT-BEKLE |
+| BEKLE-1 |-----------------------                     +-------------+
++---------+                SON al  \                       KAPA    |
+  | SON'un ALN'sini al   ---------  |                   ---------- |
+  | ------------------   ALN gönder |                   SON gönder V
+  V        x                        V                      +---------+
++----------+                   +---------+                 | SON-ALN |
+|SONBEKLE-2|                   | KAPANIŞ |                 +---------+
++----------+                   +---------+      SON'un ALN'sini al |
+  |              SON'un ALN'sini al |           ------------------ |
+  |              ------------------ |                    x         |
+  |    SON al            x          |    ZmnAşımı=2AVÖ             |
+  |  ----------                     V    -------------             V
+   \ ALN gönder                +---------+ ADB'yi sil      +---------+
+     ---------------------------&gt;|ZMN BEKLE|------------------&gt;|  KAPALI |
+                               +---------+                 +---------+
+
+                       TCP Bağlantı Durumları Şeması
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

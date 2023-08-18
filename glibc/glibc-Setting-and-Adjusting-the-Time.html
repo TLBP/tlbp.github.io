@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>21.5.2. Zamanın Değiştirilmesi ve Ayarlanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Getting-the-Time.html')">Önceki</button>
+          <div class="dropdown-content">21.5.1. Zamanın Öğrenilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Calendar-Time.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Broken-down-Time.html')">Sonraki</button>
+          <div class="dropdown-content">21.5.3. Dökümlü Zaman</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Setting-and-Adjusting-the-Time">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">21.5.2. Zamanın Değiştirilmesi ve Ayarlanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Günümüz bilgisayarının içindeki saat donanımı oldukça güvenilirdir, ancak yine de yanlış olabilir. Bu bölümdeki işlevler, sistemin geçerli takvim zamanını belirlemek ve sistemin saniyeleri sayma hızını ayarlamak içindir. Böylece takvim zamanı doğru olacağı gibi doğru olarak kalır.
+   </p>
+        <p>
+    Bu bölümdeki işlevleri kullanmak için özel ayrıcalıklar gerekir. Bkz, <a class="xref" href="glibc-Users-and-Groups.html" title="30. Kullanıcılar ve Gruplar">Kullanıcılar ve Gruplar</a>.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-clock_settime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">clock_settime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">clockid_t </code><strong><code class="parameter">clock</code></strong><strong><code>, </code></strong><code class="type">const struct timespec </code><strong class="type">*</strong><strong><code class="parameter">ts</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <em class="parameter"><code>clock</code></em> ile belirtilen saati *<em class="parameter"><code>ts</code></em> ile belirtilen basit takvim zamanına ayarlar.
+    </p>
+    <p>
+     Sistemin tüm saatleri değiştirilemez. Örneğin, <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saati değiştirilebilir (uygun ayrıcalıklarla), ancak <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_MONOTONIC"><strong class="varname"><code>CLOCK_MONOTONIC</code></strong></a> saati değiştirilemez.
+    </p>
+    <p>
+     Basit takvim zamanları saat diliminden bağımsız olduğu için, saat dilimi değiştiğinde (örn. bilgisayar fiziksel olarak bir bölgeden diğerine taşındığında) bu işlev kullanılmamalıdır. Bunun yerine, ??? bölümünde açıklanan oluşumlar kullanılmalıdır.
+    </p>
+    <p>
+     <code class="code">clock_settime</code> işlevi saatin ileri veya geri gitmesine neden olarak çeşitli sorunlara yol açabilir. Bazı sorunlardan kaçınmak için, <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saatinin <code class="code">clock_settime</code> ile değiştirilmesi, zamanlayıcıların ne zaman sona ereceğini (bkz. ???) veya uyuyan süreçlerin ne zaman uyandırılacağını (bkz. ???) etkilemez. Yine de, sistem çalışırken yapılan küçük değişiklikler için, bir zamandan diğerine yumuşak bir geçiş yapmak için <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> (aşağıda) kullanmak daha iyidir.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>clock</code></em> ile belirtilen saat desteklenmiyor veya hiç ayarlanamıyor veya *<em class="parameter"><code>ts</code></em> içindeki basit takvim zamanı geçersiz (örneğin, <code class="code">ts-&gt;tv_nsec</code> negatif veya 999.999.999'dan büyük).
+       </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Süreç, <em class="parameter"><code>clock</code></em> ile belirtilen saati ayarlamak için gereken izinlere sahip değil.
+       </p></dd></dl></div>
+   </div>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi:</h3>
+          <div class="admon-contents">
+            <p>
+     GNU C Kütüphanesinin eski sürümlerini kullanan sistemler de dahil olmak üzere bazı sistemlerde, <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-clock_settime"><strong class="function"><code>clock_settime</code></strong></a> işlevini kullanan yazılımların <code class="code">-lrt</code> kütüphanesiyle ilintilenmesi gerekir. GNU C Kütüphanesinin 2.17 sürümünden itibaren buna gerek kalmamıştır.
+    </p>
+          </div>
+        </div>
+        <p>
+    <span id="glibc-cp-high-precision" class="indexterm"></span>
+    <span id="glibc-cp-high-accuracy" class="indexterm"></span>
+    <span id="glibc-cp-disciplining" class="indexterm"></span>
+    <span id="glibc-pg-ftimex" class="indexterm"></span>
+    Uzun süre çalışır durumda kalan sistemlerde süreyi bir kez ayarlamak yeterli değildir; gerçek takvim zamanından uzaklaşmaması için saati <em class="emphasis">sıkı denetlemek</em> gerekir.
+   </p>
+        <p>
+    <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_gettime"><strong class="function"><code>ntp_gettime</code></strong></a> ve <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> işlevleri, sistem saatini izlemek ve denetlemek etmek için bir arayüz sağlar. Örneğin, saat tıklama hızına ince ayar yapılabilir ve saat geçici olarak hızlandırılarak veya yavaşlatılarak geçerli takvim zamanında sorunsuzca küçük ayarlamalar yapılabilir.
+   </p>
+        <p>
+    Bu işlevlerin adları ‘<code class="code">ntp_</code>’ ile başlar çünkü bunlar, sistem saatini diğer sistemlerin saatleriyle ve/veya harici yüksek hassasiyetli saat donanımıyla eşzamanlamak için Ağ Zaman Protokolünü uygulayan uygulamalar tarafından kullanılmak amacıyla tasarlanmıştır.
+   </p>
+        <p>
+    Bu işlevler ve kullandıkları sabitler ve yapılar, <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-ntptimeval" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">ntptimeval</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu yapı sistem saati hakkında bilgi edinmek için kullanılır. Aşağıdaki üyeleri içerir:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">struct timeval </code><strong class="structfield"><code>time</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <code class="code">gettimeofday</code> ile alınmış geçerli takvim zamanı. <a href="glibc-Time-Types.html#glibc-tp-timeval"><strong class="type"><code>struct timeval</code></strong></a> türü <a class="xref" href="glibc-Time-Types.html" title="21.2. Zaman Veri Türleri"><em>Zaman Veri Türleri</em></a> bölümünde açıklanmıştır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>maxerror</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Mikrosaniye cinsinden ölçülen azami hatadır. Düzenli olarak <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> aracılığıyla güncellenmediği sürece, bu değer platforma özgü bazı azami değere ulaşacaktır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>esterror</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Mikrosaniye cinsinden ölçülen tahmini hatadır. Bu değer, sistem saatinin gerçek takvim saatinden tahmini sapmasını belirtmek için <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> tarafından değiştirilebilir.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ntp_gettime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ntp_gettime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct ntptimeval </code><strong class="type">*</strong><strong><code class="parameter">tptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">ntp_gettime</code> işlevi <em class="parameter"><code>tptr</code></em> ile gösterilen yapıyı günceller. Bundan sonra yapının üyeleri, çekirdekteki zamanlayıcı gerçekleniminin varsaydığı değerleri içerir. Bunlar doğru olabilir veya olmayabilir. Değilse, <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> çağrısı gerekir.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+     <span id="glibc-vr-TIME_ERROR" class="indexterm"></span>
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">TIME_ERROR</code></span></dt><dd><p>
+        Hassas saat modeli şu anda doğru şekilde kurulmamıştır, bu nedenle saatin eşzamanlı olmadığı kabul edilmeli ve değerler dikkatle ele alınmalıdır.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-timex" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">timex</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu yapı, sistem saatini denetlemek ve izlemek için kullanılır. Aşağıdaki üyeleri içerir:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">unsigned int </code><strong class="structfield"><code>modes</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Bu değişken, hangi değerlerin ayarlanıp ayarlanmadığını denetler. Etkili kipi belirtmek için birkaç simgesel sabitin ikil VEYAlanması gerekir. Bu sabitler <code class="code">MOD_</code> ile başlar.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>offset</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_OFFSET" class="indexterm"></span>
+        <span id="glibc-vr-MAXPHASE" class="indexterm"></span>
+        Bu değer, sistem saatinin gerçek takvim zamanından geçerli sapmasını gösterir. Değer mikrosaniye cinsinden verilir. <code class="code">modes</code> üyesinde <code class="code">MOD_OFFSET</code> biti varsa, bu üyeye  (ve muhtemelen bağımlı diğer üyelere) atama yapılabilir. Atanan mutlak değer <code class="code">MAXPHASE</code> değerini aşmamalıdır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>frequency</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_FREQUENCY" class="indexterm"></span>
+        <span id="glibc-vr-MAXFREQ" class="indexterm"></span>
+        Bu değer, gerçek takvim zamanı ile sistem saati arasındaki frekans farkını gösterir. Değer, ölçeklendirilmiş PPM (milyonda bir, %0,0001) olarak ifade edilir. Ölçeklendirme <code class="code">1 &lt;&lt; SHIFT_USEC</code>'dir. Değer, <code class="code">MOD_FREQUENCY</code> biti ile ayarlanabilir, ancak mutlak değer <code class="code">MAXFREQ</code> değerini aşmamalıdır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>maxerror</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_MAXERROR" class="indexterm"></span>
+        Mikrosaniye cinsinden ölçülen azami hatadır. Değer <code class="code">MOD_MAXERROR</code> biti kullanılarak ayarlanabilir. Düzenli aralıklarla <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> aracılığıyla güncellenmediği sürece, bu değer istikrarlı bir şekilde artarak platforma özgü azami değere ulaşacaktır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>esterror</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_ESTERROR" class="indexterm"></span>
+        Mikrosaniye cinsinden ölçülen tahmini hatadır. Değer <code class="code">MOD_ESTERROR</code> biti kullanılarak ayarlanabilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>status</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_STATUS" class="indexterm"></span>
+        Bu değişken, saat düzeneğinin çeşitli durumlarını yansıtır. Önemli bitler için <code class="code">STA_</code> ile başlayan simgesel sabitler vardır. Bu bitlerin bazıları <code class="code">MOD_STATUS</code> biti kullanılarak güncellenebilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>constant</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MOD_TIMECONST" class="indexterm"></span>
+        Bu değer, çekirdekte gerçeklenen PLL'nin (faz kilitli döngü) bant genişliğini veya kesinliğini temsil eder. Değer, <code class="code">MOD_TIMECONST</code> biti kullanılarak değiştirilebilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>precision</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu değer, sistem saatini okurken doğruluğu veya azami hatayı temsil eder. Değer mikrosaniye cinsinden ifade edilir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>tolerance</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu değer, ölçeklendirilmiş PPM (milyonda bir, %0,0001) olarak sistem saatinin azami frekans hatasını temsil eder. Bu değer, azami hatayı her saniye artırmak için kullanılır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">struct timeval </code><strong class="structfield"><code>time</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Geçerli takvim zamanı.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>tick</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Mikrosaniye cinsinden saat tıklamaları arasındaki süre. Saat tıklaması, sistem saatinin dayandığı düzenli zamanlayıcı kesintisidir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>ppsfreq</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Sistem saatini sıkı denetlemek için PPS (saniyede darbe) sinyali kullanılabildiğinde mevcut olan birkaç isteğe bağlı değişkenden ilkidir. Değer, ölçeklendirilmiş PPM (milyonda bir, %0,0001) cinsinden ifade edilir ve sistem saati ile PPS sinyali arasındaki frekans farkını gösterir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>jitter</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu değer, PPS sinyalinin mikrosaniye cinsinden dağılımının ortancayı süzen ortalamasını ifade eder.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>shift</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-PPS_SHIFT" class="indexterm"></span>
+        <span id="glibc-vr-PPS_SHIFTMAX" class="indexterm"></span>
+        (salt-okunur) Bu değer, PPS kalibrasyon aralığının süresi için <code class="code">PPS_SHIFT</code> ile <code class="code">PPS_SHIFTMAX</code> arasında değişen ikil üstür.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>stabil</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu değer, ölçeklendirilmiş PPM (milyonda bir) olarak PPS (saniyede darbe) frekansının ortancayı yok sayan dağılımını temsil eder.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>jitcnt</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-vr-MAXTIME" class="indexterm"></span>
+        (salt-okunur) Bu sayaç, titreşimin izin verilen azami <code class="code">MAXTIME</code> değerini aşan darbe sayısını temsil eder.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>calcnt</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu sayaç, başarılı kalibrasyon aralıklarının sayısını yansıtır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>errcnt</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu sayaç, kalibrasyon hatalarının (büyük sapmalar veya titreklik nedeniyle) sayısını yansıtır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>stbcnt</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        (salt-okunur) Bu sayaç, kararlılığın eşiği aştığı kalibrasyon sayısını gösterir.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ntp_adjtime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ntp_adjtime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct timex </code><strong class="type">*</strong><strong><code class="parameter">tptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">ntp_adjtime</code> işlevi <em class="parameter"><code>tptr</code></em> ile belirtilen yapıyı geçerli değerlerle günceller.
+    </p>
+    <p>
+     Güncelenecek üyeleri seçmek için *<em class="parameter"><code>tptr</code></em> yapısının <code class="code">modes</code> üyesi kullanılır. Kullanıcı tarafından güncellenebilecek üyeler: <code class="code">offset</code>, <code class="code">freq</code>, <code class="code">maxerror</code>, <code class="code">esterror</code>, <code class="code">status</code>, <code class="code">constant</code>, <code class="code">tick</code>.
+    </p>
+    <p>
+     <code class="code">modes = 0</code> hiçbir değişiklik yapılmadığı anlamına gelir.
+    </p>
+    <p>
+     Yalnız ayrıcalıklı kullanıcı (root) yapıyı güncelleyebilir.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">TIME_ERROR</code></span></dt><dd><p>
+        Yüksek doğruluklu saat modeli henüz düzgün şekilde kurulmamıştır, bu nedenle saatin eşzamanlı olmadığı kabul edilmeli ve değerler dikkatle ele alınmalıdır. Başka bir neden, belirtilen yeni değerlere izin verilmemesi olabilir.
+       </p></dd><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Süreç bir ayar güncellemesi belirledi, ancak ayrıcalıklı kullanıcı değil.
+       </p></dd></dl></div>
+    <p>
+     Ayrıntlar için RFC1305 (Ağ Zaman Protokolü, 3. sürüm) ve ilgili belgelere bakılabilir.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+      GNU C Kütüphanesinin ilk sürümleri bu işlevi <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-adjtimex"><strong class="function"><code>adjtimex</code></strong></a> ismiyle içeriyordu.
+     </p></div></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-adjtime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/time.h;hb=HEAD" target="_top">sys/time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">adjtime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct timeval </code><strong class="type">*</strong><strong><code class="parameter">delta</code></strong><strong><code>, </code></strong><code class="type">struct timeval </code><strong class="type">*</strong><strong><code class="parameter">olddelta</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">ntp_adjtime</code> işlevinin bu daha basit sürümü, sistem saatini küçük bir miktar düzeltmek için kısa bir süre için hızlandırır veya yavaşlatır. Bu, <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saati tarafından bildirilen takvim zamanında değişiklik gereksinimlerini, saatin doğru olması için daha uzun süre beklemek pahasına önler.
+    </p>
+    <p>
+     <em class="parameter"><code>delta</code></em> bağımsız değişkeni, saat zamanında yapılacak göreli bir ayarlamayı belirtir. Negatif ise sistem saati bu kadar süreyi kaybedene kadar bir süre yavaşlatılır. Pozitif ise sistem saati bir süreliğine hızlanır.
+    </p>
+    <p>
+     <em class="parameter"><code>olddelta</code></em> bağımsız değişkeni boş gösterici değilse, <code class="code">adjtime</code> işlevi, henüz tamamlanmamış herhangi bir önceki zaman ayarlaması hakkında bilgi döndürür.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Süreç <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saatini ayarlamak için gereken ayrıcalıklara sahip değil.
+       </p></dd></dl></div>
+   </div>
+        <p>
+    Uyumluluk için, GNU C Kütüphanesi ayrıca sistem zamanını denetlemek için birkaç eski işlev sağlar. Yeni yazılımlar yukarıdaki işlevleri kullanmayı tercih etmelidir.
+   </p>
+        <div class="csynopsis"><div class="cstype"> atıl işlev</div>
+    <span id="glibc-fn-stime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">stime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const time_t </code><strong class="type">*</strong><strong><code class="parameter">newtime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> takvim zamanını *<em class="parameter"><code>newtime</code></em> ile belirtilen basit takvim zamanına günceller. Zamanın bir saniye doğrulukla ayarlanabilmesi dışında ‘<code class="code">clock_settime (CLOCK_REALTIME)</code>’ çağrısıyla tamamen aynıdır.
+    </p>
+    <p>
+     Bu işlev artık GNU sistemlerinde mevcut değildir, ancak çok eski Unix sistemlerinde zamanı ayarlamanın tek yolu bu olabilir, bu yüzden onu belgelenmeye devam edilmektedir. Varsa, <code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code> başlık dosyasında bildirilir.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Süreç <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saatini ayarlamak için gereken ayrıcalıklara sahip değil.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype"> atıl işlev</div>
+    <span id="glibc-fn-adjtimex" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/timex.h;hb=HEAD" target="_top">sys/timex.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">adjtimex</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct timex </code><strong class="type">*</strong><strong><code class="parameter">timex</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">adjtimex</code> işlevi <a href="glibc-Setting-and-Adjusting-the-Time.html#glibc-fn-ntp_adjtime"><strong class="function"><code>ntp_adjtime</code></strong></a> işlevinin eski adıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype"> atıl işlev</div>
+    <span id="glibc-fn-settimeofday" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/time.h;hb=HEAD" target="_top">sys/time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">settimeofday</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const struct timeval </code><strong class="type">*</strong><strong><code class="parameter">tp</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">tzp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Geçerli takvim zamanını <em class="parameter"><code>tp</code></em> ile belirtilen değere ayarlar.
+    </p>
+    <p>
+     <em class="parameter"><code>tzp</code></em> boş gösterici ise, zamanın bir mikrosaniye doğrulukla ayarlanabilmesi dışında ‘<code class="code">clock_settime (CLOCK_REALTIME)</code>’ çağrısıyla tamamen aynıdır.
+    </p>
+    <p>
+     <em class="parameter"><code>tzp</code></em> boş gösterici değilse, içerdiği veri mevcut saat dilimi hakkında sistem çapında bir fikir oluşturmak için kullanılabilir. Bu özellik artık kullanılmamakta olup GNU sistemlerinde desteklenmemektedir. <em class="parameter"><code>tzp</code></em> her zaman boş gösterici olmalıdır. Bunun yerine, zaman dilimleriyle çalışmak için ??? ve <a class="xref" href="glibc-Broken-down-Time.html" title="21.5.3. Dökümlü Zaman">Dökümlü Zaman</a> bölümlerinde açıklanan oluşumlar kullanılmalıdır.
+    </p>
+    <p>
+     Başarı durumunda <code class="code">0</code>, aksi takdirde <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EPERM</code></span></dt><dd><p>
+        Süreç <a href="glibc-Getting-the-Time.html#glibc-vr-CLOCK_REALTIME"><strong class="varname"><code>CLOCK_REALTIME</code></strong></a> saatini ayarlamak için gereken ayrıcalıklara sahip değil.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        Ne <em class="parameter"><code>tp</code></em> ne de <em class="parameter"><code>tzp</code></em> boş gösterici. (Tarihsel nedenlerden dolayı, aynı çağrıda geçerli zamanı ve geçerli saat dilimini ayarlamak mümkün değildir.)
+       </p></dd><dt><span class="term"><code class="code">ENOSYS</code></span></dt><dd><p>
+        İşletim sistemi saat dilimi bilgisinin tanımlanmasını desteklemiyor ve <em class="parameter"><code>tzp</code></em> boş gösterici değil.
+       </p></dd></dl></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.3. Posta Aktarım Harekâtı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s32.html')">Önceki</button>
+          <div class="dropdown-content">3.2. İstemci İlklendirme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s34.html')">Sonraki</button>
+          <div class="dropdown-content">3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s33">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.3. Posta Aktarım Harekâtı</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+SMTP posta aktarım harekatı üç aşamada gerçekleşir. Harekat, göndericiyi tanıtan bir <code class="code">MAIL</code> komutu ile başlar. (Genelde, <code class="code">MAIL</code> komutu sadece hiçbir posta aktarımı olmayacağı zaman da gönderilebilir; bkz, <a class="xref" href="rfc2821-s41.html#rfc2821-s414" title="4.1.4. Komutların Sırası">Komutların Sırası</a>.) Bunu alıcıların bilgilerini veren bir veya daha fazla <code class="code">RCPT</code> komutu izler. Ardından da posta verisinin aktarımını başlatıp sonunda "posta sonu" veri belirteci ile aktarımı sonlandırmakla ayrıca aktarım onayını da sağlayan <code class="code">DATA</code> komutu gelir.
+</p>
+        <p>
+Süreçteki ilk adım <code class="code">MAIL</code> komutudur.
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced"><code class="code">MAIL FROM:</code>&lt;<em class="emphasis">dönüş-yolu</em>&gt; [ BOŞKRK &lt;<em class="emphasis">posta-bağımsız değişkenleri</em>&gt; ] &lt;CRLF&gt;
+</pre>
+        <p>
+   </p>
+        <p>
+Bu komut SMTP alıcısına yeni bir posta aktarım harekâtının başladığını, alıcılar ve posta verisi dahil olmak üzere tüm durum tablolarını ve tamponları sıfırlamasını söyler. &lt;<em class="replaceable"><code>dönüş-yolu</code></em>&gt; kısmı ilk, belki de tek bağımsız değişkendir ve hataları raporlamakta kullanılacak kaynak posta kutusunu ( "&lt;" ve "&gt;" arasında) içerir (hataları raporlama ile ilgili olarak <a class="xref" href="rfc2821-s42.html" title="4.2. SMTP Yanıtları">SMTP Yanıtları</a> bölümüne bakınız). Eğer kabul edilirse, SMTP sunucusu bir 250 OK yanıtı gönderir. <span class="rfcmust">Eğer posta kutusu belirtimi bazı sebeplerle kabul edilebilir değilse, sunucu hatanın kalıcı mı yoksa geçici mi olduğunu belirten bir yanıt vermelidir *ZORUNLU*</span>  (kalıcı ise kalıcı olduğunu belirtmelidir ki, istemci aynı adresi tekrar denerse hatanın tekrarlanacağını bilsin; geçici ise geçici oluğunu belirtmelidir ki, istemci bir süre sonra tekrar denediğinde postanın kabul edilebileceğini bilsin). Bu gereksinimin böylesine apaçık oluşuna rağmen, dönüş yolunun kabul edilebilirliğinin bir veya daha fazla sevk yolu (<code class="code">RCPT</code> komutlarında bulunur) incelenebilir olana kadar saptanabilir olmayacağı bazı durumlar vardır. Bu durumlarda, <span class="rfcmaybe">sunucu makul olanı yapıp dönüş yolunu (bir 250 yanıtı ile) kabul edebilir ve sevk yollarını alıp inceledikten sonra sorunu raporlayabilir *SEÇİMLİK*</span>. Normalde, başarısızlık 550 ve 553 yanıtları üretir.
+</p>
+        <p>
+Tarihsel olarak, <span class="rfcshould">&lt;<em class="replaceable"><code>dönüş-yolu</code></em>&gt; tek bir posta kutusundan fazlasını içerebilir, ancak, çağdaş sistemler kaynak yönlendirmesini kullanmasalar iyi olur *ÖNERİ*</span> (bkz, <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a>).
+</p>
+        <p>
+İsteğe bağlı &lt;<em class="replaceable"><code>posta-bağımsız değişkenleri</code></em>&gt; uzlaşılacak SMTP hizmet eklentileri ile ilgilidir (bkz, <a class="xref" href="rfc2821-s22.html" title="2.2. Eklenti Modeli">Eklenti Modeli</a>).
+</p>
+        <p>
+Sürecin ikinci adımını <code class="code">RCPT</code> komutu oluşturur.
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced"><code class="code">RCPT TO:</code>&lt;<em class="emphasis">sevk-yolu</em>&gt; [ BOŞKRK &lt;<em class="emphasis">alım-bağımsız değişkenleri</em>&gt; ] &lt;CRLF&gt;
+</pre>
+        <p>
+   </p>
+        <p>
+Bu komutun ilk, belki de tek bağımsız değişkeni bir alıcıyı betimleyen sevk yolunu içerir (normalde, bir posta kutusu ve alan'dan oluşur ve daima "&lt;" ile "&gt;" arasında belirtilir). Eğer kabul edilirse, SMTP sunucusu bir 250 OK yanıtı gönderir ve sevk yolunu bir yere kaydeder. Eğer alıcının teslimat yapılabilir bir adres olmadığı biliniyorsa, SMTP sunucusu bir 550 koduyla genellikle posta kutusu için "no such user - " (böyle bir kullanıcı yok - ...) gibisinden bir dizge içeren bir yanıt yollar (başka durumlar ve yanıt kodları mümkündür). Harekâtın bu aşaması defalarca yinelenebilir.
+</p>
+        <p>
+&lt;<em class="replaceable"><code>sevk-yolu</code></em>&gt; tek bir posta kutusundan fazlasını içerebilir. Tarihsel olarak, <span class="rfcshould">&lt;<em class="replaceable"><code>sevk-yolu</code></em>&gt; konakların ve hedef posta kutularının oluşturduğu bir kaynak yönlendirme listesi olabilir, yine de, çağdaş SMTP istemcileri kaynak rotaları dikkate almasalar daha iyi olur *ÖNERİ*</span> (bkz, <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a>). <span class="rfcmust">Sunucuların bir kaynak rota listesi karşılamaya hazır olmalarının gerekmesine *ZORUNLU*</span> karşın, <span class="rfcshould">bu rotaları yoksaymaları daha iyidir *ÖNERİ*</span>, <span class="rfcmaybe">hatta ifade ettikleri rölelemeyi desteklemeyi reddedebilir *SEÇİMLİK*</span>. Benzer şekilde, <span class="rfcmaybe">sunucular başka konakları ve sistemleri hedefleyen postaları kabul etmeyi reddedebilir *SEÇİMLİK*</span>. Bu kısıtlamalar bir sunucuyu, SMTP işlevselliğini tamamen desteklemeyen istemciler için bir röle olarak kullanışsız yapar. Sonuç olarak, <span class="rfcmust">yetenekleri kısıtlı istemciler, Genel Ağ'daki herhangi bir SMTP sunucusunu kendi posta işleme (röleleme) siteleri gibi kullanabileceklerini varsaymamalıdır *ZORUNLU*</span>. <span class="rfcmust">Eğer bir <code class="code">RCPT</code> komutu evveliyatında bir <code class="code">MAIL</code> komutu olmaksızın alınmışsa, sunucunun 503 koduyla bir "Bad sequence of commands" (Komut sıralaması hatalı) yanıtı vermesi gerekir *ZORUNLU*</span>. İsteğe bağlı &lt;<em class="replaceable"><code>alım-bağımsız değişkenleri</code></em>&gt; uzlaşılacak SMTP hizmet eklentileri ile ilgilidir (bkz, <a class="xref" href="rfc2821-s22.html" title="2.2. Eklenti Modeli">Eklenti Modeli</a>).
+</p>
+        <p>
+Sürecin üçüncü adımını <code class="code">DATA</code> komutu oluşturur (veya bir hizmet eklentisinde belirtilmiş bir eşdeğeri).
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced"><code class="code">DATA</code> &lt;CRLF&gt;
+</pre>
+        <p>
+   </p>
+        <p>
+Kabul edilirse, SMTP sunucu 354 koduyla bir aracı yanıt gönderir ve tüm başarılı satırların üstesinden gelebileceğini fakat ileti metninde olası bir posta verisi sonu belirtecinin buna dahil olmadığını varsayar. Metin sonu başarılı şekilde alındığında ve kaydedildiğinde SMTP alıcısı 250 OK yanıtını gönderir.
+</p>
+        <p>
+Posta verisi aktarım kanalı üzerinden gönderildiğinden, posta verisi sonu belirtilmelidir ki, komut ve yanıt alışverişi kaldığı yerden devam edebilsin. SMTP, posta verisinin sonunu sadece tek bir nokta (".") içeren bir satır göndererek belirtir. Bunun kullanıcı metniyle etkileşime girmesini engellemek için şeffaf bir yordam kullanılır (bkz, <a class="xref" href="rfc2821-s45.html#rfc2821-s452" title="4.5.2. Şeffaflık">Şeffaflık</a>).
+</p>
+        <p>
+Posta verisi sonu belirteci ayrıca posta aktarımının onaylanması anlamına gelir ve SMTP sunucusuna kayıtlı alıcıları ve posta verisini artık işleme sokmasını söyler. Kabul edilirse, SMTP sunucu bir 250 OK yanıtı gönderir. <code class="code">DATA</code> komutu protokol alışverişinde sadece iki noktada başarısız olabilir:
+</p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p><span class="rfcmaybe">Ne <code class="code">MAIL</code> ne de <code class="code">RCPT</code> komutu varsa veya böyle tüm komutlar reddedilmişse, sunucu <code class="code">DATA</code> komutuna yanıt olarak 503 koduyla bir "command out of sequence" (komut sıra dışı) veya 554 koduyla bir "no valid recipients" (alıcılar geçersiz) yanıtı gönderebilir *SEÇİMLİK*</span>. <span class="rfcmust">Bu yanıtlardan biri (veya 5<em class="replaceable"><code>yz</code></em> kodlu başka bir yanıt) alındığında, istemcinin ileti verisini göndermemesi gerekir *ZORUNLU*</span>; daha genel olarak, <span class="rfcmust">ileti verisi bir 354 yanıtı alınmadıkça gönderilmemelidir *ZORUNLU*</span>.
+</p>
+            </li>
+            <li class="listitem">
+              <p>
+Eğer fiil baştan kabul edilmiş ve 354 yanıtı verilmişse, <code class="code">DATA</code> komutu sadece, posta aktarımı tamamlanmamışsa (örn, alıcılar yoktur) veya özkaynaklar kullanımdışıysa (sunucunun beklenmedik şekilde kullanımdışı kalmasını da dahil ederek) ya da iletinin kural ihlali veya başka bir sebeple reddedildiği sunucu tarafından saptanmışsa başarısız sayılır.
+</p>
+            </li>
+          </ul>
+        </div>
+        <p>
+Bununla birlikte, bazı sunucular uygulamada, ileti metni alınana kadar alıcı varlık doğrulaması yapmaya çalışmaz. <span class="rfcshould">Bu sunucular bir veya daha fazla alıcı için bir başarısızlığı bir "ardçıl başarısızlık" olarak ele almaları ve <a class="xref" href="rfc2821-s6.html" title="6. Sorun Saptama ve Giderme">Sorun Saptama ve Giderme</a> bölümünde açıklandığı gibi bir posta iletisi göndermeleri daha iyi olur *ÖNERİ*</span>. "550 mailbox not found" (posta kutusu yok) veya eşdeğeri bir yanıt kodunun veri kabul edildikten sonra kullanımı, istemci açısından hangi alıcının başarısız olduğunun saptanmasını zor hatta imkansız hale getirir.
+</p>
+        <p>
+RFC 822 biçimi [<a class="xref" href="rfc2821-s9.html#rfc2821-bib7" title="Standard for the Format of ARPA Internet Text Messages">7</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>] kullanıldığında, posta verisi bilgi neviinden <code class="code">Date, Subject, To, Cc, From</code> gibi başlık öğeleri içerir. Sunucu SMTP sistemleri,  <span class="rfcshould">RFC 822 veya MIME [<a class="xref" href="rfc2821-s9.html#rfc2821-bib12" title="Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies">12</a>] ileti başlığı veya ileti gövdesindeki farkedilir kusurlara dayalı iletileri reddetmeseler iyi olur *ÖNERİ*</span>. Özellikle, <span class="rfcmust"><code class="code">Resent-fields</code> sayısının uyuşmadığı veya <code class="code">Resent-to</code>'nun <code class="code">Resent-from</code> ve/veya <code class="code">Resent-date</code> olmaksızın göründüğü iletileri reddetmemeleri gerekir *ZORUNLU*</span>.
+</p>
+        <p><span class="rfcmust">Posta aktarım harekâtı komutları yukarıdaki sırasıyla kullanılmalıdır *ZORUNLU*</span>.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

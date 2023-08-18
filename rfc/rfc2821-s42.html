@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.2. SMTP Yanıtları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s41.html')">Önceki</button>
+          <div class="dropdown-content">4.1. SMTP Komutları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s4.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s43.html')">Sonraki</button>
+          <div class="dropdown-content">4.3. Komutların ve Yanıtların Sıralanışı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s42">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">4.2. SMTP Yanıtları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+SMTP komutlarının yanıtları, posta aktarım işlemindeki isteklerin ve eylemlerin eşzamanlanmasının temini ve SMTP istemcisinin SMTP sunucusunun durumunu daima bilmesini garantilemek için kullanılırlar. <span class="rfcmust">Her komutun sadece ve sadece bir yanıt üretmesi gerekir *ZORUNLU*</span>.
+</p>
+        <p>
+Komut-yanıt dizilimlerinin ayrıntıları <a class="xref" href="rfc2821-s43.html" title="4.3. Komutların ve Yanıtların Sıralanışı">Komutların ve Yanıtların Sıralanışı</a> bölümünde açıklanmıştır.
+</p>
+        <p>
+Bir SMTP yanıtı bu belgede aksi belirtilmiş olmadıkça, üç rakamlı bir sayıyı (üç tane sayısal karakter olarak aktarılır) izleyen bir metinden oluşur. Sayı bilgisayar tarafından geçilecek durumu saptamak için, metin ise insan kullanıcılar içindir. 3 rakam, SMTP istemcisinin metni incelemeksizin kullanıcıya mı aktaracağı yoksa iptal mi edeceğine karar verebilmesine yetecek kadar kodlanmış bilgiyi içerir. İstisnalara bu belgenin çeşitli yerlerinde dikkat çekilmiştir. Kısmen, 220, 221, 251, 421 ve 551 yanıt kodları, makineler tarafından çözümlenip yorumlanması gereken ileti metinleriyle ilgilidir. Genel durumda ise, metin alıcıya bağımlı ve bağlama bağımlı olabilir, bu yüzden her yanıt kodu için metnin değişmesi sözkonusu olabilir. Yanıt kodları teorisinin açıklaması <a class="xref" href="rfc2821-s42.html#rfc2821-s421" title="4.2.1. Yanıt Kodlarının Önemleri ve Kuram">Yanıt Kodlarının Önemleri ve Kuram</a> bölümünde verilmiştir. Biçimsel olarak bir yanıt bir dizilim olarak tanımlanmıştır: üç rakamlık bir kod, <code class="literal">&lt;BOŞKRK&gt;</code>, metnin bir satırı ve <code class="literal">&lt;CRLF&gt;</code> ya da çok satırlı bir yanıt (<a class="xref" href="rfc2821-s42.html#rfc2821-s421" title="4.2.1. Yanıt Kodlarının Önemleri ve Kuram">Yanıt Kodlarının Önemleri ve Kuram</a> bölümünde tanımlandığı gibi). <span class="rfcshould">Bu belirtimle çelişerek metin bazan gönderilmediğinden, metni almayan istemciler kodu tek başına (bir boşluk karakteri içersin içermesin) işlemeye hazırlıklı olmalıdır *ÖNERİ*</span>. Sadece <code class="code">EHLO</code>, <code class="code">EXPN</code> ve <code class="code">HELP</code> komutlarının normal koşullarda çok satırlı yanıtlarla sonuçlanması beklenirse de, çok satırlı yanıtlara her komutta izin verilmektedir.
+</p>
+        <p>
+ABNF gösterimiyle sunucunun yanıtları:
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced">
+    Karşılama = "220 " Alan [ BOŞKRK metin ] CRLF
+ Yanıt-satırı =  Yanıt-kodu [ BOŞKRK metin ] CRLF
+</pre>
+        <p>
+   </p>
+        <p>
+sadece 220 yanıtının göründüğü "Karşılama" iletisi ile sunucu, bağlantının kendine düşen parçasını açtığını duyurmuş olur.
+</p>
+        <p><span class="rfcshould">Bir SMTP sunucusu sadece bu belgede listelenen yanıt kodlarını göndermeli *ÖNERİ*</span> ve <span class="rfcshould">uygun düştükçe örneklerde gösterilen metinleri kullanmalıdır *ÖNERİ*</span>.
+</p>
+        <p><span class="rfcmust">Bir SMTP istemcisi eylemini metne bakarak değil sadece yanıt koduna bakarak saptamalıdır *ZORUNLU*</span> ("adres değişikliği" için olan 251 ve 551 ile gerekliyse 220, 221 ve 421 yanıtları hariç); <span class="rfcmust">genel durumda,  hiç metin bulunmaması halini de içererek her metin kabul edilebilmelidir *ZORUNLU*</span>(<span class="rfcshould">göndericiler çıplak kodlar göndermemelidir *ÖNERİ*</span> dense de). Yanıt kodundan sonra gelen boşluk metnin parçası olarak kabul edilir. <span class="rfcshould">Mümkün olduğunca, bir alıcı SMTP sistemi yanıt kodunun ilk rakamını (önem belirteci) sınamalıdır *ÖNERİ*</span>.
+</p>
+        <p><span class="rfcmust">Aşağıda bulunan kodların listesi kalıcıymış gibi yorumlanmamalıdır *ZORUNLU*</span>. Yanıtın metinsel kısmındaki tamamlayıcı bilginin tercih edilmesiyle birlikte yeni kodların eklenmesi nadir ve önemli bir etkinlik olduğu sürece,  yeni standartların ya da standartlaşma aşamalarındaki belirtimlerin sonucu olarak yeni kodlar eklenebilir. <span class="rfcmust">Sonuç olarak, bir gönderici SMTP sistemi bu belgede belirtilmemiş kodlarla çalışmaya hazırlıklı olmalı *ZORUNLU*</span> ve <span class="rfcmust">sadece ilk rakamı yorumlayarak gereğini yapmalıdır *ZORUNLU*</span>.
+</p>
+        <section class="sect3" id="rfc2821-s421">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.2.1. Yanıt Kodlarının Önemleri ve Kuram</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Yanıtın üç rakamının her birinin özel bir önemi vardır. İlk rakam yanıtın iyi mi, kötü mü yoksa eksik mi olduğunu belli eder. Aşırı karmaşıklaşmamış veya beklenmedik bir kod alan bir SMTP istemcisi bu ilk rakamı inceleyerek yapacağı eylemi (planlı işlem, yeniden yapma, kısıntı, vb. gibi) saptayabilecektir. Ne çeşit hata oluştuğunu (posta sistemi hatası, komut sözdizimi hatası, vb. gibi) yaklaşık olarak bilmek isteyen bir SMTP istemcisi, ikinci rakamı inceleyebilir. Üçüncü rakam ve mevcut olabilecek bütünleyici her bilgi, bilginin eniyi derecelenmesi için ayrılmıştır.
+</p>
+          <p>
+Yanıt kodunun ilk rakamı için beş değer vardır:
+</p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><code class="code">1</code><em class="replaceable"><code>yz</code></em> Ön Hazırlık Olumlu yanıtı</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Komutun kabul edilmiş olduğunu ama istenen eylemin askıda tutulduğunu, bu yanıttaki bilginin doğrulanmasının bekletildiğini belirtir. SMTP istemcisi eylemin sürdürüleceğini mi yoksa bırakılacağını mı belirten başka bir komut göndermelidir. Bilgi: Eklentisiz SMTP'nin yanıtın bu türüne izin veren komutları yoktur ve dolayısıyla devam veya terk komutlarına da sahip değildir.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">2</code><em class="replaceable"><code>yz</code></em> Tamamlama Olumlu yanıtı</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+İstenen eylem başarıyla tamamlanmıştır. Yeni bir istek başlatılabilir.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">3</code><em class="replaceable"><code>yz</code></em> Araişlem Olumlu yanıtı</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Komut kabul edilmiştir, fakat istenen eylem askıya alınmış olup bu bilginin alındısı bekletilmektedir. SMTP istemcisi bu bilgiyi belirten başka bir komut göndermelidir. Bu yanıt sıralı komut gruplarında (örn, <code class="code">DATA</code>) kullanılır.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">4</code><em class="replaceable"><code>yz</code></em> Geçici Tamamlama Olumsuz yanıtı</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Komut kabul edilmemiş ve istenen eylem gerçekleşmemiştir.  Ancak, hata durumu geçicidir ve eylem yeniden talep edilebilir. Gönderici (varsa) komut sırasının başına dönmelidir. "Geçici" için bir anlam atamak, her iki tarafın da (alıcı ve gönderici SMTP sistemleri) yorumda hemfikir olması gerektiğinde zordur. Bu kapsamdaki her yanıt farklı bir zaman değerine sahip olabilir, fakat SMTP sunucusu tekrar denemesi için teşvik edilir. Bir yanıtın <code class="code">4</code><em class="replaceable"><code>yz</code></em> ya da <code class="code">5</code><em class="replaceable"><code>yz</code></em> (aşağıya bakınız) sınıfına girip girmediğini saptamanın ana kuralı, gönderici veya alıcının özelliklerinde veya komut biçiminde değişiklik yapmaksızın  yinelenebilirse başarılı olma şansı varsa (yani, komut aynen yinelenir ve alıcı yeni bir gerçeklenim ortaya koymaz), bu yanıtlar <code class="code">4</code><em class="replaceable"><code>yz</code></em> yanıtlarıdır, şeklindedir.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><code class="code">5</code><em class="replaceable"><code>yz</code></em> Kalıcı Tamamlama Olumsuz yanıtı</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Komut kabul edilmemiş ve istenen eylem gerçekleşmemiştir. SMTP istemcisi aynı isteği (aynı sırayla) yinelemekten vazgeçirilir.  Hatta bazı "kalıcı" hata durumları doğrulanabilir, böylece insan kullanıcı, SMTP istemcisinden, gelecekteki bir anda doğrudan bir eylemin sonucu olarak komut sırasını yeniden başlatmasını isteyebilir (örneğin, yazılışta veya kullanıcının hesap bilgilerinde değişiklik olduğunda).
+</p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+İkinci rakam yanıtları belli sınıflara kodlar:
+</p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><em class="replaceable"><code>x</code></em><code class="code">0</code><em class="replaceable"><code>y</code></em>  Sözdizimi:</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bu yanıtlar, başka bir işlevsel sınıfla örtüşmeyen sözdizimsel olarak yanlış komutlar, gerçeklenmemiş ya da gereksiz komutlar ve sözdizimi hataları ile ilgilidir.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><em class="replaceable"><code>x</code></em><code class="code">1</code><em class="replaceable"><code>y</code></em>  Bilgi:</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bunlar yardım veya durum bilgisi isteği gibi bilgi isteklerine yanıtlardır.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm"><em class="replaceable"><code>x</code></em><code class="code">2</code><em class="replaceable"><code>y</code></em>  Bağlantılar:</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bunlar aktarım kanalına atıfta bulunan yanıtlardır.
+</p>
+              </dd>
+              <dt>
+                <span class="glossterm">
+      <em class="replaceable"><code>x</code></em><code class="code">3</code><em class="replaceable"><code>y</code></em> Belirsiz.
+      <br /><em class="replaceable"><code>x</code></em><code class="code">4</code><em class="replaceable"><code>y</code></em> Belirsiz.
+      </span>
+              </dt>
+              <dd class="glossdef">
+                <p></p>
+              </dd>
+              <dt>
+                <span class="glossterm"><em class="replaceable"><code>x</code></em><code class="code">5</code><em class="replaceable"><code>y</code></em>  Posta sistemi:</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bu yanıtlar alıcı posta sisteminin istenen aktarımla veya başka bir posta sistemi eylemiyle karşı karşıya kaldığı durumu belirtir.
+</p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+Üçüncü rakam, ikincisi tarafından belirtilen sınıflamalara daha hassas dereceleme sağlar. Yanıtların listesi bunu en iyi gösteren yerdir. Her yanıt metni zorunludan ziyade önerileni belirtir ve hatta ilişkilendirildiği komuta göre değişebilir. Diğer taraftan, yanıt kodları kesinlikle bu bölümdeki belirtimleri takip etmelidir. Alıcı gerçeklenimleri, burada açıklanandan azcık farklı durumlarda zaten tanımlanmış olanlara uyum sağlamaktansa yeni kodlar uydurmamalıdır.
+</p>
+          <p>
+Örneğin, başarılı çalışması SMTP istemcisine yeni bir bilgi sunmayan <code class="code">NOOP</code> gibi bir komut bir 250 yanıtı döndürecektir.  Bir komut siteye özgü olmayan gerçeklenmemiş bir eylemi talep ettiğinde yanıt 502 olur. Gerçeklenmiş bir komuttan gerçeklenmemiş bir bağımsız değişken ile istekte bulunmanın cezası ise 504 yanıtıdır.
+</p>
+          <p>
+Yanıt metni tek bir satırdan daha uzun olabilir; bu gibi durumlarda, SMTP istemcisinin metnin tamamın elde etmek için nereye kadar okuyacağını belirtecek şekilde ileti metni imlenmelidir. Bu, çok satırlı bir yanıt belirten özel bir biçimi gerektirir.
+</p>
+          <p>
+Çok satırlı yanıt biçimi, son satır dışında bütün satırlar yanıt koduyle başlar, ardına bir tireden (eksi işareti diye de bilinir) sonra satır metni eklenir. Son satırda ise tire işaretinin yerini <code class="literal">&lt;BOŞKRK&gt;</code> (boşluk) alır ve metin isteğe bağlıdır. Satırların tamamı <code class="literal">&lt;CRLF&gt;</code> ile biter. Yukarıda da dikkat çekildiği gibi, <span class="rfcshould">sunucular, ardında bir metin bulunmasa bile <code class="literal">&lt;BOŞKRK&gt;</code> göndermelidir *ÖNERİ*</span>, <span class="rfcmust">fakat istemcilerin bunun yokluğuna karşı hazırlıklı olması gerekir *ZORUNLU*</span>.
+</p>
+          <p>Örneğin:</p>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+    123-ilk satir
+    123-ikinci satir
+    123-234 metin sayiyla basliyor
+    123 son satir
+</pre>
+          <p>
+    </p>
+          <p>
+Çoğu durumda SMTP istemcisi basitçe yanıt kodundan sonra <code class="literal">&lt;BOŞKRK&gt;</code> veya <code class="literal">&lt;CRLF&gt;</code> gelen satırı aramaya ihtiyaç duyar ve öncesindeki tüm satırları yoksayar. Sadece birkaç durumda, yanıt metninde istemci için önemli bilgi vardır. İstemci bu durumları o anki bağlamdan tespit etme konusunda yetkin olmalıdır.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s422">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.2.2. İşlev Gruplarına göre Yanıt Kodları</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+  500 Sözdizimi hatası, komut tanınmıyor
+      (Komut satırı çok uzun gibi hataları içerebilir)
+  501 Bağımsız değişken ya da bağımsız değişkenlerde sözdizimi hatası
+  502 Komut gerçeklenmedi (bkz, <a class="xref" href="rfc2821-s42.html#rfc2821-s424" title="4.2.4. 502 Yanıt Kodu">502 Yanıt Kodu</a>)
+  503 Komutların sırası hatalı
+  504 Komut bağımsız değişkeni gerçeklenmedi
+  211 Sistem durumu veya sistem yardımı yanıtı
+  214 Yardım iletisi
+      (Kullanım bilgisi veya standartdışı bir komutun anlamı;
+      bu yanıt sadece insan kullanıcılar için yararlıdır.)
+  220 &lt;alan&gt; Hizmete hazır
+  221 &lt;alan&gt; Hizmet, aktarım kanalını kapatıyor
+  421 &lt;alan&gt; Hizmete uygun değil, aktarım kanalı kapanıyor
+      (Hizmet kapatılmakta olduğunu biliyorsa bu yanıt herhangi bir
+       komuta verilebilir.)
+  250 İstenen posta eylemi başarıyla tamamlanmıştır
+  251 Kullanıcı yerel kullanıcı değil; &lt;sevk-yolu&gt; adresine sevkedilecek
+      (bkz, <a class="xref" href="rfc2821-s34.html" title="3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme">Adres Düzeltmek veya Güncellemek için Yönlendirme</a>)
+  252 VRFY için kullanıcı doğrulanamıyor, ama ileti kabul edilecek ve
+      teslim edilmeye çalışılacaktır
+      (bkz, <a class="xref" href="rfc2821-s35.html#rfc2821-s353" title="3.5.3. VRFY veya EXPN için Başarılı Yanıtın Anlamı"><code class="literal">VRFY</code> veya <code class="literal">EXPN</code> için Başarılı Yanıtın Anlamı</a>)
+  450 İstenen posta eylemi yerine getirilemedi: posta kutusu elverişli değil
+      (örn, posta kutusu meşgul)
+  550 İstenen eylem yerine getirilemedi: posta kutusu elverişli değil
+      (örn, posta kutusu bulunamadı, erişilemedi veya
+       kurallar gereği komut reddedildi)
+  451 İstenen eylem tamamlanmadı: işlem sırasında hata
+  551 Kullanıcı yerel kullanıcı değil; lütfen &lt;sevk-yolu&gt; adresini deneyin
+      (bkz, <a class="xref" href="rfc2821-s34.html" title="3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme">Adres Düzeltmek veya Güncellemek için Yönlendirme</a>)
+  452 İstenen eylem yerine getirilemedi: sistem kaynakları yetersiz
+  552 İstenen posta eylemi yerine getirilemedi: saklama alanı yetmiyor
+  553 İstenen eylem yerine getirilemedi: posta kutusu ismine izin yok
+      (örn, posta kutusu isminde sözdizimi hatası)
+  354 Posta girdisini başlat ve &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+  554 Aktarım başarısız oldu (Veya, bir bağlantı açılış yanıtında:
+      "Burada öyle bir SMTP hizmeti verilmiyor")
+</pre>
+          <p>
+    </p>
+        </section>
+        <section class="sect3" id="rfc2821-s423">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.2.3. Numara Sırasıyla Yanıt Kodları</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+  211 Sistem durumu veya sistem yardımı yanıtı
+  214 Yardım iletisi
+      (Kullanım bilgisi veya standartdışı bir komutun anlamı;
+      bu yanıt sadece insan kullanıcılar için yararlıdır.)
+  220 &lt;alan&gt; Hizmete hazır
+  221 &lt;alan&gt; Hizmet, aktarım kanalını kapatıyor
+  250 İstenen posta eylemi başarıyla tamamlanmıştır
+  251 Kullanıcı yerel kullanıcı değil; &lt;sevk-yolu&gt; adresine sevkedilecek
+      (bkz, <a class="xref" href="rfc2821-s34.html" title="3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme">Adres Düzeltmek veya Güncellemek için Yönlendirme</a>)
+  252 VRFY için kullanıcı doğrulanamıyor, ama ileti kabul edilecek ve
+      teslim edilmeye çalışılacaktır
+      (bkz, <a class="xref" href="rfc2821-s35.html#rfc2821-s353" title="3.5.3. VRFY veya EXPN için Başarılı Yanıtın Anlamı"><code class="literal">VRFY</code> veya <code class="literal">EXPN</code> için Başarılı Yanıtın Anlamı</a>)
+  354 Posta girdisini başlat ve &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+  421 &lt;alan&gt; Hizmete uygun değil, aktarım kanalı kapanıyor
+      (Hizmet kapatılmakta olduğunu biliyorsa bu yanıt herhangi bir
+       komuta verilebilir.)
+  450 İstenen posta eylemi yerine getirilemedi: posta kutusu elverişli değil
+      (örn, posta kutusu meşgul)
+  451 İstenen eylem tamamlanmadı: işlem sırasında hata
+  452 Talep edilen faaliyet alınamadı: yetersiz bellek alanı
+  500 Sözdizimi hatası, komut tanınmıyor
+      (Komut satırı çok uzun gibi hataları içerebilir)
+  501 Bağımsız değişken ya da bağımsız değişkenlerde sözdizimi hatası
+  502 Komut gerçeklenmedi (bkz, <a class="xref" href="rfc2821-s42.html#rfc2821-s424" title="4.2.4. 502 Yanıt Kodu">502 Yanıt Kodu</a>)
+  503 Komutların sırası hatalı
+  504 Komut bağımsız değişkeni gerçeklenmedi
+  550 İstenen eylem yerine getirilemedi: posta kutusu elverişli değil
+      (örn, posta kutusu bulunamadı, erişilemedi veya
+       kurallar gereği komut reddedildi)
+  551 Kullanıcı yerel kullanıcı değil; lütfen &lt;sevk-yolu&gt; adresini deneyin
+      (bkz, <a class="xref" href="rfc2821-s34.html" title="3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme">Adres Düzeltmek veya Güncellemek için Yönlendirme</a>)
+  552 İstenen posta eylemi yerine getirilemedi: saklama alanı yetmiyor
+  553 İstenen eylem yerine getirilemedi: posta kutusu ismine izin yok
+      (örn, posta kutusu isminde sözdizimi hatası)
+  554 Aktarım başarısız oldu (Veya, bir bağlantı açılış yanıtında:
+      "Burada öyle bir SMTP hizmeti verilmiyor")
+</pre>
+          <p>
+    </p>
+        </section>
+        <section class="sect3" id="rfc2821-s424">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.2.4. 502 Yanıt Kodu</h4>
+              </div>
+            </div>
+          </div>
+          <p><span class="rfcshould">502 yanıt kodu (Komut gerçeklenmedi) diğer kodlara tercih edildiğinde *ÖNERİ*</span>, sorular yükselir. <span class="rfcshould">502 yanıt kodu, komutun aslında SMTP sunucusu tarafından tanındığı ama gerçeklenmediği durumda kullanılmalıdır *ÖNERİ*</span>. <span class="rfcshould">Eğer komut tanınmıyorsa 500 yanıt kodu döndürülmelidir *ÖNERİ*</span>. <span class="rfcmust">Eklentili SMTP sistemleri <code class="code">EHLO</code> yanıtında yeteneklerini listelerken 502 (veya 500) döndürecekleri yetenekleri belirtmemelidir *ZORUNLU*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s425">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.2.5. <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code>'in Ardından <code class="code">DATA</code> Komutuna Yanıt</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir SMTP sunucusu <code class="code">DATA</code> komutu <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code> ile tamamlandıktan sonra bir <code class="code">2</code><em class="replaceable"><code>yz</code></em> Tamamlama Olumlu yanıtı geri döndürdüğünde şu sorumlulukları almış olur:
+</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+iletinin teslimatı (alıcı posta kutusu mevcutsa) veya
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+eğer geçici durumlar yüzünden (gecikerek) ileti teslim etmeye çalışacaksa, <a class="xref" href="rfc2821-s45.html#rfc2821-s454" title="4.5.4. Yanıt Stratejileri">Yanıt Stratejileri</a> bölümünde belirtilen zaman aralıklarıyla makul sayıda yineleyerek iletinin teslimatı
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+iletinin teslimat çalışması kalıcı durumlar yüzünden başarısız olursa veya geçici durumlar yüzünden yinelenen teslimat çabası başarısız olursa, özgün ileti göndericisine uygun bir uyarı iletisinin gönderilmesi (SMTP <code class="code">MAIL</code> komutundaki adresi kullanarak).
+</p>
+              </li>
+            </ul>
+          </div>
+          <p><span class="rfcmust">Bir SMTP sunucusu <code class="code">DATA</code> komutu <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code> ile tamamlandıktan sonra bir kalıcı hata durumu (<code class="code">5</code><em class="replaceable"><code>yz</code></em>) kodu geri döndürdüğünde, iletiyi teslim etmek için bir daha teşebbüste bulunmamalıdır *ZORUNLU*</span>. İletinin teslimatı SMTP istemcisinin sorumluluğundadır ve bunu ya kullanıcıya geri döndürür ya da teslim etmeye çalışmak üzere yeniden kuyruğa alır (bkz, <a class="xref" href="rfc2821-s45.html#rfc2821-s4541" title="4.5.4.1. Gönderme Stratejisi">Gönderme Stratejisi</a>).
+</p>
+          <p><span class="rfcshould">İletinin kaynaklandığı kullanıcı, geçici hata durumundan dolayı bir dönüşü (posta iletisi veya başka bir şekilde) tıpkı kalıcı başarısızlıkta olduğu gibi teslimatın yapılamayışının bir belirtisi olarak yorumlayabilmelidir *ÖNERİ*</span>. Yani, istemci SMTP sistemi bu durumları başarıyla ele alabiliyorsa, kullanıcı böyle bir yanıt almayacaktır.
+</p>
+          <p><span class="rfcmust">Bir SMTP sunucusu <code class="code">DATA</code> komutu <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code> ile tamamlandıktan sonra bir kalıcı hata durumu (<code class="code">5</code><em class="replaceable"><code>yz</code></em>) kodu geri döndürdüğünde, iletiyi teslim etmek için bir daha teşebbüste bulunmamalıdır *ZORUNLU*</span>. Geçici hata durumu kodlarındaki gibi iletinin teslimatı yine SMTP istemcisinin sorumluluğundadır, fakat <span class="rfcshould">kullanıcı iletiyi inceleyip müdahale etmeden teslimatı tekrar aynı sunucuya yapmaya çalışmamalıdır *ÖNERİ*</span>.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

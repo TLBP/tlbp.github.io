@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek-D. Senaryolar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-appc.html')">Önceki</button>
+          <div class="dropdown-content">Ek-C. Kaynak Rotalar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-appe.html')">Sonraki</button>
+          <div class="dropdown-content">Ek-E. Diğer Ağ geçidi Konuları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2821-appd">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek-D. Senaryolar</h2>
+            </div>
+          </div>
+        </div>
+        <p><span class="notfoot"></span>
+Bu bölümde çeşitli SMTP oturum türleri eksiksiz birer senaryo halinde sunulmuştur. Örneklerde "<code class="literal">İ:</code>" 'SMTP istemcisi dedi ki' anlamında "<code class="literal">S:</code>" ise 'SMTP sunucusu dedi ki' anlamında kullanılmıştır.<a id="idm156328" href="#ftn.idm156328" class="footnote"><sup class="footnote">[89]</sup></a>
+</p>
+        <section class="sect2" id="rfc2821-appd1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">Ek-D.1. Tipik bir SMTP Aktarım Senaryosu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu SMTP örneğinde, bar.com konağındaki Smith tarafından foo.com konağındaki Jones, Green ve Brown'a posta gönderimi gösterilmiştir. Burada bar.com konağının foo.com konağına doğrudan eriştiğini varsayıyoruz. Posta Jones ve Brown için kabul edilmekte, Green için foo.com konağında bir posta kutusu olmadığı belirtilmektedir.
+</p>
+          <p>
+    </p>
+          <pre class="screen">
+S:  220 foo.com Basit Posta Aktarim Hizmetine Hazir
+İ: EHLO bar.com
+S:  250-foo.com bar.com'a hosgeldiniz der
+S:  250-8BITMIME
+S:  250-SIZE
+S:  250-DSN
+S:  250 HELP
+İ: MAIL FROM:&lt;Smith@bar.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Jones@foo.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Green@foo.com&gt;
+S:  550 Burada boyle biri yok
+İ: RCPT TO:&lt;Brown@foo.com&gt;
+S:  250 OK
+İ: DATA
+S:  354 Posta girdisini baslat; &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+İ: Falan filan fesmekan...
+İ: ...vesaire vesaire vesaire
+İ: .
+S:  250 OK
+İ: QUIT
+S:  221 foo.com aktarim hizmeti bu kanalı kapatiyor
+</pre>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc2821-appd2">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">Ek-D.2. Sıfırlanan bir SMTP Aktarım Senaryosu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    </p>
+          <pre class="screen">
+S:  220 foo.com Basit Posta Aktarim Hizmetine Hazir
+İ: EHLO bar.com
+S:  250-foo.com bar.com'a hosgeldiniz der
+S:  250-8BITMIME
+S:  250-SIZE
+S:  250-DSN
+S:  250 HELP
+İ: MAIL FROM:&lt;Smith@bar.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Jones@foo.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Green@foo.com&gt;
+S:  550 Burada boyle biri yok
+İ: RSET
+S:  250 OK
+İ: QUIT
+S:  221 foo.com aktarım hizmeti bu kanali kapatiyor
+</pre>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc2821-appd3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">Ek-D.3. Röleli Posta Senaryosu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+   1. Adım  --  Çıkış Konağından Röleleme Konağına
+</p>
+          <p>
+    </p>
+          <pre class="screen">
+S:  220 foo.com Basit Posta Aktarim Hizmetine Hazir
+İ: EHLO bar.com
+S:  250-foo.com bar.com'a hosgeldiniz der
+S:  250-8BITMIME
+S:  250-SIZE
+S:  250-DSN
+S:  250 HELP
+İ: MAIL FROM:&lt;JQP@bar.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;@foo.com:Jones@XYZ.COM&gt;
+S:  250 OK
+İ: DATA
+S:  354 Posta girdisini baslat; &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+İ: Date: Thu, 21 May 1998 05:33:29 -0700
+İ: From: John Q. Public &lt;JQP@bar.com&gt;
+İ: Subject:  Kurulun gelecek toplantisi
+İ: To: Jones@xyz.com
+İ:
+İ: Bill:
+İ: Yonetim kurulunun  bir dahaki toplantisi
+İ: Cuma gunu olacak.
+İ:                          John.
+İ: .
+S:  250 OK
+İ: QUIT
+S:  221 foo.com aktarim hizmeti bu kanali kapatiyor
+</pre>
+          <p>
+   </p>
+          <p>
+   2. Adım  --  Röleleme Konağından Varış Konağına
+</p>
+          <p>
+    </p>
+          <pre class="screen">
+S:  220 xyz.com Basit Posta Aktarım Hizmetine Hazir
+İ: EHLO foo.com
+S:  250-xyz.com yayindayiz
+İ: MAIL FROM:&lt;@foo.com:JQP@bar.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Jones@XYZ.COM&gt;
+S:  250 OK
+İ: DATA
+S:  354 Posta girdisini baslat; &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+İ: Received: from bar.com by foo.com ; Thu, 21 May 1998
+İ:     05:33:29 -0700
+İ: Date: Thu, 21 May 1998 05:33:22 -0700
+İ: From: John Q. Public &lt;JQP@bar.com&gt;
+İ: Subject:  Kurulun gelecek toplantisi
+İ: To: Jones@xyz.com
+İ:
+İ: Bill:
+İ: Yonetim kurulunun  bir dahaki toplantisi
+İ: Cuma gunu olacak.
+İ:                          John.
+İ: .
+S:  250 OK
+İ: QUIT
+S:  221 foo.com aktarim hizmeti bu kanali kapatiyor
+</pre>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc2821-appd4">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">Ek-D.4. Doğrulama ve Gönderme Senaryosu</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    </p>
+          <pre class="screen">
+S:  220 foo.com Basit Posta Aktarım Hizmetine Hazir
+İ: EHLO bar.com
+S:  250-foo.com bar.com'a hosgeldiniz der
+S:  250-8BITMIME
+S:  250-SIZE
+S:  250-DSN
+S:  250-VRFY
+S:  250 HELP
+İ: VRFY Crispin
+S:  250 Mark Crispin &lt;Admin.MRC@foo.com&gt;
+İ: SEND FROM:&lt;EAK@bar.com&gt;
+S:  250 OK
+İ: RCPT TO:&lt;Admin.MRC@foo.com&gt;
+S:  250 OK
+İ: DATA
+S:  354 Posta girdisini baslat; &lt;CRLF&gt;.&lt;CRLF&gt; ile bitir
+İ: Falan filan fesmekan...
+İ: ...vesaire vesaire vesaire
+İ: .
+S:  250 OK
+İ: QUIT
+S:  221 foo.com aktarim hizmeti bu kanali kapatiyor
+</pre>
+          <p>
+   </p>
+        </section>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm156328" class="footnote">
+            <p><a href="#idm156328" class="para"><sup class="para">[89] </sup></a>Ç.N. - Senaryolar, gerçekte olmayacak şekilde Türkçeye çevrilmiştir. Gerçekçi senaryolar için bu RFC'nin özgün haline bakınız.</p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

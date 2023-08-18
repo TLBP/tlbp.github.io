@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.10. Bağlantısız Soket İşlemleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Out-of-Band-Data.html')">Önceki</button>
+          <div class="dropdown-content">16.9.8. Sıra-Dışı-Veri Aktarımı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Inetd.html')">Sonraki</button>
+          <div class="dropdown-content">16.11. <code class="code">inetd</code> Artalan Süreci</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Datagrams">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.10. Bağlantısız Soket İşlemleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm126625" class="indexterm"></span>
+   <span id="idm126628" class="indexterm"></span>
+   Bu bölümde bağlantı kullanmayan iletişim tarzlarının (<a href="glibc-Communication-Styles.html#glibc-vr-SOCK_DGRAM"><strong class="varname"><code>SOCK_DGRAM</code></strong></a> ve <code class="varname">SOCK_RDM</code> tarzları) nasıl kullanıldığını açıklanmaktadır. Bu tarzların kullanımında veri paketleri katar haline getirilir ve her paket bağımsız birer iletişim sağlar. Her paket için hedef adresi belirtmek gerekir.
+  </p>
+        <p>
+   Veri katarı paketleri mektuplara benzer: her biri bağımsız olarak kendi hedef adresiyle gönderilirse ve yanlış sırayla ulaşabilir veya hiç ulaşamayabilir.
+  </p>
+        <p>
+   <a href="glibc-Listening.html#glibc-fn-listen"><strong class="function"><code>listen</code></strong></a> ve <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevleri soketlerde bağlantısız iletişim tarzlarında kullanılamaz.
+  </p>
+        <section class="sect1" id="glibc-Sending-Datagrams">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.10.1. Veri Katarının Gönderilmesi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm126641" class="indexterm"></span>
+    <span id="idm126644" class="indexterm"></span>
+    Veri katarı soketinden veri gönderiminin normal yolu <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında bildirilen <a href="glibc-Datagrams.html#glibc-fn-sendto"><strong class="function"><code>sendto</code></strong></a> işlevini kullanmaktır.
+   </p>
+          <p>
+    Bir veri katarı soketi üzerinde <a href="glibc-Connecting.html#glibc-fn-connect"><strong class="function"><code>connect</code></strong></a> işlevi çağrılabilir, fakat bu sadece soket üzerinden veri aktarımları için varsayılan hedefi belirler. Bir soketin varsayılan adresi olduğunda oraya <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> (<a class="xref" href="glibc-Transferring-Data.html#glibc-Sending-Data" title="16.9.5.1. Veri Gönderimi">Veri Gönderimi</a>) veya <a href="glibc-I-O-Primitives.html#glibc-fn-write"><strong class="function"><code>write</code></strong></a> (<a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>) kullanılarak paket gönderilebilir. Ön tanımlı hedef, <a href="glibc-Connecting.html#glibc-fn-connect"><strong class="function"><code>connect</code></strong></a> işlevinin <em class="parameter"><code>addr</code></em> bağımsız değişkeninde <a href="glibc-Address-Formats.html#glibc-vr-AF_UNSPEC"><strong class="varname"><code>AF_UNSPEC</code></strong></a> belirtilerek iptal edilebilir. <a href="glibc-Connecting.html#glibc-fn-connect"><strong class="function"><code>connect</code></strong></a> işlevi hakkında daha fazla bilgi için bkz, <a class="xref" href="glibc-Connecting.html" title="16.9.1. Bağlantının Oluşturulması">Bağlantının Oluşturulması</a>.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-sendto" class="indexterm"></span>
+    <span id="glibc-cp-sendto" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">sendto</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">struct sockaddr </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong><code class="parameter">length</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">sendto</code> işlevi <em class="parameter"><code>buffer</code></em> içindeki veriyi,  <em class="parameter"><code>socket</code></em> soketi üzerinden, <em class="parameter"><code>addr</code></em> ve <em class="parameter"><code>length</code></em> (uzunluk) bağımsız değişkenleri ile belirtilen hedef adresine aktarır. <em class="parameter"><code>size</code></em> bağımsız değişkeni aktarılacak bayt sayısını belirtir.
+    </p>
+    <p>
+     <em class="parameter"><code>flags</code></em> bağımsız değişkeni <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevindeki gibi yorumlanır; bkz. <a class="xref" href="glibc-Transferring-Data.html#glibc-Socket-Data-Options" title="16.9.5.3. Soket Verisi Seçenekleri">Soket Verisi Seçenekleri</a>.
+    </p>
+    <p>
+     Dönüş değeri ve hata durumları da <a href="glibc-Transferring-Data.html#glibc-fn-send"><strong class="function"><code>send</code></strong></a> işlevindeki gibidir, fakat hataların algılanması ve raporlanması için sisteme güvenilemez; en sık rastlanan hata, paket kaybı veya belirtilen adreste alıcının bulunmamasıdır ve gönderici makinedeki işletim sisteminin genelde bundan haberi olmaz.
+    </p>
+    <p>
+     <code class="code">sendto</code> işlevinden bir önceki çağrıya ilişkin sorunları raporlaması istenebilir.
+    </p>
+    <p>
+     Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanımlayıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Receiving-Datagrams">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.10.2. Veri Katarının Alınması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm126716" class="indexterm"></span>
+    <span id="idm126719" class="indexterm"></span>
+    <a href="glibc-Datagrams.html#glibc-fn-recvfrom"><strong class="function"><code>recvfrom</code></strong></a> işlevi veri katarı soketinden bir paket okur ve ek olarak nereden gönderildiğini de söyler. Bu işlev <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-recvfrom" class="indexterm"></span>
+    <span id="glibc-cp-recvfrom" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">ssize_t </code><strong><code class="function">recvfrom</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">buffer</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">size</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">flags</code></strong><strong><code>, </code></strong><code class="type">struct sockaddr </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong class="type">*</strong><strong><code class="parameter">length-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">recvfrom</code> işlevi <em class="parameter"><code>socket</code></em> soketinden bir paketi <em class="parameter"><code>buffer</code></em> alanına okur. <em class="parameter"><code>size</code></em> bağımsız değişkeni okunacak azami bayt sayısını belirtir.
+    </p>
+    <p>
+     Paket <em class="parameter"><code>size</code></em> bayttan uzunsa, paketin ilk <em class="parameter"><code>size</code></em> baytı alınır ve paketin geri kalanı kaybolur. Paketin gerisini okumanın hiç bir yolu yoktur. Bu nedenle, bir paket protokolü kullanıldığında, paketin ne uzunlukta olacağını her zaman bilmek gerekir.
+    </p>
+    <p>
+     <em class="parameter"><code>addr</code></em> ve <em class="parameter"><code>length-ptr</code></em> bağımsız değişkenleri paketin geldiği yerin adresini döndürmek için kullanılır. Bkz. <a class="xref" href="glibc-Socket-Addresses.html" title="16.3. Soket Adresleri"><em>Soket Adresleri</em></a>. Yerel etki alanındaki bir soket için adres bilgisi anlamlı değildir, çünkü böyle bir soketin adresi okunamaz (Bkz. <a class="xref" href="glibc-Local-Namespace.html" title="16.5. Yerel İsim Alanı"><em>Yerel İsim Alanı</em></a>). Bu bilgiyle ilgilenilmiyorsa <em class="parameter"><code>addr</code></em> bağımsız değişkenine boş gösterici belirtilebilir.
+    </p>
+    <p>
+     <em class="parameter"><code>flags</code></em> bağımsız değişkeni <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevindeki gibi yorumlanır (bkz. <a class="xref" href="glibc-Transferring-Data.html#glibc-Socket-Data-Options" title="16.9.5.3. Soket Verisi Seçenekleri">Soket Verisi Seçenekleri</a>). Dönüş değeri ve hata durumları da <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevi ile aynıdır.
+    </p>
+    <p>
+     Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanımlayıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+    </p>
+   </div>
+          <p>
+    Paketi kimin gönderdiği bilinmek istenmiyorsa <a href="glibc-Datagrams.html#glibc-fn-recvfrom"><strong class="function"><code>recvfrom</code></strong></a> yerine basitçe <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevi de (bkz. <a class="xref" href="glibc-Transferring-Data.html#glibc-Receiving-Data" title="16.9.5.2. Veri Alımı">Veri Alımı</a>) kullanılabilir (çünkü paketin nereden gelmesi gerektiği biliniyordur). Hatta <em class="parameter"><code>flags</code></em> bağımsız değişkeni belirtilmeyecekse <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevi bile kullanılabilir (bkz. <a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>).
+   </p>
+        </section>
+        <section class="sect1" id="glibc-Datagram-Example">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.10.3. Veri Katarı Soket Örneği</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     Burada yerel isim alanındaki veri katarı akımı üzerinden veri gönderen bir grup örnek bulunmaktadır. Hem istemci hem de sunucu yazılımları <a class="xref" href="glibc-Local-Namespace.html#glibc-Local-Socket-Example" title="16.5.3. Soketlerde Yerel İsim Alanı Örneği">Soketlerde Yerel İsim Alanı Örneği</a> içindeki <code class="code">make_named_socket</code> işlevini kendi soketlerini oluşturmak ve isimlendirmek için kullanmaktadır.
+    </p>
+          <p>
+     Öncelikle sunucu yazılımı gösterilmiştir. Gelecek veriler için bir döngü içerisinde beklemekte ve gelen veri gerisin geriye göndericiye iletilmektedir. Tabii ki bu işe yarar bir yazılım değil, fakat ana fikri vermektedir.
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/un.h&gt;
+
+#define SERVER  "/tmp/serversocket"
+#define MAXMSG  512
+
+int
+main (void)
+{
+  int sock;
+  char message[MAXMSG];
+  struct sockaddr_un name;
+  size_t size;
+  int nbytes;
+
+  /* <em class="replaceable"><code>Öncelikle dosya ismini kaldıralım,
+     isim yokluğu sorun değil</code></em> */
+  unlink (SERVER);
+
+  /* <em class="replaceable"><code>Soketi oluşturup sonsuz döngüye gir.</code></em> */
+  sock = make_named_socket (SERVER);
+  while (1)
+    {
+      /* <em class="replaceable"><code>Veri katarını bekle.</code></em> */
+      size = sizeof (name);
+      nbytes = recvfrom (sock, message, MAXMSG, 0,
+                         (struct sockaddr *) &amp; name, &amp;size);
+      if (nbytes &lt; 0)
+        {
+          perror ("recfrom (server)");
+          exit (EXIT_FAILURE);
+        }
+
+      /* <em class="replaceable"><code>Bir tanı iletisi ver.</code></em> */
+      fprintf (stderr, "Sunucu: alinan ileti: %s\n", message);
+
+      /* <em class="replaceable"><code>İletiyi göndericiye geri yolla.</code></em> */
+      nbytes = sendto (sock, message, nbytes, 0,
+                       (struct sockaddr *) &amp; name, size);
+      if (nbytes &lt; 0)
+        {
+          perror ("sendto (server)");
+          exit (EXIT_FAILURE);
+        }
+    }
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect1" id="glibc-Example-Receiver">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.10.4. Veri Katarı Okuma Örneği</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     Bu da önceki sunucuyla ilişkili istemci yazılımıdır.
+    </p>
+          <p>
+     Sunucuya bir veri katarı gönderir ve ardından yanıt bekler. Bu örnekte istemci (ve sunucu) için sokete bir ad verilmesi gerektiğine dikkat edilmelidir. Bu, sunucunun bir iletiyi istemciye geri yönlendirebilmesi içindir. Soket bağlantısız olduğundan, sunucunun bunu yapabilmesinin tek yolu istemcinin adına başvurmaktır.
+    </p>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/un.h&gt;
+
+#define SERVER  "/tmp/serversocket"
+#define CLIENT  "/tmp/mysocket"
+#define MAXMSG  512
+#define MESSAGE "Yow!!! Are we having fun yet?!?"
+
+int
+main (void)
+{
+  extern int make_named_socket (const char *name);
+  int sock;
+  char message[MAXMSG];
+  struct sockaddr_un name;
+  size_t size;
+  int nbytes;
+
+  /* <em class="replaceable"><code>Soketi oluştur.</code></em> */
+  sock = make_named_socket (CLIENT);
+
+  /* <em class="replaceable"><code>Sunucu soket adresini ilklendir.</code></em> */
+  name.sun_family = AF_LOCAL;
+  strcpy (name.sun_path, SERVER);
+  size = strlen (name.sun_path) + sizeof (name.sun_family);
+
+  /* <em class="replaceable"><code>Veri katarını yolla.</code></em> */
+  nbytes = sendto (sock, MESSAGE, strlen (MESSAGE) + 1, 0,
+                   (struct sockaddr *) &amp; name, size);
+  if (nbytes &lt; 0)
+    {
+      perror ("sendto (client)");
+      exit (EXIT_FAILURE);
+    }
+
+  /* <em class="replaceable"><code>Yanıt bekle.</code></em> */
+  nbytes = recvfrom (sock, message, MAXMSG, 0, NULL, 0);
+  if (nbytes &lt; 0)
+    {
+      perror ("recfrom (client)");
+      exit (EXIT_FAILURE);
+    }
+
+  /* <em class="replaceable"><code>Durumu bildir.</code></em> */
+  fprintf (stderr, "istemci: gelen ileti: %s\n", message);
+
+  /* <em class="replaceable"><code>Temizlik.</code></em> */
+  remove (CLIENT);
+  close (sock);
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+          <p>
+     Veri katarı soket iletişiminin güvenilir olmadığı unutulmamalıdır. Bu örnekte, istemci yazılım, ileti sunucuya ulaşmazsa veya sunucunun yanıtı gelmezse sonsuza kadar bekler. Yazılımı sonlandırmak veya yeniden başlatmak çalıştırana bırakılmıştır. Daha özdevinimli bir çözüm ise <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> (<a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>) ile yanıt için zaman aşımı belirtmek ve bu süre sonunda iletiyi tekrar göndermek veya soketi kapatarak çıkmaktır.
+    </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

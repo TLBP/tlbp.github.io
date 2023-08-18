@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>13.8. Bellek Eşlemli G/Ç</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -53,7 +53,7 @@
    Belleğe eşlenmiş sayfalar, fiziksel bellek azaldığında tekrar dosyasında saklanabilir, belleğe eşlenmiş dosyaların boyutları büyüdükçe hem fiziksel bellekte hem de takas alanında eşlenebilir. Tek sınır adres alanıdır. Teorik sınır 32 bitlik makinelerde 4GB'dır. Başka amaçlarla ayrılan alanlardan dolayı gerçek sınır daha küçük olabilir. LFS arayüzü kullanan 32 bitlik dosya sistemlerinde dosya boyu 64 bitlik olabildiğinden  2GB ile sınırlı değildir (konumların işaretli tamsayılar olması halinde adreslenebilir alan 4GB'ın yarısına düşebilir); 64 bitlik arayüz kullanılabilir.
   </p>
         <p>
-   Bellek eşleme, bellekte sadece sayfalarla çalışır. Bu bakımdam, eşleşme adresleri sayfalara hizalanmış ve uzunluk değerleri de buna göre yuvarlanmış olmalıdır. Makinede kullanılan ön tanımlı sayfa boyutlarını saptamak için
+   Bellek eşleme, bellekte sadece sayfalarla çalışır. Bu bakımdam, eşleşme adresleri sayfalara hizalanmış ve uzunluk değerleri de buna göre yuvarlanmış olmalıdır. Makinede kullanılan sayfa boyutlarının varsayılanlarını saptamak için
   </p>
         <pre class="literallayout monospaced"><code class="code">size_t page_size = (size_t) <strong class="function"><code>sysconf</code></strong> (<a href="glibc-Sysconf.html#glibc-vr-SC_PAGESIZE"><strong class="varname"><code>_SC_PAGESIZE</code></strong></a>);</code>
 </pre>
@@ -80,9 +80,9 @@
     <em class="parameter"><code>address</code></em> ile eşlem için tercih edilen adres belirtilir. <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> tercih belirtilmediğini gösterir. Adreste evvelce bir eşlem varsa özdevinimli olarak kaldırılır. <a href="glibc-Memory-mapped-I-O.html#glibc-vr-MAP_FIXED"><strong class="varname"><code>MAP_FIXED</code></strong></a> seçeneği kullanılmadıkça belirtilen adres değiştirilemeyebilir.
    </p>
    <p>
-    <span id="idm113750" class="indexterm"></span>
-    <span id="idm113752" class="indexterm"></span>
-    <span id="idm113754" class="indexterm"></span>
+    <span id="idm113765" class="indexterm"></span>
+    <span id="idm113767" class="indexterm"></span>
+    <span id="idm113769" class="indexterm"></span>
     <em class="parameter"><code>protect</code></em> ne çeşit erişime izin verildiğini belirten seçenekleri içerir. Bunlar sırayla okuma, yazma ve çalıştırma izinlerini belirten <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a>, <a href="glibc-Memory-Protection.html#glibc-vr-PROT_WRITE"><strong class="varname"><code>PROT_WRITE</code></strong></a> ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> seçenekleri olabilir. Özel <a href="glibc-Memory-Protection.html#glibc-vr-PROT_NONE"><strong class="varname"><code>PROT_NONE</code></strong></a> seçeneği, adres bölgesini ileride kullanmak üzere ayırır. Koruma seçeneklerini değiştirmek için <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi kullanılabilir (bkz. <a class="xref" href="glibc-Memory-Protection.html" title="3.4. Belleğin Korunması"><em>Belleğin Korunması</em></a>).
    </p>
    <p>
@@ -137,7 +137,7 @@
     <span id="glibc-vr-MAP_HUGETLB" class="indexterm"></span>
     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">MAP_HUGETLB</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
     <p>
-     Sistemin eşlem için ön tanımlı sayfa boyutundan daha büyük başka bir sayfa boyutu kullanmasını ister. Bazı iş yüklerinde, büyük eşlemler için sayfa boyutunu artırmak, sistemin çok daha az sayfayı işlemesini gerektiğinden başarımı artırır. Azaltılmış sayfa ayrıntı düzeyi, depolama veya farklı düğümler arasında sık sık sayfa aktarımı gerektiren diğer iş yükleri için  artırılmış sayfa boyutu ve daha büyük aktarımlar nedeniyle başarım sorunlarına neden olabilir.
+     Sistemin eşlem için varsayılan sayfa boyutundan daha büyük başka bir sayfa boyutu kullanmasını ister. Bazı iş yüklerinde, büyük eşlemler için sayfa boyutunu artırmak, sistemin çok daha az sayfayı işlemesini gerektiğinden başarımı artırır. Azaltılmış sayfa ayrıntı düzeyi, depolama veya farklı düğümler arasında sık sık sayfa aktarımı gerektiren diğer iş yükleri için  artırılmış sayfa boyutu ve daha büyük aktarımlar nedeniyle başarım sorunlarına neden olabilir.
     </p>
     <p>
      Eşlemin oluşturması sırasında, sistemin artırılmış sayfa boyutunda fiziksel olarak bitişik belleğe ihtiyacı vardır. Sonuç olarak, <code class="code">MAP_HUGETLB</code> eşlemleri belleğin saçılmasından etkilenir ve sistemde bol miktarda bellek bulunsa bile bunların oluşturulması başarısız olabilir.

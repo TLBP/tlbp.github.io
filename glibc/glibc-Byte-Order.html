@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.6.5. Bayt Sırası Dönüşümü</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Services-Database.html')">Önceki</button>
+          <div class="dropdown-content">16.6.4. Hizmet Veritabanı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Internet-Namespace.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Protocols-Database.html')">Sonraki</button>
+          <div class="dropdown-content">16.6.6. Protokol Veritabanı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Byte-Order">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.6.5. Bayt Sırası Dönüşümü</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm125203" class="indexterm"></span>
+    <span id="idm125206" class="indexterm"></span>
+    <span id="idm125209" class="indexterm"></span>
+    <span id="idm125212" class="indexterm"></span>
+    <span id="idm125215" class="indexterm"></span>
+    <span id="idm125217" class="indexterm"></span>
+    <span id="idm125219" class="indexterm"></span>
+    <span id="idm125222" class="indexterm"></span>
+    Bir kelime (harfleri bayt olan kelime) içindeki bayt sırasının dönüşümü için farklı bilgisayarlar farklı yaklaşımlar kullanır. Bazı bilgisayarlar bir kelimenin en anlamlı baytını başa ("big-endian") ve bzıları da sona ("little-endian") koyar.
+   </p>
+        <p>
+    <span id="idm125226" class="indexterm"></span>
+    İnternet protokolleri ile ağ üzerinden aktarılan veri için "genelde geçerli bayt sıralaması" yaklaşımı belirlendiğinden farklı bayt sıralama yöntemleri kullanan makineler haberleşebilir. Bu <em class="wordasword">ağ bayt sıralaması</em> olarak bilinir.
+   </p>
+        <p>
+    Bir İnternet soket bağlantısı kurulacağında <a href="glibc-Internet-Address-Formats.html#glibc-tp-sockaddr_in"><strong class="type"><code>struct sockaddr_in</code></strong></a> yapısının <code class="code">sin_port</code> ve <code class="code">sin_addr</code> üyelerinde verinin ağ bayt sırasında gösterildiğinden emin olmak gerekir. Eğer soketten gönderilen iletilerde bir tamsayı veri kodlanıyorsa, ağ bayt sırasına göre kodlanmalıdır. Bu yapılmazsa, yazılım çalışırken veya diğer makinelerle konuşurken çökebilir.
+   </p>
+        <p>
+    Port numarası ve konak adresini almak için <a href="glibc-Services-Database.html#glibc-fn-getservbyname"><strong class="function"><code>getservbyname</code></strong></a>, <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a> veya <a href="glibc-Host-Address-Functions.html#glibc-fn-inet_addr"><strong class="function"><code>inet_addr</code></strong></a> kullanılıyorsa, değerler zaten ağ bayt sırasındadır ve bunlar doğrudan <a href="glibc-Internet-Address-Formats.html#glibc-tp-sockaddr_in"><strong class="type"><code>struct sockaddr_in</code></strong></a> yapısına kopyalanabilir.
+   </p>
+        <p>
+    Aksi takdirde, değerler dönüştürülmek zorundadır. <code class="code">sin_port</code> üyesine atanacak değerleri dönüştürmek için <a href="glibc-Byte-Order.html#glibc-fn-htons"><strong class="function"><code>htons</code></strong></a> ve <a href="glibc-Byte-Order.html#glibc-fn-ntohs"><strong class="function"><code>ntohs</code></strong></a> kullanılmalıdır. <code class="code">sin_addr</code> üyesine atanacak IPv4 adreslerini dönüştürmek için ise <a href="glibc-Byte-Order.html#glibc-fn-htonl"><strong class="function"><code>htonl</code></strong></a> ve <a href="glibc-Byte-Order.html#glibc-fn-ntohl"><strong class="function"><code>ntohl</code></strong></a> kullanılmalıdır. (<a href="glibc-Host-Address-Data-Type.html#glibc-tp-in_addr"><strong class="type"><code>struct in_addr</code></strong></a> ve <code class="type">uint32_t</code> veri türlerinin eşdeğer olduğu unutulmamalıdır.) Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=inet/netinet/in.h;hb=HEAD" target="_top">netinet/in.h</a></code> başlık dosyasında tanımlıdır.
+    <span id="idm125248" class="indexterm"></span>
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-htons" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=inet/netinet/in.h;hb=HEAD" target="_top">netinet/in.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">uint16_t </code><strong><code class="function">htons</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">uint16_t </code><strong><code class="parameter">hostshort</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <code class="type">uint16_t</code> türündeki <em class="parameter"><code>hostshort</code></em> tamsayısını konak bayt sırasından ağ bayt sırasına dönüştürür.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ntohs" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=inet/netinet/in.h;hb=HEAD" target="_top">netinet/in.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">uint16_t </code><strong><code class="function">ntohs</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">uint16_t </code><strong><code class="parameter">netshort</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <code class="type">uint16_t</code> türündeki <em class="parameter"><code>netshort</code></em> tamsayısını ağ bayt sırasından konak bayt sırasına dönüştürür.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-htonl" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=inet/netinet/in.h;hb=HEAD" target="_top">netinet/in.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">uint32_t </code><strong><code class="function">htonl</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">uint32_t </code><strong><code class="parameter">hostlong</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <code class="type">uint32_t</code> türündeki <em class="parameter"><code>hostlong</code></em> tamsayısını konak bayt sırasından ağ bayt sırasına dönüştürür.
+    </p>
+    <p>
+     IPv4 İnternet adresleri için kullanılır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ntohl" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=inet/netinet/in.h;hb=HEAD" target="_top">netinet/in.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">uint32_t </code><strong><code class="function">ntohl</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">uint32_t </code><strong><code class="parameter">netlong</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <code class="type">uint32_t</code> türündeki <em class="parameter"><code>netlong</code></em> tamsayısını ağ bayt sırasından konak bayt sırasına dönüştürür.
+    </p>
+    <p>
+     IPv4 İnternet adresleri için kullanılır.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

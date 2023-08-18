@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.3. İki Girdi Tarzı: Kurallı ve Kuralsız</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-I-O-Queues.html')">Önceki</button>
+          <div class="dropdown-content">17.2. G/Ç Kuyrukları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Terminal-Modes.html')">Sonraki</button>
+          <div class="dropdown-content">17.4. Uçbirim Kipleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Canonical-or-Not">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">17.3. İki Girdi Tarzı: Kurallı ve Kuralsız</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   POSIX sistemleri iki temel girdi kipini destekler: kurallı ve kuralsız.
+  </p>
+        <p>
+   <span id="idm127635" class="indexterm"></span>
+   <em class="wordasword">Kurallı girdi işleme</em> kipinde girdi, satır sonu (<code class="code">'\n'</code>), <a href="glibc-Editing-Characters.html#glibc-vr-EOFc"><strong class="varname"><code>'EOF'</code></strong></a> veya <a href="glibc-Editing-Characters.html#glibc-vr-EOL"><strong class="varname"><code>EOL</code></strong></a> karakterleri ile sonlandırılmış satırlar halinde işlenir. Kullanıcı tarafından satırın tamamı yazılana kadar hiçbir girdi okunmaz. Girdi alındıktan sonra, kaç bayt istendiğine bakılmaksızın <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> (<a class="xref" href="glibc-I-O-Primitives.html" title="13.2. Girdi ve Çıktı İlkelleri"><em>Girdi ve Çıktı İlkelleri</em></a>) işlevi tek satırlık bir girdi ile döner.
+  </p>
+        <p>
+   Kurallı girdi kipinde, girdi düzenleme oluşumlarını işletim sistemi sağlar: o anki metin satırı içindeki bazı karakterler metin düzenleme işlemlerini gerçekleştiren <a href="glibc-Editing-Characters.html#glibc-vr-ERASE"><strong class="varname"><code>ERASE</code></strong></a> ve <a href="glibc-Editing-Characters.html#glibc-vr-KILL"><strong class="varname"><code>KILL</code></strong></a> gibi özel karakterler olarak yorumlanır. Bkz. <a class="xref" href="glibc-Editing-Characters.html" title="17.4.9.1. Girdi Düzenleme Karakterleri">Girdi Düzenleme Karakterleri</a>.
+  </p>
+        <p>
+   Kurallı kipte tek bir satırda bulunabilecek karakterlerin sayısının üst sınırını <a href="glibc-File-Minimums.html#glibc-vr-POSIX_MAX_CANON"><strong class="varname"><code>_POSIX_MAX_CANON</code></strong></a> ve <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_CANON"><strong class="varname"><code>MAX_CANON</code></strong></a> sabitleri belirler. Bkz. <a class="xref" href="glibc-Limits-for-Files.html" title="32.6. Dosya Sistemi Sığa Sınırları"><em>Dosya Sistemi Sığa Sınırları</em></a>.  Satır uzunluğunun en azından <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_INPUT"><strong class="varname"><code>MAX_INPUT</code></strong></a> karakterlik olacağı düşünülebilir, ancak satır daha uzun olabilir ve hatta uzunluğu özdevimli olarak değişebilir.
+  </p>
+        <p>
+   <span id="idm127655" class="indexterm"></span>
+   <em class="wordasword">Kuralsız girdi işleme</em> kipinde karakterler satırlar halinde gruplanmaz, <a href="glibc-Editing-Characters.html#glibc-vr-ERASE"><strong class="varname"><code>ERASE</code></strong></a> ve <a href="glibc-Editing-Characters.html#glibc-vr-KILL"><strong class="varname"><code>KILL</code></strong></a> gibi metin düzenleme karakterleri dikkate alınmaz. Girdinin baytlar halinde okunduğu kuralsız girdi kipi  <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> değerleri ile denetlenir. Bkz. <a class="xref" href="glibc-Noncanonical-Input.html" title="17.4.10. Kuralsız Girdi">Kuralsız Girdi</a>.
+  </p>
+        <p>
+   Çoğu uygulama kurallı girdi kipini kullanır, çünkü bu kip kullanıcıya metni satır satır düzenleyebilme imkanı verir. Uygulama tek karakterlik komutlar kabul edecekse ve kendi metin düzenleme oluşumları olacaksa kuralsız kip tercih edilir.
+  </p>
+        <p>
+   Kurallı ve kuralsız girdi seçimi <a href="glibc-Mode-Data-Types.html#glibc-tp-termios"><strong class="type"><code>struct termios</code></strong></a> yapısının <code class="code">c_lflag</code> üyesinde <a href="glibc-Local-Modes.html#glibc-vr-ICANON"><strong class="varname"><code>ICANON</code></strong></a> seçeneğinin kullanılmasına bağlıdır. Bkz. <a class="xref" href="glibc-Local-Modes.html" title="17.4.7. Yerel Kipler">Yerel Kipler</a>.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

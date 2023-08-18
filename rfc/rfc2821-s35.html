@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.5. Adres Hatalarını Ayıklama Komutları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s34.html')">Önceki</button>
+          <div class="dropdown-content">3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s36.html')">Sonraki</button>
+          <div class="dropdown-content">3.6. Alanlar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s35">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.5. Adres Hatalarını Ayıklama Komutları</h3>
+            </div>
+          </div>
+        </div>
+        <section class="sect3" id="rfc2821-s351">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.5.1. Genel Bakış</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+SMTP kullanıcı adını doğrulamak ve posta listesi içeriğini elde etmek için komutlar da sağlar. Bunu karakter dizisi bağımsız değişkenler alan <code class="code">VRFY</code> ve <code class="code">EXPN</code> komutları ile yapar. <span class="rfcshould">Gerçeklenimler <code class="code">VRFY</code> ve <code class="code">EXPN</code> komutlarını desteklerse iyi olur *ÖNERİ*</span> (yine de, <a class="xref" href="rfc2821-s35.html#rfc2821-s352" title="3.5.2. VRFY için Normal Yanıt"><code class="literal">VRFY</code> için Normal Yanıt</a> ve <a class="xref" href="rfc2821-s7.html#rfc2821-s73" title="7.3. VRFY, EXPN ve Güvenlik"><code class="literal">VRFY, EXPN</code> ve Güvenlik</a> bölümlerine bakınız).
+</p>
+          <p><code class="code">VRFY</code> komutu için dizge bir kullanıcı ismi veya bir kullanıcı ismi ve alandır (aşağıya bakınız). <span class="rfcmust">Eğer normal bir yanıt (250 gibi) geliyorsa, yanıt kullanıcının posta kutusunu içermek zorundayken *ZORUNLU*</span> <span class="rfcmaybe">kullanıcının tam ismini de içerebilir *SEÇİMLİK*</span>. <span class="rfcmust">Dizge şu biçimlerden biri olmalıdır *ZORUNLU*</span>:
+</p>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+    Kullanıcının Adı ve Soyadı &lt;yerel-kısım@alan&gt;
+    yerel-kısım@alan
+</pre>
+          <p>
+    </p>
+          <p><span class="rfcmaybe"><code class="code">VRFY</code> komutunun bağımsız değişkeni olan isim birden fazla posta kutusunu betimleyebildiği takdirde, sunucu ya belirsizliğe dikkat çeker ya da başka olasılıklar belirtir *SEÇİMLİK*</span>. Başka bir deyişle, <code class="code">VRFY</code> komutunun meşru yanıtı şunlardan birinin benzeri olabilir:
+</p>
+          <p>
+     </p>
+          <pre class="screen">
+553 User ambiguous  // 553 Kullanıcı belirsiz
+</pre>
+          <p>
+    </p>
+          <p>veya</p>
+          <p>
+     </p>
+          <pre class="screen">
+553- Ambiguous;  Possibilities are  // 553- Belirsizlik; Olasılıklar:
+553-Joe Smith &lt;jsmith@foo.com&gt;
+553-Harry Smith &lt;hsmith@foo.com&gt;
+553 Melvin Smith &lt;dweep@foo.com&gt;
+</pre>
+          <p>
+    </p>
+          <p>ya da</p>
+          <p>
+     </p>
+          <pre class="screen">
+553-Ambiguous;  Possibilities
+553- &lt;jsmith@foo.com&gt;
+553- &lt;hsmith@foo.com&gt;
+553 &lt;dweep@foo.com&gt;
+</pre>
+          <p>
+    </p>
+          <p>
+Normal şartlar altında, bir 553 yanıtı alan bir istemcinin kullanıcıya sonucu açıklamaması beklenir. Tam olarak belirtilen biçimlerin ve [<a class="xref" href="rfc2821-s9.html#rfc2821-bib34" title="Enhanced Mail System Status Codes">34</a>]'te açıklandığı gibi ek yanıt kodları tarafından ilave olarak "user ambiguous" veya "ambiguous" anahtar sözcüklerinin olası kullanımı, gerektiğinde diğer dillere özdevinimli çeviriyi kolaylaştıracaktır. Şüphesiz, oldukça özdevinimli hale getirilmiş ya da İngilizce'den farklı bir dilde işlem yapan bir istemci, yanıtın içerdiği metni olduğu gibi kullanıcıya yansıtmak yerine yanıtı tercüme etmeyi veya kullanıcıya durumu raporlamadan önce ek bilgi için bir sözlük hizmetine başvurulması gibi özdevinimli eylemlerden birini yapmayı tercih ederdi.
+</p>
+          <p><code class="code">EXPN</code> komutu için dizge bir postalama listesidir ve <span class="rfcmust">başarılı (250 gibi) bir çok satırlı yanıt  postalama listesindeki posta kutularının listesini içermeli *ZORUNLU*</span> iken, <span class="rfcmaybe">bu liste kullanıcılarının ad ve soyadlarını da içerebilir *SEÇİMLİK*</span>.
+</p>
+          <p>
+Bazı konaklarda, bir posta kutusu ile tek bir posta kutusunun rumuzu arasındaki fark, her iki girdi türü için ortak bir veri yapısı kullanıldığından, bulanıktır ve sadece tek bir posta kutusu içeren postalama listelerinin varlığı olasıdır. <span class="rfcmaybe">Bir postalama listesine <code class="code">VRFY</code> uygulayacak bir istek yapılmışsa, iletinin listedeki herkese teslimi şeklinde adreslenmiş olması durumunda bir olumlu yanıt verilebilir *SEÇİMLİK*</span>, <span class="rfcshould">aksi takdirde bir hata raporlanırsa iyi olur *ÖNERİ*</span> ("550 bu bir postalama listesi adresidir, bir kullanıcı adresi değildir" veya "252 Posta listesi üyelerini doğrulamaya izin verilmiyor" gibi bir hata raporu). <span class="rfcmaybe">Eğer bir kullanıcı ismini açan bir istek yapılmışsa tek bir isim içeren bir listeden oluşan olumlu bir yanıt verilebileceği gibi bir hata da raporlanabilir *SEÇİMLİK*</span> ("550 bu bir kullanıcı adresidir, bir postalama listesi adresi değildir" gibi bir hata raporu).
+</p>
+          <p>
+Başarılı bir çok satırlı cevap (<code class="code">EXPN</code> için normal olan) durumunda yanıtın her satırında tam olarak bir posta kutusu belirtilir. Belirsiz bir istek yapılması durumundan yukarıda bahsedilmişti.
+</p>
+          <p>
+"Kullanıcı adı" bulanık bir terimdir ve tedbirli kullanılmıştır. <span class="rfcmust"><code class="code">VRFY</code> veya <code class="code">EXPN</code> komutlarının gerçeklenimi en azından "kullanıcı adları" olarak yerel posta kutularını tanımayı içermelidir *ZORUNLU*</span>. <span class="rfcshould">Şu an ki Genel Ağ uygulaması sıklıkla çok sayıda alanın postasıyla tek bir konağın ilgilenmesi sonucunu doğurduğundan, konaklar, özellikle de bu işlevselliği sağlayan konakların, bir "kullanıcı ismi" olarak "yerel-kısım@alan" biçimini kabul etmeleri iyi olur  *ÖNERİ*</span>; <span class="rfcmaybe">bu konaklar ek olarak "kullanıcı isimleri" olarak başka dizgeleri tanımayı tercih edebilir *SEÇİMLİK*</span>.
+</p>
+          <p>
+Bir çok satırlı yanıt gerektiren bir posta kutusu listesinin açılımı durumu şöyle örneklenebilir:
+</p>
+          <p>
+     </p>
+          <pre class="screen">
+İ: EXPN Numune-Topluluk
+S:  250-Jon Postel &lt;Postel@isi.edu&gt;
+S:  250-Fred Fonebone &lt;Fonebone@physics.foo-u.edu&gt;
+S:  250 Sam Q. Smith &lt;SQSmith@ozellikle.genel.com&gt;
+</pre>
+          <p>
+    </p>
+          <p>veya</p>
+          <p>
+     </p>
+          <pre class="screen">
+İ: EXPN imtiyaz-sevenler-listesi
+S:  550 Size Erisim Yasak.
+</pre>
+          <p>
+    </p>
+          <p><code class="code">VRFY</code> ve <code class="code">EXPN</code> komutlarının karakter dizisi bağımsız değişkenleri kullanıcı adı ve posta kutusu listesi kavramlarının gerçeklenimlerinin çeşitliliğine bağlı olarak daha fazla kısıtlanamaz. Bazı sistemlerde <code class="code">EXPN</code> komutunun bağımsız değişkeni bir postalama listesi içeren bir dosyanın adı olabilir, ama tekrar belitelim ki, Genel Ağ'da dosya isimlendirme uzlaşımları çeşitliliği vardır. Bu komutlardaki tarihsel farklılıklar nedeniyle <span class="rfcshould">elde edilen sonuçlar çok dikkatli yorumlanmalı *ÖNERİ*</span> ve <span class="rfcshould">sadece sorun teşhisi için kullanılmalıdır *ÖNERİ*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s352">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.5.2. <code class="literal">VRFY</code> için Normal Yanıt</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir <code class="code">VRFY</code> veya <code class="code">EXPN</code> isteğinden normal yanıt (2<em class="replaceable"><code>yz</code></em> veya 551) döndüğünde, yanıt normal olarak "&lt;yerel-kısım@alan&gt;" gibi bir posta kutusu ismi içerir; <span class="rfcmust">burada "alan" tamamen nitelikli alan adı olup sözdizimi içinde görünmelidir *ZORUNLU*</span>. <span class="rfcmaybe">Bu belirtimin niyetine karşı çıkmayı haklı gösterecek kadar olağanüstü durumlarda, serbest biçimli metin döndürülebilir *SEÇİMLİK*</span>. <span class="rfcshould">Hem bilgisayarlar hem de insanlar tarafından çözümlemeyi kolaylaştırmak için adresler "&lt;" ve "&gt;" arasında olmalıdır *ÖNERİ*</span>. <span class="rfcmust">Serbest biçimli hata ayıklama bilgisi değil de adresler döndürüldüğünde, <code class="code">EXPN</code> ve <code class="code">VRFY</code> komutları sadece SMTP <code class="code">RCPT</code> komutlarında kullanılabilen geçerli alan adreslerini döndürmelidir *ZORUNLU*</span>. Bu sebepten, <span class="rfcmust">eğer bir adres, teslimatın bir programa veya başka bir sisteme yapılacağı anlamına gelecekse, bu hedefe erişmekte kullanılan posta kutusu ismi belirtilmelidir *ZORUNLU*</span>. <span class="rfcmust">Yollar (açıkça kaynak rotaları) <code class="code">EXPN</code> veya <code class="code">VRFY</code> komutundan döndürülmemelidir *ZORUNLU*</span>.
+</p>
+          <p><span class="rfcshould">Sunucu gerçeklenimleri <code class="code">VRFY</code> ve <code class="code">EXPN</code> komutlarının ikisine de destek vermelidir *ÖNERİ*</span>. <span class="rfcmaybe">Güvenlik kaygılarıyla, gerçeklenimler, yapılandırma seçenekleri veya eşdeğerleri üzerinden bu komutların biri veya her ikisinin de iptal edilebileceği yerel kurulumları sağlayabilir *SEÇİMLİK*</span>. Bu komutlar desteklendiğinde, röle desteği de varsa, bu komutların rölelerle çalışmaları gerekli değildir. <span class="rfcmust">RFC 821'de bunların her ikisi de seçimlik olduğundan, bunlar destekleniyorsa, bir <code class="code">EHLO</code> yanıtında hizmet eklentileri olarak listelenmeleri gerekir *ZORUNLU*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s353">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.5.3. <code class="literal">VRFY</code> veya <code class="literal">EXPN</code> için Başarılı Yanıtın Anlamı</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span class="rfcmust">Bir sunucu, adresi gerçekten doğrulamadıkça, bir <code class="code">VRFY</code> veya <code class="code">EXPN</code> komutuna yanıt olarak bir 250 kodu döndürmemelidir *ZORUNLU*</span>. <span class="rfcmust">Bilhassa, sunucunun yaptığı tek iş verilen sözdiziminin geçerliliğini doğrulamaksa bir 250 kodu döndürmemelidir *ZORUNLU*</span>. Bu durumda, <span class="rfcshould">502 (Komut gerçeklenmedi) veya 500 kodu (Sözdizimi hatası, komut anlaşılamadı) döndürmelidir *ÖNERİ*</span>. Başka bir yerde de belirtildiği gibi, <code class="code">VRFY</code> ve <code class="code">EXPN</code> gerçeklenimi (adreslerin gerçekten doğrulanması ve bilgi döndürülmesi anlamında) hararetle önerilmektedir. Bu sebepten, <code class="code">VRFY</code> için 500 veya 502 döndüren gerçeklenimler bu belirtimle tam uyumlu değildir.
+    </p>
+          <p>
+Özellikle bir sunucunun, bir alan ya da başka bir sunucu için posta aktarımcı olarak çalıştığı durumda bir adresin doğru gibi göründüğü ama gerçekte sebepsizce doğrulanamadığı durumlar olabilir. Bu durumdaki "Görünen Doğruluk" normalde en azınan sözdizimi denetimi özelliğini ve kimi zaman, belirtilen alanların postayı röleleleyebileceği umulan konaklar olduklarını doğrulayabilme özelliğini ihtiva eder. <span class="rfcshould">Bu durumlarda, 252 yanıt kodu döndürülmelidir *ÖNERİ*</span>. Bu durumlar <a class="xref" href="rfc2821-s21.html" title="2.1. Temel Yapı">Temel Yapı</a> bölümünde bahsedilen <code class="code">RCPT</code> doğrulama konusuyla paraleldir. Benzer olarak, <a class="xref" href="rfc2821-s34.html" title="3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme">Adres Düzeltmek veya Güncellemek için Yönlendirme</a> bölümünde bahsedilen uygulama, adreslerin tanındığını ama onlar için alınan postanın sevkedildiğini veya geri gönderildiğini belirten <code class="code">VRFY</code> (ve <code class="code">EXPN</code>) komutlu 251 ve 551 yanıt kodlarına uygulanır. <span class="rfcshould">Gerçeklenimler genelde biraz daha uzun sürecek olsa bile <code class="code">VRFY</code> durumunda adres doğrulama ile ilgili olarak  <code class="code">RCPT</code> durumuna oranla daha fazla girişken olmalıdır *ÖNERİ*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s354">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.5.4. <code class="code">EXPN</code> Uygulamaları ve Anlamsallık</h4>
+              </div>
+            </div>
+          </div>
+          <p><code class="code">EXPN</code> komutu çoğunlukla postalama listeleri ve çok sayıda hedef adresi belirten rumuzlarla ilgili sorunların anlaşılması ve hatalarının ayıklanması için çok yararlıdır. Bazı sistemler yinelenenleri ayıklamak için posta listelerinin kaynak yorumlamasını kullanmayı denediler. Rumuzlama sistemlerinin Genel Ağ'da posta ile etkileşimi, bu stratejilerin konaklar (genelde <code class="literal">MX</code> ve <code class="literal">CNAME</code> DNS kayıtları), posta kutuları (yerel konak rumuzlarının çeşitli türleri) ve çeşitli vekil düzenlemeleri açısından tutarlı çalışmasını neredeyse imkansız hale getirmiştir ve <span class="rfcshould">posta sistemleri bunlara yeltenmemelidir *ÖNERİ*</span>.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>8. Makrolar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s7.html')">Önceki</button>
+          <div class="dropdown-content">7. "<code class="literal">Received-SPF</code>" Başlık Alanı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s9.html')">Sonraki</button>
+          <div class="dropdown-content">9. Etkilenimler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s8">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">8. Makrolar</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc4408-s81">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">8.1. Makro Tanımları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bazı <code class="literal">mekanizma</code>lar ve <code class="literal">değiştirici</code>ler terim parçaları üzerinde makro yorumlaması yaparlar.
+</p>
+          <pre class="literallayout monospaced">
+alan-belirtimi   = makro-dizgesi alan-sonu
+alan-sonu        = ( "." tepeyafta [ "." ] ) / makro-genleş
+
+tepeyafta        = ( *harfrakam HARF *harfrakam ) /
+                   ( 1*harfrakam "-" *( harfrakam / "-" ) harfrakam )
+                   ; HRT kuralı artı ek TLD kısıtlamaları
+                   ; (bkz [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3696" title="Application Techniques for Checking and Transformation of Names">RFC3696</a>], 2. bölüm)
+harfrakam        = HARF / RAKAM
+
+izahat-dizgesi    = *( makro-dizgesi / SP )
+
+makro-dizgesi    = *( makro-genleş / makro-sabiti )
+makro-genleş     = ( "%{" makro-harfi dönüştürücüler *ayraç "}" )
+                   / "%%" / "%_" / "%-"
+makro-sabiti     = %x21-24 / %x26-7E
+                   ; "%" hariç görünür karakterler
+makro-harfi      = "s" / "l" / "o" / "d" / "i" / "p" / "h" /
+                   "c" / "r" / "t"
+dönüştürücüler   = *RAKAM [ "r" ]
+ayraç            = "." / "-" / "+" / "," / "/" / "_" / "="
+</pre>
+          <p>
+Yüzde imi "<code class="literal">%%</code>" ile ifade edilir.
+"<code class="literal">%_</code>" makrosu tek bir " " (boşluk) olarak yorumlanır.
+"<code class="literal">%-</code>" makrosu "<code class="literal">%20</code>" şeklinde bir URL kodlu boşluk olarak yorumlanır.
+</p>
+          <p>
+Terim bağımsız değişkenlerinde kullanılan makro harflerinin anlamları:
+</p>
+          <pre class="literallayout monospaced">
+s = &lt;gönderici&gt;
+l = &lt;gönderici&gt;'nin yerel kısmı
+o = &lt;gönderici&gt;'nin alanı
+d = &lt;alan&gt;
+i = &lt;ip&gt;
+p = &lt;ip&gt;'nin doğrulanmış alan adı
+v = &lt;ip&gt; bir ipv4 ise "in-addr" dizgesi, bir ipv6 ise "ip6" dizgesi
+h = HELO/EHLO alanı
+</pre>
+          <p>
+Sadece "<code class="literal">exp</code>" metni içinde kullanılabilen makro harfleri:
+</p>
+          <pre class="literallayout monospaced">
+c = SMTP istemci IP'si (kolayca okunabilir biçim)
+r = sınamayı yapan konağın alan adı
+t = o an ki zaman damgası
+</pre>
+          <p>
+Bir yüzde imi '<code class="literal">{</code>', '<code class="literal">%</code>', '<code class="literal">-</code>', '<code class="literal">_</code>' karakterlerini öncelemekte kullanılmamışsa sözdizimi hatası olarak yorumlanır. Yani,
+</p>
+          <pre class="literallayout monospaced">
+-exists:%(ir).sbl.spamhaus.example.org
+</pre>
+          <p>
+yanlıştır ve <code class="literal">check_host()</code> işlevinin "<code class="literal">PermError</code>" döndürmesine sebep olur. Doğrusu şöyle olmalıdır:
+</p>
+          <pre class="literallayout monospaced">
+-exists:%{ir}.sbl.spamhaus.example.org
+</pre>
+          <p>
+İsteği bağlı dönüştürücüler:
+</p>
+          <pre class="literallayout monospaced">
+*RAKAM = sıfır veya başka rakamlar
+'r'    = yedek değer, öntanımlı olarak noktalarla ayrılarak
+</pre>
+          <p><code class="literal">Dönüştürücü</code>ler veya <code class="literal">ayraç</code>lar kullanılmışsa, bir makro harfinin değeri parçalara ayrılır. Tersine bir işlem yürütüldükten sonra ve/veya sol taraf parçaları kaldırıldıktan sonra parçalar özgün ayraç karakterleri değil "." kullanılarak biraraya getirilirler.
+</p>
+          <p>
+Öntanımlı olarak dizgeler "." (nokta) kullanılarak birbirlerinden ayrılırlar. Baştaki, sondaki ve ardarda gelen ayraçların özel olarak ele alınmadığına ve dolayısıyla parça listelerinin boş dizgeler içermeyebileceğine dikkat ediniz. SPF'nin eski gerçeklenimleri alan isimlerinden sonra nokta konmasına izin vermezdi; dolayısıyla, alan sahiplerinin bu belgeyle uyumlu gerçeklenimlerce kabul edilebilmesi için böyle isimler yayınlamaması gerekir. Makrolarda "." yerine kullanılan ayraç karakterleri belirtilebilir.
+</p>
+          <p><code class="literal">'r'</code> dönüştürücüsü tersinir bir işlem belirtir: istemci IP'si 192.0.2.1 ise, <code class="literal">%{i}</code> makrosu "192.0.2.1" üretirken, <code class="literal">%{ir}</code> makrosu "1.2.0.192" üretir.
+</p>
+          <p><code class="literal">RAKAM</code> dönüştürücüsü kullanılacak sağ taraf parçalarının sayısını belirtir. Eğer bir <code class="literal">RAKAM</code> belirtilmişse, değeri sıfır olmamalıdır *ZORUNLU*. Eğer hiç <code class="literal">RAKAM</code> belirtilmemişse veya değer kullanılan parça sayısından fazlasını belirtiyorsa, kullanılabilecek bütün parçalar kullanılır. Eğer <code class="literal">RAKAM</code> 5 ise ve 3 parça varsa, makro <code class="literal">RAKAM</code>'ın değeri 3'müş gibi yorumlanır. Gerçeklenimler bir alan ismindeki azami yafta sayısı olarak en azından 128 değerine destek vermelidiriler *ZORUNLU*.
+</p>
+          <p>
+"<code class="literal">s</code>" makrosu <code class="literal">&lt;gönderici&gt;</code> olarak yorumlanır. bir yerel kısım, de-imi ve bir alandan oluşan bir eposta adresidir. "<code class="literal">l</code>" makrosu <code class="literal">yerel-kısım</code> olarak yorumlanır. "<code class="literal">o</code>" makrosu ise <code class="literal">alan</code> olarak yorumlanır. bu değerlerin "<code class="literal">include</code>" ve/veya "<code class="literal">redirect</code>" nedeniyle ardışık yorumlama sırasında aynı kaldıklarına dikkat ediniz. Ayrıca, özgün <code class="literal">&lt;gönderici&gt;</code>'de <code class="literal">yerel-kısım</code> yoksa, yerine, ilk işlem sırasında "postmaster" getirileceğini unutmayınız (bkz, <a class="xref" href="rfc4408-s4.html#rfc4408-s43" title="4.3. İlk İşlem">İlk İşlem</a>).
+</p>
+          <p>
+IPv4 adresler için, "<code class="literal">i</code>" ve "<code class="literal">c</code>" makrolarının ikisi de standart noktalı dörtlü biçiminde yorumlanır.
+</p>
+          <p>
+IPv6 adresler için, "<code class="literal">i</code>" makrosu noktalı biçimde bir adrestir ve <code class="literal">%{ir}</code> kullanımı için tasarlanmıştır. "<code class="literal">c</code>" makrosu ise [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3513" title="Internet Protocol Version 6 (IPv6) Addressing Architecture">RFC3513</a>]'ün 2.2. bölümünde belirtilen ikinoktalı onaltılık biçimli bir adres olarak yorumlanır ve insanların okuması için düşünülmüştür.
+</p>
+          <p>
+"<code class="literal">p</code>" makrosu <code class="literal">&lt;ip&gt;</code>'nin doğrulanmış alan adı olarak yorumlanır. Doğrulanmış alan adının bulunması <a class="xref" href="rfc4408-s5.html#rfc4408-s55" title="5.5. &quot;ptr&quot;">"<code class="literal">ptr</code>"</a> bölümünde tanımlanmıştır. Eğer <code class="literal">&lt;alan&gt;</code> doğrulanmış alan adları içindeyse, onun kullanılması gerekir *ÖNERİ*, yoksa, eğer <code class="literal">&lt;alan&gt;</code>'ın bir alt alan adı varsa o kullanılmalıdır *ÖNERİ*. Aksi takdirde listedeki herhangi bir isim kullanılabilir. Eğer doğrulanmış bir alan adı yoksa veya bir DNS hatası oluşmuşsa, "<code class="literal">unknown</code>" dizgesi kullanılır.
+</p>
+          <p>
+"<code class="literal">r</code>" makrosu alıcı MTA'nın ismi olarak yorumlanır. Bunun tamamen nitelenmiş bir alan adı olması gerekir *ÖNERİ*, fakat böyle bir isim yoksa (sınama bir MUA tarafından yapılıyorsa) veya sınama önlemleri belirtilmemesini gerektiriyorsa, "<code class="literal">unknown</code>" dizgesi kullanılmalıdır *ÖNERİ*. Alan adı, istemci MTA'nın alıcı MTA'yı bulmak için kullandığı MX kaydında bulunan isimden farklı olabilir.
+</p>
+          <p>
+"<code class="literal">t</code>" makrosu, onluk tabanda, mutlak zaman başlangıcından beri (UTC olarak, 1 Ocak 1970 geceyarısından itibaren) geçen saniye sayısı olarak yorumlanır. Bu, standartlarla uyumlu çoğu kütüphanede bulunan POSIX <code class="literal">time()</code> işlevinden dönen değerdir.
+</p>
+          <p>
+Makro yorumunun sonucu bir alan adı sorgusunda kullanılırken, eğer yorumlanmış alan adı 253 karakteri (azami alan adı uzunluğu) aşıyorsa, baştan itibaren 253 karakter alınır.
+</p>
+          <p>
+Büyük harfli makrolar küçük harfli eşdeğerleri olarak yorumlanır ve bundan sonra URL öncelenir. [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC3986" title="Uniform Resource Identifier (URI): Generic Syntax">RFC3986</a>]'da tanımlanmış "urice" karakter kümesinde bulunmayan karakterlere URL öncelemesi uygulanmalıdır.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Meşru eposta için makro yorumlaması sırasında DNS yaftalarında 63 karakterlik sınırın aşılamayacağına dikkat ediniz.  Eposta adreslerinin yerel kısımlarında ise noktalar arasındaki dizgecikler 63 karakterden uzun olabilir.
+</p>
+            </div>
+          </div>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Alanlar, herhangi bir mekanizma yönergesi ile birlikte "<code class="literal">s</code>", "<code class="literal">l</code>", "<code class="literal">o</code>" veya "<code class="literal">h</code>" makrosunu kullanmaktan kaçınmalıdırlar. Bu makrolar çok güçlü olduklarından ve kullanıcı temelinde kayıt yayınlamayı mümkün kıldıklarından <code class="literal">check_host()</code> sonucunu arabellekleyen gerçeklenimlerin yeteneklerini epeyce sınırlarlar ve DNS arabelleklerinin etkinliğini azaltırlar.
+</p>
+              <p>
+"<code class="literal">s</code>", "<code class="literal">l</code>", "<code class="literal">o</code>" veya "<code class="literal">h</code>" makrorusun içeren bir <code class="literal">check_host()</code> değerlendirmesi sırasında işlenen bir yönerge yoksa, değerlendirme sonucu, tüm DNS kayıtlarının uyması gereken en kısa yaşam süresince (TTL) sadece <code class="literal">&lt;alan&gt;</code> ve <code class="literal">&lt;ip&gt;</code> temelinde arabelleklenebilir.
+</p>
+            </div>
+          </div>
+        </section>
+        <section class="sect2" id="rfc4408-s82">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">8.2. Makro Yorumlama Örnekleri</h3>
+              </div>
+            </div>
+          </div>
+          <p><code class="literal">&lt;gönderici&gt;</code> strong-bad@email.example.com, IPV6 SMTP istemcisi 192.0.2.3, IPV4 SMTP istemcisi 2001:DB8::CB01 ve istemci IP'nin PTR alan adı mx.example.org olmak üzere:
+</p>
+          <pre class="literallayout monospaced">
+makro                          yorumu
+-------  ----------------------------
+%{s}     strong-bad@email.example.com
+%{o}                email.example.com
+%{d}                email.example.com
+%{d4}               email.example.com
+%{d3}               email.example.com
+%{d2}                     example.com
+%{d1}                             com
+%{dr}               com.example.email
+%{d2r}                  example.email
+%{l}                       strong-bad
+%{l-}                      strong.bad
+%{lr}                      strong-bad
+%{lr-}                     bad.strong
+%{l1r-}                        strong
+
+makro-dizgesi                                                 yorumu
+--------------------------------------------------------------------
+%{ir}.%{v}._spf.%{d2}             3.2.0.192.in-addr._spf.example.com
+%{lr-}.lp._spf.%{d2}                  bad.strong.lp._spf.example.com
+
+%{lr-}.lp.%{ir}.%{v}._spf.%{d2}
+                    bad.strong.lp.3.2.0.192.in-addr._spf.example.com
+
+%{ir}.%{v}.%{l1r-}.lp._spf.%{d2}
+                        3.2.0.192.in-addr.strong.lp._spf.example.com
+
+%{d2}.trusted-domains.example.net
+                             example.com.trusted-domains.example.net
+
+IPv6:
+%{ir}.%{v}._spf.%{d2}                               1.0.B.C.0.0.0.0.
+0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.B.D.0.1.0.0.2.ip6._spf.example.com
+</pre>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

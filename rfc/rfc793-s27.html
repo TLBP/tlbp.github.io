@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2.7. Bağlantının Kurulması ve Temizliği</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s26.html')">Önceki</button>
+          <div class="dropdown-content">2.6. Güvenilir İletişim</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s2.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s28.html')">Sonraki</button>
+          <div class="dropdown-content">2.8. Veri İletişimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s27">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">2.7. Bağlantının Kurulması ve Temizliği</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Bir TCP'nin işleme sokabileceği bağımsız veri akımlarını kimliklendirmek için TCP bir port tanıtı sağlar. Port tanıtları her TCP tarafından bağımsız olarak seçildiğinden eşsiz olmayabilir. Her TCP'ye eşsiz tanıtlar sağlamak, yani birbirlerine bağlı ağlar üzerinde eşsiz olacak bir soket oluşturmak için Genel Ağ adresi ile port tanıtını birleştiririz.
+</p>
+        <p>
+Bir bağlantı, uçlarındaki soketlerin oluşturduğu çift ile belirtilir. Bir yerel soket çok sayıda  yabancı soketle bağlantı kurabilir. Bir bağlantı veri taşımak için her iki yönde de kullanılabildiğinden "çift yönlü"dür.
+</p>
+        <p>
+TCP'ler hangi portun hangi süreçle ilişklendirileceğini belirlemekte özgürdürler çünkü onları kendileri seçer. Bununla birlikte bazı gerçeklenimler bazı kabullerin yapılmasını gerektirir. TCP'nin bazı bakımlardan daima belli süreçleri belli soketlerle ilişkilendirdiğini bilmek gerekir. Biz, süreçlerin kendi portları olabileceğini ve bu süreçlerin sadece kendi soketleri üzerinden bağlantıya geçebileceğini, tasavvur ediyoruz. (Sahipliğin gerçeklenmesi yerel bir konudur ama bir port isteği yapacak bir kullanıcı komutu veya örneğin, belli bir süreci bir port isminin yüksek seviyeli bitleri ile ilişkilendirerek,  belli bir sürece belli bir grup portu tahsis edecek bir yöntem tasarlayabiliriz.)
+</p>
+        <p>
+Bir bağlantı, bağımsız değişken olarak bir yerel bir de yabancı port vererek bir <span class="command"><strong>AÇ</strong></span> çağrısıyda belirtilir. <span class="command"><strong>AÇ</strong></span> çağrısı geriye, kullanıcının sonraki çağrılar için atıfta bulunabileceği TCP tarafından sağlanmış bir (kısa) yerel bağlantı ismi döndürür. Bir bağlantı ile ilgili olarak hatırlanması gereken çeşitli şeyler vardır. Bu bilgiyi saklamak için Aktarım Denetim Bloğu (ADB) adını verebileceğimiz bir veri yapısı tasarlarız. Bir gerçeklenim stratejisi olarak yerel bağlantı ismi bu bağlantının ADB'sine bir gösterici olurdu. <span class="command"><strong>AÇ</strong></span> çağrısında ayrıca bağlantının doğrudan mı kurulacağı yoksa edilgen olarak mı bekleneceği belirtilir.
+</p>
+        <p>
+Edilgen bir <span class="command"><strong>AÇ</strong></span> isteği, sürecin bir bağlantı başlatmaktan ziyade gelen bağlantı isteklerini kabul etmek istediği anlamına gelir. Çoğunlukla edilgen bir <span class="command"><strong>AÇ</strong></span> isteği belirten bir süreç herhangi bir çağrıcıdan gelen bağlantı isteğini kabul edecektir. Bu durumda herşeyi sıfır bir yabancı soket, belirsiz bir soketi belirtmekte kullanılır. Belirsiz yabancı soketlere sadece edilgen <span class="command"><strong>AÇ</strong></span> çağrılarında izin verilir.
+</p>
+        <p>
+Bilinmeyen başka süreçlere hizmet sağlamak isteyen bir hizmet süreci belirsiz bir yabancı soketle edilgen bir <span class="command"><strong>AÇ</strong></span> çağrısı yapar. Bundan sonra bir süreç bu yerel sokete bağlantı isteğinde bulunmuş gibi yapılır. Eğer bu yerel soket bu hizmetle ilişkili olduğu bilinen bir soketse, bağlantı kurulur.
+</p>
+        <p>
+Ne oldukları bilinen soketler bir standart hizmeti öncelikle bir soket adresi ile ilişkilendiren uzlaşımsal bir mekanizmadır. Örneğin, "Telnet Sunucusu" süreci kalıcı olarak belli bir sokete atanmış ve diğer soketler de dosya aktarımı, uzak iş girişi, metin üreteci, yansıtıcı ve giriş noktası (son üçü deneme amaçlıdır) süreçleri için ayrılmıştır. Bir soket adresi, her yeniden oluşturuluşunda belli bir soket döndüren bir "Ara-Bul" hizmetine erişim için ayrılmış olabilirdi. Bildik soketler kavramı TCP belirtiminin bir parçasıdır, fakat soketlerin hizmetlere atanması bu belirtimin dışındadır (bkz, [<a class="xref" href="rfc793-refs.html#rfc793-bib4" title="Assigned Numbers">4</a>]).
+</p>
+        <p>
+Süreçler edilgen <span class="command"><strong>AÇ</strong></span> çağrıları yapabilir ve başka süreçlerin doğrudan <span class="command"><strong>AÇ</strong></span> çağrılarının bunlarla eşleşmesini beklerler; bağlantılar kurulduğunda TCP tarafından bilgilendirilir. Birbirlerine aynı anda doğrudan <span class="command"><strong>AÇ</strong></span> çağrısı yapan iki süreç doğru biçimde bağlanacaktır. Bu esneklik bileşenleri birbirlerine göre eşzamansız hareket eden dağıtık hesaplamanın desteklenmesi bakımından yaşamsal önemdedir.
+</p>
+        <p>
+Yerel edilgen <span class="command"><strong>AÇ</strong></span> çağrıları ile yabancı doğrudan <span class="command"><strong>AÇ</strong></span> çağrılarındaki soketleri eşleştirmede başlıca iki durum sözkonusudur. İlk durumda, yerel edilgen <span class="command"><strong>AÇ</strong></span> çağrıları yabancı soketi tamamen belirtir. Bu durumda eşleşme kesin olmalıdır. İkinci durumda, yerel edilgen <span class="command"><strong>AÇ</strong></span> çağrıları yabancı soketi belirsiz bırakır. Bu durumda, yerel soketler eşleştiği sürece herhangi bir yabancı soket kabul edilebilirdir. Diğer olasılıklar kısmen sınırlanmış eşleşmeleri kapsar.
+</p>
+        <p>
+Aynı yerel soketi kullanan edilgen <span class="command"><strong>AÇ</strong></span> çağrılarından bazıları (ADB'lerde kayıtlı olarak) beklemedeyse, belirsiz yabancı soketli bir ADB seçilmeden önce, bir yabancı doğrudan <span class="command"><strong>AÇ</strong></span> çağrısı, bir yerel doğrudan <span class="command"><strong>AÇ</strong></span> çağrısındaki belirli yabancı soketli bir ADB ile, eğer böyle bir ADB mevcutsa, (belirsiz yabancı soketli bekleyenleri sonraya bırakarak) eşleşecektir.
+</p>
+        <p>
+Bağlantıları oluşturan yordamlar eşzamanlama denetim bayrağından (<code class="literal">EŞZ</code>) yararlanırlar ve üç iletilik bir değiştokuşa katılır. Bu değiştokuş üçlü uzlaşı [<a class="xref" href="rfc793-refs.html#rfc793-bib3" title="Connection Management in Transport Protocols">3</a>] diye adlandırılmıştır.
+</p>
+        <p>
+Bir bağlantı bir kullanıcı <span class="command"><strong>AÇ</strong></span> çağrısıyla oluşturulan ve beklemekte olan bir ADB ile <code class="literal">EŞZ</code> içeren bir veri bölütünün geliş randevusu tarafından ilklendirilir. Yerel ve yabancı soketlerin eşleşmesi bir bağlantı ilklendirildiği anda sağlanmış olur. Sıra numaraları da her iki yönde eşzamanlandığı anda bağlantı "kurulmuş" olur.
+</p>
+        <p>
+Bir bağlantı temizliği de veri bölütlerinin değiştokuşunu ve bu durumda <code class="literal">SON</code> denetim bayrağının taşınmasını gerektirir.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

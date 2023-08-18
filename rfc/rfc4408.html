@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>RFC 4408 - Epostada Alanların Kullanım Yetkilendirilmesi için Gönderici Politik Çerçevesi (SPF), 1. Sürüm</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta name="description" content="Genel Ağ'da epostaların bazı yollarla sahteleri yapılabilir. Özellikle, SMTP HELO/EHLO komutlarında belirtilen alan veya bir iletinin dönüş yolu olarak kullanılabilen bir gönderici konak ile ilgili olarak mevcut protokollerde bir kısıtlama yer almaz. Bu belge, bir alanın, kendi alan adını kullanmaya izin verdiği konakları açıkça yetkilendirebildiği ve böyle bir yetkilendirmeyi bir alıcı konakla sınayabildiği Gönderici Politik Çerçevesi (Sender Policy Framework - SPF) protokolünün 1. sürümünü açıklar." />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('aik-diger.html')">Önceki</button>
+          <div class="dropdown-content">3. Bilgilendirici ve Deneysel Yorum İstekleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik-diger.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s1.html')">Sonraki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="article" id="rfc4408">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">RFC 4408 - Epostada Alanların Kullanım Yetkilendirilmesi için Gönderici Politik Çerçevesi (SPF), 1. Sürüm</h2>
+            </div>
+            <div>
+              <div class="authorgroup">
+                <div class="author">Yazan: <span class="firstname">M. Wong</span></div>
+                <div>
+                  <dl></dl>
+                </div>
+                <div class="author">Yazan: <span class="firstname">W. Schlitt</span></div>
+                <div>
+                  <dl></dl>
+                </div>
+                <div class="author">Çeviren: <span class="firstname">Nilgün Belma Bugüner</span></div>
+                <div>
+                  <dl>
+                    <div class="affiliation">
+                      <dd class="address">
+                        <a class="link" href="https://github.com/nilgun" target="_top">https://github.com/nilgun</a>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div><br />
+Ağ Çalışma Grubu<br />
+Yorum İsteği: 4408<br />
+Durumu: Deneysel<br />
+Güncelleyen RFC: 7208 (Standart Aday Adayı)<br />
+    </div>
+            <div>
+              <div class="dropnotice">
+                <div class="legalnotice-title">
+                  <a style="text-decoration: underline">Yasal Uyarı</a>
+                </div>
+                <div class="droplegal">
+                  <p>
+RFC'lerin yazarlarının hakları <a class="link" href="ftp://ftp.rfc-editor.org/in-notes/bcp/bcp78.txt" target="_top">BCP 78</a> ile düzenlenmiştir. Dolayısıyla RFC çevirilerinin çevirmenlerinin haklarını da BCP 78'in düzenlediği kabul edilmiştir.
+        </p>
+                  <p>
+Bu belge <a class="link" href="http://www.ietf.org/" target="_top">IETF</a> tarafından yayınlanan resmi RFC4408'in <span class="emphasis"><strong>gayrıresmi</strong></span> çevirisidir ve aslının yerine kullanılamaz. Bu çevirinin hiçbir bağlamda ya da koşulda hükmü yoktur. Bu çeviri, anadili Türkçe olan Genel ağ kullanıcılarının bu RFC hakkında fikir edinebilmelerini sağlamak amacıyla hazırlanmıştır.
+  </p>
+                  <p>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </p>
+                  <p>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </p>
+                  <p>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="pubdate">Ekim 2006</p>
+            </div>
+            <div>
+              <div class="revhistory">
+                <div class="formaltitle">Sürüm Bilgileri</div>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="revhistory">
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm 1.0</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Ekim 2006</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">NBB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">İlk çeviri</td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"></td>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm Deneysel</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Nisan 2006</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">MW ve WS</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">Özgün sürüm</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="abstract">
+                <div class="abstract-title">Özet</div>
+                <p>
+Genel Ağ'da epostaların bazı yollarla sahteleri yapılabilir. Özellikle, SMTP HELO/EHLO komutlarında belirtilen alan veya bir iletinin dönüş yolu olarak kullanılabilen bir gönderici konak ile ilgili olarak mevcut protokollerde bir kısıtlama yer almaz. Bu belge, bir alanın, kendi alan adını kullanmaya izin verdiği konakları açıkça yetkilendirebildiği ve böyle bir yetkilendirmeyi bir alıcı konakla sınayabildiği Gönderici Politik Çerçevesi (Sender Policy Framework - SPF) protokolünün 1. sürümünü açıklar.
+    </p>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Bu Belgenin Durumu</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu belge Genel Ağ topluluğu için bir Deneysel Protokol tanımlar. Bir çeşit Genel Ağ stardardı değildir. Gelişmesi için üzerinde tartışılmasını ve önerilerde bulunulmasını talep edilmektedir. Bu belgenin dağıtımına sınırlama getirilmemiştir.
+</p>
+          <p>
+Copyright © The Internet Society (2006).</p>
+          <div class="admon note">
+            <h3 class="admon-title">IESG Notu</h3>
+            <div class="admon-contents">
+              <p>
+Genel bir fikir birliği olmadığından ve  iki başarısız yaklaşımı bağdaştırma çabaları nedeniyle RFC 4405, RFC 4406, RFC 4407 ve RFC 4408 aynı anda Deneysel Yorum İstekleri olarak yayınlanmıştır. Bu sıfatla, bu belgeler tam IETF gözden geçirmesine alınmamış ve MARID çalışma grubunda ele alındıkları halleriyle farklı yaklaşımları belgeleyecek şekilde "OLDUKLARI GİBİ" yayınlanmışlardır.
+</p>
+              <p>
+Hangi yaklaşımın tercih edileceği ve bunların iki kişilik bir araçta kullanımından duyulan endişelerin ve yaklaşımların her biri için tartışmaya açık konulara okuyucunun dikkatinin çekilmesi hususunda IESG  taraflardan biri değildir. IESG farklı yaklaşımların belgelenmesinde belgelenmemesinden daha az kötülük olduğuna inanmaktadır.
+</p>
+              <p>
+Gönderici kimliği deneyinin o an ki SPF deneyi için veya bu deneylerin eski sürümleri için oluşturulabilen DNS kayıtlarını kullanabileceğine dikkat ediniz. Kaydın içeriğine bağlı olarak, bu, gönderici kimliği ampiriklerinin iletiye doğru biçimde uygulanamadığı anlamına gelir. Bu ampiriklerle  alıcı tarafından bağdaştırılan eylemlere bağlı olarak ileti teslim edilemeyebilir veya alıcıda yok edilebilir.
+</p>
+              <p>
+Gönderici kimliği deneyinin DNS kayıtlarına güvenen tarafları, bu gibi durumlarda geçerli iletilerini kaybedebilecekleri hususunda uyarılır. SPF deneyinin DNS kayıtlarını yayınlayan tarafları ise, RFC 4406'nın 3.4. bölümünde verilen tavsiyeyi değerlendirerek v=spf1 ve spf2.0 kayıtlarının her ikisini de yayınlamayı isteyebilirler.
+</p>
+              <p>
+Gönderici kimliği deneyindeki tarafların, Resent-* başlık alanlarının, standartlara uygun sistemlerle etkileşirken meşru epostayı almada başarısızlıkla sonuçlanacak kullanımı hakkında bilgi sahibi olmaları gerekir (özellikle, Resent-* başlıklarını eklemeyen standartlara uyan özdevinimli sevkediciler ve RFC 2822 Resent-* başlıklarının anlamsallığını henüz gerçeklememiş olup RFC 822'ye razı olan sistemler). Bu birlikte çalışabilirlik sorunlarını çözümlemeksizin Gönderici Kimliğini standartlaşma aşamalarına sokmak uygun olmazdı.
+</p>
+              <p>
+Gelecekte toplulukta bir fikir birliği oluşabileceğinden hareketle, topluluk, yayımı izleyen iki yıl boyunca iki yaklaşımın başarılarını ve başarısızlıklarını gözlemlemeye davet edilmiştir.
+</p>
+            </div>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>1. <a href="rfc4408-s1.html">Giriş</a></dt>
+            <dd>
+              <dl>
+                <dt>1.1. <a href="rfc4408-s1.html#rfc4408-s11">Protokolün Durumu</a></dt>
+                <dt>1.2. <a href="rfc4408-s1.html#rfc4408-s12">Terminoloji</a></dt>
+              </dl>
+            </dd>
+            <dt>2. <a href="rfc4408-s2.html">İşlem</a></dt>
+            <dd>
+              <dl>
+                <dt>2.1. <a href="rfc4408-s2.html#rfc4408-s21">HELO Kimliği</a></dt>
+                <dt>2.2. <a href="rfc4408-s2.html#rfc4408-s22">MAIL FROM Kimliği</a></dt>
+                <dt>2.3. <a href="rfc4408-s2.html#rfc4408-s23">Yetkilendirmenin Yayınlanması</a></dt>
+                <dt>2.4. <a href="rfc4408-s2.html#rfc4408-s24">Yetkilendirmenin Sınanması</a></dt>
+                <dt>2.5. <a href="rfc4408-s2.html#rfc4408-s25">Sonucun Yorumlanması</a></dt>
+                <dd>
+                  <dl>
+                    <dt>2.5.1. <a href="rfc4408-s2.html#rfc4408-s251">
+     <code class="literal">None</code>
+    </a></dt>
+                    <dt>2.5.2. <a href="rfc4408-s2.html#rfc4408-s252">
+     <code class="literal">Neutral</code>
+    </a></dt>
+                    <dt>2.5.3. <a href="rfc4408-s2.html#rfc4408-s253">
+     <code class="literal">Pass</code>
+    </a></dt>
+                    <dt>2.5.4. <a href="rfc4408-s2.html#rfc4408-s254">
+     <code class="literal">Fail</code>
+    </a></dt>
+                    <dt>2.5.5. <a href="rfc4408-s2.html#rfc4408-s255">
+     <code class="literal">SoftFail</code>
+    </a></dt>
+                    <dt>2.5.6. <a href="rfc4408-s2.html#rfc4408-s256">
+     <code class="literal">TempError</code>
+    </a></dt>
+                    <dt>2.5.7. <a href="rfc4408-s2.html#rfc4408-s257">
+     <code class="literal">PermError</code>
+    </a></dt>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+            <dt>3. <a href="rfc4408-s3.html">SPF Kayıtları</a></dt>
+            <dd>
+              <dl>
+                <dt>3.1. <a href="rfc4408-s3.html#rfc4408-s31">Yayınlama</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.1.1. <a href="rfc4408-s3.html#rfc4408-s311">DNS Özkaynak Kaydı Türleri</a></dt>
+                    <dt>3.1.2. <a href="rfc4408-s3.html#rfc4408-s312">Çoklu DNS Kayıtları</a></dt>
+                    <dt>3.1.3. <a href="rfc4408-s3.html#rfc4408-s313">Tek DNS Kaydında Çok Sayıda Dizge</a></dt>
+                    <dt>3.1.4. <a href="rfc4408-s3.html#rfc4408-s314">Kayıt Uzunluğu</a></dt>
+                    <dt>3.1.5. <a href="rfc4408-s3.html#rfc4408-s315">İsim Kalıplı Kayıtlar</a></dt>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+            <dt>4. <a href="rfc4408-s4.html"><code class="literal">check_host()</code> İşlevi</a></dt>
+            <dd>
+              <dl>
+                <dt>4.1. <a href="rfc4408-s4.html#rfc4408-s41">Bağımsız değişkenler</a></dt>
+                <dt>4.2. <a href="rfc4408-s4.html#rfc4408-s42">Sonuçlar</a></dt>
+                <dt>4.3. <a href="rfc4408-s4.html#rfc4408-s43">İlk İşlem</a></dt>
+                <dt>4.4. <a href="rfc4408-s4.html#rfc4408-s44">Kayıt Arama</a></dt>
+                <dt>4.5. <a href="rfc4408-s4.html#rfc4408-s45">Kayıtların Seçilmesi</a></dt>
+                <dt>4.6. <a href="rfc4408-s4.html#rfc4408-s46">Kayıt Değerlendirme</a></dt>
+                <dd>
+                  <dl>
+                    <dt>4.6.1. <a href="rfc4408-s4.html#rfc4408-s461">Terim Değerlendirme </a></dt>
+                    <dt>4.6.2. <a href="rfc4408-s4.html#rfc4408-s462"><code class="literal">Mekanizma</code>lar</a></dt>
+                    <dt>4.6.3. <a href="rfc4408-s4.html#rfc4408-s463"><code class="literal">Değiştirici</code>ler</a></dt>
+                  </dl>
+                </dd>
+                <dt>4.7. <a href="rfc4408-s4.html#rfc4408-s47">Öntanımlı Sonuç</a></dt>
+                <dt>4.8. <a href="rfc4408-s4.html#rfc4408-s48">Alan Belirtimi</a></dt>
+              </dl>
+            </dd>
+            <dt>5. <a href="rfc4408-s5.html"><code class="literal">Mekanizma</code> Tanımları</a></dt>
+            <dd>
+              <dl>
+                <dt>5.1. <a href="rfc4408-s5.html#rfc4408-s51">"<code class="literal">all</code>"</a></dt>
+                <dt>5.2. <a href="rfc4408-s5.html#rfc4408-s52">"<code class="literal">include</code>"</a></dt>
+                <dt>5.3. <a href="rfc4408-s5.html#rfc4408-s53">"<code class="literal">a</code>"</a></dt>
+                <dt>5.4. <a href="rfc4408-s5.html#rfc4408-s54">"<code class="literal">mx</code>"</a></dt>
+                <dt>5.5. <a href="rfc4408-s5.html#rfc4408-s55">"<code class="literal">ptr</code>"</a></dt>
+                <dt>5.6. <a href="rfc4408-s5.html#rfc4408-s56">"<code class="literal">ip4</code>" ve "<code class="literal">ip6</code>"</a></dt>
+                <dt>5.7. <a href="rfc4408-s5.html#rfc4408-s57">"<code class="literal">exists</code>"</a></dt>
+              </dl>
+            </dd>
+            <dt>6. <a href="rfc4408-s6.html">Değiştirici Tanımları</a></dt>
+            <dd>
+              <dl>
+                <dt>6.1. <a href="rfc4408-s6.html#rfc4408-s61">Yönlendirilmiş Sorgu (<code class="literal">redirect</code>)</a></dt>
+                <dt>6.2. <a href="rfc4408-s6.html#rfc4408-s62">İzahat (<code class="literal">exp</code>)</a></dt>
+              </dl>
+            </dd>
+            <dt>7. <a href="rfc4408-s7.html">"<code class="literal">Received-SPF</code>" Başlık Alanı</a></dt>
+            <dt>8. <a href="rfc4408-s8.html">Makrolar</a></dt>
+            <dd>
+              <dl>
+                <dt>8.1. <a href="rfc4408-s8.html#rfc4408-s81">Makro Tanımları</a></dt>
+                <dt>8.2. <a href="rfc4408-s8.html#rfc4408-s82">Makro Yorumlama Örnekleri</a></dt>
+              </dl>
+            </dd>
+            <dt>9. <a href="rfc4408-s9.html">Etkilenimler</a></dt>
+            <dd>
+              <dl>
+                <dt>9.1. <a href="rfc4408-s9.html#rfc4408-s91">Gönderici Alanlar</a></dt>
+                <dt>9.2. <a href="rfc4408-s9.html#rfc4408-s92">Postalama Listeleri</a></dt>
+                <dt>9.3. <a href="rfc4408-s9.html#rfc4408-s93">Yönlendirme Hizmetleri ve Takma Adlar</a></dt>
+                <dt>9.4. <a href="rfc4408-s9.html#rfc4408-s94">Posta Hizmetleri</a></dt>
+                <dt>9.5. <a href="rfc4408-s9.html#rfc4408-s95">MTA Röleleri</a></dt>
+              </dl>
+            </dd>
+            <dt>10. <a href="rfc4408-sa.html">Güvenlik Değerlendirmeleri</a></dt>
+            <dd>
+              <dl>
+                <dt>10.1. <a href="rfc4408-sa.html#rfc4408-sa1">İşlem Sınırları</a></dt>
+                <dt>10.2. <a href="rfc4408-sa.html#rfc4408-sa2">SPF Yetkilendirmeli Eposta Yanlış Kimlikler İçerebilir</a></dt>
+                <dt>10.3. <a href="rfc4408-sa.html#rfc4408-sa3">Taklit Edilmiş DNS ve IP Verisi</a></dt>
+                <dt>10.4. <a href="rfc4408-sa.html#rfc4408-sa4">Çapraz-Kullanıcı Sahtekarlığı</a></dt>
+                <dt>10.5. <a href="rfc4408-sa.html#rfc4408-sa5">Güvenilmez Bilgi Kaynakları</a></dt>
+                <dt>10.6. <a href="rfc4408-sa.html#rfc4408-sa6">Mahremiyetin İfşası</a></dt>
+              </dl>
+            </dd>
+            <dt>11. <a href="rfc4408-sb.html">Teşekkür</a></dt>
+            <dt>12. <a href="rfc4408-sc.html">IANA Değerlendirmeleri</a></dt>
+            <dd>
+              <dl>
+                <dt>12.1. <a href="rfc4408-sc.html#rfc4408-sc1">DNS Kayıt türü olarak <code class="literal">SPF</code></a></dt>
+                <dt>12.2. <a href="rfc4408-sc.html#rfc4408-sc2">"<code class="literal">Received-SPF:</code>" Posta Başlığı Alanı</a></dt>
+              </dl>
+            </dd>
+            <dt>13. <a href="rfc4408-sd.html">Kaynakça</a></dt>
+            <dd>
+              <dl>
+                <dt>13.1. <a href="rfc4408-sd.html#rfc4408-sd1">Uyulması zorunlu Olanlar</a></dt>
+                <dt>13.2. <a href="rfc4408-sd.html#rfc4408-sd2">Bilgilendirici Olanlar</a></dt>
+              </dl>
+            </dd>
+            <dt>Ek A. <a href="rfc4408-appa.html">Toplu ABNF</a></dt>
+            <dt>Ek B. <a href="rfc4408-appb.html">Çeşitli Örnekler</a></dt>
+            <dt>Ek C. <a href="rfc4408-appc.html">Bu Belge Hakkında</a></dt>
+          </dl>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2. Tanıtım</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc791-s1.html')">Önceki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc791.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc791-s3.html')">Sonraki</button>
+          <div class="dropdown-content">3. Belirtim</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc791-s2">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">2. Tanıtım</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc791-s21">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.1. Diğer Protokollerle İlişkisi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Aşağıdaki şekil Genel Ağ Prokolünün protokol hiyerarşisindeki yerini gösteriyor:
+</p>
+          <p>
+    </p>
+          <div class="figure">
+            <div class="figure-title">Şekil 1. Protokol İlişkileri</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
++------+ +-----+ +-----+     +-----+
+|Telnet| | FTP | | TFTP| ... | ... |  Uygulama Seviyesi
++------+ +-----+ +-----+     +-----+
+      |   |         |           |
+    +-----+     +-----+     +-----+
+    | TCP |     | UDP | ... | ... |  Konak Seviyesi
+    +-----+     +-----+     +-----+
+        |           |           |
+    +--------------------------+----+
+    |  Genel Ağ Protokolü ve ICMP   |  Ağ Geçidi Seviyesi
+    +--------------------------+----+
+                    |
+      +---------------------------+
+      |     Yerel Ağ Protokolü    |    Ağ Seviyesi
+      +---------------------------+
+
+   Protokollerin Birbirleriyle İlişkileri
+</pre>
+            </div>
+          </div>
+          <p><br class="figure-break" />
+   </p>
+          <p>
+Genel Ağ prokotokolü bir tarafta daha yüksek seviyeli konaktan konağa protokollerle diğer taraftaki yerel ağ protokollerine bir arayüzdür. Buradaki yerel ağ bir bina ya da ARPANET gibi daha büyük bir ağ içindeki küçük bir ağ olabilir.
+</p>
+        </section>
+        <section class="sect2" id="rfc791-s22">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.2. İşleme Modeli</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir veri katarını bir uygulama programından diğerine aktarımı için kullanılan işlem modeli aşağıdaki senaryoda şekillendirilmiştir:
+</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+Bu aktarımın bir aracı ağ geçidi gerektireceğini varsayıyoruz.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Gönderen uygulama programı verisini hazırlar ve bu veriyi bir veri katarı olarak yollayacak yerel Genel Ağ modülünü, hedef adresini ve diğer bağımsız değişkenleri çağrı bağımsız değişkenleri olarak belirterek çağırır.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Genel Ağ modülü bir veri katarı başlığı hazırlar ve veriyi ona iliştirir. Genel Ağ modülü bu Genel Ağ adresi için bir yerel ağ adresi saptar; bu durumda bu adres bir ağ geçidi adresi olacaktır.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Bu veri katarını ve yerel ağ adresini yerel ağ arayüzüne gönderir.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Yerel ağ arayüzü bir yerel ağ başlığı oluşturup bunu veri katarına iliştirir ve sonucu yerel ağ üzerinden gönderir.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+veri katarı yerel ağ başlığında paketlenmiş bir şekilde bir ağ geçidi konağına ulaşır, yerel ağ arayüzü bu başlığı ayırır ve veri katarını Genel Ağ modülüne yöneltir. Genel Ağ modülü Genel Ağ adresinden bu veri katarının ikinci ağdaki diğer bir konağa ilerletileceğini saptar. Genel Ağ modülü hedef konak için bir yerel ağ adresi saptar. veri katarının gönderileceği ağın yerel ağ arayüzüne çağrı yapar.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Bu yerel ağ arayüzü yerel bir ağ başlığı oluşturur ve hedef konağa gönderilmek üzere veri katarına ekler.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Bu hedef konakta veri katarı yerel ağ arayüzü tarafından yerel ağ başlığından ayrılır ve Genel Ağ modülüne verilir.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Genel Ağ modülü bu veri katarının konaktaki hangi uygulama programı için olduğunu saptar. Genel Ağ modülü kaynak adresi ve diğer bağımsız değişkenleri çağrı sonucu olarak aktararak bir sistem çağrısının yanıtında uygulama programına veriyi aktarır.
+</p>
+              </li>
+            </ul>
+          </div>
+          <div class="figure">
+            <div class="figure-title">Şekil 2. Aktarım Yolu</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
+Uygulama                                            Uygulama
+Yazılımı                                            Yazılımı
+      \                                             /
+    Genel Ağ Modülü   Genel Ağ Modülü   Genel Ağ Modülü
+          \              /       \             /
+          YAA-1       YAA-1      YAA-2      YAA-2
+             \        /             \       /
+             Yerel Ağ 1             Yerel Ağ 2
+
+                       Aktarım Yolu
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+        </section>
+        <section class="sect2" id="rfc791-s23">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.3. İşlev Açıklaması</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Genel Ağ Protokolünün amacı ya da işlevi veri katarlarını bir arabağlantılı ağ kümesi boyunca taşımaktır. Bu, hedefe ulaşıncaya kadar veri katarını bir Genel Ağ modülünden diğerine aktararak yapılır. Genel Ağ modülleri Genel Ağ sistemindeki ağ geçitlerinde ve konaklarda bulunur. veri katarlarının bir Genel Ağ modülünden diğerine tek tek ağlar boyunca yönlendirilmesi bir adresin yorumlanmasına oturtulmuştur. Bu durumda, Genel Ağ protokolünün önemli bir düzeneği Genel Ağ adresi olmaktadır.
+</p>
+          <p>
+İletilerin bir Genel Ağ modülünden diğerine yönlendirilmesinde, veri katarlarının, azami paket boyutu veri katarınınkinden küçük olan ağlar boyunca hareket etmesi gerekli olabilir. Bu zorluğun üstesinden gelmek için, Genel Ağ protokolünde bir dilimleme düzeneği bulunur.
+</p>
+          <p>
+    </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">Adresleme</span>
+              </dt>
+              <dd>
+                <p>
+Ayrım isimler, adresler ve rotalar arasında yapılır [<a class="xref" href="rfc791-refs.html#rfc791-bib4" title="Inter-Network Naming, Addressing, and Routing">4</a>]. Bir isim bizim ne aradığımızı gösterir. Bir adres onun nerede olduğunu gösterir. Rota ise oraya nasıl ulaşılacağını gösterir. Genel Ağ protokolü öncelikli olarak adreslerle uğraşır. Yüksek seviyeli protokollerin (örn, konak veya uygulama seviyesi) görevi isimleri adreslere eşlemektir. Genel Ağ modülü ise Genel Ağ adreslerini yerel ağ adresleriyle eşler. Yerel ağ adreslerini rotalara eşlemek ise daha düşük seviyeli (yerel ağ veya ağ geçidi gibi) yordamların görevidir.
+</p>
+                <p>
+Adresler dört sekizliden oluşan sabit uzunluktadırlar. Bir adres ağ numarası ile başlar, yerel adres ile devam eder. Genel Ağ adreslerinin üç biçimi ya da sınıfı vardır: a sınıfında, yüksek bit sıfır, sonraki yedi bit ağ için ve son 24 bit ise yerel adres içindir; b sınıfında, yüksek iki bit bir ve sıfır, sonraki 14 bit ağ için ve son 16 bit yerel adres içindir; c sınıfında ise yüksek üç bit bir-bir-sıfır, sonraki 21 bit ağ için ve son 8 bit ise yerel adres içindir.
+</p>
+                <p>
+Genel Ağ adreslerini yerel ağ adreslerine eşlerken dikkatli olunmalıdır; bir tek yerel konak birçok farklı Genel Ağ adresini kullanarak bir çok farklı konakmış gibi davranabilir. Bazı konaklar ayrıca birkaç fiziksel arayüze sahiptir (çok evlilik).
+</p>
+                <p>
+Yani, herbirinin çeşitli Genel Ağ adresleri olan çok sayıda fiziksel ağ arayüzüne sahip bir konak için önlem alınmış olmalıdır.
+</p>
+                <p>
+Adres eşleme örnekleri [<a class="xref" href="rfc791-refs.html#rfc791-bib5" title="Address Mappings">5</a>]'teki "Adres Eşleme" bölümünde bulunabilir.
+</p>
+              </dd>
+              <dt>
+                <span class="term">Dilimleme</span>
+              </dt>
+              <dd>
+                <p>
+Bir Genel Ağ veri katarının dilimlenmesi, büyük paket boyutuna sahip bir ağdan kaynaklanan bir veri katarının hedefe ulaşabilmek için daha küçük paket boyutlarına sahip bir yerel ağdan geçmesi icabediyorsa gerekir.
+</p>
+                <p>
+Bir Genel Ağ veri katarı "dilimlenmeyecek" diye işaretlenebilir. Böyle işaretlenmiş bir Genel Ağ veri katarı hiçbir durumda dilimlenmez. Eğer Genel Ağ veri katarı dilimlenmeyecek diye imlenmişse ve hedefe ulaşması için mutlaka dilimlenmesi gerekiyorsa dilimlemek yerine yokedilir.
+</p>
+                <p>
+Dilimleme, aktarım ve birleştirme, Genel Ağ protokol modülüne görünmez olan bir yerel ağ içinden geçerken ağiçi dilimlenme adını alır ve belki [<a class="xref" href="rfc791-refs.html#rfc791-bib6" title="Packet Fragmentation in Inter-Network Protocols">6</a>] kullanılabilir.
+</p>
+                <p>
+Genel Ağ dilimleme ve birleştirme yöntemleri bir veri katarını daha sonra birleştirilebilecek sayıda dilinmesine gerek duyar. veri diliminin alıcısı veri dilimini farklı veri katarlarının veri dilimleri ile karıştırmamak için betimleme alanını kullanır. veri dilimi başlangıç alanı alıcıya veri diliminin özgün veri katarındaki yerini gösterir. veri dilimi başlangıcı ve uzunluğu bu veri dilimi tarafından kapsanan orijinal veri katarı bölümünü belirler. Kalan veri dilimleri bayrağı son veri dilimini belirtir. Bu alanlar veri katarını tekrar oluşturmak için yeterli bilgiyi sağlar.
+</p>
+                <p>
+Betimleme alanı veri katarının bir dilimini diğerinden ayırmak için kullanılır. Bir Genel Ağ veri katarının kaynaklandığı protokol modülü, Genel Ağ sisteminde veri katarının etkin olacağı süre içinde protokol ve bu kaynak-hedef çifti için eşsiz olacak bir değeri Betimleme alanına atar. veri katarının tamamının kaynaklandığı protokol modülü Kalan veri dilimleri bayrağını sıfırlar ve veri dilimi Başlangıcı alanına sıfır değerini atar.
+</p>
+                <p>
+Uzun bir Genel Ağ veri katarını dilmek için, bir Genel Ağ protokol modülü (örn, ağ geçidinde), iki  Genel Ağ veri dilimi oluşturur ve Genel Ağ başlık alanlarının içeriğini veri katarından bu iki veri diliminin Genel Ağ başlığına kopyalar. veri katarının verisi 8 sekizli (64 bit) cinsinden ölçülen bloklar halinde iki veri dilimine bölünür (İkinci veri dilimi 8 sekizlinin katlarından oluşmayabilir ama birincisi oluşmak zorundadır). Çağrı 8 sekizlilik blok sayısı içinde ilk veri diliminin DBS (Dilim Bloklarının Sayısı) için yapılır. Verinin ilk kısmı ilk Genel Ağ veri diliminde yer alır ve Toplam Uzunluk alanına ilk veri diliminin uzunluğu atanır. Kalan veri dilimleri bayrağına bir atanır. Verinin ikinci kısmı ikinci Genel Ağ veri dilimine yerleştirilir, Toplam Uzunluk alanına ikinci veri diliminin uzunluğu atanır. Kalan veri dilimleri bayrağı veri katarınınki ile aynı değeri taşır. İkinci Genel Ağ veri diliminin veri dilimi Başlangıcı alanına uzun veri katarındaki alanın değeri artı DBS atanır.
+</p>
+                <p>
+Bu yöntem açıklanan ikili ayırmaya göre daha çok kullanılan bir n-li ayırma için genelleştirilebilir.
+</p>
+                <p>
+Bir Genel Ağ veri katarının dilimlerinin montajı için, bir Genel Ağ protokol modülü şu dört alan için aynı değere sahip Genel Ağ veri dilimlerini birleştirir: Betimleme, Kaynak, Hedef ve Protokol. Birleştirme, her veri diliminin veri bölümlerinin veri diliminin Genel Ağ başlığındaki veri dilimi Başlangıcı tarafından belirtilen göreli konuma yerleştirilmesi suretiyle yapılır. İlk veri diliminin veri dilimi Başlangıcı ve son veri diliminin Kalan veri dilimleri bayrağı sıfır olacaktır.
+</p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc791-s24">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.4. Ağ Geçitleri</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Ağ geçitleri ağlar arasında veri katarlarını taşıyacak Genel Ağ protokolünü gerçekler. ağ geçitleri ayrıca yönlendirmeyi  ve diğer Genel Ağ denetim bilgilerini yönetmek için ağ geçitleri arası protokolü (Gateway to Gateway Protocol - GGP) [<a class="xref" href="rfc791-refs.html#rfc791-bib7" title="How to Build a Gateway">7</a>] gerçekler.
+</p>
+          <p>
+Ağ geçitlerinde daha yüksek seviyeli protokollerin gerçeklenmemesi ve GGP işlevlerinin IP modülüne eklenmesi gerekir.
+</p>
+          <div class="figure">
+            <div class="figure-title">Şekil 3. Ağ Geçidi Protololleri</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
++---------------------------------+
+| Genel Ağ Protokolü, ICMP ve GGP |
++---------------------------------+
+        |                 |
++--------------+   +--------------+
+|   Yerel Ağ   |   |   Yerel Ağ   |
++--------------+   +--------------+
+
+      Ağ Geçidi Protokolleri
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

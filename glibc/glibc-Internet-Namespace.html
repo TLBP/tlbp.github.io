@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.6. İnternet İsim Alanı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Local-Namespace.html')">Önceki</button>
+          <div class="dropdown-content">16.5. Yerel İsim Alanı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Internet-Address-Formats.html')">Sonraki</button>
+          <div class="dropdown-content">16.6.1. İnternet Soket Adreslerinin Biçimleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Internet-Namespace">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.6. İnternet İsim Alanı</h2>
+            </div>
+          </div>
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Ön Bilgi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   <span id="idm123769" class="indexterm"></span>
+   Bu bölümde İnternet isim alanında kullanılan soket isimlendirme eğilimleri ve protokoller ile ilgili ayrıntılar açıklanmıştır.
+   </p>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>16.6.1. <a href="glibc-Internet-Address-Formats.html">İnternet Soket Adreslerinin Biçimleri</a>  -  İnternet isim alanında soket adresleri nasıl belirtilir.</dt>
+            <dt>16.6.2. <a href="glibc-Host-Addresses.html">Konak Adresleri</a>  -  İnternet konaklarının konak adresleriyle ile ilgili herşey.</dt>
+            <dd>
+              <dl>
+                <dt>16.6.2.1. <a href="glibc-Abstract-Host-Addresses.html">Kısaca Konak Adresleri</a>  -  Konak numarası nelerden oluşur.</dt>
+                <dt>16.6.2.2. <a href="glibc-Host-Address-Data-Type.html">Konak Adresinin Veri Türü</a>  -  Konak numarasının veri türü.</dt>
+                <dt>16.6.2.3. <a href="glibc-Host-Address-Functions.html">Konak Adresi İşlevleri</a>  -  Makinenin konak adresi üzerinde çalışan işlevler.</dt>
+                <dt>16.6.2.4. <a href="glibc-Host-Names.html">Konak İsimleri</a>  -  Makine konak isimlerinin konak numaralarına dönüştürülmesi.</dt>
+              </dl>
+            </dd>
+            <dt>16.6.3. <a href="glibc-Ports.html">İnternet Portları</a>  -  İnternet port numaraları.</dt>
+            <dt>16.6.4. <a href="glibc-Services-Database.html">Hizmet Veritabanı</a>  -  Portların simgesel isimleri olabilir.</dt>
+            <dt>16.6.5. <a href="glibc-Byte-Order.html">Bayt Sırası Dönüşümü</a>  -  Bazı konaklar farklı bayt sıralama kabulleri kullanabilir.</dt>
+            <dt>16.6.6. <a href="glibc-Protocols-Database.html">Protokol Veritabanı</a>  -  İsimleriyle protokoller.</dt>
+            <dt>16.6.7. <a href="glibc-Inet-Example.html">İnternet Soketi Örneği</a>  -  Olay budur.</dt>
+          </dl>
+        </div>
+        <p>
+   Başlangıçta İnternet isim alanı sadece IP sürüm 4'ü (IPv4) kullanırdı. İnternetteki konak sayısının artmasıyla, daha büyük bir adres alanına sahip yeni bir protokol gerekti; IP sürüm 6 (IPv6). IPv6 128 bitlik adresleri ortaya attı (IPv4 32 bitliktir) ve diğer özellikleriyle de sonunda IPv4'ün yerine geçecektir.
+  </p>
+        <p>
+   IPv4 İnternet isim alanında soket oluştururken <a href="glibc-Open-Close-Sockets.html#glibc-fn-socket"><strong class="function"><code>socket</code></strong></a> veya <a href="glibc-Open-Close-Sockets.html#glibc-fn-socketpair"><strong class="function"><code>socketpair</code></strong></a> işlevinde bağımsız değişken olarak <a href="glibc-Internet-Namespace.html#glibc-vr-PF_INET"><strong class="varname"><code>PF_INET</code></strong></a> makrosu kullanılmalıdır. IPv6 adresleri için ise <a href="glibc-Internet-Namespace.html#glibc-vr-PF_INET6"><strong class="varname"><code>PF_INET6</code></strong></a> makrosu gerekir. Bu makrolar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlanmıştır.
+  </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-PF_INET" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">PF_INET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    IPv4 İnternet isim alanını ve onunla ilişkili protokol ailesini belirtir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+   <span id="glibc-vr-PF_INET6" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">PF_INET6</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+   
+   <p>
+    IPv6 İnternet isim alanını ve onunla ilişkili protokol ailesini belirtir.
+   </p>
+  </div>
+        <p>
+   İnternet isim alanı soket adresi aşağıdaki bileşenleri içerir:
+  </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+     Bağlanılacak makinenin adresi. İnternet adresi çeşitli yollarla belirtilebilir; bunlar <a class="xref" href="glibc-Internet-Address-Formats.html" title="16.6.1. İnternet Soket Adreslerinin Biçimleri">İnternet Soket Adreslerinin Biçimleri</a>,  <a class="xref" href="glibc-Host-Addresses.html" title="16.6.2. Konak Adresleri">Konak Adresleri</a> ve <a class="xref" href="glibc-Host-Names.html" title="16.6.2.4. Konak İsimleri">Konak İsimleri</a> başlıkları altında açıklanmıştır.
+    </p>
+            </li>
+            <li class="listitem">
+              <p>
+     Bağlanılacak makinenin port numarası. Bkz. <a class="xref" href="glibc-Ports.html" title="16.6.3. İnternet Portları">İnternet Portları</a>.
+    </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+   Adres ve port numarasının <em class="wordasword">ağ bayt sırası</em> denilen bayt sıralamasıyla gösterildiğinden emin olunmalıdır. Bkz, <a class="xref" href="glibc-Byte-Order.html" title="16.6.5. Bayt Sırası Dönüşümü">Bayt Sırası Dönüşümü</a>
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

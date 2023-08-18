@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.6.2.4. Konak İsimleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Host-Address-Functions.html')">Önceki</button>
+          <div class="dropdown-content">16.6.2.3. Konak Adresi İşlevleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Host-Addresses.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Ports.html')">Sonraki</button>
+          <div class="dropdown-content">16.6.3. İnternet Portları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="glibc-Host-Names">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">16.6.2.4. Konak İsimleri</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+     <span id="idm124370" class="indexterm"></span>
+     <span id="idm124372" class="indexterm"></span>
+     <span id="idm124374" class="indexterm"></span>
+     İnternet adresleri için standart noktalı gösterime ek olarak bir konağa ulaşmak için simgesel isim de kullanılabilir. Simgesel ismin yararı akılda kalmasının kolay oluşudur. Örneğin, İnternet adresi <code class="code">158.121.106.19</code> olan bir makine <code class="code">alpha.gnu.org</code> şeklinde de bilinir; ve <code class="code">gnu.org</code> etki alanındaki diğer makineler ona yalnızca <code class="code">alpha</code> ile erişebilir.
+    </p>
+        <p>
+     <span id="idm124381" class="indexterm"></span>
+     <span id="idm124383" class="indexterm"></span>
+     Arka planda, sistem, konak isimlerini konak numaralarına eşleyerek bunların kayıtlarını tutabileceği bir veritabanı kullanır. Bu veritabanı genellikle <code class="filename">/etc/hosts</code> dosyası veya bir isim sunucusunun sunduğu eşdeğeridir. Veritabanına erişim için kullanılan işlev ve simge tanımları <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code> başlık dosyasında bulunur. <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code> dosya olarak içerilirse, BSD'nin özellikleri de tümüyle gelir.
+    </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+     <span id="glibc-tp-hostent" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">hostent</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Konak veritabanındaki her girdi için kullanılır. Aşağıdaki üyelere sahiptir:
+     </p>
+     <div class="glosslist"><dl><dt><span class="glossterm">
+        <code class="type">char *</code><strong class="structfield"><code>h_name</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         Konağın "resmi" adıdır.
+        </p></dd><dt><span class="glossterm">
+        <code class="type">char **</code><strong class="structfield"><code>h_aliases</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         Konağın diğer adlarıdır, boş bayt sonlandırmalı dizgeler dizisi olarak ifade edilir.
+        </p></dd><dt><span class="glossterm">
+        <code class="type">int </code><strong class="structfield"><code>h_addrtype</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         Bu konak adres türüdür; uygulamada, değeri her zaman IPv4 adresler için <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a>, IPv6 adresler için <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a>'dır. Kural olarak, her türde adres veritabanında İnternet adresi olarak gösterilebilir; bu yapılırsa, bu alanda <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a> veya <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a>'dan farklı bir değer görülebilir. Bkz. <a class="xref" href="glibc-Socket-Addresses.html" title="16.3. Soket Adresleri"><em>Soket Adresleri</em></a>.
+        </p></dd><dt><span class="glossterm">
+        <code class="type">int </code><strong class="structfield"><code>h_length</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         Adresin bayt cinsinden uzunluğudur.
+        </p></dd><dt><span class="glossterm">
+        <code class="type">char **</code><strong class="structfield"><code>h_addr_list</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         Konak adres dizgeleri dizisidir. (Hatırlatma: bir makine birden fazla ağa bağlı olabilir ve her birinin farklı bir adresi olabilir.) Dizi boş gösterici ile sonlandırılır.
+        </p></dd><dt><span class="glossterm">
+        <code class="type">char *</code><strong class="structfield"><code>h_addr</code></strong>
+       </span></dt><dd class="glossdef"><p>
+         <span class="command"><strong>h_addr_list[0]</strong></span> ile aynıdır; diğer bir deyişle, ilk konak adresidir.
+        </p></dd></dl></div>
+    </div>
+        <p>
+     Konak veritabanı düşünülüğünde, her adres sadece <code class="code">h_length</code> bayt uzunluğunda bir bellek diliminden ibarettir. Fakat diğer yaklaşımlarda IPv4 adreslerin <a href="glibc-Host-Address-Data-Type.html#glibc-tp-in_addr"><strong class="type"><code>struct in_addr</code></strong></a> veya <code class="type">uint32_t</code> türüne dönüştürülebileceği şeklinde bir varsayım da vardır. <a href="glibc-Host-Names.html#glibc-tp-hostent"><strong class="type"><code>struct hostent</code></strong></a> türündeki konak adresleri her zaman ağ bayt sırasında verilmiştir; bkz, <a class="xref" href="glibc-Byte-Order.html" title="16.6.5. Bayt Sırası Dönüşümü">Bayt Sırası Dönüşümü</a>.
+    </p>
+        <p>
+     Konak veritabanında arama yaparak belirli bir konak hakkında bilgi almak için <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a>, <a href="glibc-Host-Names.html#glibc-fn-gethostbyname2"><strong class="function"><code>gethostbyname2</code></strong></a> veya <a href="glibc-Host-Names.html#glibc-fn-gethostbyaddr"><strong class="function"><code>gethostbyaddr</code></strong></a> işlevleri kullanılabilir. Bilgi duruk olarak tahsis edilmiş bir yapı içinde döndürülür; çağrılar arasında kaydetmek için bilgiyi kopyalamak gerekir. Ayrıca, bu bilgiye ulaşmak için <strong class="function"><code>getaddrinfo</code></strong> ve <strong class="function"><code>getnameinfo</code></strong> işlevleri de kullanılabilir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyname" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct hostent </code><strong class="type">*</strong><strong><code class="function">gethostbyname</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostbyname</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyname</code> işlevi <em class="parameter"><code>name</code></em> adlı konak hakkında bilgi döndürür. Başarısızlık durumunda, boş gösterici döner.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyname2" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct hostent </code><strong class="type">*</strong><strong><code class="function">gethostbyname2</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">af</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostbyname2</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyname2</code> işlevi <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a> gibidir, fakat çağrıcıya sonuç için istediği adres ailesini (örneğin <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a> veya <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a>) belirtme imkanı sunar.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyaddr" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct hostent </code><strong class="type">*</strong><strong><code class="function">gethostbyaddr</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">format</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostbyaddr</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyaddr</code> işlevi <em class="parameter"><code>addr</code></em> İnternet adresli konak hakkında bilgi döndürür. <em class="parameter"><code>addr</code></em> bağımsız değişkeni aslında <code class="type">char</code> göstericisi değildir - IPv4 veya IPv6 adresine gösterici olabilir. <em class="parameter"><code>length</code></em> bağımsız değişkeni <em class="parameter"><code>addr</code></em> adresinin bayt cinsinden boyutudur. <em class="parameter"><code>format</code></em> adres türünü belirtir; IPv4 İnternet adresi için, <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a>, IPv6 İnternet adresi için <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a> kullanılır.
+     </p>
+     <p>
+      Başarısızlık durumunda, boş gösterici döner.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">   değişken</div>
+     <span id="glibc-vr-h_errno" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">volatile int </code><strong><code class="varname">h_errno</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a> veya <a href="glibc-Host-Names.html#glibc-fn-gethostbyaddr"><strong class="function"><code>gethostbyaddr</code></strong></a> ile isim sorgulaması yapılamazsa, sebebi <code class="code">h_errno</code> değişkeninin değerine bakılarak bulunabilir. (Bu işlevler için <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> değerini değiştirmek daha temiz bir çözüm olurdu, ancak <code class="code">h_errno</code> diğer sistemlerle de uyumludur.)
+     </p>
+    </div>
+        <p>
+     <a href="glibc-Host-Names.html#glibc-vr-h_errno"><strong class="varname"><code>h_errno</code></strong></a> hata kodları:
+    </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-HOST_NOT_FOUND" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">HOST_NOT_FOUND</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Veritabanında böyle bir konak yok.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-TRY_AGAIN" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">TRY_AGAIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Bu durum isim sunucusu ile bağlantı kurulamadığında gerçekleşir. Eğer tekrar denenirse, başarılı olabilir.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-NO_RECOVERY" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">NO_RECOVERY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Kurtarılamaz bir hata oluştu.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+     <span id="glibc-vr-NO_ADDRESS" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">NO_ADDRESS</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+     
+     <p>
+      Konak veritabanı isim için bir girdi içeriyor, fakat buna ilişkin bir İnternet adresi yok.
+     </p>
+    </div>
+        <p>
+     Yukarıdaki arama işlevlerinin ortak özellikleri: hiçbiri evresel değildir ve çok evreli uygulamalarda kullanılamaz. Bu nedenle GNU C Kütüphanesi bu bağlamda kullanılabilen bir grup yeni işlev sağlar.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyname_r" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">gethostbyname_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char *restrict </code><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">struct hostent *restrict </code><strong><code class="parameter">result_buf</code></strong><strong><code>, </code></strong><code class="type">char *restrict </code><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">buflen</code></strong><strong><code>, </code></strong><code class="type">struct hostent **restrict </code><strong><code class="parameter">result</code></strong><strong><code>, </code></strong><code class="type">int *restrict </code><strong><code class="parameter">h_errnop</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyname_r</code> işlevi <em class="parameter"><code>name</code></em> adındaki konak hakında bilgi döndürür. Çağrı sırasında işleve <em class="parameter"><code>result_buf</code></em> bağımsız değişkeni ile <a href="glibc-Host-Names.html#glibc-tp-hostent"><strong class="type"><code>struct hostent</code></strong></a> türündeki nesneye gösterici aktarılmalıdır. Ek olarak işlev fazladan bir tampon alanına ihtiyaç duyabildiğinden çağrı sırasında işleve bu tampona gösterici <em class="parameter"><code>buf</code></em> ile ve tamponun uzunluğu da <em class="parameter"><code>buflen</code></em> ile aktarılmalıdır.
+     </p>
+     <p>
+      Sonucun tutulduğu tampona gösterici, başarılı bir işlev çağrısından sonra döndürülen *<em class="parameter"><code>result</code></em> içinde bulunur. Eğer bir hata oluşur veya girdi bulunamazsa *<em class="parameter"><code>result</code></em> göstericisi boş göstericidir. Başarı sıfır dönüş değeri ile belirtilir. Eğer işlev çalışmazsa dönüş değeri hatanın numarasıdır. <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a> için tanımlanan hatalara ek olarak <a href="glibc-Error-Codes.html#glibc-vr-ERANGE"><strong class="varname"><code>ERANGE</code></strong></a> hatası da oluşabilir. Bu durumda çağrı daha büyük bir tampon ile tekrarlanmalıdır. İlave hata bilgisi küresel değişken <a href="glibc-Host-Names.html#glibc-vr-h_errno"><strong class="varname"><code>h_errno</code></strong></a>'da değil <em class="parameter"><code>h_errnop</code></em> ile gösterilen nesnede saklanır.
+     </p>
+     <div class="example"><div class="example-title">Örnek: </div><div class="example-contents"><pre class="screen">struct hostent *
+gethostname (char *host)
+{
+  struct hostent *hostbuf, *hp;
+  size_t hstbuflen;
+  char *tmphstbuf;
+  int res;
+  int herr;
+
+  /* <em class="replaceable"><code>Tamponu ayır.</code></em>  */
+  hostbuf = malloc (sizeof (struct hostent));
+  hstbuflen = 1024;
+  tmphstbuf = malloc (hstbuflen);
+
+  while ((res = gethostbyname_r (host, hostbuf, tmphstbuf, hstbuflen,
+                                 &amp;hp, &amp;herr)) == ERANGE)
+    {
+      /* <em class="replaceable"><code>Tamponu genişlet.</code></em>  */
+      tmphstbuf = reallocarray (tmphstbuf, hstbuflen, 2);
+      hstbuflen *= 2;
+    }
+
+  free (tmphstbuf);
+  /*  <em class="replaceable"><code>Hata var mı, bak.</code></em>  */
+  if (res || hp == NULL)
+    return NULL;
+  return hp;
+}
+</pre></div></div><br class="example-break" />
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyname2_r" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">gethostbyname2_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">af</code></strong><strong><code>, </code></strong><code class="type">struct hostent *restrict </code><strong><code class="parameter">result_buf</code></strong><strong><code>, </code></strong><code class="type">char *restrict </code><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">buflen</code></strong><strong><code>, </code></strong><code class="type">struct hostent **restrict </code><strong><code class="parameter">result</code></strong><strong><code>, </code></strong><code class="type">int *restrict </code><strong><code class="parameter">h_errnop</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyname2_r</code> işlevi  <a href="glibc-Host-Names.html#glibc-fn-gethostbyname_r"><strong class="function"><code>gethostbyname_r</code></strong></a> gibidir, fakat çağrı sırasında sonuç için istenen adres türünü <em class="parameter"><code>af</code></em> ile (örn, <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a> veya <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a>) belirtme imkanı sunar.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostbyaddr_r" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">gethostbyaddr_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong><code class="parameter">length</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">format</code></strong><strong><code>, </code></strong><code class="type">struct hostent *restrict </code><strong><code class="parameter">result_buf</code></strong><strong><code>, </code></strong><code class="type">char *restrict </code><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong><code class="parameter">buflen</code></strong><strong><code>, </code></strong><code class="type">struct hostent **restrict </code><strong><code class="parameter">result</code></strong><strong><code>, </code></strong><code class="type">int *restrict </code><strong><code class="parameter">h_errnop</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+     </div>
+     <p>
+      <code class="code">gethostbyaddr_r</code> işlevi <em class="parameter"><code>addr</code></em> İnternet adresine sahip konak hakkında bilgi döndürür. <em class="parameter"><code>addr</code></em> bağımsız değişkeni aslında karaktere gösterici değildir - IPv4 veya IPv6 adresine gösterici olabilir. <em class="parameter"><code>length</code></em> bağımsız değişkeni <em class="parameter"><code>addr</code></em> adresinin (bayt cinsinden) boyutudur. <em class="parameter"><code>format</code></em> adres türünü belirtir; IPv4 İnternet adresi için <a href="glibc-Address-Formats.html#glibc-vr-AF_INET"><strong class="varname"><code>AF_INET</code></strong></a>, IPv6 İnternet adresi için <a href="glibc-Address-Formats.html#glibc-vr-AF_INET6"><strong class="varname"><code>AF_INET6</code></strong></a> kullanılır.
+     </p>
+     <p>
+      <a href="glibc-Host-Names.html#glibc-fn-gethostbyname_r"><strong class="function"><code>gethostbyname_r</code></strong></a> işlevine benzer olarak, çağrıcı, sonuç için gerekli tampon alanını ve iç kullanım için gerekli belleği sağlamak zorundadır. Başarı halinde işlev sıfır döndürür. Aksi takdirde değer bir hata numarasıdır ve burada <a href="glibc-Error-Codes.html#glibc-vr-ERANGE"><strong class="varname"><code>ERANGE</code></strong></a> çağırıcının sağladığı tamponun yeterli olmadığını belirten özel bir anlama sahiptir.
+     </p>
+    </div>
+        <p>
+     <a href="glibc-Host-Names.html#glibc-fn-sethostent"><strong class="function"><code>sethostent</code></strong></a>, <a href="glibc-Host-Names.html#glibc-fn-gethostent"><strong class="function"><code>gethostent</code></strong></a> ve <a href="glibc-Host-Names.html#glibc-fn-endhostent"><strong class="function"><code>endhostent</code></strong></a> kullanarak bütün konak veritabanı bir girdi için taranabilir. Bu işlevleri kullanırken dikkatli olunmalıdır, çünkü bunlar evresel işlevler değildir.
+    </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-sethostent" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">sethostent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">stayopen</code></strong><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Bu işlev konak veritabanını taranması için açar. Bu işlev çağrısının ardından girdileri okumak için <a href="glibc-Host-Names.html#glibc-fn-gethostent"><strong class="function"><code>gethostent</code></strong></a> çağrılabilir.
+     </p>
+     <p>
+      Eğer <code class="varname">stayopen</code> bağımsız değişkeni sıfır değilse, bir bayrağı kaldırarak <a href="glibc-Host-Names.html#glibc-fn-gethostbyname"><strong class="function"><code>gethostbyname</code></strong></a> veya <a href="glibc-Host-Names.html#glibc-fn-gethostbyaddr"><strong class="function"><code>gethostbyaddr</code></strong></a> işlevlerine yapılan çağrılarda veritabanının kapanmamasını sağlar (normalde olması gerektiği gibi). Bu yaklaşım işlevlerin sık çağırılması durumunda veritabanının her çağrıda tekrardan açılmasından kurtararak verimi artırır.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-gethostent" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct hostent </code><strong class="type">*</strong><strong><code class="function">gethostent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostent</a></code> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostentbuf</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Bu işlev konak veritabanındaki sıradaki girdiyi döndürür. Eğer başka girdi yoksa boş gösterici döndürür.
+     </p>
+    </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+     <span id="glibc-fn-endhostent" class="indexterm"></span>
+     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/netdb.h;hb=HEAD" target="_top">netdb.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">endhostent</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+     
+     <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:hostent</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+     </div>
+     <p>
+      Bu işlev konak veritabanını kapatır.
+     </p>
+    </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

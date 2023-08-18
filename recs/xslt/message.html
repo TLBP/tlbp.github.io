@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="date" content="2015-10-21T16:15:44+03:00" /><link rel="start" href=".." title="W3C Önergeleri" /><link rel="up" href="index.html#index-toc" title="XSL Dönüşümleri (XSLT) Sürüm 1.0" /><link rel="previous" href="add-func.html" title="Ek İşlevler" /><link rel="next" href="extension.html" title="Eklentiler" /><link rel="stylesheet" type="text/css" href="../recs.css" /><style type="text/css">/* Belgeye özel bir CSS yoksa burası boş olabilir. */</style><title>İletiler</title></head><body><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><th colspan="3" align="center">XSL Dönüşümleri (XSLT) Sürüm 1.0</th></tr><tr><td width="5%"><a href="add-func.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="5%" align="right"><a href="extension.html">Sonraki</a></td></tr></table><div class="div1"><h2><a name="message" id="message"></a>13 İletiler</h2><a id="element-message" name="element-message"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto">&lt;!-- Grubu: yönerge --&gt;
+<span class="element">&lt;xsl:message</span>
+  <code>terminate</code> = "yes" | "no"<span class="element"> &gt;</span>
+  &lt;!-- İçeriği: <var>örneklenim</var> --&gt;
+<span class="element">&lt;/xsl:message&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><p><a href="message.html#element-message"><span class="elemref"><tt>xsl:message</tt></span></a> yönergesi XSLT işlemcisine özgü bir yöntemle bir ileti gönderir. <a href="message.html#element-message"><span class="elemref"><tt>xsl:message</tt></span></a> yönergesinin içeriği bir örneklenimdir. <a href="message.html#element-message"><span class="elemref"><tt>xsl:message</tt></span></a>, bir XML bölümünü oluşturacak içerik nesnelleştirilerek nesnelleştirilir. Bu XML bölümü iletinin içeriğidir.</p><dl class="note"><dt class="prefix"><b>Not:</b></dt><dd>Bir XSLT işlemci <a href="message.html#element-message"><span class="elemref"><tt>xsl:message</tt></span></a>  yönergesini bir uyarı kutusu  ortaya çıkararak veya bir günlük dosyasına yazarak (ya da bir konsol çıktısı olarak) gerçekleştirebilir.<p></p></dd></dl><p>Eğer <code>terminate</code> özniteliği <code>yes</code> diye bir değere sahipse, XSLT işlemcinin iletiyi gönderdikten sonra işlemi sonlandırması gerekir. Özniteliğin öntanımlı değeri <code>no</code>'dur.</p><p>Yerelleştirmenin uygun tek yolu, yerelleştirilmiş bilgiyi (ileti metni, vs.) bir XML belgeye koymaktır (biçembente ek bir girdi dosyası haline gelmek üzere).</p><a name="idp25131264" id="idp25131264"></a><dl class="example"><dt><b>Örnek: </b></dt><dd>Bir XML belgedeki Türkçe iletilerin <code>resources/tr.xml</code> dosyasında şu biçimde tutulduğunu varsayalım:<p></p><pre>&lt;messages&gt;
+  &lt;message name="problem"&gt;Bir cisim yaklaşıyor.&lt;/message&gt;
+  &lt;message name="error"&gt;Bir sorun saptandı.&lt;/message&gt;
+&lt;/messages&gt;
+</pre><p>Bu veri modelinden hareketle bir biçembentte aşağıdaki gibi bir yerelleştirme yaklaşımında bulunulabilir:</p><pre>&lt;xsl:param name="lang" select="'tr'"/&gt;
+&lt;xsl:variable name="messages"
+  select="document(concat('resources/', $lang, '.xml'))/messages"/&gt;
+
+&lt;xsl:template name="localized-message"&gt;
+  &lt;xsl:param name="name"/&gt;
+  &lt;xsl:message&gt;
+    &lt;xsl:value-of select="$messages/message[@name=$name]"/&gt;
+  &lt;/xsl:message&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template name="problem"&gt;
+  &lt;xsl:call-template name="localized-message"/&gt;
+    &lt;xsl:with-param name="name"&gt;problem&lt;/xsl:with-param&gt;
+  &lt;/xsl:call-template&gt;
+&lt;/xsl:template&gt;</pre><p></p></dd></dl></div><p></p><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><td width="30%"><a href="add-func.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="30%" align="right"><a href="extension.html">Sonraki</a></td></tr><tr><td width="30%">Ek İşlevler</td><td width="*" align="center">Bir <a href="http://belgeler.org.tr">Linux Kitaplığı</a> Sayfası</td><td width="30%" align="right">Eklentiler</td></tr></table></body></html>

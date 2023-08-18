@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6. Sorun Saptama ve Giderme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s5.html')">Önceki</button>
+          <div class="dropdown-content">5. Adres Çözümleme ve Posta Yönetimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s7.html')">Sonraki</button>
+          <div class="dropdown-content">7. Güvenlik Kaygıları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2821-s6">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6. Sorun Saptama ve Giderme</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc2821-s61">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.1. Güvenilir Teslimat ve Eposta Yanıtları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Alıcı SMTP bir posta parçasını kabul etmekle (<code class="code">DATA</code> komutuna yanıt olarak bir "250 OK" iletisi göndererek), iletinin teslimat veya röleleme sorumluluğunu kabul etmiş olur. Bu sorumluluğu ciddiyetle ele alması gerekir. <span class="rfcmust">İletiyi konağın sonradan bozulması veya önceden kestirilebilir kaynak kıtlığı gibi sudan sebeplerle kaybetmemelidir *ZORUNLU*</span>.
+</p>
+          <p><span class="rfcmust">Bir iletinin kabulü sonrası bir teslimat başarısızlığı olursa, alıcı SMTP'nin bir bildirim iletisi oluşturup postalaması gerekir *ZORUNLU*</span>. <span class="rfcmust">Bu bildirim zarfta boş ("&lt;&gt;") dönüş yolu kullanılarak gönderilmelidir *ZORUNLU*</span>. <span class="rfcmust">Bu bildirimin alıcısının adresi zarf dönüş yolundan (veya <code class="literal">Return-Path:</code> satırından) elde edilmelidir *ZORUNLU*</span>. <span class="rfcmust">Ancak, bu adres boşsa ("<code class="literal">&lt;&gt;</code>"), alıcı SMTP bir bildirim göndermemelidir *ZORUNLU*</span>. Açıkça, bu bölümdeki hiçbir şey günlük tutma ile ilgili yerel kararları (alıcı SMTP ile aynı sistem ortamının parçası olarak) yasaklayamaz, yasaklamamalıdır da, aksi takdirde boş adres olayları hakkında bilgi yerel olarak aktarılır, eğer istenen buysa. <span class="rfcmust">Eğer adres açık bir kaynak rotası ise, son sekmesine indirgenmelidir *ZORUNLU*</span>.
+</p>
+          <p>Örneğin,</p>
+          <p>
+    </p>
+          <pre class="screen"><code class="code">MAIL </code>FROM:&lt;@a,@b:kullanıcı@d&gt;
+</pre>
+          <p>
+   </p>
+          <p>
+ile gelen bir ileti için bir hata bildirimi gönderilmesi gerektiğini varsayalım. <span class="rfcmust">Bildirim iletisinin</span>
+</p>
+          <p>
+    </p>
+          <pre class="screen"><code class="code">RCPT </code>TO:&lt;kullanıcı@d&gt;
+</pre>
+          <p>
+   </p>
+          <p><span class="rfcmust">kullanılarak gönderilmesi gerekir *ZORUNLU*</span>. İleti SMTP tarafından kabul edildikten sonraki bazı teslimat başarısızlıkları kaçınılmaz olacaktır. Örneğin, <code class="code">RCPT</code> komutlarındaki tüm teslimat adreslerinin doğrulanması alan SMTP sunucusu için imkansız olabilir; bunun sebebi, bir "yazılımsal" alan adı sistemi hatası olabileceği gibi hedefin bir posta listesi olması (<code class="code">RCPT</code> ilk açıklamalarına bakınız) veya sunucunun bir röle olarak davranmasından dolayı teslimat sistemine doğrudan erişilememesi olabilir.
+</p>
+          <p><span class="rfcmust">Zamanaşımlarının bir sonucu olarak yinelenmiş iletilerin alınmasından kaçınmak için alıcı SMTP, son <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code> veri sonu belirtecine yanıt için gereken süreyi en aza indirecek çalışmayı yapmalıdır *ZORUNLU*</span>. Bu sorunun daha ayrıntılı bir açıklaması için  RFC 1047'ye [<a class="xref" href="rfc2821-s9.html#rfc2821-bib28" title="Duplicate messages and SMTP">28</a>] bakınız.
+</p>
+        </section>
+        <section class="sect2" id="rfc2821-s62">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.2. Döngü Algılama</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir iletideki "<code class="literal">Received:</code>" başlıklarının basitçe sayılması her zaman en iyisi olmasa da posta sistemlerinde döngülerin saptanması için etkin bir yoldur. <span class="rfcshould">Bu tekniği kullanan SMTP sunucuları en azından 100 "<code class="literal">Received:</code>" girdilik büyükçe bir red eşiği kullanmalıdır *ÖNERİ*</span>. <span class="rfcmust">Hangi mekanizma kullanılırsa kullanılsın, sunucular gereksiz döngüleri algılamak ve durdurmak için hazırlıklı olmalıdır *ZORUNLU*</span>.
+</p>
+        </section>
+        <section class="sect2" id="rfc2821-s63">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.3. Düzensizliklerin Giderilmesi</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Şanssızlık eseri, Genel Ağ posta protokolleri ile ilgili çeşitlemeler, yaratıcı yorumlar ve açıkça ihlaller ortaya çıkar; bazıları bunların o kadar sık görülmediğini söyler. İyi bir SMTP alıcısı veya rölesi, bozuk bir iletiyi red mi etmeli, hiçbir değişiklik yapmadan geçirmeye mi çalışmalı yoksa başarılı bir teslimat veya yanıt şansını arttırmak için onarmaya mı çalışmalı tartışmaları yapısal ağ postasının ortaya çıkışı ile başladı ve bitecek gibi de görünmemektedir. Red yanlıları onarmaya çalışmanın herzaman yeterli olmadığını ve hatalı iletilerin reddedilmesinin yazılımın tamirinde tek çözüm olduğunu iddia ederler. "Tamir et" veya "ne olursa olsun teslim et" yanlıları ise kullanıcıların postanın eğer olabilirse iletilmesi gerektiğini düşündüklerini ve bu yönde önemli piyasa baskısı olduğunu söyleyip karşı çıkarlar. Uygulamada, bu piyasa baskıları belirli satıcılar için asıl geliştiricilerin tercihlerine bakmaksızın, standartlara kesinlikle uymaya çalışmaktan daha önemli olabilir.
+</p>
+          <p>
+Hatalı biçimlenmiş iletilerle ilgili sorunlar ayrık posta okuma protokollerinin [<a class="xref" href="rfc2821-s9.html#rfc2821-bib3" title="Posta Office Protocol - version 2">3</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib26" title="STD 53, Post Office Protocol - Version 3">26</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib5" title="Interactive Mail Access Protocol - Version 2">5</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib21" title="PCMAIL: A distributed mail system for personal computers">21</a>] ortaya çıkışı ile iyice arttı. Bu protokoller SMTP'yi postalama protokolü olarak ve SMTP sunucularını da bu istemci konaklar (sıkça ama aralıklarla Genel Ağ'a bağlanan konaklar) için röleleme sistemleri olarak kullanmayı teşvik etti. Geçmişe baktığımızda, bu istemci makinelerin çoğunun SMTP tarafından varsayılan bazı bilgilere ve mekanizmalara (ve tabii, posta biçimleme protokolüne [<a class="xref" href="rfc2821-s9.html#rfc2821-bib7" title="Standard for the Format of ARPA Internet Text Messages">7</a>]) ihtiyaç duyduklarını görürüz. Bazıları zamanı yeterince takip edemedi; bazıları zaman dilimleri kavramından habersizdi; bazıları hala isim ve adreslerini tanımlayamıyor; ve, tabii ki hiçbiri RFC 822'nin kimlik kanıtlamalı adresler kavramının dayandığı öngereklilikleri sağlayamadı.
+</p>
+          <p>
+Bu zayıf SMTP istemcilerine yanıt olarak, artık bir çok SMTP sistemi kendilerine eksik veya yanlış biçimlenmiş olarak teslim edilen iletileri tamamlamaktalar. Bu strateji, sunucu istemciyi tanıdığında veya kimliğini kanıtlamasını istediğinde ve aralarında ön anlaşmalar olduğunda genellikle doğru sayılır. Karşıt olarak, en büyük endişe, kullanıcı veya istemci makinesi hakkında çok az bilgisi olan veya hiç bilgisi olmayan bir röle veya teslimat SMTP sunucusu tarafından uygulanan düzeltmelerle ilgilidir.
+</p>
+          <p><span class="rfcmaybe">Aşağıdaki değişiklikler işlenmekte olan bir iletiye, gerek oluşturucu gerekse SMTP'nin ilk postalama protokolü hedefi olarak kullanıldığı SMTP sunucusu tarafından uygulanabilir *SEÇİMLİK*</span>.
+</p>
+          <div>
+            <ul class="simplelist">
+              <li class="member"><code class="literal">message-id</code> alanının yokluğu halinde eklenmesi
+</li>
+              <li class="member">
+tarih, saat ve zaman dilimi bilgilerinin yokluğu halinde eklenmesi
+</li>
+              <li class="member">
+adreslerin doğru FQDN biçimine getirilmesi
+</li>
+            </ul>
+          </div>
+          <p>
+Sunucunun istemci hakkında ne kadar az bilgisi olursa, bu değişiklikler o kadar az doğru olur ve düzeltmelerin yapılıp yapılmaması veya nasıl yapılması gerektiği ele alınırken daha fazla dikkat ve tutarlılık gösterilmesi gerekir. <span class="rfcmust">Bu değişiklikler ara röleleme işlemi yapan SMTP sunucuları tarafından uygulanmamalıdır *ZORUNLU*</span>.
+</p>
+          <p>
+Her durumda, doğru bilgi sağlayarak düzgün işleyen istemciler, SMTP sunucuları tarafından düzeltmeler bakımından tercih edilir. Tüm durumlarda, sunucular tarafından yapılan hareketlerin mutlaka belgelenmesi (izleme alanları ve/veya başlık yorumlarında) önerilir.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

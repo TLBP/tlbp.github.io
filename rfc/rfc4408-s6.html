@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>6. Değiştirici Tanımları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s5.html')">Önceki</button>
+          <div class="dropdown-content">5. <code class="literal">Mekanizma</code> Tanımları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s7.html')">Sonraki</button>
+          <div class="dropdown-content">7. "<code class="literal">Received-SPF</code>" Başlık Alanı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s6">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">6. Değiştirici Tanımları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+Değiştiriciler ek bilgi sağlayan isim/değer çiftleridir. Değiştiriciler daima isim ve değeri ayıran bir  "=" imi içerirler.
+</p>
+        <p>
+Bu belgede tanımlanmış değiştiriciler ("<code class="literal">redirect</code>" ve "<code class="literal">exp</code>") kaydın her yerinde görünebilir *SEÇİMLİK* fakat sonda, tüm mekanizmalardan sonra görünürse iyi olur *ÖNERİ*. Bu iki değiştirici arasında bir öncelik sözkonusu değildir. Bu iki değiştiricinin her biri bir kayıtta birden fazla görünemez *ZORUNLU*. Eğer bu yapılırsa, <code class="literal">check_host()</code> işlevi "<code class="literal">PermError</code>" sonucu ile çıkar.
+</p>
+        <p>
+Tanınmayan değiştiriciler nerede nasıl göründüklerine bakılmaksızın yok sayılmalıdırlar *ZORUNLU*. Bu, bu belgenin gerçeklenimcilerine diğer belirtimlerde tanımlanmış değiştiricileri içeren kayıtlarla rahatça çalışma imkanı verir.
+</p>
+        <section class="sect2" id="rfc4408-s61">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.1. Yönlendirilmiş Sorgu (<code class="literal">redirect</code>)</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Eğer tüm mekanizmalar eşleşmez ve bir "<code class="literal">redirect</code>" değiştiricisi de mevcutsa süreç şöyle gelişir:
+</p>
+          <pre class="literallayout monospaced">
+sevket           = "redirect" "=" alan-belirtimi
+</pre>
+          <p><code class="literal">Sevket</code> belirtiminin <code class="literal">alan-belirtimi</code> bölümü <a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a> bölümündeki makro kurallarına göre yorumlanır. Sonuçlanan dizge <code class="literal">check_host()</code> işlevinde <code class="literal">&lt;alan&gt;</code> olarak değerlendirilir, <code class="literal">&lt;ip&gt;</code> ve <code class="literal">&lt;gönderici&gt;</code> ise o anki değerlendirme değerleri olarak değişmeden kalır.
+</p>
+          <p>
+Bu yeni <code class="literal">check_host()</code> değerlendirmesinin sonucu, bir SPF kaydının yokluğu dışında mevcut değerlendirmenin sonucu sayılır ya da   <code class="literal">&lt;hedef-ismi&gt;</code> bozuksa, sonuç "<code class="literal">None</code>"'dan ziyade bir "<code class="literal">PermError</code>" olur.
+</p>
+          <p>
+Yönlendirme sonucu sorgulanan alanın kendisinin de bir yönlendirme belirtebileceğine dikkat ediniz.
+</p>
+          <p>
+Bu oluşum, aynı kaydı çok sayıda alana uygulamak isteyen bir örgüt tarafından kullanılmak üzere tasarlanmıştır. Örnek:
+</p>
+          <pre class="literallayout monospaced">
+la.example.com. TXT "v=spf1 redirect=_spf.example.com"
+ny.example.com. TXT "v=spf1 redirect=_spf.example.com"
+sf.example.com. TXT "v=spf1 redirect=_spf.example.com"
+_spf.example.com. TXT "v=spf1 mx:example.com -all"
+</pre>
+          <p>
+Bu örnekte, bu üç alanın her birine ait posta için aynı kayıt kullanılmaktadır. Bu yönetimsel bir yarar sağlayabilir.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Genelde, aynı yönetimsel denetim altında olmayan "B" alanına "A" alanı tarafından yapılan bir yönlendirme güvenilir olmayacaktır. <code class="literal">&lt;gönderici&gt;</code> aynı kaldığından, özellikle "B" alanının yerel kısımlarla ilgili mekanizmaları kullanması durumunda, "B" alanındaki kaydın "A" alanındaki posta kutuları için doğru çalışacağının hiçbir garantisi yoktur. Bir "<code class="literal">include</code>" yönergesi daha uygun olabilirdi.
+</p>
+            </div>
+          </div>
+          <p>
+Bir "<code class="literal">redirect</code>" değiştiricisinin bir kaydın en sonunda yer alması tavsiye edilir *ÖNERİ*.
+</p>
+        </section>
+        <section class="sect2" id="rfc4408-s62">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">6.2. İzahat (<code class="literal">exp</code>)</h3>
+              </div>
+            </div>
+          </div>
+          <pre class="literallayout monospaced">
+izahat           = "<code class="literal">exp</code>" "=" alan-belirtimi
+</pre>
+          <p>
+Eğer tüm mekanizmaların eşleşmemesinin sonucu olarak <code class="literal">check_host()</code> işlevi "<code class="literal">Fail</code>" sonucunu verirse ve bir "<code class="literal">exp</code>" değiştiricisi de mevcutsa <code class="literal">izahat-dizgesi</code> aşağıda açıklandığı gibi hesaplanır. Eğer bir "<code class="literal">exp</code>" değiştiricisi de mevcut değilse ya öntanımlı bir <code class="literal">izahat-dizgesi</code> ya da boş bir <code class="literal">izahat-dizgesi</code> dönebilir.
+</p>
+          <p><code class="literal">&lt;alan-belirtimi&gt;</code><a class="xref" href="rfc4408-s8.html" title="8. Makrolar">Makrolar</a> bölümündeki makro kurallarına göre yorumlanır ve <code class="literal">&lt;hedef-ismi&gt;</code> haline gelir. <code class="literal">&lt;hedef-ismi&gt;</code> için DNS <code class="literal">TXT</code> kaydı sorgulanır.
+</p>
+          <p><code class="literal">&lt;alan-belirtimi&gt;</code> boşsa veya bir DNS hatası dönmüşse (0'dan farklı bir RCODE) ya da hiç kayıt dönmemişse, ya da birden fazla kayıt dönmüşse veya <code class="literal">izahat-dizgesi</code> nde bir sözdizimi hatası varsa, hiç "<code class="literal">exp</code>" değiştiricisi verilmemiş gibi işlem yapılır.
+</p>
+          <p>
+Alınan TXT kayıtlarındaki dizgeler aralarına boşluk konmaksızın ardarda eklenir ve makro yorumlamalı bir <code class="literal">&lt;izahat-dizgesi&gt;</code> olarak ele alınır. Gerçeklenimler <code class="literal">&lt;izahat-dizgesi&gt;</code>nin sonuç uzunluğunu makul işlem sınırları veya diğer protokol kısıtlamalarına izin vermek için sınırlayabilirler. <code class="literal">&lt;izahat-dizgesi&gt;</code> bir SMTP yanıtı olarak tasarlandığından ve [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]'in <a class="xref" href="rfc2821-s24.html" title="2.4. Sözdizimsel Genel Prensipler ve Harekât Modeli">Sözdizimsel Genel Prensipler ve Harekât Modeli</a> bölümü yanıtların [<a class="xref" href="rfc4408-sd.html#rfc4408-US-ASCII" title="USA Code for Information Interchange, X3.4">US-ASCII</a>] olmasını gerektirdiğinden, <code class="literal">&lt;izahat-dizgesi&gt;</code> de US-ASCII kodlanmış olmalıdır.
+</p>
+          <p><code class="literal">check_host()</code> işlevini değerlendiren yazılım, bu dizgeyi, yayınlayan alandaki bilgiyi bir kısa ileti veya bir URL biçiminde iletmek için kullanabilir. Yazılım bu dizgenin üçüncü şahıslardan kaynaklandığını açıklığa kavuşturmalıdır *ÖNERİ*. Örneğin, dizgenin başına <a class="xref" href="rfc4408-s2.html#rfc4408-s254" title="2.5.4. Fail">
+     <code class="literal">Fail</code>
+    </a> bölümünde gösterildiği gibi "<code class="literal">%{o} explains: </code>" makro dizgesini ekleyebilir.
+</p>
+          <p>
+example.com'un şöyle bir kaydı olsun:
+</p>
+          <pre class="literallayout monospaced">
+v=spf1 mx -all exp=explain._spf.%{d}
+</pre>
+          <p>
+Aşağıda explain._spf.example.com'da <code class="literal">&lt;izahat-dizgesi&gt;</code> olarak kullanılabilecek olası TXT kayıtları örneklerine yer verilmiştir:
+</p>
+          <pre class="literallayout monospaced"><code class="code">"Mail from example.com should only be sent by its own servers."</code>
+    -- basit ve sabit bir ileti
+
+<code class="code">"%{i} is not one of %{d}'s designated mail servers."</code>
+    -- sınaması başarısız olan IP adresini içererek biraz daha bilgi
+       veren bir ileti
+
+<code class="code">"See http://%{d}/why.html?s=%{S}&amp;i=%{I}"</code>
+    -- check_host() işlevine bağımsız değişkenler içeren bir URL'den oluşan
+       biraz daha karmaşık bir ileti; böylece daha ayrıntılı ve
+       özel talimatlar içeren bir sayfa hazırlanabilir
+</pre>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Bir "<code class="literal">include</code>" mekanizmasına yineleme sırasında, <code class="literal">&lt;hedef-ismi&gt;</code>'ndeki bir "<code class="literal">exp</code>" değiştiricisi kullanılmamalıdır *ZORUNLU*. Aksine, bir "<code class="literal">redirect</code>" değiştiricisi değerlendirilirken özgün alandaki bir "<code class="literal">exp</code>" değiştiricisi kullanılmamalıdır *ZORUNLU*.
+</p>
+            </div>
+          </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

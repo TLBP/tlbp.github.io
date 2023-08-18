@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.5. Bağlantının Kapatılması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s34.html')">Önceki</button>
+          <div class="dropdown-content">3.4. Bağlantının Kurulması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s36.html')">Sonraki</button>
+          <div class="dropdown-content">3.6. Öncelik ve Güvenlik</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s35">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.5. Bağlantının Kapatılması</h3>
+            </div>
+          </div>
+        </div>
+        <p><span class="command"><strong>KAPAT</strong></span>, "Göndereceğim veri kalmadı" anlamına gelen bir işlemdir. Bir iki yönlü çalışan bağlantının kapatılması, alıcı tarafın bunu nasıl ele alacağı bilinemediğinden, anlamı belirsiz bir yorumlamanın konusudur, şüphesiz. Biz <span class="command"><strong>KAPAT</strong></span>'ı tek yönlü bir bağlantıdaymışız gibi ele alacağız. Diğer ucun <code class="literal">KAPALI</code> duruma geçtiğini öğrenene kadar <span class="command"><strong>KAPAT</strong></span>an kullanıcı <span class="command"><strong>AL</strong></span>maya devam edebilir. Bu durumda, bir program bir <span class="command"><strong>KAPAT</strong></span> öncesinde bazı <span class="command"><strong>GÖNDER</strong></span>ileri başlatmış olabilirdi ve öbür ucun <code class="literal">KAPALI</code> olmasından dolayı bir <span class="command"><strong>AL</strong></span>ımın başarısız olduğu sinyallenene kadar <span class="command"><strong>AL</strong></span>maya devam ederdi. Öbür ucun kapanmasından dolayı ortada hiçbir <span class="command"><strong>AL</strong></span>ım kalmasa bile, biz TCP'nin kullanıcıyı haberdar edeceğini ve böylece kullanıcının kendi tarafını sonlandırabileceğini varsayıyoruz. Bir TCP, bağlantı <code class="literal">KAPALI</code> duruma geçmeden önce tüm <span class="command"><strong>GÖNDER</strong></span> tamponlarını güvenle teslim edecektir. Böylece dönecek hiçbir veri kalmadığını uman kullanıcının duymayı beklediği tek şey tüm verisinin hedef TCP tarafından tamamen alınmasıyla öbür ucun <code class="literal">KAPALI</code> duruma geçtiğidir. TCP artık veri kalmadı diyene kadar kullanıcılar gönderime kapadıkları bağlantılarını okumaya açık tutmalıdır.
+</p>
+        <p>
+Başlıca üç durum sözkonusudur:
+</p>
+        <div>
+          <ul class="simplelist">
+            <li class="member">
+Kullanıcı TCP'ye bağlantıyı <span class="command"><strong>KAPAT</strong></span> demeye başlar.
+</li>
+            <li class="member">
+Uzak TCP bir <code class="literal">SON</code> denetim sinyali göndermeye başlar.
+</li>
+            <li class="member">
+Her iki kullanıcı aynı anda <span class="command"><strong>KAPAT</strong></span>ır.
+</li>
+          </ul>
+        </div>
+        <div class="glosslist">
+          <dl>
+            <dt>
+              <span class="glossterm">1. durum:  <span class="emphasis"><strong>Yerel kullanıcı kapanmayı başlatır</strong></span></span>
+            </dt>
+            <dd class="glossdef">
+              <p>
+Bu durumda, bir <code class="literal">SON</code> veri bölütü oluşturulur ve giden veri bölütü kuyruğuna yerleştirilir. TCP tarafından kullanıcıdan artık bir <span class="command"><strong>GÖNDER</strong></span> kabul edilmez ve TCP <code class="literal">SON-BEKLE-1</code> durumuna geçer. Bu durumda <span class="command"><strong>AL</strong></span>ımlara izin verilir. <code class="literal">SON</code> içeren ve <code class="literal">SON</code> ile öncelenmiş tüm veri bölütleri alındılanana kadar yeniden aktarılır. Diğer TCP, <code class="literal">SON</code>'un her ikisini de alındıladığında ve kendi <code class="literal">SON</code>'unu gönderdiğinde, ilk TCP bu <code class="literal">SON</code>'u <code class="literal">ALN</code>'leyebilir. Bir <code class="literal">SON</code> alan TCP'nin bunu <code class="literal">ALN</code>'leyeceğini fakat ek olarak kullanıcısının  bağlantısı <code class="literal">KAPALI</code> olana kadar kendi <code class="literal">SON</code>'unu göndermeyeceğine dikkat ediniz.
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">2. durum:  <span class="emphasis"><strong>TCP ağdan bir <code class="literal">SON</code> alır</strong></span></span>
+            </dt>
+            <dd class="glossdef">
+              <p>
+Eğer ağdan talep edilmemiş bir <code class="literal">SON</code> gelirse, alıcı TCP onu <code class="literal">ALN</code>'leyebilir ve kullanıcıya bağlantının kapanacağını söyler. TCP'nin kalan veriyi diğer TCP'ye gönderdikten sonra bir <code class="literal">SON</code> göndermesi için kullanıcı bunu bir <span class="command"><strong>KAPAT</strong></span> ile yanıtlar. TCP bundan sonra kendi <code class="literal">SON</code>'unun alındılanmasını bekler ve alındıyı aldıktan sonra bağlantıyı siler. Bir <code class="literal">ALN</code> ulaşmazsa, bir kullanıcı zaman aşımı sonrasında bağlantı terkedilir ve kullanıcıya haber verilir.
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">3. durum:  <span class="emphasis"><strong>Her iki taraf aynı anda kapanır</strong></span></span>
+            </dt>
+            <dd class="glossdef">
+              <p>
+Bir bağlantının her iki ucunun kullanıcılarından aynı anda <span class="command"><strong>KAPAT</strong></span> gelmesi <code class="literal">SON</code> veri bölütlerinin değiştokuşuna sebep olur. <code class="literal">SON</code>larla öncelenmiş tüm veri bölütleri işleme alınıp alındılandığında her TCP kendi aldığı <code class="literal">SON</code>'u <code class="literal">ALN</code>'leyebilir. Her ikisi de bu <code class="literal">ALN</code>'leri aldıktan sonra bağlantıyı siler.
+</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="figure" id="rfc793-fig13">
+          <div class="figure-title">Şekil 13. Normal Kapanma</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+    TCP A                                                TCP B
+
+1.  KURULU                                               KURULU
+
+2.  (Kapat)
+    SON-BEKLE-1 --&gt; &lt;SIRA=100&gt;&lt;ALN=300&gt;&lt;DNT=SON,ALN&gt; --&gt; KAPAT-BEKLE
+
+3.  SON-BEKLE-2 &lt;-- &lt;SIRA=300&gt;&lt;ALN=101&gt;&lt;DNT=ALN&gt;     &lt;-- KAPAT-BEKLE
+
+4.                                                       (Kapat)
+    ZMN-BEKLE   &lt;-- &lt;SIRA=300&gt;&lt;ALN=101&gt;&lt;DNT=SON,ALN&gt; &lt;-- SON-ALN
+
+5.  ZMN-BEKLE   --&gt; &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;     --&gt; KAPALI
+
+6.  (2 AVÖ)
+    KAPALI
+
+                         Normal Kapanma
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <div class="figure" id="rfc793-fig14">
+          <div class="figure-title">Şekil 14. Aynı Anda Kapanma</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+    TCP A                                                TCP B
+
+1.  KURULU                                               KURULU
+
+2.  (Kapat)                                              (Kapat)
+    SON-BEKLE-1 --&gt; &lt;SIRA=100&gt;&lt;ALN=300&gt;&lt;DNT=SON,ALN&gt; ... SON-BEKLE-1
+                &lt;-- &lt;SIRA=300&gt;&lt;ALN=100&gt;&lt;DNT=SON,ALN&gt; &lt;--
+                ... &lt;SIRA=100&gt;&lt;ALN=300&gt;&lt;DNT=SON,ALN&gt; --&gt;
+
+3.  KAPANIŞ     --&gt; &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;     ... KAPANIŞ
+                &lt;-- &lt;SIRA=301&gt;&lt;ALN=101&gt;&lt;DNT=ALN&gt;     &lt;--
+                ... &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;     --&gt;
+
+4.  ZMN-BEKLE                                            ZMN-BEKLE
+    (2 AVÖ)                                              (2 AVÖ)
+    KAPALI                                               KAPALI
+
+                         Aynı Anda Kapanma
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

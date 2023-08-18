@@ -1,0 +1,1076 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.9. Olay İşleme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s38.html')">Önceki</button>
+          <div class="dropdown-content">3.8. Arayüzler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-gloss.html')">Sonraki</button>
+          <div class="dropdown-content">Kullanılan Terimler ve Kısaltmalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s39">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.9. Olay İşleme</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Bu bölümde betimlenen işlemler olası bir gerçeklenim örneğidir. Başka gerçeklenimlerin işlem sıraları birazcık farklı olabilir, fakat bu bölümdekilerden esasta değil sadece ayrıntıda farklı olmalıdır.
+</p>
+        <p>
+TCP etkinliğinin ayırıcı özellikleri olaylara verdiği yanıtlardır denebilir. Meydana gelen olaylar üç kategoride incelenebilir: kullanıcı çağrıları, veri bölütlerinin varışı ve zaman aşımları. Bu bölümde her bir olaya TCP'nin verdiği işlemsel yanıtlar açıklanmıştır. Çoğu durumda gereken işlem bağlantının durumuna bağımlıdır.
+</p>
+        <p>
+Meydana gelen olaylar:
+</p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">Kullanıcı Çağrıları</span>
+            </dt>
+            <dd>
+              <pre class="literallayout monospaced">
+AÇ
+GÖNDER
+AL
+KAPAT
+TERKET
+DURUM
+</pre>
+            </dd>
+            <dt>
+              <span class="term">Ulaşan Veri bölütleri</span>
+            </dt>
+            <dd>
+              <p>
+       <code class="literal">Veri bölütü Varışları</code>
+      </p>
+            </dd>
+            <dt>
+              <span class="term">Zaman aşımları</span>
+            </dt>
+            <dd>
+              <pre class="literallayout monospaced">
+Kullanıcı Zaman aşımı
+Yeniden Aktarım Zaman aşımı
+ZMN-BEKLE Zaman aşımı
+</pre>
+            </dd>
+          </dl>
+        </div>
+        <p>
+TCP/Kullanıcı arayüzü modeli hemen bir dönüş ve bir olay veya bir sözde kesme üzerinden olası bir gecikmiş yanıt alan kullanıcı komutlarından oluşur. Aşağıdaki açıklamalarda "sinyal" bir gecikmiş yanıta sebep olan şey anlamında kullanılmıştır.
+</p>
+        <p>
+Hata yanıtları karakter dizgeleri olarak verilmiştir. Örneğin, mevcut olmayan bağlantılara atıf yapan kullanıcı komutları şu yanıtı alır: "hata: bağlantı açık değil".
+</p>
+        <p>
+Sıra numaraları, alındı numaraları, pencereler, vesaire ile ilgili tüm aritmetik işlemler 2^32'lik bir sıra numaraları uzayıyla sınırlıdır. Ayrıca "=&lt;" işareti 2^32 ile bölümden artandan küçük veya eşit oduğunu gösterir.
+</p>
+        <p>
+Gelen veri bölütlerine uygulanan işlemlerde izlenen doğal yol, önce sıra numarasının doğruluğunun sınanması (sıra numarası uzayının beklenen "alım penceresi" aralığına düşen sıra numaralarından biri olup olmadığı) ve bu sıra numarasına göre kuyruğa alınıp işlenmesidir.
+</p>
+        <p>
+Bir veri bölütü daha önce alınmış veri bölütleri ile örtüştüğünde, veri bölütünü sadece yeni veriyi içerecek şekilde yeniden oluşturur ve başlık alanlarını uygun biçimde ayarlarız.
+</p>
+        <p>
+Bir durum değişikliğinden bahsedilmedikçe TCP'nin aynı durumda kalacağına dikkat ediniz.
+</p>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.1. <code class="literal">AÇ</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bağlantı durum bilgisini saklamak üzere yeni bir Aktarım Denetim Bloku (ADB) oluşturulur. Yerel soket belirteci, yabancı soket, öncelik, güvenlik/bölüm ve kullanıcı zaman aşımı bilgileri doldurulur. Yabancı soketin bazı parçalarının bir edilgen <span class="command"><strong>AÇ</strong></span> çağrısında belirsiz olabileceğini ve gelen <code class="literal">EŞZ</code> veri bölütündeki bağımsız değişkenlere göre doldurulacağına dikkat ediniz. Bu kullanıcı için istenen güvenlik ve önceliğin doğrulanmasına izin verilebilmesi için "hata: önceliğe izin verilmiyor" veya "hata: güvenlik/bölüme izin verilmiyor" şeklinde bir hata dönmemiş olması gerekir. Eğer çağrı edilgen ise <code class="literal">DİNLE</code> durumuna geçilir ve dönülür. Çağrı etkin ise  ve yabancı soket belirsizse, "hata: yabancı soket belirsiz" hatası döner. Çağrı etkin ise  ve yabancı soket belirliyse, bir <code class="literal">EŞZ</code> veri bölütü hazırlanır. Bir ilk gönderi sıra nunarası (<code class="literal">İGS</code>) seçilip <code class="literal">&lt;SIRA=İGS&gt;&lt;DNT=EŞZ&gt;</code> biçiminde bir <code class="literal">EŞZ</code> veri bölütü gönderilir. <code class="literal">GÖN.OLM</code> değişkenine <code class="literal">İGS</code>, <code class="literal">GÖN.SNR</code> değişkenine <code class="literal">İGS+1</code> atanır, <code class="literal">EŞZ-GÖNDER</code> durumuna geçilir ve döner.
+  </p>
+                <p>
+Eğer çağrıcı belirtilen yerel sokete erişemiyorsa, "hata: bağlantı bu süreç için kuraldışı" hatası döner. Yeni bir bağlantı oluşturmak için yeterli yer yoksa, "hata: özkaynaklar yetersiz" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Çağrı etkin ve yabancı soket belirli ise, bağlantı edilgenden etkine döner, bir <code class="literal">İGS</code> seçilir. Bir <code class="literal">EŞZ</code> veri bölütü gönderilir, <code class="literal">GÖN.OLM</code> değişkenine <code class="literal">İGS</code>, <code class="literal">GÖN.SNR</code> değişkenine <code class="literal">İGS+1</code> atanır. <code class="literal">EŞZ-GÖNDER</code> durumuna geçilir. <span class="command"><strong>GÖNDER</strong></span> ile ilişkili veri <code class="literal">EŞZ</code> veri bölütü ile gönderileceği gibi <code class="literal">KURULU</code> duruma geçildikten sonraki aktarım için kuyruğa da alınabilir. Aciliyet bitinin veri ile gönderilmesi komutta istenmişse, veri bölütleri bu komutun bir sonucu olarak gönderilir. İstek için kuyrukta yer yoksa, yanıt "hata: özkaynaklar yetersiz" olur. Eğer yabancı soket belirtilmemişse, "hata: yabancı soket belirsiz" hatası dönülür.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu  <span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu
+  <span class="command"><strong>KURULU</strong></span> Durumu
+  <span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+  <span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+  <span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu
+  <span class="command"><strong>KAPANIŞ</strong></span> Durumu
+  <span class="command"><strong>SON-ALN</strong></span> Durumu
+  <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"hata: bağlantı zaten mevcut" hatası döner.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.2. <code class="literal">GÖNDER</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Eğer kullanıcının böyle bir bağlantıya erişim izni yoksa, "hata: bağlantı bu süreç için kuraldışı" hatası döner.
+  </p>
+                <p>
+Aksi takdirde, "hata: bağlantı yok" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Yabancı soket belirliyse, bağlantı edilgenden etkine döner, bir <code class="literal">İGS</code> seçilir.  Bir <code class="literal">EŞZ</code> veri bölütü gönderilir, <code class="literal">GÖN.OLM</code> değişkenine <code class="literal">İGS</code>, <code class="literal">GÖN.SNR</code> değişkenine <code class="literal">İGS+1</code> atanır. <code class="literal">EŞZ-GÖNDER</code> durumuna geçilir. <span class="command"><strong>GÖNDER</strong></span> ile ilişkili veri <code class="literal">EŞZ</code> veri bölütü ile gönderileceği gibi <code class="literal">KURULU</code> duruma geçildikten sonraki aktarım için kuyruğa da alınabilir. Aciliyet bitinin veri ile gönderilmesi komutta istenmişse, veri bölütleri bu komutun bir sonucu olarak gönderilir. İstek için kuyrukta yer yoksa, yanıt "hata: özkaynaklar yetersiz" olur. Eğer yabancı soket belirtilmemişse, "hata: yabancı soket belirsiz" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu <span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p><code class="literal">KURULU</code> duruma geçildikten sonra aktarılmak üzere veri kuyruğa alınır. Kuyrukta yer yoksa, yanıt "hata: özkaynaklar yetersiz" olur.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu <span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Tampon veri bölütlenir ve bir alındı bindirilip (alındı değeri = <code class="literal">ALM.SNR</code>) ile gönderilir. Bu tamponu hatırlamak için yeterli yer yoksa, yanıt "hata: özkaynaklar yetersiz" olur.
+  </p>
+                <p>
+Aciliyet bayrağı etkinse, <code class="literal">GÖN.ACL &lt;- GÖN.SNR-1</code> yapılır ve giden veri bölütlerinde aciliyet göstericisi etkinleştirilir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu <span class="command"><strong>SON-BEKLE-2</strong></span> Durumu <span class="command"><strong>KAPANIŞ</strong></span> Durumu <span class="command"><strong>SON-ALN</strong></span> Durumu <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"hata: bağlantı kapanıyor" döner ve istek yerine getirilmez.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.3. <code class="literal">AL</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Eğer kullanıcının böyle bir bağlantıya erişim izni yoksa, "hata: bağlantı bu süreç için kuraldışı" hatası döner.
+  </p>
+                <p>
+Aksi takdirde, "hata: bağlantı yok" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu <span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu <span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p><code class="literal">KURULU</code> duruma geçildikten sonra aktarılmak üzere veri kuyruğa alınır. Kuyrukta yer yoksa, yanıt "hata: özkaynaklar yetersiz" olur.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu <span class="command"><strong>SON-BEKLE-1</strong></span> Durumu <span class="command"><strong>SON-BEKLE-2</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+İsteği yerine getirmek için gelen veri bölütlerinden kuyruğa alınanlar yetersizse, istek kuyruğa alınır. <span class="command"><strong>AL</strong></span> çağrısını hatırlamak için kuyruk alanı yoksa, yanıt "hata: özkaynaklar yetersiz" olur.
+  </p>
+                <p>
+Kuyruktaki gelen veri bölütleri alım tamponunda yeniden oluşturulur ve kullanıcıya dönülür. Durum uygunsa, <code class="literal">GİT</code>sin imlemesi yapılır.
+  </p>
+                <p>
+ALM.ACL kullanıcıya aktarılmakta olan verinin önündeyse kullanıcı acil veri varlığı konusunda uyarılır.
+  </p>
+                <p>
+TCP, verinin kullanıcıya tesliminden sorumlu olduğunda, kullanıcıyla iletişimin bir alındı üzerinden yapılması gerekir. Böyle bir alındının oluşumu, aşağıda, bir gelen veri bölütünün işlenmesi konusunda ele alınacaktır.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Uzak taraf zaten bir <code class="literal">SON</code> göndermiş olduğundan, <span class="command"><strong>AL</strong></span> çağrıları elde mevcut olup da henüz kullanıcıya teslim edilmemiş metinden oluşmalıdır. Teslimatı bekleyen metin yoksa, <span class="command"><strong>AL</strong></span> çağrısı "hata: bağlantı kapanıyor" yanıtını alacaktır. Aksi takdirde, bekleyen metin <span class="command"><strong>AL</strong></span> çağrısını oluşturmakta kullanılabilir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu <span class="command"><strong>SON-ALN</strong></span> Durumu <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"hata: bağlantı kapanıyor" döner.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.4. <code class="literal">KAPAT</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Eğer kullanıcının böyle bir bağlantıya erişim izni yoksa, "hata: bağlantı bu süreç için kuraldışı" hatası döner.
+  </p>
+                <p>
+Aksi takdirde, "hata: bağlantı yok" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Askıdaki <span class="command"><strong>AL</strong></span> çağrıları "hata: kapanış" yanıtları ile döndürülür. ADB silinir. <code class="literal">KAPALI</code> durumu geçilir ve dönülür.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Kuyruktaki <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> çağrıları "hata: kapanış" yanıtları ile döndürülür. ADB silinir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Hiç <span class="command"><strong>GÖNDER</strong></span> yoksa ve gönderilecek bekleyen veri de yoksa, bir <code class="literal">SON</code> veri bölütü oluşturulup o gönderilir ve <code class="literal">SON-BEKLE-1</code> durumuna geçilir; aksi takdirde, <code class="literal">KURULU</code> duruma geçince işlenmek üzere kuyruğa alınır.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Veri bölütlerine bölünerek <span class="command"><strong>GÖNDER</strong></span> çağrıları haline getirilmiş verilerin tümü kuyruğa alındıktan sonra bir <code class="literal">SON</code> veri bölütü oluşturulur ve o gönderilir. Her durumda, <code class="literal">SON-BEKLE-1</code> durumuna geçilir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu <span class="command"><strong>SON-BEKLE-2</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Kesinlikle bu bir hatadır ve bir "hata: bağlantı kapanıyor" yanıtı alınmalıdır. İkinci bir <code class="literal">SON</code> yayınlanana  kadar (ilk <code class="literal">SON</code> yeniden aktarılabilirse de) bir "tamam" da kabul edilebilir bir yanıt olurdu.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Önceki tüm <span class="command"><strong>GÖNDER</strong></span> çağrıları veri bölütleri haline getirilene kadar bu istek kuyruğa alınır; sonra bir <code class="literal">SON</code> veri bölütü gönderilir, <code class="literal">KAPANIŞ</code> durumuna geçilir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu <span class="command"><strong>SON-ALN</strong></span> Durumu <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"hata: bağlantı kapanıyor" yanıtı alınır.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.5. <code class="literal">TERKET</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Eğer kullanıcının böyle bir bağlantıya erişim izni yoksa, "hata: bağlantı bu süreç için kuraldışı" hatası döner.
+  </p>
+                <p>
+Aksi takdirde, "hata: bağlantı yok" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Askıdaki <span class="command"><strong>AL</strong></span> çağrıları "hata: bağlantı baştan başlatılıyor" yanıtları ile döndürülür. ADB silinir. <code class="literal">KAPALI</code> durumu geçilir ve dönülür.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Kuyruktaki <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> çağrıları "hata: bağlantı baştan başlatılıyor" yanıtları ile döndürülür. ADB silinir. <code class="literal">KAPALI</code> durumu geçilir ve dönülür.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu
+  <span class="command"><strong>KURULU</strong></span> Durumu
+  <span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+  <span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+  <span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Bir <code class="literal">BŞT</code> veri bölütü gönderilir.
+  </p>
+                <p>
+        </p>
+                <pre class="literallayout monospaced">
+    &lt;SIRA=GÖN.SNR&gt;&lt;DNT=BŞT&gt;
+</pre>
+                <p>
+       </p>
+                <p>
+Kuyruktaki tüm <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> çağrıları "hata: bağlantı baştan başlatılıyor" yanıtları ile döndürülmeli; aktarım veya yeniden aktarım için kuyruğa alınmış tüm veri bölütleri (yukarıda <code class="literal">BŞT</code> için biçimlenmiş olan hariç) boşaltılmalı, ADB silinmeli, <code class="literal">KAPALI</code> duruma geçilip dönülmelidir.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu <span class="command"><strong>SON-ALN</strong></span> Durumu <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"tamam" yanıtı verilip ADB silinir, <code class="literal">KAPALI</code> duruma geçilip dönülür.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.6. <code class="literal">DURUM</code> Çağrısı</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPALI</strong></span> Durumu (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+Eğer kullanıcının böyle bir bağlantıya erişim izni yoksa, "hata: bağlantı bu süreç için kuraldışı" hatası döner.
+  </p>
+                <p>
+Aksi takdirde, "hata: bağlantı yok" hatası döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>DİNLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = DİNLE" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-GÖNDER</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = EŞZ-GÖNDER" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = EŞZ-ALINDI" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = KURULU" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = SON-BEKLE-1" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = SON-BEKLE-2" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = KAPAT-BEKLE" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = KAPANIŞ" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>SON-ALN</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = SON-ALN" ve ADB göstericisi döner.
+  </p>
+              </dd>
+              <dt>
+                <span class="glossterm"><span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+"durum = ZMN-BEKLE" ve ADB göstericisi döner.
+  </p>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.7. Veri bölütü Varışları</h4>
+              </div>
+            </div>
+          </div>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm">Durum, <span class="command"><strong>KAPALI</strong></span> ise (örn, ADB'nin olmayışı)</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+        Gelen veri bölütündeki tüm veri iptal edilir. <code class="literal">BŞT</code> içeren veri bölütü varsa iptal edilir. Bir <code class="literal">BŞT</code> içermeyen bir gelen veri bölütü yanıt olarak bir <code class="literal">BŞT</code> gönderilmesine sebep olur. Alındı ve sıra numarası alanlarının değerleri suçlu veri bölütünü gönderen TCP tarafından baştan başlatma işlemi için kabul edilebilir şekilde seçilir.
+       </p>
+                <p>
+        <code class="literal">ALN</code> biti etkin değilse, sıra numarası olarak sıfır kullanılır.
+       </p>
+                <pre class="literallayout monospaced">
+    &lt;SIRA=0&gt;&lt;ALN=VBL.SIRA+VBL.UZN&gt;&lt;DNT=BŞT,ALN&gt;
+</pre>
+                <p><code class="literal">ALN</code> biti etkinse,</p>
+                <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>
+                <p>Ve döner.</p>
+              </dd>
+              <dt>
+                <span class="glossterm">Durum, <span class="command"><strong>DİNLE</strong></span> ise</span>
+              </dt>
+              <dd class="glossdef">
+                <dl>
+                  <dt>İlk sınama bir <code class="literal">BŞT</code> için yapılır.</dt>
+                  <dd>
+                    <p>Gelen <code class="literal">BŞT</code> yoksayılmalıdır. Dönülür.</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>İkinci sınama bir <code class="literal">ALN</code> için yapılır.</dt>
+                  <dd>
+                    <p>
+         Bir bağlantı hala <code class="literal">DİNLE</code> durumundayken bir alındı gelirse kötüdür. <code class="literal">ALN</code> kılıklı bir veri bölütü gelmişse bir kabul edilebilir <code class="literal">BŞT</code> veri bölütü oluşturulur:
+        <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>Dönülür.</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>Üçüncü sınama bir <code class="literal">EŞZ</code> için yapılır.</dt>
+                  <dd>
+                    <p>
+         <code class="literal">EŞZ</code> biti etkinse, güvenlik sınanır. Eğer gelen veri bölütündeki güvenlik/bölüm ile ADB'deki tam olarak uyuşmuyorsa bir <code class="literal">BŞT</code> veri bölütü gönderilir ve dönülür.
+        <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>
+         <code class="literal">VBL.PRC &gt; ADB.PRC</code> ise, kullanıcı ve sistem tarafından izin verilmişse <code class="literal">ADB.PRC&lt;-VBL.PRC</code> atanır; izin verilmemişse, bir <code class="literal">BŞT</code> veri bölütü gönderilir ve dönülür.
+        <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>
+         VBL.PRC &lt; ADB.PRC ise devam edilir.
+        
+         <code class="literal">ALM.SNR</code> değişkenine <code class="literal">VBL.SIRA+1</code> atanır, <code class="literal">İAS</code> değişkenine <code class="literal">VBL.SIRA</code> atanır ve başka her denetim ve metin daha sonra işlenmek üzere kuyruğa alınır. <code class="literal">İGS</code> seçilmeli ve şöyle bir <code class="literal">EŞZ</code> veri bölütü gönderilmelidir:
+        <pre class="literallayout monospaced">
+    &lt;SIRA=İGS&gt;&lt;ALN=ALM.SNR&gt;&lt;DNT=EŞZ,ALN&gt;
+</pre>
+         <code class="literal">GÖN.SNR</code> değişkenine <code class="literal">İGS+1</code> ve <code class="literal">GÖN.OLM</code> değişkenine <code class="literal">İGS</code> atanır. Bağlantı durumu <code class="literal">EŞZ-ALINDI</code> yapılır. Gelen başka her denetim ve veri (<code class="literal">EŞZ</code> ile birleşik) <code class="literal">EŞZ-ALINDI</code> durumunda işlenecektir, fakat <code class="literal">EŞZ</code> ve <code class="literal">ALN</code> tekrar işleme sokulmaz. Dinleme tamamen belli değilse (örn, yabancı sotetin tamamen belli olmaması durumu), belirsiz alanlar şimdiden doldurulmalıdır.
+        </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>Dördüncü sınama başka metin veya denetim için yapılır.</dt>
+                  <dd>
+                    <p>
+         Bir başka denetim veya metin kılıklı veri bölütü (<code class="literal">EŞZ</code> içermeyen) bir <code class="literal">ALN</code> içermelidir; böylece <code class="literal">ALN</code> işlemi tarafından iptal edilir. Bağlantının bu varoluşu tarafından gönderilmiş hiçbir şeyin yanıtı olamayacağından bir gelen <code class="literal">BŞT</code> veri bölütü geçerli olamazdı. Bu yüzden burada böyle bir veri bölütü almazsınız ama alırsanız da veri bölütü iptal edilir ve dönülür.
+        </p>
+                  </dd>
+                </dl>
+              </dd>
+              <dt>
+                <span class="glossterm">Durum, <span class="command"><strong>EŞZ-GÖNDER</strong></span> ise</span>
+              </dt>
+              <dd class="glossdef">
+                <dl>
+                  <dt>İlk sınama <code class="literal">ALN</code> biti için yapılır.</dt>
+                  <dd>
+                    <p><code class="literal">ALN</code> biti etkinse<div class="glosslist"><dl><dt><span class="glossterm"><code class="literal">ALN</code> biti etkinse</span></dt><dd class="glossdef"><p>
+            <code class="literal">VBL.ALN =&lt; İGS</code> veya <code class="literal">VBL.ALN &gt; GÖN.SNR</code> ise, bir <code class="literal">BŞT</code> veri bölütü gönderilir (<code class="literal">BŞT</code> biti etkin olmadıkça; aksi takdirde, veri bölütü iptal edilip dönülür).
+           </p><pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre><p>ve veri bölütü iptal edilir. Dönülür.</p><p>
+           <code class="literal">GÖN.OLM =&lt; VBL.ALN =&lt; GÖN.SNR</code> ise <code class="literal">ALN</code> kabul edilebilirdir.
+           </p></dd></dl></div></p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>İkinci sınama <code class="literal">BŞT</code> biti için yapılır</dt>
+                  <dd>
+                    <p>
+                      <div class="glosslist">
+                        <dl>
+                          <dt>
+                            <span class="glossterm"><code class="literal">BŞT</code> biti etkinse</span>
+                          </dt>
+                          <dd class="glossdef">
+                            <p>
+            <code class="literal">ALN</code> kabul edilebilir ise kullanıcı "hata: bağlantı baştan başlatılıyor" sinyalini alır, veri bölütü iptal edilir, <code class="literal">KAPALI</code> duruma geçilir, ADB silinir ve dönülür. Aksi takdirde (<code class="literal">ALN</code> yoksa), veri bölütü iptal edilir ve dönülür.
+           </p>
+                          </dd>
+                        </dl>
+                      </div>
+                    </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>Üçüncü sınama güvenlik ve öncelik için yapılır.</dt>
+                  <dd>
+                    <p>
+                      <div class="glosslist">
+                        <dl>
+                          <dt>
+                            <span class="glossterm">Eğer veri bölütündeki güvenlik/bölüm ile ADB'deki tam olarak uyuşmuyorsa bir <code class="literal">BŞT</code> veri bölütü gönderilir.</span>
+                          </dt>
+                          <dd class="glossdef">
+                            <p>Bir <code class="literal">ALN</code> varsa</p>
+                            <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>
+                            <p>Aksi takdirde</p>
+                            <pre class="literallayout monospaced">
+    &lt;SIRA=0&gt;&lt;ALN=VBL.SIRA+VBL.UZN&gt;&lt;DNT=BŞT,ALN&gt;
+</pre>
+                          </dd>
+                          <dt>
+                            <span class="glossterm">Bir <code class="literal">ALN</code> varsa</span>
+                          </dt>
+                          <dd class="glossdef">
+                            <p>
+            Eğer veri bölütündeki öncelik ile ADB'deki tam olarak uyuşmuyorsa bir <code class="literal">BŞT</code> veri bölütü gönderilir.
+           </p>
+                            <pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre>
+                          </dd>
+                          <dt>
+                            <span class="glossterm">Bir <code class="literal">ALN</code> yoksa</span>
+                          </dt>
+                          <dd class="glossdef">
+                            <p>
+            Eğer veri bölütündeki öncelik ADB'dekinden daha yüksekse, kullanıcı ve sistem tarafından izin verilmişse, ADB'deki öncelik veri bölütündekine yükseltilir; önceliğin yükseltilmesine izin verilmezse, bir <code class="literal">BŞT</code> veri bölütü gönderilir.
+           </p>
+                            <pre class="literallayout monospaced">
+    &lt;SIRA=0&gt;&lt;ALN=VBL.SIRA+VBL.UZN&gt;&lt;DNT=BŞT,ALN&gt;
+</pre>
+                            <p>Eğer veri bölütündeki öncelik ile ADB'dekinden daha düşükse devam edilir.
+           </p>
+                          </dd>
+                          <dt>
+                            <span class="glossterm">Eğer bir <code class="literal">BŞT</code> veri bölütü gönderilmişse</span>
+                          </dt>
+                          <dd class="glossdef">
+                            <p>veri bölütü iptal edilir ve dönülür.</p>
+                          </dd>
+                        </dl>
+                      </div>
+                    </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>Dördüncü sınama <code class="literal">EŞZ</code> biti için yapılır</dt>
+                  <dd>
+                    <p>
+        Bu adıma sadece <code class="literal">ALN</code> tamamsa geçilmelidir, değilse bir <code class="literal">ALN</code> yoktur ve veri bölütü bir <code class="literal">BŞT</code> içermez.
+       
+        <code class="literal">EŞZ</code> biti etkinse ve güvenlik/bölüm ve öncelik kabul edilebilir ise, <code class="literal">ALM.SNR = VBL.SIRA+1</code> ve <code class="literal">İAS = VBL.SIRA</code> yapılır. <code class="literal">GÖN.OLM</code> değeri <code class="literal">VBL.ALN</code>'ye eşit olacak şekilde arttırılmalı (bir <code class="literal">ALN</code> varsa) ve yeniden aktarım kuyruğundaki veri bölütleri alındılandıklarından silinmelidir.
+       
+        <code class="literal">GÖN.OLM &gt; İGS</code> (bizim <code class="literal">EŞZ</code>, <code class="literal">ALN</code>'lenmişti) ise, bağlantı durumu <code class="literal">KURULU</code> yapılır ve bir <code class="literal">ALN</code> veri bölütü oluşturulur ve gönderilir:
+       <pre class="literallayout monospaced">
+    &lt;SIRA=GÖN.SNR&gt;&lt;ALN=ALM.SNR&gt;&lt;DNT=ALN&gt;
+</pre>
+        Aktarım için kuyruğa alınmış veri ve denetimler de dahil edilebilir. Veri bölütünde başka veri ve denetim yoksa <code class="literal">ACL</code> bitinin sınandığı altıncı adımda işleme devam edilir, aksi takdirde dönülür.
+       
+        Aksi takdirde, <code class="literal">EŞZ-ALINDI</code> durumuna geçilir, bir <code class="literal">EŞZ</code>,<code class="literal">ALN</code> veri bölütü oluşturulur ve gönderilir:
+       <pre class="literallayout monospaced">
+    &lt;SIRA=İGS&gt;&lt;ALN=ALM.SNR&gt;&lt;DNT=EŞZ,ALN&gt;
+</pre>
+        Veri bölütünde başka veri ve denetim varsa, <code class="literal">KURULU</code> duruma geçildikten sonra işlenmek üzere kuyruğa alınır ve dönülür.
+       </p>
+                  </dd>
+                </dl>
+                <p>
+       Beşinci sınamada, ne <code class="literal">EŞZ</code> ne de <code class="literal">BŞT</code> biti etkinse, veri bölütü iptal edilip dönülür.
+      </p>
+              </dd>
+            </dl>
+          </div>
+          <p>Aksi takdirde,</p>
+          <dl>
+            <dt>İlk sınama sıra numarası için yapılır</dt>
+            <dd>
+              <p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm">
+      <span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu
+      <br /><span class="command"><strong>KURULU</strong></span> Durumu
+      <br /><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+      <br /><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+      <br /><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu
+      <br /><span class="command"><strong>KAPANIŞ</strong></span> Durumu
+      <br /><span class="command"><strong>SON-ALN</strong></span> Durumu
+      <br /><span class="command"><strong>ZMN-BEKLE</strong></span> Durumu
+     </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+       Veri bölütleri sırayla işlenir. Ulaşanlar üzerindeki ilk denemeler eski yinelenmişleri iptal etmek içindir, fakat bu işlem <code class="literal">VBL.SIRA</code> sırasıyla yapılır. Bir veri bölütünün içeriği eski ve yeniyi birlikte içeriyorsa, sadece yeni parçalar işlenmelidir.
+      </p>
+                      <p>
+       Gelen bir veri bölütünün kabul edilebilirliği için dört durum sözkonusudur:
+      </p>
+                      <pre class="literallayout monospaced">
+Veri bölütü    Alım     Sınama
+ Uzunluğu   Penceresi
+----------  ---------  -------------------------------------------
+
+    0           0      VBL.SIRA = ALM.SNR
+
+    0          &gt;0      ALM.SNR =&lt; VBL.SIRA &lt; ALM.SNR+ALM.PEN
+
+   &gt;0           0      kabul edilebilir değil
+
+   &gt;0          &gt;0      ALM.SNR =&lt; VBL.SIRA &lt; ALM.SNR+ALM.PEN veya
+                       ALM.SNR =&lt; VBL.SIRA+VBL.UZN-1 &lt; ALM.SNR+ALM.PEN
+</pre>
+                      <p>
+        ALM.PEN sıfırsa, hiçbir veri bölütü kabul edilmez, fakat geçerli <code class="literal">ALN</code>, <code class="literal">ACL</code> ve <code class="literal">BŞT</code>'leri kabul etmek için özel bir izin verilmelidir.
+       </p>
+                      <p>
+        Gelen bir veri bölütü kabul edilebilir değilse, yanıtta bir alındı gönderilmelidir (<code class="literal">BŞT</code> biti etkin olmadıkça; etkinse veri bölütü iptal edilip dönülür).
+       </p>
+                      <pre class="literallayout monospaced">
+    &lt;SIRA=GÖN.SNR&gt;&lt;ALN=ALM.SNR&gt;&lt;DNT=ALN&gt;
+</pre>
+                      <p>
+        Bir alındı gönderildikten sonra kabul edilmeyen veri bölütü iptal edilir ve dönülür.
+       </p>
+                      <p>
+        Onu izleyen veri bölütünün <code class="literal">ALM.SNR</code>'de başlayan ve pencereyi aşmayan idealleştirilmiş veri bölütü olduğu varsayılır. Asıl veri bölütleri bu kabule sığması için pencerenin (<code class="literal">EŞZ</code> ve <code class="literal">SON</code> dahil) dışına düşen kısımları kırpılarak ve sadece <code class="literal">ALM.SNR</code>'de başlayan veri bölütü işlenerek yeniden biçimlendirilebilir. Daha yüksek sira numaraları ile başlayan veri bölütleri daha sonra işlenmek üzere tutulabilir.
+       </p>
+                    </dd>
+                  </dl>
+                </div>
+              </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>İkinci sınama <code class="literal">BŞT</code> biti için yapılır.</dt>
+            <dd>
+              <p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span>
+                    </dt>
+                    <dd class="glossdef">
+                      <dl>
+                        <dt><code class="literal">BŞT</code> biti etkinse</dt>
+                        <dd>
+                          <p>
+       Bağlantı bir edilgen <span class="command"><strong>AÇ</strong></span> çağrısı ile başlatılmışsa (örn, <code class="literal">DİNLE</code> durumundan gelinip), bağlantı <code class="literal">DİNLE</code> durumuna geçirilir ve dönülür. Kullanıcıya bilgi verilmesine gerek yoktur. Bağlantı bir etkin <span class="command"><strong>AÇ</strong></span> çağrısı ile başlatılmışsa (örn, <code class="literal">EŞZ-GÖNDER</code> durumundan gelinip), bağlantı reddedilir ve kullanıcıya "bağlantı reddedildi" sinyali yollanır. Her durumda, yeniden aktarım kuyruğundaki tüm veri bölütleri silinir. Ve etkin <span class="command"><strong>AÇ</strong></span> durumunda, <code class="literal">KAPALI</code> duruma geçilip ADB silinir ve dönülür.
+      </p>
+                        </dd>
+                      </dl>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+     <span class="command"><strong>KURULU</strong></span>
+     <br /><span class="command"><strong>SON-BEKLE-1</strong></span>
+     <br /><span class="command"><strong>SON-BEKLE-2</strong></span>
+     <br /><span class="command"><strong>KAPAT-BEKLE</strong></span>
+     </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+       <code class="literal">BŞT</code> biti etkinse askıdaki <span class="command"><strong>AL</strong></span> ve <span class="command"><strong>GÖNDER</strong></span> çağrıları "baştan-başlat" yanıtları almalıdır. Tüm veri bölütü kuyrukları boşaltılır. Kullanıcılar ayrıca talep edilmemiş bir genel "bağlantı yeniden başlatılıyor" sinyali almalıdır. <code class="literal">KAPALI</code> duruma geçildikten sonra ADB silinir ve dönülür.
+      </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+      <span class="command"><strong>KAPANIŞ</strong></span> Durumu
+      <br /><span class="command"><strong>SON-ALN</strong></span> Durumu
+      <br /><span class="command"><strong>ZMN-BEKLE</strong></span>
+     </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+       <code class="literal">BŞT</code> biti etkinse <code class="literal">KAPALI</code> duruma geçildikten sonra ADB bilinir ve dönülür.
+      </p>
+                    </dd>
+                  </dl>
+                </div>
+              </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Üçüncü sınama güvenlik ve öncelik için yapılır.</dt>
+            <dd>
+              <p><div class="glosslist"><dl><dt><span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        Eğer veri bölütündeki güvenlik/bölüm ve öncelik ile ADB'dekiler tam olarak uyuşmuyorsa bir <code class="literal">BŞT</code> veri bölütü gönderilir ve dönülür.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        Eğer veri bölütündeki güvenlik/bölüm ve öncelik ile ADB'dekiler tam olarak uyuşmuyorsa bir <code class="literal">BŞT</code> veri bölütü gönderilir ve askıdaki <span class="command"><strong>AL</strong></span> ve <span class="command"><strong>GÖNDER</strong></span> çağrıları "yeniden-başlat" yanıtları alır. Tüm veri bölütü kuyrukları boşaltılır. Kullanıcılar ayrıca talep edilmemiş bir genel "bağlantı yeniden başlatılıyor" sinyali almalıdır. <code class="literal">KAPALI</code> duruma geçildikten sonra ADB silinir ve dönülür.
+       </p></dd></dl></div>
+     Bu  portlar arasındaki farklı güvenlik veya öncelikli eski bir bağlantıdaki bir veri bölütünün mevcut bağlantının terkedilmesine sebep olmadan engellenmesi için bu sınamanın aşağıdaki sıra numarası sınamasında yeraldığına dikkat ediniz.
+    </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Dördüncü sınama <code class="literal">EŞZ</code> biti için yapılır.</dt>
+            <dd>
+              <p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm">
+       <span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu
+       <br /><span class="command"><strong>KURULU</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+       <br /><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu
+       <br /><span class="command"><strong>KAPANIŞ</strong></span> Durumu
+       <br /><span class="command"><strong>SON-ALN</strong></span> Durumu
+       <br /><span class="command"><strong>ZMN-BEKLE</strong></span> Durumu
+      </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+        <code class="literal">EŞZ</code> pencere içindeyse o bir hatadır, bir <code class="literal">BŞT</code> veri bölütü gönderilir, askıdaki <span class="command"><strong>AL</strong></span> ve <span class="command"><strong>GÖNDER</strong></span> çağrıları "baştan-başlat" yanıtları alır, tüm veri bölütü kuyrukları boşaltılır, kullanıcılar ayrıca talep edilmemiş bir genel "bağlantı yeniden başlatılıyor" sinyali alır, <code class="literal">KAPALI</code> duruma geçildikten sonra ADB silinir ve dönülür.
+       </p>
+                      <p>
+        <code class="literal">EŞZ</code> pencere içinde değilse bu adıma gelinmeden, ilk adımda (sıra numarası sınaması) bir alındı gönderilirdi.
+       </p>
+                    </dd>
+                  </dl>
+                </div>
+              </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Beşinci sınama <code class="literal">ALN</code> alanı için yapılır.</dt>
+            <dd>
+              <p>
+     <code class="literal">ALN</code> biti etkin değilse veri bölütü iptal edilir ve dönülür
+    <div class="glosslist"><dl><dt><span class="glossterm"><code class="literal">ALN</code> biti etkinse</span></dt><dd class="glossdef"><div class="glosslist"><dl><dt><span class="glossterm"><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">GÖN.OLM =&lt; VBL.ALN =&lt; GÖN.SNR</code> ise <code class="literal">KURULU</code> duruma geçilip işlem sürdürülür.
+          </p><p>
+           Veri bölütü alındısı kabul edilebilir değilse bir <code class="literal">BŞT</code> veri bölütü oluşturulur:
+          </p><pre class="literallayout monospaced">
+    &lt;SIRA=VBL.ALN&gt;&lt;DNT=BŞT&gt;
+</pre><p>ve gönderilir.</p></dd><dt><span class="glossterm"><span class="command"><strong>KURULU</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">GÖN.OLM &lt; VBL.ALN =&lt; GÖN.SNR</code> ise <code class="literal">GÖN.OLM &lt;- VBL.ALN</code> yapılır. Yeniden aktarım kuyruğundaki veri bölütleri alındılandıklarından silinmelidir. Kullanıcılar <span class="command"><strong>GÖNDER</strong></span>ilmiş ve tamamen alındılanmış  tamponlar için olumlu alındılar almalıdır (örn, <span class="command"><strong>GÖNDER</strong></span> tamponu "tamam" yanıtı ile dönmelidir). <code class="literal">ALN</code> yinelenmişse (<code class="literal">VBL.ALN &lt; GÖN.OLM</code>), bu yoksayılır. Birşeylerin henüz gönderilmemiş alındıları varsa (<code class="literal">VBL.ALN &gt; GÖN.SNR</code>) bir <code class="literal">ALN</code> gönderilir, veri bölütü yokedilir ve dönülür.
+          </p><p>
+           <code class="literal">GÖN.OLM &lt; VBL.ALN =&lt; GÖN.SNR</code> ise, gönderi penceresi güncellenmemelidir. (<code class="literal">GÖN.PS1 &lt; VBL.SIRA</code> veya (<code class="literal">GÖN.PS1 = VBL.SIRA</code> ve <code class="literal">GÖN.PS2 =&lt; VBL.ALN</code>)) ise, <code class="literal">GÖN.PEN &lt;- VBL.PEN</code>, <code class="literal">GÖN.PS1 &lt;- VBL.SIRA</code> ve <code class="literal">GÖN.PS2 &lt;- VBL.ALN</code> yapılır.
+          </p><p>
+           <code class="literal">GÖN.PEN</code>'in, <code class="literal">GÖN.OLM</code>'den bir mesafe belirttiğine, <code class="literal">GÖN.PS1</code>'in <code class="literal">GÖN.PEN</code>'i güncellemekte kullanılan son veri bölütünün sıra numarasını kaydettiğine ve <code class="literal">GÖN.PS2</code>'nin <code class="literal">GÖN.PEN</code>'i güncellemekte kullanılan son veri bölütünün alındı numarasını kaydettiğine dikkat ediniz. Buradaki sınama eski veri bölütleri kullanılarak pencerenin güncellenmesini engeller.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">KURULU</code> durumdaki işlemlere ek olarak, bizim <code class="literal">SON</code> alındılandığı anda <code class="literal">SON-BEKLE-2</code> durumuna geçilir ve işleme bu durumda devam edilir.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">KURULU</code> durumdaki işlemlere ek olarak, yeniden aktarım kuyruğu boşsa kullanıcının <span class="command"><strong>KAPAT</strong></span>'ı alındılanabilir ("tamam") fakat ADB silinmez.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">KURULU</code> durumdaki işlemlerin aynısı yapılır.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           <code class="literal">KURULU</code> durumdaki işlemlere ek olarak, bizim <code class="literal">SON</code>'u alındılayan <code class="literal">ALN</code> varsa <code class="literal">ZMN-BEKLE</code> durumuna geçilir, yoksa veri bölütü yoksayılır.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-ALN</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           Bu durumda gelebilen tek şey bizim <code class="literal">SON</code>'un bir alındısıdır. Bizim <code class="literal">SON</code> alındılandığı anda ADB silinir, <code class="literal">KAPALI</code> duruma geçilir ve dönülür.
+          </p></dd><dt><span class="glossterm"><span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+           Bu durumda gelebilen tek şey uzak <code class="literal">SON</code>'un  yeniden aktarımıdır. O tek şey alınır ve 2 AVÖ'lük zaman aşımından sonra yeniden başlanır.
+          </p></dd></dl></div></dd></dl></div></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Altıncı sınama <code class="literal">ACL</code> biti için yapılır.</dt>
+            <dd>
+              <p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm">
+       <span class="command"><strong>KURULU</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+      </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+        <code class="literal">ACL</code> biti etkinse <code class="literal">ALM.ACL &lt;- azm(ALM.ACL,VBL.ACL)</code> yapılır ve kullanıcıya tüketilen verinin önünde aciliyet göstericisi (<code class="literal">ALM.ACL</code>) varsa uzak tarafın acil veriye sahip olduğu sinyallenir. Eğer kullanıcı zaten sinyallenmişse (veya hala "acil kip"te ise), devam niteliğindeki bu acil veri için kullanıcı tekrar sinyallenmez.
+       </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+       <span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu
+       <br /><span class="command"><strong>KAPANIŞ</strong></span> Durumu
+       <br /><span class="command"><strong>SON-ALN</strong></span> Durumu
+       <br /><span class="command"><strong>ZMN-BEKLE</strong></span>
+      </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+        Uzak taraf tarafından bir <code class="literal">SON</code> alınmış olduğundan bu olmamalıdır. <code class="literal">ACL</code> yoksayılır.
+       </p>
+                    </dd>
+                  </dl>
+                </div>
+              </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Yedinci sınama veri bölütü metni için yapılır.</dt>
+            <dd>
+              <p>
+                <div class="glosslist">
+                  <dl>
+                    <dt>
+                      <span class="glossterm">
+       <span class="command"><strong>KURULU</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu
+       <br /><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu
+      </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+        <code class="literal">KURULU</code> durumdayken, veri bölütü metninin kullanıcının <span class="command"><strong>AL</strong></span> tamponlarına teslimi mümkündür.  Gerek tampon dolana gerekse veri bölütü boşalana kadar veri bölütlerindeki metin tamponlara taşınabilir. Veri bölütü boş ve bir <code class="literal">GİT</code>sin bayrağı taşıyorsa, kullanıcı bilgilendirilir, tampon döndüğünde bir <code class="literal">GİT</code>sin alınmış olur.
+       </p>
+                      <p>
+        TCP, verinin kullanıcıya tesliminin sorumluluğunu aldığında, ayrıca, verinin alımını da alındılamalıdır.
+       </p>
+                      <p>
+        TCP, verinin sorumluluğunu aldığı anda, <code class="literal">ALM.SNR</code>  kabul edilen veri kadar arttırılır ve tamponun kullanılabilirliği bakımından <code class="literal">ALM.PEN</code> ayarlanır. <code class="literal">ALM.SNR</code> ve <code class="literal">ALM.PEN</code> toplamı azalmamalıdır.
+       </p>
+                      <p>
+        <a class="xref" href="rfc793-s37.html" title="3.7. Veri İletişimi">Veri İletişimi</a> bölümündeki pencere yönetim önerilerini lütfen dikkate alınız.
+       </p>
+                      <p>
+        Şöyle bir alındı gönderilir:
+       </p>
+                      <pre class="literallayout monospaced">
+    &lt;SIRA=GÖN.SNR&gt;&lt;ALN=ALM.SNR&gt;&lt;DNT=ALN&gt;
+</pre>
+                      <p>
+        Bu alındı, mümkünse yersiz bir gecikmeye uğramasızın, aktarılmakta olan bir veri bölütüne bindirilmiş olmalıdır.
+       </p>
+                    </dd>
+                    <dt>
+                      <span class="glossterm">
+       <span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu
+       <span class="command"><strong>KAPANIŞ</strong></span> Durumu
+       <span class="command"><strong>SON-ALN</strong></span> Durumu
+       <span class="command"><strong>ZMN-BEKLE</strong></span> Durumu
+      </span>
+                    </dt>
+                    <dd class="glossdef">
+                      <p>
+        Uzak tarafta bir <code class="literal">SON</code> alınmış olduğundan bu olmamalıdır. Veri bölütü metni yoksayılır.
+       </p>
+                    </dd>
+                  </dl>
+                </div>
+              </p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>Sekizinci sınama <code class="literal">SON</code> biti için yapılır.</dt>
+            <dd>
+              <p>
+     Durum <code class="literal">KAPALI</code>, <code class="literal">DİNLE</code> veya <code class="literal">EŞZ-GÖNDER</code> ise, VBL.SIRA doğrulanamayacağından, <code class="literal">SON</code> işleme alınmaz; veri bölütü yokedilir ve dönülür.
+    
+     <code class="literal">SON</code> biti etkinse, kullanıcıya "bağlantı kapanıyor" denip askıdaki <span class="command"><strong>AL</strong></span> çağrılarına aynı ileti döndürülür, <code class="literal">ALM.SNR</code>, <code class="literal">SON</code> kadar arttırılır ve <code class="literal">SON</code> için bir alındı gönderilir. Kullanıcıya henüz teslim edilmemiş her veri bölütü metni için <code class="literal">SON</code>'un <code class="literal">GİT</code>sin uygulayacağına dikkat ediniz.
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <span class="command"><strong>KURULU</strong></span> Durumu
+       <br /><span class="command"><strong>EŞZ-ALINDI</strong></span> Durumu
+      </span></dt><dd class="glossdef"><p>
+        <code class="literal">KAPAT-BEKLE</code> durumuna geçilir.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-BEKLE-1</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+Bizim <code class="literal">SON ALN</code>lenmişse (belki bu veri bölütünde), <code class="literal">ZMN-BEKLE</code> durumuna geçilir, zaman-bekle zamanlayıcısı çalıştırılır, diğer zamanlayıcılar kapatılır; aksi takdirde, <code class="literal">KAPANIŞ</code> durumuna geçilir.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-BEKLE-2</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        <code class="literal">ZMN-BEKLE</code> durumuna geçilir, zaman-bekle zamanlayıcısı çalıştırılır, diğer zamanlayıcılar kapatılır.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>KAPAT-BEKLE</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        <code class="literal">KAPAT-BEKLE</code> durumunda kalınır.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>KAPANIŞ</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        <code class="literal">KAPANIŞ</code> durumunda kalınır.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>SON-ALN</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        <code class="literal">SON-ALN</code> durumunda kalınır.
+       </p></dd><dt><span class="glossterm"><span class="command"><strong>ZMN-BEKLE</strong></span> Durumu</span></dt><dd class="glossdef"><p>
+        <code class="literal">ZMN-BEKLE</code> durumunda kalınır. 2 AVÖ'lük zaman-bekle zaman aşımı başlatılır.
+       </p></dd></dl></div></p>
+            </dd>
+          </dl>
+          <p>ve dönülür.</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.8. Kullanıcı Zaman aşımı</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Herhangi bir durumda, kullanıcı zaman aşımı dolarsa, tüm kuyruklar boşaltılır, kullanıcı genellikle "hata: kullanıcı zaman aşımından dolayı bağlantı terkedildi" ile ve askıdaki çağrılar için sinyallenir, ADB silinir,  <code class="literal">KAPALI</code> duruma geçilir ve dönülür.
+</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.9. Yeniden Aktarım Zaman aşımı</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Herhangi bir durumda, yeniden aktarım kuyruğundaki bir veri bölütünde yeniden aktarım zaman aşımı dolarsa, veri bölütü tekrar yeniden aktarım kuyruğunun başına gönderilir, yeniden aktarım zaman aşımı yeniden başlatılır ve dönülür.
+</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.9.10. <code class="code">ZMN-BEKLE</code> zaman aşımı</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir bağlantı üzerinde <code class="literal">ZMN-BEKLE</code> zaman aşımı dolarsa ADB silinir, <code class="literal">KAPALI</code> duruma geçilir ve dönülür.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

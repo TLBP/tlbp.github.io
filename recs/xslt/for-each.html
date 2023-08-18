@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="date" content="2015-10-21T16:15:44+03:00" /><link rel="start" href=".." title="W3C Önergeleri" /><link rel="up" href="index.html#index-toc" title="XSL Dönüşümleri (XSLT) Sürüm 1.0" /><link rel="previous" href="rtree.html" title="Hedef Ağacın Oluşturulması" /><link rel="next" href="condproc.html" title="Koşullu İşlem" /><link rel="stylesheet" type="text/css" href="../recs.css" /><style type="text/css">/* Belgeye özel bir CSS yoksa burası boş olabilir. */</style><title>Yineleme</title></head><body><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><th colspan="3" align="center">XSL Dönüşümleri (XSLT) Sürüm 1.0</th></tr><tr><td width="5%"><a href="rtree.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="5%" align="right"><a href="condproc.html">Sonraki</a></td></tr></table><div class="div1"><h2><a name="for-each" id="for-each"></a>8 Yineleme</h2><a id="element-for-each" name="element-for-each"></a><table class="proto" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><pre class="proto">&lt;!-- Grubu: yönerge --&gt;
+<span class="element">&lt;xsl:for-each</span>
+  <b>select</b> = <var>düğüm-kümesi-ifadesi</var><span class="element"> &gt;</span>
+  &lt;!-- İçeriği: (<a href="sorting.html#element-sort">&lt;xsl:sort&gt;</a>*, <var>örneklenim</var>) --&gt;
+<span class="element">&lt;/xsl:for-each&gt;
+</span></pre></td><td align="right" valign="top" style="font-variant: small-caps;">eleman</td></tr></table><p>Sonucun düzenli bir yapıda olacağı biliniyorsa, örneklenimde doğrudan düğümleri seçmek daha kullanışlıdır. <a href="for-each.html#element-for-each"><span class="elemref"><tt>xsl:for-each</tt></span></a> yönergesi, <code>select</code> özniteliğinde belirtilen <a title="İfade tanımı" href="expr.html#dt-expression">ifade</a>ye göre seçilen her düğümü nesnelleştiren bir örneklenim içerir. <code>select</code> özniteliğinin kullanılması zorunludur. İfadeden bir düğüm kümesi elde edilmelidir. Örneklenim seçilen düğümleri birer <a title="Geçerli Düğüm tanımı" href="intro.html#dt-current-node">geçerli düğüm</a> olarak, tamamını da bir <a title="Geçerli Düğüm Listesi tanımı" href="intro.html#dt-current-node-list">geçerli düğüm listesi</a> olarak nesnelleştirir. Bir sıralama belirtilmedikçe düğümler belgedeki sıralarına göre işlenirler (bkz, <a href="sorting.html"><b>Sıralama</b></a>).</p><p>Örneğin, bir XML belge şu yapıda olsun:</p><div class="example"><pre>&lt;müşteriler&gt;
+  &lt;müşteri&gt;
+    &lt;isim&gt;...&lt;/isim&gt;
+    &lt;sipariş&gt;...&lt;/sipariş&gt;
+    &lt;sipariş&gt;...&lt;/sipariş&gt;
+  &lt;/müşteri&gt;
+  &lt;müşteri&gt;
+    &lt;isim&gt;...&lt;/isim&gt;
+    &lt;sipariş&gt;...&lt;/sipariş&gt;
+    &lt;sipariş&gt;...&lt;/sipariş&gt;
+  &lt;/müşteri&gt;
+&lt;/customers&gt;</pre></div><p>Aşağıdaki kod her <code>müşteri</code> elemanı için bir satır bulunan bir tablo içeren bir HTML belge oluşturacaktır:</p><div class="example"><pre>&lt;xsl:template match="/"&gt;
+  &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;Müşteriler&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;table&gt;
+        &lt;tbody&gt;
+          &lt;xsl:for-each select="müşteriler/müşteri"&gt;
+            &lt;tr&gt;
+              &lt;th&gt;
+                &lt;xsl:apply-templates select="isim"/&gt;
+              &lt;/th&gt;
+              &lt;xsl:for-each select="sipariş"&gt;
+                &lt;td&gt;
+                  &lt;xsl:apply-templates/&gt;
+                &lt;/td&gt;
+              &lt;/xsl:for-each&gt;
+            &lt;/tr&gt;
+          &lt;/xsl:for-each&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+&lt;/xsl:template&gt;</pre></div><p></p></div><p></p><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><td width="30%"><a href="rtree.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="30%" align="right"><a href="condproc.html">Sonraki</a></td></tr><tr><td width="30%">Hedef Ağacın Oluşturulması</td><td width="*" align="center">Bir <a href="http://belgeler.org.tr">Linux Kitaplığı</a> Sayfası</td><td width="30%" align="right">Koşullu İşlem</td></tr></table></body></html>

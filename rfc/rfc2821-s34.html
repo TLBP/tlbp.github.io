@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s33.html')">Önceki</button>
+          <div class="dropdown-content">3.3. Posta Aktarım Harekâtı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s35.html')">Sonraki</button>
+          <div class="dropdown-content">3.5. Adres Hatalarını Ayıklama Komutları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s34">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.4. Adres Düzeltmek veya Güncellemek için Yönlendirme</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Yönlendirme desteği en sık adresleri bir girişime göreli olarak veya onunla birleştirmek ve basitleştirmek için ve daha az sıklıkla bir şahsın eski bir adresiyle yeni bir adresi arasında bağ kurmak için gerekir. İletilerin sessizce yönlendirilmesi (sunucu tarafından gönderici bilgilendirilmeyerek), güvenlik veya ifşa etmeme kaygılarıyla günümüzde çok kullanılan bir Genel Ağ uygulamasıdır.
+</p>
+        <p>
+Hem girişim hem de "yeni adres" durumlarında, bilgi gizleme (ve bazan güvenlik) kaygısı, yönlendirme işleminin bir yan etkisi olarak SMTP üzerinden "son" adresin ifşasıyla kendini gösterir. Bu özellikle son adresin gönderici tarafından yine de erişilebilir olmadığı zaman önemli olur. Bu sebepten, RFC 821'in 3.2 numaralı bölümünde açıklanan "sevk" mekanizması ve özellikle <code class="code">RCPT</code> komutuna verilen 251 (düzeltilmiş hedef) ve 551 yanıt kodları gerçeklenimciler ve sistemleri yapılandıranlar tarafından dikkatle değerlendirilmelidir.
+</p>
+        <div class="itemizedlist">
+          <div class="itemizedlist-title">Özellikle:</div>
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p><span class="rfcmaybe">Sunucular adres değişikliğinden haberdar olduklarında iletileri yönlendirebilir *SEÇİMLİK*</span>. <span class="rfcmaybe">Bunu yaparken, 251 koduyla adres güncelleme bilgisi sağlayabileceği gibi iletiyi "sessizce" yönlendirip 250 kodu gönderebilir *SEÇİMLİK*</span>. Fakat, <span class="rfcmust">eğer bir 251 kodu kullanılmışsa, istemcinin adres bilgisini güncelleyeceği hatta bunu kullanıcıya bildireceği varsayılmamalıdır *ZORUNLU*</span>.
+</p>
+            </li>
+          </ul>
+        </div>
+        <div class="itemizedlist">
+          <div class="itemizedlist-title">Diğer yandan,</div>
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p><span class="rfcmaybe">İletiler adreslerine teslim edilemiyorsa sunucular bunları reddedebilir veya geri gönderebilir *SEÇİMLİK*</span>. <span class="rfcmaybe">Sunucular bunu yaparken, bir 551 koduyla adres güncelleme bilgisi sağlayabileceği gibi bir 550 koduyla teslim edilemediği gerekçesiyle iletiyi reddedebilir *SEÇİMLİK*</span>. Fakat, <span class="rfcmust">eğer bir 551 kodu kullanılmışsa, istemcinin adres bilgisini güncelleyeceği hatta bunu kullanıcıya bildireceği varsayılmamalıdır *ZORUNLU*</span>.
+</p>
+            </li>
+          </ul>
+        </div>
+        <p>
+251 ve/veya 551 yanıt kodlarını destekleyen SMTP sunucu gerçeklenimleri, istenmeyen biçimde bilgi ifşa ettiği sonucuna varılan siteleri iptal edilebilmek veya kullanımlarını kısıtlayabilmek için yapılandırma düzenekleri sağlamak konusunda hararetle özendirilir.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

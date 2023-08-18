@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>7. "Received-SPF" Başlık Alanı</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s6.html')">Önceki</button>
+          <div class="dropdown-content">6. Değiştirici Tanımları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s8.html')">Sonraki</button>
+          <div class="dropdown-content">8. Makrolar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s7">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">7. "<code class="literal">Received-SPF</code>" Başlık Alanı</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+SMTP alıcılarının SPF işleminin sonucunu ileti başlığına kaydetmeleri önerilir *ÖNERİ*. Eğer bir SMTP alıcısı bunu yapmak isterse, sınadığı her kimlik için burada tanımlanan "<code class="literal">Received-SPF</code>" başlık alanını kullanmalıdır *ÖNERİ*. Bu bilgi alıcı için tasarlanmıştır. (Gönderici için tasarlanmış bilgi <a class="xref" href="rfc4408-s6.html#rfc4408-s62" title="6.2. İzahat (exp)">İzahat (<code class="literal">exp</code>)</a> bölümünde açıklanmıştı.)
+</p>
+        <p>
+"<code class="literal">Received-SPF</code>" başlık alanı bir izleme alanıdır ([<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'nin <a class="xref" href="rfc2822-s36.html#rfc2822-s367" title="3.6.7. İzleme alanları">İzleme alanları</a> bölümüne bakınız) ve mevcut başlıkların önüne, SMTP alıcı tarafından üretilen "<code class="literal">Received:</code>" alanının üstüne eklenmelidir *ÖNERİ*. İletideki diğer tüm "<code class="literal">Received-SPF</code>" başlık alanlarının üstünde görünmelidir *ZORUNLU*. Başlık alanının biçimi:
+</p>
+        <pre class="literallayout monospaced">
+başlık-alanı     = "Received-SPF:" [AKBOŞ] sonuç KBOŞ [açıklama KBOŞ]
+                   [ anah-değer-list ] CRLF
+
+sonuç            = "Pass" / "Fail" / "SoftFail" / "Neutral" /
+                   "None" / "TempError" / "PermError"
+
+anah-değer-list  = anah-değer-çifti *( ";" [AKBOŞ] anah-değer-çifti )
+                   [";"]
+
+anah-değer-çifti = anahtar [AKBOŞ] "=" ( nokta-atom / tırnaklı-dizge )
+
+anahtar          = "client-ip" / "envelope-from" / "helo" /
+                   "problem" / "receiver" / "identity" /
+                   "mechanism" / "x-" isim / isim
+
+kimlik           = "mailfrom"   ; "MAIL FROM" kimliği için
+                   / "helo"     ; "HELO"kimliği için
+                   / isim       ; diğer kimlikler
+
+nokta-atom       = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre tırnaksız sözcük&gt;
+tırnaklı-dizge   = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre tırnaklı dizge&gt;
+açıklama         = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre açıklama dizgesi&gt;
+AKBOŞ            = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre açıklamalı katlama boşlukları&gt;
+KBOŞ             = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre katlama boşlukları&gt;
+CRLF             = &lt;[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC2822" title="Internet Message Format">RFC2822</a>]'ye göre standart satır sonu dizgeciği&gt;
+</pre>
+        <p>
+Başlık alanı <code class="literal">&lt;sonuç&gt;</code>tan sonra <code class="literal">&lt;ip&gt;</code>, <code class="literal">&lt;gönderici&gt;</code>, ve <code class="literal">&lt;alan&gt;</code> gibi sonucu destekleyen bilgileri içeren "(...)" tarzı bir <code class="literal">&lt;açıklama&gt;</code> içermelidir *ÖNERİ*.
+</p>
+        <p>
+Aşağıdaki anahtar-değer çiftleri sonraki bir makine çözümlemesi için tasarlanmışlardır. SPF istemcileri SPF sonuçlarını doğrulayabilecek yeterli bilgiyi vermelidirler *ÖNERİ*. Yani, en azından "<code class="literal">client-ip</code>" ve "<code class="literal">helo</code>" anahtarlarıyla, "MAIL FROM" kimliği sınanmışsa "<code class="literal">envelope-from</code>" bulunmalıdır.
+</p>
+        <div class="glosslist">
+          <dl>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">client-ip</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>SMTP istemcinin IP adresi
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">envelope-from</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>Zarf gönderici posta kutusu
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">helo</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p><code class="code">HELO</code> veya <code class="code">EHLO</code> komutunda verilmiş konak adı
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">mechanism</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>eşleşen mekanizma (eşleşen mekanizma yoksa "<code class="literal">default</code>" kullanılır)
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">problem</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>bir hata dönmüşse, sorun ile ilgili ayrıntılar
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">receiver</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>SPF istemcisinin konak adı
+</p>
+            </dd>
+            <dt>
+              <span class="glossterm">
+     <code class="literal">identity</code>
+    </span>
+            </dt>
+            <dd class="glossdef">
+              <p>sınanan kimlik; <code class="literal">&lt;kimlik&gt;</code> ABNF kuralına bakınız
+</p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+SPF istemcileri tarafından başka anahtarlar tanımlanabilir. Yeni bir anahtar geniş kabul görene kadar isimleri "<code class="literal">x-</code>" ile başlatılmalıdır.
+</p>
+        <p>
+SPF istemcileri "<code class="literal">Received-SPF</code>" başlık alanlarının geçersiz karakterler içermediğinden, aşırı uzun olmadığından ve göndericiden kaynaklanan bozucu veri içermediğinden emin olmalıdırlar *ZORUNLU*.
+</p>
+        <p>
+Üretilebilecek çeşitli başlık alanlarından örnekler:
+</p>
+        <pre class="literallayout monospaced">
+Received-SPF: Pass (mybox.example.org: domain of
+ myname@example.com designates 192.0.2.1 as permitted sender)
+    receiver=mybox.example.org; client-ip=192.0.2.1;
+    envelope-from=&lt;myname@example.com&gt;; helo=foo.example.com;
+
+Received-SPF: Fail (mybox.example.org: domain of
+                  myname@example.com does not designate
+                  192.0.2.1 as permitted sender)
+                  identity=mailfrom; client-ip=192.0.2.1;
+                  envelope-from=&lt;myname@example.com&gt;;
+</pre>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

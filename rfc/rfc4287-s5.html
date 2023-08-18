@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>5. Atom Belgelerinin Güvenliği</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-s42.html')">Önceki</button>
+          <div class="dropdown-content">4.2. Öteveri Elemanları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-s6.html')">Sonraki</button>
+          <div class="dropdown-content">6. Atom Eklentileri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4287-s5">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">5. Atom Belgelerinin Güvenliği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Atom, XML'e dayalı bir biçim olduğundan içeriğinin  güvenliği için mevcut XML güvenlik düzenekleri kullanılabilir.
+  </p>
+        <p>
+   Ulamların ve/veya girdilerin üreticileri ve ulamları ve/veya girdileri toplayan aracılar şifreleme ve imzalama için sebepler olduğundan yoksa içeriğin korunmamış olacağından bahsedebilir. Örneğin, bir tüccar ürünü için indirim kuponu içeren bir iletiyi sayısal olarak imzalayabilir. Müşteri ekstrelerini teslim ederken Atom kullanan bir banka, müşterisinin parasal bilgilerini korumak ve onların doğruluğunu kanıtlamak için bu iletileri şifrelemeyi ve imzalamayı çok isteyebilir. Aracılar, edilgen bir gözlemcinin alıcıların ilgilendiği konular hakkında fikir edinmemesi için topladıkları ulamları şifrelemek isteyebilir. Böyle daha pek çok örnek verilebilir.
+  </p>
+        <p>
+   Bu bölümdeki algoritma gereksinimleri Atom İşlemcilere ilişkindir. Bir alıcının en azından belirtilen şifreleme algoritmasını kullanarak iletileri elde edebilir olmasını gerektirir. Bu gereksinimler göndericinin seçebileceği algoritmaları sınırlamaz.
+  </p>
+        <section class="sect2" id="rfc4287-s51">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.1. Sayısal İmzalar</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span class="rfcmaybe">Bir Atom Belgesinin tepe elemanı (yani, Atom Ulama Belgesi için <code class="literal">atom:feed</code>, Atom Girdi Belgesi için <code class="literal">atom:entry</code>) veya bir <code class="literal">atom:entry</code> elemanı, [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmldsig-core-20020212" title="XML-Signature Syntax and Processing">W3C.REC-xmldsig-core-20020212</a>] XML-İmza Sözdizimi ve İşlemleri Belgesi tarafından açıklandığı gibi bir Zarflı İmza içerebilir *SEÇİMLİK*</span>.
+   </p>
+          <p>
+    <span class="rfcmust">Atom İşlemcileri böyle bir imzayı doğrulama yeteneğine sahip olmadıkları gerekçesi ile böyle bir Atom Belgesini reddetmemelidir *ZORUNLU*</span>; <span class="rfcmust">işleme devam etmelidir *ZORUNLU*</span> ancak, <span class="rfcmaybe">kullanıcıyı imzayı doğrulayamadıkları konusunda bilgilendirmelidir *SEÇİMLİK*</span>.
+   </p>
+          <p>
+    <span class="rfcmust">Başka bir deyişle, belge elemanının bir çocuğu olarak yerel ismi "Signature" olan ve isim alanı olarak "http://www.w3.org/2000/09/xmldsig#" URI'li bir elemanın varlığında, Atom İşlemci onun varlığından dolayı başarısızlığa uğramamalıdır *ZORUNLU*</span>.
+   </p>
+          <p>
+    <span class="rfcmust">Atom Belgesindeki diğer elemanlar kendi tanımlarında açıkça böyle bir yeteneği belirtmedikleri takdirde imzalanmamalıdır *ZORUNLU*</span>.
+   </p>
+          <p>
+    [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmldsig-core-20020212" title="XML-Signature Syntax and Processing">W3C.REC-xmldsig-core-20020212</a>] belgesinin 6.5.1. bölümü Meşru Olarak XML [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xml-c14n-20010315" title="Canonical XML Version 1.0">W3C.REC-xml-c14n-20010315</a>] için destek gerektirir. Bununla birlikte, çoğu gerçeklenimci, imzalı XML belgelerin diğer XML belgelerin imzalarını bozdukları gerekçesiyle onu kullanmazlar. Bu nedenle, imzalı Atom Belgelerinin doğrulayan Atom İşlemcilerinin, <span class="rfcmust">Ayrıcalıklı XML Meşrulaştırma [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xml-exc-c14n-20020718" title="Exclusive XML Canonicalization Version 1.0">W3C.REC-xml-exc-c14n-20020718</a>] belgesinde belirtildiği gibi, "http://www.w3.org/2001/10/xml-exc-c14n#" URI'si tarafından betimlenen ayrıcalıklı XML meşrulaştırma yöntemi ile meşrulaştırılabilmeleri gerekir *ZORUNLU*</span>.
+   </p>
+          <p>
+    Toplayıcılar, vb. gibi aracılar kendi <code class="literal">atom:source</code> elemanını içermeyen girdiler için bir <code class="literal">atom:source</code> elemanı eklemek gereği duyabilir. Böyle bir girdinin imzalı olması halinde, ekleme imzayı bozacaktır. Bu nedenle, <span class="rfcshould">tek tek imzalanmış girdilerin yayıncıları kesinlikle, bu girdiler imzalanmadan önce onlara bir <code class="literal">atom:source</code> elemanı eklemeyi düşünmelidir *ÖNERİ*</span>. Gerçeklenimcilerin ayrıca, "xml:" isim alanında meşrulaştırma ile etkileşen imleme kullanımı ile ilgili konulardan haberdar olması gerekir.
+   </p>
+          <p>
+    [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmldsig-core-20020212" title="XML-Signature Syntax and Processing">W3C.REC-xmldsig-core-20020212</a>] belgesinin 4.4.2. bölümü DSA imzaları ve RSA imzaları için destek önerileri için destek gerektirir. Bununla birlikte, <span class="rfcmust">DSA'ya nazaran RSA pazarının daha büyük rağbet görmesinden dolayı, imzalı Atom Belgelerini doğrulayan Atom İşlemcilerinin RSA imzalarını doğrulayabilmesi gerekir *ZORUNLU*</span>, fakat DSA imzalarını doğrulayabilmeleri gerekli değildir. İleti kimlik kanıtlama kodu (İKKK) için anahtar malzemesinin kimlik kanıtlaması gerektiği gibi yapılamazsa, <span class="rfcshould">Atom Belgeleri imzalar için İKKK'ları kullanmamaları *ÖNERİ*</span> gerektiğinden dolayı güvenlik kaygıları ortaya çıkabilir.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4287-s52">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.2. Şifreleme</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span class="rfcmaybe">Bir Atom Belgesinin tepe elemanı (yani, Atom Ulama Belgesi için <code class="literal">atom:feed</code>, Atom Girdi Belgesi için <code class="literal">atom:entry</code>), XML Şifreleme Sözdizimi ve İşlemleri [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmlenc-core-20021210" title="XML Encryption Syntax and Processing">W3C.REC-xmlenc-core-20021210</a>] belgesi tarafından açıklanan düzenekler kullanılarak şifrelenebilir *SEÇİMLİK*</span>.
+   </p>
+          <p>
+    [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmlenc-core-20021210" title="XML Encryption Syntax and Processing">W3C.REC-xmlenc-core-20021210</a>] belgesinin 5.1. bölümü TripleDES, AES-128 ve AES-256 için destek gerektirir. <span class="rfcmust">Atom Belgelerinin şifrelerini çözen Atom İşlemciler Şifre Bloku Zincirleme kipinde (Cipher Block Chaining - CBC) AES-128 ile şifre çözebilmelidir *ZORUNLU*</span>.
+   </p>
+          <p>
+    [<a class="xref" href="rfc4287-s9.html#rfc4287-REC-xmlenc-core-20021210" title="XML Encryption Syntax and Processing">W3C.REC-xmlenc-core-20021210</a>] belgesine dayalı şifreleme özgün belgenin bütünlüğünden emin olmak için yeterli değildir. Bir iletinin şifresinin çözümlenememesine veya çözümlense bile içeriğin anlam değiştirmesine yol açtığı bilinen şifreleme saldırıları vardır. Bu nedenle, <span class="rfcshould">Atom belgelerinin şifrelerini çözümleyen Atom İşlemcileri belgede (eğer varsa) belge bitözetini ya da imza bitözetini doğrulayarak şifreli belgenin bütünlüğünü sınamalıdır *ÖNERİ*</span>.
+   </p>
+        </section>
+        <section class="sect2" id="rfc4287-s53">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">5.3. İmzaladıktan sonra Şifreleme</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+    Bir Atom Belgesi hem imzalı hem de şifreli olması gerektiğinde, genellikle en iyisi belgeyi önce imzalamak sonra da imzalı belgeyi şifrelemektir. Bu, imzalı öğenin kimliği de dahil olmak üzere tüm bilgiyi şifreleyerek asıl belgenin bütünlüğünü sağlar. <span class="rfcmust">Kimlik kanıtlama için İKKK kullanılmışsa, belgede izlenecek sıra imzaladıktan sonra şifrelemek olmalı *ZORUNLU*</span>, başka bir yol kullanılmamalıdır.
+   </p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

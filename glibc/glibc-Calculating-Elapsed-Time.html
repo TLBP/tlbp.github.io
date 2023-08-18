@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>21.3. Sürenin Hesaplanması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Time-Types.html')">Önceki</button>
+          <div class="dropdown-content">21.2. Zaman Veri Türleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Date-and-Time.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Processor-And-CPU-Time.html')">Sonraki</button>
+          <div class="dropdown-content">21.4. İşlemci Zamanı ve İşlemci Süresi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Calculating-Elapsed-Time">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">21.3. Sürenin Hesaplanması</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm131382" class="indexterm"></span>
+   Çoğu zaman, geçen süre iki basit takvim zamanı arasındaki fark olarak hesaplanmak istenir. GNU C Kütüphanesi bu amaç için tek bir işlev sunar.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-difftime" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">double </code><strong><code class="function">difftime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">time_t </code><strong><code class="parameter">end</code></strong><strong><code>, </code></strong><code class="type">time_t </code><strong><code class="parameter">begin</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">difftime</code> işlevi <em class="parameter"><code>begin</code></em> ve <em class="parameter"><code>end</code></em> takvim zamanları arasındaki süreyi <code class="type">double</code> türünde saniye cinsinden bir değer olarak hesaplar.
+   </p>
+   <p>
+    POSIX uyumlu sistemlerde, ‘<code class="code"><em class="parameter"><code>end</code></em> - <em class="parameter"><code>begin</code></em></code>’ yerine ‘<code class="code">difftime (<em class="parameter"><code>end</code></em>, <em class="parameter"><code>begin</code></em>)</code>’ kullanmanın avantajı, bitiş ve başlangıç birbirinden çok uzak olsa bile basit bir çıkarmanın taşmasına sebep olacak kadar matematiksel olarak doğru sonucu vermesidir. Bununla birlikte çift, farkın tam olarak temsil edilemeyeceği kadar birbirlerinden uzaksa, sonuç kesin olmayacaktır.
+   </p>
+   <p>
+    Diğer sistemlerde, <a href="glibc-Time-Types.html#glibc-tp-time_t"><strong class="type"><code>time_t</code></strong></a> değerleri, çıkarma işleminin doğrudan çalışmasını önleyecek şekilde kodlanmış olabilir ve bu durumda <code class="code">difftime</code>, farkı hesaplamanın tek yolu olacaktır.
+   </p>
+  </div>
+        <p>
+   GNU C Kütüphanesi <a href="glibc-Time-Types.html#glibc-tp-timeval"><strong class="type"><code>struct timeval</code></strong></a> veya <a href="glibc-Time-Types.html#glibc-tp-timespec"><strong class="type"><code>struct timespec</code></strong></a> türündeki iki değer arasındaki farkı hesaplamak için herhangi bir işlev sağlamaz. Bu hesaplamayı yapmak için önerilen yol elle yapmak şeklindedir ve <code class="code">tv_sec</code> üyesinin imsiz türe sahip olduğu bazı özel işletim sistemlerinde bile işe çalışır.
+  </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">/* <em class="replaceable"><code>`struct timeval' değerleri olan X ve Y arasında
+    çıkarma yap ve sonucu *result içinde sakla.
+    Fark negatifse 1 ile değilse 0 ile dön.</code></em> */
+
+int
+timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
+{
+  /* <em class="replaceable"><code>Elde var 1.</code></em> */
+  if (x-&gt;tv_usec &lt; y-&gt;tv_usec) {
+    int nsec = (y-&gt;tv_usec - x-&gt;tv_usec) / 1000000 + 1;
+    y-&gt;tv_usec -= 1000000 * nsec;
+    y-&gt;tv_sec += nsec;
+  }
+  if (x-&gt;tv_usec - y-&gt;tv_usec &gt; 1000000) {
+    int nsec = (x-&gt;tv_usec - y-&gt;tv_usec) / 1000000;
+    y-&gt;tv_usec += 1000000 * nsec;
+    y-&gt;tv_sec -= nsec;
+  }
+
+  /* <em class="replaceable"><code>Şimdi hesapla. tv_usec kesinlikle pozitif.</code></em> */
+  result-&gt;tv_sec = x-&gt;tv_sec - y-&gt;tv_sec;
+  result-&gt;tv_usec = x-&gt;tv_usec - y-&gt;tv_usec;
+
+  /* <em class="replaceable"><code>Sonuç negatifse 1 dönsün.</code></em> */
+  return x-&gt;tv_sec &lt; y-&gt;tv_sec;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

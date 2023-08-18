@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.12. Socket Seçenekleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Inetd.html')">Önceki</button>
+          <div class="dropdown-content">16.11. <code class="code">inetd</code> Artalan Süreci</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Sockets.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Networks-Database.html')">Sonraki</button>
+          <div class="dropdown-content">16.13. Ağ İsimleri Veritabanı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Socket-Options">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">16.12. Socket Seçenekleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm126900" class="indexterm"></span>
+   Bu bölümde soketlerin davranışlarını değiştiren çeşitli özelliklerin nasıl okunduğu veya ayarlandığı ve altındaki iletişim protokolleri anlatılmıştır.
+  </p>
+        <p>
+   <span id="idm126903" class="indexterm"></span>
+   Bir soket seçeneği değiştirilirken seçeneğin hangi <em class="wordasword">düzey</em>e ait olduğunu belirtmek gerekir. Bu, özelliğin soket arayüzüne mi yoksa alt-seviye iletişim protokol arayüzüne mi etki edeceğini belirler.
+  </p>
+        <section class="sect1" id="glibc-Socket-Option-Functions">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.12.1. Soket Seçenek İşlevleri</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm126910" class="indexterm"></span>
+    Burada soket seçeneklerini incelemek ve değiştirmek için kullanılan işlevlere yer verilmiştir. Bunlar <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-getsockopt" class="indexterm"></span>
+    <span id="glibc-cp-getsockopt" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getsockopt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">level</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">optname</code></strong><strong><code>, </code></strong><code class="type">void </code><strong class="type">*</strong><strong><code class="parameter">optval</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong class="type">*</strong><strong><code class="parameter">optlen-ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     <code class="code">getsockopt</code> işlevi <em class="parameter"><code>socket</code></em> soketi için <em class="parameter"><code>level</code></em> seviyesindeki <em class="parameter"><code>optname</code></em> seçeneğinin değeriyle ilgili bilgi döndürür.
+    </p>
+    <p>
+     Seçenek değeri <em class="parameter"><code>optval</code></em> ile gösterilen tampon içinde saklanır. İşlevi çağırmadan önce, tampon boyutunun *<em class="parameter"><code>optlen-ptr</code></em> ile verilmesi gerekir; dönüşte, tamponda gerçekte saklanan bilginin bayt sayısını içerecektir.
+    </p>
+    <p>
+     Çoğu seçenek <em class="parameter"><code>optval</code></em> tamponunu tek bir <code class="type">int</code> değer olarak yorumlar.
+    </p>
+    <p>
+     <code class="code">getsockopt</code> işlevinin başarı durumunda döndürdüğü değer <code class="code">0</code>, başarısızlık durumunda <code class="code">-1</code>'dir. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+       </p></dd><dt><span class="term"><code class="code">ENOPROTOOPT</code></span></dt><dd><p>
+        <em class="parameter"><code>optname</code></em> belirtilen <em class="parameter"><code>level</code></em> seviyesine duyarsız.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-setsockopt" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">setsockopt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">level</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">optname</code></strong><strong><code>, </code></strong><code class="type">const void </code><strong class="type">*</strong><strong><code class="parameter">optval</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong><code class="parameter">optlen</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev <em class="parameter"><code>socket</code></em> soketi için <em class="parameter"><code>level</code></em> seviyesinde <em class="parameter"><code>optname</code></em> soket seçeneğini etkinleştirmek kullanılır. Seçenek değeri <em class="parameter"><code>optlen</code></em> uzunluğundaki <em class="parameter"><code>optval</code></em> tamponunda aktarılır.
+    </p>
+   </div>
+        </section>
+        <section class="sect1" id="glibc-Socket-Level-Options">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">16.12.2. Soket Seviye Seçenekleri</h2>
+              </div>
+            </div>
+          </div>
+          <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-SOL_SOCKET" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SOL_SOCKET</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu sabit, bu bölümde açıklanan soket seviye seçeneklerini değiştirmek için <a href="glibc-Socket-Options.html#glibc-fn-getsockopt"><strong class="function"><code>getsockopt</code></strong></a> veya <a href="glibc-Socket-Options.html#glibc-fn-setsockopt"><strong class="function"><code>setsockopt</code></strong></a> işlevinde <em class="parameter"><code>level</code></em> bağımsız değişkeni olarak  kullanılır.
+    </p>
+   </div>
+          <p>
+    <span id="idm127037" class="indexterm"></span>
+    Aşağıda listesi verilen soket seviye seçeneklerinin isimleri <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyasında tanımlıdır.
+   </p>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_DEBUG" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_DEBUG</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek ilgili protokol modülleri içindeki hata ayıklama bilgileri kaydının etkinleştirilmesi ile ilgilidir. <code class="type">int</code> türünde değer alır; sıfırdan farklı ise "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_REUSEADDR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_REUSEADDR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek <a href="glibc-Setting-Address.html#glibc-fn-bind"><strong class="function"><code>bind</code></strong></a> (bkz, <a class="xref" href="glibc-Setting-Address.html" title="16.3.2. Adreslerin Atanması">Adreslerin Atanması</a>) işlevinin soket için yerel adreslerin tekrar kullanımına izin verip vermeyeceğini belirler. Bu özellik etkinleştirilirse, aynı Internet port numarasına sahip iki soket olur; fakat sistem bu iki aynı-isimli soketin İnternet ortamında karışıklık yaratacak şekilde kullanılmasına izin vermez. Bu özelliğin varoluş nedeni bazı yüksek seviyeli İnternet protokollerine dayanmaktadır, örneğin FTP, aynı port numarasının tekrar kullanımını gerektirmektedir.
+    </p>
+    <p>
+     <code class="type">int</code> türünde değer alır; sıfırdan farklı değer "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_KEEPALIVE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_KEEPALIVE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek ilgili protokolün bağlantılı bir soketten iletinin belirli aralıklarla gönderip göndermeyeceğini belirler. Eğer karşıdaki soket bu iletilere yanıt vermezse, bağlantı kesilmiş kabul edilir. <code class="type">int</code> türünde değer alır; sıfırdan farklı değer "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_DONTROUTE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_DONTROUTE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek giden iletilerin normal ileti yönlendirme imkanlarını devre dışı bırakıp bırakmayacağını belirler. Eğer belirtilirse, iletiler doğrudan ağ arayüzüne gönderilir. <code class="type">int</code> türünde değer alır; sıfırdan farklı değer "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_LINGER" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct linger </code><strong><code class="function">SO_LINGER</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek güvenli teslim garantisi veren bir soketin bağlantısı kesilirse ve hala aktarılmamış iletiler varsa ne olacağını belirler; bkz. <a class="xref" href="glibc-Open-Close-Sockets.html#glibc-Closing-a-Socket" title="16.8.2. Soketin Kapatılması">Soketin Kapatılması</a>. <a href="glibc-Socket-Options.html#glibc-tp-linger"><strong class="type"><code>struct linger</code></strong></a> türünde değer alır.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-linger" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">linger</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu yapı aşağıdaki üyelere sahiptir:
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>l_onoff</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Mantıksal değer olarak yorumlanır. Sıfırdan farklıysa, <a href="glibc-Opening-and-Closing-Files.html#glibc-fn-close"><strong class="function"><code>close</code></strong></a> veri aktarılıncaya veya zaman aşımına uğrayıncaya kadar engellenir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>l_linger</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Zaman aşımını saniye cinsinden belirtir.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_BROADCAST" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_BROADCAST</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek veri katarlarının soketten yayınlanabilmesi ile ilgilidir. <code class="type">int</code> türünde değer alır; sıfırdan farklı değer "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_OOBINLINE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_OOBINLINE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Eğer bu seçenek belirtilirse, soketten alınan sıra dışı veri normal girdi sırasına konulur. Bu <a href="glibc-Transferring-Data.html#glibc-vr-MSG_OOB"><strong class="varname"><code>MSG_OOB</code></strong></a> bayrağını belirtmeden <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> ile okuma yapmaya izin verir. Bkz. <a class="xref" href="glibc-Out-of-Band-Data.html" title="16.9.8. Sıra-Dışı-Veri Aktarımı">Sıra-Dışı-Veri Aktarımı</a>. <code class="type">int</code> türünde değer alır; sıfırdan farklı değer "evet" anlamına gelir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_SNDBUF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">SO_SNDBUF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek çıktı için kullanılan tamponun boyutunu getirir veya belirtir. Bayt cinsinden olan <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> türündedir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_RCVBUF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">size_t </code><strong><code class="function">SO_RCVBUF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek girdi için kullanılan tamponun boyutunu getirir veya belirtir. Bayt cinsinden olan <a href="glibc-Important-Data-Types.html#glibc-tp-size_t"><strong class="type"><code>size_t</code></strong></a> türündedir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_STYLE" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_STYLE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <span id="glibc-vr-SO_TYPE" class="indexterm"></span>
+    <div class="csproto-other"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_TYPE</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek sadece <a href="glibc-Socket-Options.html#glibc-fn-getsockopt"><strong class="function"><code>getsockopt</code></strong></a> ile kullanılabilir. Soketin iletişim tarzını getirmek için kullanılır. <code class="code">SO_TYPE</code> eski ismidir ve <code class="code">SO_STYLE</code> GNU için tercih edilen isimdir. <code class="type">int</code> türünde değer alır ve değeri bir iletişim tarzını gösterir; bkz. <a class="xref" href="glibc-Communication-Styles.html" title="16.2. İletişim Tarzları"><em>İletişim Tarzları</em></a>.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">   değişken</div>
+    <span id="glibc-vr-SO_ERROR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">SO_ERROR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu seçenek sadece <a href="glibc-Socket-Options.html#glibc-fn-getsockopt"><strong class="function"><code>getsockopt</code></strong></a> ile kullanılabilir. Soketin hata durumunu sıfırlamak için kullanılır. Önceki hata durumunu gösteren <code class="type">int</code> türünde bir değerdir.
+    </p>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.3. Sıra Numaraları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s32.html')">Önceki</button>
+          <div class="dropdown-content">3.2. Terminoloji</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s34.html')">Sonraki</button>
+          <div class="dropdown-content">3.4. Bağlantının Kurulması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s33">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.3. Sıra Numaraları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Tasarımdaki temel bir fikir bir TCP bağlantısından gönderilen her veri sekizlisinin bir sıra numarısının olmasıdır. Sekizliler sıralı olduklarından onlar için alındı gönderilebilir. Kullanılacak alındı mekanizması kümeleme yapan türdedir, böylece X numaralı alındı ile X numaralı sekizli hariç X'inci sekizliye kadar olan sekizlilerin alındığı belirtilebilir. Bu mekanizma, yeniden aktarım gerektiğinde düz mantıkla yinelenmenin saptanmasına da olanak sağlar. Bir veri bölütündeki sekizliler, başlıktan hemen sonra gelen sekizli en düşük numarayı alacak şekilde numaralandırılır.
+</p>
+        <p>
+Gerçekte sıra numarası uzayının çok büyük olmasına rağmen sonlu olması gerektiğini unutmamak esastır. Bu uzay <code class="literal">2<sup>32</sup> - 1</code> birimliktir. Uzay sonlu olduğundan, sıra numaraları ile ilgili tüm işlemler <code class="literal">2<sup>32</sup></code>'nin katlarında <code class="literal">2<sup>32</sup> - 1</code> birimlik kümeler (ve hatta aynı sınırlama ile küme kümeleri) halinde yapılmalıdır. Bu tür işlemlerde bazı cinlikler olabildiğinden yazılımı geliştirirken böyle değerlerle karşılaşılacağı dikkate alınmalıdır. "=&lt;" sembolü "küçük veya eşittir" anlamına gelir.
+</p>
+        <p>
+TCP'nin uygulayacağı sıra numaraları kıyaslamalarından başlıcaları:
+</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="a">
+            <li class="listitem">
+              <p>
+gönderilmiş ama henüz alınmamış bir sıra numarasını gösteren bir alındının saptanması.
+</p>
+            </li>
+            <li class="listitem">
+              <p>
+Alındı'lanmış bir veri bölütü tarafından işgal edilen tüm sıra numaralarının saptanması (örneğin, veri bölütünün yeniden aktarım kuyruğundan silinmesi için).
+</p>
+            </li>
+            <li class="listitem">
+              <p>
+Beklenen sıra numaralarını içeren bir gelen veri bölütünün saptanması (örneğin, bu veri bölütü alım penceresi ile "örtüşüyordur").
+</p>
+            </li>
+          </ol>
+        </div>
+        <p>
+Gönderilen veriye verilen yanıtta TCP, alındıları alır. Alındıların işleme konulmasında aşağıdakilerle ilgili kıyaslamaların yapılması gerekir:
+</p>
+        <pre class="literallayout monospaced">
+  GÖN.OLM = en eski alındı'lanmamış sıra numarası
+
+  GÖN.SNR = gönderilecek sonraki sıra numarası
+
+  VBL.ALN = Alan TCP'deki alındı numarası
+            (alan TCP'nin beklediği sonraki alındı numarası)
+
+  VBL.SIRA = bir veri bölütünün ilk sıra numarası
+
+  VBL.UZN = veri bölütündeki veri tarafından işgal edilen sekizlilerin sayısı
+            (EŞZ ve SON sayarak)
+
+  VBL.SIRA+VBL.UZN-1 = bir veri bölütündeki son sıra numarası
+</pre>
+        <p>
+Yeni bir alındı numarası aşağıdaki eşitsizlikle ifade edilen değerlerden biridir:
+</p>
+        <pre class="literallayout monospaced">
+  GÖN.OLM &lt; VBL.ALN =&lt; GÖN.SNR
+</pre>
+        <p>
+Yeniden aktarım kuyruğundaki bir veri bölütü, eğer sıra numaralarının toplamı ya da uzunluğu gelen veri bölütündeki alındı değerinden küçük veya ona eşitse, tamamen alındı'lanmış demektir.
+</p>
+        <p>
+Veri alındığında aşağıdaki kıyaslamaların yapılması gerekir:
+</p>
+        <pre class="literallayout monospaced">
+ALM.SNR = gelen veri bölütünde beklenen sonraki sıra numarası olup
+          alım penceresinin alt veya sol kenarıdır
+
+ALM.SNR+ALM.PEN-1 = gelen veri bölütünde beklenen son sıra numarası olup
+                    alım penceresinin üst veya sağ kenarıdır
+
+VBL.SIRA = gelen veri bölütü tarafından işgal edilen ilk sıra numarası
+
+VBL.SIRA+VBL.UZN-1 = gelen veri bölütü tarafından işgal edilen son sıra numarası
+</pre>
+        <p>
+Bir veri bölütünün geçerli sıra numarası uzayının bir kısmını işgal ettiğine karar verilebilmesi için şunlardan biri geçerli olmalıdır:
+</p>
+        <pre class="literallayout monospaced">
+    ALM.SNR =&lt; VBL.SIRA &lt; ALM.SNR+ALM.PEN
+</pre>
+        <p>veya</p>
+        <pre class="literallayout monospaced">
+    ALM.SNR =&lt; VBL.SIRA+VBL.UZN-1 &lt; ALM.SNR+ALM.PEN
+</pre>
+        <p>
+Veri bölütünün başlangıcının pencere içine düşüp düşmediğini anlamak için bu sınamanın ilk parçası, sonunun pencere için düşüp düşmediğini anlamak için ise ikinci parçası kullanılır. Eğer veri bölütü her iki sınamayı da aşarsa penceredeki veriyi içeriyor demektir.
+</p>
+        <p>
+Aslında durum bundan biraz daha karışıktır. Sıfır sayıda pencere ve sıfır uzunlukta veri bölütü olabileceğini de gözönüne alarak bir gelen veri bölütünün kabul edilebilirliği için dört durum söz konusudur:
+</p>
+        <pre class="literallayout monospaced">
+Veri bölütü    Alım     Sınama
+ Uzunluğu   Penceresi
+----------  ---------  -------------------------------------------
+
+    0           0      VBL.SIRA = ALM.SNR
+
+    0          &gt;0      ALM.SNR =&lt; VBL.SIRA &lt; ALM.SNR+ALM.PEN
+
+   &gt;0           0      kabul edilebilir değil
+
+   &gt;0          &gt;0      ALM.SNR =&lt; VBL.SIRA &lt; ALM.SNR+ALM.PEN
+                    veya ALM.SNR =&lt; VBL.SIRA+VBL.UZN-1 &lt; ALM.SNR+ALM.PEN
+</pre>
+        <p>
+Alım penceresi sıfır olduğunda <code class="literal">ALN</code> veri bölütleri dışında hiçbir veri bölütünün kabul edilmeyeceği dikkate alınmalıdır. Bu durumda, bir TCP için veriyi aktarırken ve <code class="literal">ALN</code>'leri alırken sıfır alım penceresi sağlanması olasıdır. Yine de, alım penceresi sıfır olduğunda bile, bir TCP tüm gelen veri bölütlerindeki <code class="literal">BŞT</code> ve <code class="literal">ACL</code> alanlarını işleme sokmalıdır.
+</p>
+        <p>
+Numaralama şemasının yararlarını belli denetim bilgilerini korumakta da kullanabiliriz. Bunu sıra numaraları uzayına örtük olarak bazı denetim bayraklarını dahil ederek sağlayabiliriz, böylece bunlar yeniden aktarılabilir ve bir karışıklık olmaksızın alındılanabilir (yani bir ve yalnız bir denetim kopyası rol alacak şekilde). Denetim bilgisi veri bölütü veri uzayında fiziksel olarak taşınmaz. Bu bakımdan, denetim bilgilerine sıra numaralarını örtük olarak atamak için bazı kurallar uydurmalıyız. <code class="literal">EŞZ</code> ve <code class="literal">SON</code> bayraklarından başka bu korumaya ihtiyaç duyan denetim yoktur ve bu denetimler sadece bağlantının açılışında ve kapanışında kullanılır. Sıra numaralarının amaçlarına uygun olarak, <code class="literal">EŞZ</code>'nin kendisi için oluştuğu veri bölütünün ilk asıl veri sekizliğinden önce oluştuğu düşünülürken, <code class="literal">SON</code>'un kendisi için oluştuğu veri bölütünün son asıl veri sekizliğinden sonra oluştuğu düşünülür. Veri bölütü uzunluğu (<code class="literal">VBL.UZN</code>) hem veri hem de denetimin işgal ettiği sıra numarası uzayını kapsar, Bir <code class="literal">EŞZ</code> olduğunda, <code class="literal">VBL.SIRA</code>'nın değeri <code class="literal">EŞZ</code>'nin sıra numarasıdır.
+</p>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.3.1. İlk Sıra Numarasının Seçimi</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Protokol bir bağlantı üzerinde hiçbir sınırlama olmaksızın tekrar tekrar kullanılır. Bir bağlantı bir soket çifti ile tanımlanır. Bir bağlantının yeni örneklerine bağlantının yeniden varolmuşu gibi başvurulur. Bu noktada sorun, TCP'nin bağlantının önceki yeniden varouşlarından kalan yinelenmiş veri bölütlerini nasıl tanıyacağıdır. Bu sorun bağlantı çabucak açılıp kapatılırsa veya bağlantı bellek kaybı nedeniyle kopar ve yeniden kurulursa görünür hale gelir.
+</p>
+          <p>
+Karışıklıktan kaçınmak için bir bağlantının yeniden oluşturulmuşundaki veri bölütlerinden, ağ üzerinde hala aynı sıra numaralarıyla mevcut olanlarının kullanımını engelleyeceğiz. Bir TCP kopup kullanımdaki sıra numaralarına ait tüm bilgi kaybolsa bile bunu sağlama almak isteriz. Yeni bağlantılar oluşturulduğunda, yeni bir 32 bitlik ilk sıra numarası (İSN) seçen bir İSN üreteci devreye sokulur. Üreteç, en düşük biti kabaca her 4 mikrosaniyede bir artan 32 bitlik (muhtemelen kurgusal) bir saate  bağlıdır. Bu durumda, İSN yaklaşık her 4,55 saatte bir başa döner. Veri bölütleri ağda Azami Veri bölütü Ömrü'nden (AVÖ) daha fazla kalmayacağından ve AVÖ 4,55 saatten küçük olduğundan normal olarak İSN'nin eşsiz olacağını varsayarız.
+</p>
+          <p>
+Her bağlantı için bir gönderi sıra numarası bir de alım sıra numarası vardır. İlk gönderi sıra numarası (<code class="literal">İGS</code>) veriyi gönderen TCP tarafından seçilirken ilk alım sıra numarası (<code class="literal">İAS</code>) ise bağlantının kuruluş işlemleri sırasında öğrenilir.
+</p>
+          <p>
+Bir bağlantının kurulması ve ilklendirilmesi için iki TCP'nin birbirlerinin ilk sıra numaraları üzerinden eşzamanlanmaları gerekir. Bu, "<code class="literal">EŞZ</code>" denetim bitini ve ilk sıra numarasını taşıyan veri bölütlerini oluşturan bağlantı değiştokuşunda yapılır. Bir kısaltma olarak <code class="literal">EŞZ</code> biti taşıyan veri bölütlerine "<code class="literal">EŞZ</code>ler" de denilmektedir. Dolayısıyla, çözüm, ilk sıra numarasının seçimi için uygun bir mekanizma ve İSN'leri değiştokuş etmek için biraz karışık bir uzlaşım mekanizması gerektirir.
+</p>
+          <p>
+Eşzamanlama iki tarafın birbirlerine kendi ilk sıra numaralarını göndermelerini ve bunların alındılarılarla onaylanmasını gerektirir.
+</p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p><code class="literal">A --&gt; B   EŞZ</code> sıra numaram X</p>
+              </li>
+              <li class="listitem">
+                <p><code class="literal">A &lt;-- B   ALN</code> sıra numaranız X</p>
+              </li>
+              <li class="listitem">
+                <p><code class="literal">A &lt;-- B   EŞZ</code> sıra numaram Y</p>
+              </li>
+              <li class="listitem">
+                <p><code class="literal">A --&gt; B   ALN</code> sıra numaranız Y</p>
+              </li>
+            </ol>
+          </div>
+          <p>
+2. ve 3. adım tek bir ileti olarak birleştirilebildiğinden buna <em class="emphasis">üçlü uzlaşım</em> adı verilir.
+</p>
+          <p>
+Üçlü uzlaşımın gerekli olmasının sebebi sıra numaralarının ağdaki genel bir saate göre berabere kalamamaları ve TCP'lerin İSN'leri farklı mekanizmalarla seçebilmeleridir. İlk <code class="literal">EŞZ</code>'nin alınmasıyla, bağlantıda kullanılan son sıra numarası hatırlanmadıkça (her zaman mümkün değildir), veri bölütünün eskiden kalma olup olmadığını anlamak mümkün değildir ve dolayısıyla göndericiden bu <code class="literal">EŞZ</code>'yi doğrulaması istenmelidir. Üçlü uzlaşım ve saatli işlem şemasının yararları [<a class="xref" href="rfc793-refs.html#rfc793-bib3" title="Connection Management in Transport Protocols">3</a>]'te açıklanmıştır.
+</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.3.2. Susmayı Bilmek</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP'nin ağda eskiden kalmış bir veri bölütünün yinelenmişinin sıra numarasını taşıyan bir veri bölütü oluşturmadığından emin olmak için, bağlantının yenisinin başlatılması veya kullanımdaki sıra numarası belleğinin kaybından dolayı bir bozulmanın kurtarılması amacıyla bir sıra numarası atamadan önce, TCP'nin bir AVÖ boyunca sessiz kalması gerekir. Bu belirtim için AVÖ 2 dakika olarak alınmıştır. Bu bir mühendislik seçimidir ve tecrübeler başka bir değeri gerektiriyorsa değiştirilebilir. Bir nedenle TCP yeniden ilklendirildiğinde sıra numarası belleği hala kullanımdaysa hiç beklenmemesi gerekir; emin olunması gereken tek şey kullanılacak sıra numarasının son kullanılandan büyük olacağıdır.
+</p>
+          <section class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">3.3.2.1. TCP Sessizlik Süresi Kavramı</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu belirtim bize gösterecek ki, Genel Ağ sisteminin bir parçası olan
+konakların  etkin (kapalı olmayan) bağlantılar üzerinden aktarılan son sıra numaraları ile ilgili hiç bir bilgi kalmaksızın "çökme" leri durumunda, TCP'nin herhangi bir veri bölütünü iletmesi en azından kabul edilen AVÖ değeri kadar gecikecektir. Aşağıdaki paragraflarda, bu belirtim için bir açıklama yapılmıştır. TCP gerçeklenimcileri bu "sessizlik süresi" sınırlamasını zorlayabilirler, fakat tek risk eski verilerin yeni olarak kabul edilmesine veya yeni veriyi Genel Ağ sistemindeki bazı alıcıların eskinin yinelenmişi olarak reddetmelerine sebep olmaktır.
+</p>
+            <p>
+TCP'ler veri bölütlerinin biçimlendirilip kaynak konağın ağ çıkış kuyruğuna her atılışında sıra numarası uzayını tüketir. TCP'deki sıralama algoritması ve yinelenmişin saptanması için güvenilen tek şey veri bölütü alıcıya ulaştırılıp onay alınmadan ve veri bölütünün Genel Ağ üzerinde bulunan bütün kopyaları yok edilmeden veri bölütü verisinin sıra numarasının eşsizliğini sağlayan sıra numaralarının <code class="literal">2<sup>32</sup></code> değerinin hepsi tüketilmeden döngünün yeniden başlatılmayacağıdır. Böyle bir önkabul olmaksızın, iki ayrı TCP veri bölütüne aynı sıra numaralarının atanmış olması veya üst üste gelmesi gibi bir olasılıklar doğar ve bu da alıcı tarafta hangi verinin yeni hangisinin eski olduğu konusunda karmaşaya yol açar. Hatırlarsanız bir veri bölütünün içinde veri sekizlileri olduğu kadar çok sayıda ardışık sıra numarası da bulunuyordu.
+</p>
+            <p>
+Normal şartlar altında, alındılanmış ilk sıra numarasından önce bir sıra numarasının tekrar kullanılmasını önlemek için TCP'ler kullanılacak sonraki sıra numarası ile bekleyen en eski alındının kaydını tutar. Bu tek başına sıra numarasının, kullanılmadan önce eski yinelenmiş verinin ağ üzerinden silinmiş oluşunu garantilemez, bu nedenle başıboş bir yinelenmişin, istenmeyen bir varış olasılığını düşürmek için sıra numarası uzayı çok geniş tutulur. Sıra numarası uzayının <code class="literal">2<sup>32</sup></code> sekizlisinin kullanımı 2 megabit/saniye hızında 4.5 saat sürer. AVÖ ağ üzerinde birkaç on saniyeyi aşamayacağından veri hızı onlarca megabit/saniye hızlara tırmansa bile, bu, öngörülebilir ağlar için yeterince iyi bir koruma sayılır. 100 megabit/saniye için döngü tamamlanma süresi 5.4 dakika olur ve bu hala makul bir koruma sağlar.
+</p>
+            <p>
+Eğer bir kaynak TCP son kullandığı bağlantıda sıra numaraları belleğine sahip değilse, TCP'deki yineleme saptama ve sıralama algoritması yine de bozulabilir. Örneğin, bir TCP tüm bağlantıları 0 sıra numarası ile başlatıyorsa, bir çökme veya yeniden başlatma sebebiyle, bu TCP önceki bağlantıyı (muhtemelen yarı açık bağlantı çözünürlüğü sonrası) yeniden şekillendirebilir ve aynı bağlantının önceki bir varoluşunda kullanılmış paketlerden ağda halen varlığını sürdürenlerle çakışan veya onlarla aynı sıra numaralarına sahip paketler gönderebilir. Belli bir bağlantıda kullanılmış sıra numaraları ile ilgili bilginin yokluğunda, TCP belirtimi veri bölütlerinin bağlantıya gönderilmeden önce, bağlantının önceki varoluşlarına ait sistemdeki veri bölütlerinin kaldırılması için gereken süreyi sağlamak için, AVÖ saniyelik bir kaynak gecikmesi uygulanmasını önerir.
+</p>
+            <p>
+Tam gün zamanı hatırlayan ve ilk sıra numarasının seçiminde bunu kullanan konaklar bile bu sorundan bağışık değillerdir. (Örneğin, her yeni bağlantının yeniden varoluşunda ilk sıra numarasını seçerken.)
+</p>
+            <p>
+Varsayalım ki, örneğin, S sıra numarası ile başlayan bir bağlantı açılmış olsun. Bu bağlantının çok kullanılmadan eninde sonunda ilk sıra numarası işlevinin (İSN(t)) S1 diye, bağlantı üzerinden bu TCP'nin gönderdiği son veri bölütünün sıra numarasına eşit bir değer aldığını varsayalım. Tam o anda konağın çöküp kurtarıldığını ve bağlantının yeni bir varoluşunun kurulduğunu varsayalım. Seçilen ilk sıra numarası S1 = İSN(t), bağlantının eski varoluşunda kullanılan son sıra numarası olur. Eğer kurtarma yeterince çabuk gerçekleşirse, ağdan S1'in komşu sıra numaralarını taşıyan eski yinelenmişler gelebilir ve bağlantının yeni varoluşunun alıcısı tarafından bunlar yeni paketlermiş gibi ele alınabilir.
+</p>
+            <p>
+Burada sorun, konağın kurtarılıncaya kadan ne kadar çökük kaldığının ve önceki bağlantı varoluşundan sistemde hala eski yinelenmişlerin kalıp kalmadığının bilinmeyişidir.
+</p>
+            <p>
+Bu sorunu aşmanın tek yolu, bir çökme sonucunda kurtarmanın ardından gönderilecek veri bölütlerine kasıtlı olarak bir AVÖ'lük gecikme uygulamaktır (bu bir "sessizlik süresi" belirtimidir). Belli bir hedef için eski ve yeni paketlerin karışma olasılığı riskini almaya istekli olup beklemekten kaçınmayı tercih eden konaklar, "sessizlik süresi" için beklemeyi seçmeyebilir. Gerçeklenimciler TCP kullanıcılarına, bağlantıdan bağlantıya bir çökme sonrası beklenip beklenmeyeceğini veya tüm bağlantılar için "sessizlik süresi"nin teklifsizce mi gerçekleneceğini seçme imkanı verebilir. Besbelli, bir kullanıcı "beklemeyi" seçtiğinde bile, en azından AVÖ saniye sonra "ayağa kalkmış" bir konak için bu gerekli değildir.
+</p>
+            <p>
+Özet olarak: yayımlanan her veri bölütü, sıra numarası uzayındaki bir veya daha fazla sıra numarasını işgal eder; bir veri bölütü tarafından işgal edilen numaralar AVÖ saniyece "kullanımda" ya da "meşgul"dürler; son yayımlanan veri bölütünün sekizlileri tarafından işgal edilmiş bir uzay-zaman blokunun çöküşünün ardından, eğer yeni bağlantı hemen başlatılır ve önceki bağlantı varoluşunun son veri bölütünün uzay-zaman yayılımındaki sıra numaralarından biri kullanılırsa alıcı tarafta bir karışıklığa sebep olabilecek bir sıra numarası çakışması olasılığı var demektir.
+</p>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.9. Sözde Uçbirimler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-getpass.html')">Önceki</button>
+          <div class="dropdown-content">17.8. Parolaların Okunması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Syslog.html')">Sonraki</button>
+          <div class="dropdown-content">18. Syslog</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Pseudo-Terminals">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">17.9. Sözde Uçbirimler</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm130154" class="indexterm"></span>
+   <span id="idm130156" class="indexterm"></span>
+   <em class="wordasword">Sözde uçbirim</em>, uçbirim gibi davranan özel bir süreçler arası iletişim kanalıdır. Kanalın bir ucu <em class="firstterm">ana</em> uç ya da <em class="firstterm">sözde ana uçbirim aygıtı</em> olarak adlandırılırken diğer uç <em class="firstterm">yardımcı</em> uç adını alır. Ana uca yazılan veri yardımcı uç tarafından sıradan bir uçbirime kullanıcı tarafından yazılmış gibi alınır ve yardımcı uca yazılan veri ana uca sıradan bir uçbirime yazılmış gibi gönderilir.
+  </p>
+        <p>
+   Sözde uçbirimler genellikle <span class="command"><strong>xterm</strong></span> ve <span class="command"><strong>emacs</strong></span> gibi uygulamalar tarafından uçbirim benzetimi amacıyla kullanılır.
+  </p>
+        <section class="sect1" id="glibc-Allocation">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">17.9.1. Sözde Uçbirimlerin Tahsisi</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm130169" class="indexterm"></span>
+    <span id="idm130172" class="indexterm"></span>
+    Bu bölümde sözde uçbirim tahsisi için kullanılan işlevlerden bahsedilecektir. Bu işlevler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-getpt" class="indexterm"></span>
+    <span id="glibc-fn-getpt" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">getpt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code>void</code><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">getpt</code>  işlevi kullanılabilir ilk sözde ana uçbirim aygıtına yeni bir dosya tanıtıcı ile döner. İşlevin normal dönüş değeri negatif olmayan bir tamsayı olarak dosya tanıtıcıdır. Bir hata oluşması durumunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">ENOENT</code></span></dt><dd><p>
+        Kullanılabilir sözde ana uçbirim aygıtı yok.
+       </p></dd></dl></div>
+    <p>
+     Bu işlev GNU oluşumudur.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-cp-grantpt" class="indexterm"></span>
+    <span id="glibc-fn-grantpt" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">grantpt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">grantpt</code> işlevi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı ile ilişkili sözde ana uçbirim aygıtının diğer ucu olan yardımcı sözde uçbirimin sahipliğini ve erişim izinlerini değiştirir. Uçbirimin sahibi, işlevi çağıran sürecin gerçek kullanıcı kimliği olur (bkz, ???). Erişim yetkileri ise sahibi tarafından yazılabilir/okunabilir ve sadece grubu tarafından okunabilir olarak ayarlanır.
+    </p>
+    <p>
+     Bazı sistemlerde bu işlev özel bir <em class="emphasis">setuid root</em> yazılım çağrılarak gerçeklenir (bkz, ???). Dolayısıyla, <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGCHLD"><strong class="varname"><code>SIGCHLD</code></strong></a> sinyali için bir sinyal işleyici oluşturulması <code class="code">grantpt</code> çağrısı ile çelişebilir (bkz, <a class="xref" href="glibc-Job-Control-Signals.html" title="24.2.5. İş Denetim Sinyalleri">İş Denetim Sinyalleri</a>).
+    </p>
+    <p>
+     İşlevin normal dönüş değeri sıfırdır. Bir hata oluşması durumunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> sözde uçbirim ile ilişkili değil.
+       </p></dd><dt><span class="term"><code class="code">EACCES</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> ile ilişkili olan sözde ana uçbirimin karşı ucu olan sözde yardımcı uçbirime erişilemiyor.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-unlockpt" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">unlockpt</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">unlockpt</code> işlevi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı ile ilişkili sözde ana uçbirim aygıtının diğer ucu olan sözde yardımcı uçbirimin kilidini kaldırır. Bazı sistemlerde, sözde yardımcı uçbirim sadece kilidi kaldırıldığında açılabilir, bu nedenle taşınabilir uygulamaların sözde yardımcı uçbirimi açarken daima bir <code class="code">unlockpt</code> çağrısı yapması gerekir.
+    </p>
+    <p>
+     İşlevin normal dönüş değeri sıfırdır. Bir hata oluşması durumunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+        <em class="parameter"><code>filedes</code></em> sözde ana uçbirim ile ilişkili değil.
+       </p></dd></dl></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ptsname" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">char </code><strong class="type">*</strong><strong><code class="function">ptsname</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:ptsname</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı sözde ana uçbirim aygıtı ile ilişkili ise, <code class="code">ptsname</code> işlevi ilişkili sözde yardımcı uçbirim aygıtının dosya ismini, boş karakter sonlandırmalı duruk ayrılmış bir dizgeye gösterici olarak döndürür. Bu dizge daha sonraki <code class="code">ptsname</code> çağrıları ile geçersiz kılınabilir.
+    </p>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-ptsname_r" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdlib.h;hb=HEAD" target="_top">stdlib.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">ptsname_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">buf</code></strong><strong><code>, </code></strong><code class="type">size_t </code><strong class="type">*</strong><strong><code class="parameter">len</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     <code class="code">ptsname_r</code> işlevi <a href="glibc-Pseudo-Terminals.html#glibc-fn-ptsname"><strong class="function"><code>ptsname</code></strong></a> işlevine benzemekle birlikte, sonucu kullanıcı tarafından belirtilen <em class="parameter"><code>len</code></em> uzunluktaki <em class="parameter"><code>buf</code></em> içinde döndürmesi ile farklıdır.
+    </p>
+    <p>
+     Bu işlev GNU oluşumudur.
+    </p>
+   </div>
+          <div class="example">
+            <div class="example-title">Örnek: </div>
+            <div class="example-contents">
+              <p>
+     Bu işlevlerin genel kullanım biçimi örnekte gösterilmiştir:
+    </p>
+              <pre class="screen">int
+open_pty_pair (int *amaster, int *aslave)
+{
+  int master, slave;
+  char *name;
+
+  master = getpt ();
+  if (master &lt; 0)
+    return 0;
+
+  if (grantpt (master) &lt; 0 || unlockpt (master) &lt; 0)
+    goto close_master;
+  name = ptsname (master);
+  if (name == NULL)
+    goto close_master;
+
+  slave = open (name, O_RDWR);
+  if (slave == -1)
+    goto close_master;
+
+  *amaster = master;
+  *aslave = slave;
+  return 1;
+
+close_slave:
+  close (slave);
+
+close_master:
+  close (master);
+  return 0;
+}
+</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect1" id="glibc-Pseudo-Terminal-Pairs">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both">17.9.2. Sözde Uçbirim Çiftinin Açılması</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    <span id="idm130384" class="indexterm"></span>
+    Bu işlevler BSD'den alınmıştır, ayrı bir kütüphane olarak <code class="filename">libutil</code> kütüphanesinde bulunur ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=login/pty.h;hb=HEAD" target="_top">pty.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-openpty" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=login/pty.h;hb=HEAD" target="_top">pty.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">openpty</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">amaster</code></strong><strong><code>, </code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">aslave</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">const struct termios </code><strong class="type">*</strong><strong><code class="parameter">termp</code></strong><strong><code>, </code></strong><code class="type">const struct winsize </code><strong class="type">*</strong><strong><code class="parameter">winp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev sözde uçbirim çiftini ayırdıktan sonra açar ve sözde ana uçbirimin dosya tanıtıcısını *<em class="parameter"><code>amaster</code></em> göstericisinde, sözde yardımcı uçbirimin dosya tanıtıcısını *<em class="parameter"><code>aslave</code></em> göstericisinde döndürür. <em class="parameter"><code>name</code></em> bağımsız değişkeni boş gösterici değilse, sözde yardımcı uçbirim aygıtının dosya ismi *<em class="parameter"><code>name</code></em> içinde saklanır. <code class="varname">termp</code> boş gösterici değilse, sözde yardımcı uçbirimin öznitelikleri <code class="varname">termp</code> ile gösterilen yapıdan ayarlanır (bkz. <a class="xref" href="glibc-Terminal-Modes.html" title="17.4. Uçbirim Kipleri"><em>Uçbirim Kipleri</em></a>). Benzer şekilde, <em class="parameter"><code>winp</code></em> boş gösterici değilse, sözde uçbirimin ekran boyutları <em class="parameter"><code>winp</code></em> ile gösterilen yapıdan ayarlanır.
+    </p>
+    <p>
+     İşlevin normal dönüş değeri sıfırdır. Bir hata oluşması durumunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        Kullanılabilir sözde uçbirim çifti yok.
+       </p></dd></dl></div>
+    <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+      <code class="code">openpty</code> işlevinin <em class="parameter"><code>name</code></em> bağımsız değişkeninin <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> olması <em class="emphasis">çok tehlikelidir</em>, çünkü işlev <em class="parameter"><code>name</code></em> dizgesinin taşmasına karşı korunmamıştır. Sözde yardımcı uçbirim aygıtının ismini bulmak için işlevdeki bağımsız değişken yerine, <a href="glibc-Is-It-a-Terminal.html#glibc-fn-ttyname"><strong class="function"><code>ttyname</code></strong></a> işlevinin <code class="code">openpty</code> tarafından döndürülen *<em class="parameter"><code>aslave</code></em> dosya tanıtıcısı ile kullanılması gerekir.
+     </p></div></div>
+   </div>
+          <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-forkpty" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=login/pty.h;hb=HEAD" target="_top">pty.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">forkpty</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong class="type">*</strong><strong><code class="parameter">amaster</code></strong><strong><code>, </code></strong><code class="type">char </code><strong class="type">*</strong><strong><code class="parameter">name</code></strong><strong><code>, </code></strong><code class="type">const struct termios </code><strong class="type">*</strong><strong><code class="parameter">termp</code></strong><strong><code>, </code></strong><code class="type">const struct winsize </code><strong class="type">*</strong><strong><code class="parameter">winp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-dlopen">dlopen</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-plugin">plugin</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a>
+    </div>
+    <p>
+     Bu işlev <a href="glibc-Pseudo-Terminals.html#glibc-fn-openpty"><strong class="function"><code>openpty</code></strong></a> işlevine benzer, ek olarak <a class="link" href="glibc-Creating-a-Process.html" title="26.4. Bir Sürecin Oluşturulması">yeni bir süreç çatallar</a> ve yeni açılan sözde yardımcı uçbirim aygıtını alt sürecin denetim uçbirimi yapar.
+    </p>
+    <p>
+     İşlem başarılı olursa hem çağıran süreç hem de alt süreç işlevin döndüğünü görür fakat işlev farklı değerlerle döner: alt süreçte <code class="code">0</code> değeriyle dönerken, çağıran sürece alt sürecin süreç kimliğini döndürür.
+    </p>
+    <p>
+     Sözde uçbirim çifti tahsis edilememişse ya da alt süreç oluşturulamamışsa işlev başarısız olmuş demektir, bu durumda işlev çağrıldığı sürece <code class="code">-1</code> değerini döndürür.
+    </p>
+    <div class="admon warning"><h3 class="admon-title">Uyarı</h3><div class="admon-contents"><p>
+      <code class="code">forkpty</code> işlevinde de <a href="glibc-Pseudo-Terminals.html#glibc-fn-openpty"><strong class="function"><code>openpty</code></strong></a> gibi <em class="parameter"><code>name</code></em> bağımsız değişkeni sorunu vardır.
+     </p></div></div>
+   </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

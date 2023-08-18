@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.4.4. Girdi Kipleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Setting-Modes.html')">Önceki</button>
+          <div class="dropdown-content">17.4.3. Uçbirim Kiplerinin Doğru Dürüst Belirtilmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Terminal-Modes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Output-Modes.html')">Sonraki</button>
+          <div class="dropdown-content">17.4.5. Çıktı Kipleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Input-Modes">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">17.4.4. Girdi Kipleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="glibc-vr-LFD" class="indexterm"></span>
+    Bu bölümde girdi işleme ile ilgili düşük seviyeli özellikleri denetlemeye yarayan uçbirim özniteliklerinden bahsedilmiştir: eşlik hatalarının yakalanması, geçici kesme sinyalleri, akış denetimi, <a href="glibc-Input-Modes.html#glibc-vr-RET"><strong class="varname"><code>RET</code></strong></a> ve <a href="glibc-Input-Modes.html#glibc-vr-LFD"><strong class="varname"><code>LFD</code></strong></a> karakterleri.
+   </p>
+        <p>
+    Bu seçeneklerin hepsi <a href="glibc-Mode-Data-Types.html#glibc-tp-termios"><strong class="type"><code>struct termios</code></strong></a> yapısının <code class="code">c_iflag</code> üyesindeki bitlerdir. Üye bir tamsayıdır ve bu seçenekler <span class="command"><strong>&amp;</strong></span>, <span class="command"><strong>|</strong></span> ve <span class="command"><strong>^</strong></span> işleçleri ile değiştirilebilir. <code class="code">c_iflag</code> üyesinin değeri toptan değiştirilmeye çalışılmamalıdır; ilgisiz seçeneklere dokunmadan sadece gereken seçenekler değiştirilmelidir (bkz. <a class="xref" href="glibc-Setting-Modes.html" title="17.4.3. Uçbirim Kiplerinin Doğru Dürüst Belirtilmesi">Uçbirim Kiplerinin Doğru Dürüst Belirtilmesi</a>).
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-INPCK" class="indexterm"></span>
+    <span id="glibc-vr-INPCK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">INPCK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, girdi eşlik sınaması etkindir. Yoksa, girdideki eşlik hataları ile ilgili hiçbir şey yapılmaz; karakterler basitçe uygulamaya aktarılır.
+    </p>
+    <p>
+     Girdi işlemede eşlik sınaması, ilgili uçbirim donanımında eşlik üretiminin ve eşlik saptanmasının etkin olup olmamasından bağımsızdır; bkz. <a class="xref" href="glibc-Control-Modes.html" title="17.4.6. Denetim Kipleri">Denetim Kipleri</a>.  Örneğin, <code class="code">INPCK</code> girdi kipi seçeneğini temizlenip, <a href="glibc-Control-Modes.html#glibc-vr-PARENB"><strong class="varname"><code>PARENB</code></strong></a> denetim kipi seçeneği etkileştirilip girdideki eşlik hataları yok sayılırken çıktıda hala eşlik üretilebilir.
+    </p>
+    <p>
+     Bu bit varsa, bir eşlik hatası saptanırken <a href="glibc-Input-Modes.html#glibc-vr-IGNPAR"><strong class="varname"><code>IGNPAR</code></strong></a> veya <a href="glibc-Input-Modes.html#glibc-vr-PARMRK"><strong class="varname"><code>PARMRK</code></strong></a> bitlerinin varlığı veya yokluğu önem kazanır. Bu bitlerin hiçbiri yoksa, eşlik hatası olan bir bayt uygulamaya <code class="code">'\0'</code> karakteri olarak aktarılır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IGNPAR" class="indexterm"></span>
+    <span id="glibc-vr-IGNPAR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IGNPAR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     
+     
+     Bu bit varsa, tertip veya eşlik hataları olan baytlar yok sayılır. Bu seçenek <a href="glibc-Input-Modes.html#glibc-vr-INPCK"><strong class="varname"><code>INPCK</code></strong></a> seçeneği de etkinse işe yarar.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-PARMRK" class="indexterm"></span>
+    <span id="glibc-vr-PARMRK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">PARMRK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, tertip veya eşlik hataları olan baytlar yazılıma aktarılırken imlenir. Bu bit <a href="glibc-Input-Modes.html#glibc-vr-INPCK"><strong class="varname"><code>INPCK</code></strong></a>'ın varlığı ve <a href="glibc-Input-Modes.html#glibc-vr-IGNPAR"><strong class="varname"><code>IGNPAR</code></strong></a>'ın yokluğu durumunda anlamlıdır.
+    </p>
+    <p>
+     Hatalı baytlar, baytlardan önce gönderilen iki baytla, <code class="code">'\377'</code> ve <code class="code">'\0'</code> baytları ile imlenir. Dolaysıyla, yazılım, hatalı baytı uçbirimden alırken aslında üç bayt okur.
+    </p>
+    <p>
+     Geçerli bayt <code class="code">'\377'</code> değerine sahipse ve <a href="glibc-Input-Modes.html#glibc-vr-ISTRIP"><strong class="varname"><code>ISTRIP</code></strong></a> seçeneği etkinse yazılım bu baytı bir eşlik hatasının imi olarak ele alabilir. Bunu önlemek, yani <code class="code">'\377'</code> karakterinin kendisi olarak ele alınmasını sağlamak için bu bayt yazılıma 2 bayt olarak, <code class="code">'\377'</code>, <code class="code">'\377'</code> olarak aktarılmalıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-ISTRIP" class="indexterm"></span>
+    <span id="glibc-vr-ISTRIP" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">ISTRIP</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, geçerli girdi baytları yedi bit uzunlukta kabul edilir; aksi takdirde, hepsi sekiz bit kabul edilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IGNBRK" class="indexterm"></span>
+    <span id="glibc-vr-IGNBRK" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IGNBRK</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, geçici kesme durumları yosayılır.
+    </p>
+    <p>
+     <em class="firstterm">Geçici kesme durumu</em>, eşzamansız seri veri iletişimi bağlamında tek bir bayttan daha uzun sıfır değerli bitler olarak tanınır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-BRKINT" class="indexterm"></span>
+    <span id="glibc-vr-BRKINT" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">BRKINT</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa ve <a href="glibc-Input-Modes.html#glibc-vr-IGNBRK"><strong class="varname"><code>IGNBRK</code></strong></a> yoksa bir geçici kesme durumu saptandığında uçbirim girdi ve çıktı kuyrukları temizlenir ve uçbirimle ilişkili ön alan süreç grubuna <a href="glibc-Termination-Signals.html#glibc-vr-SIGINT"><strong class="varname"><code>SIGINT</code></strong></a> sinyali gönderilir.
+    </p>
+    <p>
+     Ne <code class="code">BRKINT</code> ne de <a href="glibc-Input-Modes.html#glibc-vr-IGNBRK"><strong class="varname"><code>IGNBRK</code></strong></a> varsa ve geçici kesme durumu saptandığında <a href="glibc-Input-Modes.html#glibc-vr-PARMRK"><strong class="varname"><code>PARMRK</code></strong></a> yoksa uygulamaya tek bir <code class="code">'\0'</code> karakteri, <a href="glibc-Input-Modes.html#glibc-vr-PARMRK"><strong class="varname"><code>PARMRK</code></strong></a> varsa üç karakterlik bir dizi, <code class="code">'\377'</code>, <code class="code">'\0'</code>, <code class="code">'\0'</code> gönderilir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IGNCR" class="indexterm"></span>
+    <span id="glibc-vr-RET" class="indexterm"></span>
+    <span id="glibc-vr-IGNCR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IGNCR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa girdideki satır-başı (<span class="command"><strong>'\r'</strong></span>) karakterleri iptal edilir. Satır başı karakterinin iptal edilmesi <a href="glibc-Input-Modes.html#glibc-vr-RET"><strong class="varname"><code>RET</code></strong></a> tuşuna basıldığında hem satır-sonu hem de satır-başı karakteri gönderen uçbirimlerde yararlıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-ICRNL" class="indexterm"></span>
+    <span id="glibc-vr-ICRNL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">ICRNL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa ve <a href="glibc-Input-Modes.html#glibc-vr-IGNCR"><strong class="varname"><code>IGNCR</code></strong></a> yoksa, girdiden alınan satır-başı (<span class="command"><strong>'\r'</strong></span>) karakterleri uygulamaya satır-sonu (<span class="command"><strong>'\n'</strong></span>) karakterleri olarak aktarılır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-INLCR" class="indexterm"></span>
+    <span id="glibc-vr-INLCR" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">INLCR</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, girdiden alınan satır-sonu (<span class="command"><strong>'\n'</strong></span>) karakterleri uygulamaya satır-başı (<span class="command"><strong>'\r'</strong></span>) karakterleri olarak aktarılır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IXOFF" class="indexterm"></span>
+    <span id="glibc-cp-IXOFFSTART" class="indexterm"></span>
+    <span id="glibc-cp-IXOFFSTOP" class="indexterm"></span>
+    <span id="glibc-cp-START" class="indexterm"></span>
+    <span id="glibc-cp-STOP" class="indexterm"></span>
+    <span id="glibc-vr-IXOFF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IXOFF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, girdi üzerinde başlat/durdur denetimi etkinleştirilir. Başka bir deyişle, girdi uygulamanın okuyabileceğinden daha hızlı geliyorsa bilgisayar gerektiği zaman <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterleri gönderir. Bu fikir, gerçek uçbirim donanımının iletişimi <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> karakteri geldiğinde beklemeye alması, <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterinde ise iletişime kaldığı yerden devam ettirmesi esasına dayanır. Bkz. <a class="xref" href="glibc-Start-Stop-Characters.html" title="17.4.9.3. Akış Denetimi için Özel Karakterler">Akış Denetimi için Özel Karakterler</a>.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IXON" class="indexterm"></span>
+    <span id="glibc-vr-IXON" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IXON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, çıktı üzerinde başlat/durdur denetimi etkinleştirilir. Başka bir deyişle, bilgisayar bir karakteri aldığında çıktıyı bir <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakteri alıncaya kadar bekletir. Bu durumda uygulamaya <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterleri kesinlikle aktarılmaz. Bu bit yoksa, <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterleri sıradan karakterler olarak okunabilir. Bkz. <a class="xref" href="glibc-Start-Stop-Characters.html" title="17.4.9.3. Akış Denetimi için Özel Karakterler">Akış Denetimi için Özel Karakterler</a>.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IXANY" class="indexterm"></span>
+    <span id="glibc-vr-IXANY" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IXANY</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> karakteri ile bekletilen çıktıyı herhangi bir girdi karakteri başlatır. Aksi takdirde bekletilen çıktılama sadece <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakteri ile sürdürülür.
+    </p>
+    <p>
+     Bu bit BSD oluşumudur; sadece BSD sistemlerinde ve GNU/Hurd sistemlerinde desteklenir.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-IMAXBEL" class="indexterm"></span>
+    <span id="glibc-vr-BEL" class="indexterm"></span>
+    <span id="glibc-cp-BEL" class="indexterm"></span>
+    <span id="glibc-vr-IMAXBEL" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">tcflag_t </code><strong><code class="function">IMAXBEL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Bu bit varsa, uçbirim girdi tamponu dolduğunda uçbirime çanı çaldırmak için BELL karakteri (<code class="code">007</code>) gönderilir.
+    </p>
+    <p>
+     Bu bit BSD oluşumudur.
+    </p>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

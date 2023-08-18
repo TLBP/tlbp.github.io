@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3. SPF Kayıtları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s2.html')">Önceki</button>
+          <div class="dropdown-content">2. İşlem</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4408-s4.html')">Sonraki</button>
+          <div class="dropdown-content">4. <code class="literal">check_host()</code> İşlevi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4408-s3">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3. SPF Kayıtları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+Bir SPF kaydı, alan ismini "HELO" ve "MAIL FROM" kimliklerinde kullanmaya yetkili olan ve olmayan konakların bildirildiği bir DNS özkaynak kaydıdır. Tam bu şekilde olmasa da, bu kayıtta yer alan konaklar izin verilenler ve izin verilmeyenler (hiçbir kategoriye girmeyenler) olarak gruplanır, denebilir.
+</p>
+        <p>
+SPF kaydı tek bir dizgeden oluşur. Bir kayıt örneği:
+</p>
+        <pre class="literallayout monospaced">v=spf1 +mx a:colo.example.com/28 -all
+</pre>
+        <p>
+Bu kayıt "spf1" sürümüdür ve 3 yönerge içerir:"+mx", "a:colo.example.com/28" (+ imi örtüktür) ve "-all".
+</p>
+        <section class="sect2" id="rfc4408-s31">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.1. Yayınlama</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+SPF uyumlu olmak isteyen alan sahipleri "HELO" ve "MAIL FROM" kimliklerinde kullanılan konaklar için SPF kayıtları yayınlamalıdır. SPF kayıtları DNS ağacında bir alt alan adı altında değil, ilgili oldukları konak ismine, örneğin <code class="literal">SRV</code> kayıtlarına yerleştirilir. Bu <code class="literal">TXT</code> veya <code class="literal">SPF</code> özkaynak kaydı kullanımı ile aynıdır (bkz, <a class="xref" href="rfc4408-s3.html#rfc4408-s311" title="3.1.1. DNS Özkaynak Kaydı Türleri">DNS Özkaynak Kaydı Türleri</a>).
+</p>
+          <p><a class="xref" href="rfc4408-s3.html" title="3. SPF Kayıtları">SPF Kayıtları</a> bölümündeki örnek, bir alan bölge dosyası üzerinden şu satırlarla yayınlanabilir:
+</p>
+          <pre class="literallayout monospaced">
+example.com.          TXT "v=spf1 +mx a:colo.example.com/28 -all"
+smtp-out.example.com. TXT "v=spf1 a -all"
+</pre>
+          <p><code class="literal">TXT</code> kayıtları üzerinden yayınlarken, başka amaçlarla yayınlanmış başka <code class="literal">TXT</code> kayıtlarının varolabileceğine dikkat ediniz. Bunlar boyut sınırlarıyla ilgili sorunlara yol açabilirler (bkz, <a class="xref" href="rfc4408-s3.html#rfc4408-s314" title="3.1.4. Kayıt Uzunluğu">Kayıt Uzunluğu</a>).
+</p>
+          <section class="sect3" id="rfc4408-s311">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">3.1.1. DNS Özkaynak Kaydı Türleri</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu belge 99 koduyla yeni bir DNS RR türü olarak <code class="literal">SPF</code> özkaynak kaydını tanımlar. Bu türün biçimi <code class="literal">TXT</code> özkaynak kaydı [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC1035" title="Domain names - implementation and specification">RFC1035</a>] ile aynıdır. Her iki tür için de kaydın karakter içeriği [<a class="xref" href="rfc4408-sd.html#rfc4408-US-ASCII" title="USA Code for Information Interchange, X3.4">US-ASCII</a>] olarak kodlanır.
+</p>
+            <p>
+Mevcut uygulama (bir <code class="literal">TXT</code> kaydı kullanımı) en iyisi olmamakla beraber, henüz yeni özkaynak kaydı türüyle çalışamayan ama hala kullanımda olan pek çok DNS sunucusu ve çözümleyici gerçeklenimi olduğundan bu gereklidir. Bu iki kayıt türlü şema, aynı amaç için ayrılmış bir özkaynak kaydı türünü kullanarak daha iyi bir çözüme geçişin yolunu açar.
+</p>
+            <p>
+Bir SPF uyumlu alan adı her iki özkaynak kaydı türünde de SPF kaydı içermelidir *ÖNERİ*. Bir uyumlu alan adı en az bir türde kayda sahip olmalıdır *ZORUNLU*. Örneğin, <a class="xref" href="rfc4408-s3.html#rfc4408-s31" title="3.1. Yayınlama">Yayınlama</a> bölümündeki kayıtlardan biri yerine şu kayıtlar daha iyidir:
+</p>
+            <pre class="literallayout monospaced">
+example.com. IN TXT "v=spf1 +mx a:colo.example.com/28 -all"
+example.com. IN SPF "v=spf1 +mx a:colo.example.com/28 -all"
+</pre>
+            <p>
+Örnek özkaynak kayıtları bu belgede <code class="literal">TXT</code> kaydı türünde gösterilmiştir; yine de, bunlar <code class="literal">SPF</code> türünde veya her iki türde de yayınlanabilirdi.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s312">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">3.1.2. Çoklu DNS Kayıtları</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Bir alan adı bir yetkilendirme sınamasında bir kayıttan fazlasının seçilmesine sebep olacak şekilde çok sayıda kayda sahip olmamalıdır *ZORUNLU*. Seçim kuralları için <a class="xref" href="rfc4408-s4.html#rfc4408-s45" title="4.5. Kayıtların Seçilmesi">Kayıtların Seçilmesi</a> bölümüne bakınız.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s313">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">3.1.3. Tek DNS Kaydında Çok Sayıda Dizge</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+[<a class="xref" href="rfc4408-sd.html#rfc4408-RFC1035" title="Domain names - implementation and specification">RFC1035</a>]'in 3.3 ve 3.3.14. bölümlerinde tanımlandığı gibi, tek bir metin DNS kaydı (<code class="literal">TXT</code> ve <code class="literal">SPF</code>'nin ikisi de) birden fazla dizgeden oluşabilir. Eğer yayınlanan bir kayıt çok sayıda dizge içeriyorsa, bu dizgeler aralarına boşluk konmaksızın birleştirilmiş tek bir kayıt gibi ele alınmalıdır *ZORUNLU*. Örnek:
+</p>
+            <pre class="literallayout monospaced">
+IN TXT "v=spf1 .... ilk" "ikinci dizge..."
+</pre>
+            <p>
+kaydı ile aşağıdaki kayıt bir diğerinin eşdeğeri olarak ele alınmalıdır *ZORUNLU*:
+</p>
+            <pre class="literallayout monospaced">
+IN TXT "v=spf1 .... ilkikinci dizge..."
+</pre>
+            <p>
+Çok sayıda dizge içeren <code class="literal">TXT</code> ve <code class="literal">SPF</code> kayıtları, tek bir kayıtta 255 baytlık azami uzunluğu aşabilecek kayıtları oluşturmak için yararlıdır.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s314">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">3.1.4. Kayıt Uzunluğu</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Belli bir alan isminde yayınlanacak bir SPF kaydı bir sorgunun sonucunda 512 sekizliye sığacak kadar küçük olmalıdır *ÖNERİ*. Bu, eski DNS gerçeklenimlerini TCP'ye toslayıp devrilmekten koruyacaktır. Yanıt uzunluğu bu belgenin kepsamı dışında kalan pek çok şeye bağlı olduğundan, sadece şu söylenebilir: Belirtilen türde (<code class="literal">TXT</code> veya <code class="literal">SPF</code>) kayıtların tümünün ve DNS isminin toplam uzunluğu 450 karakterin altında kalırsa, DNS yanıtları UDP paketlerine sığacaktır. <code class="literal">TXT</code> biçimi sorgular için boyut hesaplanırken, alan adı altında yayınlanmış diğer <code class="literal">TXT</code> kayıtları da hesaba katılmalıdır. Tek bir UDP paketine sığamayacak kadar uzun kayıtlar SPF istemcileri tarafından sessizce yoksayılabilirler *SEÇİMLİK*.
+</p>
+          </section>
+          <section class="sect3" id="rfc4408-s315">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">3.1.5. İsim Kalıplı Kayıtlar</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Yayınlamak için isim kalıplarının kullanılması önerilmez. Eğer bu tür kayıtlar kullanılmışsa dikkatli olunmalıdır.  Eğer bir alan bu tür MX kayıtları yayınlıyorsa, aynı sorunlara ve gereksinimlere konu isim kalıbı bildirimlerini de yayınlarsa iyi olur. Özellikle de öznitelik kayıtlarının bulunduğu her konak ve alt alan adı için bu bildirim yinelenmelidir. Örneğin, [<a class="xref" href="rfc4408-sd.html#rfc4408-RFC1034" title="Domain names - concepts and facilities">RFC1034</a>]'ün 4.3.3. bölümünde verilen örnek şu kayıtlarla genişletilebilirdi:
+</p>
+            <pre class="literallayout monospaced">
+X.COM.          MX      10      A.X.COM
+X.COM.          TXT     "v=spf1 a:A.X.COM -all"
+
+*.X.COM.        MX      10      A.X.COM
+*.X.COM.        TXT     "v=spf1 a:A.X.COM -all"
+
+A.X.COM.        A       1.2.3.4
+A.X.COM.        MX      10      A.X.COM
+A.X.COM.        TXT     "v=spf1 a:A.X.COM -all"
+
+*.A.X.COM.      MX      10      A.X.COM
+*.A.X.COM.      TXT     "v=spf1 a:A.X.COM -all"
+</pre>
+            <div class="admon warning">
+              <h3 class="admon-title">Uyarı</h3>
+              <div class="admon-contents">
+                <p>
+SPF kayıtları alan içindeki her isim için iki tane olmalıdır: biri isim için, diğeri isim altındaki ağacı kapsayan bir isim kalıbı için.
+</p>
+                <p>
+İsim kalıplarının kullanımından genellikle vazgeçilir, çünkü bunlar alan altında her ismin bulunmasına ve herhangi bir isme yapılan bir sorgunun asla RCODE 3 (İsim Hatası) döndürmemesine sebep olur.
+</p>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

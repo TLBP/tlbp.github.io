@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.4. Bağlantının Kurulması</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s33.html')">Önceki</button>
+          <div class="dropdown-content">3.3. Sıra Numaraları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s35.html')">Sonraki</button>
+          <div class="dropdown-content">3.5. Bağlantının Kapatılması</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s34">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.4. Bağlantının Kurulması</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Bir bağlantı kurmak için "üçlü uzlaşım" yöntemi kullanılır. Bu yöntem normal olarak bir TCP tarafından başlatılır, diğer TCP tarafından yanıtlanır. Bu yöntem iki TCP'nin de aynı anda yöntemi başlatması durumunda da iş görür. Aynı anda başlatma durumunda, her TCP bir "<code class="literal">EŞZ</code>" alındıktan sonra gönderilmesi gereken alındının olmadığı, sadece "<code class="literal">EŞZ</code>" taşıyan birer veri bölütü alır. Şüphesiz, aynı anda bağlantı başlatma durumunda alıcı tarafa eski bir yinelenmiş "<code class="literal">EŞZ</code>" veri bölütü gelme olasılığı da vardır. "Baştan-başlat" veri bölütleri bu gibi durumlarda kullanılarak sorun aşılabilir.
+</p>
+        <p>
+Aşağıda birkaç tane bağlantı başlatma örneği verilmiştir. Bu örneklerde, alıcı TCP'nin veriyi geçerli olduğundan emin oluncaya kadar teslim etmediği veri taşıyan veri bölütleri kullanılarak yapılan bir  bağlantı eşzamanlaması gösterilmemiş olsa da, bu tamamen meşrudur. (Gösterilse de, bağlantı <code class="literal">KURULU</code> durumuna geçinceye kadar verinin tamponlanması gerekecekti.) Üçlü uzlaşım yöntemi yanlış bağlantı olasılığını azaltır. Bu sınama için ise bilgi sağlayan iletilerle bellek arasındaki ödünleşimin gerçeklenimidir.
+</p>
+        <p>
+En basit üçlü uzlaşım <a class="xref" href="rfc793-s34.html#rfc793-fig7" title="Şekil 7. Bağlantı Eşzamanlamasında Üçlü Uzlaşımın En Basit Kullanımı">Şekil 7</a>'de gösterilmiştir. Şekildeki gösterim şöyle yorumlanmalıdır: Her satır atıf yapılabilmesi için numaralanmıştır. Sağa ok (<code class="literal">--&gt;</code>) ile TCP A'dan TCP B'ye bir TCP veri bölütünün gidişi veya bir veri bölütünün A'dan B'ye varışı gösterilmiştir. Sola ok (<code class="literal">&lt;--</code>) ise tersini belirtir. Nokta üçlemeleri (...) bir veri bölütünün hala ağda olduğunu (geciktiğini), bir "XXX" kaybolan veya reddedilen bir veri bölütünü gösterir. Açıklamalar parantez içinde gösterilmiştir. TCP durumları bir veri bölütünün gidişi veya varışından SONRA ki durumu gösterir (içerikler her satırın ortasında gösterilmiştir). Veri bölütü içerikleri kısaltmalar kullanılarak sıra numarası, denetim bayrakları ve alındı alanı ile gösterilmiştir. Pencere, adresler, uzunluklar ve metin gibi alanlar duru bir görünüm yararına dışarda bırakılmıştır.
+</p>
+        <div class="figure" id="rfc793-fig7">
+          <div class="figure-title">Şekil 7. Bağlantı Eşzamanlamasında Üçlü Uzlaşımın En Basit Kullanımı</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+    TCP A                                                TCP B
+
+1.  KAPALI                                               DİNLE
+
+2.  EŞZ-GÖNDER --&gt; &lt;SIRA=100&gt;&lt;DNT=EŞZ&gt;               --&gt; EŞZ-ALINDI
+
+3.  KURULU    &lt;-- &lt;SIRA=300&gt;&lt;ALN=101&gt;&lt;DNT=EŞZ,ALN&gt;   &lt;-- EŞZ-ALINDI
+
+4.  KURULU    --&gt; &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;       --&gt; KURULU
+
+5.  KURULU    --&gt; &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;&lt;VERİ&gt; --&gt; KURULU
+
+Bağlantı eşzamanlamasını sağlamak için üçlü uzlaşımın basit kullanımı
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p><a class="xref" href="rfc793-s34.html#rfc793-fig7" title="Şekil 7. Bağlantı Eşzamanlamasında Üçlü Uzlaşımın En Basit Kullanımı">Şekil 7</a>'nin 2. satırında TCP A 100 ile başlayan sıra numaraları kullanacağını belirten bir <code class="literal">EŞZ</code> veri bölütü göndererek uzlaşımı başlatır. 3. satırda, TCB B, TCB A'dan bir <code class="literal">EŞZ</code> aldığını belirten bir alındı (<code class="literal">ALN</code>) ve bir <code class="literal">EŞZ</code> gönderir. TCB B'nin <code class="literal">EŞZ</code>'yi 100 sıra numarası ile kabul ettiğini ve alındı alanında sıra numarası olarak 101 belirterek 101 sıra numaralı sekizliyi beklediğini belirttiğine dikkat ediniz.
+</p>
+        <p>
+4. satırda, TCP A, TCP B'nin <code class="literal">EŞZ</code>'si için bir <code class="literal">ALN</code> içeren verisiz bir veri bölütüyle yanıt verir. 5. satırda ise, TCP A bir miktar veri yollar. 5. satırdaki veri bölütünün sıra numarasının 4. satırdaki ile aynı oluşuna dikkat ediniz. Bunun sebebi <code class="literal">ALN</code>'nin sıra numarası uzayında bir yer işgal etmeyişidir (Etseydi, bir de <code class="literal">ALN</code> alındılaşmak için uğraşacaktık).
+</p>
+        <p>
+Aynı anda başlatma <a class="xref" href="rfc793-s34.html#rfc793-fig8" title="Şekil 8. Aynı Anda Bağlantı Eşzamanlaması">Şekil 8</a>'de gösterildiği üzere biraz daha karmaşıktır. Her TCP sırayla <code class="literal">KAPALI</code>, <code class="literal">EŞZ-GÖNDER</code>, <code class="literal">EŞZ-ALINDI</code>, <code class="literal">KURULU</code> durumlarına geçer.
+</p>
+        <div class="figure" id="rfc793-fig8">
+          <div class="figure-title">Şekil 8. Aynı Anda Bağlantı Eşzamanlaması</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+    TCP A                                               TCP B
+
+1.  KAPALI                                              KAPALI
+
+2.  EŞZ-GÖNDER --&gt; &lt;SIRA=100&gt;&lt;DNT=EŞZ&gt;              ...
+
+3.  EŞZ-ALINDI &lt;-- &lt;SIRA=300&gt;&lt;DNT=EŞZ&gt;              &lt;-- EŞZ-GÖNDER
+
+4.             ... &lt;SIRA=100&gt;&lt;DNT=EŞZ&gt;              --&gt; EŞZ-ALINDI
+
+5.  EŞZ-ALINDI --&gt; &lt;SIRA=100&gt;&lt;ALN=301&gt;&lt;DNT=EŞZ,ALN&gt; ...
+
+6.  KURULU     &lt;-- &lt;SIRA=300&gt;&lt;ALN=101&gt;&lt;DNT=EŞZ,ALN&gt; &lt;-- EŞZ-ALINDI
+
+7.             ... &lt;SIRA=101&gt;&lt;ALN=301&gt;&lt;DNT=ALN&gt;     --&gt; KURULU
+
+             Bağlantının aynı anda eşzamanlanması
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p>
+Üçlü uzlaşımın başlıca sebebi, eski yinelenmiş bağlantı ilklendirmelerinin karışıklığa neden olmasını önlemektir. Bunu sağlayabilmek için özel bir denetim iletisi, baştan-başlat (<code class="literal">BŞT</code>) icadedilmiştir. Eğer alıcı TCP eşzamanlama yapılan durumlardan birinde (<code class="literal">EŞZ-GÖNDER</code>, <code class="literal">EŞZ-ALINDI</code>) ise makul bir <code class="literal">BŞT</code> aldığında <code class="literal">DİNLE</code> durumuna döner. Eğer alıcı TCP, eşzamanlanmış durumlardan birinde (<code class="literal">KURULU</code>, <code class="literal">SON-BEKLE-1</code>, <code class="literal">SON-BEKLE-2</code>, <code class="literal">KAPAT-BEKLE</code>, <code class="literal">KAPANIŞ</code>, <code class="literal">SON-ALN</code>, <code class="literal">ZMN-BEKLE</code>) ise bağlantıyı terkeder ve kullanıcıyı bilgilendirir. Bu son durumu daha ileride "yarı açık" bağlantılar olarak inceleyeceğiz.
+</p>
+        <div class="figure" id="rfc793-fig9">
+          <div class="figure-title">Şekil 9. Eski <code class="literal">EŞZ</code> Kopyasından Kurtulma</div>
+          <div class="figure-contents">
+            <pre class="literallayout monospaced">
+    TCP A                                                 TCP B
+
+1.  KAPALI                                                DİNLE
+
+2.  EŞZ-GÖNDER   --&gt; &lt;SIRA=100&gt;&lt;DNT=EŞZ&gt;              ...
+
+3.  (eski kopya) ... &lt;SIRA=90&gt;&lt;DNT=EŞZ&gt;               --&gt; EŞZ-ALINDI
+
+4.  EŞZ-GÖNDER   &lt;-- &lt;SIRA=300&gt;&lt;ALN=91&gt;&lt;DNT=EŞZ,ALN&gt;  &lt;-- EŞZ-ALINDI
+
+5.  EŞZ-GÖNDER   --&gt; &lt;SIRA=91&gt;&lt;DNT=BŞT&gt;               --&gt; DİNLE
+
+6.               ... &lt;SIRA=100&gt;&lt;DNT=EŞZ&gt;              --&gt; EŞZ-ALINDI
+
+7.  EŞZ-GÖNDER   &lt;-- &lt;SIRA=400&gt;&lt;ALN=101&gt;&lt;DNT=EŞZ,ALN&gt; &lt;-- EŞZ-ALINDI
+
+8.  KURULU       --&gt; &lt;SIRA=101&gt;&lt;ALN=401&gt;&lt;DNT=ALN&gt;     --&gt; KURULU
+
+                  Eski EŞZ Kopyasından Kurtulma
+</pre>
+          </div>
+        </div>
+        <br class="figure-break" />
+        <p>
+Basit bir eski kopyalardan kurtulma örneği <a class="xref" href="rfc793-s34.html#rfc793-fig9" title="Şekil 9. Eski EŞZ Kopyasından Kurtulma">Şekil 9</a>'da ele alınmıştır.  3. satırda, TCB B'ye eski bir <code class="literal">EŞZ</code> kopyası gelmektedir. TCB B bunun eski bir kopya olduğunu bilemez ve normal şekilde yanıtlar (4. satır). TCP A, <code class="literal">ALN</code> alanının yanlış olduğunu saptar ve  veri bölütünü güvenilir kılacak şekilde seçilmiş bir <code class="literal">SIRA</code> alanıyla bir <code class="literal">BŞT</code> (baştan-başlat) döndürür. TCB B, <code class="literal">BŞT</code> aldığında <code class="literal">DİNLE</code> durumuna geçer. Son defa olarak özgün <code class="literal">EŞZ</code> 6. satırda gönderildiğinde eşzamanlama normal olarak başlar. Eğer 6. satırdaki <code class="literal">EŞZ</code>, <code class="literal">BŞT</code>'den önce B'ye varırsa <code class="literal">BŞT</code>'nin göndericisiyle her iki yönde biraz daha karmaşık bir değiştokuş oluşabilir.
+</p>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.4.1. Yarı Açık Bağlantılar ve Diğer Aykırılıklar</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Eğer TCP'lerden biri diğer ucun haberi olmaksızın kapanmış veya bağlantıyı terketmişse ya da bellek kaybı ile sonuçlanan bir çökme sonucu bağlantının iki ucu arasındaki eşzamanlama bozulmuşsa bağlantı yarı açıktır denir. Böyle bağlantılarda, uçlardan biri veri göndermeye çalışırsa uzlaşım kendiliğinden baştan başlatılır. Yine de, yarı açık bağlantılar olağandışı durumlardan olup kurtarma işlemi de sessizce yapılır.
+</p>
+          <p>
+Eğer A tarafında bağlantı artık mevcut değilse ve B tarafındaki kullanıcı bir veri göndermeye çalışırsa, işlem, B tarafındaki TCP'nin bir baştan-başlat denetim iletisi almasıyla sonuçlanacaktır. Böyle bir ileti B tarafındaki TCP'nin bir şeyleri yanlış yaptığını belirtir ve bağlantıyı terketmesi beklenir.
+</p>
+          <p>
+A ve B isimli iki kullanıcı süreci iletişim halindeyken A'da bellek kaybına sebep olan bir çökmenin yaşandığını varsayalım. İşletim sisteminin A'nın TCP'sini destekleyişine bağlı olarak bir takım hatadan kurtulma mekanizmaları mevcut olabilir. TCP tekrar ayağa kalktığında, A, görevine baştan ya da kurtarma noktasından başlayacaktır. Sonuç olarak A, muhtemelen bağlantıya ya tekrar bir <span class="command"><strong>AÇ</strong></span>ma işlemi uygulayacak veya açık olduğunu sandığı bağlantıdan <span class="command"><strong>GÖNDER</strong></span>me işlemini deneyecektir. İkinci durumda, yerel (A'nın) TCP'den "bağlantı açık değil" şeklinde bir hata iletisi alır. Bir bağlantı kurmak için A'nın TCP'si <code class="literal">EŞZ</code> içeren bir veri bölütü gönderir. Senaryo <a class="xref" href="rfc793-s34.html#rfc793-fig10" title="Şekil 10. Yarı Açık Bağlantının Keşfi">Şekil 10</a>'da gösterildiği gibi sürüp gider. TCP A'nın çöküşü sonrası, kullanıcısı bağlantıyı yeriden açmaya çalışırken, TCB B'nin kullanıcısı ise bağlantının açık olduğunu düşünmektedir.
+</p>
+          <div class="figure" id="rfc793-fig10">
+            <div class="figure-title">Şekil 10. Yarı Açık Bağlantının Keşfi</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
+    TCP A                                           TCP B
+
+1.  (ÇÖKÜŞ)                                 (gönderi 300, alım 100)
+
+2.  KAPALI                                          KURULU
+
+3.  EŞZ-GÖNDER --&gt; &lt;SIRA=400&gt;&lt;DNT=EŞZ&gt;          --&gt; (??)
+
+4.  (!!)       &lt;-- &lt;SIRA=300&gt;&lt;ALN=100&gt;&lt;DNT=ALN&gt; &lt;-- KURULU
+
+5.  EŞZ-GÖNDER --&gt; &lt;SIRA=100&gt;&lt;DNT=BŞT&gt;          --&gt; (Terket!!)
+
+6.  EŞZ-GÖNDER                                      KAPALI
+
+7.  EŞZ-GÖNDER --&gt; &lt;SIRA=400&gt;&lt;DNT=EŞZ&gt;          --&gt;
+
+               Yarı Açık Bağlantının Keşfi
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+          <p>
+3. satırda <code class="literal">EŞZ</code> vardığında, TCP B eşzamanlanmış durumdaydı ve gelen veri bölütü  pencere dışındaydı. Verilecek yanıt, beklediği sıra numarasını belirten bir alındı (<code class="literal">ALN</code> 100) göndermek olacaktı; öyle yaptı. TCP A'nın gördüğü ise gönderdiği hiçbirşeyin alınmamış olduğuydu ve üstelik eşzamanlama da yoktu; bir baştan-başla (<code class="literal">BŞT</code>) gönderdi, çünkü bağlantının yarı açık olduğunu saptamıştı. TCP B'nin, 5. satırda bağlantıyı terkettiğini, TCP A'nın ise bağlantıyı kurmaya çalıştığını görürüz. Artık sorun <a class="xref" href="rfc793-s34.html#rfc793-fig7" title="Şekil 7. Bağlantı Eşzamanlamasında Üçlü Uzlaşımın En Basit Kullanımı">Şekil 7</a>'deki üçlü uzlaşıma indirgenmiştir.
+</p>
+          <p>
+TCP A çökerken TCP B'nin eşzamanlı olduğunu düşündüğü bağlantı üzerinden veri göndermeyi denediği durumla ilgili ilginç bir durum daha vardır.  Bu, <a class="xref" href="rfc793-s34.html#rfc793-fig11" title="Şekil 11. Yarı Açık Bağlantının Açık Taraftan Keşfedilmesi">Şekil 11</a>'de gösterilmiştir. Bu durumda, TCP A'ya TCP B'den gelen veri (2. satır) kabul edilemez, çünkü artık bağlantı mevcut değildir; dolayısıyla TCP A bir <code class="literal">BŞT</code> gönderir. <code class="literal">BŞT</code> kabul edilebilir olduğundan TCP onu işleme sokar ve bağlantıyı terkeder.
+</p>
+          <div class="figure" id="rfc793-fig11">
+            <div class="figure-title">Şekil 11. Yarı Açık Bağlantının Açık Taraftan Keşfedilmesi</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
+      TCP A                                               TCP B
+
+1.  (ÇÖKÜŞ)                                       (gönderi 300, alım 100)
+
+2.  (??)    &lt;-- &lt;SIRA=300&gt;&lt;ALN=100&gt;&lt;VERİ=10&gt;&lt;DNT=ALN&gt; &lt;-- KURULU
+
+3.          --&gt; &lt;SIRA=100&gt;&lt;DNT=BŞT&gt;                   --&gt; (Terket!!)
+
+          Yarı Açık Bağlantının Açık Taraftan Keşfedilmesi
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+          <p><a class="xref" href="rfc793-s34.html#rfc793-fig12" title="Şekil 12. Eski EŞZ kopyasının iki Edilgen Soketi İlklendirmesi">Şekil 12</a>'de <code class="literal">EŞZ</code> bekleyen edilgen bağlantılı A ve B TCP'lerini görüyoruz. TCP B'ye 2. satırda eski bir yinelenmiş gelerek TCP B'yi telaşlandırıyor. Bir EŞZ-ALN göndererek (3. satırda) TCP A'nın bir <code class="literal">BŞT</code> üretmesine sebep oluyor (3. satırdaki <code class="literal">ALN</code> kabul edilebilir değildir). TCP B baştan başlamayı kabul ediyor ve tekrar edilgen <code class="literal">DİNLE</code>me durumuna geri dönüyor.
+</p>
+          <div class="figure" id="rfc793-fig12">
+            <div class="figure-title">Şekil 12. Eski <code class="literal">EŞZ</code> kopyasının iki Edilgen Soketi İlklendirmesi</div>
+            <div class="figure-contents">
+              <pre class="literallayout monospaced">
+    TCP A                                         TCP B
+
+1.  DİNLE                                         DİNLE
+
+2.        ... &lt;SIRA=Z&gt;&lt;DNT=EŞZ&gt;              --&gt;  EŞZ-ALINDI
+
+3.  (??)  &lt;-- &lt;SIRA=X&gt;&lt;ALN=Z+1&gt;&lt;DNT=EŞZ,ALN&gt; &lt;--  EŞZ-ALINDI
+
+4.        --&gt; &lt;SIRA=Z+1&gt;&lt;DNT=BŞT&gt;            --&gt;  (DİNLEme durumuna geç!)
+
+5.  DİNLE                                         DİNLE
+
+    Eski EŞZ Kopyasının iki Edilgen Soketi İlklendirmesi
+</pre>
+            </div>
+          </div>
+          <br class="figure-break" />
+          <p>
+Başka durumlar da olasıdır, hesaba katılanlardan <code class="literal">BŞT</code> üretimi ve işlenmesi ile ilgili olanlar aşağıdadır.
+</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.4.2. Baştan Başlatmanın İstenmesi</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Genel bir kural olarak, baştan başlatma (<code class="literal">BŞT</code>) gelen bir veri bölütünün mevcut bağlantı için tasarlanmamış olması halinde gönderilmelidir. Bu durum açıkça belli değilse bir baştan başlatma gönderilmemelidir.
+</p>
+          <p>
+Üç grup durum vardır:
+</p>
+          <div class="orderedlist">
+            <ol class="orderedlist" type="1">
+              <li class="listitem">
+                <p>
+Bir bağlantı mevcut değilse (<code class="literal">KAPALI</code>), gelen bir veri bölütüne bir <code class="literal">BŞT</code> içermiyorsa yanıt olarak bir <code class="literal">BŞT</code> gönderilir. Özellikle iki tarafın da başlatmadığı mevcut olmayan bir bağlantıya gelen <code class="literal">EŞZ</code>ler bu anlamda reddedilir.
+</p>
+                <p>
+Gelen veri bölütü bir <code class="literal">ALN</code> alanına sahipse, baştan başlatma için sıra numarası veri bölütünün <code class="literal">ALN</code> alanından alınır, aksi takdirde başlan başlatma sıra numarası sıfırdır ve <code class="literal">ALN</code> alanının değeri gelen veri bölütünün veri bölütü uzunluğu ile sıra numarasının toplamı olur. Bağlantı <code class="literal">KAPALI</code> durumda kalır.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Bağlantı eşzamanlama yapılan durumlardan (<code class="literal">DİNLE</code>, <code class="literal">EŞZ-GÖNDER</code>, <code class="literal">EŞZ-ALINDI</code>) birinde değilse ve gelen veri bölütü henüz gönderilmemiş birşeylerin alındığı bilgisini içeriyorsa (veri bölütü kabul edilebilir olmayan bir <code class="literal">ALN</code> taşıyordur) veya gelen veri bölütü bir güvenlik seviyesine ya da seviye ve bağlantı için istenen bölüm ile uyumsuz bir bölüme sahipse bir baştan-başlat gönderilir.
+</p>
+                <p>
+Bizim <code class="literal">EŞZ</code> alındılanmamışsa ve gelen veri bölütünün öncelik seviyesi istenen öncelik seviyesinden daha yüksekse ya yerel öncelik seviyesi yükseltilir (sistem veya kullanıcı izin vermişse) ya da <code class="literal">BŞT</code> gönderilir; veya gelen veri bölütünün öncelik seviyesi istenen öncelik seviyesinden daha düşükse öncelikler eşleşmiş gibi devam edilir (uzak TCP öncelik seviyesini bizimki ile eşleşmek üzere yükseltemezse bunu sonraki veri bölütünü gönderirken saptamış olur ve bağlantı sonlandırılır). Eğer bizim <code class="literal">EŞZ</code> alındılanmışsa (tabii ki, gelen veri bölütünde) ve bir baştan-başlat gönderilmeli değilse gelen veri bölütünün öncelik seviyesi ile yerel öncelik seviyesi tam olarak eşleşmelidir.
+</p>
+                <p>
+Eğer gelen veri bölütünde bir <code class="literal">ALN</code> alanı varsa <code class="literal">BŞT</code> için bu veri bölütünün <code class="literal">ALN</code> alanındaki sıra numarası kullanılır, aksi takdirde, <code class="literal">BŞT</code> için sıra numarası sıfır olurken, <code class="literal">ALN</code> alanına sıra numarası ile gelen veri bölütünün veri bölütü uzunluğunun toplamı atanır. Bağlantı mevcut durumunu korur.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+Eğer bağlantı eşzamanlanmış durumdaysa (<code class="literal">KURULU</code>, <code class="literal">SON-BEKLE-1</code>, <code class="literal">SON-BEKLE-2</code>, <code class="literal">KAPAT-BEKLE</code>, <code class="literal">KAPANIŞ</code>, <code class="literal">SON-ALN</code>, <code class="literal">ZMN-BEKLE</code>) kabul edilebilir olmayan bir veri bölütü (pencere dışı bir sıra numarası veya kabul edilebilir olmayan bir alındı numarası), sadece o anki gönderi sıra numarasını ve alınması umulan sonraki sıra numarasını belirten bir alındı içeren verisiz bir veri bölütüne sebep olmalı ve bağlantı aynı durumda kalmalıdır.
+</p>
+                <p>
+Eğer gelen veri bölütü bağlantı için istenen seviye, bölüm veya önceliğe uymayan bir güvenlik seviyesi, bölümü veya önceliğine sahipse bir <code class="literal">BŞT</code> gönderilir ve bağlantı <code class="literal">KAPALI</code> duruma döner. <code class="literal">BŞT</code> sıra numarası gelen veri bölütünün <code class="literal">ALN</code> alanından alınır.
+</p>
+              </li>
+            </ol>
+          </div>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.4.3. Baştan Başlama İşlemi</h4>
+              </div>
+            </div>
+          </div>
+          <p><code class="literal">EŞZ-GÖNDER</code> hariç tüm durumlarda, tüm <code class="literal">BŞT</code> veri bölütleri <code class="literal">SIRA</code> alanlarına bakılarak doğrulanır. Bir baştan başlatmanın geçerli olabilmesi için onun sıra numarası pencere içinde kalmalıdır. <code class="literal">EŞZ-GÖNDER</code> durumunda ise (bir ilk <code class="literal">EŞZ</code>'ye yanıt olarak bir <code class="literal">BŞT</code> alınması) baştan başlatmanın kabul edilebilmesi için <code class="literal">ALN</code> alanı <code class="literal">EŞZ</code> alındısını içermelidir.
+</p>
+          <p><code class="literal">BŞT</code>'nin alıcısı ilk değerlendirmeyi yapar ve durumunu değiştirir. Eğer alıcı <code class="literal">DİNLE</code> durumundaysa onu yoksayar. Eğer alıcı <code class="literal">EŞZ-ALINDI</code> durumundaysa ve önceki durumu <code class="literal">DİNLE</code> durumu ise alıcı <code class="literal">DİNLE</code> durumuna geri döner, aksi takdirde, alıcı bağlantıyı terkeder ve <code class="literal">KAPALI</code> durumuna geçer. Eğer alıcı bunlar dışında bir durumdaysa bağlantıyı terkeder ve kullanıcıyı bilgilendirip <code class="literal">KAPALI</code> duruma geçer.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

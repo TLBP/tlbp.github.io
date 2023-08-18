@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.6.7. İnternet Soketi Örneği</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Protocols-Database.html')">Önceki</button>
+          <div class="dropdown-content">16.6.6. Protokol Veritabanı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Internet-Namespace.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Misc-Namespaces.html')">Sonraki</button>
+          <div class="dropdown-content">16.7. Diğer İsim Alanları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Inet-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.6.7. İnternet Soketi Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Burada İnternet isim alanında bir soketin nasıl oluşturulacağını ve isimlendirileceğini gösteren bir örnek bulunmaktadır. Yeni oluşturulan soket yazılımın çalıştığı makinede bulunur. Makinenin İnternet adresini bulup kullanmak yerine, bu örnekte konak adres, yerine <a href="glibc-Host-Address-Data-Type.html#glibc-vr-INADDR_ANY"><strong class="varname"><code>INADDR_ANY</code></strong></a> kullanılmıştır; sistem bunu makinenin gerçek adresi ile değiştirir.
+   </p>
+        <div class="example">
+          <div class="example-title">Örnek: </div>
+          <div class="example-contents">
+            <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int
+make_socket (uint16_t port)
+{
+  int sock;
+  struct sockaddr_in name;
+
+  /* <em class="replaceable"><code>Soketi oluştur.</code></em> */
+  sock = socket (PF_INET, SOCK_STREAM, 0);
+  if (sock &lt; 0)
+    {
+      perror ("socket");
+      exit (EXIT_FAILURE);
+    }
+
+  /* <em class="replaceable"><code>Sokete bir isim ver.</code></em> */
+  name.sin_family = AF_INET;
+  name.sin_port = htons (port);
+  name.sin_addr.s_addr = htonl (INADDR_ANY);
+  if (bind (sock, (struct sockaddr *) &amp;name, sizeof (name)) &lt; 0)
+    {
+      perror ("bind");
+      exit (EXIT_FAILURE);
+    }
+
+  return sock;
+}
+</pre>
+            <p>
+     Konak ismi ve port numarası verildiğinde <a href="glibc-Internet-Address-Formats.html#glibc-tp-sockaddr_in"><strong class="type"><code>struct sockaddr_in</code></strong></a> yapısını nasıl doldurulacağını gösteren örnek:
+    </p>
+            <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netdb.h&gt;
+
+void
+init_sockaddr (struct sockaddr_in *name,
+               const char *hostname,
+               uint16_t port)
+{
+  struct hostent *hostinfo;
+
+  name-&gt;sin_family = AF_INET;
+  name-&gt;sin_port = htons (port);
+  hostinfo = gethostbyname (hostname);
+  if (hostinfo == NULL)
+    {
+      fprintf (stderr, "%s diye bir konak yok.\n", hostname);
+      exit (EXIT_FAILURE);
+    }
+  name-&gt;sin_addr = *(struct in_addr *) hostinfo-&gt;h_addr;
+}
+</pre>
+          </div>
+        </div>
+        <br class="example-break" />
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

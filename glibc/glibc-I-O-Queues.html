@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.2. G/Ç Kuyrukları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Is-It-a-Terminal.html')">Önceki</button>
+          <div class="dropdown-content">17.1. Uçbirimlerin Tanımlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Canonical-or-Not.html')">Sonraki</button>
+          <div class="dropdown-content">17.3. İki Girdi Tarzı: Kurallı ve Kuralsız</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-I-O-Queues">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">17.2. G/Ç Kuyrukları</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   Bu kısımdaki işlevler uçbirim aygıtının girdi ve çıktı kuyrukları ile ilgilidir. Bu kuyruklar, <a class="link" href="glibc-I-O-on-Streams.html" title="12. Akımlar Üzerinde Giriş/Çıkış">G/Ç akımlarına</a> göre gerçeklenmiş tamponlamadan bağımsız olarak <em class="emphasis">çekirdek içindeki</em> bir tamponlama şeklinde gerçeklenmiştir.
+  </p>
+        <p>
+   <span id="idm127595" class="indexterm"></span>
+   <span id="idm127598" class="indexterm"></span>
+   <em class="wordasword">Uçbirim girdi kuyruğu</em> çoğunlukla kullandığı tamponun ismiyle <em class="firstterm">sürekli yazma tamponu</em> olarak da anılır. Uçbirim tarafından alınmış ancak henüz süreç tarafından okunmamış karakterleri içerir.
+  </p>
+        <p>
+   <span id="glibc-cp-STOPc" class="indexterm"></span>
+   <span id="glibc-cp-STARTc" class="indexterm"></span>
+   Girdi kuyruğunun uzunluğunu <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_INPUT"><strong class="varname"><code>MAX_INPUT</code></strong></a> ve <a href="glibc-File-Minimums.html#glibc-vr-POSIX_MAX_INPUT"><strong class="varname"><code>_POSIX_MAX_INPUT</code></strong></a> sabitleri belirler; bkz. <a class="xref" href="glibc-Limits-for-Files.html" title="32.6. Dosya Sistemi Sığa Sınırları"><em>Dosya Sistemi Sığa Sınırları</em></a>.  Kuyruk uzunluğunun en azından <a href="glibc-Limits-for-Files.html#glibc-vr-MAX_INPUT"><strong class="varname"><code>MAX_INPUT</code></strong></a> karakterlik olacağını düşünülebilir, ancak kuyruk daha büyük olabilir ve hatta uzunluğu özdevimli olarak değişebilir. Eğer <a href="glibc-Input-Modes.html#glibc-vr-IXOFF"><strong class="varname"><code>IXOFF</code></strong></a> girdi kipi biti (bkz. <a class="xref" href="glibc-Input-Modes.html" title="17.4.4. Girdi Kipleri">Girdi Kipleri</a>) atanarak akış denetimi etkinleştirilmişse, kuyruğu taşmadan korumak gerektiğinde uçbirim sürücüsü uçbirime <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterlerini aktarır. Aksi takdirde, girdi uçbirimin kabul edebildiğinden hızlı gelirse bir kısım girdi kaybolabilir. Kurallı kipte, bir satır sonu karakteri alınıncaya kadar girdi kuyrukta kalır, dolayısıyla çok uzun bir satır yazılırsa uçbirim girdi kuyruğu dolabilir. Bkz, <a class="xref" href="glibc-Canonical-or-Not.html" title="17.3. İki Girdi Tarzı: Kurallı ve Kuralsız"><em>İki Girdi Tarzı: Kurallı ve Kuralsız</em></a>.
+  </p>
+        <p>
+   <span id="idm127620" class="indexterm"></span>
+   <em class="wordasword">Uçbirim çıktı kuyruğu</em> girdi kuyruğu gibidir, ancak çıktı içindir. Süreçler tarafından yazılmış fakat henüz uçbirime aktarılmamış karakterleri içerir. Eğer <a href="glibc-Input-Modes.html#glibc-vr-IXON"><strong class="varname"><code>IXON</code></strong></a> girdi kipi biti (bkz. <a class="xref" href="glibc-Input-Modes.html" title="17.4.4. Girdi Kipleri">Girdi Kipleri</a>) atanarak akış denetimi etkinleştirilmişse, uçbirim sürücüsü, çıktı aktarımını durdurmak ve yeniden başlatmak için uçbirim tarafından gönderilen <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterlerine uymaya çalışır.
+  </p>
+        <p>
+   <em class="wordasword">Temizleme</em> uçbirim girdi kuyruğundaki alınmış ancak henüz okunmamış karakterlerin iptal edilmesi anlamına gelir. Benzer olarak, uçbirim çıktı kuyruğuna yazılmış ancak henüz aktarılmamış karakterlerin iptal edilmesi anlamına da gelir.
+  </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

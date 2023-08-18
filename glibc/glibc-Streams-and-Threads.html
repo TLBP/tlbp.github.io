@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>12.5. Akımlar ve Evreler</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -44,12 +44,12 @@
           </div>
         </div>
         <p>
-   <span id="idm104297" class="indexterm"></span>
-   <span id="idm104299" class="indexterm"></span>
+   <span id="idm104311" class="indexterm"></span>
+   <span id="idm104313" class="indexterm"></span>
    Akımlar çok evreli yazılımlarda tek evreli yazılımlardaki gibi kullanılır. Ancak yazılımcı olası karışıklıkların farkında olmalıdır. Birçok akım işlevinin tasarımı ve gerçeklenmesi çok evreli yazılım geliştirmeyle ilgili ek gereksinimlerden oldukça etkileneceğinden yazılımda evrelerin asla kullanılamayabileceğinin bilinmesi ayrıca önemlidir.
   </p>
         <p>
-   POSIX standardı ön tanımlı olarak akım işlemlerinin bölünmez olmasını gerektirir. Örneğin iki akım işleminin iki evre halinde aynı anda bir akıma uygulanması işlemlerin sırayla yapılıyormuş gibi yapılmasına sebep olacaktır. Okuma ve yazma sırasında uygulanan tampon işlemleri aynı akımı kullanan diğerlerinden korunur. Bu, her akımın yapılacak bir çalışma öncesi (dolaylı olarak) elde edilen bir dahili kilitleme nesnesine sahip olması ile sağlanır.
+   POSIX standardı aksi belirtilmedikçe akım işlemlerinin bölünmez olmasını gerektirir. Örneğin iki akım işleminin iki evre halinde aynı anda bir akıma uygulanması işlemlerin sırayla yapılıyormuş gibi yapılmasına sebep olacaktır. Okuma ve yazma sırasında uygulanan tampon işlemleri aynı akımı kullanan diğerlerinden korunur. Bu, her akımın yapılacak bir çalışma öncesi (dolaylı olarak) elde edilen bir dahili kilitleme nesnesine sahip olması ile sağlanır.
   </p>
         <p>
    Ancak bunun yeterli olmadığı ya da istenmediği durumlar da vardır. Eğer yazılım birden fazla akım işlevi çağrısının teker teker yapılmasını gerektiriyorsa dolaylı kilitleme mekanizması yetersiz kalır. Bir yazılımın üretmek istediği bir satırı çeşitli işlev çağrılarıyla oluşturması buna bir örnek olarak verilebilir. Evrelere ayırma işi tüm işlev çağrıları üzerinde değil, işlevlerin kendileri tarafından, kendi işlemlerini evrelere ayırarak, yapılmalıdır. Bunun olabilmesi için de akım kilitleme işleminin yazılım kodunda yapılması gerekir.
@@ -190,7 +190,7 @@ foo (FILE *fp, char *buf)
     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FSETLOCKING_INTERNAL</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
     
     <p>
-     <em class="parameter"><code>stream</code></em> akımı ön tanımlı dahili kilitlemeyi hemen kullanmaya başlar. <code class="code">_unlocked</code> sonekli biçim hariç her akım işlemi akımı dolaylı olarak kilitleyecektir.
+     <em class="parameter"><code>stream</code></em> akımı önceden tanımlı dahili kilitlemeyi hemen kullanmaya başlar. <code class="code">_unlocked</code> sonekli biçim hariç her akım işlemi akımı dolaylı olarak kilitleyecektir.
     </p>
    </div>
    <div class="csynopsis"><div class="cstype">      sabit</div>
@@ -198,7 +198,7 @@ foo (FILE *fp, char *buf)
     <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/stdio_ext.h;hb=HEAD" target="_top">stdio_ext.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><strong><code class="function">FSETLOCKING_BYCALLER</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
     
     <p>
-     <code class="code">__fsetlocking</code> işlevi döndükten sonra akımın kilitlenmesinden kullanıcı sorumlu olur. Durum <a href="glibc-Streams-and-Threads.html#glibc-vr-FSETLOCKING_INTERNAL"><strong class="varname"><code>FSETLOCKING_INTERNAL</code></strong></a> ile ön tanımlı duruma döndürülünceye kadar bunu örtük olarak yapacak hiçbir akım işlemi yoktur.
+     <code class="code">__fsetlocking</code> işlevi döndükten sonra akımın kilitlenmesinden kullanıcı sorumlu olur. Durum <a href="glibc-Streams-and-Threads.html#glibc-vr-FSETLOCKING_INTERNAL"><strong class="varname"><code>FSETLOCKING_INTERNAL</code></strong></a> ile ilk durumuna döndürülünceye kadar bunu örtük olarak yapacak hiçbir akım işlemi yoktur.
     </p>
    </div>
    <div class="csynopsis"><div class="cstype">      sabit</div>

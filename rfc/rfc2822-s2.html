@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>2. İletilerin Sözdizimsel Çözümlemesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822-s1.html')">Önceki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2822-s3.html')">Sonraki</button>
+          <div class="dropdown-content">3. Sözdizimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2822-s2">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">2. İletilerin Sözdizimsel Çözümlemesi</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc2822-s21">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.1. Genel Bakış</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+En temel seviyede, bir ileti bir karakter silsilesinden ibarettir. Bu standartla uyumlu bir ileti ise, değerleri 1 ile 127 arasında olan ve US-ASCII karakterleri [<a class="xref" href="rfc2822-s6.html#rfc2822-ASCII" title="Coded Character Set - 7-Bit American National Standard Code for Information Interchange, ANSI X3.4">ASCII</a>] olarak da bilinen karakterlerden oluşur. Anlatışta kısalık için, bu belgenin bazı yerlerinde bu karakter aralığından basitçe "US-ASCII karakterleri" olarak bahsedilecektir.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Bu standart, 1 .. 127 aralığındaki US-ASCII karakterlerinden oluşan iletilerin belirtimidir. Özellikle bu aralığın dışındaki karakterlere izin vererek bu standardı genişleten MIME belge silsilesi [<a class="xref" href="rfc2822-s6.html#rfc2822-RFC2045" title="Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies">RFC2045</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2046" title="Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2047" title="Multipurpose Internet Mail Extensions (MIME) Part Three: Message Header Extensions for Non-ASCII Text">RFC2047</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2048" title="Multipurpose Internet Mail Extensions (MIME) Part Four: Format of Internet Message Bodies">RFC2048</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2049" title="Multipurpose Internet Mail Extensions (MIME) Part Five: Conformance Criteria and Examples">RFC2049</a>] içinde yer alan başka belgeler de vardır. Bu mekanizmaların açıklanması bu standardın kapsamında değildir.
+</p>
+            </div>
+          </div>
+          <p>
+İletiler karakter satırlarına bölünmüştür. Bir satır, satırbaşı ve satırsonu karakterlerinden oluşan iki karakterlik bir dizge ile biten bir karakter silsilesidir; satırı sonlandıran bu iki karakterin, satırbaşı (carriage return - CR) ve satırsonu (line feed - LF) karakterlerinin ASCII değerleri sırayla 13 ve 10 olup bu karakter çifti belge içinde "<code class="literal">CRLF</code>" olarak yazılmış olacaktır.
+</p>
+          <section class="sect3" id="rfc2822-s211">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.1.1. Satır Uzunluğu ve Sınırlar</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Bir satırda bulunması gereken karakterlerin sayısı ile ilgili olarak bu standartta iki sınır vardır. <span class="rfcmust"><code class="literal">CRLF</code> hariç olmak üzere, her satırda olması gereken karakter sayısı 998 karakterden fazla olamaz *ZORUNLU*</span> ve <span class="rfcshould">78 karakterden fazla olmasa iyi olur *ÖNERİ*</span>.
+</p>
+            <p>
+998 karakterlik sınır, Genel Ağ İleti Biçiminde iletiler alan, gönderen veya saklayan gerçeklenimlerden çoğunun basitçe 998 karakterden daha uzun satırlarla çalışamamasından dolayıdır. Alıcı gerçeklenimleri güçlü durmak saiki ile herhangi bir sayıdaki karakter içeren satırlarla çalışabilse iyi olurdu. Bununla birlikte, bir satırda <code class="literal">CRLF</code> dahil 1000 karakterden daha fazlasını kabul etmeyen ([<a class="xref" href="rfc2822-s6.html#rfc2822-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]'deki aktarım gereksinimleriyle uyumluluk adına) o kadar çok gerçeklenim vardır ki, onlar için böyle iletilerin gerçeklenimler tarafından oluşturmaması önemlidir.
+</p>
+            <p>
+Daha kısıtlayıcı olan 78 karakter önerisi ise, uzun satırları sarmalama sonucu kırparak veya bir felakete dönüştürerek gösteren, bir satırda 78 satırdan fazlasını gösteren çoğu kullanıcı arayüzü gerçeklenimi ile, böyle gerçeklenimlerin bu belirtimin (ve bilgi kaybına sebep oluyorlarsa [<a class="xref" href="rfc2822-s6.html#rfc2822-RFC2821" title="Simple Mail Transfer Protocol">RFC2821</a>]'in de) amacına uygun olmayışına rağmen, bağdaşırlığı sağlamak içindir. Tekrar, bu sınırlama iletilere konmuş olmasına rağmen bile, güçlü olmak saikiyle karakter sayısı ne olursa olsun (elbette, eninde sonunda 998 karakterlik sınıra kadar) iletilerin her satırını gösteren gerçeklenimler üzerinde zorlayıcıdır.
+</p>
+          </section>
+        </section>
+        <section class="sect2" id="rfc2822-s22">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.2. Başlık Alanları</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Başlık alanları bir iki nokta üstüste ile biten bir alan ismini izleyen <code class="literal">CRLF</code> ile sonlandırımış başlık gövdesinden oluşan satırlardır. <span class="rfcmust">Bir alan ismi, iki nokta üstüste karakteri hariç, basılabilir US-ASCII karakterlerden (yani, 33 ve 126. karakterler dahil, bunlar arasında kalan karakterler) oluşmalıdır *ZORUNLU*</span>. Bir alan gövdesi ise <code class="literal">CRLF</code> hariç her US-ASCII karakterini içerebilir. Bununla birlikte, <a class="xref" href="rfc2822-s2.html#rfc2822-s223" title="2.2.3. Uzun Başlık Alanları">Uzun Başlık Alanları</a> bölümünde açıklandığı gibi başlık katlandığında ve serildiğinde,  alan gövdesi <code class="literal">CRLF</code> içerebilir. <span class="rfcmust">Tüm alan gövdeleri bu standardın <a class="xref" href="rfc2822-s3.html" title="3. Sözdizimi">Sözdizimi</a> ve <a class="xref" href="rfc2822-s4.html" title="4. Atıl Sözdizimi">Atıl Sözdizimi</a> bölümlerinde açıklanan sözdizimine uygun olmalıdır *ZORUNLU*</span>.
+</p>
+          <section class="sect3" id="rfc2822-s221">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.2.1. Yapısız Başlık Alanı Gövdeleri</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu standartta bazı alan gövdeleri bir kısıtlama olmaksızın basitçe "yapısız" olarak tanımlanmıştır (<code class="literal">CRLF</code> dışında US-ASCII karakterlerini içeren dizgeler olarak aşağıda belirtilmiştir). Bunlara yapısız alan gövdeleri denir. Anlambilimsel olarak, "yapısız" alan gövdeleri hiçbir işleme tabi tutulmaksızın (<a class="xref" href="rfc2822-s2.html#rfc2822-s223" title="2.2.3. Uzun Başlık Alanları">Uzun Başlık Alanları</a> bölümünde açıklanan başlıklara katlama ve serme uygulamaksızın) basitçe tek bir satır olarak ele alınırlar.
+</p>
+          </section>
+          <section class="sect3" id="rfc2822-s222">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.2.2. Yapılı Başlık Alanı Gövdeleri</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu standartta bazı alan gövdeleri, yukarıda açıklanan yapısız alan gövdelerinden daha kısıtlayıcı olan belirli bir sözdizimsel yapıya sahiptir. Bunlara "yapılı" alan gövdeleri denir. Yapılı alan gövdeleri, bu standardın <a class="xref" href="rfc2822-s3.html" title="3. Sözdizimi">Sözdizimi</a> ve <a class="xref" href="rfc2822-s4.html" title="4. Atıl Sözdizimi">Atıl Sözdizimi</a> bölümlerinde açıklandığı gibi belirli bir sözdizimsel dizgecikler silsilesidir. Bu dizgeciklerin çoğunun açıklamalarla (<a class="xref" href="rfc2822-s32.html#rfc2822-s323" title="3.2.3. Boşlukların ve Açıklamaların Katlanması">Boşlukların ve Açıklamaların Katlanması</a> bölümünde açıklandığı gibi), boşluk ve yatay sekme (ASCII değerleri sırayla 32 ve 9) karakterleriyle (belgenin devamında kısaca <code class="literal">BOŞLUK</code> olarak atıfta bulunulacaktır) başlamasına ve bitmesine izin verilir (sözdizimleri gereği). Bu <code class="literal">BOŞLUK</code> karakterleri ayrıca, <a class="xref" href="rfc2822-s2.html#rfc2822-s223" title="2.2.3. Uzun Başlık Alanları">Uzun Başlık Alanları</a> bölümünde açıklanan başlık katlama ve sermenin de konusudur. Yapılı alan gövdelerinin anlambilimsel çözümlemesi sözdizimleri ile birlikte verilmiştir.
+</p>
+          </section>
+          <section class="sect3" id="rfc2822-s223">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h4 class="title">2.2.3. Uzun Başlık Alanları</h4>
+                </div>
+              </div>
+            </div>
+            <p>
+Her başlık alanı mantıksal olarak, başlık ismi, iki nokta imi ve alan gövdesinden oluşan tek bir satırdır. Uzlaşımsal olarak, yine de ve her satırdaki 998/78 karakterlik sınırlamalarla birlikte, bir başlık alanının başlık gövdesini oluşturan bölümü çok satırlı gösterime bölünebilir; buna "katlama" denir. Genel kural olarak bu standardın her yerinde, boşluk karakterlerinin öncesine ve sonrasına <code class="literal">CRLF</code> yerleştirerek boşluk karakterlerinin (sadece <code class="literal">BOŞKRK</code> ve <code class="literal">YSEK</code> değil) katlanmasına izin verilmiştir. Örneğin, şöyle bir başlık alanı:
+</p>
+            <p>
+     </p>
+            <pre class="literallayout monospaced">
+    Subject: Bu bir denemedir
+</pre>
+            <p>
+    </p>
+            <p>
+böyle görünebilir:
+</p>
+            <p>
+     </p>
+            <pre class="literallayout monospaced">
+    Subject: Bu
+    bir denemedir
+</pre>
+            <p>
+    </p>
+            <div class="admon note">
+              <h3 class="admon-title">Bilginize</h3>
+              <div class="admon-contents">
+                <p>
+Yapılı alan gövdelerinin tanımı gereği, katlama sözdizimsel dizgeciklere hatta bunlara kendi içlerinde bile uygulanabilir. Bu bakımdan, <span class="rfcshould">katlamanın nispeten yüksek seviyeli sözdizimsel yapılar arasına <code class="literal">CRLF</code> yerleştirmekle sınırlanması gerekir *ÖNERİ*</span>. Yani, örneğin, bir alan gövdesi virgül ayraçlı değerler olarak tanımlanmışsa, katlamanın başka yerlerde de yapılmasına izin verilmiş olsa bile virgülle ayrılarak yapılandırılmış her öğeden sonra yapılmasının tercih edilmesi önerilir.
+</p>
+              </div>
+            </div>
+            <p>
+Katlamanın sonucu olarak bu çok satırlı gösterimin tek satırlı gösterime dönüştürülmesi işlemine "serme" adı verilir. Serme işlemi basitçe boşlukları izleyen <code class="literal">CRLF</code> karakterlerinin silinmesinden başka birşey değildir. Her başlık alanı sözdizimsel ve anlambilimsel değerlendirmeye tabi tutulurken serme uygulanmış biçimiyle ele alınmalıdır.
+</p>
+          </section>
+        </section>
+        <section class="sect2" id="rfc2822-s23">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">2.3. Gövde</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+İleti gövdesi basitçe US-ASCII karakterlerden oluşan satırlardan oluşur. Gövde ile ilgili sadece iki sınırlama vardır:
+</p>
+          <div>
+            <ul class="simplelist">
+              <li class="member"><span class="rfcmust"><code class="literal">CR</code> ve <code class="literal">LF</code> karakterleri sadece <code class="literal">CRLF</code> şeklinde birleşik olarak kullanılabilir *ZORUNLU*; gövdede tek başlarına yer alamaz *ZORUNLU*</span>.
+</li>
+              <li class="member">
+<span class="rfcmust">Gövdenin karakter içeren satırlarının uzunlukları, satırı sonlandıran <code class="literal">CRLF</code> hariç 998 karakterden uzun olamaz *ZORUNLU*</span> ve <span class="rfcshould">78 karakterden uzun olmasa iyi olur *ÖNERİ*</span>.
+</li>
+            </ul>
+          </div>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Evvelce bahsedildiği gibi, özellikle, ileti gövdelerinin farklı çeşitlerini mümkün kılarak bu standardı genişleten, MIME belgeleri [<a class="xref" href="rfc2822-s6.html#rfc2822-RFC2045" title="Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies">RFC2045</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2046" title="Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2048" title="Multipurpose Internet Mail Extensions (MIME) Part Four: Format of Internet Message Bodies">RFC2048</a>, <a class="xref" href="rfc2822-s6.html#rfc2822-RFC2049" title="Multipurpose Internet Mail Extensions (MIME) Part Five: Conformance Criteria and Examples">RFC2049</a>] gibi, başka standart belgeleri de bulunmaktadır. Tekrar belirtelim ki, bu mekanizmalar bu belgenin kapsamında değildir.
+</p>
+            </div>
+          </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

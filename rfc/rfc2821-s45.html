@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.5. Gerçeklenimle İlgili Ek Hususlar</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s44.html')">Önceki</button>
+          <div class="dropdown-content">4.4. İzleme Bilgisi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s4.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s5.html')">Sonraki</button>
+          <div class="dropdown-content">5. Adres Çözümleme ve Posta Yönetimi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s45">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">4.5. Gerçeklenimle İlgili Ek Hususlar</h3>
+            </div>
+          </div>
+        </div>
+        <section class="sect3" id="rfc2821-s451">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.5.1. Asgari Gerçeklenim</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+SMTP'yi tüm alıcılar için çalışır kılmak için, aşağıdaki asgari gerçeklenim gereklidir. <span class="rfcmust">Aşağıdaki komutların bu belirtimle uyumlu olmak için desteklenmesi gerekir *ZORUNLU*</span>.
+</p>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+    EHLO
+    HELO
+    MAIL
+    RCPT
+    DATA
+    RSET
+    NOOP
+    QUIT
+    VRFY
+</pre>
+          <p>
+    </p>
+          <p><span class="rfcmust">Posta röleleme ve teslimatını destekleyen bir SMTP sunucusu içeren her sistemin harf büyüklüğüne duyarsız bir yerel isim olarak "<code class="literal">postmaster</code>" adına ayrılmış bir posta kutusunu desteklemesi gerekir *ZORUNLU*</span>. Eğer sunucu bağlantı açılışında (<a class="xref" href="rfc2821-s31.html" title="3.1. Oturum İlklendirme">Oturum İlklendirme</a> bölümünde açıklandığı gibi) daima 554 döndürüyorsa, bu <code class="literal">postmaster</code> adresi mutlaka gerekli değildir. <span class="rfcmust"><code class="literal">Postmaster</code> için posta kabul etme gereksinimi, SMTP sunucusunun posta hizmeti verdiği her alan adı için bir <code class="literal">postmaster</code> posta kutusu belirtilen <code class="code">RCPT</code> komutları ile "<code class="code">RCPT</code><code class="literal"> TO:&lt;Postmaster&gt;</code>" şeklindeki (alan belirtilmeksizin) özel durumun desteklenmesi gerektiği *ZORUNLU*</span>, anlamına gelir.
+</p>
+          <p>
+SMTP sistemlerinin, Genel Ağ üzerindeki herhangi bir sistemden <code class="literal">postmaster</code>'a doğrudan posta kabul edilmesi için makul her türlü çabayı göstereceği umulur. Bazı uç durumlarda, örneğin, bir hizmet reddi saldırısı veya diğer güvenliği kırma saldırılarının olduğu durumlarda, bir SMTP sunucusu <code class="literal">postmaster</code>'a gelen postayı engelleyebilir. Bununla birlikte, <span class="rfcshould">bu tür saldırıların bir parçası olmayan iletilerin de engellenmemesi için böyle düzenlemelerin kapsamı oldukça dar tutulmalıdır *ÖNERİ*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s452">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.5.2. Şeffaflık</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Veri şeffaflığı için gerekli bazı önlemleri almaksızın "<code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code>" karakter dizisi posta metnini bitirir ve kullanıcı tarafından gönderilemez. Genelde,  kullanıcıların bazı " yasaklanmış" dizilimlerden haberleri yoktur. Tüm kullanıcılarca oluşturulan metinlerin şeffaf olarak aktarılabilmesini mümkün kılmak için şu yöntemler kullanılır:
+</p>
+          <div class="itemizedlist">
+            <ul class="itemizedlist" style="list-style-type: disc; ">
+              <li class="listitem">
+                <p>
+Posta metninin bir satırını göndermeden önce, SMTP istemcisi satırın ilk karakterine bakar. Bir nokta ise, onun yanına, satırın başına bir nokta daha konur.
+</p>
+              </li>
+              <li class="listitem">
+                <p>
+SMTP sunucusu posta metninin bir satırını aldığında satıra bakar. Satırın tamamı tek bir noktadan oluşmuşsa, bu satır posta sonu belirteci olarak ele alınır. Eğer ilk karakter bir nokta olduğu halde satırın devamında başka karakterler varsa ilk karakter silinir.
+</p>
+              </li>
+            </ul>
+          </div>
+          <p>
+Posta verisi, 128 ASCII karakterinin herhangi birini içerebilir. Boşluklar, dikey ve yatay sekmeler ile diğer kontrol karakterleri de dahil olmak üzere tüm karakterler alıcının posta kutusuna (bir yoruma konu edilmeksizin) teslim edilmek içindir. Eğer aktarım kanalı veri akımını 8 bitlik baytlarla (sekizli) sağlıyorsa, 7 bitlik ASCII kodları sekizlilerde sağa yanaştırılıp en anlamlı bitleri sıfır yapılarak iletilir. Bir röleleme işlevi sunan SMTP sistemlerinde bu durumlar <a class="xref" href="rfc2821-s37.html" title="3.7. Röleleme">Röleleme</a> bölümünde özelikle ele alınmıştır.
+</p>
+          <p>
+Bazı sistemlerde veriyi alınıp saklanmış gibi dönüştürmek gerekli olabilir. Yerel karakter kümesi olarak ASCII'den farklı bir karakter kümesi kullanan, veriyi dizgeler halinde değil kayıtlar halinde saklayan veya posta kutularının içinde ayraç olarak özel karakter dizilimleri kullanan konaklar için bu gerekli olabilir. <span class="rfcmust">Eğer böyle dönüşümler gerekliyse, bunlar geri alınabilir olmalıdır *ZORUNLU*</span>; özellikle de, rölelenen postaya uygulanmışsa.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s453">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.5.3. Boyutlar ve Zamanaşımları</h4>
+              </div>
+            </div>
+          </div>
+          <section class="sect4" id="rfc2821-s4531">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.5.3.1. Boyut sınırları ve asgari değerler</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Azami ve/veya asgari boyutları olması gereken bazı nesneler vardır. <span class="rfcmust">Her gerçeklenimin nesneleri en azından bu boyutlarda almasının mümkün olması gerekir *ZORUNLU*</span>. <span class="rfcshould">Bu boyutlardan daha büyük nesnelerden olabildiğince kaçınılmalıdır *ÖNERİ*</span>. Bununla birlikte, kodlanmış X.400  adresleri [<a class="xref" href="rfc2821-s9.html#rfc2821-bib16" title="Mapping between X.400 and RFC822/MIME">16</a>] gibi sıklıkla daha geniş nesneler gerektiren bazı Genel Ağ posta oluşumları vardır: <span class="rfcmaybe">istemciler bunları aktarmaya çalışabilir *SEÇİMLİK*</span>, <span class="rfcmust">fakat onları işleme alamıyacak bir sunucu tarafından reddedilmelerine karşı da hazırlıklı olmalıdır *ZORUNLU*</span>. Azami genişleme olasılığı için, bu nesnelerin uzunluğu ile ilgili bir sınır koymayan gerçeklenim teknikleri kullanılmalıdır.
+</p>
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt>
+                  <span class="term">yerel-kısım</span>
+                </dt>
+                <dd>
+                  <p>
+Bir kullanıcı isminin veya bir yerel-kısım'ın toplam uzunluğu en çok 64 karakter olabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">alan</span>
+                </dt>
+                <dd>
+                  <p>
+Bir alan isminin veya numarasının toplam uzunluğu en çok 255 karakter olabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">yol</span>
+                </dt>
+                <dd>
+                  <p>
+Bir dönüş veya sevk yolunun toplam uzunluğu en çok 256 karakter olabilir (noktalama imlerini ve bileşen ayraçlarını içererek).
+</p>
+                </dd>
+                <dt>
+                  <span class="term">komut satırı</span>
+                </dt>
+                <dd>
+                  <p>
+Komut sözcüğünü ve <code class="literal">&lt;CRLF&gt;</code>'yi içererek bir komut satırının toplam uzunluğu en çok 512 karakter olabilir. Bu sınırı arttırmak için SMTP eklentileri kullanılabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">yanıt satırı</span>
+                </dt>
+                <dd>
+                  <p>
+Yanıt kodunu ve <code class="literal">&lt;CRLF&gt;</code>'yi içererek bir yanıt satırının toplam uzunluğu en çok 512 karakter olabilir. Daha fazla bilgi çok satırlı yanıtlarla taşınabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">metin satırı</span>
+                </dt>
+                <dd>
+                  <p><code class="literal">&lt;CRLF&gt;</code>'yi içererek bir metin satırının toplam uzunluğu en çok 1000 karakter olabilir (şeffaflık açısından uçlardaki nokta tekrarları sayılmaz). Bu miktar SMTP Hizmet Eklentileri kullanarak arttırılabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">ileti içeriği</span>
+                </dt>
+                <dd>
+                  <p><span class="rfcmust">Bir ileti içeriğinin (ileti başlıklarını da içererek ileti gövdesinin) toplam uzunluğu hiç olmazsa (bari, en azından) [at least] 64K sekizli olmalıdır *ZORUNLU*</span>. Çoklu ortam postası Genel Ağ standartlarına [<a class="xref" href="rfc2821-s9.html#rfc2821-bib12" title="Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies">12</a>] girdiğinden beri, Genel Ağ'da ileti uzunlukları çarpıcı biçimde büyümektedir. Bu bakımdan ileti boyu sınırlamalarından mümkün olduğunca kaçınılmalıdır. <span class="rfcshould">Sınırlamaları zorlamak isteyen SMTP sunucu sistemleri "BOYUT" hizmet eklentisini [<a class="xref" href="rfc2821-s9.html#rfc2821-bib18" title="STD 10, SMTP Service Extension for Message Size Declaration">18</a>] gerçeklemelidir *ÖNERİ*</span>.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">alıcılar tamponu</span>
+                </dt>
+                <dd>
+                  <p>
+Tamponlanması gereken alıcıların toplam sayısı en az 100 olabilir. 100 <code class="code">RCPT</code> komutundan daha azından sonraki alıcılar için iletilerin reddedilmesi bu belirtime uyulmadığı anlamına gelir. Genelde prensip olarak, <span class="rfcmust">röleleyen SMTP sunucuları için zorunlu olarak *ZORUNLU*</span> ve <span class="rfcshould">teslimat SMTP sunucuları için öneri olarak *ÖNERİ*</span>, bir iletinin alıcılarının toplam sayısına bağlı olarak reddildiğini ima eden ileti başlıkları üzerinde doğrulama denemeleri yapılmaması gerekir. <span class="rfcmust">Alıcı sayısına bir sınır koyan bir sunucu alıcıları sıralı bir tarzda ele almalı, örneğin, sınırı aşan adresleri reddetmeli ama evvelce kabul edilmiş adresleri sonraya kalmış gibi reddetme yoluna gitmemelidir *ZORUNLU*</span>. Eğer sunucu tek bir iletide 100 alıcıdan fazlasını kabul etmeyi tavsatıyorsa, istemci, 100'den fazla <code class="code">RCPT</code> komutu gerektiren bir iletinin teslimatını 100 alıcılık iletiler halinde yapmak için hazırlıklı olmalıdır.
+</p>
+                </dd>
+              </dl>
+            </div>
+            <p>
+Bu sınırların aşılmasından dolayı oluşan hatalar yanıt kodları kullanılarak raporlanabilir. Bazı yanıt kodu örnekleri:
+</p>
+            <p>
+      </p>
+            <pre class="screen">500 Satır çok uzun.</pre>
+            <p>
+     </p>
+            <p>veya</p>
+            <p>
+      </p>
+            <pre class="screen">501 Yol çok uzun</pre>
+            <p>
+     </p>
+            <p>veya</p>
+            <p>
+      </p>
+            <pre class="screen">452 Alıcılar çok fazla (aşağıya bakınız)</pre>
+            <p>
+     </p>
+            <p>ya da</p>
+            <p>
+      </p>
+            <pre class="screen">552 Posta verisi çok fazla.</pre>
+            <p>
+     </p>
+            <p>
+RFC 821 [<a class="xref" href="rfc2821-s9.html#rfc2821-bib30" title="Simple Mail Transfer Protocol">30</a>] bir hatayı yanlış listelemiştir: <code class="code">RCPT</code> komutlarının miktarıyla ilgili gerçeklenim sınırından dolayı yetersiz kalan bir SMTP sunucusunun hatayı ("Alıcılar çok fazla") '552 yanıt koduyla' bildireceği belirtilmiştir. Doğrusu '452 yanıt koduyla' olacaktır. <span class="rfcshould">İstemciler bu durumda bir 552 yanıt kodunu kalıcı değil geçici bir hata durumu olarak ele almalıdır *ÖNERİ*</span>, başarısızlık durumunda aşağıdaki mantık yürütülür.
+</p>
+            <p>
+Belirtimle uyumlu bir SMTP sunucusu bu durumu saptadığında, alıcılar tamponunda en azından 100 başarılı <code class="code">RCPT</code> komutu var demektir. Sunucu iletiyi kabul edebilecekse, en azından 100 adres SMTP istemcisinin kuyruğundan silinmiş olacaktır. 452 yanıtı almış adresleri istemci yeniden aktarmaya çalışırsa, bunların en azından 100 tanesi SMTP sunucusunun alıcılar tamponuna sığabilecektir. Teslim edilecek ne varsa yeniden her aktarma çabasında bu alıcıların en azından 100 tanesinden kurtulmak mümkün olacaktır.
+</p>
+            <p><span class="rfcmust">Bir SMTP sunucusunun <code class="code">RCPT</code> komutlarının sayısına bağlı bir gerçeklenim sınırı varsa ve bu sınıra ulaşılmışsa, sunucu 452 yanıt kodunu kullanmalıdır *ZORUNLU*</span> (fakat, <span class="rfcshould">istemci yukarıda belirtildiği gibi bir 552 yanıtına karşı da hazırlıklı olmalıdır *ÖNERİ*</span>). <span class="rfcmaybe">Eğer sunucu <code class="code">RCPT</code> komutlarının sayısı ile ilgili kural olarak konmuş bir sınırlamaya (gerçeklenimin desteklediğinden az) göre hareket ediyorsa bir 5XX yanıt kodu da kullanabilir *SEÇİMLİK*</span>. Eğer belli bir ileti gövdesi çok sayıda posta aktarımı ile gönderilmiş olsa bile o ileti için bir toplam alıcı sayısı sınırı uygulanabiliyorsa, böyle bir sınırlama en iyisi olurdu.
+</p>
+          </section>
+          <section class="sect4" id="rfc2821-s4532">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.5.3.2. Zamanaşımları</h5>
+                </div>
+              </div>
+            </div>
+            <p><span class="rfcmust">Her SMTP istemcisi bir zamanaşımı mekanizması sağlamalıdır *ZORUNLU*</span>. <span class="rfcmust">Bu mekanizma posta aktarımının tamamına bir şekilde uygulanabilen bir zamanaşımı değil her komut için ayrı ayrı uygulanabilen zamanaşımları kullanmalıdır *ZORUNLU*</span>. <span class="rfcshould">Zamanaşımları, tercihan SMTP kodunu yeniden derlemek gerekmeksizin, yeniden yapılandırılabilir olmalıdır *ÖNERİ*</span>. Bunu gerçeklemek için, her SMTP komutu ve her veri aktarım tamponu için bir zamanlayıcı tahsis edilir. Sonuncusu, aktarımın bütününü kapsayan zamanaşımının ister istemez iletinin boyutuyla orantılı olduğu anlamına gelir.
+</p>
+            <p><span class="rfcshould">Meşgul posta röleleme konakları ile gerçekleştirilen kapsamlı deneyimlere dayanarak, komut başına asgari zamanaşımı değerleri şöyle olmalıdır *ÖNERİ*</span>:
+</p>
+            <div class="glosslist">
+              <dl>
+                <dt>
+                  <span class="glossterm">İlk 220 İletisi: 5 dakika</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+Bir SMTP istemci sürecinin, başarısız bir TCP bağlantısı ile ilk 220 karşılama iletisinin gecikmesi arasındaki farkı ayrımsamaya ihtiyacı vardır. Çoğu SMTP sunucusu bir TCP bağlantısını kabul eder ama sistem yükü başka postaları da işleme almayı mümkün kılana kadar 220 iletisinin teslimatını geciktirir.
+</p>
+                </dd>
+                <dt>
+                  <span class="glossterm">
+       <code class="code">MAIL</code> Komutu: 5 dakika
+       <br /><code class="code">RCPT</code> Komutu: 5 dakika
+       </span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+Postalama listelerinin ve takma adların işlenmesi iletinin kabulü sonrasına ertelenmiyorsa, daha uzun bir zamanaşımı gerekir.
+</p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="code">DATA</code> ilklendirme: 2 dakika</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+Bu, <code class="code">DATA</code> komutuna "354 Girdiyi Başlat" yanıtı beklenirken geçen süredir.
+</p>
+                </dd>
+                <dt>
+                  <span class="glossterm">Veri Bloku: 3 dakika</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+Veri kısım kısım aktarılırken her TCP GÖNDER çağrısının tamamlanması için geçmesi beklenecek süredir.
+</p>
+                </dd>
+                <dt>
+                  <span class="glossterm"><code class="code">DATA</code> sonlandırma: 10 dakika.</span>
+                </dt>
+                <dd class="glossdef">
+                  <p>
+Bu, "250 OK" yanıtı beklenirken geçen süredir. Alıcı ileti verisini sonlandıran son noktayı aldığında, genellikle iletinin kullanıcının posta kutusuna teslimini gerçekleştirir. Bu noktada taklit bir zamanaşımı, ileti gönderilmiş ve sunucu teslimatın sorumluluğunu zaten kabul etmiş olduğundan çok yıkıcı olurdu ve genelde aynı iletinin çok sayıda kopyasının teslimi ile sonuçlanırdı. Bu konu ile ilgili olarak <a class="xref" href="rfc2821-s6.html#rfc2821-s61" title="6.1. Güvenilir Teslimat ve Eposta Yanıtları">Güvenilir Teslimat ve Eposta Yanıtları</a> bölümüne de bakınız.
+</p>
+                </dd>
+              </dl>
+            </div>
+            <p><span class="rfcshould">Bir SMTP sunucusu göndericiden gelecek bir sonraki komutu en az 5 dakika beklemelidir *ÖNERİ*</span>.
+</p>
+          </section>
+        </section>
+        <section class="sect3" id="rfc2821-s454">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.5.4. Yanıt Stratejileri</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir konak SMTP gerçekleniminin bilinen yapısı kullanıcı posta kutuları, gelip geçen iletileri kuyruğa almak için bir veya daha fazla alan ile posta alımı ve gönderimi için çalışan bir veya daha fazla artalan sürecinden oluşur. Kesin yapı konak üzerindeki kullanıcıların ihtiyaçları ile konak tarafından desteklenen posta listelerinin boyutlarına ve sayısına bağlı olarak değişir. Özellikle yüksek trafik seviyelerini destekleyen postacılar için yardımcı olduğu kanıtlanmış çeşitli eniyilemeleri açıklayacağız.
+</p>
+          <p><span class="rfcmust">Her kuyruklama stratejisi her türlü etkinliğin zamanaşımını her komuta özel olarak ele almalıdır *ZORUNLU*</span>. <span class="rfcmust">Bir kuyruklama stratejisi ne olursa olsun hata iletilerine yanıt olarak hata iletileri göndermemelidir *ZORUNLU*</span>.
+</p>
+          <section class="sect4" id="rfc2821-s4541">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.5.4.1. Gönderme Stratejisi</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bir SMTP istemcisinin genel modeli giden postayı aktarmaya çalışan bir veya daha fazla süreçten oluşur. <span class="rfcmust">Ortalama bir sistemde, bir iletiyi oluşturan program, hemen aktarılamayıp kuyruğa alınıp belirli aralıklarla tekrar gönderilmeye çalışılmalıyken *ZORUNLU*</span>,  giden postanın yeni bir parçasının hemen dikkate alınmasını talep eden bir yönteme sahiptir. Bir posta kuyruğu girdisi iletinin kendisinden başka zarf bilgisini de içerecektir.
+</p>
+            <p><span class="rfcmust">Belli bir hedef için bir çaba başarısız olduktan sonra çabayı yinelemek için bir süre beklenmelidir *ZORUNLU*</span>. Genelde, <span class="rfcshould">yineleme aralığı en azından 30 dakika olmalıdır *ÖNERİ*</span>; bununla birlikte, SMTP istemcisi teslimat yapılmaması için sebep saptayabildiği zaman, daha karmaşık ve değişken stratejilerin yararı olacaktır.
+</p>
+            <p>
+İleti aktarılana veya gönderici vazgeçene kadar yineleme devam eder; vazgeçme süresinin genelde en azından 4-5 gün olması gerekir. <span class="rfcmust">Yineleme algoritmasının bağımsız değişkenleri yapılandırılabilir olmalıdır *ZORUNLU*</span>.
+</p>
+            <p><span class="rfcshould">Bir istemci kuyruklu posta öğelerini salt tekrar göndermeye çalışmaktan çok, ulaşamadığı konakların ve ilgili bağlantı zamanaşımlarının bir listesini tutması gerekir *ÖNERİ*</span>.
+</p>
+            <p>
+Deneyimler bu başarısızlıkların genellikle geçici olduğunu (hedef sistem ya da bağlantı çökmüştür), kuyruktaki iletiyi göndermek için ilk saatte iki, daha sonra ise iki veya üç saatte bir bağlantı kurmaya çalışmak şeklinde bir kuralın lehte olacağını göstermiştir.
+</p>
+            <p>
+SMTP istemcisi, SMTP sunucusu ile anlaşarak kuyruklama gecikmesini kısaltabilir. Örneğin, posta belli bir adresten alınmışsa, posta onu hemen gönderebilecek konak için kuyruğa alınmış gibi ele alınabilir. Bu prensibin uygulaması, çoğu durumda, ETRN [<a class="xref" href="rfc2821-s9.html#rfc2821-bib9" title="SMTP Service Extension for Remote Message Queue Starting">9</a>] gibi apaçık bir "kuyruktakileri hemen gönder" işlevi için gereksinimi ortadan kaldırabilir.
+</p>
+            <p>
+Strateji, çok sayıda adresin her konak başına özkaynak kullanımını (teslimat zamanı gibi) eniyileme gereğinin bir sonucu olarak böyle değiştirilmiş olabilir.
+</p>
+            <p>
+Bir SMTP istemcisinin erişilemeyen hedef konakların her biri için dev bir ileti kuyruğu olabilir. Bu iletilerin tümü her yineleme döngüsünde yineleniyorsa, Genel Ağ'a haddinden fazla yük bindirebilir ve gönderen sistem uzun bir süre boyunca engellenebilir. Bir SMTP istemcisinin, bir teslimat çabasının başarısız olacağını, aynı konak için kuyruklanmış iletilerin düzinelerce hatta yüzlercesinin tekrar tekrar yinelenmesi halinde bağlantı başına bırakın bir kaç dakikalık sadece tek bir dakikalık zamanaşımının bile çok büyük bir gecikmeyle sonuçlanacağını saptayabileceğine dikkat ediniz.
+</p>
+            <p>
+Aynı zamanda, <span class="rfcshould">SMTP istemcileri sunuculardan gelen olumsuz yanıtları arabelleğe alırken büyük dikkat sarfetmelidir *ÖNERİ*</span>. Çok uç bir durumda, aynı SMTP bağlantısı sırasında <code class="code">EHLO</code> komutu defalarca kullanılmışsa, sunucudan farklı yanıtlar dönebilir. Daha manidar olarak, <span class="rfcmust"><code class="code">MAIL</code> komutuna verilen <code class="literal">5</code><em class="replaceable"><code>yz</code></em> yanıtları arabelleğe alınmamalıdır *ZORUNLU*</span>.
+</p>
+            <p><span class="rfcshould">Bir posta iletisi çok sayıda alıcıya teslim edilecekse ve bunlardan bir kısmı tek bir SMTP sunucusundaysa, bu sunucuya iletinin sadece tek bir kopyası aktarılmalıdır *ÖNERİ*</span>. Yani, SMTP istemcisi böyle bir komut dizisi yerine:
+</p>
+            <p><code class="code">MAIL</code>, <code class="code">RCPT</code>, <code class="code">DATA</code>, ..., <code class="code">MAIL</code>, <code class="code">RCPT</code>, <code class="code">DATA</code></p>
+            <p>
+böyle bir komut dizisini kullanmalıdır:
+</p>
+            <p><code class="code">MAIL</code>, <code class="code">RCPT</code>, <code class="code">RCPT</code>,... <code class="code">RCPT</code>, <code class="code">DATA</code>.
+</p>
+            <p>
+Yine de, <span class="rfcmaybe">çok fazla adres varsa, <code class="code">MAIL</code> komutu başına <code class="code">RCPT</code> komutu sayısına bir sınırlama getirilebilir *SEÇİMLİK*</span>. Bu verimli özelliğin gerçeklenmesi kesinlikle önerilmektedir.
+</p>
+            <p>
+Benzer şekilde, <span class="rfcmaybe">teslimatlarda tam zamanındalığın sağlanması için, SMTP istemcisi aynı anda çok sayıda giden posta aktarımını destekleyebilir *SEÇİMLİK*</span>. Bununla birlikte, bütün kaynakların postaya tahsis edilmesinden korunmayı sağlayacak bir sınırlama uygun olabilir.
+</p>
+          </section>
+          <section class="sect4" id="rfc2821-s4542">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.5.4.2. Alım Stratejisi</h5>
+                </div>
+              </div>
+            </div>
+            <p><span class="rfcshould">SMTP sunucusu her zaman SMTP portunu dinlemeyi sürdürmeye çalışmalıdır *ÖNERİ*</span>. Bu, SMTP için gelen çok sayıda TCP bağlantısının desteklenmesini gerektirir. <span class="rfcmaybe">Bazı sınırlar konulabilir *SEÇİMLİK*</span>, fakat aynı anda birden fazla SMTP aktarımını kabul edemeyen sunucular bu belirtimin amacıyla uyumlu değildir.
+</p>
+            <p>
+Yukarıda bahsedildiği gibi SMTP sunucu postayı belli bir konak adresinden almaktayken bu konak adresi için bekleyen bir postayı yineleyebilmek için kendi SMTP kuyruklama mekanizmasını etkinleştirebilir.
+</p>
+          </section>
+        </section>
+        <section class="sect3" id="rfc2821-s455">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.5.5. Dönüş yolu boş olan iletiler</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Mevcut standartlardan başka standart adayı belirtimlerin de gerektirdiği boş dönüş yolu ile gönderilecek çeşitli uyarı türleri vardır. Bunlar arasında <a class="xref" href="rfc2821-s37.html" title="3.7. Röleleme">Röleleme</a> bölümünde açıklanan "teslimatı yapılamayan posta" uyarısı iletisi, Teslimat Durum Bildirimleri (Delivery Status Notifications - DSN'ler) [<a class="xref" href="rfc2821-s9.html#rfc2821-bib24" title="SMTP Service Extension for Delivery Status Notifications">24</a>] ve İleti Elverişlilik Bildirimleri (Message Disposition Notifications - MDN'ler)[<a class="xref" href="rfc2821-s9.html#rfc2821-bib10" title="An Extensible Message Format for Message Disposition Notifications">10</a>] başlıcalarıdır. Tüm bu ileti çeşitleri önceki bir posta iletisi hakkında birer bildirimdir ve önceki posta iletisinin dönüş yoluna gönderilir. (Eğer böyle bir bildirim iletisi teslim edilemezse, bu, bildirim iletisinin adreslendiği konağın posta sistemi ile ilgili bir sorunun olduğunu gösterir. Bu sebeple bazı konaklarda MTA,  böyle başarısız bildirim iletilerinin sevkedileceği, posta sistemi ile ilgili sorunları giderebilen birilerine, örneğin, <code class="literal">postmaster</code> takma adı kullanılarak, yönlendirilmiş bir posta kutusuna sahiptir. )
+</p>
+          <p><span class="rfcshould">Tüm diğer ileti türleri (yani, boş bir dönüş yoluna sahip olması standartlaşma aşamalarındaki bir RFC tarafından gerekli görülmemiş her ileti), boş olmayan geçerli bir dönüş yolu ile gönderilmelidir *ÖNERİ*</span>.
+</p>
+          <p>
+Özdevinimlileştirilmiş eposta işlemcilerinin gerçeklenimcileri boş dönüş yolu içeren ileti çeşitlerini işleme sokarken dikkatli olmalı, özellikle de <span class="rfcshould">böyle sistemler boş dönüş yolu içeren iletileri yanıtlamamalıdır *ÖNERİ*</span>.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

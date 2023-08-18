@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.8. Arayüzler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s37.html')">Önceki</button>
+          <div class="dropdown-content">3.7. Veri İletişimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s39.html')">Sonraki</button>
+          <div class="dropdown-content">3.9. Olay İşleme</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s38">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.8. Arayüzler</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Şüphesiz işin iki arayüzü vardır: kullanıcı/TCP arayüzü ve TCP/düşük seviye arayüzü. Kullanıcı/TCP arayüzünün tarafsız olarak özenle hazırlanmış bir modeline sahibiz, fakat düşük seviyeli protokolle olan arayüzü, o protokolün belirtimi tarafından belirtileceğinden burada belirtmeden bırakacağız. Daha düşük seviyeli protokolün IP olduğu durumda, TCP'lerin kullanabileceği bazı bağımsız değişken değerlerine dikkat çekeceğiz.
+</p>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.8.1. Kullanıcı/TCP Arayüzü</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP için kullanıcı komutlarının aşağıdaki işlevsel açıklamaları, her işletim sistemi farklı oluşumlara sahip olacağından, olsa olsa kurgusaldır. Bu bakımdan, okuyucuyu farklı TCP gerçeklenimlerinin farklı kullanıcı arayüzleri olacağı konusunda uyarmamız gerekir. Yine de, tüm TCP gerçeklenimlerinin aynı protokol hiyerarşisini destekleyebilmesini garantiye almak için tüm TCP'lerin küçük de olsa aynı ortak hizmet kümesini barındırması gerekir. Bu bölümde tüm TCP gerçeklenimlerinin bulundurması gerektiği işlevsel arayüzler belirtilmiştir.
+</p>
+          <section class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">3.8.1.1. TCP Kullanıcı Komutları</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Aşağıdaki bölümler işlevsel olarak bir Kullanıcı/TCP arayüzünü betimler. Kullanılan sözdizimi daha çok yüksek seviyeli dillerdeki işlev veya yöntem çağrılarınınkine benzemekle birlikte, bu kullanım tuzak türü hizmet çağrılarının (SVC'ler, UUO'lar, EMT'ler gibi) hariç tutulduğu anlamına gelmez.
+</p>
+            <p>
+Aşağıda açıklanan kullanıcı komutları TCP'nin süreçler arası iletişimi desteklemek için uygulaması gereken temel işlevleri belirtir. Gerçeklenimlerin her biri bunların kendilerine özgü  biçimlerini tanımlamalı ve temel işlevleri birarada veya bir alt küme olarak sağlamalıdır. Kısmen, bazı gerçeklenimler belli bir bağlantıda kullanıcı tarafından yapılan ilk <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> çağrısıyla bir bağlantının kendiliğinden <span class="command"><strong>AÇ</strong></span>ılmasını isteyebilir.
+</p>
+            <p>
+Süreçler arası iletişim oluşumlarını sağlamada, TCP sadece komutları kabul etmekle kalmamalı ek olarak hizmet sunduğu sürece bilgi de döndürmelidir. Sonuncusu şunlardan oluşur:
+</p>
+            <div class="orderedlist">
+              <ol class="orderedlist" type="a">
+                <li class="listitem">
+                  <p>
+bir bağlantı hakkında genel bilgi (kesmeler, uzaktan kapanma, belirsiz yabancı soketlerin bağlanması gibi).
+</p>
+                </li>
+                <li class="listitem">
+                  <p>
+kullanıcı komutlarına özgü başarı veya çeşitli türde başarısızlık belirten dönüşler..
+</p>
+                </li>
+              </ol>
+            </div>
+            <div class="variablelist">
+              <dl class="variablelist">
+                <dt>
+                  <span class="term">
+        <code class="literal">AÇ</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>AÇ </strong></span>(<em class="emphasis">yerel-port</em>, <em class="emphasis">yabancı-soket</em>, <em class="emphasis">etkin/edilgen</em>
+     [, <em class="emphasis">zaman aşımı</em>] [, <em class="emphasis">öncelik</em>] [, <em class="emphasis">güvenlik/bölüm</em>] [, <em class="emphasis">seçenekler</em>])
+  -&gt; <em class="emphasis">yerel-bağlantı-ismi</em>
+</pre>
+                  <p>
+        </p>
+                  <p>
+Burada yerel TCP'nin hizmet verdiği sürecin farkında olduğunu ve belirtilen bağlantıyı kulanacak olan sürecin yetkili olup olmadığını sınayabileceğini farzediyoruz. TCP'nin gerçeklenime bağlı olarak yerel ağ ve kaynak adresi için TCP tanıtları ya TCP ya da düşük seviyeli protokol (IP gibi) tarafından sağlanır. Bu değerlendirmeler güvenlik kaygısının sonucudur, o kadar ki, hiçbir TCP'nin bir diğeri gibi davranması mümkün değildir. Benzer şekilde, hiçbir süreç TCP'nin hoşgörüsü olmaksızın başka bir süreç gibi davranamaz.
+</p>
+                  <p><code class="varname">etkin/edilgen</code> seçeneği edilgen olarak belirtilirse bu, gelen bir bağlantı için bir <code class="literal">DİNLE</code> çağrısıdır. Bir edilgen açık ya belli bir bağlantıyı bekleyen tamamen belirli bir yabancı soketin ya da herhangi bir bağlantıyı bekleyen belirsiz bir yabancı soketin varlığı ile tanınır. Tamamen belirli bir edilgen çağrı ardından bir <span class="command"><strong>GÖNDER</strong></span> çalıştırılarak etkin yapılabilir.
+</p>
+                  <p>
+Bir aktarım denetim bloğu (ADB) oluşturulur ve <span class="command"><strong>AÇ</strong></span> komutunun bağımsız değişkenlerindeki veri ile kısmen doldurulur.
+</p>
+                  <p>
+Etkin bir <span class="command"><strong>AÇ</strong></span> komutunda TCP bağlantıyı eşzamanlama işlemini hemen başlatacaktır.
+</p>
+                  <p>
+Bir zaman aşımı varsa, çağrıcının TCP'ye teslim edilen tüm veri için bir zaman aşımı belirlemesini sağlar. Eğer veri zaman aşımı süresinde hedefe başarıyla teslim edilmezse TCP bağlantıyı terkedecektir. Şimdiki genel öntanımlı zaman aşımı değeri beş dakikadır.
+</p>
+                  <p>
+TCP veya bir işletim sistemi bileşeni, kullanıcıların belirli bir öncelik veya güvenlik/bölüm ile bir bağlantı açma yeterliliğini doğrulayacaktır. <span class="command"><strong>AÇ</strong></span> çağrısında öncelik veya güvenlik/bölüm belirtiminin yokluğu öntanımlı değerlerin kullanılmasının gerektiğini gösterir.
+</p>
+                  <p>
+TCP'nin gelen istekleri kabul etmesi için, güvenlik/bölme bilgilerinin tamamiyle aynı ve önceliğin  <span class="command"><strong>AÇ</strong></span> çağrısında istenen öncelikten büyük veya eşit olması gerekir.
+</p>
+                  <p><span class="command"><strong>AÇ</strong></span> çağrısında istenen ve gelen bir istekten alınan en büyük değerlerden yüksek olanı bağlantının öncelik değeridir ve bağlantının yaşamı boyunca sabittir. Gerçeklenimciler bu öncelik müzakeresinin denetimini kullanıcıya vermeyi isteyebilir. Örneğin, kullanıcıya önceliğin tamamen uyuşması gerektiğini belirtebilmesi veya önceliğin terfisine kullanıcı tarafından onay verilmesi mümkün kılınabilir.
+</p>
+                  <p>
+TCP tarafından kullanıcıya bir yerel bağlantı ismi döndürülür. Yerel bağlantı ismi <code class="literal">&lt;yerel soket, yabancı soket&gt;</code> çifti tarafından tanımlanın bağlantıya bir kısayol olarak kullanılabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">
+        <code class="literal">GÖNDER</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>GÖNDER </strong></span>(<em class="emphasis">yerel-bağlantı-ismi</em>, <em class="emphasis">tampon-adresi</em>, <em class="emphasis">bayt-sayısı</em>,
+      <em class="emphasis">gitsin-bayrağı</em>, <em class="emphasis">aciliyet-bayrağı</em> [,<em class="emphasis">zaman aşımı</em>])
+</pre>
+                  <p>
+        </p>
+                  <p>
+Bu çağrı belirtilen kullanıcı tamponundaki verinin gönderilmesini sağlar. Eğer bağlantı daha önceden açılmamışsa, <span class="command"><strong>GÖNDER</strong></span> çağrısı bir hata olduğunu kabul eder. Bazı gerçeklenimler kullanıcının yaptığı ilk çağrının <span class="command"><strong>GÖNDER</strong></span> çağrısı olmasına izin verir; bu durumda gerçeklenim <span class="command"><strong>AÇ</strong></span> çağrısının yapılmasını kendisi sağlar. Eğer çağıran süreç bu bağlantıyı kullanmaya yetkili değilse bir hata döner.
+</p>
+                  <p>
+Eğer <code class="varname">gitsin-bayrağı</code> belirtilmişse verinin alıcıya hemen aktarılması ve tampondan oluşturulan son TCP veri bölütünde <code class="literal">GİT</code> bitinin etkin olması gerekir. Eğer <code class="varname">gitsin-bayrağı</code> yoksa aktarımın verimliliği adına veri ardışık <span class="command"><strong>GÖNDER</strong></span> çağrılarındaki veriler birleştirilerek aktarılabilir.
+</p>
+                  <p>
+Eğer <code class="varname">aciliyet-bayrağı</code> belirtilmişse hedef TCP'ye gönderilen veri bölütlerinde aciliyet göstericisi bulunur. Alan TCP, eğer acil göstericisinin öncelediği veri alıcı süreç tarafından henüz tüketilmediyse alıcı sürece aciliyet durumunu bildirecektir. Aciliyetin amacı, alıcıyı acil veriyi işleme almaya teşvik etmek ve acil olduğu bilinen tüm veri alındığında bunu alıcıya belirtmektir. Gönderen tarafın TCP'sinin sinyallediği aciliyet sayısının, alan kullanıcının acil verinin varlığını öğrendiği uyarı sayısına eşit olması gerekli değildir.
+</p>
+                  <p><span class="command"><strong>AÇ</strong></span> çağrısında yabancı soket belirtilmemişse fakat bağlantı kurulmuşsa (örn, yerel sokete yabancı bir veri bölütünün gelişinden dolayı <code class="literal">DİNLE</code>nen bağlantının etkin duruma geçmesi), tasarlanan tampon örtük yabancı sokete gönderilir. Belirsiz yabancı soketli <span class="command"><strong>AÇ</strong></span> çağrısı yapan kullanıcılar yabancı soketin adresini bilmeksizin <span class="command"><strong>GÖNDER</strong></span> çağrısı yapabilir.
+</p>
+                  <p>
+Bununla birlikte, yabancı soket belirli duruma gelmeden bir <span class="command"><strong>GÖNDER</strong></span> çağrısı yapılırsa bir hata dönecektir. Kullanıcılar bağlantının durumunu öğrenmek için <span class="command"><strong>DURUM</strong></span> çağrısını kullanabilir. Bazı gerçeklenimlerde TCP belirsiz bir soket bağlandığında kullanıcıyı uyarabilmektedir.
+</p>
+                  <p>
+Bir zaman aşımı belirtilmeşse bağlantıya ait zaman aşımı yerine bu değer kullanılır.
+</p>
+                  <p>
+En basit gerçeklenimde, <span class="command"><strong>GÖNDER</strong></span> çağrısı aktarımı tamamlamadan veya zaman aşımına uğramadan denetimi gönderen sürece bırakmayacaktır. Bununla birlikte bu basit yöntemi iki tarafın aynı anda kullanması kısırdöngüye yol açabileceğinden (örn, her iki taraf da bir <span class="command"><strong>AL</strong></span> çağrısı yapmaksızın <span class="command"><strong>GÖNDER</strong></span> çağrısı deneyebilirler ve ikisi de birbirlerini bekler) bu önerilmez. Biraz daha karmaşık gerçeklenimlerde çağrı beklemeksizin denetimi sürece bırakarak sürecin ağ G/Ç'leri ile eşzamanlı çalışmasını ve dolayısıyla çok sayıda <span class="command"><strong>GÖNDER</strong></span> çağrısının yapılabilmesini mümkün kılar. Çok sayıda <span class="command"><strong>GÖNDER</strong></span> çağrısı ilk gelen ilk gider (FIFO) ilkesiyle işlenir, yani TCP bunları hemen işleme alamaz, kuyruğa ekler.
+</p>
+                  <p>
+Bir <span class="command"><strong>GÖNDER</strong></span> çağrısının sonradan bazı SİNYAL çeşitlerine veya sözde kesmelere yol açması nedeniyle örtük olarak eşzamansız bir kullanıcı arayüzü kabulü yaparız. Diğer bir seçenek hemen bir yanıtın dönmesidir. Örneğin, gönderilen veri bölütü uzak TCP tarafından alındılanmamışken bile <span class="command"><strong>GÖNDER</strong></span> çağrıları beklemeksizin yerel alındılar döndürebilir. İyi niyetli olarak eninde sonunda bir başarının gerçekleşeceğini varsayabiliriz. Eğer biz yanlışsak, bağlantı her halükarda zaman aşımından dolayı kapanacaktır.  Bu çeşit (eşzamanlı) gerçeklenimlerde, hala bazı eşzamansız sinyaller olacaktır fakat bunlar bağlantının kendisi tarafından bertaraf edilecek, veri bölütlerine veya tamponlara etkisi olmayacaktır.
+</p>
+                  <p>
+Sürecin farklı <span class="command"><strong>GÖNDER</strong></span> çağrılarından dönen başarı ve hata belirteçlerini ayırması için çağrılarla ilgili tampon adreslerine bakılır. TCP tarafından kullanıcıya verilen sinyaller, çağıran sürece dönmesi gereken bilgi belirtilerek, aşağıda açıklanmıştır.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">
+        <code class="literal">AL</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>AL </strong></span>(<em class="emphasis">yerel-bağlandı-ismi</em>, <em class="emphasis">tampon-adresi</em>, <em class="emphasis">bayt-sayısı</em>)
+  -&gt; <em class="emphasis">bayt-sayısı</em>, <em class="emphasis">aciliyet-bayrağı</em>, <em class="emphasis">gitsin-bayrağı</em></pre>
+                  <p>
+        </p>
+                  <p>
+Bu komut belirtilen bağlantı ile ilişkili bir tampon ayırır. Bu komuttan önce bir <span class="command"><strong>AÇ</strong></span> komutu yoksa veya çağıran süreç bu bağlantıyı kullanmaya yetkili değilse bir hata döner.
+</p>
+                  <p>
+En basik gerçeklenimde, tampon dolmadıkça veya bir hata oluşmadıkça, denetim çağıran sürece dönmez fakat bu şema kısırdöngülere çok açıktır. Daha karmaşık gerçeklenimler bir kerede birden fazla AL çağrısına izin verir. Bu tamponlar veri bölütleri geldikçe doldurulur. Bu strateji bir <code class="literal">GİT</code>sin görüldüğünde veya bir tampon dolduğunda çağıran süreci uyaracak daha itinalı bir şema (muhtemelen eşzamansız) fiyatına işlenecek miktarı arttırmayı mümkün kılar.
+</p>
+                  <p>
+Bir <code class="literal">GİT</code>sin görünmeden önce tamponu dolduracak yeterli veri gelirse <code class="literal">GİT</code>sin bayrağı <span class="command"><strong>AL</strong></span> çağrısının yanıtında etkin yapılmaz. Eğer <code class="literal">GİT</code>sin bayrağı tampon dolmadan önce görünürse tampon kısmen dolu döndürülür ve <code class="varname">gitsin-bayrağı</code> etkin kılınır.
+</p>
+                  <p>
+Eğer acil veri varsa kullanıcı bir TCP'den kullanıcıya sinyal geliyormuş gibi uyarılacaktır. Alan kullanıcı bu nedenle "acil kip"te olmalıdır. Eğer <code class="varname">aciliyet-bayrağı</code> etkinse, ek olarak acil veri kalır. Eğer <code class="varname">aciliyet-bayrağı</code> etkin değilse, böyle bir <span class="command"><strong>AL</strong></span> çağrısı tüm acil veriyi döndürür, böylece kullanıcı "acil kip"i artık bırakabilir. Aciliyet göstericisinden sonra gelen veri (acil olmayan veri) önceki acil verinin sınırları kullanıcı için açıkça imlenmiş olmadıkça kullanıcıya önceki acil veriyle aynı tamponda teslim edilemez.
+</p>
+                  <p>
+Tamponun tamamen dolmadığı durumu dikkate almak ve çözümlenmemiş <span class="command"><strong>AL</strong></span> çağrıları arasında ayrım yapabilmek için dönen kodun <code class="varname">tampon-göstericisi</code> ile alınan verinin asıl uzunluğunu belirten <code class="varname">bayt-sayısı</code> birlikte ele alınır.
+</p>
+                  <p>
+Diğer bir <span class="command"><strong>AL</strong></span> gerçekleniminde ise tampon alanını TCP'nin ayırmasını gerektirebilir veya TCP bir döner tamponu kullanıcı ile paylaşabilir.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">
+        <code class="literal">KAPAT</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>KAPAT </strong></span>(<em class="emphasis">yerel-bağlantı-ismi</em>)
+</pre>
+                  <p>
+        </p>
+                  <p>
+Bu komut bağlantının <code class="literal">KAPALI</code> duruma geçirileceğini belirtir. Eğer bağlantı açık değilse veya çağıran süreç bağlantıyı kullanmaya yetkili değilse bir hata döner. Veriler gönderildikten sonra  bir kapama komutu gönderilmesi, tamamlanmamış <span class="command"><strong>GÖNDER</strong></span>imlerin aktarılmasını (veya tekrardan aktarılmasını) sağlamak için kibarca bir uyarı görevini görür. Bu yüzden bir kaç tane <span class="command"><strong>GÖNDER</strong></span> komutunun verilmesinin ardından bir <span class="command"><strong>KAPAT</strong></span> komutu vermekle bütün verilerin hedef adrese iletildiği kanısına varmamız kabul edilebilir bir düşünce olur. <code class="literal">KAPANIŞ</code> durumundaki bir bağlantı üzerinde kullanıcılar hala veri <span class="command"><strong>AL</strong></span>maya devam ediyor olabilirler, çünkü karşı taraf verisinin son kısmını göndermeyi bu durumda iken bile deniyor olabilir. Buradan da anlıyoruz ki <span class="command"><strong>KAPAT</strong></span> demekle "artık veri almıyacağım" değil, "artık gönderecek bir verim yok" demiş oluyoruz. Şöyle bir şey olabilir (kullanıcı seviyesi protokol iyi tasarlanmamışsa): <span class="command"><strong>KAPAT</strong></span> komutunu veren taraf bütün verilerinden zaman aşımından önce kurtulamayabilir. Bu olayda, <span class="command"><strong>KAPAT</strong></span>, <span class="command"><strong>TERKET</strong></span>'e dönüşür ve kapatan TCP işlemi terkeder.
+</p>
+                  <p>
+Kullanıcı bağlantıyı herhangi bir anda kendi inisiyatifinde <span class="command"><strong>KAPAT</strong></span>abileceği gibi TCP'den gelen çeşitli teşviklere (uzaktan kapatma, aktarımda zaman aşımı, hedefin erişilebilir olmayışı gibi) yanıt olarak da <span class="command"><strong>KAPAT</strong></span>abilir.
+</p>
+                  <p>
+Bir bağlantının kapanması yabancı TCP ile iletişimi gerektirdiğinden bağlantılar kısa bir süre için <code class="literal">KAPANIŞ</code> durumunda kalabilir. <span class="command"><strong>KAPAT</strong></span> komutu TCP tarafından yanıtlanmadan önce bağlantının yeniden açılmaya çalışılması, hata yanıtlarıyla sonuçlanacaktır.
+</p>
+                  <p>
+Kapatma işlemi ayrıca gitsin işlemine de yol açar.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">
+        <code class="literal">DURUM</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>DURUM</strong></span> (<em class="emphasis">yerel-bağlantı-ismi</em>) -&gt; <em class="emphasis">durum-verisi</em>
+</pre>
+                  <p>
+        </p>
+                  <p>
+Bu gerçeklenim bağımlısı bir kullanıcı komutu olup olmayışının olumsuz bir etkisi olmayacaktır. Dönen bilgi genellikle bağlantı ile ilişkili ADB'den gelir.
+</p>
+                  <p>
+Bu komut şu bilgileri içeren bir veri bloku ile döner:
+</p>
+                  <pre class="literallayout monospaced">
+yerel soket,
+yabancı soket,
+yerel bağlantı ismi,
+alım penceresi,
+gönderi penceresi,
+bağlantı durumu,
+alındı bekleyen tampon sayısı,
+alınmayı bekleyen tampon sayısı,
+aciliyet durumu,
+öncelik,
+güvenlik/bölüm,
+ve aktarım zaman aşımı.
+</pre>
+                  <p>
+Aktarımın durumuna veya gerçeklenimin kendisine bağlı olarak bu bilgilerin bir kısmı mevcut veya anlamlı olmayabilir. Eğer çağrıyı yapan süreç bağlantıyı kullanmaya yetkili değilse bir hata döner. Bu, yetkisiz bir sürecin bir bağlantı hakkında bilgi edinmeye çalışmasını önler.
+</p>
+                </dd>
+                <dt>
+                  <span class="term">
+        <code class="literal">TERKET</code>
+       </span>
+                </dt>
+                <dd>
+                  <p>
+         </p>
+                  <pre class="synopsis"><span class="command"><strong>TERKET </strong></span>(<em class="emphasis">yerel-bağlantı-ismi</em>)
+</pre>
+                  <p>
+        </p>
+                  <p>
+Bu komut, askıdaki tüm <span class="command"><strong>GÖNDER</strong></span> ve <span class="command"><strong>AL</strong></span>ların terkedilmesine, ADB'nin silinmesine ve bağlantının diğer tarafındaki TCP'ye özel bir baştan-başla iletisi gönderilmesine sebep olur. Gerçeklenime bağlı olarak, kullanıcılar yapılan her <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> ile terketme istekleri alabilecekleri gibi basitçe <span class="command"><strong>TERKET</strong></span>'li alındılar da alabilir.
+</p>
+                </dd>
+              </dl>
+            </div>
+          </section>
+          <section class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">3.8.1.2. TCP'nin Kullanıcıya  İletileri</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+İşletim sisteminin TCP'ye kullanıcı programını eşzamansız olarak sinyalleyebilme ortamını sağladığı kabul edilir. TCP kullanıcı programını sinyallerken kullanıcıya bazı bilgiler aktarılılır. Belirtimde çoğunlukla bilgi bir hata iletisi olacaktır. Diğer durumlarda, bir <span class="command"><strong>GÖNDER</strong></span> veya <span class="command"><strong>AL</strong></span> ya da başka bir kullanıcı çağrısının işini tamamlamasıyla ilgili bilgiler varolacaktır.
+</p>
+            <p>
+Şu bilgiler sağlanır:
+</p>
+            <pre class="literallayout monospaced">
+Yerel Bağlantı İsmi                    Daima
+Yanıt Dizgesi                          Daima
+Tampon Adresi                          Gönderi ve Alım
+Bayt Sayısı (alınan)                   Alım
+GİTsin Bayrağı                         Alım
+ACiL bayrağı                           Alım
+</pre>
+          </section>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.8.2. TCP/Düşük-Seviye Arayüzü</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP çağrıları ağ üzerinden bilgileri aslında bir düşük seviyeli protokol üzerinden alır ve gönderir. ARPA ağlararası sistemindeki düşük seviyeli modül için tek seçenek Genel Ağ Protokolüdür (IP) [<a class="xref" href="rfc793-refs.html#rfc793-bib2" title="Internet Protocol - DARPA Internet Program Protocol Specification">2</a>].
+</p>
+          <p>
+Düşük seviyeli protokol IP ise bağımsız değişkenler bir hizmet türü için bir yaşam süresince sağlanır. TCP bu bağımsız değişkenler için şu ayarları kullanır:
+</p>
+          <div class="simpara">
+      <em class="wordasword">Hizmet Türü = Öncelik: sıradan, Gecikme: normal, İşlenen miktar: normal, Güvenirlik: normal; veya 00000000</em>.
+     </div>
+          <div class="simpara">
+      <em class="wordasword">Yaşam Süresi = bir dakika veya 00111100.</em>
+     </div>
+          <p></p>
+          <p>
+Varsayılan Azami Veri bölütü Ömrü'nün (AVÖ) iki dakika olduğuna dikkat ediniz. Burada biz açıkça bir veri bölütünün Genel Ağ sisteminde bir dakika içinde teslim edilememesi halinde yokedilmesini istemiş oluyoruz.
+     </p>
+          <p>
+Eğer düşük seviyeli protokol IP (veya aynı özellikteki başka bir protokol) ise ve kaynak yönlendirmesi kullanılmışsa, arayüz yönlendirme bilgisinin iletişimine izin vermelidir. TCP sağlama özetinde kullanılan kaynak ve hedef adreslerinin başlatan kaynak ve nihai hedef olmasından dolayı bu özellikle önemlidir. Bağlantı isteklerine yanıt olarak dönen rotanın korunması da ayrıca önemlidir.
+</p>
+          <p>
+Bir düşük seviyeli protokol, gerek IP'ye işlevsel olarak eşdeğer hizmeti sağlamak, gerekse TCP sağlama özetinde kullanmak için kaynak adresini, hedef adresini, protokol alanlarını ve "TCP uzunluğu"nun saptamanın bir yolunu sağlamak zorundadır.
+</p>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

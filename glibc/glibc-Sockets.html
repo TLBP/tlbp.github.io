@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>16. Soketler</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -25,8 +25,8 @@
           </div>
         </div>
         <div style="width:33%" class="dropdown">
-          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Sonraki</button>
-          <div class="dropdown-content">17. Düşük Seviyeli Uçbirim Arayüzü</div>
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Socket-Concepts.html')">Sonraki</button>
+          <div class="dropdown-content">16.1. Soket Kavramları</div>
         </div>
       </div>
     </header>
@@ -50,35 +50,124 @@
               </div>
             </div>
           </div>
-          <p>This chapter describes the GNU facilities for interprocess
-communication using sockets.
+          <p>
+   Bu kısımda soketleri kullanarak süreçler arası iletişim için kullanılan GNU oluşumlarından bahsedilmiştir.
   </p>
           <p>
-   <span id="idm122985" class="indexterm"></span>
-   <span id="idm122987" class="indexterm"></span>
-   A <em class="emphasis">socket</em> is a generalized interprocess communication channel.
-Like a pipe, a socket is represented as a file descriptor.  Unlike pipes
-sockets support communication between unrelated processes, and even
-between processes running on different machines that communicate over a
-network.  Sockets are the primary means of communicating with other
-machines; <code class="code">telnet</code>, <code class="code">rlogin</code>, <code class="code">ftp</code>, <code class="code">talk</code> and the
-other familiar network programs use sockets.
-</p>
-          <p>Not all operating systems support sockets.  In the GNU C Library, the
-header file <code class="filename">sys/socket.h</code> exists regardless of the operating
-system, and the socket functions always exist, but if the system does
-not really support sockets these functions always fail.
-
-
-</p>
+   <span id="idm123000" class="indexterm"></span>
+   <span id="idm123002" class="indexterm"></span>
+   
+   
+   Bir <em class="wordasword">soket</em> genelleştirilmiş süreçler arası iletişim kanalıdır. Ardışık süreçler gibi soketler de bir dosya tanıtıcı olarak temsil edilir. Ardışık süreçlerden farklı olarak soketler aralarında ilişki olmayan süreçler arasındaki iletişimi ve hatta ağ üzerindeki farklı makineler üzerinde çalışan süreçler arasındaki iletişimi de destekler. Soketlerin birincil kullanım alanları farklı makinelerle iletişimdir; <tt><b>telnet</b>(1)</tt>, <tt><b>rlogin</b>(1)</tt>, <tt><b>ftp</b>(1)</tt>, <tt><b>talk</b>(1)</tt> ve diğer bildik ağ yazılımları soketleri kullanır.
+  </p>
+          <p>
+   Bütün işletim sistemleri soketleri desteklememektedir. GNU C Kütüphanesinde, işletim sisteminden bağımsız olarak <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code> başlık dosyası ve beraberinde soket işlevleri daima bulunur, fakat eğer sistem soketleri desteklemiyorsa bu işlevler daima başarısız olur.
+  </p>
           <div class="admon note">
-            <h3 class="admon-title">Eksik Bilgi:</h3>
+            <h3 class="admon-title">Eksik</h3>
             <div class="admon-contents">
               <p>
-    Yayın iletileri veya Internet arayüzünün ayarlanması ile ilgili oluşumlar henüz belgelenmemiştir. IPv6 ile ilgili bazı yeni işlevler ve evresel (reentrant) işlevler de henüz belgelenmemiştir.
+    Yayın iletileri veya İnternet arayüzünün ayarlanması ile ilgili oluşumlar henüz belgelenmemiştir. IPv6 ile ilgili bazı yeni işlevler ve evresel işlevler de henüz belgelenmemiştir.
    </p>
             </div>
           </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>16.1. <a href="glibc-Socket-Concepts.html">Soket Kavramları</a>  -  Bilinmesi gereken basit kavramlar.</dt>
+            <dt>16.2. <a href="glibc-Communication-Styles.html">İletişim Tarzları</a>  -  Akım iletişimi, veri katarları ve diğer tarzlar.</dt>
+            <dt>16.3. <a href="glibc-Socket-Addresses.html">Soket Adresleri</a>  -  Soket isimleri ("adresleri") nasıl çalışır.</dt>
+            <dd>
+              <dl>
+                <dt>16.3.1. <a href="glibc-Address-Formats.html">Adres Biçimleri</a>  -  <code class="code">sockaddr</code> yapısı hakkında.</dt>
+                <dt>16.3.2. <a href="glibc-Setting-Address.html">Adreslerin Atanması</a>  -  Bir adresin bir sokete bağlanması.</dt>
+                <dt>16.3.3. <a href="glibc-Reading-Address.html">Adresin Okunması</a>  -  Soket adresinin okunması.</dt>
+              </dl>
+            </dd>
+            <dt>16.4. <a href="glibc-Interface-Naming.html">Arayüz İsimlendirmesi</a>  -  Bazı ağ arayüzlerinin tanımlanması.</dt>
+            <dt>16.5. <a href="glibc-Local-Namespace.html">Yerel İsim Alanı</a>  -  Yerel isim alanı ile ilgili ayrıntılar.</dt>
+            <dd>
+              <dl>
+                <dt>16.5.1. <a href="glibc-Local-Namespace.html#glibc-Local-Namespace-Concepts">Yerel İsim Alanı Kavramları</a>  -  Anlamak için gereken herşey.</dt>
+                <dt>16.5.2. <a href="glibc-Local-Namespace.html#glibc-Local-Namespace-Details">Yerel İsim Alanı ile İlgili Ayrıntılar</a>  -  Adres biçimi, simgesel isimler, vs.</dt>
+                <dt>16.5.3. <a href="glibc-Local-Namespace.html#glibc-Local-Socket-Example">Soketlerde Yerel İsim Alanı Örneği</a>  -  Soket oluşturma örneği.</dt>
+              </dl>
+            </dd>
+            <dt>16.6. <a href="glibc-Internet-Namespace.html">İnternet İsim Alanı</a>  -  İnternet isim alanı ile ilgili ayrıntılar.</dt>
+            <dd>
+              <dl>
+                <dt>16.6.1. <a href="glibc-Internet-Address-Formats.html">İnternet Soket Adreslerinin Biçimleri</a>  -  İnternet isim alanında soket adresleri nasıl belirtilir.</dt>
+                <dt>16.6.2. <a href="glibc-Host-Addresses.html">Konak Adresleri</a>  -  İnternet konaklarının konak adresleriyle ile ilgili herşey.</dt>
+                <dd>
+                  <dl>
+                    <dt>16.6.2.1. <a href="glibc-Abstract-Host-Addresses.html">Kısaca Konak Adresleri</a>  -  Konak numarası nelerden oluşur.</dt>
+                    <dt>16.6.2.2. <a href="glibc-Host-Address-Data-Type.html">Konak Adresinin Veri Türü</a>  -  Konak numarasının veri türü.</dt>
+                    <dt>16.6.2.3. <a href="glibc-Host-Address-Functions.html">Konak Adresi İşlevleri</a>  -  Makinenin konak adresi üzerinde çalışan işlevler.</dt>
+                    <dt>16.6.2.4. <a href="glibc-Host-Names.html">Konak İsimleri</a>  -  Makine konak isimlerinin konak numaralarına dönüştürülmesi.</dt>
+                  </dl>
+                </dd>
+                <dt>16.6.3. <a href="glibc-Ports.html">İnternet Portları</a>  -  İnternet port numaraları.</dt>
+                <dt>16.6.4. <a href="glibc-Services-Database.html">Hizmet Veritabanı</a>  -  Portların simgesel isimleri olabilir.</dt>
+                <dt>16.6.5. <a href="glibc-Byte-Order.html">Bayt Sırası Dönüşümü</a>  -  Bazı konaklar farklı bayt sıralama kabulleri kullanabilir.</dt>
+                <dt>16.6.6. <a href="glibc-Protocols-Database.html">Protokol Veritabanı</a>  -  İsimleriyle protokoller.</dt>
+                <dt>16.6.7. <a href="glibc-Inet-Example.html">İnternet Soketi Örneği</a>  -  Olay budur.</dt>
+              </dl>
+            </dd>
+            <dt>16.7. <a href="glibc-Misc-Namespaces.html">Diğer İsim Alanları</a>  -  Diğer isim alanlarının tamamı burada belgelendirilmemiştir.</dt>
+            <dt>16.8. <a href="glibc-Open-Close-Sockets.html">Soketlerin Açılması ve Kapatılması</a>  -  Soketlerin oluşturulması ve yok edilmesi.</dt>
+            <dd>
+              <dl>
+                <dt>16.8.1. <a href="glibc-Open-Close-Sockets.html#glibc-Creating-a-Socket">Soketin Oluşturulması</a>  -  Soket nasıl açılır.</dt>
+                <dt>16.8.2. <a href="glibc-Open-Close-Sockets.html#glibc-Closing-a-Socket">Soketin Kapatılması</a>  -  Soket nasıl kapatılır.</dt>
+                <dt>16.8.3. <a href="glibc-Open-Close-Sockets.html#glibc-Socket-Pairs">Soket Çiftleri</a>  -  Ardışık süreçler gibi oluşturulur.</dt>
+              </dl>
+            </dd>
+            <dt>16.9. <a href="glibc-Connections.html">Soketlerin Bağlantıda Kullanılması</a>  -  Bağlantı durumunda soketler üzerindeki işlemler.</dt>
+            <dd>
+              <dl>
+                <dt>16.9.1. <a href="glibc-Connecting.html">Bağlantının Oluşturulması</a>  -  İstemci yazılım ne yapmalı.</dt>
+                <dt>16.9.2. <a href="glibc-Listening.html">Bağlantıların Dinlenmesi</a>  -  Sunucu yazılım istekleri nasıl bekler.</dt>
+                <dt>16.9.3. <a href="glibc-Accepting-Connections.html">Bağlantıların Kabul Edilmesi</a>  -  Sunucu istek geldiğinde ne yapar.</dt>
+                <dt>16.9.4. <a href="glibc-Who-is-Connected.html">Bana Kim Bağlı?</a>  -  Bağlantının diğer ucunun adresinin alınması.</dt>
+                <dt>16.9.5. <a href="glibc-Transferring-Data.html">Veri Aktarımı</a>  -  Veri nasıl gönderilip alınır.</dt>
+                <dd>
+                  <dl>
+                    <dt>16.9.5.1. <a href="glibc-Transferring-Data.html#glibc-Sending-Data">Veri Gönderimi</a>  -  Verinin <code class="code">send</code> ile gönderilmesi.</dt>
+                    <dt>16.9.5.2. <a href="glibc-Transferring-Data.html#glibc-Receiving-Data">Veri Alımı</a>  -  Verinin <code class="code">recv</code> ile okunması.</dt>
+                    <dt>16.9.5.3. <a href="glibc-Transferring-Data.html#glibc-Socket-Data-Options">Soket Verisi Seçenekleri</a>  -  <code class="code">send</code> ve <code class="code">recv</code> kullanımı.</dt>
+                  </dl>
+                </dd>
+                <dt>16.9.6. <a href="glibc-Byte-Stream-Example.html">Bayt Akımlı Soket Örneği</a>  -  İnternet isim alanında bayt akımlı soket üzerinden haberleşen istemci.</dt>
+                <dt>16.9.7. <a href="glibc-Server-Example.html">Bayt Akımlı Bağlantı Sunucusu Örneği</a>  -  Bayt akımlı bağlantı sunucusu yazılımı.</dt>
+                <dt>16.9.8. <a href="glibc-Out-of-Band-Data.html">Sıra-Dışı-Veri Aktarımı</a>  -  Önceliği olan bir özellik.</dt>
+              </dl>
+            </dd>
+            <dt>16.10. <a href="glibc-Datagrams.html">Bağlantısız Soket İşlemleri</a>  -  Veri katarı soketleri ile işlemler</dt>
+            <dd>
+              <dl>
+                <dt>16.10.1. <a href="glibc-Datagrams.html#glibc-Sending-Datagrams">Veri Katarının Gönderilmesi</a>  -  Bir veri katarı soketinde paketlerin gönderimi.</dt>
+                <dt>16.10.2. <a href="glibc-Datagrams.html#glibc-Receiving-Datagrams">Veri Katarının Alınması</a>  -  Veri katarındaki paketlerin alımı.</dt>
+                <dt>16.10.3. <a href="glibc-Datagrams.html#glibc-Datagram-Example">Veri Katarı Soket Örneği</a>  -  Yerel isim alanı içindeki veri katarı soketi üzerinden paket gönderimi.</dt>
+                <dt>16.10.4. <a href="glibc-Datagrams.html#glibc-Example-Receiver">Veri Katarı Okuma Örneği</a>  -  Veri katarı alan bir yazılım.</dt>
+              </dl>
+            </dd>
+            <dt>16.11. <a href="glibc-Inetd.html"><code class="code">inetd</code> Artalan Süreci</a>  -  Bir sunucu yazmak için en uygun yol <code class="code">inetd</code> ile çalışmasını sağlamaktır.</dt>
+            <dd>
+              <dl>
+                <dt>16.11.1. <a href="glibc-Inetd.html#glibc-Inetd-Servers"><code class="code">inetd</code> Sunucuları</a></dt>
+                <dt>16.11.2. <a href="glibc-Inetd.html#glibc-Configuring-Inetd"><code class="code">inetd</code> Yapılandırması</a></dt>
+              </dl>
+            </dd>
+            <dt>16.12. <a href="glibc-Socket-Options.html">Socket Seçenekleri</a>  -  Çeşitli düşük seviyeli soket seçenekleri.</dt>
+            <dd>
+              <dl>
+                <dt>16.12.1. <a href="glibc-Socket-Options.html#glibc-Socket-Option-Functions">Soket Seçenek İşlevleri</a>  -  Soket seçeneklerini ayarlamak ve değerlerini almak için işlevler.</dt>
+                <dt>16.12.2. <a href="glibc-Socket-Options.html#glibc-Socket-Level-Options">Soket Seviye Seçenekleri</a>  -  Soket seviye seçeneklerinin ayrıntıları.</dt>
+              </dl>
+            </dd>
+            <dt>16.13. <a href="glibc-Networks-Database.html">Ağ İsimleri Veritabanı</a>  -  Ağ isimleri veritabanına erişim.</dt>
+          </dl>
         </div>
       </section>
       <footer>

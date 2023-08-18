@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>RFC 793 - Aktarım Denetim Protokolü (TCP)</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta name="description" content="Aktarım Denetim Protokolü (TCP) paket anahtarlamalı bilgisayar ağlarındaki ve bu tür ağların birbirine bağlı sistemlerindeki konaklar arasında çok güvenilir bir konaktan konağa protokol olarak kullanılmak üzere tasarlanmıştır. Bu belge Aktarım Denetim Protokolü ve protokolün kullanıcılara veya uygulamalara arayüzünü ve kendini gerçekleyen programlar tarafından yerine getirilen işlevleri açıklar." />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc792-s12.html')">Önceki</button>
+          <div class="dropdown-content">Kaynakça</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik-std.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s1.html')">Sonraki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="article" id="rfc793">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">RFC 793 - Aktarım Denetim Protokolü (TCP)</h2>
+            </div>
+            <div>
+              <div class="authorgroup">
+                <div class="author">Düzenleyen: <span class="firstname">Jon Postel</span></div>
+                <div>
+                  <dl></dl>
+                </div>
+                <div class="author">Çeviren: <span class="firstname">Behice Balkaya</span></div>
+                <div>
+                  <dl></dl>
+                </div>
+              </div>
+            </div>
+            <div><br />
+Information Sciences Institute<br />
+University of Southern California<br />
+4676 Admiralty Way<br />
+Marina del Rey, California  90291<br />
+<em class="replaceable"><code>tarafından</code></em><br />
+Defense Advanced Research Projects Agency<br />
+Information Processing Techniques Office<br />
+1400 Wilson Boulevard<br />
+Arlington, Virginia  22209<br />
+<em class="replaceable"><code>için hazırlanmıştır.</code></em><br />
+<br />
+Yorum İsteği: 793<br />
+Geçersiz Kıldığı RFC'ler: 761<br />
+Geçersiz Kıldığı IEN'ler: 129, 124, 112, 81, 55, 44, 40, 27, 21, 5<br />
+Güncelleyen RFC: 9293 (Standart - STD 7)<br />
+Durumu: Atıl Standart<br />
+    </div>
+            <div>
+              <div class="dropnotice">
+                <div class="legalnotice-title">
+                  <a style="text-decoration: underline">Yasal Uyarı</a>
+                </div>
+                <div class="droplegal">
+                  <p>
+RFC'lerin yazarlarının hakları <a class="link" href="ftp://ftp.rfc-editor.org/in-notes/bcp/bcp78.txt" target="_top">BCP 78</a> ile düzenlenmiştir. Dolayısıyla RFC çevirilerinin çevirmenlerinin haklarını da BCP 78'in düzenlediği kabul edilmiştir.
+        </p>
+                  <p>
+Bu belge <a class="link" href="http://www.ietf.org/" target="_top">IETF</a> tarafından yayınlanan resmi RFC793'ün <span class="emphasis"><strong>gayrıresmi</strong></span> çevirisidir ve aslının yerine kullanılamaz. Bu çevirinin hiçbir bağlamda ya da koşulda hükmü yoktur. Bu çeviri, anadili Türkçe olan Genel Ağ kullanıcılarının bu RFC hakkında fikir edinebilmelerini sağlamak amacıyla hazırlanmıştır.
+  </p>
+                  <p>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </p>
+                  <p>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </p>
+                  <p>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="pubdate">Mayıs 2006</p>
+            </div>
+            <div>
+              <div class="revhistory">
+                <div class="formaltitle">Sürüm Bilgileri</div>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="revhistory">
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm 1.1</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Ağustos 2023</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">NBB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">RFC 9293 tarafından Ağustos-2022'de atıl bırakıldığı bilgi girildi.</td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"></td>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm 1.0</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Mayıs 2006</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">BB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">İlk çeviri</td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"></td>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm Standart</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Eylül 1981</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">JP</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">Özgün sürüm</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="abstract">
+                <div class="abstract-title">Özet</div>
+                <p>
+Aktarım Denetim Protokolü (TCP) paket anahtarlamalı bilgisayar ağlarındaki ve bu tür ağların birbirine bağlı sistemlerindeki konaklar arasında çok güvenilir bir konaktan konağa protokol olarak kullanılmak üzere tasarlanmıştır. Bu belge Aktarım Denetim Protokolü ve protokolün kullanıcılara veya uygulamalara arayüzünü ve kendini gerçekleyen programlar tarafından yerine getirilen işlevleri açıklar.
+    </p>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Önsöz</h2>
+              </div>
+            </div>
+          </div>
+          <div class="blockquote">
+            <blockquote class="blockquote">
+              <p>
+Bu belge ABD Savunma Bakanlığı (DoD) Standart Aktarım Denetim Protokolünü (Transmission Control Protocol - TCP) açıklar. Bu standardın üzerine inşa edildiği daha önceki dokuz ARPA TCP belirtimi vardır ve belirtimin metni ağırlıkla bunların metinlerinden oluşmuştur. Gerek metin gerekse kavramsal olarak bu çalışmaya pek çok kişi destek oldu. Bu sürümde çeşitli ayrıntılar arıtıldı ve mektup-sonu tampon-boyutu ayarlamaları silindi ve mektup mekanizması bir bası işlevi olarak yeniden açıklandı.
+</p>
+              <div class="attribution">Jon Postel Editör</div>
+            </blockquote>
+          </div>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>1. <a href="rfc793-s1.html">Giriş</a></dt>
+            <dd>
+              <dl>
+                <dt>1.1. <a href="rfc793-s1.html#rfc793-s11">Güdülenme</a></dt>
+                <dt>1.2. <a href="rfc793-s1.html#rfc793-s12">Etki Alanı</a></dt>
+                <dt>1.3. <a href="rfc793-s1.html#rfc793-s13">Belge Hakkında</a></dt>
+                <dt>1.4. <a href="rfc793-s1.html#rfc793-s14">Arayüzler</a></dt>
+                <dt>1.5. <a href="rfc793-s1.html#rfc793-s15">İşlemler</a></dt>
+              </dl>
+            </dd>
+            <dt>2. <a href="rfc793-s2.html">FELSEFE</a></dt>
+            <dd>
+              <dl>
+                <dt>2.1. <a href="rfc793-s21.html">Ağlararası Sistemin Elemanları</a></dt>
+                <dt>2.2. <a href="rfc793-s22.html">İşlem Modeli</a></dt>
+                <dt>2.3. <a href="rfc793-s23.html">Konak Ortamı</a></dt>
+                <dt>2.4. <a href="rfc793-s24.html">Arayüzler</a></dt>
+                <dt>2.5. <a href="rfc793-s25.html">Diğer Protokollerle İlişkiler</a></dt>
+                <dt>2.6. <a href="rfc793-s26.html">Güvenilir İletişim</a></dt>
+                <dt>2.7. <a href="rfc793-s27.html">Bağlantının Kurulması ve Temizliği</a></dt>
+                <dt>2.8. <a href="rfc793-s28.html">Veri İletişimi</a></dt>
+                <dt>2.9. <a href="rfc793-s29.html">Öncelik ve Güvenlik</a></dt>
+                <dt>2.10. <a href="rfc793-s210.html">Güçlülük İlkesi</a></dt>
+              </dl>
+            </dd>
+            <dt>3. <a href="rfc793-s3.html">İşlevsel Belirtim</a></dt>
+            <dd>
+              <dl>
+                <dt>3.1. <a href="rfc793-s31.html">Başlık Biçimi</a></dt>
+                <dt>3.2. <a href="rfc793-s32.html">Terminoloji</a></dt>
+                <dt>3.3. <a href="rfc793-s33.html">Sıra Numaraları</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.3.1. <a href="rfc793-s33.html">İlk Sıra Numarasının Seçimi</a></dt>
+                    <dt>3.3.2. <a href="rfc793-s33.html">Susmayı Bilmek</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.4. <a href="rfc793-s34.html">Bağlantının Kurulması</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.4.1. <a href="rfc793-s34.html">Yarı Açık Bağlantılar ve Diğer Aykırılıklar</a></dt>
+                    <dt>3.4.2. <a href="rfc793-s34.html">Baştan Başlatmanın İstenmesi</a></dt>
+                    <dt>3.4.3. <a href="rfc793-s34.html">Baştan Başlama İşlemi</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.5. <a href="rfc793-s35.html">Bağlantının Kapatılması</a></dt>
+                <dt>3.6. <a href="rfc793-s36.html">Öncelik ve Güvenlik</a></dt>
+                <dt>3.7. <a href="rfc793-s37.html">Veri İletişimi</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.7.1. <a href="rfc793-s37.html">Yeniden Aktarım Zaman aşımı</a></dt>
+                    <dt>3.7.2. <a href="rfc793-s37.html">Acil Bilgi İletişimi</a></dt>
+                    <dt>3.7.3. <a href="rfc793-s37.html">Pencere Yönetimi</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.8. <a href="rfc793-s38.html">Arayüzler</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.8.1. <a href="rfc793-s38.html">Kullanıcı/TCP Arayüzü</a></dt>
+                    <dt>3.8.2. <a href="rfc793-s38.html">TCP/Düşük-Seviye Arayüzü</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.9. <a href="rfc793-s39.html">Olay İşleme</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.9.1. <a href="rfc793-s39.html"><code class="literal">AÇ</code> Çağrısı</a></dt>
+                    <dt>3.9.2. <a href="rfc793-s39.html"><code class="literal">GÖNDER</code> Çağrısı</a></dt>
+                    <dt>3.9.3. <a href="rfc793-s39.html"><code class="literal">AL</code> Çağrısı</a></dt>
+                    <dt>3.9.4. <a href="rfc793-s39.html"><code class="literal">KAPAT</code> Çağrısı</a></dt>
+                    <dt>3.9.5. <a href="rfc793-s39.html"><code class="literal">TERKET</code> Çağrısı</a></dt>
+                    <dt>3.9.6. <a href="rfc793-s39.html"><code class="literal">DURUM</code> Çağrısı</a></dt>
+                    <dt>3.9.7. <a href="rfc793-s39.html">Veri bölütü Varışları</a></dt>
+                    <dt>3.9.8. <a href="rfc793-s39.html">Kullanıcı Zaman aşımı</a></dt>
+                    <dt>3.9.9. <a href="rfc793-s39.html">Yeniden Aktarım Zaman aşımı</a></dt>
+                    <dt>3.9.10. <a href="rfc793-s39.html"><code class="code">ZMN-BEKLE</code> zaman aşımı</a></dt>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+            <dt>
+              <a href="rfc793-gloss.html">Kullanılan Terimler ve Kısaltmalar</a>
+            </dt>
+            <dt>
+              <a href="rfc793-refs.html">Kaynakça</a>
+            </dt>
+          </dl>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.1. Süreç Belleği Kavramları</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -51,11 +51,11 @@
         <p>
    
    Sanal bellek sayfalara bölünmüştür (genellikle 4 kilobaytlık). Sanal bellekteki her sayfa aslında, ya gerçek bellek sayfasıdır (buna <em class="wordasword">çerçeve</em> de denir) ya da ikincil bir saklama alanı olarak çoğunlukla disk alanıdır. Disk alanı, takas alanı olabileceği gibi sıradan bir disk dosyası da olabilir. Gerçekte, bir sayfa tamamen sıfırlardan oluşabilir ve içinde hiçbir şey bulunmayabilir –  yalnızca sayfanın sıfırlardan oluştuğunu belirten bir bayrak vardır.
-   <span id="idm85455" class="indexterm"></span>
-   <span id="idm85457" class="indexterm"></span>
-   <span id="idm85460" class="indexterm"></span>
-   <span id="idm85462" class="indexterm"></span>
-   <span id="idm85465" class="indexterm"></span>
+   <span id="idm85471" class="indexterm"></span>
+   <span id="idm85473" class="indexterm"></span>
+   <span id="idm85476" class="indexterm"></span>
+   <span id="idm85478" class="indexterm"></span>
+   <span id="idm85481" class="indexterm"></span>
    
   </p>
         <p>
@@ -69,9 +69,8 @@
    
    
    
-   
-   <span id="idm85490" class="indexterm"></span>
-   <span id="idm85492" class="indexterm"></span>
+   <span id="idm85503" class="indexterm"></span>
+   <span id="idm85505" class="indexterm"></span>
    Bir süreç bir sayfaya erişmeye çalışır ve sayfa gerçek belleğe geri taşınamazsa bu olaya <em class="wordasword">sayfa hatası</em> ("page fault") denir.  Bir sayfa hatası oluştuğunda çekirdek süreci askıya alır ve sayfayı bir gerçek sayfa çerçevesine yerleştirir. Bu işleme <em class="wordasword">içe sayfalama</em> ("paging in" veya "faulting in") denir. Bu işlemin ardından artık sayfa gerçek bellekte erişilebilir olduğundan çekirdek tarafından askıya alınan süreç işlemine kaldığı yerden devam ettirilir. Aslında, tüm sayfalar sürece daima gerçek bellekteymiş gibi görünür. Bir şey dışında: bir makine dili komutun yürütme süresi normalde birkaç nano saniye iken birdenbire çok, çok daha uzun hale gelir, çünkü çekirdek sayfalamayla ilgilenmeyi tamamlamak için G/Ç işlemleri yapmak zorundadır. Bu işleme duyarlı yazılımlar için kullanılan denetim işlevleri <a class="xref" href="glibc-Locking-Pages.html" title="3.5. Sayfaların Kilitlenmesi"><em>Sayfaların Kilitlenmesi</em></a> bölümünde açıklanmıştır.
   </p>
         <p>
@@ -84,25 +83,25 @@
   </p>
         <p>
    İşletim (exec), süreç için sanal adres alanının oluşturulması, ana yazılımın bu alana yüklenmesi ve yazılımın çalıştırması işlemidir. Bu, "exec" ailesi işlevlerle (örn, <a href="glibc-Executing-a-File.html#glibc-fn-execl"><strong class="function"><code>execl</code></strong></a>) yapılır. İşlem bir yazılım dosyası (işletilebilir dosya) alır, dosya içindeki tüm verinin yükleneceği bellek alanını ayırıp veriyi yükledikten sonra denetimi yazılıma aktarır. Bu veri çoğunlukla yazılımın (<em class="wordasword">metin</em>) komutlarından  oluşmakla birlikte yazılımdaki sayıllar, sabitler ve hatta bazı değişkenleri de içerir: Duruk depolama sınıfı C değişkenleri. Bkz. <a class="xref" href="glibc-Memory-Allocation-and-C.html" title="3.2.1. C Yazılımlarında Belleğin Tahsisi">C Yazılımlarında Belleğin Tahsisi</a>.
-   <span id="idm85512" class="indexterm"></span>
-   <span id="idm85514" class="indexterm"></span>
-   <span id="idm85516" class="indexterm"></span>
+   <span id="idm85525" class="indexterm"></span>
+   <span id="idm85527" class="indexterm"></span>
+   <span id="idm85529" class="indexterm"></span>
   </p>
         <p>
    Yazılım işletilmeye başladıktan sonra ek bellek kazanmak için yazılımsal bellek tahsisi  yapar. GNU C Kütüphanesi kullanan bir C yazılımında, iki çeşit yazılımsal bellek tahsisi yapılabilir: özdevinimli (otomatik) ve özdevimli (dinamik). Bkz. <a class="xref" href="glibc-Memory-Allocation-and-C.html" title="3.2.1. C Yazılımlarında Belleğin Tahsisi">C Yazılımlarında Belleğin Tahsisi</a>.
   </p>
         <p>
    Bellek eşlemli G/Ç diğer bir özdevimli sanal bellek tahsis çeşididir.  Belleğin bir dosyaya eşlenmesi, bir sürecin belli bir adres aralığındaki içeriğinin belirtilen normal bir dosyanın içeriği ile eşdeğerde olacağının  bildirilmesidir. Sistem sanal belleğin dosyanın içeriğini içermesini sağlar ve eğer yazılımcı bellekte değişiklik yaparsa sistem aynı değişiklikleri dosyaya yazar. Sanal belleğin sihiri ve sayfa hatalarının sonuçlarından dolayı, yazılım sanal belleğe erişinceye kadar, sistemin dosyayı okumak için G/Ç işlemleri yapmasına ve dosya içeriği için gerçek belleği tahsis etmesine sebep yoktur. Bkz. <a class="xref" href="glibc-Memory-mapped-I-O.html" title="13.8. Bellek Eşlemli G/Ç"><em>Bellek Eşlemli G/Ç</em></a>.
-   <span id="idm85522" class="indexterm"></span>
-   <span id="idm85524" class="indexterm"></span>
-   <span id="idm85526" class="indexterm"></span>
+   <span id="idm85535" class="indexterm"></span>
+   <span id="idm85537" class="indexterm"></span>
+   <span id="idm85539" class="indexterm"></span>
   </p>
         <p>
    Belleği yazılımsal olarak tahsis edebilen yazılım, belleği yazılımsal olarak serbest de bırakabilir. İşletim (exec) ile tahsis edilen belleği yazılımcı serbest bırakamaz. Ancak yazılımın çalışması sonlandırılır (exit) veya yeniden başlatılırsa (exec) tahsis edilen tüm belleğin serbest kaldığından söz edilebilir, ancak her iki durumda da adres alanının varlığı sona erdiğinden bu konu gerçekten tartışmalıdır. Bkz. ???.
-   <span id="idm85531" class="indexterm"></span>
-   <span id="idm85534" class="indexterm"></span>
-   <span id="idm85537" class="indexterm"></span>
-   <span id="idm85540" class="indexterm"></span>
+   <span id="idm85544" class="indexterm"></span>
+   <span id="idm85547" class="indexterm"></span>
+   <span id="idm85550" class="indexterm"></span>
+   <span id="idm85553" class="indexterm"></span>
   </p>
         <p>
    

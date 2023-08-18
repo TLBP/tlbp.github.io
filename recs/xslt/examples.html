@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="date" content="2015-10-21T16:15:44+03:00" /><link rel="start" href=".." title="W3C Önergeleri" /><link rel="up" href="index.html#index-toc" title="XSL Dönüşümleri (XSLT) Sürüm 1.0" /><link rel="previous" href="dtd.html" title="XSLT Biçembentlerinde DTD Bölümü" /><link rel="next" href="ack.html" title="Teşekkür" /><link rel="stylesheet" type="text/css" href="../recs.css" /><style type="text/css">/* Belgeye özel bir CSS yoksa burası boş olabilir. */</style><title>Örnekler</title></head><body><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><th colspan="3" align="center">XSL Dönüşümleri (XSLT) Sürüm 1.0</th></tr><tr><td width="5%"><a href="dtd.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="5%" align="right"><a href="ack.html">Sonraki</a></td></tr></table><div class="div1"><h2><a name="examples" id="examples"></a>D Örnekler (Bilgilendirici)</h2><b>İçindekiler</b><p class="toc"><div class="tocline">    D.1 <a href="examples.html#idp25506432">Belge Örneği</a></div><div class="tocline">    D.2 <a href="examples.html#data-example">Veri Örneği</a></div></p><div class="div2"><h3><a name="idp25506432" id="idp25506432"></a>D.1 Belge Örneği</h3><p>Bu örnekte, basit bir DTD ile uyumlu belgeleri XHTML'ye [<a href="bibref.html#XHTML">XHTML</a>] dönüştürmek için bir biçembent kullanımı gösterilmiştir. DTD şöyledir:</p><div class="example"><pre>&lt;!ELEMENT doc     (title, chapter*)&gt;
+&lt;!ELEMENT chapter (title, (para|note)*, section*)&gt;
+&lt;!ELEMENT section (title, (para|note)*)&gt;
+&lt;!ELEMENT title   (#PCDATA|emph)*&gt;
+&lt;!ELEMENT para    (#PCDATA|emph)*&gt;
+&lt;!ELEMENT note    (#PCDATA|emph)*&gt;
+&lt;!ELEMENT emph    (#PCDATA|emph)*&gt;</pre></div><p>Biçembent böyle:</p><div class="example"><pre>&lt;xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns="http://www.w3.org/TR/xhtml1/strict"&gt;
+
+&lt;xsl:strip-space elements="doc chapter section"/&gt;
+&lt;xsl:output
+   method="xml"
+   indent="yes"
+   encoding="iso-8859-9"
+/&gt;
+
+&lt;xsl:template match="doc"&gt;
+ &lt;html&gt;
+   &lt;head&gt;
+     &lt;title&gt;
+       &lt;xsl:value-of select="title"/&gt;
+     &lt;/title&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;xsl:apply-templates/&gt;
+   &lt;/body&gt;
+ &lt;/html&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="doc/title"&gt;
+  &lt;h1&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/h1&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="chapter/title"&gt;
+  &lt;h2&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/h2&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="section/title"&gt;
+  &lt;h3&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/h3&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="para"&gt;
+  &lt;p&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/p&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="note"&gt;
+  &lt;p class="note"&gt;
+    &lt;b&gt;BİLGİ: &lt;/b&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/p&gt;
+&lt;/xsl:template&gt;
+
+&lt;xsl:template match="emph"&gt;
+  &lt;em&gt;
+    &lt;xsl:apply-templates/&gt;
+  &lt;/em&gt;
+&lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</pre></div><p>Kaynak belgemiz böyle olsaydı:</p><div class="example"><pre>&lt;!DOCTYPE doc SYSTEM "doc.dtd"&gt;
+&lt;doc&gt;
+&lt;title&gt;Belge Başlığı&lt;/title&gt;
+&lt;chapter&gt;
+&lt;title&gt;Fasıl Başlığı&lt;/title&gt;
+&lt;section&gt;
+&lt;title&gt;Bölüm Başlığı&lt;/title&gt;
+&lt;para&gt;Bu bir denemedir.&lt;/para&gt;
+&lt;note&gt;Bu bir ek bilgidir.&lt;/note&gt;
+&lt;/section&gt;
+&lt;section&gt;
+&lt;title&gt;Başka Bir Bölüm Başlığı&lt;/title&gt;
+&lt;para&gt;Bu da &lt;emph&gt;başka&lt;/emph&gt; bir DNMdir.&lt;/para&gt;
+&lt;note&gt;Bu bir ek malumattır.&lt;/note&gt;
+&lt;/section&gt;
+&lt;/chapter&gt;
+&lt;/doc&gt;</pre></div><p>Üretilecek hedef belgemiz böyle olurdu:</p><div class="example"><pre>&lt;?xml version="1.0" encoding="iso-8859-9"?&gt;
+&lt;html xmlns="http://www.w3.org/TR/xhtml1/strict"&gt;
+&lt;head&gt;
+&lt;title&gt;Belge Başlığı&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Belge Başlığı&lt;/h1&gt;
+&lt;h2&gt;Fasıl Başlığı&lt;/h2&gt;
+&lt;h3&gt;Bölüm Başlığı&lt;/h3&gt;
+&lt;p&gt;Bu bir denemedir.&lt;/p&gt;
+&lt;p class="note"&gt;
+&lt;b&gt;BİLGİ: &lt;/b&gt;Bu bir ek bilgidir.&lt;/p&gt;
+&lt;h3&gt;Başka Bir Bölüm Başlığı&lt;/h3&gt;
+&lt;p&gt;Bu da &lt;em&gt;başka&lt;/em&gt; bir DNMdir.&lt;/p&gt;
+&lt;p class="note"&gt;
+&lt;b&gt;BİLGİ: &lt;/b&gt;Bu ilaveten diğer bir malumattır.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div><p></p></div><div class="div2"><h3><a name="data-example" id="data-example"></a>D.2 Veri Örneği</h3><p>Bu örnekte, bir XML belge olarak tutulan veriden üç farklı biçembent kullanarak verinin üç farklı gösterimi (HTML, SVG ve VRML) elde edilmektedir.</p><p>Veri girdimiz:</p><div class="example"><pre>&lt;satışlar&gt;
+
+        &lt;bölge id="Kuzey"&gt;
+                &lt;gelir&gt;10&lt;/gelir&gt;
+                &lt;artış&gt;9&lt;/artış&gt;
+                &lt;ikram&gt;7&lt;/ikram&gt;
+        &lt;/bölge&gt;
+
+        &lt;bölge id="Güney"&gt;
+                &lt;gelir&gt;4&lt;/gelir&gt;
+                &lt;artış&gt;3&lt;/artış&gt;
+                &lt;ikram&gt;4&lt;/ikram&gt;
+        &lt;/bölge&gt;
+
+        &lt;bölge id="Batı"&gt;
+                &lt;gelir&gt;6&lt;/gelir&gt;
+                &lt;artış&gt;-1.5&lt;/artış&gt;
+                &lt;ikram&gt;2&lt;/ikram&gt;
+        &lt;/bölge&gt;
+
+&lt;/sales&gt;</pre></div><p>Aşağıdaki biçembent, <a href="struct.html#result-element-stylesheet"><b>Birebir Hedef Eleman olarak Biçembent</b></a> bölümünde açıklanan basitleştirilmiş sözdizimini kullanarak veriyi HTML'ye dönüştürmek içindir:</p><div class="example"><pre>&lt;html xsl:version="1.0"
+      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+      lang="tr"&gt;
+    &lt;head&gt;
+	&lt;title&gt;Bölgelere göre Satış Sonuçları&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+	&lt;table border="1"&gt;
+	    &lt;tr&gt;
+		&lt;th&gt;Bölge&lt;/th&gt;
+		&lt;th&gt;Gelir&lt;/th&gt;
+		&lt;th&gt;Büyüme&lt;/th&gt;
+		&lt;th&gt;İkramiye&lt;/th&gt;
+	    &lt;/tr&gt;
+	    &lt;xsl:for-each select="satışlar/bölge"&gt;
+		&lt;!-- sonuçları gelire göre sırala --&gt;
+		&lt;xsl:sort select="gelir"
+			  data-type="number"
+			  order="descending"/&gt;
+		&lt;tr&gt;
+		    &lt;td&gt;
+			&lt;em&gt;&lt;xsl:value-of select="@id"/&gt;&lt;/em&gt;
+		    &lt;/td&gt;
+		    &lt;td&gt;
+			&lt;xsl:value-of select="gelir"/&gt;
+		    &lt;/td&gt;
+		    &lt;td&gt;
+			&lt;!-- büyüme aslında küçülmeyse kırmızı göster --&gt;
+			&lt;xsl:if test="artış &amp;lt; 0"&gt;
+			     &lt;xsl:attribute name="style"&gt;
+				 &lt;xsl:text&gt;color:red&lt;/xsl:text&gt;
+			     &lt;/xsl:attribute&gt;
+			&lt;/xsl:if&gt;
+			&lt;xsl:value-of select="artış"/&gt;
+		    &lt;/td&gt;
+		    &lt;td&gt;
+			&lt;xsl:value-of select="ikram"/&gt;
+		    &lt;/td&gt;
+		&lt;/tr&gt;
+	    &lt;/xsl:for-each&gt;
+	&lt;/table&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre></div><p>The HTML output is:</p><div class="example"><pre>&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9"&gt;
+&lt;title&gt;Bölgelere göre Satış Sonuçları&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table border="1"&gt;
+&lt;tr&gt;
+&lt;th&gt;Bölge&lt;/th&gt;&lt;th&gt;Gelir&lt;/th&gt;&lt;th&gt;Büyüme&lt;/th&gt;&lt;th&gt;İkramiye&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;Kuzey&lt;/em&gt;&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;Batı&lt;/em&gt;&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td style="color:red"&gt;-1.5&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;Güney&lt;/em&gt;&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div><p>Bu biçembent veriyi SCG'ye dönüştürmek içinder:</p><div class="example"><pre>&lt;xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns="http://www.w3.org/Graphics/SVG/SVG-19990812.dtd"&gt;
+
+&lt;xsl:output method="xml" indent="yes" media-type="image/svg"/&gt;
+
+&lt;xsl:template match="/"&gt;
+
+&lt;svg width = "3in" height="3in"&gt;
+    &lt;g style = "stroke: #000000"&gt;
+        &lt;!-- eksenlere çiz --&gt;
+        &lt;line x1="0" x2="150" y1="150" y2="150"/&gt;
+        &lt;line x1="0" x2="0" y1="0" y2="150"/&gt;
+        &lt;text x="0" y="10"&gt;Gelir&lt;/text&gt;
+        &lt;text x="150" y="165"&gt;Bölüm&lt;/text&gt;
+        &lt;xsl:for-each select="satışlar/bölüm"&gt;
+	    &lt;!-- bazı yararlı değişkenleri tanımlayalım --&gt;
+
+	    &lt;!-- çubuğun x konumu --&gt;
+	    &lt;xsl:variable name="pos"
+	                  select="(position()*40)-30"/&gt;
+
+	    &lt;!-- çubuğun yüksekliği --&gt;
+	    &lt;xsl:variable name="height"
+	                  select="gelir*10"/&gt;
+
+	    &lt;!-- dikdörtgen --&gt;
+	    &lt;rect x="{$pos}" y="{150-$height}"
+                  width="20" height="{$height}"/&gt;
+
+	    &lt;!-- metinsel yafta --&gt;
+	    &lt;text x="{$pos}" y="165"&gt;
+	        &lt;xsl:value-of select="@id"/&gt;
+	    &lt;/text&gt;
+
+	    &lt;!-- çubuk değeri --&gt;
+	    &lt;text x="{$pos}" y="{145-$height}"&gt;
+	        &lt;xsl:value-of select="gelir"/&gt;
+	    &lt;/text&gt;
+        &lt;/xsl:for-each&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+
+&lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</pre></div><p>SVG çıktısı:</p><div class="example"><pre>&lt;svg width="3in" height="3in"
+     xmlns="http://www.w3.org/Graphics/SVG/svg-19990412.dtd"&gt;
+    &lt;g style="stroke: #000000"&gt;
+	&lt;line x1="0" x2="150" y1="150" y2="150"/&gt;
+	&lt;line x1="0" x2="0" y1="0" y2="150"/&gt;
+	&lt;text x="0" y="10"&gt;Gelir&lt;/text&gt;
+	&lt;text x="150" y="165"&gt;Bölüm&lt;/text&gt;
+	&lt;rect x="10" y="50" width="20" height="100"/&gt;
+	&lt;text x="10" y="165"&gt;Kuzey&lt;/text&gt;
+	&lt;text x="10" y="45"&gt;10&lt;/text&gt;
+	&lt;rect x="50" y="110" width="20" height="40"/&gt;
+	&lt;text x="50" y="165"&gt;Güney&lt;/text&gt;
+	&lt;text x="50" y="105"&gt;4&lt;/text&gt;
+	&lt;rect x="90" y="90" width="20" height="60"/&gt;
+	&lt;text x="90" y="165"&gt;Batı&lt;/text&gt;
+	&lt;text x="90" y="85"&gt;6&lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;</pre></div><p>Aşağıdaki biçembent veriyi VRML'ye dönüştürmek içindir:</p><div class="example"><pre>&lt;xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
+
+&lt;!-- metni, öntanımlı karakter kümesini kullanarak
+     model/vrmlmime türünde üretelim --&gt;
+&lt;xsl:output method="text" encoding="UTF-8" media-type="model/vrml"/&gt;
+
+        &lt;xsl:template match="/"&gt;#VRML V2.0 utf8
+
+# tek bir bar elemanının externproto tanımı
+EXTERNPROTO bar [
+  field SFInt32 x
+  field SFInt32 y
+  field SFInt32 z
+  field SFString name
+  ]
+  "http://www.vrml.org/WorkingGroups/dbwork/barProto.wrl"
+
+# taşıyıcı çizge eksenlerini satıriçine alalım
+Inline {
+        url "http://www.vrml.org/WorkingGroups/dbwork/barAxes.wrl"
+        }
+
+                &lt;xsl:for-each select="satışlar/bölüm"&gt;
+bar {
+        x &lt;xsl:value-of select="gelir"/&gt;
+        y &lt;xsl:value-of select="artış"/&gt;
+        z &lt;xsl:value-of select="ikram"/&gt;
+        name "&lt;xsl:value-of select="@id"/&gt;"
+        }
+                &lt;/xsl:for-each&gt;
+
+        &lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;</pre></div><p>VRML çıktısı:</p><div class="example"><pre>#VRML V2.0 utf8
+
+# tek bir bar elemanının externproto tanımı
+EXTERNPROTO bar [
+  field SFInt32 x
+  field SFInt32 y
+  field SFInt32 z
+  field SFString name
+  ]
+  "http://www.vrml.org/WorkingGroups/dbwork/barProto.wrl"
+
+# taşıyıcı çizge eksenlerini satıriçine alalım
+Inline {
+        url "http://www.vrml.org/WorkingGroups/dbwork/barAxes.wrl"
+        }
+
+
+bar {
+        x 10
+        y 9
+        z 7
+        name "Kuzey"
+        }
+
+bar {
+        x 4
+        y 3
+        z 4
+        name "Güney"
+        }
+
+bar {
+        x 6
+        y -1.5
+        z 2
+        name "Batı"
+        }</pre></div><p></p></div></div><p></p><table width="100%" summary="Gezinme Çubuğu" cellpadding="1" cellspacing="0" style="border:1px dotted #999999"><tr><td width="30%"><a href="dtd.html">Önceki</a></td><td width="*" align="center"><a href="index.html#index-toc">Yukarı</a></td><td width="30%" align="right"><a href="ack.html">Sonraki</a></td></tr><tr><td width="30%">XSLT Biçembentlerinde DTD Bölümü</td><td width="*" align="center">Bir <a href="http://belgeler.org.tr">Linux Kitaplığı</a> Sayfası</td><td width="30%" align="right">Teşekkür</td></tr></table></body></html>

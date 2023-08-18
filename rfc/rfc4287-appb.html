@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek-B. RELAX NG, Bütünleşik Şema</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-appa.html')">Önceki</button>
+          <div class="dropdown-content">Ek-A. Katkıda Bulunanlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-appc.html')">Sonraki</button>
+          <div class="dropdown-content">Ek-C. Belge Hakkında</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc4287-appb">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek-B. RELAX NG, Bütünleşik Şema</h2>
+            </div>
+          </div>
+        </div>
+        <p>Bu ek bölüm bilgi mahiyetindedir.
+</p>
+        <p>
+Relax NG şeması, belirtimin bu düzenlemesinde tanımlanmamış olan Atom isim alanındaki elemanları açıkça dışlar. Böyle bir imlemeyi saptayan Atom İşlemcileri için gereksinimlerden <a class="xref" href="rfc4287-s6.html#rfc4287-s62" title="6.2. Atom Söz Dağarcığına Eklemeler">Atom Söz Dağarcığına Eklemeler</a> ve <a class="xref" href="rfc4287-s6.html#rfc4287-s63" title="6.3. Yabancı İmlemenin İşlenmesi">Yabancı İmlemenin İşlenmesi</a> bölümlerinde bahsedilmişti.
+</p>
+        <pre class="literallayout monospaced">
+# -*- rnc -*-
+# Atom Biçimi Belirtimi Sürüm 11 için
+# RELAX NG Bütünleşik Sözdizimi Bilgisi
+
+namespace atom = "http://www.w3.org/2005/Atom"
+namespace xhtml = "http://www.w3.org/1999/xhtml"
+namespace s = "http://www.ascc.net/xml/schematron"
+namespace local = ""
+
+start = atomFeed | atomEntry
+
+# Ortak öznitelikler
+
+atomCommonAttributes =
+   attribute xml:base { atomUri }?,
+   attribute xml:lang { atomLanguageTag }?,
+   undefinedAttribute*
+
+# Metin oluşumları
+
+atomPlainTextConstruct =
+   atomCommonAttributes,
+   attribute type { "text" | "html" }?,
+   text
+
+atomXHTMLTextConstruct =
+   atomCommonAttributes,
+   attribute type { "xhtml" },
+   xhtmlDiv
+
+atomTextConstruct = atomPlainTextConstruct | atomXHTMLTextConstruct
+
+# Kişilik oluşumları
+
+atomPersonConstruct =
+   atomCommonAttributes,
+   (element atom:name { text }
+    &amp; element atom:uri { atomUri }?
+    &amp; element atom:email { atomEmailAddress }?
+    &amp; extensionElement*)
+
+# Tarih oluşumları
+
+atomDateConstruct =
+   atomCommonAttributes,
+   xsd:dateTime
+
+# atom:feed
+
+atomFeed =
+   [
+      s:rule [
+         context = "atom:feed"
+         s:assert [
+            test = "atom:author or not(atom:entry[not(atom:author)])"
+            "Bir atom:feed elemanının tüm atom:entry çocukları bir "
+            ~ "atom:author elemanı içermedikçe, bir atom:author "
+            ~ "elemanının olması gerekir."
+         ]
+      ]
+   ]
+   element atom:feed {
+      atomCommonAttributes,
+      (atomAuthor*
+       &amp; atomCategory*
+       &amp; atomContributor*
+       &amp; atomGenerator?
+       &amp; atomIcon?
+       &amp; atomId
+       &amp; atomLink*
+       &amp; atomLogo?
+       &amp; atomRights?
+       &amp; atomSubtitle?
+       &amp; atomTitle
+       &amp; atomUpdated
+       &amp; extensionElement*),
+      atomEntry*
+   }
+
+# atom:entry
+
+atomEntry =
+   [
+      s:rule [
+         context = "atom:entry"
+         s:assert [
+            test = "atom:link[@rel='alternate'] "
+            ~ "or atom:link[not(@rel)] "
+            ~ "or atom:content"
+            "Bir atom:entry elemanının rel özniteliği 'alternate' "
+            ~ "olan en azından bir atom:link elemanı veya bir "
+            ~ "atom:content elemanı olması gerekir."
+         ]
+      ]
+      s:rule [
+         context = "atom:entry"
+         s:assert [
+            test = "atom:author or "
+            ~ "../atom:author or atom:source/atom:author"
+            "Eğer ulamı içermiyorsa, bir atom:entry elemanının bir "
+            ~ "atom:author çocuğu olması gerekir."
+         ]
+      ]
+   ]
+   element atom:entry {
+      atomCommonAttributes,
+      (atomAuthor*
+       &amp; atomCategory*
+       &amp; atomContent?
+       &amp; atomContributor*
+       &amp; atomId
+       &amp; atomLink*
+       &amp; atomPublished?
+       &amp; atomRights?
+       &amp; atomSource?
+       &amp; atomSummary?
+       &amp; atomTitle
+       &amp; atomUpdated
+       &amp; extensionElement*)
+   }
+
+# atom:content
+
+atomInlineTextContent =
+   element atom:content {
+      atomCommonAttributes,
+      attribute type { "text" | "html" }?,
+      (text)*
+   }
+
+atomInlineXHTMLContent =
+   element atom:content {
+      atomCommonAttributes,
+      attribute type { "xhtml" },
+      xhtmlDiv
+   }
+
+atomInlineOtherContent =
+   element atom:content {
+      atomCommonAttributes,
+      attribute type { atomMediaType }?,
+      (text|anyElement)*
+   }
+
+atomOutOfLineContent =
+   element atom:content {
+      atomCommonAttributes,
+      attribute type { atomMediaType }?,
+      attribute src { atomUri },
+      empty
+   }
+
+atomContent = atomInlineTextContent
+ | atomInlineXHTMLContent
+ | atomInlineOtherContent
+ | atomOutOfLineContent
+
+# atom:author
+
+atomAuthor = element atom:author { atomPersonConstruct }
+
+# atom:category
+
+atomCategory =
+   element atom:category {
+      atomCommonAttributes,
+      attribute term { text },
+      attribute scheme { atomUri }?,
+      attribute label { text }?,
+      undefinedContent
+   }
+
+# atom:contributor
+
+atomContributor = element atom:contributor { atomPersonConstruct }
+
+# atom:generator
+
+atomGenerator = element atom:generator {
+   atomCommonAttributes,
+   attribute uri { atomUri }?,
+   attribute version { text }?,
+   text
+}
+
+# atom:icon
+
+atomIcon = element atom:icon {
+   atomCommonAttributes,
+   (atomUri)
+}
+
+# atom:id
+
+atomId = element atom:id {
+   atomCommonAttributes,
+   (atomUri)
+}
+
+# atom:logo
+
+atomLogo = element atom:logo {
+   atomCommonAttributes,
+   (atomUri)
+}
+
+# atom:link
+
+atomLink =
+   element atom:link {
+      atomCommonAttributes,
+      attribute href { atomUri },
+      attribute rel { atomNCName | atomUri }?,
+      attribute type { atomMediaType }?,
+      attribute hreflang { atomLanguageTag }?,
+      attribute title { text }?,
+      attribute length { text }?,
+      undefinedContent
+   }
+
+# atom:published
+
+atomPublished = element atom:published { atomDateConstruct }
+
+# atom:rights
+
+atomRights = element atom:rights { atomTextConstruct }
+
+# atom:source
+
+atomSource =
+   element atom:source {
+      atomCommonAttributes,
+      (atomAuthor*
+       &amp; atomCategory*
+       &amp; atomContributor*
+       &amp; atomGenerator?
+       &amp; atomIcon?
+       &amp; atomId?
+       &amp; atomLink*
+       &amp; atomLogo?
+       &amp; atomRights?
+       &amp; atomSubtitle?
+       &amp; atomTitle?
+       &amp; atomUpdated?
+       &amp; extensionElement*)
+   }
+
+# atom:subtitle
+
+atomSubtitle = element atom:subtitle { atomTextConstruct }
+
+# atom:summary
+
+atomSummary = element atom:summary { atomTextConstruct }
+
+# atom:title
+
+atomTitle = element atom:title { atomTextConstruct }
+
+# atom:updated
+
+atomUpdated = element atom:updated { atomDateConstruct }
+
+# Düşük seviyeden basit türler
+
+atomNCName = xsd:string { minLength = "1" pattern = "[^:]*" }
+
+# Her ortam türü en azından bir "/" içerir
+atomMediaType = xsd:string { pattern = ".+/.+" }
+
+# RFC 3066'da tanımlandığı gibi
+atomLanguageTag = xsd:string {
+   pattern = "[A-Za-z]{1,8}(-[A-Za-z0-9]{1,8})*"
+}
+
+# Unconstrained; it's not entirely clear how IRI fit into
+# xsd:anyURI so let's not try to constrain it here
+atomUri = text
+
+# Her eposta adresi en azından bir @ içerir
+atomEmailAddress = xsd:string { pattern = ".+@.+" }
+
+# Basit Eklenti
+
+simpleExtensionElement =
+   element * - atom:* {
+      text
+   }
+
+# Yapılı Eklenti
+
+structuredExtensionElement =
+   element * - atom:* {
+      (attribute * { text }+,
+         (text|anyElement)*)
+    | (attribute * { text }*,
+       (text?, anyElement+, (text|anyElement)*))
+   }
+
+# Diğer Genişletmeler
+
+extensionElement =
+   simpleExtensionElement | structuredExtensionElement
+
+undefinedAttribute =
+  attribute * - (xml:base | xml:lang | local:*) { text }
+
+undefinedContent = (text|anyForeignElement)*
+
+anyElement =
+   element * {
+      (attribute * { text }
+       | text
+       | anyElement)*
+   }
+
+anyForeignElement =
+   element * - atom:* {
+      (attribute * { text }
+       | text
+       | anyElement)*
+   }
+
+# XHTML
+
+anyXHTML = element xhtml:* {
+   (attribute * { text }
+    | text
+    | anyXHTML)*
+}
+
+xhtmlDiv = element xhtml:div {
+   (attribute * { text }
+    | text
+    | anyXHTML)*
+}
+
+# EOF
+</pre>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

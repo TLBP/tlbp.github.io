@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.4.1. Bellek Koruma Anahtarları</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -44,9 +44,9 @@
           </div>
         </div>
         <p>
-    <span id="idm88902" class="indexterm"></span>
-    <span id="idm88905" class="indexterm"></span>
-    <span id="idm88908" class="indexterm"></span>
+    <span id="idm88915" class="indexterm"></span>
+    <span id="idm88918" class="indexterm"></span>
+    <span id="idm88921" class="indexterm"></span>
     Bazı sistemlerde, <em class="emphasis">bellek koruma anahtarları</em> kullanılarak belirli sayfalara daha fazla kısıtlama eklenebilir. Bu kısıtlamalar şu şekilde çalışır:
    </p>
         <div class="itemizedlist">
@@ -69,10 +69,10 @@
           </ul>
         </div>
         <p>
-    Yeni evreler ve alt süreçler, geçerli evre erişim haklarını devralır. Daha sonra bir koruma anahtarı tahsis edilirse, mevcut evreler (geçerli olan hariç), yeni tahsis edilen anahtarlarla ilişkili erişim hakları için belirtilmemiş olan sistem ön tanımlısını kullanır.
+    Yeni evreler ve alt süreçler, geçerli evre erişim haklarını devralır. Daha sonra bir koruma anahtarı tahsis edilirse, mevcut evreler (geçerli olan hariç), yeni tahsis edilen anahtarlarla ilişkili erişim hakları için belirtilmemiş olan sistem varsayılanı kullanır.
    </p>
         <p>
-    Bir sinyal işleyiciye girildiğinde, sistem geçerli evrenin erişim haklarını sıfırlar, böylece ön tanımlı anahtara sahip sayfalara erişilebilir, ancak diğer koruma anahtarları için erişim hakları belirtilmez.
+    Bir sinyal işleyiciye girildiğinde, sistem geçerli evrenin erişim haklarını sıfırlar, böylece varsayılan anahtarı olan sayfalara erişilebilir, ancak diğer koruma anahtarları için erişim hakları belirtilmez.
    </p>
         <p>
     Uygulamaların bir kez <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanarak bir anahtar tahsis etmesi ve anahtarı <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> ile özel koruma gerektiren bellek bölgelerine uygulaması beklenir:
@@ -96,7 +96,7 @@ if (pkey_mprotect (region, region_length,
         </div>
         <br class="example-break" />
         <p>
-    Bellek koruma anahtarları için destek olmaması nedeniyle anahtar tahsisi başarısız olursa, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağrısı genellikle atlanabilir. Bu durumda, bölge ön tanımlı olarak korunmaz. <code class="code">-1</code> anahtar değeri ile  <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağırmak da mümkündür, işlev bu durumda <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi gibi davranacaktır.
+    Bellek koruma anahtarları için destek olmaması nedeniyle anahtar tahsisi başarısız olursa, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağrısı genellikle atlanabilir. Bu durumda, bölge korunmasız kalır. <code class="code">-1</code> anahtar değeri ile  <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_mprotect"><strong class="function"><code>pkey_mprotect</code></strong></a> çağırmak da mümkündür, işlev bu durumda <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> işlevi gibi davranacaktır.
    </p>
         <p>
     Bellek sayfalarına anahtar tahsisi atamasından sonra, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_set"><strong class="function"><code>pkey_set</code></strong></a> bellek bölgesine geçici olarak erişim elde edip vazgeçmek için kullanılabilir:
@@ -187,10 +187,10 @@ if (key &gt;= 0 &amp;&amp; pkey_set (key, PKEY_DISABLE_ACCESS) &lt; 0)
      <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a>'e benzer, ancak aynı zamanda <em class="parameter"><code>key</code></em> anahtarını bellek bölgesi için bellek koruma anahtarı yapar.
     </p>
     <p>
-     Bazı sistemler, belirli koruma bayrağı birleşimlerini taklit etmek için bellek koruma anahtarları kullanır. Bu gibi durumlarda, koruma anahtarının doğrudan belirtilmesi, ön tanımlı koruma anahtarında gerçekleşmese bile, <em class="parameter"><code>protection</code></em> bağımsız değişkeninde ek bayraklar belirtilmiş gibi davranabilir. Örneğin, bazı sistemler yalnızca <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> eşlemlerini yalnızca ön tanımlı koruma anahtarıyla destekleyebilir ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a> olmadan <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> belirtilirse, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanılarak tahsis edilmiş anahtara sahip bellek yine de okunabilir olacaktır.
+     Bazı sistemler, belirli koruma bayrağı birleşimlerini taklit etmek için bellek koruma anahtarları kullanır. Bu gibi durumlarda, koruma anahtarının doğrudan belirtilmesi, varsayılan koruma anahtarında gerçekleşmese bile, <em class="parameter"><code>protection</code></em> bağımsız değişkeninde ek bayraklar belirtilmiş gibi davranabilir. Örneğin, bazı sistemler yalnızca <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> eşlemlerini yalnızca varsayılan koruma anahtarıyla destekleyebilir ve <a href="glibc-Memory-Protection.html#glibc-vr-PROT_READ"><strong class="varname"><code>PROT_READ</code></strong></a> olmadan <a href="glibc-Memory-Protection.html#glibc-vr-PROT_EXEC"><strong class="varname"><code>PROT_EXEC</code></strong></a> belirtilirse, <a href="glibc-Memory-Protection-Keys.html#glibc-fn-pkey_alloc"><strong class="function"><code>pkey_alloc</code></strong></a> kullanılarak tahsis edilmiş anahtara sahip bellek yine de okunabilir olacaktır.
     </p>
     <p>
-     <em class="parameter"><code>key</code></em> bağımsız değişkeni <code class="code">-1</code> ise, ön tanımlı koruma anahtarı <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> çağrılmış gibi eşleme uygulanır.
+     <em class="parameter"><code>key</code></em> bağımsız değişkeni <code class="code">-1</code> ise, varsayılan koruma anahtarı <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> çağrılmış gibi eşleme uygulanır.
     </p>
     <p>
      <code class="code">pkey_mprotect</code> işlevi başarı durumunda <code class="code">0</code>, başarısızlık durumunda <code class="code">-1</code> döndürür. <a href="glibc-Memory-Protection.html#glibc-fn-mprotect"><strong class="function"><code>mprotect</code></strong></a> için tanımlı hata durumlarına ek olarak aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:

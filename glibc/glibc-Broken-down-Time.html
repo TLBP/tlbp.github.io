@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>21.5.3. Dökümlü Zaman</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Setting-and-Adjusting-the-Time.html')">Önceki</button>
+          <div class="dropdown-content">21.5.2. Zamanın Değiştirilmesi ve Ayarlanması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Calendar-Time.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Formatting-Calendar-Time.html')">Sonraki</button>
+          <div class="dropdown-content">21.5.4. Zamanın Biçimlenmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Broken-down-Time">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">21.5.3. Dökümlü Zaman</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm132360" class="indexterm"></span>
+    Basit takvim zamanları, mutlak zamanı bir başlangıçtan beri geçen süreler olarak temsil eder. Bu, hesaplama için uygundur, ancak insanların normalde takvim zamanını düşünme biçimleriyle hiçbir ilgisi yoktur. Buna karşılık, dökümlü zaman, takvim zamanının yıl, ay, gün vb. olarak ayrılmış ikil gösterimidir. Dökümlü zaman değerleri, hesaplamalar için yararlı değildir, ancak insan tarafından okunabilir zaman bilgilerini yazdırmak için kullanışlıdır.
+   </p>
+        <p>
+    Dökümlü zaman değeri, her zaman seçilen saat dilimiyle ilişkilidir ve ayrıca geçerli saat dilimini de gösterir.
+   </p>
+        <p>
+    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code> başlık dosyasında bildirilmiştir.
+   </p>
+        <div class="csynopsis"><div class="cstype">  veri türü</div>
+    <span id="glibc-tp-tm" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct </code><strong><code class="function">tm</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     Dökümlü zamanı ifade etmek için kullanılan veri türüdür. Yapı, herhangi bir sırayla görünebilen en azından aşağıdaki üyeleri içerir.
+    </p>
+    <div class="glosslist"><dl><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_sec</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-cp-tm_sec" class="indexterm"></span>
+        Dakikanın bitiminden beri geçen tam saniye sayısıdır (normalde <code class="code">0</code> ila <code class="code">59</code> aralığındadır, ancak artık saniye desteği mevcutsa artık saniyelere izin vermek için gerçek üst sınır <code class="code">60</code> olur).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_min</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Saatin bitiminden beri geçen tam dakika sayısıdır (<code class="code">0</code> ila <code class="code">59</code> aralığında).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_hour</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gece yarısından sonraki tam saatlerin sayısıdır (<code class="code">0</code> ila <code class="code">23</code> aralığında).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_mday</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Ayın sıralı günüdür (<code class="code">1</code> ila <code class="code">31</code> aralığında). Buna dikkat! Yapıdaki tek sıra numarası olduğundan yapının geri kalanıyla tutarsızdır.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_mon</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Yılın başından bu yana geçen tam takvim ayı sayısıdır (<code class="code">0</code> ile <code class="code">11</code> aralığında). Buna dikkat! İnsanlar genellikle yılın ayı için 0'dan değil 1'den başlayan sayıları kullanır (Ocak = 1).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_year</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        1900'den beri tam takvim yıllarının sayısı.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_wday</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Pazar gününden beri geçen tam gün sayısı (<code class="code">0</code> ila <code class="code">6</code> aralığında)
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_yday</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Yılın başından beri geçen tam gün sayısı (<code class="code">0</code> ila <code class="code">365</code> aralığında).
+       </p></dd><dt><span class="glossterm">
+       <code class="type">int </code><strong class="structfield"><code>tm_isdst</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        <span id="glibc-cp-tm_isdst" class="indexterm"></span>
+        Bu, Yaz Saati Uygulamasının halen yürürlükte olup olmadığını (veya olduğunu ya da olacağını) gösteren bir imdir. Yaz Saati Uygulaması etkinse değer pozitif, etkin değilse sıfır ve bilgi yoksa negatiftir.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">long int </code><strong class="structfield"><code>tm_gmtoff</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Gün ışığından yararlanmak için yapılan ayarlama dahil, dökümlü zaman değerini hesaplamak için kullanılan saat dilimini açıklar; yerel saati almak için UTC'ye eklenmesi gereken saniye sayısıdır. UTC'nin doğusundaki saniye sayısı olarak da düşünülebilir. Örneğin, ABD Doğu Standart Saati için değer -5*60*60'tır. <code class="code">tm_gmtoff</code> alanı BSD'den türetilmiştir ve GNU C Kütüphanesi genişletmesidir; ISO C standardına tamamen uygun ortamlarda görülmez.
+       </p></dd><dt><span class="glossterm">
+       <code class="type">const char *</code><strong class="structfield"><code>tm_zone</code></strong>
+      </span></dt><dd class="glossdef"><p>
+        Dökümlü zaman değerini hesaplamak için kullanılan saat diliminin adı. <code class="code">tm_gmtoff</code> alanı gibi, bu alan da bir BSD ve GNU C Kütüphanesi genişletmesidir; ISO C standardına tamamen uygun ortamlarda görülmez.
+       </p></dd></dl></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-localtime" class="indexterm"></span>
+    <span id="glibc-cp-localtime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="function">localtime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const time_t </code><strong class="type">*</strong><strong><code class="parameter">time</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:tmbuf</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">localtime</code> şlevi, <em class="parameter"><code>time</code></em> ile gösterilen basit zamanı, kullanıcının belirtdiği saat dilimine göre ifade edilen, dökümlü zaman gösterimine dönüştürür.
+    </p>
+    <p>
+     Dönen değer, <code class="code">ctime</code>, <code class="code">gmtime</code> veya <code class="code">localtime</code> işlevine yapılan sonraki çağrılar tarafından geçersiz kılınabilecek, duruk dökümlü zaman yapısına göstericidir. (Ancak başka hiçbir kütüphane işlevi bu nesnenin içeriğini değiştirmez.)
+    </p>
+    <p>
+     <em class="parameter"><code>time</code></em>, dökümlü zamana dönüştürülemiyorsa boş gösterici döner; genellikle bunun nedeni, yılın <code class="type">int</code> türüne sığamamasıdır.
+    </p>
+    <p>
+     <code class="code">localtime</code> çağrısı, <strong class="function"><code>tzset</code></strong> çağrılmış gibi geçerli saat dilimini de ayarlar. Bkz, ???.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Broken-down-Time.html#glibc-fn-localtime"><strong class="function"><code>localtime</code></strong></a> işlevinin çok evreli yazılımlarda kullanılması büyük bir sorundur. Sonuç, duruk bir tamponda döndürülür ve tüm evreler bunu  kullanır. POSIX.1c'de bu işlevin çok evreli kullanıma uygun benzeri vardır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-localtime_r" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="function">localtime_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const time_t </code><strong class="type">*</strong><strong><code class="parameter">time</code></strong><strong><code>, </code></strong><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="parameter">resultp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">localtime_r</code> işlevi <a href="glibc-Broken-down-Time.html#glibc-fn-localtime"><strong class="function"><code>localtime</code></strong></a> işlevi gibi çalışır. Basit zaman içeren bir değişkene gösterici alır ve onu dökümlü zaman biçimine dönüştürür.
+    </p>
+    <p>
+     Ancak sonuç duruk tampona yerleştirilmez. Bunun yerine, <em class="parameter"><code>resultp</code></em> ile gösterilen <a href="glibc-Broken-down-Time.html#glibc-tp-tm"><strong class="type"><code>struct tm</code></strong></a> türündeki nesneye yerleştirilir.
+    </p>
+    <p>
+     Dönüşüm başarılı olursa işlev, sonucun yazıldığı nesneye gösterici döndürür, yani, <em class="parameter"><code>resultp</code></em> döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-gmtime" class="indexterm"></span>
+    <span id="glibc-cp-gmtime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="function">gmtime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const time_t </code><strong class="type">*</strong><strong><code class="parameter">time</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:tmbuf</a></code> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Bu işlev, dökümlü zamanı bir yerel zaman dilimine değil de UTC'ye göre döndürmesi dışında <a href="glibc-Broken-down-Time.html#glibc-fn-localtime"><strong class="function"><code>localtime</code></strong></a> gibidir.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Broken-down-Time.html#glibc-fn-localtime"><strong class="function"><code>localtime</code></strong></a> işlevindeki gibi <a href="glibc-Broken-down-Time.html#glibc-fn-gmtime"><strong class="function"><code>gmtime</code></strong></a> işlevinin de çok evreli yazılımlarda kullanılması büyük bir sorundur. Sonuç, duruk bir tamponda döndürülür ve tüm evreler bunu  kullanır. POSIX.1c'de bu işlevin çok evreli kullanıma uygun benzeri vardır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-gmtime_r" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="function">gmtime_r</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">const time_t </code><strong class="type">*</strong><strong><code class="parameter">time</code></strong><strong><code>, </code></strong><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="parameter">resultp</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     Belirtilen zamanı tıpkı <a href="glibc-Broken-down-Time.html#glibc-fn-gmtime"><strong class="function"><code>gmtime</code></strong></a> gibi UTC'ye göre dönüştürmesi dışında <a href="glibc-Broken-down-Time.html#glibc-fn-localtime_r"><strong class="function"><code>localtime_r</code></strong></a> işlevi gibidir.
+    </p>
+    <p>
+     Dönüşüm başarılı olursa işlev, sonucun yazıldığı nesneye gösterici döndürür, yani, <em class="parameter"><code>resultp</code></em> döner.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-mktime" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">time_t </code><strong><code class="function">mktime</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="parameter">brokentime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">mktime</code> işlevi, dökümlü zaman yapısını basit zaman gösterimine dönüştürür. Ayrıca, dökümlü zaman yapısının içeriğini normalleştirir ve bazı bileşenleri diğerlerinin değerlerine göre doldurur.
+    </p>
+    <p>
+     <code class="code">mktime</code> işlevi, dökümlü zaman yapısının <code class="code">tm_wday</code>, <code class="code">tm_yday</code>, <code class="code">tm_gmtoff</code>, and <code class="code">tm_zone</code> üyelerinin belirtilen içeriklerini yok sayar. Takvim zamanını belirlemek için diğer bileşenlerin değerlerini kullanır; bu bileşenlerin normal aralıklarının dışında normalleştirilmemiş değerlere sahip olmasına izin verilir. <code class="code">mktime</code> işlevinin yaptığı son şey, başlangıçta göz ardı edilen üyeler dahil olmak üzere, dökümlü zaman yapısının bileşenlerini ayarlamaktır.
+    </p>
+    <p>
+     Belirtilen dökümlü zaman basit takvim zamanı olarak gösterilemiyorsa, <code class="code">mktime</code> işlevi <code class="code">(time_t)(-1)</code> değerini döndürür ve <em class="parameter"><code>brokentime</code></em> içeriğini değiştirmez.
+    </p>
+    <p>
+     <code class="code">mktime</code> çağrısı aynı zamanda geçerli saat dilimini sanki <strong class="function"><code>tzset</code></strong> çağrılmış gibi ayarlar; <code class="code">mktime</code> bu bilgiyi, <em class="parameter"><code>brokentime</code></em> ile gösterilen yapının ilk <code class="code">tm_gmtoff</code> ve <code class="code">tm_zone</code> üyelerinin yerine kullanır. Bkz, ???.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-timelocal" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">time_t </code><strong><code class="function">timelocal</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="parameter">brokentime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">timelocal</code> işlevi, işlevsel olarak <a href="glibc-Broken-down-Time.html#glibc-fn-mktime"><strong class="function"><code>mktime</code></strong></a> ile aynıdır, ancak daha anımsatıcı olarak adlandırılmıştır. <a href="glibc-Broken-down-Time.html#glibc-fn-localtime"><strong class="function"><code>localtime</code></strong></a> işlevinin tersi olduğuna dikkat edilmelidir
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+      <a href="glibc-Broken-down-Time.html#glibc-fn-mktime"><strong class="function"><code>mktime</code></strong></a> aslında evrensel olarak kullanılabilirdir. <a href="glibc-Broken-down-Time.html#glibc-fn-timelocal"><strong class="function"><code>timelocal</code></strong></a> oldukça nadirdir.
+     </p></div></div>
+   </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-timegm" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://git.musl-libc.org/cgit/musl/tree/include/time.h" target="_top">time.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">time_t </code><strong><code class="function">timegm</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct tm </code><strong class="type">*</strong><strong><code class="parameter">brokentime</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-env">env</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-locale">locale</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-heap">heap</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-mem">mem</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">timegm</code> herhangi bir yerel saat dilimi ayarından bağımsız olarak girdi değerlerini her zaman UTC olarak alması dışında işlevsel olarak <a href="glibc-Broken-down-Time.html#glibc-fn-mktime"><strong class="function"><code>mktime</code></strong></a> ile aynıdır.
+    </p>
+    <p>
+     <code class="code">timegm</code>'nin <a href="glibc-Broken-down-Time.html#glibc-fn-gmtime"><strong class="function"><code>gmtime</code></strong></a>'ın tersi olduğu unutulmamalıdır.
+    </p>
+    <div class="admon note"><h3 class="admon-title">Taşınabilirlik Bilgisi</h3><div class="admon-contents"><p>
+      <span id="glibc-vr-TZ" class="indexterm"></span>
+      <a href="glibc-Broken-down-Time.html#glibc-fn-mktime"><strong class="function"><code>mktime</code></strong></a> aslında evrensel olarak kullanılabilirdir. <a href="glibc-Broken-down-Time.html#glibc-fn-timegm"><strong class="function"><code>timegm</code></strong></a> oldukça nadirdir. Bir UTC dökümlü zamandan basit takvim zamanına en taşınabilir dönüşüm için, <code class="envar">TZ</code> ortam değişkeni UTC olarak ayarlanmalı, <a href="glibc-Broken-down-Time.html#glibc-fn-mktime"><strong class="function"><code>mktime</code></strong></a> çağrısından sonra <code class="envar">TZ</code> eski değerine getirilmelidir.
+     </p></div></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

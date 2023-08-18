@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>4.1. SMTP Komutları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s4.html')">Önceki</button>
+          <div class="dropdown-content">4. SMTP Belirtimi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s4.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s42.html')">Sonraki</button>
+          <div class="dropdown-content">4.2. SMTP Yanıtları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s41">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">4.1. SMTP Komutları</h3>
+            </div>
+          </div>
+        </div>
+        <section class="sect3" id="rfc2821-s411">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.1.1. Komut Sözdizimi ve Anlamlandırma</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Posta aktarımı veya kullanıcı tarafından talep edilen posta sistemi işlevi SMTP komutlarından, SMTP komutları, <code class="literal">&lt;CRLF&gt;</code> ile sonlandırılmış karakter dizilerinden oluşur. Komutların kendileri ise ardından bağımsız değişkenler geliyorsa  <code class="literal">&lt;BOŞKRK&gt;</code> ile yoksa <code class="literal">&lt;CRLF&gt;</code> ile sonlandırımış alfabetik karakterlerden oluşur. (Birlikte çalışabilirlik uğruna, SMTP alıcıları sonlandırıcı <code class="literal">&lt;CRLF&gt;</code> öncesinde boşluk karakterliğinin varlığına müsamaha göstermişlerdir.) Bir posta kutusunun yerel kısmının sözdizimi alıcı site uzlaşımlarına ve <a class="xref" href="rfc2821-s41.html#rfc2821-s412" title="4.1.2. Komut Bağımsız değişkenlerinin Sözdizimi">Komut Bağımsız değişkenlerinin Sözdizimi</a> bölümünde belirtilen sözdizimine uygun olmalıdır. SMTP komutlarından aşağıda bahsedilmiştir. SMTP yanıtlarından ise <a class="xref" href="rfc2821-s42.html" title="4.2. SMTP Yanıtları">SMTP Yanıtları</a> bölümünde bahsedilmiştir.
+</p>
+          <p>
+Bir posta harekatı farklı komutların bağımsız değişkenleri olarak iletişimi sağlayan çeşitli veri nesnelerinden oluşur. Dönüş yolu <code class="code">MAIL</code> komutunun bağımsız değişkeni, sevk yolu <code class="code">RCPT</code> komutunun, posta verisi ise <code class="code">DATA</code> komutunun bağımsız değişkenidir. Bu bağımsız değişkenler veya veri nesneleri, harekatı sonlandıran posta verisi sonu belirteci ile anlaşılan onayı aktarmalı ve saklamalıdır. Bunun için model, veri nesnelerinin her türü için ayrı birer tampon bulundurmaktır. Yani, dönüş yolu için bir tampon, sevk yolu için bir tampon ve posta verisi için bir tampon vardır. Belli tamponlara bilgi eklenmesine veya bir veya daha fazla tamponun temizlenmesine sebep olan belli komutlar vardır.
+</p>
+          <p>
+Bazı komutlar (<code class="code">RSET</code>, <code class="code">DATA</code>, <code class="code">QUIT</code>) bağımsız değişken almayacak şekilde belirtilmiştir. <span class="rfcmust">Sunucu tarafından sunulup istemci tarafından kabul edilen belli eklentilerin yokluğunda, istemcilerin böyle bağımsız değişkenler göndermemesi gerekir *ZORUNLU*</span> ve <span class="rfcshould">sunucuların da geçersiz sözdizimine sahip oldukları gerekçesiyle bu komutları reddetmesi gerekir *ÖNERİ*</span>.
+</p>
+          <section class="sect4" id="rfc2821-s4111">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.1. Ayrıntılı Selamlama (<code class="code">EHLO</code>) veya Sade Selamlama (<code class="code">HELO</code>)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komutlar, SMTP sunucusuna SMTP istemcisini tanıtmak için kullanılırlar. Bağımsız değişken alanı, SMTP istemcisinin varsa tamamen nitelenmiş alan adından oluşur. <span class="rfcshould">SMTP istemci sisteminin anlamlı bir alan adına sahip olmadığı durumlarda (örn, adres özdevimli ayrılmıştır ve ters eşleme kaydı (rDNS) yoktur), istemci adresin IP kodlu adını (bkz, <a class="xref" href="rfc2821-s41.html#rfc2821-s413" title="4.1.3. IP Kodlu Adlar">IP Kodlu Adlar</a>) göndermelidir *ÖNERİ*</span>; ek olarak istenirse istemciyi tanıtmaya yardımcı olacak bilgiler de verilebilir. SMTP sunucusu ise, SMTP istemcisine kendisini tanıtmak için, bağlantı üzerinden bu komuta yanıt olarak bir karşılama iletisi gönderir.
+</p>
+            <p><span class="rfcshould">Bir istemci SMTP bir SMTP oturumunu <code class="code">EHLO</code> komutu göndererek başlatmalıdır *ÖNERİ*</span>. Eğer SMTP sunucusu, SMTP hizmet eklentilerini destekliyorsa karşılık olarak bir başarı, başarısızlık ya da hata belirtebilir. Eğer bir SMTP sunucusu, bu belirtimi ihlal ederek, SMTP hizmet eklentilerinin hiçbirini desteklemiyorsa bir hata yanıtı üretecektir. <span class="rfcmaybe">Eski istemci SMTP sistemleri, evvelce bahsedildiği gibi, <code class="code">EHLO</code> yerine (RFC 821'de belirtildiği gibi) <code class="code">HELO</code> komutunu kullanabilir *SEÇİMLİK*</span>; (bu bakımdan) <span class="rfcmust">sunucuların <code class="code">HELO</code> komutunu desteklemesi ve komutu gerektiği gibi yanıtlaması gerekir *ZORUNLU*</span>. <span class="rfcmust">Her halükarda, bir istemci bir posta aktarımına başlamadan önce bir <code class="code">HELO</code> veya <code class="code">EHLO</code> komutu göndermelidir *ZORUNLU*</span>.
+</p>
+            <p>
+Bu komutlar ve bunlara verilen, hem SMTP istemcisini hem de sunucusunu onaylayan "250 OK" yanıtı, başlangıç aşamasıdır, yani, henüz bir aktarım yoktur ve tüm aşamaların tabloları ve tamponları temizdir.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    ehlo            = "EHLO" BOŞKRK <em class="emphasis">alan</em> CRLF
+    helo            = "HELO" BOŞKRK <em class="emphasis">alan</em> CRLF
+</pre>
+            <p>
+     </p>
+            <p>
+Normalde <code class="code">EHLO</code> komutunun yanıtı çok satırlı bir yanıt olacaktır. Yanıtın her satırı bir anahtar sözcük ve isteğe bağlı olarak bir veya daha fazla bağımsız değişken içerir. Çok satırlı yanıtların normal sözdiziminde, bu anahtar sözcükler yanıt kodundan (250) sonra gelir ve son satır haricinde koddan sonra bir tire işareti konur; son satırda ise bir boşluk konur. Olumlu bir yanıtın sözdizimi, ABNF gösterimi ve [<a class="xref" href="rfc2821-s9.html#rfc2821-bib8" title="Augmented BNF for Syntax Specifications: ABNF">8</a>]'deki uçbirim sembolleri kullanılarak şöyledir:
+</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+   ehlo-tamam-yanıtı = ( "250"    alan [ BOŞKRK ehlo-karşılama ] CRLF )
+                     / ( "250-"   alan [ BOŞKRK ehlo-karşılama ] CRLF
+                      *( "250-"   ehlo-satırı                CRLF )
+                         "250"    BOŞKRK ehlo-satırı             CRLF )
+
+      ehlo-karşılama = 1*(%d0-9 / %d11-12 / %d14-127)
+                       ; CR veya LF içermeyen bir dizge
+
+         ehlo-satırı = ehlo-anahtar-sözcüğü *( BOŞKRK ehlo-bağımsız değişkeni )
+
+ehlo-anahtar-sözcüğü = (HARF / RAKAM) *(HARF / RAKAM / "-")
+                       ; ehlo-anahtar-sözcüğü'ne bağlı olarak ehlo-bağımsız değişkeni
+                       ; için ilave sözdizimi
+
+    ehlo-bağımsız değişkeni = 1*(%d33-127)
+                       ; &lt;BOŞKRK&gt; hariç herhangi bir karakter ve
+                       ; tüm denetim karakterleri (US-ASCII 0-31 dahil)
+</pre>
+            <p>
+     </p>
+            <p><span class="notfoot"></span><span class="rfcmust"><code class="code">EHLO</code> anahtar sözcükleri büyük, küçük ve bunların karışımı harflerle belirtilebildiğinden, bunlar daima harf büyüklüğüne duyarsız olarak olarak ele alınmalı ve işleme sokulmalıdır *ZORUNLU*</span>. Bu, RFC 821 ve <a class="xref" href="rfc2821-s24.html" title="2.4. Sözdizimsel Genel Prensipler ve Harekât Modeli">Sözdizimsel Genel Prensipler ve Harekât Modeli</a><a id="idm154875" href="#ftn.idm154875" class="footnote"><sup class="footnote">[88]</sup></a> bölümünde belirtilen uygulamanın basit bir uzantısıdır.
+</p>
+          </section>
+          <section class="sect4" id="rfc2821-s4112">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.2. Posta' (<code class="code">MAIL</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Postanın bir veya daha fazla posta kutusuna teslimi veya başka bir sisteme aktarılması (büyük olasılıkla SMTP kullanarak) için posta verisinin bir SMTP sunucusuna teslimi başlatılırken bu komut kullanılır. Bağımsız değişken alanı bir dönüş yolunu içermekten başka isteğe bağlı bağımsız değişkenler de içerebilir. Genelde <code class="code">MAIL</code> komutu hiçbir posta aktarımı yokken gönderilebilir; <a class="xref" href="rfc2821-s41.html#rfc2821-s414" title="4.1.4. Komutların Sırası">Komutların Sırası</a> bölümüne bakınız.
+</p>
+            <p>
+Dönüş yolu göndericinin posta kutusundan oluşur. Tarihsel olarak, bu posta kutusu bir konak listesi ile de başlayabilirdi, fakat bu davranış artık önerilmemektedir (bkz, <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a>). Postalama kısır döngülerine yolaçan bir yanıt ile ilgili raporlama iletilerinin bazı türlerinde (posta teslimatı uyarıları veya teslim edememe uyarıları gibi), dönüş yolu boş olabilir (bkz, <a class="xref" href="rfc2821-s37.html" title="3.7. Röleleme">Röleleme</a>).
+</p>
+            <p>
+Bu komut, dönüş yolu, sevk yolu ve posta verisi tamponlarını temizledikten sonra bu komuttaki dönüş yolu bilgisini dönüş yolu tamponuna yerleştirir.
+</p>
+            <p>
+Hizmet eklentileri için karşılıklı uzlaşılmışsa, <code class="code">MAIL</code> komutu ayrıca, bu hizmet eklentileri ile ilgili bağımsız değişkenleri de taşıyabilir.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+  "<code class="code">MAIL </code>FROM:" ("&lt;&gt;" / <em class="emphasis">Dönüş-yolu</em>)
+                    [BOŞKRK <em class="emphasis">ePosta-Bağımsız-Değişkenleri</em>] CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4113">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.3. Alıcının Belirtilmesi (<code class="code">RCPT</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut posta verisinin alıcılarını tek tek belirtmek için kullanılır; çok sayıda alıcı belirtilecekse, komut sayısı alıcı sayısı kadar olur. Bağımsız değişken alanı bir sevk yolunu içermekten başka isteğe bağlı bağımsız değişkenler de içerebilir.
+</p>
+            <p>
+Sevk yolu gerekli olan varış posta kutusundan oluşur. <span class="rfcshould">Gönderen sistemlerin, bir kaynak rota olarak bilinen konakların seçimlik listesini üretmeleri gerekir *ÖNERİ*</span>. <span class="rfcmust">Alıcı sistemler kaynak rota sözdizimini bilmek zorundadır *ZORUNLU*</span>, fakat <span class="rfcshould">kaynak rota belirtimini ayırmalı ve kaynak rota sağlanmamış gibi posta kutusu ile ilişkili alan adını kullanmalıdır *ÖNERİ*</span>.
+</p>
+            <p>
+Benzer şekilde, <span class="rfcmust">röleleme konakları kaynak rotaları ayırmalı ya da yoksaymalı ve isimleri geri dönüş yoluna kopyalamamalıdır *ZORUNLU*</span>. Posta nihai hedefine ulaştığında (sevk yolu sadece varış posta kutusunu içerir), SMTP sunucusu onu, kendi konak posta uzlaşımları gereğince, hedef posta kutusuna yerleştirir.
+</p>
+            <p>
+Örneğin,
+</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced"><code class="code">MAIL </code>FROM:&lt;userx@y.foo.org&gt;
+    <code class="code">RCPT </code>TO:&lt;@hosta.int,@jkl.org:userc@d.bar.org&gt;
+</pre>
+            <p>
+     </p>
+            <p>
+zarf komutları ile röleleme konağı xyz.com'dan alınan posta normal olarak,
+</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced"><code class="code">MAIL </code>FROM:&lt;userx@y.foo.org&gt;
+    <code class="code">RCPT </code>TO:&lt;userc@d.bar.org&gt;
+</pre>
+            <p>
+     </p>
+            <p>
+zarf komutları ile doğrudan d.bar.org konağına gönderilmiş olacaktır. <span class="rfcmaybe"><a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a> ekinde belirtildiği gibi, xyz.com ayrıca iletiyi hosta.int'e de rölelemeyi seçebilir *SEÇİMLİK*</span>:
+</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced"><code class="code">MAIL </code>FROM:&lt;userx@y.foo.org&gt;
+    <code class="code">RCPT </code>TO:&lt;@hosta.int,@jkl.org:userc@d.bar.org&gt;
+</pre>
+            <p>
+     </p>
+            <p>
+zarf komutları ile hosta.int'e de veya,
+</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced"><code class="code">MAIL </code>FROM:&lt;userx@y.foo.org&gt;
+    <code class="code">RCPT </code>TO:&lt;@jkl.org:userc@d.bar.org&gt;
+</pre>
+            <p>
+     </p>
+            <p>
+zarf komutları ile jkl.org'a da röleleyebilir.
+</p>
+            <p>
+Hizmet eklentileri karşılıklı uzlaşılmışsa, <code class="code">RCPT</code> komutu ek olarak sunucu tarafından sunulan belli bir hizmet eklentisi ile ilgili bağımsız değişkenleri de taşıyabilir. <span class="rfcmust">İstemcinin, <code class="code">EHLO</code> yanıtında, sunucu tarafından sunulan bir hizmet eklentisi ile ilgili olanlar dışında bağımsız değişken iletmemesi gerekir *ZORUNLU*</span>.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+  "<code class="code">RCPT </code>TO:" ("&lt;Postmaster@" <em class="emphasis">alan</em> "&gt;" / "&lt;Postmaster&gt;" / <em class="emphasis">sevk-yolu</em>)
+                    [BOŞKRK <em class="emphasis">Rcpt-bağımsız değişkenleri</em>] CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4114">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.4. Posta Verisi (<code class="code">DATA</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Alıcı <code class="code">DATA</code> komutuna normalde bir 354 yanıtı gönderir ve komuttan sonrasını göndericiden yollanan veri olarak, (<a class="xref" href="rfc2821-s23.html#rfc2821-s237" title="2.3.7. Satırlar">Satırlar</a> bölümünde bahsedildiği gibi, CRLF ile biten) satırlar halinde ele alır. Bu komut, posta verisinin posta verisi tamponuna eklenmesini sağlar. Deneyimlerin BOŞKRK (boşluk), YSEK (yatay sekme), CR (satırbaşı), ve LF (satırsonu) dışında kontrol karakteri kullanımının sorunlara yol açacağını ve <span class="rfcshould">mümkün oldukça bundan kaçınılması gerektiğini *ÖNERİ*</span> göstermesine rağmen, posta verisi 128 ASCII karakterin her birini içerebilir.
+</p>
+            <p>
+Posta verisi tek bir nokta içeren bir satırla, yani "<code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code>" karakter dizisiyle sonlanır (bkz, <a class="xref" href="rfc2821-s45.html#rfc2821-s452" title="4.5.2. Şeffaflık">Şeffaflık</a>).  Bu posta verisi varlığının sona erdiğini gösterir. Bu sonlandırma dizgesindeki ilk  <code class="literal">&lt;CRLF&gt;</code>'in ayrıca verinin son satırının sonunu, hatta eğer veri yoksa, <code class="code">DATA</code> komutunun sonunu belirttiğine dikkat ediniz. <span class="rfcmust">İletinin sonuna boş bir satır eklenmesine yolaçacak ek bir <code class="literal">&lt;CRLF&gt;</code> kullanılmamalıdır *ZORUNLU*</span>. Bu kuralın tek istisnası, ilk çıkış SMTP göndericisine aktarılan ileti gövdesinin <code class="literal">&lt;CRLF&gt;</code> ile bitmeyen bir sonuncu satır içermesi durumudur; <span class="rfcmust">bu durumda ilk çıkış SMTP sistemi ya geçersiz sayarak iletiyi reddetmeli *ZORUNLU*</span> ya da <span class="rfcmust">alan SMTP sunucusu "veri sonu" durumunu arayacağından iletiye eksik <code class="literal">&lt;CRLF&gt;</code>'i kendi eklemelidir *ZORUNLU*</span> (ikisinden biri zorunlu).
+</p>
+            <p><span class="rfcmust">Bazı UNIX sistemlerinde uyumsuz davranışa bir taviz olarak, çözümlediğinden fazla birlikte çalışabilirlik sorunlarına sebep olduğu kanıtlanmış sadece &lt;LF&gt; ile biten satırların kabul edilmesi özelinde, dayanıklılığı arttırmak/mükemmelleştirmek adına yapılıyor olarak sunulsa bile, SMTP sunucu sistemleri bunu yapmamalıdır *ZORUNLU*</span>. <span class="rfcmust">Özellikle, "&lt;LF&gt;.&lt;LF&gt;" dizgesi (çıplak, satırbaşı karakterleri olmaksızın satırsonu karakterleri arasında nokta) posta verisinin sonunu belirten <code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code> dizgesinin eşdeğeri olarak ele alınmamalıdır *ZORUNLU*</span>.
+</p>
+            <p>
+Posta verisi sonu belirtecinin alınması sunucunun saklanan posta aktarım bilgisini işleme koymasını gerektirir. Bu işlem, dönüş yolu, sevk yolu ve posta verisi tamponlarındaki bilgilerin toplanmasını da kapsar ve komutun işi bittiğinde bu tamponlar temizlenir. <span class="rfcmust">İşlem başarıyla tamamlanmışsa, alıcı bir tamam yanıtı göndermelidir *ZORUNLU*</span>. <span class="rfcmust">Aksi takdirde, alıcı bir başarısızlık yanıtı göndermelidir *ZORUNLU*</span>. SMTP modeli bu noktada kısmi başarısızlıklara izin vermez: ya ileti teslim edilmek üzere sunucu tarafından kabul edilip bir olumlu yanıt verilir ya da kabul edilmez ve bir başarısızlık yanıtı gönderilir. Posta verisi sonu alındıktan sonra bir olumlu tamamdır yanıtı gönderilmesiyle, alıcı iletinin tüm sorumluluğunu almış olur (bkz, <a class="xref" href="rfc2821-s6.html#rfc2821-s61" title="6.1. Güvenilir Teslimat ve Eposta Yanıtları">Güvenilir Teslimat ve Eposta Yanıtları</a>).  <span class="rfcmust">Bundan sonra tespit edilen hatalar, <a class="xref" href="rfc2821-s44.html" title="4.4. İzleme Bilgisi">İzleme Bilgisi</a> bölümünde açıklandığı gibi, bir posta iletisinde raporlanmalıdır *ZORUNLU*</span>.
+</p>
+            <p>
+SMTP sunucusu rölelemek veya yerine teslim etmek için kabul ettiğinde, posta verisinin üst kısmına bir izleme kaydı ekler (ayrıca, "<code class="literal">Received</code>" -alındı- satırı veya "zaman damgası satırı" olarak da bilinir). Bu izleme kaydında, iletiyi gönderen ve alan konakların kimliği ile iletinin alındığı tarih ve saat belirtilir. Rölelenen iletilerin birden fazla zaman damgası satırı olur. Bu satırların oluşturulması sözdizimleriyle birlikte <a class="xref" href="rfc2821-s44.html" title="4.4. İzleme Bilgisi">İzleme Bilgisi</a> bölümünde ayrıntılı olarak belirtilmiştir.
+</p>
+            <p><code class="code">DATA</code> komutunun işlemlerinden ayrıca <a class="xref" href="rfc2821-s33.html" title="3.3. Posta Aktarım Harekâtı">Posta Aktarım Harekâtı</a> bölümünde de bahsedilmiştir.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">DATA</code>" CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4115">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.5. Sıfırlama (<code class="code">RSET</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut o an ki posta harekatının ister istemez duracağını belirtir. <span class="rfcmust">Saklanmış olan gönderici, alıcılar ve posta verisi iptal edilip tüm tamponlar ve durum tabloları temizlenmelidir *ZORUNLU*</span>. <span class="rfcmust">Alıcı bağımsız değişkeniz bir <code class="code">RSET</code> komutuna bir "250 OK" yanıtı göndermelidir *ZORUNLU*</span>. Sıfırlama komutu istemci tarafından herhangi bir anda gönderilebilir. Oturumda <code class="code">EHLO</code> komutundan hemen önce veya sonra ve posta verisi sonu belirtecinden sonra veya bir <code class="code">QUIT</code> komutundan hemen önce gönderilmesi halinde etki bakımından bir <code class="code">NOOP</code> komutuna eşdeğerdir (etkisizlik anlamında). <span class="rfcmust">Bir SMTP sunucusu aldığı bir <code class="code">RSET</code> komutunun sonucu olarak bağlantıyı kapatmamalıdır *ZORUNLU*</span>; Bu eylem <code class="code">QUIT</code> komutuna ayrılmıştır  (bkz, <a class="xref" href="rfc2821-s41.html#rfc2821-s411a" title="4.1.1.10. Çıkış (QUIT komutu)">Çıkış (<code class="code">QUIT</code> komutu)</a>).
+</p>
+            <p><code class="code">EHLO</code>  komutu sunucu tarafından yerine getirilecek bazı ek işlemler ve yanıtlar gerektirdiğinden, normal olarak <code class="code">RSET</code> komutu, biçimsel anlamsallığı aynı olmasına rağmen bile, <code class="code">EHLO</code>  komutunu yeniden göndermekten daha verimli olacaktır.
+</p>
+            <p>
+Bu belirtimin amacının aksine, bir SMTP sunucusunun, temel TCP bağlantısının kapanması veya sıfırlanmasının belirtilerini aldığı bazı durumlar vardır. <span class="rfcshould">Posta sisteminin dayanıklılığını korumak için SMTP sunucuları bu duruma hazır olmalı *ÖNERİ*</span> ve <span class="rfcshould">bağlantı kaybolmadan önce bir <code class="code">QUIT</code> komutu almış gibi davranmalıdır *ÖNERİ*</span>.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">RSET</code>" CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4116">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.6. Posta Kutusu Doğrulama (<code class="code">VRFY</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut, bağımsız değişkeninde belirtilen bir kullanıcı veya posta kutusunu alıcının doğrulamasını ister. Eğer bağımsız değişken bir kullanıcı ismi ise bilgi, <a class="xref" href="rfc2821-s35.html" title="3.5. Adres Hatalarını Ayıklama Komutları">Adres Hatalarını Ayıklama Komutları</a> bölümünde belirtilen şekilde döndürülür.
+</p>
+            <p>
+Bu komutun dönüş yolu, sevk yolu veya posta verisi tamponu üzerinde bir etkisi yoktur.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">VRFY</code>" BOŞKRK <em class="emphasis">dizge</em> CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4117">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.7. Liste ve Üyelik Doğrulama (<code class="code">EXPN</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut bağımsız değişkeninde belirtilen bir posta listesinin doğrulanmasını ister ve eğer böyleyse, liste üyeliğinin döndürülmesini talep eder. Eğer komut başarılıysa, <a class="xref" href="rfc2821-s35.html" title="3.5. Adres Hatalarını Ayıklama Komutları">Adres Hatalarını Ayıklama Komutları</a> bölümünde açıklanan bilgiyi içeren bir yanıt döndürülür. Bu yanıt bir (listenin tek bir üyesi olması durumu) veya daha fazla satır içerecektir.
+</p>
+            <p>
+Bu komutun dönüş yolu, sevk yolu veya posta verisi tamponu üzerinde bir etkisi yoktur ve her zaman gönderilebilir.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">EXPN</code>" BOŞKRK <em class="emphasis">dizge</em> CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4118">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.8. Yardım (<code class="code">HELP</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut, sunucunun istemciye yardım bilgisi göndermesini sağlar. <span class="rfcmaybe">Bu komut bir bağımsız değişken alabilir (örn, bir komut ismi) ve yanıt olarak bağımsız değişkene özgü bilgi döndürebilir *SEÇİMLİK*</span>.
+</p>
+            <p>
+Bu komutun dönüş yolu, sevk yolu veya posta verisi tamponu üzerinde bir etkisi yoktur ve her zaman gönderilebilir.
+</p>
+            <p><span class="rfcshould">SMTP sunucuları <code class="code">HELP</code> komutunu bağımsız değişkeniz desteklemelidir *ÖNERİ*</span>, ancak <span class="rfcmaybe">bağımsız değişkenler ile birlikte de destekleyebilir *SEÇİMLİK*</span>.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">HELP</code>" [ BOŞKRK <em class="emphasis">dizge</em> ] CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s4119">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.9. Eylemsizlik (<code class="code">NOOP</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut, hiçbir bağımsız değişkeni ya da daha önce girilmiş hiçbir komutu etkilemez. Alıcının OK yanıtı göndermesi dışında hiçbir faaliyet belirtmez.
+</p>
+            <p>
+Bu komutun dönüş yolu, sevk yolu veya posta verisi tamponu üzerinde bir etkisi yoktur ve her zaman gönderilebilir. <span class="rfcshould">Bir bağımsız değişken dizgesi belirtilmişse sunucu bunu yoksaymalıdır *ÖNERİ*</span>.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">NOOP</code>" [ BOŞKRK <em class="emphasis">dizge</em> ] CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+          <section class="sect4" id="rfc2821-s411a">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">4.1.1.10. Çıkış (<code class="code">QUIT</code> komutu)</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Bu komut, <span class="rfcmust">alıcının OK yanıtını göndermesi ve ardından da aktarım kanalını kapatması *ZORUNLU*</span> gerektiğini belirtir.
+</p>
+            <p><span class="rfcmust">Alıcı aktarım kanalını, <code class="code">QUIT</code> komutu alınana ve yanıtlanana kadar kasten kapatmamalıdır (bir hata oluşmuş olsa bile) *ZORUNLU*</span>. <span class="rfcmust">Gönderen ise <code class="code">QUIT</code> komutunu gönderip yanıtı almadan aktarım kanalını kasten kapatmamalıdır (daha önceki bir komuta bir hata yanıtı olsa bile) *ZORUNLU*</span>. <span class="rfcmust">Eğer bağlantı, daha önce bahsedilmiş olan bozukluklar ya da sistem veya ağ hataları yüzünden vaktinden önce kapatılmışsa, sunucu askıda bekleyen herhangi bir hareketi iptal etmeli *ZORUNLU*</span>, fakat <span class="rfcmust">daha önce tamamlanmış olan bir hareketi geri almamalı *ZORUNLU*</span> ve <span class="rfcmust">genellikle komut ya da hareket işlemdeymiş de o sırada geçici bir hata alınmışmış gibi davranmalıdır *ZORUNLU*</span> (örneğin, bir 4<em class="replaceable"><code>yz</code></em> yanıtı).
+</p>
+            <p><code class="code">QUIT</code> komutu her zaman gönderilebilir.
+</p>
+            <p>Sözdizimi:</p>
+            <p>
+      </p>
+            <pre class="literallayout monospaced">
+    "<code class="code">QUIT</code>" CRLF
+</pre>
+            <p>
+     </p>
+          </section>
+        </section>
+        <section class="sect3" id="rfc2821-s412">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.1.2. Komut Bağımsız değişkenlerinin Sözdizimi</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Yukarıda sözü edilen komutların bağımsız değişken alanlarının sözdizimleri (uygulanabildiği yerlerde [<a class="xref" href="rfc2821-s9.html#rfc2821-bib8" title="Augmented BNF for Syntax Specifications: ABNF">8</a>]'de belirtilen sözdizimleri kullanılarak) aşağıda verilmiştir. Aşağıda verilen bazı gösterimler, sadece <a class="xref" href="rfc2821-appc.html" title="Ek-C. Kaynak Rotalar">Kaynak Rotalar</a> bölümünde anlatılan kaynak rotaları ile birarada kullanılır. <code class="literal">HARF, RAKAM, BOŞKRK, CR, LF, CRLF</code> gibi karakterlerden bu belgede söz edilmemiştir; bunlar, "çekirdek" sözdizimi olarak [<a class="xref" href="rfc2821-s9.html#rfc2821-bib8" title="Augmented BNF for Syntax Specifications: ABNF">8</a> (6. bölüm)]'de ve ileti biçimi sözdizimi olarak [<a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>]'de tanımlanmıştır.
+</p>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+    Dönüş-Yolu = Yol
+    Sevk-Yolu  = Yol
+    Yol = "&lt;" [ A-d-l ":" ] Posta-kutusu "&gt;"
+    A-d-l = Alan-da *( "," A-d-l )
+          ; Bu biçime dikkat, "kaynak rota" da denir ve
+          ; <span class="rfcmust">kabul edilmesi *ZORUNLU*</span>, <span class="rfcshould">üretilmemesi *ÖNERİ*</span>
+          ; ve <span class="rfcmaybe">yoksayılması *SEÇİMLİK*</span> gerekir.
+    Alan-da = "@" alan
+    Mail-bağımsız değişkenleri = esmtp-param *(BOŞKRK esmtp-param)
+    Rcpt-bağımsız değişkenleri = esmtp-param *(BOŞKRK esmtp-param)
+
+    esmtp-param     = esmtp-anah-klm ["=" esmtp-değeri]
+    esmtp-anah-klm  = (HARF / RAKAM) *(HARF / RAKAM / "-")
+    esmtp-değeri    = 1*(%d33-60 / %d62-127)
+          ; "=" hariç herhangi bir KARakter, BOŞKRK (boşluk)
+          ; ve denetim karakterleri
+    Anah-klm = Hrt-dizge
+    Bağımsız-değişken  = Atom
+    Alan     = (alt-alan 1*("." alt-alan)) / IP-kodlu-ad
+    Alt-alan = Harf-rakam [Hrt-dizge]
+
+    IP-kodlu-ad = "["  IPv4-kodlu-ad  /
+                       IPv6-kodlu-ad  /
+                       Genel-kodlu-ad "]"
+          ; bkz, <a class="xref" href="rfc2821-s41.html#rfc2821-s413" title="4.1.3. IP Kodlu Adlar">IP Kodlu Adlar</a>
+
+    Posta-kutusu = Yerel-kısım "@" Alan
+
+    Yerel-kısım  = Noktalı-dizge / Tırnaklı-dizge
+          ; <span class="rfcmaybe">harf büyüklüğüne duyarlılık *SEÇİMLİK*</span>
+
+    Noktalı-dizge = Atom *("." Atom)
+
+    Atom = 1*birmetin
+
+    Tırnaklı-dizge = ÇTIRNAK *tdizge ÇTIRNAK
+
+    Dizge = Atom / Tırnaklı-dizge
+</pre>
+          <p>
+    </p>
+          <p><span class="rfcshould">Yerel-kısım için yukarıdaki tanım, birlikte çalışabilirliğin en yüksek derecede olabilmesi için görece serbest olduğu sürece posta almayı uman bir konak Yerel-kısım'ları Tırnaklı-dizge biçimini gerektiren veya harf büyüklüğüne duyarlı olmayı gerektiren posta kutuları tanımlamaktan kaçınmalıdır *ÖNERİ*</span>. <span class="rfcmust">Yerel-kısımların üretilmesini ve karşılaştırılmasını gerektiren her amaç (posta kutularının isimlerine özgü olmak gibi) için, tırnaklı tüm biçimler eşdeğer olarak ele alınmalı *ZORUNLU*</span>  ve <span class="rfcshould">gönderen sistem olası en az tırnaklama kullanan biçimde aktarmalıdır *ÖNERİ*</span>.
+</p>
+          <p><span class="rfcmust">Sistemler, posta kutularını, ASCII olmayan karakterlerin (yüksek bitleri 1 olan sekizliler) veya ASCII "denetim karakterleri"nin (onluk değerleri 0-31 ve 127 olan karakterler) SMTP'de kullanılmasını gerektirecek şekilde tanımlamamalıdır *ZORUNLU*</span>. <span class="rfcmust">Bu karakterler <code class="code">MAIL</code> ve <code class="code">RCPT</code> komutları ile posta kutusu ismi gerektiren diğer komutlarda kullanılmamalıdır *ZORUNLU*</span>.
+</p>
+          <p>
+Tersbölü "\" karakterinin, kendinden sonra gelen karakterin harfiyen yorumlanmasını (normal yorumu yerine) belirtmek üzere kullanılması bakımından bir önceleme karakteri oluşuna dikkat ediniz. Örneğin, "Joe\,Smith", dördüncü karakteri virgül olan dokuz karakterlik bir kullanıcı alanı belirtir.
+</p>
+          <p><span class="rfcmust">Uygulamalarda ve isimlendirmede DNS'nin (örn, temel DNS belgesi RFC 1035'in [<a class="xref" href="rfc2821-s9.html#rfc2821-bib22" title="STD 13, Domain names - implementation and specification">22</a>] 2.3.1. bölümüne bakınız) uzun süredir devam eden tutucu kullanımıyla tutarlılığı ve birlikte çalışabilirliği yükseltmek için, harfler, rakamlar ve tire işareti dışındaki karakterler SMTP istemcileri ve sunucularının alan adı yaftalarında görünmemelidir *ZORUNLU*</span>. Özellikle, altçizgi karakterine izin verilmemiştir. <span class="rfcmust">Geçersiz karakterlerden oluşan bir komut alan her SMTP sunucusu, reddi için başka bir sebep yoksa, bu komutu bir 501 yanıtı ile reddetmelidir *ZORUNLU*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s413">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.1.3. IP Kodlu Adlar</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Bazan, bir konak, alan adı sistemi tarafından bilinmez ve iletişim engellenir (özellikle, bir hatayı bildirme ve giderme iletişiminde). Bu engeli aşmak için, bir alan isminin yerine kullanılmak üzere adresin özel kodlanmış bir biçimine izin verilir. IPv4 adresler için bu biçim, bir Genel Ağ adresini (IPv4) [123.255.37.2] örneğindeki gibi, köşeli ayraç içine alınmış, birbirlerinden noktalarla ayrılmış, sıralı, dört küçük, sekiz bitlik bayta sığabilen onluk tamsayılar biçiminde kullanılır. En sonunda standartlaşabilen IPv6 ve diğer adres biçimleri için biçim, IPv6 standartlarının [<a class="xref" href="rfc2821-s9.html#rfc2821-bib17" title="IP Version 6 Addressing Architecture&quot;">17</a>] bir parçası olarak belirtilen biçimde, bir ikinokta üstüste ve adresin kendisi olarak adres sözdizimini tanımlayan standartlaşmış bir "yafta"dan oluşur.
+</p>
+          <p>Özellikle:</p>
+          <p>
+     </p>
+          <pre class="literallayout monospaced">
+    IPv4-kodlu-ad  = Snum 3("." Snum)
+    IPv6-kodlu-ad  = "IPv6:" IPv6-adrs
+    Genel-kodlu-ad = Standardize-yafta ":" 1*tdizge
+    Standardize-yafta  = Hrt-dizge
+          ; <span class="rfcmust">Standartlaşma aşamalarındaki bir RFC'de belirtilmiş *ZORUNLU*</span>
+          ; ve <span class="rfcmust">IANA ile kayıt altına alınmış olmalıdır *ZORUNLU*</span>.
+
+    Snum = 1*3RAKAM  ; 0 ile 255 arasındaki onluk bir tamsayı gösterimi
+    Harf-rakam = HARF / RAKAM
+    Hrt-dizge  = *( HARF / RAKAM / "-" ) Harf-rakam
+
+    IPv6-adrs   = IPv6-tam / IPv6-kısmi / IPv6v4-tam / IPv6v4-kısmi
+    IPv6-onaltı = 1*4ONALTILIKRAKAM
+    IPv6-tam    = IPv6-onaltı 7(":" IPv6-onaltı)
+    IPv6-kısmi  = [IPv6-onaltı *5(":" IPv6-onaltı)] "::" [IPv6-onaltı *5(":"
+                   IPv6-onaltı)]
+          ; "::" ile en az 2 tane 16 bitlik sıfır grubu belirtilir.
+          ; "::"ye ek olarak 6 gruptan fazlası yoktur.
+    IPv6v4-tam   =  IPv6-onaltı  5(":" IPv6-onaltı)  ":"  IPv4-kodlu-ad
+    IPv6v4-kısmi = [IPv6-onaltı *3(":" IPv6-onaltı)] "::"
+                   [IPv6-onaltı *3(":" IPv6-onaltı)  ":"] IPv4-kodlu-ad
+          ; "::" ile en az 2 tane 16 bitlik sıfır grubu belirtilir.
+          ; "::"ye ek olarak 4 gruptan fazlası yoktur ve
+          ; IPv4-kodlu-ad bulunabilir.
+</pre>
+          <p>
+    </p>
+        </section>
+        <section class="sect3" id="rfc2821-s414">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.1.4. Komutların Sırası</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Hangi komutun hangi sırada kullanılacağına ilişkin sınırlamalar vardır.
+</p>
+          <p><span class="rfcmust">Posta aktarımını içerecek bir oturum önce <code class="code">EHLO</code> komutu kullanarak ilklendirilmelidir *ZORUNLU*</span>. <span class="rfcshould">Posta aktarımı yapılmayacaksa bir SMTP sunucusu bu ilklendirme olmaksızın komut kabul edebilmelidir *ÖNERİ*</span> (<code class="code">VRFY</code> veya <code class="code">EXPN</code> gibi).
+</p>
+          <p>
+İstemci tarafından oturum sırasında bir <code class="code">EHLO</code> komutu gönderilebilir. Oturum başlangıcından sonra gönderilmişse, SMTP sunucusu tüm tamponları temizlemeli ve bir <code class="code">RSET</code> komutu alınmışçasına aşamayı sıfırlamalıdır. Başka bir deyişle, <code class="code">RSET</code>'in hemen ardından <code class="code">EHLO</code> kullanımı gereksizdir ama lüzumsuz komutların çalıştırılmasının başarıma maliyeti yanında zararsızdır.
+</p>
+          <p><span class="rfcmust">Eğer <code class="code">EHLO</code> komutu SMTP sunucusu tarafından kabul edilebilir değilse, 501, 500 veya 502 başarısızlık yanıtlarından hangisi uygunsa o gönderilmelidir *ZORUNLU*</span>. <span class="rfcmust">SMTP sunucusu bu yanıtlar aktarılıncaya kadar <code class="code">EHLO</code> alınmadan önceki durumunda kalmalıdır *ZORUNLU*</span>.
+</p>
+          <p><span class="rfcmust">SMTP istemcisi, eğer mümkünse, <code class="code">EHLO</code> komutundaki alan bağımsız değişkeninin kendi konağı için geçerli bir asıl konak adı (bir <code class="literal">CNAME</code> veya <code class="literal">MX</code> ismi değil) içerdiğinden emin olmalıdır *ZORUNLU*</span>. Bu mümkün değilse (örneğin, istemcinin adresi özdevimli atanmıştır ve istemci belirgin bir isme sahip değildir), <span class="rfcshould">alan ismini bir IP kodlu adla ikame etmeli *ÖNERİ*</span> ve istemciyi tanıtmaya yardımcı olacak ek bilgileri de sağlamış olmalıdır.
+</p>
+          <p><span class="rfcmaybe">SMTP sunucusu, <code class="code">EHLO</code> komutundaki alan adı bağımsız değişkeninin istemcinin IP adresine tekabül edip etmediğini doğrulatabilir *SEÇİMLİK*</span>. Ancak, <span class="rfcmust">doğrulama başarısız olursa, sunucu bu sebeple bir iletiyi reddetmemelidir *ZORUNLU*</span>; doğrulama bilgisi başarısızlığı sadece oturum açma ve izleme gecikmelerinden kaynaklanmış olabilir.
+</p>
+          <p><code class="code">NOOP</code>, <code class="code">HELP</code>, <code class="code">EXPN</code>, <code class="code">VRFY</code> ve <code class="code">RSET</code> komutları oturum sırasında veya önceden oturumu ilklendirmeksizin herhangi bir anda kullanılabilir. <span class="rfcshould">SMTP sunucuları bunları evvelce bir <code class="code">EHLO</code> komutu alınmamış olsa bile normal olarak (yani, bir 503 kodu döndürmeksizin) işleme almalı *ÖNERİ*</span>; <span class="rfcshould">istemciler ise bu komutları göndermeden önce <code class="code">EHLO</code> ile bir oturum açmalıdır *ÖNERİ*</span>.
+</p>
+          <p>
+Eğer bu kurallara uyulursa, RFC 821'deki bir örnekteki, bir <code class="code">EXPN</code> komutuna "550 erişiminize izin verilmedi" yanıtının verilmesi, <code class="code">EXPN</code> komutunun öncesinde bir <code class="code">EHLO</code> olmadıkça veya erişim yasağı istemcinin IP adresine veya diğer kimlik kanıtlama/saptama mekanizmalarından kaynaklanmadıkça yanlış olacaktır.
+</p>
+          <p><code class="code">MAIL</code> komutu (veya artık atıl olan SEND, SOML ve SAML komutları) bir posta aktarımı başlatır.  Başlatıldığında, bir posta aktarımı, sırasıyla, bir aktarım başlatma komutu, bir veya daha fazla <code class="code">RCPT</code> komutu ve bir <code class="code">DATA</code> komutundan oluşur. Bir posta aktarımı <code class="code">RSET</code> (veya yeni bir <code class="code">EHLO</code>) komutu ile terkedilebilir. Bir oturumda birden fazla posta aktarımı yapılabildiği gibi hiç posta aktarımı da yapılmayabilir. <span class="rfcmust"><code class="code">MAIL</code> komutu (veya artık atıl olan <code class="code">SEND</code>, <code class="code">SOML</code> ve <code class="code">SAML</code> komutları) zaten açık olan bir posta aktarımında gönderilmemelidir *ZORUNLU*</span>, yani, sadece şu durumlarda gönderilebilir: başlatılmış bir posta aktarımı yoksa veya aktarım başarılı bir <code class="code">DATA</code> komutuyla önceden tamamlanmışsa ya da evvelce bir <code class="code">RSET</code> ile oturum terkedilmişse.
+</p>
+          <p><span class="rfcmust">Eğer aktarım başlatma komutunun bağımsız değişkeni kabul edilebilir değilse, bir 501 başarısızlık yanıtı döndürülmeli *ZORUNLU*</span> ve <span class="rfcmust">SMTP sunucusu aynı durumda kalmalıdır *ZORUNLU*</span>. <span class="rfcmust">Bir aktarımdaki komutlar sunucu tarafından işlenemeyecek derecede sırasızsa, bir 503 başarısızlık yanıtı döndürülmeli *ZORUNLU*</span> ve <span class="rfcmust">SMTP sunucusu aynı durumda kalmalıdır *ZORUNLU*</span>.
+</p>
+          <p><span class="rfcmust">Bir oturumdaki son komut <code class="code">QUIT</code> komutu olmalıdır *ZORUNLU*</span>. <code class="code">QUIT</code> komutu oturum sırasında herhangi bir başka zaman kullanılamaz, fakat <span class="rfcshould">bir oturum açma komutu gönderilmiş veya alınmış olmasa bile, SMTP istemcisi tarafından bağlatının kapatılmasını istemek için kullanılması gerekir *ÖNERİ*</span>.
+</p>
+        </section>
+        <section class="sect3" id="rfc2821-s415">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">4.1.5. Özel Kullanımlı Komutlar</h4>
+              </div>
+            </div>
+          </div>
+          <p><a class="xref" href="rfc2821-s22.html#rfc2821-s222" title="2.2.2. Eklentilerin Tanımlanması ve Kayda Geçirilmesi">Eklentilerin Tanımlanması ve Kayda Geçirilmesi</a> bölümünde belirtildiği gibi, "X" ile başlayan komutlar istemci (gönderen) ve sunucu (alan) SMTP sistemleri arasında karşılıklı uzlaşılarak kullanılabilir. Böyle bir komutu tanımayan bir SMTP sunucusunun komutu, "500 Komut tanınmıyor" ile yanıtlaması beklenir. <span class="rfcmaybe">Eklentili bir SMTP sunucusu <code class="code">EHLO</code> komutunun yanıtında bu özel komutlarla ilgili özellik isimlerini listeleyebilir *SEÇİMLİK*</span>.
+</p>
+          <p><span class="rfcmust">SMTP sistemlerince gönderilip kabul edilen "X" ile başlamayan komutlar <a class="xref" href="rfc2821-s22.html#rfc2821-s222" title="2.2.2. Eklentilerin Tanımlanması ve Kayda Geçirilmesi">Eklentilerin Tanımlanması ve Kayda Geçirilmesi</a> bölümündeki gereksinimlere uymalıdır *ZORUNLU*</span>.
+</p>
+        </section>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.idm154875" class="footnote">
+            <p><a href="#idm154875" class="para"><sup class="para">[88] </sup></a>Ç.N. - Bu bağ özgün metinde 2.4.1 numaralı bölümü göstermektedir. <a class="link" href="http://www.mhonarc.org/archive/html/ietf-smtp/2002-07/msg00053.html" target="_top">http://www.mhonarc.org/archive/html/ietf-smtp/2002-07/msg00053.html</a> adresindeki iletide belgenin yazarı bu atıfların aslında 6.3 numaralı bölümü göstermesi gerektiğini belirtmektedir. Ancak aynı listeye 3 yıl sonra gönderilen <a class="link" href="http://www.mhonarc.org/archive/html/ietf-smtp/2005-05/msg00069.html" target="_top">başka bir iletide</a> özellikle bu bağın 2.4 numaralı bölümü göstermesi gerektiği belirtilmektedir. (6.3 numaralı bölümde harf büyüklüklerinden bahis yoktur.) Buradaki bağ bu saptamaya göre düzeltilmiştir.</p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

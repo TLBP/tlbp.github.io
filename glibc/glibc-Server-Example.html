@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.7. Bayt Akımlı Bağlantı Sunucusu Örneği</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Byte-Stream-Example.html')">Önceki</button>
+          <div class="dropdown-content">16.9.6. Bayt Akımlı Soket Örneği</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Out-of-Band-Data.html')">Sonraki</button>
+          <div class="dropdown-content">16.9.8. Sıra-Dışı-Veri Aktarımı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Server-Example">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.7. Bayt Akımlı Bağlantı Sunucusu Örneği</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Sunucu tarafı daha karmaşıktır. Aynı anda çok sayıda istemcinin sunucuya bağlı kalması istendiği için, basitçe <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> veya <a href="glibc-Transferring-Data.html#glibc-fn-recv"><strong class="function"><code>recv</code></strong></a> işlevini çağırarak tek bir istemciden girdi beklemek doğru olmaz. Yapılması gereken şey <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevini (<a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>) kullanarak açık olan bütün soketlerden girdi beklemektir. Bu sunucuya diğer bağlantı istekleriyle ilgilenme olanağı da sağlar.
+   </p>
+        <p>
+    Bu sunucu istemciden bir ileti aldığında ilgi çekecek hiçbir şey yapmaz. Dosya sonu durumunu algıladığında o istemci için soketi kapatır (bu aynı zamanda istemcinin de soketi kapatmasını sağlar).
+   </p>
+        <p>
+    Bu yazılım soket adresini ayarlamak için <strong class="function"><code>make_socket</code></strong> işlevini kullanmaktadır; bkz. <a class="xref" href="glibc-Inet-Example.html" title="16.6.7. İnternet Soketi Örneği">İnternet Soketi Örneği</a>.
+   </p>
+        <pre class="screen">#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netdb.h&gt;
+
+#define PORT    5555
+#define MAXMSG  512
+
+int
+read_from_client (int filedes)
+{
+  char buffer[MAXMSG];
+  int nbytes;
+
+  nbytes = read (filedes, buffer, MAXMSG);
+  if (nbytes &lt; 0)
+    {
+      /* <em class="replaceable"><code>Okuma hatası.</code></em> */
+      perror ("read");
+      exit (EXIT_FAILURE);
+    }
+  else if (nbytes == 0)
+    /* <em class="replaceable"><code>Dosya-sonu.</code></em> */
+    return -1;
+  else
+    {
+      /* <em class="replaceable"><code>Veri okundu.</code></em> */
+      fprintf (stderr, "Sunucu: gelen ileti: `%s'\n", buffer);
+      return 0;
+    }
+}
+
+int
+main (void)
+{
+  extern int make_socket (uint16_t port);
+  int sock;
+  fd_set active_fd_set, read_fd_set;
+  int i;
+  struct sockaddr_in clientname;
+  size_t size;
+
+  /* <em class="replaceable"><code>Soketi oluştur ve bağlantı kabul etmeye ayarla.</code></em> */
+  sock = make_socket (PORT);
+  if (listen (sock, 1) &lt; 0)
+    {
+      perror ("listen");
+      exit (EXIT_FAILURE);
+    }
+
+  /* <em class="replaceable"><code>Etkin soketleri ilklendir.</code></em> */
+  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>_ZERO (&amp;active_fd_set);
+  <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>_SET (sock, &amp;active_fd_set);
+
+  while (1)
+    {
+      /* <em class="replaceable"><code>Etkin soketlerden bilgi gelene kadar engelle.</code></em> */
+      read_fd_set = active_fd_set;
+      if (select (FD_SETSIZE, &amp;read_fd_set, NULL, NULL, NULL) &lt; 0)
+        {
+          perror ("select");
+          exit (EXIT_FAILURE);
+        }
+
+      /* <em class="replaceable"><code>Girdi bekleyerek bütün soketleri hizmete al.</code></em> */
+      for (i = 0; i &lt; <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>_SETSIZE; ++i)
+        if (FD_ISSET (i, &amp;read_fd_set))
+          {
+            if (i == sock)
+              {
+                /* <em class="replaceable"><code>Dinlenen sokette bağlantı isteği var.</code></em> */
+                int new;
+                size = sizeof (clientname);
+                new = accept (sock,
+                              (struct sockaddr *) &amp;clientname,
+                              &amp;size);
+                if (new &lt; 0)
+                  {
+                    perror ("accept");
+                    exit (EXIT_FAILURE);
+                  }
+                fprintf (stderr,
+                         "Sunucu: Konak %s, %hd. portundan baglaniyor\n",
+                         inet_ntoa (clientname.sin_addr),
+                         ntohs (clientname.sin_port));
+                <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>_SET (new, &amp;active_fd_set);
+              }
+            else
+              {
+                /* <em class="replaceable"><code>Bağlı olan sokete veri ulaşıyor.</code></em> */
+                if (read_from_client (i) &lt; 0)
+                  {
+                    close (i);
+                    <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>_CLR (i, &amp;active_fd_set);
+                  }
+              }
+          }
+    }
+}
+</pre>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

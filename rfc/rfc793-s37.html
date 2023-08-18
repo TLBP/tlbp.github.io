@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.7. Veri İletişimi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s36.html')">Önceki</button>
+          <div class="dropdown-content">3.6. Öncelik ve Güvenlik</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc793-s38.html')">Sonraki</button>
+          <div class="dropdown-content">3.8. Arayüzler</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc793-s37">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.7. Veri İletişimi</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Bağlantı bir kere kurulduktan sonra veri iletişimi veri bölütlerini değiştokuş ederek gerçekleşir. Hatalar (sağlama özeti sınamalarının başarısız olması), ağda sıkışıklık gibi nedenlerden dolayı veri bölütleri kaybolabildiğinden veri bölütlerinin her birinin teslimatını garantiye almak için TCP yeniden aktarım (bir zaman aşımı sonrası) yapar. Bu işlemden dolayı veya ağın yapısı gereği yinelenmiş veri bölütleri gelebilir. Sıra numaraları ile ilgili bölümde açıklandığı gibi TCP veri bölütlerindeki sıra ve alındı numaraları üzerinde kabul edilebilirliklerini doğrulamak için bazı sınamalar yapar.
+</p>
+        <p>
+Verinin göndericisi kullanacağı sonraki sıra numarasının değerini <code class="literal">GÖN.SNR</code> değişkeninde saklar. Verinin alıcısı ise almayı umduğu sonraki sıra numarasını <code class="literal">ALM.SNR</code> değişkeninde saklar. Verinin göndericisi alındılanmamış en eski sıra numarasını <code class="literal">GÖN.OLM</code> değişkeninde tutar. Eğer gönderilmiş tüm veri alındılandıktan sonra veri akışı bir süre için boşta kalırsa üç değişkenin eşitlendiği görülür.
+</p>
+        <p>
+Gönderici bir veri bölütünü oluşturup gönderdikten sonra <code class="literal">GÖN.SNR</code>'yi arttırır. Alıcı ise veri bölütünü kabul ettikten sonra <code class="literal">ALM.SNR</code>'yi arttırır ve bir alındı yollar. Bu alındı veri göndericisine ulaştığında <code class="literal">GÖN.OLM</code>'yi arttırır. Bu değişkenlerin değerleri arasındaki fark iletişimdeki gecikmenin bir ölçüsüdür. Değişkenlerin arttırım miktarı veri bölütündeki verinin uzunluğu kadardır. <code class="literal">KURULU</code> duruma geçildikten sonra tüm veri bölütlerinin alındı bilgilerine dayanarak taşınması gerektiğine dikkat ediniz.
+</p>
+        <p><span class="command"><strong>KAPAT</strong></span> kullanıcı çağrısı, bir gelen veri bölütündeki <code class="literal">SON</code> denetim bayrağının yaptığı gibi bir gitsin işlemi uygular.
+</p>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.7.1. Yeniden Aktarım Zaman aşımı</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Ağlar arası sistemi oluşturan ağın değişkenliği ve TCP bağlantılarının geniş çapta kullanımı sebebiyle yeniden aktarım zaman aşımının özdevimli saptanması gerekir. Burada göstermelik olarak yeniden aktarım zaman aşımını saptama işlemi örneklenmiştir.
+</p>
+          <div class="example">
+            <div class="example-title">Örnek: Yeniden Aktarım Zaman aşımını Saptama İşlemi Örneği</div>
+            <div class="example-contents">
+              <p>
+Beli bir sıra numarası ile bir verinin gönderilmesi ile bu sıra numarasını kapsayan bir alındının alınması (gönderilen veri bölütleri ile alınanların eşleşmesi zorunlu değildir) arasında geçen süre ölçülür. Ölçülen bu süreye Gidip Gelme Zamanı (<code class="literal">GGZ</code>) denir. Bundan Yaklaşık Gidip Gelme Zamanı (<code class="literal">YGGZ</code>) hesaplanır:
+</p>
+              <pre class="literallayout monospaced">
+YGGZ = ( ALFA * YGGZ ) + ((1-ALFA)) * GGZ)
+</pre>
+              <p>
+buna bağlı olarak da yeniden aktarım zaman aşımı (<code class="literal">YAZ</code>) hesaplanır:
+</p>
+              <pre class="literallayout monospaced">
+YAZ = asg[ÜSINIR,azm[ASINIR,(BETA*YGGZ)]]
+</pre>
+              <p>
+Burada <code class="literal">ÜSINIR</code> zaman aşımının üst sınırını (örn, 1 dakika), <code class="literal">ASINIR</code> ise zaman aşımının alt sınırını (örn, 1 saniye) ifade etmektedir. <code class="literal">ALFA</code> bir yuvarlatma katsayısı (örn, <code class="literal">0,8 ... 0,9</code>), <code class="literal">BETA</code> ise gecikme değişim katsayısıdır (örn, <code class="literal">1,3 ... 2,0</code>).
+</p>
+            </div>
+          </div>
+          <br class="example-break" />
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.7.2. Acil Bilgi İletişimi</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+TCP acil durum mekanizmasının amacı gönderen kullanıcının alan kullanıcıyı acil veriyi kabul etmesi için teşvik etmek ve alan kullanıcının bütün acıl veriyi alması durumunda alan TCP'nin bunu belirtmesine izin vermeyi mümkün kılmaktır.
+</p>
+          <p>
+Bu mekanizma veri akımındaki bir noktanın  acil bilgi sonu olarak tasarlanmasına izin verir. Alıcı TCP'de alım sıra numarasının (<code class="literal">ALM.SNR</code>) bu noktanın her önüne geçişinde, TCP kullanıcıya "acil kip"e geçmesini, alım sıra numarası aciliyet göstericisini yakaladığında ise "normal kip"e geçmesini söylemelidir. Eğer aciliyet göstericisi kullanıcı "acil kip"te iken güncellenirse, güncelleme kullanıcıya görünür olmayacaktır.
+</p>
+          <p>
+Bu yöntem, aktarılan tüm veri bölütlerinde taşınmak üzere bir aciliyet alanı tahsis eder. <code class="literal">ACL</code> denetim bayrağı aciliyet alanının anlamlı olduğunu belirtir ve aciliyet göstericisini belirtmek üzere veri bölütü sıra numarasına eklenmesi gerekir. Bu bayrağın yokluğu ortada acil bir verinin bulunmadığını gösterir.
+</p>
+          <p>
+Bir aciliyet göstericisi göndermek için kullanıcı ek olarak en azından bir veri sekizlisi göndermek zorundadır. Eğer gönderen kullanıcı ayrıca bir gitsin belirtirse hedef sürece acil bilginin teslim zamanı ileri alınır.
+</p>
+        </section>
+        <section class="sect3">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.7.3. Pencere Yönetimi</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+Her veri bölütünde gönderilen pencere, pencere göndericisinin (veri alıcısının) o an kabul etmeye hazır olduğu sıra numaraları aralığını gösterir. Bu bağlantıdaki veri tamponunun kullanılabilir alanı ile ilgili bir önkabul vardır.
+</p>
+          <p>
+Geniş bir pencere belirtilmesi aktarımı teşvik eder. Kabul edilebilecekten fazla veri gelmesi durumunda ise fazlası iptal edilir. Bu, haddinden fazla yeniden gönderime, ağa ve TCP'lere gereksiz yük eklenmesine sebep olur. Küçük bir pencere belirtilmesi, veri aktarımını, veri bölütü aktarımları arasındaki gidip gelme gecikmesini başlatan noktada sınırlayabilir.
+</p>
+          <p>
+Sağlanan mekanizmalar bir TCP'ye büyük bir pencerenin ardından daha fazla veri kabul edilmesini zorlamaksızın daha küçük bir pencere ilan etmesini mümkün kılar. Buna "percere kırpma" denir ve kesinlikle mani olunur. Sağlamlık ilkesi gereğince, TCP'ler kendi pencerelerini kırpamazlar, fakat diğer TCP'lerde kısmen böyle bir davranışa karşı hazırlıklı olunmalıdır.
+</p>
+          <p>
+Gönderen TCP kullanıcıdan geleni kabule hazır olmalı ve gönderi penceresi sıfır bile olsa en azından yeni verinin bir sekizlisini göndermelidir. Gönderen TCP pencere sıfır olsa bile alıcı TCP'ye düzenli olarak veriyi yeniden aktarmalıdır. Percerenin sıfır olduğu durum için yeniden aktarım aralığı olarak 2 dakika önerilmektedir. Bu yeniden aktarımda aslolan sıfır pencereli TCP'lerle pencerenin yeniden her açılışının diğerine güvenilir şekilde raporlanacağını garanti etmektir.
+</p>
+          <p>
+Alan TCP'nin bir sıfır penceresi varken bir veri bölütü geldiğinde, mevcut pencereyi (sıfır) ve sonraki beklediği sıra numarasını gösteren bir alındıyı yine de göndermelidir.
+</p>
+          <p>
+Gönderen TCP aktaracağı veriyi o anki pencereye sığacak şekilde veri bölütleri olarak paketler ve yeniden aktarım kuyruğunda bu veri bölütlerini yeniden paketleyebilir. Böyle yeniden paketleme gerekli değildir ama yararlı olabilir.
+</p>
+          <p>
+Veri akışının tek yönlü olduğu bir bağlantıda, pencere bilgisi hepsi aynı sıra numarasına sahip alındı veri bölütlerinde taşınır, bu durumda sırasız bile gelseler onları yeniden sıralamak için hiçbir yol olmayacaktır. Bu ciddi bir sorun değildir, fakat pencere bilgisinin ara sıra geçici olarak veri alıcıdaki eski raporları temel alması mümkün olacaktır. Bu sorundan kaçınmak için en yüksek alındı numarasını taşıyan veri bölütlerindeki (evvelce alınmış en yüksek alındı numarasına eşit veya daha büyük alındı numaralı veri bölütlerindeki) pencere bilgisine göre hareket etmek en iyisidir.
+</p>
+          <p>
+Pencere yönetim yöntemi, iletişim başarımında önemli bir etkiye sahiptir. Aşağıdaki açıklamalar, gerçeklenimcilere önerilerdir.
+</p>
+          <section class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">3.7.3.1. Pencere Yönetim Önerileri</h5>
+                </div>
+              </div>
+            </div>
+            <p>
+Az sayıda büyük veri bölütü kullanarak daha iyi başarımın elde edildiği durumda çok küçük bir pencere ayrılması verinin çok sayıda küçük veri bölütünde aktarılmasına sebep olur.
+</p>
+            <p>
+Küçük pencerelerden kaçınmak için bir öneri, alıcı için bir pencerenin güncellenmesini, bağlantı için olası en büyük tahsisatın en azından yüzde X'i kadar ek bir tahsis gerçekleşene kadar ertelemektir (burada X, 20 ile 40 arası olabilir).
+</p>
+            <p>
+Diğer bir öneri ise, göndericinin veriyi göndermeden önce pencerenin yeterince büyümesini bekleyerek küçük veri bölütleri göndermekten kaçınmasıdır. Kullanıcıdan bir gitsin işlemi gelirse veri bölütü küçük bile olsa veri gönderilmelidir.
+</p>
+            <p>
+Alındıların geciktirilmemesi gerektiğine yoksa gereksiz yeniden aktarıma yolaçılacağına dikkat ediniz. Bir strateji küçük bir veri bölütü geldiğinde (pencere bilgisini güncellemeksizin) bir alındı gönderdikten sonra pencere büyük olduğunda yeni pencere bilgisi ile başka bir alındı göndermek olurdu.
+</p>
+            <p>
+Sıfır penceresi algılanmak üzere gönderilmiş veri bölütü ek olarak aktarılan verinin giderek daha küçük veri bölütlerine parçalanmasını da başlatabilir. Sıfır penceresi algılanmak üzere gönderilmiş tek bir veri sekizlisi içeren bir veri bölütü kabul edilirse mevcut pencerenin tek sekizlisini tüketir. Gönderen TCP basitçe sıfırdan farklı pencere gönderdikçe aktarılan veri büyüklü küçüklü veri bölütlerine bölünecektir. Zamanla, büyük veri bölütlerinin biri biraz küçük diğeri biraz büyük  bir çifte bölünmesi pencere tahsis eden alıcıda arasıra beklemelerle sonuçlanır. Ve bir süre sonra veri aktarımı bilhassa küçük veri bölütlerinde olmaya başlar.
+</p>
+            <p>
+Burada öneri; en basitini yapma eğilimindeki gerçeklenimlerde pencere yönetim mekanizmaları çok sayıda küçük pencereyle sonuçlanmak eğiliminde olduğundan, TCP gerçeklenimlerinin etkin olarak küçük pencere tahsislerini daha büyük pencereler halinde birleştirmeye çalışmaları gerektiğidir.
+</p>
+          </section>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

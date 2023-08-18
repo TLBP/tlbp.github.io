@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>3.2.3.8. Yığın Bellek Tutarlılık Denetimi</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -44,8 +44,8 @@
           </div>
         </div>
         <p>
-     <span id="idm86529" class="indexterm"></span>
-     <span id="idm86533" class="indexterm"></span>
+     <span id="idm86542" class="indexterm"></span>
+     <span id="idm86546" class="indexterm"></span>
      <code class="varname">LD_PRELOAD</code> ortam değişkenini kullanarak <code class="filename">libc_malloc_debug</code> hata ayıklama kütüphanesini önyükleyerek ve <a href="glibc-Heap-Consistency-Checking.html#glibc-fn-mcheck"><strong class="function"><code>mcheck</code></strong></a> işlevini kullanarak özdevimli tahsis edilmiş belleğin tutarlılığının <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> tarafından denetlenmesi istenebilir. Bu işlev GNU genişletmesidir ve <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code> başlık dosyasında bildirilmiştir.
     </p>
         <div class="csynopsis"><div class="cstype">      işlev</div>
@@ -60,7 +60,7 @@
       <code class="code">mcheck</code> işlevinin çağrılması <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a>'a arasıra tutarlılık denetimi yapmasını söyler. Bunlar, <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis edilmiş dilimin sonunu aşan yazma işlemleri gibi şeyleri yakalayacaktır.
      </p>
      <p>
-      Bir tutarsızlık bulunduğunda <em class="parameter"><code>abortfn</code></em> ile belirtilen işlev çağrılır. <em class="parameter"><code>abortfn</code></em> boş gösterici içeriyorsa <code class="code">mcheck</code> bir ileti çıktılayıp <strong class="function"><code>abort</code></strong> çağrısı (bkz. ???) yapan ön tanımlı işlevi kullanır. Belirtilen işlev, ne tür bir tutarsızlık tespit edildiğini bildiren bağımsız değişkenle çağrılır; türü aşağıda açıklanmıştır.
+      Bir tutarsızlık bulunduğunda <em class="parameter"><code>abortfn</code></em> ile belirtilen işlev çağrılır. <em class="parameter"><code>abortfn</code></em> boş gösterici içeriyorsa <code class="code">mcheck</code> bir ileti çıktılayıp <strong class="function"><code>abort</code></strong> çağrısı (bkz. ???) yapan önceden tanımlı işlevi kullanır. Belirtilen işlev, ne tür bir tutarsızlık tespit edildiğini bildiren bağımsız değişkenle çağrılır; türü aşağıda açıklanmıştır.
      </p>
      <p>
       <a href="glibc-Basic-Allocation.html#glibc-fn-malloc"><strong class="function"><code>malloc</code></strong></a> ile tahsis sonrası tahsis denetimine başlamak için çok geç kalınmış olur. Yani <code class="code">mcheck</code> bu durumda hiçbir şey yapmaz. İşlev, çok geç çağırırsanız  <code class="code">-1</code>, aksi takdirde (başarılı olduğunda) <code class="code">0</code> döndürür.
@@ -100,7 +100,7 @@ End with a line saying just "end".
      
     </div>
         <div class="csynopsis"><div class="cstype">  veri türü</div>
-     <span id="glibc-tp-mprobe" class="indexterm"></span>
+     <span id="glibc-tp-mcheck_status" class="indexterm"></span>
      <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/mcheck.h;hb=HEAD" target="_top">mcheck.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">enum </code><strong><code class="function">mcheck_status</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
      <p>
       Bu sayılama türü, tahsis edilmiş bir bellek diliminde tutarsızlık varsa saptanan tutarsızlıkları açıklar. Olası değerler:
@@ -152,7 +152,7 @@ End with a line saying just "end".
           <h3 class="admon-title"><code class="code">MALLOC_CHECK_</code> ile ilgili bir sorun  vardır:</h3>
           <div class="admon-contents">
             <p>
-      Normal davranışından saparak standart hata tanıtıcısına bir şeyler yazdığı için SUID veya SGID'li çalıştırılabilirlerin istismarı sözkonusu olabilir.  Bu nedenle, <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> kullanımı SUID ve SGID'li  çalıştırılabilirler için ön tanımlı olarak iptal edilmiştir. Ancak sistem yöneticisi tarafından <code class="filename">/etc/suid-debug</code> dosyası eklenerek etkinleştirilebilir (bu dosyanın içeriği önemli değildir, dosya boş olabilir).
+      Normal davranışından saparak standart hata tanıtıcısına bir şeyler yazdığı için SUID veya SGID'li çalıştırılabilirlerin istismarı sözkonusu olabilir.  Bu nedenle, <a href="glibc-Malloc-Tunable-Parameters.html#glibc-vr-MALLOC_CHECK_"><strong class="varname"><code>MALLOC_CHECK_</code></strong></a> kullanımı SUID ve SGID'li  çalıştırılabilirler için baştan iptal edilmiştir. Ancak sistem yöneticisi tarafından <code class="filename">/etc/suid-debug</code> dosyası eklenerek etkinleştirilebilir (bu dosyanın içeriği önemli değildir, dosya boş olabilir).
      </p>
           </div>
         </div>

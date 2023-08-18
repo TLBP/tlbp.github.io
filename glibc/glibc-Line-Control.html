@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.6. Hat Denetim İşlevleri</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-BSD-Terminal-Modes.html')">Önceki</button>
+          <div class="dropdown-content">17.5. BSD Uçbirim Kipleri</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Low-Level-Terminal-Interface.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Noncanon-Example.html')">Sonraki</button>
+          <div class="dropdown-content">17.7. Kuralsız Kip Örneği</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="chapter" id="glibc-Line-Control">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">17.6. Hat Denetim İşlevleri</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+   <span id="idm129799" class="indexterm"></span>
+   Bu işlevler, uçbirim aygıtı üzerinde çeşitli denetim eylemlerini gerçekleştirir. Uçbirim erişimi ile ilgili olarak, bunlar çıktıda şöyle bir şeyler yapıyor gibi ele alınır: Bir art alan süreci kendi denetim uçbirimi üzerinde bu işlevlerden birini kullandığında, normalde süreç grubundaki tüm süreçlere bir <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTTOU"><strong class="varname"><code>SIGTTOU</code></strong></a> sinyali gönderir. Çağıran süreç <a href="glibc-Job-Control-Signals.html#glibc-vr-SIGTTOU"><strong class="varname"><code>SIGTTOU</code></strong></a> sinyallerini engelliyor ya da yok sayıyorsa, bu durumda işlem yine yapılır ama sinyal gönderilmez. Bkz, <a class="xref" href="glibc-Job-Control.html" title="28. İş Denetimi">İş Denetimi</a>.
+  </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-fn-tcsendbreak" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">tcsendbreak</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">duration</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:tcattr(<em class="parameter"><code>filedes</code></em>)</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-corrupt">corrupt</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+   </div>
+   <p>
+    Bu işlev, <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı ile ilişkili uçbirim üzerinde sıfır bitlerinden oluşan bir akımı ileterek geçici kesme durumu (break condition) oluşturur. Geçici kesme durumunun süresi <em class="parameter"><code>duration</code></em> bağımsız değişkenince denetlenir. Sıfırsa süre 0.25 ile 0.5 saniye arasında olur. Bu, sıfırdan farklı değerlerin sisteme bağlı olduğu anlamına gelir.
+   </p>
+   <p>
+    Bu işlev, uçbirim eşzamasız seri veri portu değilse hiçbir şey yapmaz.
+   </p>
+   <p>
+    Normalde dönüş değeri sıfırdır. Bir hata oluştuğunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> bağımsız değişkeni geçerli bir dosya tanıtıcı değil.
+      </p></dd><dt><span class="term"><code class="code">ENOTTY</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> uçbirimle ilişkili değil.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-tcdrain" class="indexterm"></span>
+   <span id="glibc-fn-tcdrain" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">tcdrain</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">tcdrain</code> işlevi kuyruktaki çıktı <em class="parameter"><code>filedes</code></em> uçbirimine iletilinceye kadar bekler.
+   </p>
+   <p>
+    Bu işlev çok evreli yazılımlarda iptal noktasıdır. <code class="code">tcdrain</code> çağrısı sırasında evre bazı özkaynakları (bellek, dosya tanıtıcı, semafor, vb.) tahsis ettiğinde bu bir sorun haline gelir. Evre tam bu anda iptal alırsa tahsisli özkaynaklar yazılım sonlanana kadar tahsisli olarak kalır. Bu tür <code class="code">tcdrain</code> çağrılarından kaçınmak için iptal işleyiciler kullanılarak korunulmalıdır.
+   </p>
+   <p>
+    Normalde dönüş değeri sıfırdır. Bir hata oluştuğunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> geçerli dosya tanıtıcı değil.
+      </p></dd><dt><span class="term"><code class="code">ENOTTY</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> uçbirimle ilişkili değil.
+      </p></dd><dt><span class="term"><code class="code">EINTR</code></span></dt><dd><p>
+       İşlem bir sinyalle durduruldu. Bkz, <a class="xref" href="glibc-Interrupted-Primitives.html" title="24.5. Sinyallerle Kesilen İlkeller"><em>Sinyallerle Kesilen İlkeller</em></a>.
+      </p></dd></dl></div>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-tcflush" class="indexterm"></span>
+   <span id="glibc-fn-tcflush" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">tcflush</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">queue</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">tcflush</code> işlevi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı ile ilişkili uçbirimin girdi ya da çıktı kuyruğundaki veriyi temizlemek için kullanılır. <em class="parameter"><code>queue</code></em> bağımsız değişkeni temizlenecek kuyruğu belirtmek için kullanılır ve şu değerlerden biri olabilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCIFLUSH" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCIFLUSH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Alınmış ama henüz okunmamış veri temizlenir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCOFLUSH" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCOFLUSH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Yazılmış ama henüz iletilmemiş veri temizlenir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCIOFLUSH" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCIOFLUSH</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Girdi ve çıktı kuyruklarının ikisi de temizlenir.
+    </p>
+   </div>
+   <p>
+    Normalde dönüş değeri sıfırdır. Bir hata oluştuğunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> geçerli dosya tanıtıcı değil.
+      </p></dd><dt><span class="term"><code class="code">ENOTTY</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> uçbirimle ilişkili değil.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>queue</code></em> bağımsız değişkeninde belirtilen değer geçersiz.
+      </p></dd></dl></div>
+   <p>
+    Bu işlevin ismine bakarak hatırlamak zor olacaktır, çünkü "flush" (boşaltma) işlemi normalde önceki işlev için kullanılır ve girdi ve çıktının iptal edimesi ile çelişir. <a href="glibc-Line-Control.html#glibc-fn-tcflush"><strong class="function"><code>tcflush</code></strong></a> işlevi POSIX standardında belirtildiğinden ismi değiştirilememektedir.
+   </p>
+  </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+   <span id="glibc-cp-tcflow" class="indexterm"></span>
+   <span id="glibc-fn-tcflow" class="indexterm"></span>
+   <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">tcflow</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">filedes</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">action</code></strong><strong><code>)</code></strong></td></tr></table></div>
+   
+   <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtunsafe">MT-Unsafe</a> <a class="link" href="glibc-Conditionally-Safe-Features.html#glibc-safety-race">race</a><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-identifier">:tcattr(<em class="parameter"><code>filedes</code></em>)</a></code><code class="code"><a class="code" href="glibc-Other-Safety-Remarks.html#glibc-safety-condition">/bsd</a></code>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-asunsafe">AS-Unsafe</a>
+     | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+   </div>
+   <p>
+    <code class="code">tcflow</code> işlevi <em class="parameter"><code>filedes</code></em> dosya tanıtıcısı ile ilişkili uçbirim üzerinde <a href="glibc-Input-Modes.html#glibc-vr-IXON"><strong class="varname"><code>IXON</code></strong></a>/<a href="glibc-Input-Modes.html#glibc-vr-IXOFF"><strong class="varname"><code>IXOFF</code></strong></a> akış denetimi ile ilgili işlemleri gerçekleştirmekte kullanılır.
+   </p>
+   <p>
+    <em class="parameter"><code>action</code></em> bağımsız değişkeni gerçekleştirilecek eylemi belirtmek için kullanılır ve aşağıdaki değerlerden biri olabilir:
+   </p>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCOOFF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCOOFF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Çıktı iletimi beklemeye alınır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCOON" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCOON</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     Çıktı iletimi yeniden başlatılır.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCIOFF" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCIOFF</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> karakteri iletilir.
+    </p>
+   </div>
+   <div class="csynopsis"><div class="cstype">      sabit</div>
+    <span id="glibc-vr-TCION" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td style="vertical-align: text-top;"><strong><code class="function">TCION</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    <p>
+     <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakteri iletilir.
+    </p>
+   </div>
+   <p>
+    <a href="glibc-Start-Stop-Characters.html#glibc-vr-STOP"><strong class="varname"><code>STOP</code></strong></a> ve <a href="glibc-Start-Stop-Characters.html#glibc-vr-VSTART"><strong class="varname"><code>START</code></strong></a> karakterleri hakkında daha ayrıntılı bilgi <a class="xref" href="glibc-Special-Characters.html" title="17.4.9. Özel Karakterler">Özel Karakterler</a> bölümünde bulunabilir.
+   </p>
+   <p>
+    Normalde dönüş değeri sıfırdır. Bir hata oluştuğunda <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+   </p>
+   <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> geçerli dosya tanıtıcı değil.
+      </p></dd><dt><span class="term"><code class="code">ENOTTY</code></span></dt><dd><p>
+       <em class="parameter"><code>filedes</code></em> uçbirimle ilişkili değil.
+      </p></dd><dt><span class="term"><code class="code">EINVAL</code></span></dt><dd><p>
+       <em class="parameter"><code>action</code></em> bağımsız değişkeninde belirtilen değer geçersiz.
+      </p></dd></dl></div>
+  </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

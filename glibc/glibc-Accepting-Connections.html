@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.3. Bağlantıların Kabul Edilmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Listening.html')">Önceki</button>
+          <div class="dropdown-content">16.9.2. Bağlantıların Dinlenmesi</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Who-is-Connected.html')">Sonraki</button>
+          <div class="dropdown-content">16.9.4. Bana Kim Bağlı?</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Accepting-Connections">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.3. Bağlantıların Kabul Edilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm126093" class="indexterm"></span>
+    Bir sunucu bağlantı isteği aldığında, bağlantıyı isteği kabul ederek tamamlayabilir. Bunun için <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevi kullanılır.
+   </p>
+        <p>
+    Sunucu olarak kurulmuş olan bir soket çok sayıda istemciden gelen bağlantı isteklerini kabul edebilir. Bağlantı için sunucunun dinlediği soket değil, <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevinin bağlantıyla ilgili oluşturduğu yeni soket kullanılır. <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> bu yeni soketin dosya tanıtıcısını döndürür. Sunucunun dinlediği soket diğer bağlantı isteklerini dinlemeye devam eder.
+   </p>
+        <p>
+    Sunucunun dinlediği sokette bekleyen bağlantı isteği sayısı sınırlıdır. İstemcilerden gelen bağlantı istekleri sunucunun karşılık verebileceğinden hızlı gelirse, kuyruk dolabilir ve ilave istekler <a href="glibc-Error-Codes.html#glibc-vr-ECONNREFUSED"><strong class="varname"><code>ECONNREFUSED</code></strong></a> hatası ile reddedilebilir. Azami kuyruk uzunluğu <a href="glibc-Listening.html#glibc-fn-listen"><strong class="function"><code>listen</code></strong></a> işlevinin <em class="parameter"><code>n</code></em> bağımsız değişkeninde belirtilebilir; yine de sistem kuyruk uzunluğu için kendi iç sınırını baskın kılabilir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-accept" class="indexterm"></span>
+    <span id="glibc-cp-accept" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">accept</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">struct sockaddr </code><strong class="type">*</strong><strong><code class="parameter">addr</code></strong><strong><code>, </code></strong><code class="type">socklen_t </code><strong class="type">*</strong><strong><code class="parameter">length_ptr</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <em class="parameter"><code>socket</code></em> sunucu soketindeki bir bağlantı isteğini kabul etmek için kullanılır.
+    </p>
+    <p>
+     <code class="code">accept</code> işlevi, <em class="parameter"><code>socket</code></em> soketi için engellemesiz kip seçilmediği sürece, süren bir bağlantı yoksa bekler (engellemesiz soketlerde <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevini kullanarak süren bağlantıların bitmesini beklemek mümkündür.) <a class="xref" href="glibc-File-Status-Flags.html" title="13.15. Dosya Durum Seçenekleri"><em>Dosya Durum Seçenekleri</em></a>, engellemesiz kip hakkında bilgi içerir.
+    </p>
+    <p>
+     <em class="parameter"><code>addr</code></em> ve <em class="parameter"><code>length_ptr</code></em> bağımsız değişkenleri bağlantıyı başlatan istemci soketinin ismi hakkında bilgi döndürür. Bilginin biçimi hakkında bilgi edinmek için bkz, <a class="xref" href="glibc-Socket-Addresses.html" title="16.3. Soket Adresleri"><em>Soket Adresleri</em></a>.
+    </p>
+    <p>
+     Bağlantının kabul edilmesi ile bağlantı <em class="parameter"><code>socket</code></em> soketinden yapılmaz. Bunun yerine, bağlantı yapılacak yeni bir soket oluşturulur. <code class="code">accept</code> işlevinin normal dönüş değeri yeni soketin dosya tanıtıcısıdır.
+    </p>
+    <p>
+     <code class="code">accept</code> işlevinin ardından, <em class="parameter"><code>socket</code></em> soketi bağlantısız ve açık olarak kalır ve kapatılıncaya kadar dinlemeye devam eder. <code class="code">accept</code> işlevi <em class="parameter"><code>socket</code></em> ile tekrar çağrılarak başka bağlantılar kabul edilebilir.
+    </p>
+    <p>
+     Hata oluşursa <code class="code">-1</code> döner. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+       </p></dd><dt><span class="term"><code class="code">EOPNOTSUPP</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi bu işlemi desteklemiyor.
+      </p></dd><dt><span class="term"><code class="code">EWOULDBLOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi engellemesiz kipte ve bekleyen bağlantı yok.
+       </p></dd></dl></div>
+    <p>
+     Bu işlev çok evreli yazılımlar için iptal noktası olarak tanımlanmıştır, bu nedenle tahsis edilen öz kaynakların (bellek, dosya tanıtıcısı, semafor veya herhangi başka bir kaynak) evre iptal edilse dahi serbest bırakılmasının sağlanması şarttır.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevi bağlantısız iletişim tarzlarını kullanan soketler için kullanılamaz.
+   </p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

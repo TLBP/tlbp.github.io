@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>Ek-B. SMTP Komutlarının RFC 822 Başlıklarından Üretilmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-appa.html')">Önceki</button>
+          <div class="dropdown-content">Ek-A. TCP İletim Hizmeti</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-appc.html')">Sonraki</button>
+          <div class="dropdown-content">Ek-C. Kaynak Rotalar</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2821-appb">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">Ek-B. SMTP Komutlarının RFC 822 Başlıklarından Üretilmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+Bazı sistemler posta teslimat protokolünde (sadece) RFC 822 başlıklarını kullanır, kullanamadığında da,  örneğin bir ileti bir kullanıcı aracı (MUA) tarafından bir aktarım aracına (MTA) bırakıldığında, SMTP komutlarını RFC 822 başlıklarından üretir. MTA-MUA protokolü özel bir konu olduğundan ve hiçbir Genel Ağ standardınca kapsanmadığından, bu yaklaşımla ilgili sorunlar vardır. Örneğin, kavramsal olarak bir posta zarfına ait bir bilgi başlık bilgisinden önceden ayrılmadığında (ve ayrı olarak tutulmadığında) listelerin tekrar dağıtılmasıyla ve gizli ("<code class="literal">bcc</code>") kopyaların düzgün ele alınmasıyla ilgili yinelenen sorunlar yaşanmıştır.
+</p>
+        <p>
+Kullanıcı aracının (MUA) ilk aktarım aracına (MTA) postayı bırakırken ileti ve zarfı ayrı ayrı teslim etmesinin sağlanması önerilir. Bunula birlikte, <span class="rfcshould">eğer zarf ayrı olarak sağlanmıyorsa, SMTP komutları şöyle üretilmelidir *ÖNERİ*</span>:
+</p>
+        <div class="orderedlist">
+          <ol class="orderedlist" type="1">
+            <li class="listitem">
+              <p><span class="rfcshould"><code class="literal">TO</code>, <code class="literal">CC</code> veya <code class="literal">BCC</code> başlık alanındaki her alıcı adresi <code class="code">RCPT</code> komutuna kopyalanmalıdır *ÖNERİ*</span> (eğer kuyruklama veya teslimat için gerekliyse çok sayıda ileti kopyası üreterek). BCC alanları varsa başlıklardan kaldırılmalıdır. <span class="rfcshould">Bu işlem tamamlandıktan sonra, kalan başlıklar, <code class="literal">To:</code>, <code class="literal">Cc:</code> veya <code class="literal">Bcc:</code> başlıklarından en az birinin kaldığından emin olmak için sınanmalıdır *ÖNERİ*</span>. <span class="rfcshould">Eğer hiçbiri yoksa, [<a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>]'de belirtildiği gibi hiçbir ek bilgi olmaksızın bir <code class="literal">Bcc:</code> başlığı yerleştirilmelidir *ÖNERİ*</span>.
+</p>
+            </li>
+            <li class="listitem">
+              <p><code class="code">MAIL</code> komutundaki dönüş adresi, eğer mümkünse, postayı teslim eden (yerel) kullanıcının sistemdeki kimliğinden, mümkün değilse, "<code class="literal">From:</code>" başlığından türetilmelidir. <span class="rfcshould">Kullanılabilir sistem kimliği varsa ve <code class="literal">From:</code> başlığındaki adresten farklıysa, ayrıca <code class="literal">Sender</code> başlığına da kopyalanmalıdır *ÖNERİ*</span>. (<span class="rfcshould">Bir <code class="literal">Sender</code> alanı zaten varsa silinmelidir *ÖNERİ*</span>.) Sistemler zarf dönüş adresini değiştirmek için kullanıcılarına bir yöntem sunabilir, ama kullanımını ayrıcalıklı kullanıcılar için kısıtlamak isteyebilir. Bu, posta sahtekarlığını önlemeyecektir, ama görülme sıklığını düşürebilir; bkz, <a class="xref" href="rfc2821-s7.html#rfc2821-s71" title="7.1. Posta Güvenliği ve Yanıltma">Posta Güvenliği ve Yanıltma</a>.
+</p>
+            </li>
+          </ol>
+        </div>
+        <p>
+Bir MTA bu yönde kullanıldığında, aktarılan iletinin geçerliliğinden emin olunması sorumluluğunu alır. Geçerliliği sınama ve geldiğinde geçersiz olan iletileri elden geçirme (veya almama) mekanizmaları MUA-MTA arayüzünün bir parçası olup bu belirtimin kapsamında değildir.
+</p>
+        <p><span class="rfcmust">Standard RFC 822 bilgisine dayalı bir teslimat protokolü bir iletiyi yabancı (SMTP dışı) bir posta sisteminden SMTP ortamına geçirmek için tek başına kullanılmamalıdır *ZORUNLU*</span>. Zarfı oluşturacak ek bilgi, ister ilave başlıklarla ister yabancı sistemin zarfıyla olsun, diğer ortamdaki bir kaynaktan gelmelidir.
+</p>
+        <p>
+İletilerin sadece "<code class="literal">to</code>" ve "<code class="literal">cc</code>" alanlarını kullanarak geçitleme çabaları, posta döngülerine ve Genel Ağ posta ortamının düzgün çalışmasını engelleyici başka davranışlara yol açtı. Bu sorunlar çoğunlukla yaygın olarak, ileti bir Genel Ağ posta listesinden kaynaklanıp zarf bilgisi kullanılarak yabancı ortama dağıtıldığında görüldü. Bu iletiler daha sonra bir salt-başlık posta göndericisi tarafından işlendiğinde, Genel Ağ ortamına (ve posta listesine) geri dönüşler nerdeyse kaçınılmazdır.
+</p>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

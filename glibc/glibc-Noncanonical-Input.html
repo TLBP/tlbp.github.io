@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>17.4.10. Kuralsız Girdi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Other-Special.html')">Önceki</button>
+          <div class="dropdown-content">17.4.9.4. Diğer Özel Karakterler</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Terminal-Modes.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-BSD-Terminal-Modes.html')">Sonraki</button>
+          <div class="dropdown-content">17.5. BSD Uçbirim Kipleri</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Noncanonical-Input">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">17.4.10. Kuralsız Girdi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    Kuralsız girdi kipinde <a href="glibc-Editing-Characters.html#glibc-vr-ERASE"><strong class="varname"><code>ERASE</code></strong></a> ve <a href="glibc-Editing-Characters.html#glibc-vr-KILL"><strong class="varname"><code>KILL</code></strong></a> gibi metin düzenleme karakterleri yok sayılır. Kullanıcının girdiyi düzenleyebildiği sistem oluşumları kuralsız kipte iptal edilir. Sinyal gönderme ve akış denetimi hariç tüm girdi karakterleri uygulamaya oldukları gibi yazıldıkları şekilde aktarılır. Metin düzenleme ile ilgili girdilerin alınması gerekliyse bunlar yazılım içinde gerçeklenmelidir.
+   </p>
+        <p>
+    Kuralsız kipte kaç girdinin ne kadar süre bekleneceğini denetleyen <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> özel değişkenleri vardır. Bunlar kullanılarak girdi yapıldıkça hiç beklemeden girdiler hemen işleme sokulabilir.
+   </p>
+        <p>
+    <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> <a href="glibc-Mode-Data-Types.html#glibc-tp-termios"><strong class="type"><code>struct termios</code></strong></a> yapısının üyesi olan <code class="code">c_cc</code> dizisinde saklanır. Bu dizinin her elemanı belli bir role sahiptir ve her elemana rolü ifade eden bir simgesel sabit indisi kullanılarak erişilir. <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> için bu indisler <a href="glibc-Noncanonical-Input.html#glibc-vr-VMIN"><strong class="varname"><code>VMIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-VTIME"><strong class="varname"><code>VTIME</code></strong></a>'dır.
+   </p>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-VMIN" class="indexterm"></span>
+    <span id="glibc-vr-MIN" class="indexterm"></span>
+    <span id="glibc-vr-VMIN" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">VMIN</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">c_cc</code> dizisinin <code class="code">MIN</code> değerini içeren elemanının indisidir.  Karakter <em class="replaceable"><code>termios</code></em><code class="code">.c_cc[VMIN]</code> içindedir.
+    </p>
+    <p>
+     <code class="code">MIN</code> değeri sadece kuralsız girdi kipinde anlamlıdır; girdi kuyruğundan <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ile okuma yapabilmek için en az kaç karakter gerektiğini belirleyen bir sayıdır.
+    </p>
+   </div>
+        <div class="csynopsis"><div class="cstype">      makro</div>
+    <span id="glibc-cp-VTIME" class="indexterm"></span>
+    <span id="glibc-vr-TIME" class="indexterm"></span>
+    <span id="glibc-vr-VTIME" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">VTIME</code></strong></td><td style="vertical-align: text-top;"></td></tr></table></div>
+    
+    <p>
+     <code class="code">c_cc</code> dizisinin <code class="code">TIME</code> değerini içeren elemanının indisidir.  Karakter <em class="replaceable"><code>termios</code></em><code class="code">.c_cc[VTIME]</code> içindedir.
+    </p>
+    <p>
+     <code class="code">TIME</code> değeri sadece kuralsız girdi kipinde anlamlıdır; girdi kuyruğundan <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ile okuma yapabilmek için ne kadar süreyle bekleme yapılacağını belirler; 0.1 saniyelik katları ifade eden bir tamsayıdır.
+    </p>
+   </div>
+        <p>
+    <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> değerleri <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevinin değer döndürmesi için gerekli koşulları oluşturur. Sıfır ve sıfırdan farklı değerler ayrıca anlamlıdır. Bu bakımdan dört olası durum vardır:
+   </p>
+        <div class="itemizedlist">
+          <ul class="itemizedlist" style="list-style-type: disc; ">
+            <li class="listitem">
+              <p>
+      <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a>, ikisi de sıfırdan farklı olabilir.
+     </p>
+              <p>
+      Bu durumda <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a>, girdi yapılırken her girdi karakterinden sonra başka bir girdinin ne kadar süre bekleneceğini belirtir. İlk karakter alındıktan sonra <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> bayt alınıncaya kadar veya başka giriş yapılmadan <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> süresi geçene kadar <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> beklemeye devam eder.
+     </p>
+              <p>
+      <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ilk karakter alınıncaya kadar <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> süresi dolsa bile daima bekler, ancak kuyrukta <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> karakterden fazlası varsa işlevden istenen karakter sayısına göre <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> karakterden fazlası dönebilir.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a>, ikisi de sıfır olabilir.
+     </p>
+              <p>
+      Bu durumda <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> kuyrukta kaç karakter varsa hepsini istek sayısı uzunlukta anında döndürür. Bir girdi yoksa <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> sıfır değeriyle döner.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> sıfır, <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> sıfırdan farklı olabilir.
+     </p>
+              <p>
+      Bu durumda, <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> ilk girdi için <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> kadar süreyle bekler ve kuyrukta kaç karakter varsa hepsini istek sayısı uzunlukta anında döndürür, bir girdi yoksa <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> sıfır değeriyle döner.
+     </p>
+            </li>
+            <li class="listitem">
+              <p>
+      <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> sıfır, <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> sıfırdan farklı olabilir.
+     </p>
+              <p>
+      Bu durumda <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> kuyruğa <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> bayt yazılıncaya kadar bekler ve istenen sayıda karakterle döner. Eğer kuyrukta <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> karakterden fazla karakter varsa <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> karakterden fazlası dönebilir.
+     </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+    <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> için 50 belirtilmişken işlevden 10 karakter okuması istenirse ne olacak? Normalde, <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> tamponda 50 karakter birikene kadar (ya da yukarıda açıklanan kurallar neyi gerektiriyorsa) bekler ve ilk 10 karakterle döner. Kalan 40 karakter sonraki <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> çağrıları ile okunmak üzere tamponda bırakılır.
+   </p>
+        <div class="admon note">
+          <h3 class="admon-title">Taşınabilirlik Bilgisi</h3>
+          <div class="admon-contents">
+            <p>
+     Bazı sistemlerde  <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> alanları <a href="glibc-Editing-Characters.html#glibc-vr-EOFc"><strong class="varname"><code>'EOF'</code></strong></a> ve <a href="glibc-Editing-Characters.html#glibc-vr-EOL"><strong class="varname"><code>EOL</code></strong></a> alanları ile aynıdır. <a href="glibc-Noncanonical-Input.html#glibc-vr-MIN"><strong class="varname"><code>MIN</code></strong></a> ve <a href="glibc-Noncanonical-Input.html#glibc-vr-TIME"><strong class="varname"><code>TIME</code></strong></a> değerleri sadece kuralsız kipte anlamlı iken <a href="glibc-Editing-Characters.html#glibc-vr-EOFc"><strong class="varname"><code>'EOF'</code></strong></a> ve <a href="glibc-Editing-Characters.html#glibc-vr-EOL"><strong class="varname"><code>EOL</code></strong></a> sadece kurallı kipte anlamlı olduğundan bu durum çeşitli sorunlara yol açar. GNU C Kütüphanesinde bu alanlar ayrıdır.
+    </p>
+          </div>
+        </div>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-cfmakeraw" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/termios.h;hb=HEAD" target="_top">termios.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">void </code><strong><code class="function">cfmakeraw</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">struct termios </code><strong class="type">*</strong><strong><code class="parameter">termios-p</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a>
+    </div>
+    <p>
+     Bu işlev, uçbirimi BSD'de "ham kip" (raw mode) denilen kipe sokmak için kolay bir yol olarak kullanılır. Bu aslında kuralsız girdi kipidir ve uçbirimi çoğu işlem bakımından işlevsiz bir kanal haline getirir.
+    </p>
+    <p>
+     İşlev tam olarak şunları yapar:
+    </p>
+    <pre class="screen"><em class="replaceable"><code>termios-p</code></em>-&gt;c_iflag &amp;= ~(IGNBRK|BRKINT|PARMRK|ISTRIP
+                                |INLCR|IGNCR|ICRNL|IXON);
+<em class="replaceable"><code>termios-p</code></em>-&gt;c_oflag &amp;= ~OPOST;
+<em class="replaceable"><code>termios-p</code></em>-&gt;c_lflag &amp;= ~(ECHO|ECHONL|ICANON|ISIG|IEXTEN);
+<em class="replaceable"><code>termios-p</code></em>-&gt;c_cflag &amp;= ~(CSIZE|PARENB);
+<em class="replaceable"><code>termios-p</code></em>-&gt;c_cflag |= CS8;
+</pre>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

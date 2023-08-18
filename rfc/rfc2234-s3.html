@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3. İşleçler</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2234-s2.html')">Önceki</button>
+          <div class="dropdown-content">2. Kural Tanımı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2234.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2234-s4.html')">Sonraki</button>
+          <div class="dropdown-content">4. ABNF'nin ABNF Tanımı</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="rfc2234-s3">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">3. İşleçler</h2>
+            </div>
+          </div>
+        </div>
+        <section class="sect2" id="rfc2234-s31">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.1. Ulama -- <code class="varname">kural1 kural2</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir kural, bir dizi kural ismini yan yana getirerek aslında basit değerlerin bir dizgesini tanımlayabilir. Örneğin,
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">
+foo         =  %x61           ; a
+
+bar         =  %x62           ; b
+
+mumble      =  foo bar foo
+</pre>
+          <p>
+   </p>
+          <p><code class="varname">&lt;mumble&gt;</code> kuralı küçük harfli dizge "aba" ile eşleşir.
+</p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term">Düzgün Doğrusal Boşluk</span>
+              </dt>
+              <dd>
+                <p>
+Ulama, ABNF çözümleme modelinin çekirdeğini oluşturur. Birbiri ardına gelen karakterlerden oluşan bir dizge ABNF ile tanımlanmış kurallara göre çözümlenir. Genel Ağ belirtimleri için, düzgün doğrusal boşlukların (boşluk ve sekme karakterleri) doğrudan ya da dolaylı olarak ana oluşumların etrafına serpiştirilmesine izin vermekle ilgili bir geçmiş vardır (örneğin, özel karakterlerleri veya atomik dizgeleri sınırlamak gibi amaçlar).
+</p>
+                <div class="admon note">
+                  <h3 class="admon-title">Bilginize</h3>
+                  <div class="admon-contents">
+                    <p>
+Bu ABNF belirtimi, düzgün doğrusal boşlukların dolaylı belirtimini içermez.
+</p>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <p>
+Ayraçlar veya dizge parçaları çevresinde düzgün doğrusal boşluklara izin verilmesini isteyen bir dilbilgisinin açıkça belirtirmesi gerekir. Yüksek seviyeden kurallar arasında kullanmak üzere böyle boşluklarla ilgili "çekirdek" kurallar tanımlamak çoğunlukla kullanışlı olmaktadır. "Çekirdek" kurallar, bir sözel çözümleyici için veya ana kural kümesinin basit bir parçası olarak şekillenebilir.
+</p>
+        </section>
+        <section class="sect2" id="rfc2234-s32">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.2. İkameler  --  <code class="varname">kural1</code><code class="literal"> / </code><code class="varname">kural2</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Birbirleri yerine kullanılabilecek elemanlar bölü çizgisi ("/") ile ayrılır. Yani,
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">foo / bar
+</pre>
+          <p>
+   </p>
+          <p><code class="varname">&lt;foo&gt;</code> veya <code class="varname">&lt;bar&gt;</code>'dan biri kabul edilecektir anlamına gelir.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+Alfabetik karakterler içeren bir tırnaklı dizge ikame karakterleri belirtmenin özel bir halidir ve içerdiği karakterlerle, küçük ve büyük harflerin bir karışımı olarak belirtildiği sırada, birleştirici dizgelerin bir kümesinin kuralsız gösterimi olarak yorumlanır.
+</p>
+            </div>
+          </div>
+        </section>
+        <section class="sect2" id="rfc2234-s33">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.3. İkame Eklemeleri -- <code class="varname">kural1</code><code class="literal"> =/ </code><code class="varname">kural2</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bazan bir ikame listesini dilimler halinde belirtmek uygun olur. Yani, birden fazla ikamesi olan bir kuralın ikameleri ek kural tanımları ile belirtilebilir. Aynı ana kural kümesinden türemiş bağımsız belirtimler (bağımsız değişken listeleri şeklinde oluşan) olmadıkça bu kısmen kullanışlıdır.  Bu eklemeli tanımlara ABNF'de şöyle izin verilir:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">eskikural     =/ ek-ikameler
+</pre>
+          <p>
+   </p>
+          <p>
+Şöyle bir kural kümesi,
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">
+kuralkümesi  =  alt1 / alt2
+
+kuralkümesi  =/ alt3
+
+kuralkümesi  =/ alt4 / alt5
+</pre>
+          <p>
+   </p>
+          <p>
+şu belirtimle aynıdır:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">
+kuralkümesi  =  alt1 / alt2 / alt3 / alt4 / alt5
+</pre>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc2234-s34">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.4. İkame Değer Aralıkları -- <code class="literal">%c##-##</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+İkame sayısal değerler, değer aralığı için bir tire imi ("-") kullanılarak tek parça halinde belirtilebilir. Örneğin,
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">RAKAM       =  %x30-39
+</pre>
+          <p>
+   </p>
+          <p>
+şuna eşdeğerdir:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">
+RAKAM       =  "0" / "1" / "2" / "3" / "4" / "5" / "6" /
+
+                    "7" / "8" / "9"
+</pre>
+          <p>
+   </p>
+          <p>
+Ulanan sayısal değerlerle sayısal değer aralıkları aynı dizgede belirtilemez. Ulama için bir sayısal değer noktalı gösterimle belirtilebilirken bir değer aralığını belirtmek için tire kullanılır. Bu nedenle, satır sonu dizilimleri arasında basılabilir bir karakterin belirtilmesi için belirtim şöyle olabilirdi:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">krk-satırı = %x0D.0A %x20-7E %x0D.0A
+</pre>
+          <p>
+   </p>
+        </section>
+        <section class="sect2" id="rfc2234-s35">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.5. Dizilim Grubu -- <code class="literal">(</code><code class="varname">kural1 kural2</code><code class="literal">)</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Parantez içine alınmış elemanlar içerildikleri sıra değişmemek üzere tek bir eleman olarak ele alınırlar.
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">elem (foo / bar) blat
+</pre>
+          <p>
+   </p>
+          <p>
+şeklinde bir tanım, (elem foo blat) veya (elem bar blat) ile eşleşecektir.
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">elem foo / bar blat
+</pre>
+          <p>
+   </p>
+          <p>
+ise (elem foo) veya (bar blat) ile eşleşir.
+</p>
+          <div class="admon note">
+            <h3 class="admon-title">Bilginize</h3>
+            <div class="admon-contents">
+              <p>
+İkamelerin çok sayıda kural ismi veya sabitinden oluştuğu durumlarda, düzgün okuma için "çıplak" ikamelerden daha iyi olacaksa gruplama kullanımı daima tavsiye edilir.
+</p>
+            </div>
+          </div>
+          <p>
+Bu nedenle üstteki biçim yerine şu biçim önerilir:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">(elem foo) / (bar blat)
+</pre>
+          <p>
+   </p>
+          <p>
+Böylece arasıra düzgün okuyanların tanımı yanlış yorumlaması önlenmiş olur.
+</p>
+          <p>
+Dizilim grubu gösterimi ayrıca serbest yazı içinde de kullanılır.
+</p>
+        </section>
+        <section class="sect2" id="rfc2234-s36">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.6. Değişken Yineleme --  <code class="literal">*</code><code class="varname">kural</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+"*" işleci bir elemanın önüne konulduğunda yineleme belirtir. Örneğin,
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">&lt;a&gt;*&lt;b&gt;eleman
+</pre>
+          <p>
+   </p>
+          <p>
+gösteriminde <code class="varname">&lt;a&gt;</code> ve <code class="varname">&lt;b&gt;</code> isteğe bağlı ondalık değerler olmak üzere içinde en az <code class="varname">&lt;a&gt;</code> veya en çok <code class="varname">&lt;b&gt;</code> sayıda eleman içerebilen oluşumlar tanımlanmaktadır.
+</p>
+          <p>
+Öntanımlı değerler sıfır ve sonsuz olmak üzere, *<code class="varname">&lt;eleman&gt;</code> sıfır dahil her sayıya izin verirken, 1*<code class="varname">&lt;eleman&gt;</code> en az 1, 3*3<code class="varname">&lt;eleman&gt;</code> tam olarak 3 ve 1*2<code class="varname">&lt;eleman&gt;</code> ise bir ya da ikisine izin verir.
+</p>
+        </section>
+        <section class="sect2" id="rfc2234-s37">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.7. Belirgin Yineleme --  <code class="literal">n</code><code class="varname">kural</code></h3>
+              </div>
+            </div>
+          </div>
+          <pre class="literallayout monospaced">&lt;n&gt;eleman
+</pre>
+          <p>kuralı</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">&lt;n&gt;*&lt;n&gt;eleman
+</pre>
+          <p>
+   </p>
+          <p>
+kuralına eşdeğerdir. Yani, tam olarak <code class="literal">&lt;N&gt;</code> <code class="varname">&lt;eleman&gt;</code> oluşumu belirtir. Bu bakımdan, <code class="literal">2RAKAM</code> 2 rakamlı bir sayı belirtirken <code class="literal">3HARF</code> 3 harften oluşan bir dizgeyi belirtecektir.
+</p>
+        </section>
+        <section class="sect2" id="rfc2234-s38">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.8. Seçimlik Dizilim -- <code class="literal">[</code><code class="varname">kural</code><code class="literal">]</code></h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Köşeli ayraç içine alma, isteğe bağlı dizilim belirtir:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">[foo bar]
+</pre>
+          <p>
+   </p>
+          <p>ile</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">*1(foo bar).
+</pre>
+          <p>
+   </p>
+          <p>eşdeğerdir.</p>
+        </section>
+        <section class="sect2" id="rfc2234-s39">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.9. <code class="literal">;</code> Açıklama</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Bir noktalı virgül, satır sonuna kadar devam eden bir açıklamayı başlatır. Bu, belirtimle birlikte açıklamaları da içermenin basit bir yoludur.
+</p>
+        </section>
+        <section class="sect2" id="rfc2234-s3a">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h3 class="title">3.10. İşleç Önceliği</h3>
+              </div>
+            </div>
+          </div>
+          <p>
+Buraya kadar açıklanan mekanizmalar en yüksekten en düşüğe (en sıkıdan en gevşeğe) aşağıdaki öncelik sıralamasına uyarlar:
+</p>
+          <p>
+    </p>
+          <pre class="literallayout monospaced">
+Dizgeler, İsimler
+Açıklamalar
+Değer aralıkları
+Yineleme
+Gruplama, İsteğe bağlılık
+Ulama
+İkame
+</pre>
+          <p>
+   </p>
+          <p>
+İkame işlecinin kullanımı, ulamalarla karıştırıldığında karışıklığa yol açabilir.
+</p>
+          <div class="blockquote">
+            <blockquote class="blockquote">
+              <p>
+Yine, açık ulama grupları yapmak için gruplama işlecinin kullanılması önerilir.
+</p>
+            </blockquote>
+          </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

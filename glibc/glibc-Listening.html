@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>16.9.2. Bağlantıların Dinlenmesi</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connecting.html')">Önceki</button>
+          <div class="dropdown-content">16.9.1. Bağlantının Oluşturulması</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Connections.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('glibc-Accepting-Connections.html')">Sonraki</button>
+          <div class="dropdown-content">16.9.3. Bağlantıların Kabul Edilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect1" id="glibc-Listening">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title" style="clear: both">16.9.2. Bağlantıların Dinlenmesi</h2>
+            </div>
+          </div>
+        </div>
+        <p>
+    <span id="idm126016" class="indexterm"></span>
+    <span id="idm126019" class="indexterm"></span>
+    Artık sunucu sürecin soket üzerinden bağlantıları kabul etmek için ne yapması gerektiği incelenebilir. Öncelikle sokete gelen bağlantı isteklerini alabilmesi için <a href="glibc-Listening.html#glibc-fn-listen"><strong class="function"><code>listen</code></strong></a> işlevinin kullanılması gerekli, ardında da gelen bağlantıyı kabul etmek için <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevi çağrılmalıdır (Bkz. <a class="xref" href="glibc-Accepting-Connections.html" title="16.9.3. Bağlantıların Kabul Edilmesi">Bağlantıların Kabul Edilmesi</a>). Sunucu soketi üzerinde bağlantı isteği olduğunda, <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi soketin bağlantı kabul etmek için ne zaman hazır olacağını bildirir (Bkz. <a class="xref" href="glibc-Waiting-for-I-O.html" title="13.9. Girdi ve Çıktının Beklenmesi"><em>Girdi ve Çıktının Beklenmesi</em></a>).
+   </p>
+        <p>
+    <a href="glibc-Listening.html#glibc-fn-listen"><strong class="function"><code>listen</code></strong></a> işlevi bağlantısız iletişim tarzı kullanılan soketler için kullanılamaz.
+   </p>
+        <p>
+    Bir bağlantı isteği gelene kadar çalışmaya başlamayan ağ sunucusu yazmak bile mümkündür. Bkz. <a class="xref" href="glibc-Inetd.html#glibc-Inetd-Servers" title="16.11.1. inetd Sunucuları"><code class="code">inetd</code> Sunucuları</a>.
+   </p>
+        <p>
+    İnternet isim alanında, port erişimini denetlemek için özel bir koruma düzeneği yoktur, herhangi bir makinedeki bir süreç sunucuya bağlanabilir. Sunucuya erişimin kısıtlanması isteniyorsa ya sunucunun bağlantı isteğinde bulunan adresi incelemesi sağlanmalı ya da başka bir uzlaşma veya kimlik doğrulama protokolü uygulanmalıdır.
+   </p>
+        <p>
+    Yerel isim alanında ise sokete bağlanmak için erişim izinleri sıradan dosya koruma bitleriyle denetlenir.
+   </p>
+        <div class="csynopsis"><div class="cstype">      işlev</div>
+    <span id="glibc-fn-listen" class="indexterm"></span>
+    <span id="glibc-cp-listen" class="indexterm"></span>
+    <div class="csproto"><table border="0" class="csprototab" style="cellspacing: 0; cellpadding: 0;"><tr><td colspan="2"><code>#include &lt;</code><code class="filename"><a class="filename" href="https://sourceware.org/git/?p=systemtap.git;a=blob_plain;f=includes/sys/socket.h;hb=HEAD" target="_top">sys/socket.h</a></code><code>&gt;</code></td></tr><tr><td style="vertical-align: text-top;"><code class="type">int </code><strong><code class="function">listen</code></strong></td><td style="vertical-align: text-top;"><strong><code>(</code></strong><code class="type">int </code><strong><code class="parameter">socket</code></strong><strong><code>, </code></strong><code class="type">int </code><strong><code class="parameter">n</code></strong><strong><code>)</code></strong></td></tr></table></div>
+    
+    <div class="safety"><a class="xref" href="glibc-POSIX.html#glibc-POSIX-Safety-Concepts">Evresel Güvenilirlik:</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-mtsafe">MT-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-assafe">AS-Safe</a>
+      | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acsafe">AC-Safe</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
+    </div>
+    <p>
+     <code class="code">listen</code> işlevi bağlantıları kabul edecek <em class="parameter"><code>socket</code></em> soketini etkinleştirir, böylece sunucu soketi elde edilir.
+    </p>
+    <p>
+     <em class="parameter"><code>n</code></em> bağımsız değişkeni bekleyen bağlantılar için kuyruk uzunluğunu belirler. Kuyruk dolunca, bağlanmak için teşebbüs eden yeni istemcilerin bağlantısı, sunucu kuyrukta bekleyen bir bağlantı için <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevini çağırana kadar <a href="glibc-Error-Codes.html#glibc-vr-ECONNREFUSED"><strong class="varname"><code>ECONNREFUSED</code></strong></a> hatası ile başarısız olur.
+    </p>
+    <p>
+     İşlev başarı durumunda <code class="code">0</code>, başarısızlıkta <code class="code">-1</code> döndürür. Aşağıdaki <a href="glibc-Checking-for-Errors.html#glibc-vr-errno"><strong class="varname"><code>errno</code></strong></a> hata durumları bu işlev için tanımlanmıştır:
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="code">EBADF</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi geçerli bir dosya tanıtıcı değil.
+       </p></dd><dt><span class="term"><code class="code">ENOTSOCK</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> dosya tanıtıcısı soket değil.
+       </p></dd><dt><span class="term"><code class="code">EOPNOTSUPP</code></span></dt><dd><p>
+        <em class="parameter"><code>socket</code></em> soketi bu işlemi desteklemiyor.
+       </p></dd></dl></div>
+   </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

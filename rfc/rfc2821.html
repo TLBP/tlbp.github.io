@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>RFC 2821 - Basit Posta Aktarım Protokolü (SMTP)</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta name="description" content="Bu belge Genel Ağ'da elektronik posta aktarımı için kullanılan temel protokolün müstakil belirtimidir." />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2234-appe.html')">Önceki</button>
+          <div class="dropdown-content">Ek-E. Tam Telif Hakkı Beyanı</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik-std.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s1.html')">Sonraki</button>
+          <div class="dropdown-content">1. Giriş</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="article" id="rfc2821">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h2 class="title">RFC 2821 - Basit Posta Aktarım Protokolü (SMTP)</h2>
+            </div>
+            <div>
+              <div class="authorgroup">
+                <div class="author">Düzenleyen: <span class="firstname">J. Klensin</span></div>
+                <div>
+                  <dl>
+                    <dd class="contrib">AT&amp;T Laboratories</dd>
+                  </dl>
+                </div>
+                <div class="author">Çeviren: <span class="firstname">Sanem Uçan</span></div>
+                <div>
+                  <dl>
+                    <dd class="contrib">ÇOMÜ, Bilgisayar Mühendisliği öğrencisi</dd>
+                  </dl>
+                </div>
+                <div class="author">Düzenleyen: <span class="firstname">Nilgün Belma Bugüner</span></div>
+                <div>
+                  <dl>
+                    <div class="affiliation">
+                      <dd class="address">
+                        <a class="link" href="https://github.com/nilgun" target="_top">https://github.com/nilgun</a>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div><br />
+Ağ Çalışma Grubu<br />
+Yorum İsteği: 2821<br />
+Geçersiz kıldığı RFC'ler: 821 (standart), 974, 1869<br />
+Geçersiz kıldığı STD: 10<br />
+Güncellediği RFC: 1123<br />
+Güncelleyen RFC: 5321 (Standart Adayı)<br />
+Durumu: Standart Aday Adayı<br />
+    </div>
+            <div>
+              <div class="dropnotice">
+                <div class="legalnotice-title">
+                  <a style="text-decoration: underline">Yasal Uyarı</a>
+                </div>
+                <div class="droplegal">
+                  <p>
+RFC'lerin yazarlarının hakları <a class="link" href="ftp://ftp.rfc-editor.org/in-notes/bcp/bcp78.txt" target="_top">BCP 78</a> ile düzenlenmiştir. Dolayısıyla RFC çevirilerinin çevirmenlerinin haklarını da BCP 78'in düzenlediği kabul edilmiştir.
+        </p>
+                  <p>
+Bu belge <a class="link" href="http://www.ietf.org/" target="_top">IETF</a> tarafından yayınlanan resmi RFC2821'in <span class="emphasis"><strong>gayrıresmi</strong></span> çevirisidir ve aslının yerine kullanılamaz. Bu çevirinin hiçbir bağlamda ya da koşulda hükmü yoktur. Bu çeviri, anadili Türkçe olan Genel Ağ kullanıcılarının bu RFC hakkında fikir edinebilmelerini sağlamak amacıyla hazırlanmıştır.
+  </p>
+                  <p>
+BU BELGE "ÜCRETSİZ" OLARAK RUHSATLANDIĞI İÇİN, İÇERDİĞİ BİLGİLER İÇİN İLGİLİ KANUNLARIN İZİN VERDİĞİ ÖLÇÜDE HERHANGİ BİR GARANTİ VERİLMEMEKTEDİR. AKSİ YAZILI OLARAK BELİRTİLMEDİĞİ MÜDDETÇE TELİF HAKKI SAHİPLERİ VE/VEYA BAŞKA ŞAHISLAR BELGEYİ "OLDUĞU GİBİ", AŞİKAR VEYA ZIMNEN, SATILABİLİRLİĞİ VEYA HERHANGİ BİR AMACA UYGUNLUĞU DA DAHİL OLMAK ÜZERE HİÇBİR GARANTİ VERMEKSİZİN DAĞITMAKTADIR. BİLGİNİN KALİTESİ İLE İLGİLİ TÜM SORUNLAR SİZE AİTTİR. HERHANGİ BİR HATALI BİLGİDEN DOLAYI DOĞABİLECEK OLAN BÜTÜN SERVİS, TAMİR VEYA DÜZELTME MASRAFLARI SİZE AİTTİR.
+  </p>
+                  <p>
+İLGİLİ KANUNUN İCBAR ETTİĞİ DURUMLAR VEYA YAZILI ANLAŞMA HARİCİNDE HERHANGİ BİR ŞEKİLDE TELİF HAKKI SAHİBİ VEYA YUKARIDA İZİN VERİLDİĞİ ŞEKİLDE BELGEYİ DEĞİŞTİREN VEYA YENİDEN DAĞITAN HERHANGİ BİR KİŞİ, BİLGİNİN KULLANIMI VEYA KULLANILAMAMASI (VEYA VERİ KAYBI OLUŞMASI, VERİNİN YANLIŞ HALE GELMESİ, SİZİN VEYA ÜÇÜNCÜ ŞAHISLARIN ZARARA UĞRAMASI VEYA BİLGİLERİN BAŞKA BİLGİLERLE UYUMSUZ OLMASI) YÜZÜNDEN OLUŞAN GENEL, ÖZEL, DOĞRUDAN YA DA DOLAYLI HERHANGİ BİR ZARARDAN, BÖYLE BİR TAZMİNAT TALEBİ TELİF HAKKI SAHİBİ VEYA İLGİLİ KİŞİYE BİLDİRİLMİŞ OLSA DAHİ, SORUMLU DEĞİLDİR.
+  </p>
+                  <p>
+Tüm telif hakları aksi özellikle belirtilmediği sürece sahibine aittir. Belge içinde geçen herhangi bir terim, bir ticari isim ya da kuruma itibar kazandırma olarak algılanmamalıdır. Bir ürün ya da markanın kullanılmış olması ona onay verildiği anlamında görülmemelidir.
+  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="pubdate">Mayıs 2006</p>
+            </div>
+            <div>
+              <div class="revhistory">
+                <div class="formaltitle">Sürüm Bilgileri</div>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="revhistory">
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm 1.1</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Ağustos 2006</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">NBB</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">Çeviriye *ZORUNLU*, *ÖNERİ* ve *SEÇİMLİK* imlerini yerleştirdi ve çeviri metninin bazı yerlerini buna göre düzeltti.</td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"></td>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm 1.0</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Mayıs 2006</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">SU</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">İlk çeviri</td>
+                  </tr>
+                  <tr>
+                    <td class="revremark-blank" align="left" colspan="3"></td>
+                  </tr>
+                  <tr>
+                    <td style="line-height: 1rem;" align="left" width="20%">Sürüm Standart Aday Adayı</td>
+                    <td style="line-height: 1rem;" align="right" width="30%">Nisan 2001</td>
+                    <td style="line-height: 1rem;" align="center" width="50%">JK</td>
+                  </tr>
+                  <tr>
+                    <td align="left" colspan="3">Özgün sürüm</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="abstract">
+                <div class="abstract-title">Özet</div>
+                <p>
+Bu belge Genel Ağ'da elektronik posta aktarımı için kullanılan temel protokolün müstakil belirtimidir.
+    </p>
+                <p>
+Aşağıdaki mevcut işlevselliği pekiştirir, günceller ve arıtır, fakat yeni bir işlevsellik eklemez veya olanı değiştirmez:
+</p>
+                <div>
+                  <ul class="simplelist">
+                    <li class="member">
+özgün RFC 821 [<a class="xref" href="rfc2821-s9.html#rfc2821-bib30" title="Simple Mail Transfer Protocol">30</a>] SMTP (Simple Mail Transfer Protocol) belirtimi,
+</li>
+                    <li class="member">
+RFC 1035 [<a class="xref" href="rfc2821-s9.html#rfc2821-bib22" title="STD 13, Domain names - implementation and specification">22</a>] ve RFC 974'teki [<a class="xref" href="rfc2821-s9.html#rfc2821-bib27" title="Mail routing and the domain system">27</a>] posta aktarımı için alan adı sistemi ile karşılıklı gereksinimler,
+</li>
+                    <li class="member">
+RFC 1123'ten [<a class="xref" href="rfc2821-s9.html#rfc2821-bib2" title="STD 3, Requirements for Internet hosts - application and support">2</a>] arıtımlar ve uygulanabilirlik beyanları ve
+</li>
+                    <li class="member">
+SMTP Eklenti mekanizmalarından [<a class="xref" href="rfc2821-s9.html#rfc2821-bib19" title="STD 10, SMTP Service Extensions">19</a>] süzülmüş bileşenler.
+</li>
+                  </ul>
+                </div>
+                <p>
+RFC 821 ve RFC 974'ü geçersiz bırakırken RFC 1123'ü günceller (RFC 1123'ün posta aktarım bileşenlerini değiştirir). Bununla birlikte, RFC 821, bazı ek aktarım modellerinde (eklerde bahsedildi) ve 1990'ların ortalarından beri Genel Ağ'da pek kullanılmamış olan bazı özellikleri belirtir. Bu bölümler temizlik, sadelik ve kısalık açısından buraya dahil edilmemiştir; bunları okuma ihtiyacı duyanlar RFC 821'e başvurabilir.
+</p>
+                <p>
+Ayrıca RFC 1123'ün güçlendirilmesi gereken bazı ek bileşenlerini de içerir. Bu bileşenler çeşitli yollarla, çoğunlukla çeşitli listeler ve haber gruplarındaki şiddet izlenerek ve SMTP eklentilerinin konuşlandırılmaları gereği olarak ortaya çıkan yararsız okuma ve yorumlama sorunlarıyla betimlenebilir. Bu belirtim pekiştirmenin ötesine geçtiği noktada hem metinsel hem de teknik olarak önceki belgelerden farklı olmaktan başka onların da yerini alır.
+</p>
+                <p>
+SMTP'nin bir posta aktarım ve teslim etme protokolü olarak tasarlanmış olmasının yanında, bu belirtim bundan başka POP [<a class="xref" href="rfc2821-s9.html#rfc2821-bib3" title="Posta Office Protocol - version 2">3</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib26" title="STD 53, Post Office Protocol - Version 3">26</a>] ve IMAP [<a class="xref" href="rfc2821-s9.html#rfc2821-bib6" title="Internet Message Access Protocol - Version 4">6</a>] için önerildiği gibi bir posta teslim alma protokolü olarak kullanımı açısından önem kazanan bilgileri de içerir. Postanın teslim alınması ile ilgili konulara RFC 2476'da da [<a class="xref" href="rfc2821-s9.html#rfc2821-bib15" title="Message Submission">15</a>] ayrıca değinilmiştir.
+</p>
+                <p><a class="xref" href="rfc2821-s23.html" title="2.3. Terminoloji">Terminoloji</a> bölümünde bu belgeye özgü terminolojiye yer verilmiştir. Tarihsel terminolojinin arıtım için gerekli olması dışında bu belgedeki istemci ve sunucu terimleri sırasıyla, SMTP gönderim ve alım süreçlerini betimlemek için kullanılmıştır.
+</p>
+                <p>
+Bir eş belge olarak [<a class="xref" href="rfc2821-s9.html#rfc2821-bib32" title="Internet Message Format">32</a>] ileti başlıkları, ileti gövdeleri ve bunların yapıları ve biçimleri ile aralarındaki ilişkileri açıklar.
+    </p>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div class="preliminary">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title">Bu Belgenin Durumu</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+Bu belge Genel Ağ topluluğu yararına standartlaşma sürecine girmiş bir protokolü belirtir ve geliştirilmesi için tartışılmayı ve öneriler almayı bekler. Bu protokolün standartlaşma sürecinde bulunduğu aşama ve durum için lütfen "Genel Ağ Resmi Protokol Standartları" (STD1) isimli belgenin son yayımına bakınız. Bu belgenin dağıtımına sınırlama konmamıştır.
+</p>
+          <p>
+Copyright (C) The Internet Society (2001).  All Rights Reserved.
+</p>
+          <p>
+Telif Hakkı © The Internet Society (2001).  Tüm Hakları Saklıdır.
+</p>
+        </div>
+        <div class="toc">
+          <div class="toc-title">İçindekiler</div>
+          <dl class="toc">
+            <dt>1. <a href="rfc2821-s1.html">Giriş</a></dt>
+            <dt>2. <a href="rfc2821-s2.html">SMTP Modeli</a></dt>
+            <dd>
+              <dl>
+                <dt>2.1. <a href="rfc2821-s21.html">Temel Yapı</a></dt>
+                <dt>2.2. <a href="rfc2821-s22.html">Eklenti Modeli</a></dt>
+                <dd>
+                  <dl>
+                    <dt>2.2.1. <a href="rfc2821-s22.html#rfc2821-s221">Arkaplan</a></dt>
+                    <dt>2.2.2. <a href="rfc2821-s22.html#rfc2821-s222">Eklentilerin Tanımlanması ve Kayda Geçirilmesi</a></dt>
+                  </dl>
+                </dd>
+                <dt>2.3. <a href="rfc2821-s23.html">Terminoloji</a></dt>
+                <dd>
+                  <dl>
+                    <dt>2.3.1. <a href="rfc2821-s23.html#rfc2821-s231">Posta Nesneleri</a></dt>
+                    <dt>2.3.2. <a href="rfc2821-s23.html#rfc2821-s232">Göndericiler ve Alıcılar</a></dt>
+                    <dt>2.3.3. <a href="rfc2821-s23.html#rfc2821-s233">Posta Aracıları ve İleti Depoları</a></dt>
+                    <dt>2.3.4. <a href="rfc2821-s23.html#rfc2821-s234">Konak</a></dt>
+                    <dt>2.3.5. <a href="rfc2821-s23.html#rfc2821-s235">Alan</a></dt>
+                    <dt>2.3.6. <a href="rfc2821-s23.html#rfc2821-s236">Tampon ve Durum Tablosu</a></dt>
+                    <dt>2.3.7. <a href="rfc2821-s23.html#rfc2821-s237">Satırlar</a></dt>
+                    <dt>2.3.8. <a href="rfc2821-s23.html#rfc2821-s238">Oluşturucu, Teslimatçı, Röle ve Ağ geçidi Sistemler</a></dt>
+                    <dt>2.3.9. <a href="rfc2821-s23.html#rfc2821-s239">İleti İçeriği ve Posta Verisi</a></dt>
+                    <dt>2.3.10. <a href="rfc2821-s23.html#rfc2821-s23a">Posta Kutuları ve Adresler</a></dt>
+                    <dt>2.3.11. <a href="rfc2821-s23.html#rfc2821-s23b">Yanıt</a></dt>
+                  </dl>
+                </dd>
+                <dt>2.4. <a href="rfc2821-s24.html">Sözdizimsel Genel Prensipler ve Harekât Modeli</a></dt>
+              </dl>
+            </dd>
+            <dt>3. <a href="rfc2821-s3.html">SMTP Yordamları: Bir Bakış</a></dt>
+            <dd>
+              <dl>
+                <dt>3.1. <a href="rfc2821-s31.html">Oturum İlklendirme</a></dt>
+                <dt>3.2. <a href="rfc2821-s32.html">İstemci İlklendirme</a></dt>
+                <dt>3.3. <a href="rfc2821-s33.html">Posta Aktarım Harekâtı</a></dt>
+                <dt>3.4. <a href="rfc2821-s34.html">Adres Düzeltmek veya Güncellemek için Yönlendirme</a></dt>
+                <dt>3.5. <a href="rfc2821-s35.html">Adres Hatalarını Ayıklama Komutları</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.5.1. <a href="rfc2821-s35.html#rfc2821-s351">Genel Bakış</a></dt>
+                    <dt>3.5.2. <a href="rfc2821-s35.html#rfc2821-s352"><code class="literal">VRFY</code> için Normal Yanıt</a></dt>
+                    <dt>3.5.3. <a href="rfc2821-s35.html#rfc2821-s353"><code class="literal">VRFY</code> veya <code class="literal">EXPN</code> için Başarılı Yanıtın Anlamı</a></dt>
+                    <dt>3.5.4. <a href="rfc2821-s35.html#rfc2821-s354"><code class="code">EXPN</code> Uygulamaları ve Anlamsallık</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.6. <a href="rfc2821-s36.html">Alanlar</a></dt>
+                <dt>3.7. <a href="rfc2821-s37.html">Röleleme</a></dt>
+                <dt>3.8. <a href="rfc2821-s38.html">Postanın Ağ geçitlerinden Geçirilmesi</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.8.1. <a href="rfc2821-s38.html#rfc2821-s381">Ağ geçitlerinden Geçişte Başlık Alanları</a></dt>
+                    <dt>3.8.2. <a href="rfc2821-s38.html#rfc2821-s382">Ağ geçitlerinden Geçişte Alınan Satırlar</a></dt>
+                    <dt>3.8.3. <a href="rfc2821-s38.html#rfc2821-s383">Ağ geçitlerinden Geçişte Adresler</a></dt>
+                    <dt>3.8.4. <a href="rfc2821-s38.html#rfc2821-s384">Ağ geçitlerinden Geçişte Diğer Başlık Alanları</a></dt>
+                    <dt>3.8.5. <a href="rfc2821-s38.html#rfc2821-s385">Ağ geçitlerinden Geçişte Zarflar</a></dt>
+                  </dl>
+                </dd>
+                <dt>3.9. <a href="rfc2821-s39.html">Oturumların ve Bağlantıların Sonlandırılması</a></dt>
+                <dt>3.10. <a href="rfc2821-s3a.html">Postalama Listeleri ve Rumuzlar</a></dt>
+                <dd>
+                  <dl>
+                    <dt>3.10.1. <a href="rfc2821-s3a.html#rfc2821-s3a1">Takma Adlar</a></dt>
+                    <dt>3.10.2. <a href="rfc2821-s3a.html#rfc2821-s3a2">Listeler</a></dt>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+            <dt>4. <a href="rfc2821-s4.html">SMTP Belirtimi</a></dt>
+            <dd>
+              <dl>
+                <dt>4.1. <a href="rfc2821-s41.html">SMTP Komutları</a></dt>
+                <dd>
+                  <dl>
+                    <dt>4.1.1. <a href="rfc2821-s41.html#rfc2821-s411">Komut Sözdizimi ve Anlamlandırma</a></dt>
+                    <dt>4.1.2. <a href="rfc2821-s41.html#rfc2821-s412">Komut Bağımsız değişkenlerinin Sözdizimi</a></dt>
+                    <dt>4.1.3. <a href="rfc2821-s41.html#rfc2821-s413">IP Kodlu Adlar</a></dt>
+                    <dt>4.1.4. <a href="rfc2821-s41.html#rfc2821-s414">Komutların Sırası</a></dt>
+                    <dt>4.1.5. <a href="rfc2821-s41.html#rfc2821-s415">Özel Kullanımlı Komutlar</a></dt>
+                  </dl>
+                </dd>
+                <dt>4.2. <a href="rfc2821-s42.html">SMTP Yanıtları</a></dt>
+                <dd>
+                  <dl>
+                    <dt>4.2.1. <a href="rfc2821-s42.html#rfc2821-s421">Yanıt Kodlarının Önemleri ve Kuram</a></dt>
+                    <dt>4.2.2. <a href="rfc2821-s42.html#rfc2821-s422">İşlev Gruplarına göre Yanıt Kodları</a></dt>
+                    <dt>4.2.3. <a href="rfc2821-s42.html#rfc2821-s423">Numara Sırasıyla Yanıt Kodları</a></dt>
+                    <dt>4.2.4. <a href="rfc2821-s42.html#rfc2821-s424">502 Yanıt Kodu</a></dt>
+                    <dt>4.2.5. <a href="rfc2821-s42.html#rfc2821-s425"><code class="literal">&lt;CRLF&gt;.&lt;CRLF&gt;</code>'in Ardından <code class="code">DATA</code> Komutuna Yanıt</a></dt>
+                  </dl>
+                </dd>
+                <dt>4.3. <a href="rfc2821-s43.html">Komutların ve Yanıtların Sıralanışı</a></dt>
+                <dd>
+                  <dl>
+                    <dt>4.3.1. <a href="rfc2821-s43.html#rfc2821-s431">Sıralanışa Genel Bakış</a></dt>
+                    <dt>4.3.2. <a href="rfc2821-s43.html#rfc2821-s432">Komut-Yanıt Sıralanışı</a></dt>
+                  </dl>
+                </dd>
+                <dt>4.4. <a href="rfc2821-s44.html">İzleme Bilgisi</a></dt>
+                <dt>4.5. <a href="rfc2821-s45.html">Gerçeklenimle İlgili Ek Hususlar</a></dt>
+                <dd>
+                  <dl>
+                    <dt>4.5.1. <a href="rfc2821-s45.html#rfc2821-s451">Asgari Gerçeklenim</a></dt>
+                    <dt>4.5.2. <a href="rfc2821-s45.html#rfc2821-s452">Şeffaflık</a></dt>
+                    <dt>4.5.3. <a href="rfc2821-s45.html#rfc2821-s453">Boyutlar ve Zamanaşımları</a></dt>
+                    <dt>4.5.4. <a href="rfc2821-s45.html#rfc2821-s454">Yanıt Stratejileri</a></dt>
+                    <dt>4.5.5. <a href="rfc2821-s45.html#rfc2821-s455">Dönüş yolu boş olan iletiler</a></dt>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+            <dt>5. <a href="rfc2821-s5.html">Adres Çözümleme ve Posta Yönetimi</a></dt>
+            <dt>6. <a href="rfc2821-s6.html">Sorun Saptama ve Giderme</a></dt>
+            <dd>
+              <dl>
+                <dt>6.1. <a href="rfc2821-s6.html#rfc2821-s61">Güvenilir Teslimat ve Eposta Yanıtları</a></dt>
+                <dt>6.2. <a href="rfc2821-s6.html#rfc2821-s62">Döngü Algılama</a></dt>
+                <dt>6.3. <a href="rfc2821-s6.html#rfc2821-s63">Düzensizliklerin Giderilmesi</a></dt>
+              </dl>
+            </dd>
+            <dt>7. <a href="rfc2821-s7.html">Güvenlik Kaygıları</a></dt>
+            <dd>
+              <dl>
+                <dt>7.1. <a href="rfc2821-s7.html#rfc2821-s71">Posta Güvenliği ve Yanıltma</a></dt>
+                <dt>7.2. <a href="rfc2821-s7.html#rfc2821-s72">"Gizli" Kopyalar</a></dt>
+                <dt>7.3. <a href="rfc2821-s7.html#rfc2821-s73"><code class="literal">VRFY, EXPN</code> ve Güvenlik</a></dt>
+                <dt>7.4. <a href="rfc2821-s7.html#rfc2821-s74">Duyurularda Bilgi İfşası</a></dt>
+                <dt>7.5. <a href="rfc2821-s7.html#rfc2821-s75">İzleme Alanlarında Bilginin İfşası</a></dt>
+                <dt>7.6. <a href="rfc2821-s7.html#rfc2821-s76">İleti Yönlendirmede Bilginin İfşası</a></dt>
+                <dt>7.7. <a href="rfc2821-s7.html#rfc2821-s77">SMTP Sunucularının Harekat Alanı</a></dt>
+              </dl>
+            </dd>
+            <dt>8. <a href="rfc2821-s8.html">IANA Değerlendirmeleri</a></dt>
+            <dt>9. <a href="rfc2821-s9.html">Kaynakça</a></dt>
+            <dt>10. <a href="rfc2821-sa.html">Yazarın Adresi</a></dt>
+            <dt>11. <a href="rfc2821-sb.html">Teşekkür</a></dt>
+            <dt>Ek-A. <a href="rfc2821-appa.html">TCP İletim Hizmeti</a></dt>
+            <dt>Ek-B. <a href="rfc2821-appb.html">SMTP Komutlarının RFC 822 Başlıklarından Üretilmesi</a></dt>
+            <dt>Ek-C. <a href="rfc2821-appc.html">Kaynak Rotalar</a></dt>
+            <dt>Ek-D. <a href="rfc2821-appd.html">Senaryolar</a></dt>
+            <dd>
+              <dl>
+                <dt>Ek-D.1. <a href="rfc2821-appd.html#rfc2821-appd1">Tipik bir SMTP Aktarım Senaryosu</a></dt>
+                <dt>Ek-D.2. <a href="rfc2821-appd.html#rfc2821-appd2">Sıfırlanan bir SMTP Aktarım Senaryosu</a></dt>
+                <dt>Ek-D.3. <a href="rfc2821-appd.html#rfc2821-appd3">Röleli Posta Senaryosu</a></dt>
+                <dt>Ek-D.4. <a href="rfc2821-appd.html#rfc2821-appd4">Doğrulama ve Gönderme Senaryosu</a></dt>
+              </dl>
+            </dd>
+            <dt>Ek-E. <a href="rfc2821-appe.html">Diğer Ağ geçidi Konuları</a></dt>
+            <dt>Ek-F. <a href="rfc2821-appf.html">RFC 821'in Önerilmeyen Özellikleri</a></dt>
+            <dt>Ek-G. <a href="rfc2821-cl.html">Tam Telif Hakkı Beyanı</a></dt>
+          </dl>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

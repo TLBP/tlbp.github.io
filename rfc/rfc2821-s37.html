@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.7. Röleleme</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s36.html')">Önceki</button>
+          <div class="dropdown-content">3.6. Alanlar</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc2821-s38.html')">Sonraki</button>
+          <div class="dropdown-content">3.8. Postanın Ağ geçitlerinden Geçirilmesi</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc2821-s37">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.7. Röleleme</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+Genelde, alan adı sistemindeki [<a class="xref" href="rfc2821-s9.html#rfc2821-bib22" title="STD 13, Domain names - implementation and specification">22</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib27" title="Mail routing and the domain system">27</a>]  posta aktarımcı (<code class="literal">MX</code>) kayıtlarının varlığı, Genel Ağ posta sisteminde doğrudan kaynak rotası kullanımını gereksiz kılar. Geçmişte yorumlanmalarıyla ilgili yaşanan bir çok sorun kullanımlarının istenmemesine yol açtı. <span class="rfcshould">Olağanüstü durumlar müstesna, SMTP istemcileri doğrudan kaynak rotaları üretmemelidir *ÖNERİ*</span>. <span class="rfcmaybe">SMTP sunucuları kaynak rotası belirten adresleri kabul etmeyi veya posta rölesi olarak davranmayı reddedebilir *SEÇİMLİK*</span>. Rota bilgisinin mevcudiyeti saptandığında SMTP sunucuların rota bilgisini yoksayma hakkı vardır ve basitçe, postayı rotada son eleman olarak belirtilmiş son varış noktasına gönderebilir ve <span class="rfcshould">böyle de yapmalıdır *ÖNERİ*</span>. Kaynak rotada ara konaklar olarak belirtilmiş konaklardaki kullanıcıların sorunlarını çözmekle ilgili olarak, DNS'lerde varış noktası olarak görünmeyen isim kullanımı ile ilgili geçersiz bir uygulama olmuştur. Kaynak rotalardaki ara konaklar yoksayıldığında bu uygulama hatalara yolaçar. Bu, <span class="rfcmust">SMTP istemcilerinin neden geçersiz kaynak rotaları veya seriye çözünür isimler üretmemeleri gerektiğinin *ZORUNLU*</span> sebeplerinden biridir.
+</p>
+        <p>
+Kaynak rotaları kullanılmadığında, RFC 821'de açıklanan, sevk yolundan bir dönüş yolu oluşturmaya yarayan işlem uygulanabilir değildir ve dönüş yolu, teslim anında basitçe <code class="code">MAIL</code> komutunda görünen adrestir.
+</p>
+        <p>
+Bir röle SMTP sunucusu genelde son teslim sisteminden ziyade kendisini işaret eden DNS <code class="literal">MX</code> kaydının hedefidir. Röle SMTP sunucusu röleleme işini yerel bir kullanıcının postasını kabul veya red ettiği şekilde kabul veya red edebilir. Rölelemeyi kabul ederse bir SMTP istemcisi haline gelir, DNS'de belirtilen sıradaki SMTP sunucuya bir aktarım kanalı oluşturur (<a class="xref" href="rfc2821-s5.html" title="5. Adres Çözümleme ve Posta Yönetimi">Adres Çözümleme ve Posta Yönetimi</a> bölümündeki kurallar dahilinde) ve postayı ona yollar. <span class="rfcshould">Kurallar gereği belli bir adrese postayı rölelemeyi redderse, geriye bir 550 yanıtı göndermelidir *ÖNERİ*</span>.
+</p>
+        <p>
+Birçok posta gönderme istemcisi vardır ve bunlar genellikle POP3 veya IMAP üzerinden posta da alabilmekte olup bu belirtimdeki gereksinimlerin bazılarını (peşpeşe teslimat gerektiğinde iletileri kuyruğa almak gibi) sınırlı olarak desteklemektedir. Bu istemciler için bilinen uygulama, işleme sokulmak veya ardışık olarak dağıtılmak üzere tüm iletileri tek bir sunucuya gönderecek düzenlemeleri yapmaktır. Burada belirtildiği gibi SMTP bu role uygun değildir ve bu iş mevcut uygulamalar için standart hale gelmiş posta teslim etme protokolleri ile fevkalade yoluna girmiş durumdadır. Her halükarda, bu düzenlemeler bu uygulamalara özeldir ve bu belirtimin kapsamına girmediklerinden burada açıklanmayacaklardır.
+</p>
+        <p>
+Bir konu önemlidir: <code class="literal">MX</code> kayıtları, sadece SMTP rölelerini ve son teslimat sistemlerini değil, başka ortamlara ağ geçidi rolü oynayan SMTP sunucularını da işaret edebilir; <a class="xref" href="rfc2821-s38.html" title="3.8. Postanın Ağ geçitlerinden Geçirilmesi">Postanın Ağ geçitlerinden Geçirilmesi</a> ve <a class="xref" href="rfc2821-s5.html" title="5. Adres Çözümleme ve Posta Yönetimi">Adres Çözümleme ve Posta Yönetimi</a> bölümlerine bakınız.
+</p>
+        <p>
+Bir SMTP sunucusu posta röleleme görevini kabul eder ve daha sonra hedefin yanlış olduğunu veya herhangi bir sebepten dolayı posta teslimatının yapılamadığını görürse, bir "teslimatı yapılamayan posta" uyarısı iletisi oluşturmalı ve bunu o postayı oluşturana (geri dönüş yolunda belirtilene) göndermelidir. <span class="rfcshould">Teslimatı yapılamayan postalarla ilgili raporlar için başka standartlar (örn, [<a class="xref" href="rfc2821-s9.html#rfc2821-bib24" title="SMTP Service Extension for Delivery Status Notifications">24</a>, <a class="xref" href="rfc2821-s9.html#rfc2821-bib25" title="An Extensible Message Format for Delivery Status Notifications">25</a>]) tarafından belirtilmiş biçimler mümkün olduğunca kulllanılmalıdır *ÖNERİ*</span>.
+</p>
+        <p>
+Bu uyarı iletisi röle konağındaki veya teslimatın gerçekleşmediğinin ilk olarak saptandığı konaktaki SMTP sunucusundan gelmelidir. Şüphesiz, <span class="rfcmust">SMTP sunucuları bir de uyarı iletilerinin teslimat sorunlarıyla ilgili uyarı iletileri göndermemelidir *ZORUNLU*</span>. Hata raporlarken kısır döngüleri engellemenin bir yolu, bir uyarı iletisinin <code class="code">MAIL</code> komutunda boş geri dönüş yolu belirtmektir. <span class="rfcmust">Böyle bir ileti aktarılırken, dönüş yolu boş bırakılmalıdır *ZORUNLU*</span> (ek bilgi için bkz, <a class="xref" href="rfc2821-s45.html#rfc2821-s455" title="4.5.5. Dönüş yolu boş olan iletiler">Dönüş yolu boş olan iletiler</a>). Boş geri dönüş yolu içeren bir <code class="code">MAIL</code> komutu:
+</p>
+        <p>
+    </p>
+        <pre class="literallayout monospaced"><code class="code">MAIL </code>FROM:&lt;&gt;
+</pre>
+        <p>
+   </p>
+        <p><span class="notfoot" id="rfc2821-fn241"></span><a class="xref" href="rfc2821-s6.html#rfc2821-s63" title="6.3. Düzensizliklerin Giderilmesi">Düzensizliklerin Giderilmesi</a><a id="rfc2821-fn241" href="#ftn.rfc2821-fn241" class="footnote"><sup class="footnote">[87]</sup></a> bölümünde bahsedildiği gibi, <span class="rfcmust">bir röle SMTP kendi "<code class="code">Received:</code>" başlığını eklemek dışında, ileti gövdesini veya başlıklarını inceleme veya işlemi sokma gereği duymamalıdır *ZORUNLU*</span> ve <span class="rfcmaybe">posta sistemindeki kısır döngüyü saptamaya çalışmamalıdır *SEÇİMLİK*</span> (bkz, <a class="xref" href="rfc2821-s6.html#rfc2821-s62" title="6.2. Döngü Algılama">Döngü Algılama</a>).
+</p>
+        <div class="footnotes">
+          <br />
+          <hr class="footnote-hr" />
+          <div id="ftn.rfc2821-fn241" class="footnote">
+            <p><a href="#rfc2821-fn241" class="para"><sup class="para">[87] </sup></a>Ç.N. - Bu bağ özgün metinde 2.4.1 numaralı bölümü göstermektedir. <a class="link" href="http://www.mhonarc.org/archive/html/ietf-smtp/2002-07/msg00053.html" target="_top">http://www.mhonarc.org/archive/html/ietf-smtp/2002-07/msg00053.html</a> adresindeki iletide belgenin yazarı bu atıfların aslında 6.3 numaralı bölümü göstermesi gerektiğini belirtmektedir. Bu bağ ve belgedeki böyle diğer iki bağ bu açıklamaya göre düzeltilmiştir. </p>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>

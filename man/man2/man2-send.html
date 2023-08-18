@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>send</title>
-    <link rel="stylesheet" type="text/css" href="../../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta name="keywords" content="Linux, manpage, kütüphane, kitaplık, belge, kılavuz, sistem, çağrı, işlev, veri, msghdr, writev, send, sendto, sendmsg, soket, sockaddr, types.h, socket.h, socklen_t" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -100,7 +100,7 @@
    çağrısına eşdeğerdir. <em class="replaceable"><code>sockfd</code></em> değişkeni, gönderen soketin dosya tanıtıcısıdır.
   </p>
           <p>
-   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<strong class="constant"><code>SOCK_STREAM</code></strong>, <strong class="constant"><code>SOCK_SEQPACKET</code></strong>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EISCONN"><strong class="constant"><code>EISCONN</code></strong></a> hatası dönebilir) ve eğer soket bağlanmadıysa <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTCONN"><strong class="constant"><code>ENOTCONN</code></strong></a> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
+   Eğer <span class="command"><strong>sendto</strong></span>() bağlantılı bir soket (<a href="../../glibc/glibc-Communication-Styles.html#glibc-vr-SOCK_STREAM"><strong class="constant"><code>SOCK_STREAM</code></strong></a>, <strong class="constant"><code>SOCK_SEQPACKET</code></strong>) ile kullanılırsa, <em class="replaceable"><code>dest_addr</code></em> ve <em class="replaceable"><code>addrlen</code></em> değişkenleri görmezden gelinir (eğer bunlar NULL ve 0 değilse <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-EISCONN"><strong class="constant"><code>EISCONN</code></strong></a> hatası dönebilir) ve eğer soket bağlanmadıysa <a href="../../glibc/glibc-Error-Codes.html#glibc-vr-ENOTCONN"><strong class="constant"><code>ENOTCONN</code></strong></a> hatası döner. Bağlantısız soketle kullanımda, <em class="replaceable"><code>dest_addr</code></em> hedefin adresini,  <em class="replaceable"><code>addrlen</code></em> ise hedef adresin boyutunu belirler. <span class="command"><strong>sendmsg</strong></span>() için hedef adres <em class="replaceable"><code>msg.msg_name</code></em> ile belirtilir ve <em class="replaceable"><code>msg.msg_namelen</code></em> boyutunu belirler.
   </p>
           <p>
    <span class="command"><strong>send</strong></span>() ve <span class="command"><strong>sendto</strong></span>() için, ileti <em class="replaceable"><code>buf</code></em> tamponu içinde tutulur ve <em class="replaceable"><code>len</code></em> uzunluktadır. <span class="command"><strong>sendmsg</strong></span>() için, ileti <em class="replaceable"><code>msg.msg_iov</code></em> dizisindeki öğelerle gösterilir. <span class="command"><strong>sendmsg</strong></span>() çağrısı yardımcı verinin de yollanmasını sağlar (denetim bilgisi de denir).
@@ -126,14 +126,16 @@
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Bağlantı katmanına yönlendirme sürecinin durumunu bildir: Karşı taraftan başarılı bir yanıt aldın. Eğer bağlantı katmanı bunu alamazsa komşusunu düzenli olarak uyarır (örneğin, tek noktaya ARP ile). Sadece <strong class="constant"><code>SOCK_DGRAM</code></strong> ve <strong class="constant"><code>SOCK_RAW</code></strong> soketleri için geçerli olup şimdilik sadece IPv4 ve IPv6 için gerçeklenmiştir. Ayrıntılar için <tt><b>arp</b>(7)</tt> sayfasına bakın.
+       Bağlantı katmanına yönlendirme sürecinin durumunu bildir: Karşı taraftan başarılı bir yanıt aldın. Eğer bağlantı katmanı bunu alamazsa komşusunu düzenli olarak uyarır (örneğin, tek noktaya ARP ile). Sadece <a href="../../glibc/glibc-Communication-Styles.html#glibc-vr-SOCK_DGRAM"><strong class="constant"><code>SOCK_DGRAM</code></strong></a> ve <a href="../../glibc/glibc-Communication-Styles.html#glibc-vr-SOCK_RAW"><strong class="constant"><code>SOCK_RAW</code></strong></a> soketleri için geçerli olup şimdilik sadece IPv4 ve IPv6 için gerçeklenmiştir. Ayrıntılar için <tt><b>arp</b>(7)</tt> sayfasına bakın.
       </p>
                 </dd>
                 <dt>
                   <span class="glossterm">
-                    <strong class="constant">
-                      <code>MSG_DONTROUTE</code>
-                    </strong>
+                    <a href="../../glibc/glibc-Transferring-Data.html#glibc-vr-MSG_DONTROUTE">
+                      <strong class="constant">
+                        <code>MSG_DONTROUTE</code>
+                      </strong>
+                    </a>
                   </span>
                 </dt>
                 <dd class="glossdef">
@@ -178,14 +180,16 @@
                 </dd>
                 <dt>
                   <span class="glossterm">
-                    <strong class="constant">
-                      <code>MSG_OOB</code>
-                    </strong>
+                    <a href="../../glibc/glibc-Transferring-Data.html#glibc-vr-MSG_OOB">
+                      <strong class="constant">
+                        <code>MSG_OOB</code>
+                      </strong>
+                    </a>
                   </span>
                 </dt>
                 <dd class="glossdef">
                   <p>
-       Veriyi bantdışı (Out Of Band) veriyi destekleyen soketlere gönderir (örneğin <strong class="constant"><code>SOCK_STREAM</code></strong> türü); kullanılan protokol bantdışı veriyi desteklemelidir.
+       Veriyi bantdışı (Out Of Band) veriyi destekleyen soketlere gönderir (örneğin <a href="../../glibc/glibc-Communication-Styles.html#glibc-vr-SOCK_STREAM"><strong class="constant"><code>SOCK_STREAM</code></strong></a> türü); kullanılan protokol bantdışı veriyi desteklemelidir.
       </p>
                 </dd>
               </dl>
@@ -491,7 +495,7 @@
    4.4BSD, SVr4, POSIX.1-2001.  Bu arayüzler ilk defa 4.2BSD ile ortaya çıktı.
   </p>
           <p>
-   POSIX.1-2001 sadece <strong class="constant"><code>MSG_OOB</code></strong> ve <strong class="constant"><code>MSG_EOR</code></strong> seçeneklerini açıklar. POSIX.1-2008 <strong class="constant"><code>MSG_NOSIGNAL</code></strong>'e bir belirtim ekler. <strong class="constant"><code>MSG_CONFIRM</code></strong> seçeneği ise Linux eklentisidir.
+   POSIX.1-2001 sadece <a href="../../glibc/glibc-Transferring-Data.html#glibc-vr-MSG_OOB"><strong class="constant"><code>MSG_OOB</code></strong></a> ve <strong class="constant"><code>MSG_EOR</code></strong> seçeneklerini açıklar. POSIX.1-2008 <strong class="constant"><code>MSG_NOSIGNAL</code></strong>'e bir belirtim ekler. <strong class="constant"><code>MSG_CONFIRM</code></strong> seçeneği ise Linux eklentisidir.
   </p>
         </div>
         <div class="refsect1">

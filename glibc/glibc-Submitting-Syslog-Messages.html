@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>18.2. Syslog İletilerinin Teslim Edilmesi</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -59,7 +59,7 @@
           </div>
           <p>
     Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başlık dosyasında bildirilmiştir.
-    <span id="idm123073" class="indexterm"></span>
+    <span id="idm130568" class="indexterm"></span>
    </p>
           <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-openlog" class="indexterm"></span>
@@ -77,13 +77,13 @@
      <em class="parameter"><code>ident</code></em> ileride yapılacak <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrılarında iletinin başına eklenecek keyfi bir kimlik dizgesidir. Bu iletinin kaynağını belirtmek için düşünülmüştür ve uzlaşımsal olarak iletileri teslim edecek yazılımın ismidir.
     </p>
     <p>
-     <em class="parameter"><code>ident</code></em> <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ise ya da <code class="code">openlog</code> çağrısı yapılmazsa, ön tanımlı kimlik dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismi olacaktır.
+     <em class="parameter"><code>ident</code></em> <a href="glibc-Null-Pointer-Constant.html#glibc-vr-NULL"><strong class="varname"><code>NULL</code></strong></a> ise ya da <code class="code">openlog</code> çağrısı yapılmazsa, varsayılan kimlik dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismi olacaktır.
     </p>
     <p>
      <em class="parameter"><code>ident</code></em> dizge göstericisinin Syslog yordamları tarafından dahili olarak saklanacağı unutulmamalıdır. <em class="parameter"><code>ident</code></em> ile gösterilen bellek serbest bırakılmamalıdır. Etki alanından çıkmak değişkenin yaşamının sonu demek olduğundan dizgeyi bir özdevinimli değişkende saklamak ayrıca tehlikelidir de. <em class="parameter"><code>ident</code></em> dizgesi değiştirilmek istenirse <code class="code">openlog</code> işlevi tekrar çağrılmalıdır; <em class="parameter"><code>ident</code></em> ile gösterilen dizgeye yazma işlemi evresel olarak güvenilir değildir.
     </p>
     <p>
-     Syslog yordamlarının <em class="parameter"><code>ident</code></em> başvurusunu bırakması sağlanabilir ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrısı ile ön tanımlı dizgeye (<code class="code">argv[0]</code>'dan alınan yazılım ismi) geri dönülebilir: Bkz. <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-closelog" title="18.2.3. closelog">closelog</a>.
+     Syslog yordamlarının <em class="parameter"><code>ident</code></em> başvurusunu bırakması sağlanabilir ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrısı ile varsayılan dizgeye (<code class="code">argv[0]</code>'dan alınan yazılım ismi) geri dönülebilir: Bkz. <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-closelog" title="18.2.3. closelog">closelog</a>.
     </p>
     <p>
      Kodun, yüklenebilen bir paylaşımlı kütüphane (örn, bir PAM modülü) için yazılması durumunda <code class="code">openlog</code> kullanılıyorsa, kütüphaneyi yüklenmemiş duruma getirmeden önce bir noktada <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-closelog"><strong class="function"><code>closelog</code></strong></a> çağrısı yapılmalıdır. Bir örnek:
@@ -106,7 +106,7 @@ shared_library_function (void)
      <code class="code">openlog</code> işlevi <em class="parameter"><code>option</code></em> değerine bağlı olarak <code class="filename">/dev/log</code> soketini açabilir de açmayabilir de. Eğer açması gerekiyorsa,açmayı dener ve bir UDP soketi olarak ona bağlanır. Soket, "Close on Exec" özniteliğine sahiptir, bu bakımdan eğer süreç bir <strong class="function"><code>exec</code></strong> çağrısı yaparsa çekirdek onu kapatacaktır.
     </p>
     <p>
-     <code class="code">openlog</code> kullanımı zorunlu değildir. <code class="code">openlog</code> çağrısı yapmaksızın bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı yapılırsa, <em class="parameter"><code>ident</code></em> ve <em class="parameter"><code>option</code></em> için ön tanımlı değerler kullanılarak bağlantı anında açılır.
+     <code class="code">openlog</code> kullanımı zorunlu değildir. <code class="code">openlog</code> çağrısı yapmaksızın bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı yapılırsa, <em class="parameter"><code>ident</code></em> ve <em class="parameter"><code>option</code></em> için varsayılan değerler kullanılarak bağlantı anında açılır.
     </p>
     <p>
      <em class="parameter"><code>option</code></em> bir bit dizgesidir. Bitler aşağıdaki tek bitlik maskelerle tanımlanmıştır:
@@ -153,10 +153,10 @@ shared_library_function (void)
      <em class="parameter"><code>option</code></em> içindeki diğer bitler birse sonuç belirsizdir.
     </p>
     <p>
-     <em class="parameter"><code>facility</code></em> bu bağlantı için ön tanımlı oluşum kodudur. Bu bağlantı üzerinden ön tanımlı oluşum belirten bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı, iletinin bu oluşumla ilişkilendirilmesine sebep olur. Olası değerler <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> işlevinin açıklamasında bulunabilir. <span class="command"><strong>LOG_USER</strong></span> anlamına gelen sıfır değeri ön tanımlıdır.
+     <em class="parameter"><code>facility</code></em> bu bağlantı için varsayılan oluşum kodudur. Bu bağlantı üzerinden varsayılan oluşum belirten bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> çağrısı, iletinin bu oluşumla ilişkilendirilmesine sebep olur. Olası değerler <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-syslog"><strong class="function"><code>syslog</code></strong></a> işlevinin açıklamasında bulunabilir. <span class="command"><strong>LOG_USER</strong></span> anlamına gelen sıfır değeri varsayılan değerdir.
     </p>
     <p>
-     <code class="code">openlog</code> çağrısı yapıldığında, eğer bir Syslog bağlantısı zaten açıksa, <code class="code">openlog</code> bağlantıyı "yeniden" açar. Yeniden açma ön tanımlı oluşum kodu için sıfır belirtilmesi dışında açma gibidir, ön tanımlı kod basitçe değişmeden kalır ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-vr-LOG_NDELAY"><strong class="varname"><code>LOG_NDELAY</code></strong></a> belirtilmişse, soket zaten açık ve bağlı olduğundan <code class="code">openlog</code> onu olduğu gibi bırakır.
+     <code class="code">openlog</code> çağrısı yapıldığında, eğer bir Syslog bağlantısı zaten açıksa, <code class="code">openlog</code> bağlantıyı "yeniden" açar. Yeniden açma varsayılan oluşum kodu için sıfır belirtilmesi dışında açma gibidir, varsayılan kod basitçe değişmeden kalır ve <a href="glibc-Submitting-Syslog-Messages.html#glibc-vr-LOG_NDELAY"><strong class="varname"><code>LOG_NDELAY</code></strong></a> belirtilmişse, soket zaten açık ve bağlı olduğundan <code class="code">openlog</code> onu olduğu gibi bırakır.
     </p>
    </div>
         </section>
@@ -170,7 +170,7 @@ shared_library_function (void)
           </div>
           <p>
    Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başkık dosyasında bildirilmiştir.
-   <span id="idm123213" class="indexterm"></span>
+   <span id="idm130708" class="indexterm"></span>
   </p>
           <div class="csynopsis"><div class="cstype">      işlev</div>
    <span id="glibc-fn-syslog" class="indexterm"></span>
@@ -297,10 +297,10 @@ shared_library_function (void)
      Bunların dışındaki <em class="parameter"><code>facility</code></em> değerleri için sonuç tanımsızdır.
     </p>
     <div class="admon note"><h3 class="admon-title">Bilginize</h3><div class="admon-contents"><p>
-      <code class="code">syslog</code> başka bir oluşum kodu daha tanır: bu çekirdektir. Ama onun oluşum kodu bu işlevlerle belirtilemez. Denenirse, <code class="code">syslog</code> ön tanımlı oluşum isteği yapılmış gibi davranır. Fakat bunun hiçbir şekilde denenmemesi gerekir, çünkü çekirdek GNU C Kütüphanesini kullanan bir yazılım değildir.
+      <code class="code">syslog</code> başka bir oluşum kodu daha tanır: bu çekirdektir. Ama onun oluşum kodu bu işlevlerle belirtilemez. Denenirse, <code class="code">syslog</code> varsaydığı oluşum isteği yapılmış gibi davranır. Fakat bunun hiçbir şekilde denenmemesi gerekir, çünkü çekirdek GNU C Kütüphanesini kullanan bir yazılım değildir.
      </p></div></div>
     <p>
-     <em class="parameter"><code>facility_priority</code></em> olarak tek bir öncelik kodu belirtilebilir. Bu durumda, <code class="code">syslog</code> çağrısı Syslog bağlantısı açıldığında ön tanımlı oluşum bağlantısı kurulduğunu varsayar. Bkz.  <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-Syslog-Example" title="18.2.5. Syslog Örneği">Syslog Örneği</a>.
+     <em class="parameter"><code>facility_priority</code></em> olarak tek bir öncelik kodu belirtilebilir. Bu durumda, <code class="code">syslog</code> çağrısı Syslog bağlantısı açıldığında varsaydığı oluşum bağlantısının kurulduğunu varsayar. Bkz.  <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-Syslog-Example" title="18.2.5. Syslog Örneği">Syslog Örneği</a>.
     </p>
     <p>
      <em class="parameter"><code>priority</code></em> için olası değerler (makrolar):
@@ -366,10 +366,10 @@ shared_library_function (void)
     </p>
    </div>
    <p>
-    Süreç açık bir Syslog bağlantısına sahip değilse (yani <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> çağrısı yapılmamışsa), <code class="code">syslog</code> işlevi <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  işlevinin yaptığı gibi hemen bağlantıyı açar. Bağlantıyı açarken, aksi sadece bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  çağrısı ile belirtilebilecek bilgi için şu ön tanımlıları kullanır:
+    Süreç açık bir Syslog bağlantısına sahip değilse (yani <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> çağrısı yapılmamışsa), <code class="code">syslog</code> işlevi <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  işlevinin yaptığı gibi hemen bağlantıyı açar. Bağlantıyı açarken, aksi sadece bir <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a>  çağrısı ile belirtilebilecek bilgi için şu varsayılanları kullanır:
    </p>
-   <div><ul class="simplelist"><li class="member">Öntanımlı <em class="parameter"><code>ident</code></em> dizgesi yazılımın ismidir.
-    </li><li class="member">Öntanımlı <em class="parameter"><code>facility</code></em> <span class="command"><strong>LOG_USER</strong></span>'dır.
+   <div><ul class="simplelist"><li class="member">Varsayılan <em class="parameter"><code>ident</code></em> dizgesi yazılımın ismidir.
+    </li><li class="member">Varsayılan <em class="parameter"><code>facility</code></em> <span class="command"><strong>LOG_USER</strong></span>'dır.
     </li><li class="member"><em class="parameter"><code>option</code></em> ile belirtilen bitlerin hepsi sıfırdır. </li><li class="member"><code class="code">syslog</code> bağlantıyı açık bırakır.</li></ul></div>
    <p>
     <code class="filename">dev/log</code> soketi açık ve bağlı değilse, <code class="code">syslog</code> işlevi, <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> işlevinin <a href="glibc-Submitting-Syslog-Messages.html#glibc-vr-LOG_NDELAY"><strong class="varname"><code>LOG_NDELAY</code></strong></a> seçeneğiyle yaptığı gibi soketi açar ve bağlanır.
@@ -406,7 +406,7 @@ syslog (LOG_MAKEPRI(LOG_LOCAL1, LOG_ERROR),
           </div>
           <p>
     Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başılk dosyasında bildirilmiştir.
-    <span id="idm123527" class="indexterm"></span>
+    <span id="idm131022" class="indexterm"></span>
    </p>
           <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-closelog" class="indexterm"></span>
@@ -418,7 +418,7 @@ syslog (LOG_MAKEPRI(LOG_LOCAL1, LOG_ERROR),
       | <a class="link" href="glibc-POSIX-Safety-Concepts.html#glibc-cp-acunsafe">AC-Unsafe</a> <a class="link" href="glibc-Unsafe-Features.html#glibc-safety-lock">lock</a> <a class="link" href="glibc-Other-Safety-Remarks.html#glibc-safety-fd">fd</a>
     </div>
     <p>
-     <code class="code">closelog</code> işlevi, var olan Syslog bağlantısını kapatır. Bu işlem açıksa <code class="filename">/dev/log</code> soketini de kapatır. İşlev ayrıca Syslog iletilerininin kimlik dizgesini, eğer <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> bağlantıyı boş olmayan bir <em class="parameter"><code>ident</code></em> bağımsız değişkeni ile açmışsa, geriye ön tanımlı değerine ayarlar. Öntanımlı <em class="parameter"><code>ident</code></em> dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismidir.
+     <code class="code">closelog</code> işlevi, var olan Syslog bağlantısını kapatır. Bu işlem açıksa <code class="filename">/dev/log</code> soketini de kapatır. İşlev ayrıca Syslog iletilerininin kimlik dizgesini, eğer <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> bağlantıyı boş olmayan bir <em class="parameter"><code>ident</code></em> bağımsız değişkeni ile açmışsa, geriye varsayılan değerine ayarlar. Varsayılan <em class="parameter"><code>ident</code></em> dizgesi <code class="code">argv[0]</code>'dan alınan yazılım ismidir.
     </p>
     <p>
      Özelleştirilmiş syslog çıktısı üretmek için <a href="glibc-Submitting-Syslog-Messages.html#glibc-fn-openlog"><strong class="function"><code>openlog</code></strong></a> kullanan paylaşımlı bir kütüphane kodu yazılıyorsa, iş bittiğinde, GNU C Kütüphanesinin <em class="parameter"><code>ident</code></em> göstericisi ile ilişkisini kesmek için <code class="code">closelog</code> kullanılmalıdır. Daha fazla bilgi için <a class="xref" href="glibc-Submitting-Syslog-Messages.html#glibc-openlog" title="18.2.1. openlog">openlog</a> bölümünü okunabilir.
@@ -438,7 +438,7 @@ syslog (LOG_MAKEPRI(LOG_LOCAL1, LOG_ERROR),
           </div>
           <p>
     Bu bölümdeki simgeler <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=misc/sys/syslog.h;hb=HEAD" target="_top">syslog.h</a></code> başılk dosyasında bildirilmiştir.
-    <span id="idm123573" class="indexterm"></span>
+    <span id="idm131068" class="indexterm"></span>
    </p>
           <div class="csynopsis"><div class="cstype">      işlev</div>
     <span id="glibc-fn-setlogmask" class="indexterm"></span>

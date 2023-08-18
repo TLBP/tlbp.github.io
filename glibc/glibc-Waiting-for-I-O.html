@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
   <head>
     <title>13.9. Girdi ve Çıktının Beklenmesi</title>
-    <link rel="stylesheet" type="text/css" href="../../style/nav.css" />
     <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
     <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
     <meta name="robots" content="index, follow" />
   </head>
@@ -44,10 +44,10 @@
           </div>
         </div>
         <p>
-   <span id="idm114399" class="indexterm"></span>
-   <span id="idm114402" class="indexterm"></span>
-   <span id="idm114405" class="indexterm"></span>
-   <span id="idm114408" class="indexterm"></span>
+   <span id="idm114414" class="indexterm"></span>
+   <span id="idm114417" class="indexterm"></span>
+   <span id="idm114420" class="indexterm"></span>
+   <span id="idm114423" class="indexterm"></span>
    Kimi zaman bir yazılımın girdiyi gelişine bağlı olarak çok sayıda girdi kanalından kabul etmesi gerekir. Örneğin bazı iş istasyonları tablet, işlev düğmeleri kutusu, normal eşzamansız seri arayüz üzerinden bağlanılan çevirmeli ağ gibi çok sayıda aygıttan aynı anda ve anında yanıt verecek iyi bir kullanıcı arayüzü gerektirmektedir. Başka bir örnek de bir yazılımın başka süreçlere adlı ya da adsız ardışık süreçler üzerinden bir sunucu olarak hizmet vermesidir.
   </p>
         <p>
@@ -55,14 +55,14 @@
   </p>
         <p>
    Daha iyi bir çözüm <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevini kullanmaktır.  Bu, belirtilen dosya tanıtıcı kümesinde bir girdi ya da çıktı hazır olana kadar ya da bir zamanlayıcı zaman aşımına uğrayıncaya kadar (hangisi önce gerçekleşirse), bekler. Bu oluşum <code class="filename"><a class="filename" href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=include/sys/types.h;hb=HEAD" target="_top">sys/types.h</a></code> başlık dosyasında bildirilmiştir.
-   <span id="idm114416" class="indexterm"></span>
+   <span id="idm114431" class="indexterm"></span>
   </p>
         <p>
-   Bir sunucu soketi durumunda, askıda olduğu varsayılan bağlantılar olduğunda girdinin de var olabileceğinden söz edilebilir. <strong class="function"><code>accept</code></strong> işlevi sunucu soketini beklemeye alır ve <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevinin normal girdi için yaptığı gibi  <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> ile etkileşir.
+   Bir <a class="link" href="glibc-Listening.html" title="16.9.2. Bağlantıların Dinlenmesi">sunucu soketi</a> durumunda, askıda olduğu <a class="link" href="glibc-Accepting-Connections.html" title="16.9.3. Bağlantıların Kabul Edilmesi">varsayılan bağlantılar</a> olduğunda girdinin de var olabileceğinden söz edilebilir. <a href="glibc-Accepting-Connections.html#glibc-fn-accept"><strong class="function"><code>accept</code></strong></a> işlevi sunucu soketini beklemeye alır ve <a href="glibc-I-O-Primitives.html#glibc-fn-read"><strong class="function"><code>read</code></strong></a> işlevinin normal girdi için yaptığı gibi  <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> ile etkileşir.
   </p>
         <p>
-   <span id="idm114425" class="indexterm"></span>
-   <span id="idm114428" class="indexterm"></span>
+   <span id="idm114440" class="indexterm"></span>
+   <span id="idm114443" class="indexterm"></span>
    <a href="glibc-Waiting-for-I-O.html#glibc-fn-select"><strong class="function"><code>select</code></strong></a> işlevi için dosya tanıtıcı kümeleri <a href="glibc-Waiting-for-I-O.html#glibc-tp-fd_set"><strong class="type"><code>fd_set</code></strong></a> türünde nesneler olarak belirtilir. Burada bu nesnelerin veri türü ve bunlarla ilgili makrolara değinilecektir.
   </p>
         <div class="csynopsis"><div class="cstype">  veri türü</div>
@@ -159,7 +159,7 @@
     <em class="parameter"><code>read-fds</code></em> bağımsız değişkeni ile okumaya hazır tanıtıcılar, <em class="parameter"><code>write-fds</code></em> bağımsız değişkeni ile yazmaya hazır tanıtıcılar belirtilir. <em class="parameter"><code>except-fds</code></em> ile belirtilen tanıtıcılar ise olağan dışı durumlara göre denetlenir. İlgilenilmeyen durumla ilgili olan bağımsız değişkene boş gösterici atanabilir.
    </p>
    <p>
-    Bir dosya gösterici eğer <span class="command"><strong>read</strong></span> çağrısı engellenmeyecekse okumaya hazır olarak kabul edilir. Engellenme durumları olarak okuma başlangıcının dosyanın sonunda olması veya raporlanacak bir hatanın varlığından bahsedilebilir. Bir sunucu soketi de <span class="command"><strong>accept</strong></span> ile kabul edilebilen bir bağlantı askıdaysa okumaya hazır kabul edilir. Bir istemci soketi ise bağlantı tamamen kurulduğunda yazmaya hazır olur.
+    Bir dosya gösterici eğer <span class="command"><strong>read</strong></span> çağrısı engellenmeyecekse okumaya hazır olarak kabul edilir. Engellenme durumları olarak okuma başlangıcının dosyanın sonunda olması veya raporlanacak bir hatanın varlığından bahsedilebilir. Bir sunucu soketi de <span class="command"><strong>accept</strong></span> ile <a class="link" href="glibc-Accepting-Connections.html" title="16.9.3. Bağlantıların Kabul Edilmesi">kabul edilebilen bir bağlantı</a> askıdaysa okumaya hazır kabul edilir. Bir istemci soketi ise <a class="link" href="glibc-Connecting.html" title="16.9.1. Bağlantının Oluşturulması">bağlantı tamamen kurulduğunda</a> yazmaya hazır olur.
    </p>
    <p>
     "Olağandışı durumlar" hata anlamında değildir; hatalar oluştuğunda sistem çağrıları tarafından raporlanır ve bunların tanıtıcının durumu ile ilgisi yoktur. Olağandışı durumlar bir soket üzerinde acil bir iletinin varlığı gibi durumlardır. (Acil iletiler hakkında <a class="xref" href="glibc-Sockets.html" title="16. Soketler">Soketler</a> bölümünde bilgi bulunabilir.)
@@ -168,7 +168,7 @@
     <code class="code">select</code> işlevi sadece ilk <em class="parameter"><code>nfds</code></em> dosya tanıtıcısını denetler. <em class="parameter"><code>nfds</code></em> olarak <a href="glibc-Waiting-for-I-O.html#glibc-vr-FD_SETSIZE"><strong class="varname"><code>FD_SETSIZE</code></strong></a> değeri çok kullanışlıdır.
    </p>
    <p>
-    <em class="parameter"><code>timeout</code></em> azami bekleme süresini belirtir. Boş gösterici belirtmişse bir süre sınırı olmaksızın bir dosya tanıtıcı hazır olana kadar işlev bekleyecektir. Bunun olmaması için <code class="type">struct timeval</code> türünde bir zaman aşımı süresi belirtilmelidir. Beklemeden hangi dosya tanıtıcıların hazır olduğuna bakılmak istenirse, buraya süre olarak sıfır (<code class="type">struct timeval</code> üyelerinin hepsi sıfır) belirtilebilir.
+    <em class="parameter"><code>timeout</code></em> azami bekleme süresini belirtir. Boş gösterici belirtmişse bir süre sınırı olmaksızın bir dosya tanıtıcı hazır olana kadar işlev bekleyecektir. Bunun olmaması için <a href="glibc-Time-Types.html#glibc-tp-timeval"><strong class="type"><code>struct timeval</code></strong></a> türünde bir zaman aşımı süresi belirtilmelidir. Beklemeden hangi dosya tanıtıcıların hazır olduğuna bakılmak istenirse, buraya süre olarak sıfır (<a href="glibc-Time-Types.html#glibc-tp-timeval"><strong class="type"><code>struct timeval</code></strong></a> üyelerinin hepsi sıfır) belirtilebilir.
    </p>
    <p>
     İşlevin normal dönüş değeri tüm kümelerde hazır olan dosya tanıtıcıların sayısıdır. Küme bağımsız değişkenlerinin her birinde hazır olan tanıtıcılarla ilgili bilgi bulunur. <code class="code">select</code> döndükten sonra belli bir dosya tanıtıcının girdi için hazır olup olmadığı <code class="code">FD_ISSET (<em class="replaceable"><code>dt</code></em>, <em class="replaceable"><code>oku-dt</code></em>)</code> ile öğrenilebilir.
@@ -243,7 +243,7 @@ main (void)
         </div>
         <br class="example-break" />
         <p>
-   <code class="code">select</code> işlevinin çok sayıda soketten çoklu girdi alınması ile ilgili kullanım örneği  ??? bölümünde bulunabilir.
+   <code class="code">select</code> işlevinin çok sayıda soketten çoklu girdi alınması ile ilgili kullanım örneği  <a class="xref" href="glibc-Server-Example.html" title="16.9.7. Bayt Akımlı Bağlantı Sunucusu Örneği">Bayt Akımlı Bağlantı Sunucusu Örneği</a> bölümünde bulunabilir.
   </p>
       </section>
       <footer>

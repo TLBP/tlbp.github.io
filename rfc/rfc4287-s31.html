@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="tr" xml:lang="tr">
+  <head>
+    <title>3.1. Metin Oluşumları</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V-special (derived from DocBook XSL v1.79.1 for Turkish Linux Documentation Project by Nilgün Belma Bugüner - nilgun (at) tlbp.org.tr)" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/style/nav.css" />
+    <link rel="icon" type="image/png" href="/images/belgeler-logo.png" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-s3.html')">Önceki</button>
+          <div class="dropdown-content">3. Ortak Atom Oluşumları</div>
+        </div>
+        <div style="width:34%" class="dropdown">
+          <button class="dropbtn">Yukarı</button>
+          <div class="dropdown-content">
+            <button type="button" class="dropbtn" onclick="window.location.assign('/index.html')">Baş Sayfa</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('/KiTAPLIK/index.html')">Kitaplık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('aik.html')">Ana Başlık</button>
+            <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-s3.html')">Üst Başlık</button>
+          </div>
+        </div>
+        <div style="width:33%" class="dropdown">
+          <button type="button" class="dropbtn" onclick="window.location.assign('rfc4287-s32.html')">Sonraki</button>
+          <div class="dropdown-content">3.2. Kişi Oluşumları</div>
+        </div>
+      </div>
+    </header>
+    <section class="mainpage">
+      <div class="crumbs">
+        <p>  </p>
+      </div>
+      <section class="sect2" id="rfc4287-s31">
+        <div class="titlepage">
+          <div>
+            <div>
+              <h3 class="title">3.1. Metin Oluşumları</h3>
+            </div>
+          </div>
+        </div>
+        <p>
+    Bir Metin (Text) oluşumu insan tarafından okunabilen bir metin içerir. Metin  oluşumlarının içeriği lisana duyarlıdır.
+   </p>
+        <pre class="literallayout monospaced">
+atomPlainTextConstruct =
+   atomCommonAttributes,
+   attribute type { "text" | "html" }?,
+   text
+
+atomXHTMLTextConstruct =
+   atomCommonAttributes,
+   attribute type { "xhtml" },
+   xhtmlDiv
+
+atomTextConstruct = atomPlainTextConstruct | atomXHTMLTextConstruct
+</pre>
+        <section class="sect3" id="rfc4287-s311">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h4 class="title">3.1.1. "<code class="literal">type</code>" Özniteliği</h4>
+              </div>
+            </div>
+          </div>
+          <p>
+     <span class="rfcmaybe">Metin oluşumlarının bir "<code class="literal">type</code>" özniteliği olabilir *SEÇİMLİK*</span>. <span class="rfcmust">Varsa, değeri "<code class="literal">text</code>", "<code class="literal">html</code>" veya "<code class="literal">xhtml</code>" değerlerinden biri olmalıdır *ZORUNLU*</span>. Eğer <span class="rfcmust">"<code class="literal">type</code>" özniteliği oluşumda yoksa, Atom İşlemciler "<code class="literal">text</code>" değerli bir "<code class="literal">type</code>" özniteliği varmış gibi davranmalıdırlar *ZORUNLU*</span>. <a class="xref" href="rfc4287-s41.html#rfc4287-s413" title="4.1.3. atom:content Elemanı"><code class="code">atom:content</code> Elemanı</a> bölümünde tanımlanan <code class="literal">atom:content</code> elemanının aksine, <span class="rfcmust">Metin oluşumlarının "<code class="literal">type</code>" özniteliğinin değerleri olarak MIME ortam türleri [<a class="xref" href="rfc4287-s9.html#rfc4287-MIMEREG" title="Media Type Specifications and Registration Procedures">MIMEREG</a>] kullanılmamalıdır *ZORUNLU*</span>.
+    </p>
+          <div class="glosslist">
+            <dl>
+              <dt>
+                <span class="glossterm" id="rfc4287-s3111"><code class="literal">text</code> değeri</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+        <code class="literal">text</code> değerli <code class="literal">atom:title</code> örneği:
+       </p>
+                <pre class="literallayout monospaced">
+...
+&lt;title type="text"&gt;
+  Küçüktür: &amp;lt;
+&lt;/title&gt;
+...
+</pre>
+                <p>
+        <span class="rfcmust">Eğer değer <code class="literal">text</code> ise Metin oluşumu çocuk eleman içermemelidir *ZORUNLU*</span>. Böyle bir metnin insanlarca okunabilecek tarzda sunulacağı düşünülür. Bu nedenle, <span class="rfcmaybe">Atom İşlemciler boşluk karakterlerinin fazlalık olanlarından kurtulabilir (satır-sonu ve satır-başı karakterleri dahil) ve hizalama, kalın yazıtipleri gibi teknikleri kullanarak metni gösterebilir *SEÇİMLİK*</span>.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm" id="rfc4287-s3112"><code class="literal">html</code> değeri</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+        <code class="literal">html</code> değerli <code class="literal">atom:title</code> örneği:
+       </p>
+                <pre class="literallayout monospaced">
+...
+&lt;title type="html"&gt;
+  Küçüktür: &amp;lt;em&gt; &amp;amp;lt; &amp;lt;/em&gt;
+&lt;/title&gt;
+...
+</pre>
+                <p>
+        Eğer "<code class="literal">type</code>" özniteliğinin değeri <code class="literal">html</code> ise, <span class="rfcmust">Metin oluşumu çocuk eleman içermemeli *ZORUNLU*</span> ve <span class="rfcshould">HTML [<a class="xref" href="rfc4287-s9.html#rfc4287-HTML" title="HTML 4.01 Specification">HTML</a>] olarak işlenmeye elverişli olmalıdır *ÖNERİ*</span>. <span class="rfcmust">Metin içinde HTML'ye özgü elemanlar kullanılmışsa bunlar HTML'ye özgü biçimde öncelenmelidir *ZORUNLU*</span>; örneğin, "<code class="literal">&lt;br&gt;</code>" elemanının yazılışı "<code class="literal">&amp;lt;br&gt;</code>" olarak değiştirilmelidir. <span class="rfcshould">HTML imleme, önceleme kaldırıldıktan sonra doğrudan bir HTML <code class="literal">&lt;DIV&gt;</code> elemanı içinde geçerli kalacak şekilde yapılmalıdır *ÖNERİ*</span>. <span class="rfcmaybe">Böyle bir içeriği gösteren Atom İşlemciler kendi gösterimlerinde yardımcı olması için bu imlemeyi kullanabilir *SEÇİMLİK*</span>.
+       </p>
+              </dd>
+              <dt>
+                <span class="glossterm" id="rfc4287-s3113"><code class="literal">xhtml</code> değeri</span>
+              </dt>
+              <dd class="glossdef">
+                <p>
+        XHTML içerik içinde <code class="literal">atom:title</code> örneği:
+       </p>
+                <pre class="literallayout monospaced">
+...
+&lt;title type="xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+  &lt;xhtml:div&gt;
+    Küçüktür: &lt;xhtml:em&gt; &amp;lt; &lt;/xhtml:em&gt;
+  &lt;/xhtml:div&gt;
+&lt;/title&gt;
+...
+</pre>
+                <p>
+        Eğer "<span class="command"><strong>type</strong></span>" özniteliğinin değeri <code class="literal">xhtml</code> ise, <span class="rfcmust">Metin oluşumu tek bir XHTML <code class="literal">div</code> elemanı olmalı *ZORUNLU*</span> ve <span class="rfcshould">XHTML olarak işlenmeye elverişli olmalıdır *ÖNERİ*</span>. <span class="rfcmust">XHTML <code class="literal">div</code> elemanının kendisi içeriğin parçası olarak değerlendirilmemelidir *ZORUNLU*</span>. <span class="rfcmaybe">İçeriği gösteren Atom İşlemciler kendi gösterimlerinde yardımcı olması için imlemeyi kullanabilir *SEÇİMLİK*</span>. "&amp;" ve "&lt;" gibi karakterlerin öncelenmiş sürümleri bu karakterleri temsil eder, dile özgü imlemeyi değil.
+       </p>
+                <p>
+        Geçerli XHTML içerik örneği:
+       </p>
+                <pre class="literallayout monospaced">
+...
+&lt;summary type="xhtml"&gt;
+   &lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;
+      This is &lt;b&gt;XHTML &lt;/b&gt; content.
+   &lt;/div&gt;
+&lt;/summary&gt;
+...
+&lt;summary type="xhtml"&gt;
+   &lt;xhtml:div xmlns:xhtml="http://www.w3.org/1999/xhtml"&gt;
+      This is &lt;xhtml:b&gt;XHTML &lt;/xhtml:b&gt; content.
+   &lt;/xhtml:div&gt;
+&lt;/summary&gt;
+...
+</pre>
+                <p>
+        Aşağıdaki örnekte, XHTML isim alanının, belgenin başlarında "xh" önekine bağlandığı varsayılmıştır:
+       </p>
+                <pre class="literallayout monospaced">
+...
+&lt;summary type="xhtml"&gt;
+   &lt;xh:div&gt;
+      This is &lt;xh:b&gt;XHTML &lt;/xh:b&gt; content.
+   &lt;/xh:div&gt;
+&lt;/summary&gt;
+...
+</pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </section>
+      <footer>
+        <div align="center" class="footer">
+          <small>Bir <a href="http://belgeler.org.tr/">Linux Kitaplığı</a> Sayfası</small>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>
